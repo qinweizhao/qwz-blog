@@ -1,15 +1,16 @@
 package com.qinweizhao.site.theme;
 
-import java.io.IOException;
+import com.qinweizhao.site.exception.ThemePropertyMissingException;
+import com.qinweizhao.site.handler.theme.config.support.ThemeProperty;
+import com.qinweizhao.site.utils.FileUtils;
+import com.qinweizhao.site.utils.GitUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.transport.TagOpt;
-import com.qinweizhao.site.exception.ThemePropertyMissingException;
-import com.qinweizhao.site.handler.theme.config.support.ThemeProperty;
-import com.qinweizhao.site.utils.FileUtils;
-import com.qinweizhao.site.utils.GitUtils;
+
+import java.io.IOException;
 
 /**
  * Git theme fetcher.
@@ -38,20 +39,20 @@ public class GitThemeFetcher implements ThemeFetcher {
             // clone from git
             log.info("Cloning git repo {} to {}", repoUrl, tempDirectory);
             try (final var git = Git.cloneRepository()
-                .setTagOption(TagOpt.FETCH_TAGS)
-                .setNoCheckout(false)
-                .setDirectory(tempDirectory.toFile())
-                .setCloneSubmodules(false)
-                .setURI(repoUrl)
-                .setRemote("upstream")
-                .call()) {
+                    .setTagOption(TagOpt.FETCH_TAGS)
+                    .setNoCheckout(false)
+                    .setDirectory(tempDirectory.toFile())
+                    .setCloneSubmodules(false)
+                    .setURI(repoUrl)
+                    .setRemote("upstream")
+                    .call()) {
                 log.info("Cloned git repo {} to {} successfully", repoUrl, tempDirectory);
 
                 // find latest tag
                 final var latestTag = GitUtils.getLatestTag(git);
                 final var checkoutCommand = git.checkout()
-                    .setName("halo")
-                    .setCreateBranch(true);
+                        .setName("halo")
+                        .setCreateBranch(true);
                 if (latestTag != null) {
                     // checkout latest tag
                     checkoutCommand.setStartPoint(latestTag.getValue());
@@ -62,11 +63,11 @@ public class GitThemeFetcher implements ThemeFetcher {
 
             // locate theme property location
             var themePropertyPath = ThemeMetaLocator.INSTANCE.locateProperty(tempDirectory)
-                .orElseThrow(() -> new ThemePropertyMissingException("主题配置文件缺失，请确认后重试！"));
+                    .orElseThrow(() -> new ThemePropertyMissingException("主题配置文件缺失，请确认后重试！"));
 
             // fetch property
             return ThemePropertyScanner.INSTANCE.fetchThemeProperty(themePropertyPath.getParent())
-                .orElseThrow();
+                    .orElseThrow();
         } catch (IOException | GitAPIException e) {
             throw new RuntimeException("主题拉取失败！（" + e.getMessage() + "）", e);
         }

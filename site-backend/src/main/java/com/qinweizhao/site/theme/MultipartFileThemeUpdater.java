@@ -1,13 +1,14 @@
 package com.qinweizhao.site.theme;
 
-import java.io.IOException;
-import java.util.Objects;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.multipart.MultipartFile;
 import com.qinweizhao.site.exception.BadRequestException;
 import com.qinweizhao.site.exception.NotFoundException;
 import com.qinweizhao.site.handler.theme.config.support.ThemeProperty;
 import com.qinweizhao.site.repository.ThemeRepository;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.util.Objects;
 
 /**
  * Multipart file theme updater.
@@ -24,8 +25,8 @@ public class MultipartFileThemeUpdater implements ThemeUpdater {
     private final ThemeRepository themeRepository;
 
     public MultipartFileThemeUpdater(MultipartFile file,
-            ThemeFetcherComposite fetcherComposite,
-            ThemeRepository themeRepository) {
+                                     ThemeFetcherComposite fetcherComposite,
+                                     ThemeRepository themeRepository) {
         this.file = file;
         this.fetcherComposite = fetcherComposite;
         this.themeRepository = themeRepository;

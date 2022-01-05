@@ -1,15 +1,21 @@
 package com.qinweizhao.site.utils;
 
-import static com.qinweizhao.site.model.support.HaloConst.FILE_SEPARATOR;
-
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.EncodeHintType;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
-import java.awt.Color;
-import java.awt.Graphics2D;
+import com.qinweizhao.site.model.support.HaloConst;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.lang.NonNull;
+import org.springframework.lang.Nullable;
+import org.springframework.util.Assert;
+import org.springframework.util.CollectionUtils;
+
+import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -19,14 +25,8 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
-import javax.imageio.ImageIO;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.lang.NonNull;
-import org.springframework.lang.Nullable;
-import org.springframework.util.Assert;
-import org.springframework.util.CollectionUtils;
-import com.qinweizhao.site.model.support.HaloConst;
+
+import static com.qinweizhao.site.model.support.HaloConst.FILE_SEPARATOR;
 
 /**
  * Common utils
@@ -49,7 +49,7 @@ public class HaloUtils {
 
     @NonNull
     public static String ensureBoth(@NonNull String string, @NonNull String prefix,
-        @NonNull String suffix) {
+                                    @NonNull String suffix) {
         return ensureSuffix(ensurePrefix(string, prefix), suffix);
     }
 
@@ -114,7 +114,7 @@ public class HaloUtils {
      * Desensitizes the plain text.
      *
      * @param plainText plain text must not be null
-     * @param leftSize left size
+     * @param leftSize  left size
      * @param rightSize right size
      * @return desensitization
      */
@@ -205,8 +205,8 @@ public class HaloUtils {
     /**
      * Pluralize the times label format.
      *
-     * @param times times
-     * @param label label
+     * @param times       times
+     * @param label       label
      * @param pluralLabel plural label
      * @return pluralized format
      */
@@ -261,8 +261,8 @@ public class HaloUtils {
         Assert.hasText(originalUrl, "Original Url must not be blank");
 
         if (StringUtils.startsWithAny(originalUrl, URL_SEPARATOR, HaloConst.PROTOCOL_HTTPS,
-            HaloConst.PROTOCOL_HTTP)
-            && !StringUtils.startsWith(originalUrl, "//")) {
+                HaloConst.PROTOCOL_HTTP)
+                && !StringUtils.startsWith(originalUrl, "//")) {
             return originalUrl;
         }
 
@@ -299,7 +299,7 @@ public class HaloUtils {
             path = StringUtils.substring(body, pathSepIndex, body.length());
         }
         return protocol + domain + StringUtils.defaultIfEmpty(path, StringUtils.EMPTY)
-            + StringUtils.defaultIfEmpty(params, StringUtils.EMPTY);
+                + StringUtils.defaultIfEmpty(params, StringUtils.EMPTY);
     }
 
     /**
@@ -345,14 +345,14 @@ public class HaloUtils {
      * This is similar to {@link String#trim()} but allows the characters
      * to be stripped to be controlled.</p>
      *
-     * @param str the String to remove characters from, may be null
+     * @param str              the String to remove characters from, may be null
      * @param prefixStripChars the characters to remove from start of str, null treated as
-     *                        whitespace
+     *                         whitespace
      * @param suffixStripChars the characters to remove from end of str, null treated as whitespace
      * @return the stripped String, {@code null} if null String input
      */
     public static String strip(String str, final String prefixStripChars,
-        final String suffixStripChars) {
+                               final String suffixStripChars) {
         if (StringUtils.isEmpty(str)) {
             return str;
         }
@@ -414,8 +414,8 @@ public class HaloUtils {
      * generate png qrcode to byte array.
      *
      * @param content qrcode content
-     * @param width qrcode width
-     * @param height qrcode height
+     * @param width   qrcode width
+     * @param height  qrcode height
      * @return QR code byte array in png format
      * @throws UnsupportedOperationException If the QR code fails to be generated
      */
@@ -431,12 +431,12 @@ public class HaloUtils {
 
         try {
             BitMatrix byteMatrix =
-                qrCodeWriter.encode(content, BarcodeFormat.QR_CODE, width, height, hints);
+                    qrCodeWriter.encode(content, BarcodeFormat.QR_CODE, width, height, hints);
             // Make the BufferedImage that are to hold the QRCode
             int matrixWidth = byteMatrix.getWidth();
             int matrixHeight = byteMatrix.getHeight();
             BufferedImage image =
-                new BufferedImage(matrixWidth, matrixHeight, BufferedImage.TYPE_INT_RGB);
+                    new BufferedImage(matrixWidth, matrixHeight, BufferedImage.TYPE_INT_RGB);
             image.createGraphics();
 
             Graphics2D graphics = (Graphics2D) image.getGraphics();

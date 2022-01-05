@@ -1,10 +1,11 @@
 package com.qinweizhao.site.model.params;
 
-import java.util.Date;
-import javax.validation.constraints.NotBlank;
-import lombok.Data;
 import com.qinweizhao.site.model.dto.base.InputConverter;
 import com.qinweizhao.site.model.entity.Photo;
+import lombok.Data;
+
+import javax.validation.constraints.NotBlank;
+import java.util.Date;
 
 /**
  * Post param.

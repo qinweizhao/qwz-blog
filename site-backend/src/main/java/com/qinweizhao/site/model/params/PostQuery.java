@@ -1,7 +1,7 @@
 package com.qinweizhao.site.model.params;
 
-import lombok.Data;
 import com.qinweizhao.site.model.enums.PostStatus;
+import lombok.Data;
 
 /**
  * Post query.

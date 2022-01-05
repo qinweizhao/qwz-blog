@@ -1,33 +1,25 @@
 package com.qinweizhao.site.utils.footnotes.internal;
 
-import com.vladsch.flexmark.formatter.MarkdownWriter;
-import com.vladsch.flexmark.formatter.NodeFormatter;
-import com.vladsch.flexmark.formatter.NodeFormatterContext;
-import com.vladsch.flexmark.formatter.NodeFormatterFactory;
-import com.vladsch.flexmark.formatter.NodeFormattingHandler;
-import com.vladsch.flexmark.formatter.NodeRepositoryFormatter;
+import com.qinweizhao.site.utils.footnotes.Footnote;
+import com.qinweizhao.site.utils.footnotes.FootnoteBlock;
+import com.qinweizhao.site.utils.footnotes.FootnoteExtension;
+import com.vladsch.flexmark.formatter.*;
 import com.vladsch.flexmark.util.data.DataHolder;
 import com.vladsch.flexmark.util.data.DataKey;
 import com.vladsch.flexmark.util.format.options.ElementPlacement;
 import com.vladsch.flexmark.util.format.options.ElementPlacementSort;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
-import com.qinweizhao.site.utils.footnotes.Footnote;
-import com.qinweizhao.site.utils.footnotes.FootnoteBlock;
-import com.qinweizhao.site.utils.footnotes.FootnoteExtension;
+
+import java.util.*;
 
 public class FootnoteNodeFormatter
-    extends NodeRepositoryFormatter<FootnoteRepository, FootnoteBlock, Footnote> {
+        extends NodeRepositoryFormatter<FootnoteRepository, FootnoteBlock, Footnote> {
 
     public static final DataKey<Map<String, String>> FOOTNOTE_TRANSLATION_MAP =
-        new DataKey<>("FOOTNOTE_TRANSLATION_MAP", new HashMap<>()); // translated references
+            new DataKey<>("FOOTNOTE_TRANSLATION_MAP", new HashMap<>()); // translated references
     public static final DataKey<Map<String, String>> FOOTNOTE_UNIQUIFICATION_MAP =
-        new DataKey<>("FOOTNOTE_UNIQUIFICATION_MAP", new HashMap<>()); // uniquified references
+            new DataKey<>("FOOTNOTE_UNIQUIFICATION_MAP", new HashMap<>()); // uniquified references
     private final FootnoteFormatOptions options;
 
     public FootnoteNodeFormatter(DataHolder options) {
@@ -52,7 +44,7 @@ public class FootnoteNodeFormatter
 
     @Override
     public void renderReferenceBlock(FootnoteBlock node, NodeFormatterContext context,
-        MarkdownWriter markdown) {
+                                     MarkdownWriter markdown) {
         markdown.blankLine().append("[^");
         markdown.append(transformReferenceId(node.getText().toString(), context));
         markdown.append("]: ");
@@ -66,8 +58,8 @@ public class FootnoteNodeFormatter
     @Override
     public Set<NodeFormattingHandler<?>> getNodeFormattingHandlers() {
         return new HashSet<>(Arrays.asList(
-            new NodeFormattingHandler<>(Footnote.class, FootnoteNodeFormatter.this::render),
-            new NodeFormattingHandler<>(FootnoteBlock.class, FootnoteNodeFormatter.this::render)
+                new NodeFormattingHandler<>(Footnote.class, FootnoteNodeFormatter.this::render),
+                new NodeFormattingHandler<>(FootnoteBlock.class, FootnoteNodeFormatter.this::render)
         ));
     }
 
@@ -79,7 +71,7 @@ public class FootnoteNodeFormatter
         }
         // noinspection ArraysAsListWithZeroOrOneArgument
         return new HashSet<>(Arrays.asList(
-            Footnote.class
+                Footnote.class
         ));
     }
 

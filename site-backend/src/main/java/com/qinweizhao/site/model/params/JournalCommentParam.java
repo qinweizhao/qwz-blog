@@ -1,9 +1,9 @@
 package com.qinweizhao.site.model.params;
 
+import com.qinweizhao.site.model.entity.JournalComment;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
-import com.qinweizhao.site.model.entity.JournalComment;
 
 /**
  * Journal comment param.

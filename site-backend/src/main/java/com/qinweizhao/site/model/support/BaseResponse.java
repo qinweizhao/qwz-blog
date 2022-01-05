@@ -1,10 +1,6 @@
 package com.qinweizhao.site.model.support;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
@@ -50,7 +46,7 @@ public class BaseResponse<T> {
     /**
      * Creates an ok result with message and data. (Default status is 200)
      *
-     * @param data result data
+     * @param data    result data
      * @param message result message
      * @return ok result with message and data
      */
@@ -74,7 +70,7 @@ public class BaseResponse<T> {
      * Creates an ok result with data only. (Default message is OK, status is 200)
      *
      * @param data data to response
-     * @param <T> data type
+     * @param <T>  data type
      * @return base response with data
      */
     public static <T> BaseResponse<T> ok(@Nullable T data) {

@@ -1,9 +1,10 @@
 package com.qinweizhao.site.model.params;
 
-import javax.validation.constraints.NotBlank;
+import com.qinweizhao.site.model.support.CreateCheck;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import com.qinweizhao.site.model.support.CreateCheck;
+
+import javax.validation.constraints.NotBlank;
 
 /**
  * Install parameters.

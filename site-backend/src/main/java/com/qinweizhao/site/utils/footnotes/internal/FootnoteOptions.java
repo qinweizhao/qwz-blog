@@ -1,8 +1,8 @@
 package com.qinweizhao.site.utils.footnotes.internal;
 
+import com.qinweizhao.site.utils.footnotes.FootnoteExtension;
 import com.vladsch.flexmark.parser.Parser;
 import com.vladsch.flexmark.util.data.DataHolder;
-import com.qinweizhao.site.utils.footnotes.FootnoteExtension;
 
 public class FootnoteOptions {
 

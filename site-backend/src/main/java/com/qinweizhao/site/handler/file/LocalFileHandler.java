@@ -1,6 +1,19 @@
 package com.qinweizhao.site.handler.file;
 
-import static com.qinweizhao.site.model.support.HaloConst.FILE_SEPARATOR;
+import com.qinweizhao.site.config.properties.HaloProperties;
+import com.qinweizhao.site.exception.FileOperationException;
+import com.qinweizhao.site.model.enums.AttachmentType;
+import com.qinweizhao.site.model.support.UploadResult;
+import com.qinweizhao.site.service.OptionService;
+import com.qinweizhao.site.utils.FilenameUtils;
+import com.qinweizhao.site.utils.HaloUtils;
+import com.qinweizhao.site.utils.ImageUtils;
+import lombok.extern.slf4j.Slf4j;
+import net.coobird.thumbnailator.Thumbnails;
+import org.springframework.http.MediaType;
+import org.springframework.stereotype.Component;
+import org.springframework.util.Assert;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -10,20 +23,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Calendar;
 import java.util.Objects;
-import lombok.extern.slf4j.Slf4j;
-import net.coobird.thumbnailator.Thumbnails;
-import org.springframework.http.MediaType;
-import org.springframework.stereotype.Component;
-import org.springframework.util.Assert;
-import org.springframework.web.multipart.MultipartFile;
-import com.qinweizhao.site.config.properties.HaloProperties;
-import com.qinweizhao.site.exception.FileOperationException;
-import com.qinweizhao.site.model.enums.AttachmentType;
-import com.qinweizhao.site.model.support.UploadResult;
-import com.qinweizhao.site.service.OptionService;
-import com.qinweizhao.site.utils.FilenameUtils;
-import com.qinweizhao.site.utils.HaloUtils;
-import com.qinweizhao.site.utils.ImageUtils;
+
+import static com.qinweizhao.site.model.support.HaloConst.FILE_SEPARATOR;
 
 /**
  * Local file handler.
@@ -58,7 +59,7 @@ public class LocalFileHandler implements FileHandler {
     private final String workDir;
 
     public LocalFileHandler(OptionService optionService,
-        HaloProperties haloProperties) {
+                            HaloProperties haloProperties) {
         this.optionService = optionService;
 
         // Get work dir
@@ -77,8 +78,8 @@ public class LocalFileHandler implements FileHandler {
 
         // Check file type
         if (!Files.isDirectory(workPath)
-            || !Files.isReadable(workPath)
-            || !Files.isWritable(workPath)) {
+                || !Files.isReadable(workPath)
+                || !Files.isWritable(workPath)) {
             log.warn("Please make sure that {} is a directory, readable and writable!", workDir);
         }
     }
@@ -99,7 +100,7 @@ public class LocalFileHandler implements FileHandler {
         String subDir = UPLOAD_SUB_DIR + year + FILE_SEPARATOR + monthString + FILE_SEPARATOR;
 
         String originalBasename =
-            FilenameUtils.getBasename(Objects.requireNonNull(file.getOriginalFilename()));
+                FilenameUtils.getBasename(Objects.requireNonNull(file.getOriginalFilename()));
 
         // Get basename
         String basename = originalBasename + '-' + HaloUtils.randomUUIDWithoutDash();
@@ -108,7 +109,7 @@ public class LocalFileHandler implements FileHandler {
         String extension = FilenameUtils.getExtension(file.getOriginalFilename());
 
         log.debug("Base name: [{}], extension: [{}] of original filename: [{}]", basename,
-            extension, file.getOriginalFilename());
+                extension, file.getOriginalFilename());
 
         // Build sub file path
         String subFilePath = subDir + basename + '.' + extension;
@@ -117,7 +118,7 @@ public class LocalFileHandler implements FileHandler {
         Path uploadPath = Paths.get(workDir, subFilePath);
 
         log.info("Uploading file: [{}]to directory: [{}]", file.getOriginalFilename(),
-            uploadPath.toString());
+                uploadPath.toString());
 
         try {
             // TODO Synchronize here
@@ -135,7 +136,7 @@ public class LocalFileHandler implements FileHandler {
             uploadResult.setKey(subFilePath);
             uploadResult.setSuffix(extension);
             uploadResult
-                .setMediaType(MediaType.valueOf(Objects.requireNonNull(file.getContentType())));
+                    .setMediaType(MediaType.valueOf(Objects.requireNonNull(file.getContentType())));
             uploadResult.setSize(file.getSize());
 
             // TODO refactor this: if image is svg ext. extension
@@ -159,7 +160,7 @@ public class LocalFileHandler implements FileHandler {
             });
 
             log.info("Uploaded file: [{}] to directory: [{}] successfully",
-                file.getOriginalFilename(), uploadPath.toString());
+                    file.getOriginalFilename(), uploadPath.toString());
             return uploadResult;
         } catch (IOException e) {
             throw new FileOperationException("上传附件失败").setErrorData(uploadPath);
@@ -206,7 +207,7 @@ public class LocalFileHandler implements FileHandler {
     }
 
     private boolean generateThumbnail(BufferedImage originalImage, Path thumbPath,
-        String extension) {
+                                      String extension) {
         Assert.notNull(originalImage, "Image must not be null");
         Assert.notNull(thumbPath, "Thumb path must not be null");
 
@@ -217,9 +218,9 @@ public class LocalFileHandler implements FileHandler {
             // Convert to thumbnail and copy the thumbnail
             log.debug("Trying to generate thumbnail: [{}]", thumbPath.toString());
             Thumbnails.of(originalImage).size(THUMB_WIDTH, THUMB_HEIGHT).keepAspectRatio(true)
-                .toFile(thumbPath.toFile());
+                    .toFile(thumbPath.toFile());
             log.info("Generated thumbnail image, and wrote the thumbnail to [{}]",
-                thumbPath.toString());
+                    thumbPath.toString());
             result = true;
         } catch (Throwable t) {
             // Ignore the error

@@ -13,7 +13,7 @@ public class AttributeConverterAutoGenerateConfiguration {
 
     @Bean
     EntityManagerFactoryBuilderCustomizer entityManagerFactoryBuilderCustomizer(
-        ConfigurableListableBeanFactory factory) {
+            ConfigurableListableBeanFactory factory) {
         return builder -> builder.setPersistenceUnitPostProcessors(
                 new AutoGenerateConverterPersistenceUnitPostProcessor(factory));
     }

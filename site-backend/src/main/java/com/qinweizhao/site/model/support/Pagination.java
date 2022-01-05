@@ -1,7 +1,8 @@
 package com.qinweizhao.site.model.support;
 
-import java.util.List;
 import lombok.Data;
+
+import java.util.List;
 
 /**
  * @author ryanwang

@@ -1,10 +1,11 @@
 package com.qinweizhao.site.model.params;
 
-import javax.validation.constraints.NotBlank;
-import lombok.Data;
 import com.qinweizhao.site.model.dto.base.InputConverter;
 import com.qinweizhao.site.model.entity.Journal;
 import com.qinweizhao.site.model.enums.JournalType;
+import lombok.Data;
+
+import javax.validation.constraints.NotBlank;
 
 /**
  * Journal param.

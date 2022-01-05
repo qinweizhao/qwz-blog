@@ -1,5 +1,15 @@
 package com.qinweizhao.site.theme;
 
+import com.qinweizhao.site.handler.theme.config.ThemePropertyResolver;
+import com.qinweizhao.site.handler.theme.config.impl.YamlThemePropertyResolver;
+import com.qinweizhao.site.handler.theme.config.support.ThemeProperty;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.lang.NonNull;
+import org.springframework.lang.Nullable;
+import org.springframework.util.Assert;
+import org.springframework.util.CollectionUtils;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -9,15 +19,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.lang.NonNull;
-import org.springframework.lang.Nullable;
-import org.springframework.util.Assert;
-import org.springframework.util.CollectionUtils;
-import com.qinweizhao.site.handler.theme.config.ThemePropertyResolver;
-import com.qinweizhao.site.handler.theme.config.impl.YamlThemePropertyResolver;
-import com.qinweizhao.site.handler.theme.config.support.ThemeProperty;
 
 /**
  * Theme property scanner.
@@ -51,7 +52,7 @@ public enum ThemePropertyScanner {
         try (Stream<Path> pathStream = Files.list(themePath)) {
             // List and filter sub folders
             List<Path> themePaths = pathStream.filter(Files::isDirectory)
-                .collect(Collectors.toList());
+                    .collect(Collectors.toList());
 
             if (CollectionUtils.isEmpty(themePaths)) {
                 return Collections.emptyList();
@@ -59,15 +60,15 @@ public enum ThemePropertyScanner {
 
             // Get theme properties
             ThemeProperty[] properties = themePaths.stream()
-                .map(this::fetchThemeProperty)
-                .filter(Optional::isPresent)
-                .map(Optional::get)
-                .peek(themeProperty -> {
-                    if (StringUtils.equals(activeThemeId, themeProperty.getId())) {
-                        themeProperty.setActivated(true);
-                    }
-                })
-                .toArray(ThemeProperty[]::new);
+                    .map(this::fetchThemeProperty)
+                    .filter(Optional::isPresent)
+                    .map(Optional::get)
+                    .peek(themeProperty -> {
+                        if (StringUtils.equals(activeThemeId, themeProperty.getId())) {
+                            themeProperty.setActivated(true);
+                        }
+                    })
+                    .toArray(ThemeProperty[]::new);
             // Cache the themes
             return Arrays.asList(properties);
         } catch (IOException e) {

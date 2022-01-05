@@ -1,8 +1,9 @@
 package com.qinweizhao.site.model.support;
 
+import org.springframework.http.HttpHeaders;
+
 import java.io.File;
 import java.util.Optional;
-import org.springframework.http.HttpHeaders;
 
 /**
  * Halo constants.
@@ -83,9 +84,9 @@ public class HaloConst {
      * 网易云音乐 iframe 代码
      */
     public static final String NETEASE_MUSIC_IFRAME =
-        "<iframe frameborder=\"no\" border=\"0\" marginwidth=\"0\" marginheight=\"0\" width=330 "
-            + "height=86 src=\"//music.163.com/outchain/player?type=2&id=$1&auto=1&height=66"
-            + "\"></iframe>";
+            "<iframe frameborder=\"no\" border=\"0\" marginwidth=\"0\" marginheight=\"0\" width=330 "
+                    + "height=86 src=\"//music.163.com/outchain/player?type=2&id=$1&auto=1&height=66"
+                    + "\"></iframe>";
     /**
      * 网易云音乐短代码正则表达式
      */
@@ -98,14 +99,14 @@ public class HaloConst {
      * 哔哩哔哩视频 iframe 代码
      */
     public static final String BILIBILI_VIDEO_IFRAME =
-        "<iframe height=$3 width=$2 src=\"//player.bilibili.com/player.html?aid=$1\" "
-            + "scrolling=\"no\" border=\"0\" frameborder=\"no\" framespacing=\"0\" "
-            + "allowfullscreen=\"true\"> </iframe>";
+            "<iframe height=$3 width=$2 src=\"//player.bilibili.com/player.html?aid=$1\" "
+                    + "scrolling=\"no\" border=\"0\" frameborder=\"no\" framespacing=\"0\" "
+                    + "allowfullscreen=\"true\"> </iframe>";
     /**
      * 哔哩哔哩视频正则表达式
      */
     public static final String BILIBILI_VIDEO_REG_PATTERN =
-        "\\[bilibili:(\\d+)\\,(\\d+)\\,(\\d+)\\]";
+            "\\[bilibili:(\\d+)\\,(\\d+)\\,(\\d+)\\]";
     /**
      * YouTube 视频短代码前缀
      */
@@ -114,9 +115,9 @@ public class HaloConst {
      * YouTube 视频 iframe 代码
      */
     public static final String YOUTUBE_VIDEO_IFRAME =
-        "<iframe width=$2 height=$3 src=\"https://www.youtube.com/embed/$1\" frameborder=\"0\" "
-            + "allow=\"accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture\" "
-            + "allowfullscreen></iframe>";
+            "<iframe width=$2 height=$3 src=\"https://www.youtube.com/embed/$1\" frameborder=\"0\" "
+                    + "allow=\"accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture\" "
+                    + "allowfullscreen></iframe>";
     /**
      * YouTube 视频正则表达式
      */
@@ -152,22 +153,19 @@ public class HaloConst {
      * Unknown version: unknown
      */
     public static final String UNKNOWN_VERSION = "unknown";
-
+    /**
+     * Options cache key.
+     */
+    public static final String OPTIONS_CACHE_KEY = "options";
+    public static final String PRIVATE_OPTION_KEY = "private_options";
     /**
      * Database product name.
      */
     public static String DATABASE_PRODUCT_NAME = null;
 
-    /**
-     * Options cache key.
-     */
-    public static final String OPTIONS_CACHE_KEY = "options";
-
-    public static final String PRIVATE_OPTION_KEY = "private_options";
-
     static {
         // Set version
         HALO_VERSION = Optional.ofNullable(HaloConst.class.getPackage().getImplementationVersion())
-            .orElse(UNKNOWN_VERSION);
+                .orElse(UNKNOWN_VERSION);
     }
 }

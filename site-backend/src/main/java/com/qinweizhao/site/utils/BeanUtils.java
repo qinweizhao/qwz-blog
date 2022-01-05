@@ -1,19 +1,16 @@
 package com.qinweizhao.site.utils;
 
-import java.beans.PropertyDescriptor;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
+import com.qinweizhao.site.exception.BeanUtilsException;
 import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.beans.BeansException;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
-import com.qinweizhao.site.exception.BeanUtilsException;
+
+import java.beans.PropertyDescriptor;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Bean utilities.
@@ -28,9 +25,9 @@ public class BeanUtils {
     /**
      * Transforms from the source object. (copy same properties only)
      *
-     * @param source source data
+     * @param source      source data
      * @param targetClass target class must not be null
-     * @param <T> target class type
+     * @param <T>         target class type
      * @return instance with specified type copying from source data; or null if source data is null
      * @throws BeanUtilsException if newing target instance failed or copying failed
      */
@@ -48,35 +45,35 @@ public class BeanUtils {
             T targetInstance = targetClass.newInstance();
             // Copy properties
             org.springframework.beans.BeanUtils
-                .copyProperties(source, targetInstance, getNullPropertyNames(source));
+                    .copyProperties(source, targetInstance, getNullPropertyNames(source));
             // Return the target instance
             return targetInstance;
         } catch (Exception e) {
             throw new BeanUtilsException(
-                "Failed to new " + targetClass.getName() + " instance or copy properties", e);
+                    "Failed to new " + targetClass.getName() + " instance or copy properties", e);
         }
     }
 
     /**
      * Transforms from source data collection in batch.
      *
-     * @param sources source data collection
+     * @param sources     source data collection
      * @param targetClass target class must not be null
-     * @param <T> target class type
+     * @param <T>         target class type
      * @return target collection transforming from source data collection.
      * @throws BeanUtilsException if newing target instance failed or copying failed
      */
     @NonNull
     public static <T> List<T> transformFromInBatch(Collection<?> sources,
-        @NonNull Class<T> targetClass) {
+                                                   @NonNull Class<T> targetClass) {
         if (CollectionUtils.isEmpty(sources)) {
             return Collections.emptyList();
         }
 
         // Transform in batch
         return sources.stream()
-            .map(source -> transformFrom(source, targetClass))
-            .collect(Collectors.toList());
+                .map(source -> transformFrom(source, targetClass))
+                .collect(Collectors.toList());
     }
 
     /**
@@ -93,7 +90,7 @@ public class BeanUtils {
         // Set non null properties from source properties to target properties
         try {
             org.springframework.beans.BeanUtils
-                .copyProperties(source, target, getNullPropertyNames(source));
+                    .copyProperties(source, target, getNullPropertyNames(source));
         } catch (BeansException e) {
             throw new BeanUtilsException("Failed to copy properties", e);
         }

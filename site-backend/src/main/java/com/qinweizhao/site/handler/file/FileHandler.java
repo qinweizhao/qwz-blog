@@ -1,12 +1,9 @@
 package com.qinweizhao.site.handler.file;
 
-import static com.qinweizhao.site.model.support.HaloConst.FILE_SEPARATOR;
-
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.function.Supplier;
-import javax.imageio.ImageReader;
+import com.qinweizhao.site.exception.FileOperationException;
+import com.qinweizhao.site.model.enums.AttachmentType;
+import com.qinweizhao.site.model.support.UploadResult;
+import com.qinweizhao.site.utils.ImageUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
@@ -14,10 +11,14 @@ import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 import org.springframework.web.multipart.MultipartFile;
-import com.qinweizhao.site.exception.FileOperationException;
-import com.qinweizhao.site.model.enums.AttachmentType;
-import com.qinweizhao.site.model.support.UploadResult;
-import com.qinweizhao.site.utils.ImageUtils;
+
+import javax.imageio.ImageReader;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.function.Supplier;
+
+import static com.qinweizhao.site.model.support.HaloConst.FILE_SEPARATOR;
 
 /**
  * File handler interface.
@@ -66,25 +67,25 @@ public interface FileHandler {
     /**
      * Update Metadata for image object.
      *
-     * @param uploadResult updated result must not be null
-     * @param file multipart file must not be null
+     * @param uploadResult      updated result must not be null
+     * @param file              multipart file must not be null
      * @param thumbnailSupplier thumbnail supplier
      */
     default void handleImageMetadata(@NonNull MultipartFile file,
-        @NonNull UploadResult uploadResult,
-        @Nullable Supplier<String> thumbnailSupplier) {
+                                     @NonNull UploadResult uploadResult,
+                                     @Nullable Supplier<String> thumbnailSupplier) {
         if (isImageType(file)) {
             // Handle image
             try (InputStream is = file.getInputStream()) {
                 String extension = uploadResult.getSuffix();
                 if (ImageUtils.EXTENSION_ICO.equals(extension)) {
                     BufferedImage icoImage =
-                        ImageUtils.getImageFromFile(is, extension);
+                            ImageUtils.getImageFromFile(is, extension);
                     uploadResult.setWidth(icoImage.getWidth());
                     uploadResult.setHeight(icoImage.getHeight());
                 } else {
                     ImageReader image =
-                        ImageUtils.getImageReaderFromFile(is, extension);
+                            ImageUtils.getImageReaderFromFile(is, extension);
                     uploadResult.setWidth(image.getWidth(0));
                     uploadResult.setHeight(image.getHeight(0));
                 }

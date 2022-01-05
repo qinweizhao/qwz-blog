@@ -1,5 +1,8 @@
 package com.qinweizhao.site.utils.footnotes.internal;
 
+import com.qinweizhao.site.utils.footnotes.Footnote;
+import com.qinweizhao.site.utils.footnotes.FootnoteBlock;
+import com.qinweizhao.site.utils.footnotes.FootnoteExtension;
 import com.vladsch.flexmark.parser.LinkRefProcessor;
 import com.vladsch.flexmark.parser.LinkRefProcessorFactory;
 import com.vladsch.flexmark.util.ast.Document;
@@ -7,9 +10,6 @@ import com.vladsch.flexmark.util.ast.Node;
 import com.vladsch.flexmark.util.data.DataHolder;
 import com.vladsch.flexmark.util.sequence.BasedSequence;
 import org.springframework.lang.NonNull;
-import com.qinweizhao.site.utils.footnotes.Footnote;
-import com.qinweizhao.site.utils.footnotes.FootnoteBlock;
-import com.qinweizhao.site.utils.footnotes.FootnoteExtension;
 
 public class FootnoteLinkRefProcessor implements LinkRefProcessor {
 
@@ -35,7 +35,7 @@ public class FootnoteLinkRefProcessor implements LinkRefProcessor {
     @Override
     public boolean isMatch(@NonNull BasedSequence nodeChars) {
         return nodeChars.length() >= 3 && nodeChars.charAt(0) == '[' && nodeChars.charAt(1) == '^'
-            && nodeChars.endCharAt(1) == ']';
+                && nodeChars.endCharAt(1) == ']';
     }
 
     @NonNull
@@ -43,10 +43,10 @@ public class FootnoteLinkRefProcessor implements LinkRefProcessor {
     public Node createNode(@NonNull BasedSequence nodeChars) {
         BasedSequence footnoteId = nodeChars.midSequence(2, -1).trim();
         FootnoteBlock footnoteBlock =
-            footnoteId.length() > 0 ? footnoteRepository.get(footnoteId.toString()) : null;
+                footnoteId.length() > 0 ? footnoteRepository.get(footnoteId.toString()) : null;
 
         Footnote footnote =
-            new Footnote(nodeChars.subSequence(0, 2), footnoteId, nodeChars.endSequence(1));
+                new Footnote(nodeChars.subSequence(0, 2), footnoteId, nodeChars.endSequence(1));
         footnote.setFootnoteBlock(footnoteBlock);
 
         if (footnoteBlock != null) {
@@ -64,7 +64,7 @@ public class FootnoteLinkRefProcessor implements LinkRefProcessor {
 
     @Override
     public boolean allowDelimiters(@NonNull BasedSequence chars, @NonNull Document document,
-        @NonNull Node node) {
+                                   @NonNull Node node) {
         return true;
     }
 

@@ -1,19 +1,12 @@
 package com.qinweizhao.site.config;
 
-import static com.qinweizhao.site.model.support.HaloConst.FILE_SEPARATOR;
-import static com.qinweizhao.site.utils.HaloUtils.URL_SEPARATOR;
-import static com.qinweizhao.site.utils.HaloUtils.ensureBoth;
-import static com.qinweizhao.site.utils.HaloUtils.ensureSuffix;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.qinweizhao.site.config.properties.HaloProperties;
+import com.qinweizhao.site.core.PageJacksonSerializer;
+import com.qinweizhao.site.core.freemarker.inheritance.ThemeExtendsDirective;
+import com.qinweizhao.site.factory.StringToEnumConverterFactory;
+import com.qinweizhao.site.security.resolver.AuthenticationArgumentResolver;
 import freemarker.template.TemplateModel;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
-import javax.servlet.MultipartConfigElement;
-import javax.servlet.http.HttpServletRequest;
 import kr.pe.kwonnam.freemarker.inheritance.BlockDirective;
 import kr.pe.kwonnam.freemarker.inheritance.PutDirective;
 import lombok.extern.slf4j.Slf4j;
@@ -47,11 +40,17 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
-import com.qinweizhao.site.config.properties.HaloProperties;
-import com.qinweizhao.site.core.PageJacksonSerializer;
-import com.qinweizhao.site.core.freemarker.inheritance.ThemeExtendsDirective;
-import com.qinweizhao.site.factory.StringToEnumConverterFactory;
-import com.qinweizhao.site.security.resolver.AuthenticationArgumentResolver;
+
+import javax.servlet.MultipartConfigElement;
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
+
+import static com.qinweizhao.site.model.support.HaloConst.FILE_SEPARATOR;
+import static com.qinweizhao.site.utils.HaloUtils.*;
 
 /**
  * Halo mvc configuration.
@@ -73,8 +72,8 @@ public class HaloMvcConfiguration implements WebMvcConfigurer {
     private String swaggerBaseUrl;
 
     public HaloMvcConfiguration(PageableHandlerMethodArgumentResolver pageableResolver,
-        SortHandlerMethodArgumentResolver sortResolver,
-        HaloProperties haloProperties) {
+                                SortHandlerMethodArgumentResolver sortResolver,
+                                HaloProperties haloProperties) {
         this.pageableResolver = pageableResolver;
         this.sortResolver = sortResolver;
         this.haloProperties = haloProperties;
@@ -97,9 +96,9 @@ public class HaloMvcConfiguration implements WebMvcConfigurer {
      */
     @Bean(name = "multipartResolver")
     @ConditionalOnProperty(prefix = "spring.servlet.multipart", name = "enabled",
-        havingValue = "true", matchIfMissing = true)
+            havingValue = "true", matchIfMissing = true)
     MultipartResolver multipartResolver(MultipartProperties multipartProperties)
-        throws IOException {
+            throws IOException {
         MultipartConfigElement multipartConfigElement = multipartProperties.createMultipartConfig();
         CommonsMultipartResolver resolver = new CommonsMultipartResolver() {
             @Override
@@ -140,17 +139,17 @@ public class HaloMvcConfiguration implements WebMvcConfigurer {
     @Override
     public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
         converters.stream()
-            .filter(c -> c instanceof MappingJackson2HttpMessageConverter)
-            .findFirst()
-            .ifPresent(converter -> {
-                MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter =
-                    (MappingJackson2HttpMessageConverter) converter;
-                Jackson2ObjectMapperBuilder builder = Jackson2ObjectMapperBuilder.json();
-                JsonComponentModule module = new JsonComponentModule();
-                module.addSerializer(PageImpl.class, new PageJacksonSerializer());
-                ObjectMapper objectMapper = builder.modules(module).build();
-                mappingJackson2HttpMessageConverter.setObjectMapper(objectMapper);
-            });
+                .filter(c -> c instanceof MappingJackson2HttpMessageConverter)
+                .findFirst()
+                .ifPresent(converter -> {
+                    MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter =
+                            (MappingJackson2HttpMessageConverter) converter;
+                    Jackson2ObjectMapperBuilder builder = Jackson2ObjectMapperBuilder.json();
+                    JsonComponentModule module = new JsonComponentModule();
+                    module.addSerializer(PageImpl.class, new PageJacksonSerializer());
+                    ObjectMapper objectMapper = builder.modules(module).build();
+                    mappingJackson2HttpMessageConverter.setObjectMapper(objectMapper);
+                });
     }
 
     @Override
@@ -164,7 +163,7 @@ public class HaloMvcConfiguration implements WebMvcConfigurer {
     public void addViewControllers(ViewControllerRegistry registry) {
         // for backward compatibility
         registry.addViewController("/swagger-ui.html")
-            .setViewName("redirect:" + swaggerBaseUrl + "/swagger-ui/");
+                .setViewName("redirect:" + swaggerBaseUrl + "/swagger-ui/");
     }
 
     /**
@@ -178,28 +177,28 @@ public class HaloMvcConfiguration implements WebMvcConfigurer {
 
         // register /** resource handler.
         registry.addResourceHandler("/**")
-            .addResourceLocations("classpath:/admin/")
-            .addResourceLocations(workDir + "static/");
+                .addResourceLocations("classpath:/admin/")
+                .addResourceLocations(workDir + "static/");
 
         // register /themes/** resource handler.
         registry.addResourceHandler("/themes/**")
-            .addResourceLocations(workDir + "templates/themes/");
+                .addResourceLocations(workDir + "templates/themes/");
 
         String uploadUrlPattern =
-            ensureBoth(haloProperties.getUploadUrlPrefix(), URL_SEPARATOR) + "**";
+                ensureBoth(haloProperties.getUploadUrlPrefix(), URL_SEPARATOR) + "**";
         String adminPathPattern = ensureSuffix(haloProperties.getAdminPath(), URL_SEPARATOR) + "**";
 
         registry.addResourceHandler(uploadUrlPattern)
-            .setCacheControl(CacheControl.maxAge(7L, TimeUnit.DAYS))
-            .addResourceLocations(workDir + "upload/");
+                .setCacheControl(CacheControl.maxAge(7L, TimeUnit.DAYS))
+                .addResourceLocations(workDir + "upload/");
         registry.addResourceHandler(adminPathPattern)
-            .addResourceLocations("classpath:/admin/");
+                .addResourceLocations("classpath:/admin/");
 
         // If doc is enable
         registry.addResourceHandler("swagger-ui.html")
-            .addResourceLocations("classpath:/META-INF/resources/");
+                .addResourceLocations("classpath:/META-INF/resources/");
         registry.addResourceHandler("/webjars/**")
-            .addResourceLocations("classpath:/META-INF/resources/webjars/");
+                .addResourceLocations("classpath:/META-INF/resources/webjars/");
     }
 
 

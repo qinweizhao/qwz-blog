@@ -1,14 +1,15 @@
 package com.qinweizhao.site.model.params;
 
-import java.lang.reflect.ParameterizedType;
+import com.qinweizhao.site.model.dto.base.InputConverter;
+import com.qinweizhao.site.utils.ReflectionUtils;
+import lombok.Data;
+import org.hibernate.validator.constraints.URL;
+
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
-import lombok.Data;
-import org.hibernate.validator.constraints.URL;
-import com.qinweizhao.site.model.dto.base.InputConverter;
-import com.qinweizhao.site.utils.ReflectionUtils;
+import java.lang.reflect.ParameterizedType;
 
 /**
  * Base Comment param.
@@ -48,6 +49,6 @@ public abstract class BaseCommentParam<COMMENT> implements InputConverter<COMMEN
     @Override
     public ParameterizedType parameterizedType() {
         return ReflectionUtils
-            .getParameterizedTypeBySuperClass(BaseCommentParam.class, this.getClass());
+                .getParameterizedTypeBySuperClass(BaseCommentParam.class, this.getClass());
     }
 }

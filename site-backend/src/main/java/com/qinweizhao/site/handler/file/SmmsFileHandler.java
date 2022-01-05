@@ -1,25 +1,6 @@
 package com.qinweizhao.site.handler.file;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import java.io.IOException;
-import java.util.Collections;
-import java.util.Objects;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
-import org.springframework.lang.Nullable;
-import org.springframework.stereotype.Component;
-import org.springframework.util.Assert;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.StringUtils;
-import org.springframework.web.client.RestTemplate;
-import org.springframework.web.multipart.MultipartFile;
 import com.qinweizhao.site.exception.FileOperationException;
 import com.qinweizhao.site.exception.ServiceException;
 import com.qinweizhao.site.model.enums.AttachmentType;
@@ -29,6 +10,22 @@ import com.qinweizhao.site.model.support.UploadResult;
 import com.qinweizhao.site.service.OptionService;
 import com.qinweizhao.site.utils.FilenameUtils;
 import com.qinweizhao.site.utils.HttpClientUtils;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.*;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.lang.Nullable;
+import org.springframework.stereotype.Component;
+import org.springframework.util.Assert;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.StringUtils;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.util.Collections;
+import java.util.Objects;
 
 /**
  * Sm.ms file handler.
@@ -60,14 +57,14 @@ public class SmmsFileHandler implements FileHandler {
     private final HttpHeaders headers = new HttpHeaders();
 
     public SmmsFileHandler(RestTemplate httpsRestTemplate,
-        OptionService optionService) {
+                           OptionService optionService) {
         this.httpsRestTemplate = httpsRestTemplate;
         this.optionService = optionService;
 
         MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter =
-            new MappingJackson2HttpMessageConverter();
+                new MappingJackson2HttpMessageConverter();
         mappingJackson2HttpMessageConverter
-            .setSupportedMediaTypes(Collections.singletonList(MediaType.ALL));
+                .setSupportedMediaTypes(Collections.singletonList(MediaType.ALL));
         this.httpsRestTemplate.getMessageConverters().add(mappingJackson2HttpMessageConverter);
     }
 
@@ -76,7 +73,7 @@ public class SmmsFileHandler implements FileHandler {
         Assert.notNull(file, "Multipart file must not be null");
 
         String apiSecretToken =
-            optionService.getByPropertyOfNonNull(SmmsProperties.SMMS_API_SECRET_TOKEN).toString();
+                optionService.getByPropertyOfNonNull(SmmsProperties.SMMS_API_SECRET_TOKEN).toString();
 
         if (StringUtils.isEmpty(apiSecretToken)) {
             throw new ServiceException("请先设置 SM.MS 的 Secret Token");
@@ -95,27 +92,27 @@ public class SmmsFileHandler implements FileHandler {
 
         try {
             body.add("smfile", new HttpClientUtils.MultipartFileResource(file.getBytes(),
-                file.getOriginalFilename()));
+                    file.getOriginalFilename()));
         } catch (IOException e) {
             log.error("Failed to get file input stream", e);
             throw new FileOperationException("上传附件 " + file.getOriginalFilename() + " 到 SM.MS 失败",
-                e);
+                    e);
         }
 
         body.add("format", "json");
 
         HttpEntity<LinkedMultiValueMap<String, Object>> httpEntity =
-            new HttpEntity<>(body, headers);
+                new HttpEntity<>(body, headers);
 
         // Upload file
         ResponseEntity<SmmsResponse> mapResponseEntity =
-            httpsRestTemplate.postForEntity(UPLOAD_API_V2, httpEntity, SmmsResponse.class);
+                httpsRestTemplate.postForEntity(UPLOAD_API_V2, httpEntity, SmmsResponse.class);
 
         // Check status
         if (mapResponseEntity.getStatusCode().isError()) {
             log.error("Server response detail: [{}]", mapResponseEntity.toString());
             throw new FileOperationException(
-                "SM.MS 服务状态异常，状态码: " + mapResponseEntity.getStatusCodeValue());
+                    "SM.MS 服务状态异常，状态码: " + mapResponseEntity.getStatusCodeValue());
         }
 
         // Get smms response
@@ -125,13 +122,13 @@ public class SmmsFileHandler implements FileHandler {
         if (!isResponseSuccessfully(smmsResponse)) {
             log.error("Smms response detail: [{}]", smmsResponse);
             throw new FileOperationException(
-                smmsResponse == null ? "SM.MS 服务返回内容为空" : smmsResponse.getMessage())
-                .setErrorData(smmsResponse);
+                    smmsResponse == null ? "SM.MS 服务返回内容为空" : smmsResponse.getMessage())
+                    .setErrorData(smmsResponse);
         }
 
         if (!smmsResponse.getSuccess()) {
             throw new FileOperationException("上传请求失败：" + smmsResponse.getMessage())
-                .setErrorData(smmsResponse);
+                    .setErrorData(smmsResponse);
         }
 
         // Get response data
@@ -140,7 +137,7 @@ public class SmmsFileHandler implements FileHandler {
         // Build result
         UploadResult result = new UploadResult();
         result.setFilename(
-            FilenameUtils.getBasename(Objects.requireNonNull(file.getOriginalFilename())));
+                FilenameUtils.getBasename(Objects.requireNonNull(file.getOriginalFilename())));
         result.setSuffix(FilenameUtils.getExtension(file.getOriginalFilename()));
         result.setMediaType(MediaType.valueOf(Objects.requireNonNull(file.getContentType())));
 
@@ -167,7 +164,7 @@ public class SmmsFileHandler implements FileHandler {
 
         // Delete the file
         ResponseEntity<String> responseEntity = httpsRestTemplate
-            .exchange(url, HttpMethod.GET, new HttpEntity<>(null, headers), String.class);
+                .exchange(url, HttpMethod.GET, new HttpEntity<>(null, headers), String.class);
 
         if (responseEntity.getStatusCode().isError()) {
             log.debug("Smms server response error: [{}]", responseEntity.toString());
@@ -201,7 +198,7 @@ public class SmmsFileHandler implements FileHandler {
     private void setHeaders() {
         headers.set(HttpHeaders.USER_AGENT, "Halo/" + HaloConst.HALO_VERSION);
         headers.set(HttpHeaders.AUTHORIZATION,
-            optionService.getByPropertyOfNonNull(SmmsProperties.SMMS_API_SECRET_TOKEN).toString());
+                optionService.getByPropertyOfNonNull(SmmsProperties.SMMS_API_SECRET_TOKEN).toString());
     }
 
     @Data

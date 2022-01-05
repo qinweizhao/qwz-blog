@@ -1,8 +1,9 @@
 package com.qinweizhao.site.model.params;
 
+import lombok.Data;
+
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
-import lombok.Data;
 
 /**
  * User password param.

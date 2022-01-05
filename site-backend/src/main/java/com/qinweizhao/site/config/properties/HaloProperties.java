@@ -1,14 +1,13 @@
 package com.qinweizhao.site.config.properties;
 
-import static com.qinweizhao.site.model.support.HaloConst.FILE_SEPARATOR;
-import static com.qinweizhao.site.model.support.HaloConst.TEMP_DIR;
-import static com.qinweizhao.site.model.support.HaloConst.USER_HOME;
-import static com.qinweizhao.site.utils.HaloUtils.ensureSuffix;
-
-import java.time.Duration;
+import com.qinweizhao.site.model.enums.Mode;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import com.qinweizhao.site.model.enums.Mode;
+
+import java.time.Duration;
+
+import static com.qinweizhao.site.model.support.HaloConst.*;
+import static com.qinweizhao.site.utils.HaloUtils.ensureSuffix;
 
 
 /**
@@ -46,19 +45,19 @@ public class HaloProperties {
      * Halo backup directory.(Not recommended to modify this config);
      */
     private String backupDir =
-        ensureSuffix(TEMP_DIR, FILE_SEPARATOR) + "halo-backup" + FILE_SEPARATOR;
+            ensureSuffix(TEMP_DIR, FILE_SEPARATOR) + "halo-backup" + FILE_SEPARATOR;
 
     /**
      * Halo backup markdown directory.(Not recommended to modify this config);
      */
     private String backupMarkdownDir =
-        ensureSuffix(TEMP_DIR, FILE_SEPARATOR) + "halo-backup-markdown" + FILE_SEPARATOR;
+            ensureSuffix(TEMP_DIR, FILE_SEPARATOR) + "halo-backup-markdown" + FILE_SEPARATOR;
 
     /**
      * Halo data export directory.
      */
     private String dataExportDir =
-        ensureSuffix(TEMP_DIR, FILE_SEPARATOR) + "halo-data-export" + FILE_SEPARATOR;
+            ensureSuffix(TEMP_DIR, FILE_SEPARATOR) + "halo-data-export" + FILE_SEPARATOR;
 
     /**
      * Upload prefix.

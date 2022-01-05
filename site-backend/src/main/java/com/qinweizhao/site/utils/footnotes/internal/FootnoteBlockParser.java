@@ -1,32 +1,25 @@
 package com.qinweizhao.site.utils.footnotes.internal;
 
-import com.vladsch.flexmark.parser.block.AbstractBlockParser;
-import com.vladsch.flexmark.parser.block.AbstractBlockParserFactory;
-import com.vladsch.flexmark.parser.block.BlockContinue;
-import com.vladsch.flexmark.parser.block.BlockParser;
-import com.vladsch.flexmark.parser.block.BlockParserFactory;
-import com.vladsch.flexmark.parser.block.BlockStart;
-import com.vladsch.flexmark.parser.block.CustomBlockParserFactory;
-import com.vladsch.flexmark.parser.block.MatchedBlockParser;
-import com.vladsch.flexmark.parser.block.ParserState;
+import com.qinweizhao.site.utils.footnotes.FootnoteBlock;
+import com.qinweizhao.site.utils.footnotes.FootnoteExtension;
+import com.vladsch.flexmark.parser.block.*;
 import com.vladsch.flexmark.util.ast.Block;
 import com.vladsch.flexmark.util.ast.BlockContent;
 import com.vladsch.flexmark.util.data.DataHolder;
 import com.vladsch.flexmark.util.sequence.BasedSequence;
+import org.springframework.lang.NonNull;
+import org.springframework.lang.Nullable;
+
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import org.springframework.lang.NonNull;
-import org.springframework.lang.Nullable;
-import com.qinweizhao.site.utils.footnotes.FootnoteBlock;
-import com.qinweizhao.site.utils.footnotes.FootnoteExtension;
 
 public class FootnoteBlockParser extends AbstractBlockParser {
 
     static String FOOTNOTE_ID = ".*";
     static Pattern FOOTNOTE_ID_PATTERN = Pattern.compile("\\[\\^\\s*(" + FOOTNOTE_ID + ")\\s*\\]");
     static Pattern FOOTNOTE_DEF_PATTERN =
-        Pattern.compile("^\\[\\^\\s*(" + FOOTNOTE_ID + ")\\s*\\]:");
+            Pattern.compile("^\\[\\^\\s*(" + FOOTNOTE_ID + ")\\s*\\]:");
 
     private final FootnoteBlock block = new FootnoteBlock();
     private final FootnoteOptions options;
@@ -78,8 +71,8 @@ public class FootnoteBlockParser extends AbstractBlockParser {
         // set the footnote from closingMarker to end
         block.setCharsFromContent();
         block.setFootnote(block.getChars()
-            .subSequence(block.getClosingMarker().getEndOffset() - block.getStartOffset())
-            .trimStart());
+                .subSequence(block.getClosingMarker().getEndOffset() - block.getStartOffset())
+                .trimStart());
         // add it to the map
         FootnoteRepository footnoteMap = FootnoteExtension.FOOTNOTES.get(state.getProperties());
         footnoteMap.put(footnoteMap.normalizeKey(block.getText()), block);
@@ -153,13 +146,13 @@ public class FootnoteBlockParser extends AbstractBlockParser {
                 int contentOffset = options.contentIndent;
 
                 FootnoteBlockParser footnoteBlockParser =
-                    new FootnoteBlockParser(options, contentOffset);
+                        new FootnoteBlockParser(options, contentOffset);
                 footnoteBlockParser.block.setOpeningMarker(openingMarker);
                 footnoteBlockParser.block.setText(text);
                 footnoteBlockParser.block.setClosingMarker(closingMarker);
 
                 return BlockStart.of(footnoteBlockParser)
-                    .atIndex(openingEnd);
+                        .atIndex(openingEnd);
             } else {
                 return BlockStart.none();
             }

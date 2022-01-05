@@ -1,14 +1,15 @@
 package com.qinweizhao.site.utils;
 
-import java.util.Enumeration;
-import java.util.Optional;
-import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.Enumeration;
+import java.util.Optional;
 
 /**
  * Servlet utilities.
@@ -30,9 +31,9 @@ public class ServletUtils {
     @NonNull
     public static Optional<HttpServletRequest> getCurrentRequest() {
         return Optional.ofNullable(RequestContextHolder.getRequestAttributes())
-            .filter(requestAttributes -> requestAttributes instanceof ServletRequestAttributes)
-            .map(requestAttributes -> (ServletRequestAttributes) requestAttributes)
-            .map(ServletRequestAttributes::getRequest);
+                .filter(requestAttributes -> requestAttributes instanceof ServletRequestAttributes)
+                .map(requestAttributes -> (ServletRequestAttributes) requestAttributes)
+                .map(ServletRequestAttributes::getRequest);
     }
 
     /**
@@ -54,14 +55,14 @@ public class ServletUtils {
     @Nullable
     public static String getHeaderIgnoreCase(String header) {
         return getCurrentRequest().map(request -> ServletUtils.getHeaderIgnoreCase(request, header))
-            .orElse(null);
+                .orElse(null);
     }
 
 
     /**
      * 忽略大小写获得请求header中的信息.
      *
-     * @param request 请求对象{@link HttpServletRequest}
+     * @param request        请求对象{@link HttpServletRequest}
      * @param nameIgnoreCase 忽略大小写头信息的KEY
      * @return header值
      */
@@ -96,14 +97,14 @@ public class ServletUtils {
      * 需要注意的是，使用此方法获取的客户IP地址必须在Http服务器（例如Nginx）中配置头信息，否则容易造成IP伪造。
      * </p>
      *
-     * @param request 请求对象{@link HttpServletRequest}
+     * @param request          请求对象{@link HttpServletRequest}
      * @param otherHeaderNames 其他自定义头文件，通常在Http服务器（例如Nginx）中配置
-     * @see <a href="https://github.com/dromara/hutool/blob/v5-master/hutool-extra/src/main/java/cn/hutool/extra/servlet/ServletUtil.java">查看来源</a>
      * @return IP地址
+     * @see <a href="https://github.com/dromara/hutool/blob/v5-master/hutool-extra/src/main/java/cn/hutool/extra/servlet/ServletUtil.java">查看来源</a>
      */
     public static String getClientIP(HttpServletRequest request, String... otherHeaderNames) {
         String[] headers = {"X-Forwarded-For", "X-Real-IP", "Proxy-Client-IP", "WL-Proxy-Client-IP",
-            "HTTP_CLIENT_IP", "HTTP_X_FORWARDED_FOR"};
+                "HTTP_CLIENT_IP", "HTTP_X_FORWARDED_FOR"};
         if (ArrayUtils.isNotEmpty(otherHeaderNames)) {
             headers = ArrayUtils.addAll(headers, otherHeaderNames);
         }
@@ -131,10 +132,10 @@ public class ServletUtils {
      * 需要注意的是，使用此方法获取的客户IP地址必须在Http服务器（例如Nginx）中配置头信息，否则容易造成IP伪造。
      * </p>
      *
-     * @param request 请求对象{@link HttpServletRequest}
+     * @param request     请求对象{@link HttpServletRequest}
      * @param headerNames 自定义头，通常在Http服务器（例如Nginx）中配置
-     * @see <a href="https://github.com/dromara/hutool/blob/v5-master/hutool-extra/src/main/java/cn/hutool/extra/servlet/ServletUtil.java">查看来源</a>
      * @return IP地址
+     * @see <a href="https://github.com/dromara/hutool/blob/v5-master/hutool-extra/src/main/java/cn/hutool/extra/servlet/ServletUtil.java">查看来源</a>
      * @since 1.4.13
      */
     public static String getClientIPByHeader(HttpServletRequest request, String... headerNames) {

@@ -1,20 +1,21 @@
 package com.qinweizhao.site.model.params;
 
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
-import lombok.Data;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.util.CollectionUtils;
 import com.qinweizhao.site.model.dto.base.InputConverter;
 import com.qinweizhao.site.model.entity.Post;
 import com.qinweizhao.site.model.entity.PostMeta;
 import com.qinweizhao.site.model.enums.PostEditorType;
 import com.qinweizhao.site.model.enums.PostStatus;
 import com.qinweizhao.site.utils.SlugUtils;
+import lombok.Data;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.util.CollectionUtils;
+
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Post param.

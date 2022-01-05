@@ -1,15 +1,15 @@
 package com.qinweizhao.site.aspect;
 
+import com.qinweizhao.site.annotation.DisableOnCondition;
+import com.qinweizhao.site.config.properties.HaloProperties;
+import com.qinweizhao.site.exception.ForbiddenException;
+import com.qinweizhao.site.model.enums.Mode;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.stereotype.Component;
-import com.qinweizhao.site.annotation.DisableOnCondition;
-import com.qinweizhao.site.config.properties.HaloProperties;
-import com.qinweizhao.site.exception.ForbiddenException;
-import com.qinweizhao.site.model.enums.Mode;
 
 /**
  * 自定义注解DisableApi的切面
@@ -34,7 +34,7 @@ public class DisableOnConditionAspect {
 
     @Around("pointcut() && @annotation(disableApi)")
     public Object around(ProceedingJoinPoint joinPoint,
-        DisableOnCondition disableApi) throws Throwable {
+                         DisableOnCondition disableApi) throws Throwable {
         Mode mode = disableApi.mode();
         if (haloProperties.getMode().equals(mode)) {
             throw new ForbiddenException("禁止访问");

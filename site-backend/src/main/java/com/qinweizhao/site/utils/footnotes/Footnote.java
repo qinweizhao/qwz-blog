@@ -1,24 +1,36 @@
 package com.qinweizhao.site.utils.footnotes;
 
+import com.qinweizhao.site.utils.footnotes.internal.FootnoteRepository;
 import com.vladsch.flexmark.ast.LinkRendered;
-import com.vladsch.flexmark.util.ast.DelimitedNode;
-import com.vladsch.flexmark.util.ast.DoNotDecorate;
-import com.vladsch.flexmark.util.ast.Document;
-import com.vladsch.flexmark.util.ast.Node;
-import com.vladsch.flexmark.util.ast.ReferencingNode;
+import com.vladsch.flexmark.util.ast.*;
 import com.vladsch.flexmark.util.sequence.BasedSequence;
 import org.springframework.lang.NonNull;
-import com.qinweizhao.site.utils.footnotes.internal.FootnoteRepository;
 
 /**
  * A Footnote referencing node
  */
 public class Footnote extends Node implements DelimitedNode, DoNotDecorate, LinkRendered,
-    ReferencingNode<FootnoteRepository, FootnoteBlock> {
+        ReferencingNode<FootnoteRepository, FootnoteBlock> {
     protected BasedSequence openingMarker = BasedSequence.NULL;
     protected BasedSequence text = BasedSequence.NULL;
     protected BasedSequence closingMarker = BasedSequence.NULL;
     protected FootnoteBlock footnoteBlock;
+    protected int referenceOrdinal;
+
+    public Footnote() {
+    }
+
+    public Footnote(BasedSequence chars) {
+        super(chars);
+    }
+
+    public Footnote(BasedSequence openingMarker, BasedSequence text, BasedSequence closingMarker) {
+        super(openingMarker
+                .baseSubSequence(openingMarker.getStartOffset(), closingMarker.getEndOffset()));
+        this.openingMarker = openingMarker;
+        this.text = text;
+        this.closingMarker = closingMarker;
+    }
 
     public int getReferenceOrdinal() {
         return referenceOrdinal;
@@ -27,8 +39,6 @@ public class Footnote extends Node implements DelimitedNode, DoNotDecorate, Link
     public void setReferenceOrdinal(int referenceOrdinal) {
         this.referenceOrdinal = referenceOrdinal;
     }
-
-    protected int referenceOrdinal;
 
     @NonNull
     @Override
@@ -83,29 +93,14 @@ public class Footnote extends Node implements DelimitedNode, DoNotDecorate, Link
     @NonNull
     @Override
     public BasedSequence[] getSegments() {
-        return new BasedSequence[] {openingMarker, text, closingMarker};
+        return new BasedSequence[]{openingMarker, text, closingMarker};
     }
 
     @Override
     public void getAstExtra(@NonNull StringBuilder out) {
         out.append(" ordinal: ")
-            .append(footnoteBlock != null ? footnoteBlock.getFootnoteOrdinal() : 0).append(" ");
+                .append(footnoteBlock != null ? footnoteBlock.getFootnoteOrdinal() : 0).append(" ");
         delimitedSegmentSpanChars(out, openingMarker, text, closingMarker, "text");
-    }
-
-    public Footnote() {
-    }
-
-    public Footnote(BasedSequence chars) {
-        super(chars);
-    }
-
-    public Footnote(BasedSequence openingMarker, BasedSequence text, BasedSequence closingMarker) {
-        super(openingMarker
-            .baseSubSequence(openingMarker.getStartOffset(), closingMarker.getEndOffset()));
-        this.openingMarker = openingMarker;
-        this.text = text;
-        this.closingMarker = closingMarker;
     }
 
     @Override

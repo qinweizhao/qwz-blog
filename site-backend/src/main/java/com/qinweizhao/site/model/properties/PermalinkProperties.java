@@ -15,13 +15,13 @@ public enum PermalinkProperties implements PropertyEnum {
      * Post Permalink type.
      */
     POST_PERMALINK_TYPE("post_permalink_type", PostPermalinkType.class,
-        PostPermalinkType.DEFAULT.name()),
+            PostPermalinkType.DEFAULT.name()),
 
     /**
      * Sheet Permalink type.
      */
     SHEET_PERMALINK_TYPE("sheet_permalink_type", SheetPermalinkType.class,
-        SheetPermalinkType.SECONDARY.name()),
+            SheetPermalinkType.SECONDARY.name()),
 
     /**
      * Categories prefix

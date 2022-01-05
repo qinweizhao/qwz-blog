@@ -1,24 +1,23 @@
 package com.qinweizhao.site.theme;
 
-import static com.qinweizhao.site.theme.ThemeUpdater.backup;
-import static com.qinweizhao.site.theme.ThemeUpdater.restore;
-import static com.qinweizhao.site.utils.GitUtils.commitAutomatically;
-import static com.qinweizhao.site.utils.GitUtils.logCommit;
-import static com.qinweizhao.site.utils.GitUtils.removeRemoteIfExists;
-
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.nio.file.Paths;
-import org.eclipse.jgit.api.Git;
-import org.eclipse.jgit.api.RebaseCommand;
-import org.eclipse.jgit.api.errors.GitAPIException;
-import org.eclipse.jgit.lib.RepositoryState;
-import org.eclipse.jgit.transport.URIish;
 import com.qinweizhao.site.exception.NotFoundException;
 import com.qinweizhao.site.exception.ServiceException;
 import com.qinweizhao.site.exception.ThemeUpdateException;
 import com.qinweizhao.site.handler.theme.config.support.ThemeProperty;
 import com.qinweizhao.site.repository.ThemeRepository;
+import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.api.RebaseCommand;
+import org.eclipse.jgit.api.errors.GitAPIException;
+import org.eclipse.jgit.lib.RepositoryState;
+import org.eclipse.jgit.transport.URIish;
+
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.nio.file.Paths;
+
+import static com.qinweizhao.site.theme.ThemeUpdater.backup;
+import static com.qinweizhao.site.theme.ThemeUpdater.restore;
+import static com.qinweizhao.site.utils.GitUtils.*;
 
 /**
  * Update from theme property config.
@@ -32,7 +31,7 @@ public class GitThemeUpdater implements ThemeUpdater {
     private final ThemeFetcherComposite fetcherComposite;
 
     public GitThemeUpdater(ThemeRepository themeRepository,
-        ThemeFetcherComposite fetcherComposite) {
+                           ThemeFetcherComposite fetcherComposite) {
         this.themeRepository = themeRepository;
         this.fetcherComposite = fetcherComposite;
     }
@@ -41,8 +40,8 @@ public class GitThemeUpdater implements ThemeUpdater {
     public ThemeProperty update(String themeId) throws IOException {
         // get theme property
         final var oldThemeProperty = themeRepository.fetchThemePropertyByThemeId(themeId)
-            .orElseThrow(
-                () -> new NotFoundException("主题 " + themeId + " 不存在或以删除！").setErrorData(themeId));
+                .orElseThrow(
+                        () -> new NotFoundException("主题 " + themeId + " 不存在或以删除！").setErrorData(themeId));
 
         // get update config
         final var gitRepo = oldThemeProperty.getRepo();
@@ -72,7 +71,7 @@ public class GitThemeUpdater implements ThemeUpdater {
     }
 
     public ThemeProperty merge(ThemeProperty oldThemeProperty, ThemeProperty newThemeProperty)
-        throws IOException {
+            throws IOException {
 
         final var oldThemePath = Paths.get(oldThemeProperty.getThemePath());
         // open old git repo
@@ -87,26 +86,26 @@ public class GitThemeUpdater implements ThemeUpdater {
                 removeRemoteIfExists(oldGit, "newTheme");
                 // add this new git to remote for old repo
                 final var addedRemoteConfig = oldGit.remoteAdd()
-                    .setName("newTheme")
-                    .setUri(new URIish(newThemePath.toString()))
-                    .call();
+                        .setName("newTheme")
+                        .setUri(new URIish(newThemePath.toString()))
+                        .call();
                 log.info("git remote add newTheme {} {}",
-                    addedRemoteConfig.getName(),
-                    addedRemoteConfig.getURIs());
+                        addedRemoteConfig.getName(),
+                        addedRemoteConfig.getURIs());
 
                 // fetch remote data
                 final var remote = "newTheme/halo";
                 log.info("git fetch newTheme/halo");
                 final var fetchResult = oldGit.fetch()
-                    .setRemote("newTheme")
-                    .call();
+                        .setRemote("newTheme")
+                        .call();
                 log.info("Fetch result: {}", fetchResult.getMessages());
 
                 // rebase upstream
                 log.info("git rebase newTheme");
                 final var rebaseResult = oldGit.rebase()
-                    .setUpstream(remote)
-                    .call();
+                        .setUpstream(remote)
+                        .call();
                 log.info("Rebase result: {}", rebaseResult.getStatus());
                 logCommit(rebaseResult.getCurrentCommit());
 
@@ -117,12 +116,12 @@ public class GitThemeUpdater implements ThemeUpdater {
                         // running it
                         // with setOperation(RebaseCommand.Operation.ABORT)
                         final var abortRebaseResult = oldGit.rebase()
-                            .setUpstream(remote)
-                            .setOperation(RebaseCommand.Operation.ABORT)
-                            .call();
+                                .setUpstream(remote)
+                                .setOperation(RebaseCommand.Operation.ABORT)
+                                .call();
                         log.error("Aborted rebase with state: {} : {}",
-                            abortRebaseResult.getStatus(),
-                            abortRebaseResult.getConflicts());
+                                abortRebaseResult.getStatus(),
+                                abortRebaseResult.getConflicts());
                     }
                     throw new ThemeUpdateException("无法自动合并最新文件！请尝试删除主题并重新拉取。");
                 }

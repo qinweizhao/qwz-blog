@@ -1,6 +1,9 @@
 package com.qinweizhao.site.theme;
 
-import static com.qinweizhao.site.utils.FileUtils.unzip;
+import com.qinweizhao.site.exception.ThemePropertyMissingException;
+import com.qinweizhao.site.handler.theme.config.support.ThemeProperty;
+import com.qinweizhao.site.utils.FileUtils;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 import java.net.URI;
@@ -9,10 +12,8 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.Duration;
 import java.util.zip.ZipInputStream;
-import lombok.extern.slf4j.Slf4j;
-import com.qinweizhao.site.exception.ThemePropertyMissingException;
-import com.qinweizhao.site.handler.theme.config.support.ThemeProperty;
-import com.qinweizhao.site.utils.FileUtils;
+
+import static com.qinweizhao.site.utils.FileUtils.unzip;
 
 /**
  * Zip theme fetcher.
@@ -26,9 +27,9 @@ public class ZipThemeFetcher implements ThemeFetcher {
 
     public ZipThemeFetcher() {
         this.httpClient = HttpClient.newBuilder()
-            .followRedirects(HttpClient.Redirect.ALWAYS)
-            .connectTimeout(Duration.ofMinutes(5))
-            .build();
+                .followRedirects(HttpClient.Redirect.ALWAYS)
+                .connectTimeout(Duration.ofMinutes(5))
+                .build();
     }
 
     @Override
@@ -45,16 +46,16 @@ public class ZipThemeFetcher implements ThemeFetcher {
 
         // build http request
         final var request = HttpRequest.newBuilder()
-            .uri(URI.create(themeZipLink))
-            .timeout(Duration.ofMinutes(2))
-            .GET()
-            .build();
+                .uri(URI.create(themeZipLink))
+                .timeout(Duration.ofMinutes(2))
+                .GET()
+                .build();
 
         try {
             // request from remote
             log.info("Fetching theme from {}", themeZipLink);
             var inputStreamResponse =
-                httpClient.send(request, HttpResponse.BodyHandlers.ofInputStream());
+                    httpClient.send(request, HttpResponse.BodyHandlers.ofInputStream());
             var inputStream = inputStreamResponse.body();
 
             // unzip zip archive
@@ -65,7 +66,7 @@ public class ZipThemeFetcher implements ThemeFetcher {
 
                 // resolve theme property
                 return ThemePropertyScanner.INSTANCE.fetchThemeProperty(tempDirectory)
-                    .orElseThrow(() -> new ThemePropertyMissingException("主题配置文件缺失！请确认后重试。"));
+                        .orElseThrow(() -> new ThemePropertyMissingException("主题配置文件缺失！请确认后重试。"));
             }
         } catch (InterruptedException | IOException e) {
             throw new RuntimeException("主题拉取失败！（" + e.getMessage() + "）", e);

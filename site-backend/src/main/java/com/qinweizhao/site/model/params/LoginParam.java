@@ -1,9 +1,10 @@
 package com.qinweizhao.site.model.params;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
 import lombok.Data;
 import lombok.ToString;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 /**
  * Login param.

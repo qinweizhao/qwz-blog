@@ -1,9 +1,13 @@
 package com.qinweizhao.site.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.security.KeyManagementException;
-import java.security.KeyStoreException;
-import java.security.NoSuchAlgorithmException;
+import com.qinweizhao.site.cache.AbstractStringCacheStore;
+import com.qinweizhao.site.cache.InMemoryCacheStore;
+import com.qinweizhao.site.cache.LevelCacheStore;
+import com.qinweizhao.site.config.attributeconverter.AttributeConverterAutoGenerateConfiguration;
+import com.qinweizhao.site.config.properties.HaloProperties;
+import com.qinweizhao.site.repository.base.BaseRepositoryImpl;
+import com.qinweizhao.site.utils.HttpClientUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -17,13 +21,10 @@ import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.client.RestTemplate;
-import com.qinweizhao.site.cache.AbstractStringCacheStore;
-import com.qinweizhao.site.cache.InMemoryCacheStore;
-import com.qinweizhao.site.cache.LevelCacheStore;
-import com.qinweizhao.site.config.attributeconverter.AttributeConverterAutoGenerateConfiguration;
-import com.qinweizhao.site.config.properties.HaloProperties;
-import com.qinweizhao.site.repository.base.BaseRepositoryImpl;
-import com.qinweizhao.site.utils.HttpClientUtils;
+
+import java.security.KeyManagementException;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
 
 /**
  * Halo configuration.
@@ -36,7 +37,7 @@ import com.qinweizhao.site.utils.HttpClientUtils;
 @Configuration(proxyBeanMethods = false)
 @EnableConfigurationProperties(HaloProperties.class)
 @EnableJpaRepositories(basePackages = "com.qinweizhao.site.repository", repositoryBaseClass =
-    BaseRepositoryImpl.class)
+        BaseRepositoryImpl.class)
 @Import(AttributeConverterAutoGenerateConfiguration.class)
 public class HaloConfiguration {
 
@@ -54,11 +55,11 @@ public class HaloConfiguration {
 
     @Bean
     RestTemplate httpsRestTemplate(RestTemplateBuilder builder)
-        throws NoSuchAlgorithmException, KeyStoreException, KeyManagementException {
+            throws NoSuchAlgorithmException, KeyStoreException, KeyManagementException {
         RestTemplate httpsRestTemplate = builder.build();
         httpsRestTemplate.setRequestFactory(
-            new HttpComponentsClientHttpRequestFactory(HttpClientUtils.createHttpsClient(
-                (int) haloProperties.getDownloadTimeout().toMillis())));
+                new HttpComponentsClientHttpRequestFactory(HttpClientUtils.createHttpsClient(
+                        (int) haloProperties.getDownloadTimeout().toMillis())));
         return httpsRestTemplate;
     }
 

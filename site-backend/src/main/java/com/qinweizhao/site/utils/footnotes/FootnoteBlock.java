@@ -1,5 +1,6 @@
 package com.qinweizhao.site.utils.footnotes;
 
+import com.qinweizhao.site.utils.footnotes.internal.FootnoteRepository;
 import com.vladsch.flexmark.ast.Paragraph;
 import com.vladsch.flexmark.ast.ParagraphItemContainer;
 import com.vladsch.flexmark.parser.ListOptions;
@@ -9,16 +10,16 @@ import com.vladsch.flexmark.util.ast.ReferenceNode;
 import com.vladsch.flexmark.util.data.DataHolder;
 import com.vladsch.flexmark.util.sequence.BasedSequence;
 import com.vladsch.flexmark.util.sequence.SequenceUtils;
-import java.util.Objects;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
-import com.qinweizhao.site.utils.footnotes.internal.FootnoteRepository;
+
+import java.util.Objects;
 
 /**
  * A Footnote definition node containing text and other inline nodes nodes as children.
  */
 public class FootnoteBlock extends Block
-    implements ReferenceNode<FootnoteRepository, FootnoteBlock, Footnote>, ParagraphItemContainer {
+        implements ReferenceNode<FootnoteRepository, FootnoteBlock, Footnote>, ParagraphItemContainer {
 
     protected BasedSequence openingMarker = BasedSequence.NULL;
     protected BasedSequence text = BasedSequence.NULL;
@@ -27,6 +28,13 @@ public class FootnoteBlock extends Block
     private int footnoteOrdinal = 0;
     private int firstReferenceOffset = Integer.MAX_VALUE;
     private int footnoteReferences = 0;
+
+    public FootnoteBlock() {
+    }
+
+    public FootnoteBlock(BasedSequence chars) {
+        super(chars);
+    }
 
     @Override
     public int compareTo(FootnoteBlock other) {
@@ -85,14 +93,7 @@ public class FootnoteBlock extends Block
     @NonNull
     @Override
     public BasedSequence[] getSegments() {
-        return new BasedSequence[] {openingMarker, text, closingMarker, footnote};
-    }
-
-    public FootnoteBlock() {
-    }
-
-    public FootnoteBlock(BasedSequence chars) {
-        super(chars);
+        return new BasedSequence[]{openingMarker, text, closingMarker, footnote};
     }
 
     public BasedSequence getOpeningMarker() {
@@ -134,7 +135,7 @@ public class FootnoteBlock extends Block
 
     @Override
     public boolean isParagraphWrappingDisabled(Paragraph node, ListOptions listOptions,
-        DataHolder options) {
+                                               DataHolder options) {
         return false;
     }
 
@@ -153,19 +154,19 @@ public class FootnoteBlock extends Block
         }
         FootnoteBlock that = (FootnoteBlock) o;
         return footnoteOrdinal == that.footnoteOrdinal
-            && firstReferenceOffset == that.firstReferenceOffset
-            && footnoteReferences == that.footnoteReferences
-            && Objects.equals(openingMarker, that.openingMarker)
-            && Objects.equals(text, that.text)
-            && Objects.equals(closingMarker, that.closingMarker)
-            && Objects.equals(footnote, that.footnote);
+                && firstReferenceOffset == that.firstReferenceOffset
+                && footnoteReferences == that.footnoteReferences
+                && Objects.equals(openingMarker, that.openingMarker)
+                && Objects.equals(text, that.text)
+                && Objects.equals(closingMarker, that.closingMarker)
+                && Objects.equals(footnote, that.footnote);
     }
 
     @Override
     public int hashCode() {
         return Objects
-            .hash(openingMarker, text, closingMarker, footnote, footnoteOrdinal,
-                firstReferenceOffset,
-                footnoteReferences);
+                .hash(openingMarker, text, closingMarker, footnote, footnoteOrdinal,
+                        firstReferenceOffset,
+                        footnoteReferences);
     }
 }

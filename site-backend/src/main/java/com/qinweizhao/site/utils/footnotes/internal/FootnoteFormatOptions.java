@@ -1,9 +1,9 @@
 package com.qinweizhao.site.utils.footnotes.internal;
 
+import com.qinweizhao.site.utils.footnotes.FootnoteExtension;
 import com.vladsch.flexmark.util.data.DataHolder;
 import com.vladsch.flexmark.util.format.options.ElementPlacement;
 import com.vladsch.flexmark.util.format.options.ElementPlacementSort;
-import com.qinweizhao.site.utils.footnotes.FootnoteExtension;
 
 public class FootnoteFormatOptions {
 

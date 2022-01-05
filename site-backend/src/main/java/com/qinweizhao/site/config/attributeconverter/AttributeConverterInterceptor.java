@@ -1,8 +1,8 @@
 package com.qinweizhao.site.config.attributeconverter;
 
+import com.qinweizhao.site.model.enums.ValueEnum;
 import net.bytebuddy.implementation.bind.annotation.FieldValue;
 import net.bytebuddy.implementation.bind.annotation.RuntimeType;
-import com.qinweizhao.site.model.enums.ValueEnum;
 
 /**
  * Attribute Converter Interceptor.
@@ -21,7 +21,7 @@ public class AttributeConverterInterceptor {
 
     @RuntimeType
     public static <T extends Enum<T> & ValueEnum<V>, V> T convertToEntityAttribute(V dbData,
-        @FieldValue("enumType") Class<T> enumType) {
+                                                                                   @FieldValue("enumType") Class<T> enumType) {
         return dbData == null ? null : ValueEnum.valueToEnum(enumType, dbData);
     }
 }

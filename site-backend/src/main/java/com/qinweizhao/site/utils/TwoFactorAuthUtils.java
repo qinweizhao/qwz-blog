@@ -1,13 +1,14 @@
 package com.qinweizhao.site.utils;
 
+import com.qinweizhao.site.exception.AuthenticationException;
+import com.qinweizhao.site.exception.BadRequestException;
+
+import javax.crypto.Mac;
+import javax.crypto.spec.SecretKeySpec;
 import java.security.GeneralSecurityException;
 import java.security.SecureRandom;
 import java.util.Arrays;
 import java.util.Random;
-import javax.crypto.Mac;
-import javax.crypto.spec.SecretKeySpec;
-import com.qinweizhao.site.exception.AuthenticationException;
-import com.qinweizhao.site.exception.BadRequestException;
 
 public class TwoFactorAuthUtils {
 
@@ -29,7 +30,7 @@ public class TwoFactorAuthUtils {
         try {
             int validCode = Integer.parseInt(tfaCode);
             boolean result = TimeBasedOneTimePasswordUtil
-                .validateCurrentNumber(tfaKey, validCode, VALID_TFA_WINDOW_MILLIS);
+                    .validateCurrentNumber(tfaKey, validCode, VALID_TFA_WINDOW_MILLIS);
             if (!result) {
                 throw new BadRequestException("两步验证码验证错误，请确认时间是否同步");
             }
@@ -138,43 +139,43 @@ public class TwoFactorAuthUtils {
          * </p>
          *
          * @param base32Secret Secret string encoded using base-32 that was used to generate the QR
-         * code or shared with the user.
-         * @param authNumber Time based number provided by the user from their authenticator
-         * application.
+         *                     code or shared with the user.
+         * @param authNumber   Time based number provided by the user from their authenticator
+         *                     application.
          * @param windowMillis Number of milliseconds that they are allowed to be off and still
-         * match
-         * . This checks before and after
-         * the current time to account for clock variance. Set to 0 for no window.
+         *                     match
+         *                     . This checks before and after
+         *                     the current time to account for clock variance. Set to 0 for no window.
          * @return True if the authNumber matched the calculated number within the specified window.
          */
         public static boolean validateCurrentNumber(String base32Secret, int authNumber,
-            int windowMillis)
-            throws GeneralSecurityException {
+                                                    int windowMillis)
+                throws GeneralSecurityException {
             return validateCurrentNumber(base32Secret, authNumber, windowMillis,
-                System.currentTimeMillis(),
-                DEFAULT_TIME_STEP_SECONDS);
+                    System.currentTimeMillis(),
+                    DEFAULT_TIME_STEP_SECONDS);
         }
 
         /**
          * Similar to {@link #validateCurrentNumber(String, int, int)} except exposes other
          * parameters. Mostly for testing.
          *
-         * @param base32Secret Secret string encoded using base-32 that was used to generate the QR
-         * code or shared with the user.
-         * @param authNumber Time based number provided by the user from their authenticator
-         * application.
-         * @param windowMillis Number of milliseconds that they are allowed to be off and still
-         * match
-         * . This checks before and after
-         * the current time to account for clock variance. Set to 0 for no window.
-         * @param timeMillis Time in milliseconds.
+         * @param base32Secret    Secret string encoded using base-32 that was used to generate the QR
+         *                        code or shared with the user.
+         * @param authNumber      Time based number provided by the user from their authenticator
+         *                        application.
+         * @param windowMillis    Number of milliseconds that they are allowed to be off and still
+         *                        match
+         *                        . This checks before and after
+         *                        the current time to account for clock variance. Set to 0 for no window.
+         * @param timeMillis      Time in milliseconds.
          * @param timeStepSeconds Time step in seconds. The default value is 30 seconds here. See
-         * {@link #DEFAULT_TIME_STEP_SECONDS}.
+         *                        {@link #DEFAULT_TIME_STEP_SECONDS}.
          * @return True if the authNumber matched the calculated number within the specified window.
          */
         public static boolean validateCurrentNumber(String base32Secret, int authNumber,
-            int windowMillis, long timeMillis,
-            int timeStepSeconds) throws GeneralSecurityException {
+                                                    int windowMillis, long timeMillis,
+                                                    int timeStepSeconds) throws GeneralSecurityException {
             long fromTimeMillis = timeMillis;
             long toTimeMillis = timeMillis;
             if (windowMillis > 0) {
@@ -199,33 +200,33 @@ public class TwoFactorAuthUtils {
          * </p>
          *
          * @param base32Secret Secret string encoded using base-32 that was used to generate the QR
-         * code or shared with the user.
+         *                     code or shared with the user.
          * @return A number as a string with possible leading zeros which should match the user's
          * authenticator application
          * output.
          */
         public static String generateCurrentNumberString(String base32Secret)
-            throws GeneralSecurityException {
+                throws GeneralSecurityException {
             return generateNumberString(base32Secret, System.currentTimeMillis(),
-                DEFAULT_TIME_STEP_SECONDS);
+                    DEFAULT_TIME_STEP_SECONDS);
         }
 
         /**
          * Similar to {@link #generateCurrentNumberString(String)} except exposes other parameters.
          * Mostly for testing.
          *
-         * @param base32Secret Secret string encoded using base-32 that was used to generate the QR
-         * code or shared with the user.
-         * @param timeMillis Time in milliseconds.
+         * @param base32Secret    Secret string encoded using base-32 that was used to generate the QR
+         *                        code or shared with the user.
+         * @param timeMillis      Time in milliseconds.
          * @param timeStepSeconds Time step in seconds. The default value is 30 seconds here. See
-         * {@link #DEFAULT_TIME_STEP_SECONDS}.
+         *                        {@link #DEFAULT_TIME_STEP_SECONDS}.
          * @return A number as a string with possible leading zeros which should match the user's
          * authenticator application
          * output.
          */
         public static String generateNumberString(String base32Secret, long timeMillis,
-            int timeStepSeconds)
-            throws GeneralSecurityException {
+                                                  int timeStepSeconds)
+                throws GeneralSecurityException {
             int number = generateNumber(base32Secret, timeMillis, timeStepSeconds);
             return zeroPrepend(number, NUM_DIGITS_OUTPUT);
         }
@@ -237,9 +238,9 @@ public class TwoFactorAuthUtils {
          * @return A number which should match the user's authenticator application output.
          */
         public static int generateCurrentNumber(String base32Secret)
-            throws GeneralSecurityException {
+                throws GeneralSecurityException {
             return generateNumber(base32Secret, System.currentTimeMillis(),
-                DEFAULT_TIME_STEP_SECONDS);
+                    DEFAULT_TIME_STEP_SECONDS);
         }
 
         /**
@@ -250,7 +251,7 @@ public class TwoFactorAuthUtils {
          * @return A number which should match the user's authenticator application output.
          */
         public static int generateNumber(String base32Secret, long timeMillis, int timeStepSeconds)
-            throws GeneralSecurityException {
+                throws GeneralSecurityException {
 
             byte[] key = decodeBase32(base32Secret);
 
@@ -293,15 +294,15 @@ public class TwoFactorAuthUtils {
          * authenticator program
          * as an easy way to enter the secret.
          *
-         * @param keyId Name of the key that you want to show up in the users authentication
-         * application. Should already be
-         * URL encoded.
+         * @param keyId  Name of the key that you want to show up in the users authentication
+         *               application. Should already be
+         *               URL encoded.
          * @param secret Secret string that will be used when generating the current number.
          */
         public static String qrImageUrl(String keyId, String secret) {
             StringBuilder sb = new StringBuilder(128);
             sb.append("https://chart.googleapis.com/chart?chs=200x200&cht=qr&chl=200x200&chld=M|0"
-                + "&cht=qr&chl=");
+                    + "&cht=qr&chl=");
             addOtpAuthPart(keyId, secret, sb);
             return sb.toString();
         }
@@ -311,9 +312,9 @@ public class TwoFactorAuthUtils {
          * generators (e.g. JS
          * generator).
          *
-         * @param keyId Name of the key that you want to show up in the users authentication
-         * application. Should already be
-         * URL encoded.
+         * @param keyId  Name of the key that you want to show up in the users authentication
+         *               application. Should already be
+         *               URL encoded.
          * @param secret Secret string that will be used when generating the current number.
          */
         public static String generateOtpAuthUrl(String keyId, String secret) {

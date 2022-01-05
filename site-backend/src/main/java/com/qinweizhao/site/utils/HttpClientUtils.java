@@ -1,11 +1,5 @@
 package com.qinweizhao.site.utils;
 
-import java.net.URI;
-import java.security.KeyManagementException;
-import java.security.KeyStoreException;
-import java.security.NoSuchAlgorithmException;
-import java.util.Objects;
-import javax.net.ssl.SSLContext;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpHost;
 import org.apache.http.auth.AuthScope;
@@ -20,6 +14,13 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.ssl.SSLContextBuilder;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.lang.NonNull;
+
+import javax.net.ssl.SSLContext;
+import java.net.URI;
+import java.security.KeyManagementException;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.util.Objects;
 
 /**
  * Http client utilities.
@@ -48,16 +49,16 @@ public class HttpClientUtils {
      */
     @NonNull
     public static CloseableHttpClient createHttpsClient(int timeout)
-        throws KeyStoreException, NoSuchAlgorithmException, KeyManagementException {
+            throws KeyStoreException, NoSuchAlgorithmException, KeyManagementException {
         SSLContext sslContext = new SSLContextBuilder()
-            .loadTrustMaterial(null, (certificate, authType) -> true)
-            .build();
+                .loadTrustMaterial(null, (certificate, authType) -> true)
+                .build();
 
         return resolveProxySetting(HttpClients.custom())
-            .setSSLContext(sslContext)
-            .setSSLHostnameVerifier(new NoopHostnameVerifier())
-            .setDefaultRequestConfig(getRequestConfig(timeout))
-            .build();
+                .setSSLContext(sslContext)
+                .setSSLHostnameVerifier(new NoopHostnameVerifier())
+                .setDefaultRequestConfig(getRequestConfig(timeout))
+                .build();
     }
 
     /**
@@ -67,7 +68,7 @@ public class HttpClientUtils {
      * @return the argument
      */
     private static HttpClientBuilder resolveProxySetting(
-        final HttpClientBuilder httpClientBuilder) {
+            final HttpClientBuilder httpClientBuilder) {
         final String httpProxyEnv = System.getenv("http_proxy");
         if (StringUtils.isNotBlank(httpProxyEnv)) {
             final String[] httpProxy = resolveHttpProxy(httpProxyEnv);
@@ -77,8 +78,8 @@ public class HttpClientUtils {
                 //set proxy credentials
                 final CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
                 credentialsProvider
-                    .setCredentials(new AuthScope(httpHost.getHostName(), httpHost.getPort()),
-                        new UsernamePasswordCredentials(httpProxy[1], httpProxy[2]));
+                        .setCredentials(new AuthScope(httpHost.getHostName(), httpHost.getPort()),
+                                new UsernamePasswordCredentials(httpProxy[1], httpProxy[2]));
                 httpClientBuilder.setDefaultCredentialsProvider(credentialsProvider);
             }
         }
@@ -114,9 +115,9 @@ public class HttpClientUtils {
                 username = usernamePassword;
                 password = null;
             }
-            return new String[] {hostUrl, username, password};
+            return new String[]{hostUrl, username, password};
         } else {
-            return new String[] {hostUrl};
+            return new String[]{hostUrl};
         }
     }
 
@@ -128,10 +129,10 @@ public class HttpClientUtils {
      */
     private static RequestConfig getRequestConfig(int timeout) {
         return RequestConfig.custom()
-            .setConnectTimeout(timeout)
-            .setConnectionRequestTimeout(timeout)
-            .setSocketTimeout(timeout)
-            .build();
+                .setConnectTimeout(timeout)
+                .setConnectionRequestTimeout(timeout)
+                .setSocketTimeout(timeout)
+                .build();
     }
 
 

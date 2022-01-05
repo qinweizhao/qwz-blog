@@ -1,12 +1,13 @@
 package com.qinweizhao.site.model.params;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
-import lombok.Data;
-import org.apache.commons.lang3.StringUtils;
 import com.qinweizhao.site.model.dto.base.InputConverter;
 import com.qinweizhao.site.model.entity.Category;
 import com.qinweizhao.site.utils.SlugUtils;
+import lombok.Data;
+import org.apache.commons.lang3.StringUtils;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 /**
  * Category param.

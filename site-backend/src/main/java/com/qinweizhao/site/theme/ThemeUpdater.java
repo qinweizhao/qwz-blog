@@ -1,15 +1,16 @@
 package com.qinweizhao.site.theme;
 
-import static com.qinweizhao.site.utils.FileUtils.copyFolder;
-import static com.qinweizhao.site.utils.FileUtils.deleteFolderQuietly;
+import com.qinweizhao.site.handler.theme.config.support.ThemeProperty;
+import com.qinweizhao.site.utils.FileUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import com.qinweizhao.site.handler.theme.config.support.ThemeProperty;
-import com.qinweizhao.site.utils.FileUtils;
+
+import static com.qinweizhao.site.utils.FileUtils.copyFolder;
+import static com.qinweizhao.site.utils.FileUtils.deleteFolderQuietly;
 
 /**
  * Theme updater.
@@ -19,14 +20,6 @@ import com.qinweizhao.site.utils.FileUtils;
 public interface ThemeUpdater {
 
     Logger log = LoggerFactory.getLogger(ThemeUpdater.class);
-
-    /**
-     * Update theme property.
-     *
-     * @param themeId theme id
-     * @return updated theme property
-     */
-    ThemeProperty update(String themeId) throws IOException;
 
     /**
      * Backup old theme.
@@ -51,17 +44,25 @@ public interface ThemeUpdater {
     }
 
     static void restore(final Path backupPath, final ThemeProperty oldThemeProperty)
-        throws IOException {
+            throws IOException {
         final var targetPath = Paths.get(oldThemeProperty.getThemePath());
         log.info("Restoring backup path: {} to target path: {}", backupPath, targetPath);
         // copy backup to target path
         FileUtils.copyFolder(backupPath, targetPath);
         log.debug("Copied backup path: {} to target path: {} successfully!", backupPath,
-            targetPath);
+                targetPath);
         // delete backup
         FileUtils.deleteFolderQuietly(backupPath);
         log.debug("Deleted backup path: {} successfully!", backupPath);
         log.info("Restored backup path: {} to target path: {} successfully!", backupPath,
-            targetPath);
+                targetPath);
     }
+
+    /**
+     * Update theme property.
+     *
+     * @param themeId theme id
+     * @return updated theme property
+     */
+    ThemeProperty update(String themeId) throws IOException;
 }

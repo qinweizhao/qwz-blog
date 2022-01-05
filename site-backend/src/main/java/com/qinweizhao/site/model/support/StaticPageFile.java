@@ -1,8 +1,9 @@
 package com.qinweizhao.site.model.support;
 
+import lombok.Data;
+
 import java.util.Comparator;
 import java.util.List;
-import lombok.Data;
 
 /**
  * Static page dto.

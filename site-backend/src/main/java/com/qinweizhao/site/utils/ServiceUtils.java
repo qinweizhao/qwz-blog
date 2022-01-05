@@ -1,23 +1,14 @@
 package com.qinweizhao.site.utils;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.function.Function;
-import java.util.stream.Collectors;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
+
+import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /**
  * Utilities for service.
@@ -32,33 +23,33 @@ public class ServiceUtils {
     /**
      * Fetches id to set.
      *
-     * @param datas data collection
+     * @param datas           data collection
      * @param mappingFunction calculate the id in data list
-     * @param <I> id type
-     * @param <T> data type
+     * @param <I>             id type
+     * @param <T>             data type
      * @return a set of id
      */
     @NonNull
     public static <I, T> Set<I> fetchProperty(final Collection<T> datas,
-        Function<T, I> mappingFunction) {
+                                              Function<T, I> mappingFunction) {
         return CollectionUtils.isEmpty(datas)
-            ? Collections.emptySet() :
-            datas.stream().map(mappingFunction).collect(Collectors.toSet());
+                ? Collections.emptySet() :
+                datas.stream().map(mappingFunction).collect(Collectors.toSet());
     }
 
     /**
      * Converts a list to a list map where list contains id in ids.
      *
-     * @param ids id collection
-     * @param list data list
+     * @param ids             id collection
+     * @param list            data list
      * @param mappingFunction calculate the id in data list
-     * @param <I> id type
-     * @param <D> data type
+     * @param <I>             id type
+     * @param <D>             data type
      * @return a map which key is in ids and value containing in list
      */
     @NonNull
     public static <I, D> Map<I, List<D>> convertToListMap(Collection<I> ids, Collection<D> list,
-        Function<D, I> mappingFunction) {
+                                                          Function<D, I> mappingFunction) {
         Assert.notNull(mappingFunction, "mapping function must not be null");
 
         if (CollectionUtils.isEmpty(ids) || CollectionUtils.isEmpty(list)) {
@@ -68,8 +59,8 @@ public class ServiceUtils {
         Map<I, List<D>> resultMap = new HashMap<>();
 
         list.forEach(
-            data -> resultMap.computeIfAbsent(mappingFunction.apply(data), id -> new LinkedList<>())
-                .add(data));
+                data -> resultMap.computeIfAbsent(mappingFunction.apply(data), id -> new LinkedList<>())
+                        .add(data));
 
         ids.forEach(id -> resultMap.putIfAbsent(id, Collections.emptyList()));
 
@@ -79,15 +70,15 @@ public class ServiceUtils {
     /**
      * Converts to map (key from the list data)
      *
-     * @param list data list
+     * @param list            data list
      * @param mappingFunction calclulate the id from list data
-     * @param <I> id type
-     * @param <D> data type
+     * @param <I>             id type
+     * @param <D>             data type
      * @return a map which key from list data and value is data
      */
     @NonNull
     public static <I, D> Map<I, D> convertToMap(Collection<D> list,
-        Function<D, I> mappingFunction) {
+                                                Function<D, I> mappingFunction) {
         Assert.notNull(mappingFunction, "mapping function must not be null");
 
         if (CollectionUtils.isEmpty(list)) {
@@ -104,17 +95,17 @@ public class ServiceUtils {
     /**
      * Converts to map (key from the list data)
      *
-     * @param list data list
-     * @param keyFunction key mapping function
+     * @param list          data list
+     * @param keyFunction   key mapping function
      * @param valueFunction value mapping function
-     * @param <I> id type
-     * @param <D> data type
-     * @param <V> value type
+     * @param <I>           id type
+     * @param <D>           data type
+     * @param <V>           value type
      * @return a map which key from list data and value is data
      */
     @NonNull
     public static <I, D, V> Map<I, V> convertToMap(@Nullable Collection<D> list,
-        @NonNull Function<D, I> keyFunction, @NonNull Function<D, V> valueFunction) {
+                                                   @NonNull Function<D, I> keyFunction, @NonNull Function<D, V> valueFunction) {
         Assert.notNull(keyFunction, "Key function must not be null");
         Assert.notNull(valueFunction, "Value function must not be null");
 
@@ -125,7 +116,7 @@ public class ServiceUtils {
         Map<I, V> resultMap = new HashMap<>();
 
         list.forEach(
-            data -> resultMap.putIfAbsent(keyFunction.apply(data), valueFunction.apply(data)));
+                data -> resultMap.putIfAbsent(keyFunction.apply(data), valueFunction.apply(data)));
 
         return resultMap;
     }
@@ -154,7 +145,7 @@ public class ServiceUtils {
     /**
      * Builds latest page request.
      *
-     * @param top top must not be less than 1
+     * @param top          top must not be less than 1
      * @param sortProperty sort property must not be blank
      * @return latest page request
      */
@@ -170,8 +161,8 @@ public class ServiceUtils {
      * Build empty page result.
      *
      * @param page page info must not be null
-     * @param <T> target page result type
-     * @param <S> source page result type
+     * @param <T>  target page result type
+     * @param <S>  source page result type
      * @return empty page result
      */
     @NonNull

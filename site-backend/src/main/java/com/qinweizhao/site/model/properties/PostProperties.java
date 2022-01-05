@@ -55,7 +55,7 @@ public enum PostProperties implements PropertyEnum {
      * Recycled post retention time unit.
      */
     RECYCLED_POST_RETENTION_TIMEUNIT("recycled_post_retention_timeunit", TimeUnit.class,
-        TimeUnit.DAY.name());
+            TimeUnit.DAY.name());
 
     private final String value;
 

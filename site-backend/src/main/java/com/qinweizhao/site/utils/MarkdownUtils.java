@@ -1,5 +1,7 @@
 package com.qinweizhao.site.utils;
 
+import com.qinweizhao.site.model.support.HaloConst;
+import com.qinweizhao.site.utils.footnotes.FootnoteExtension;
 import com.vladsch.flexmark.ext.attributes.AttributesExtension;
 import com.vladsch.flexmark.ext.autolink.AutolinkExtension;
 import com.vladsch.flexmark.ext.emoji.EmojiExtension;
@@ -21,15 +23,14 @@ import com.vladsch.flexmark.parser.Parser;
 import com.vladsch.flexmark.util.ast.Node;
 import com.vladsch.flexmark.util.data.DataHolder;
 import com.vladsch.flexmark.util.data.MutableDataSet;
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
-import org.apache.commons.lang3.StringUtils;
-import com.qinweizhao.site.model.support.HaloConst;
-import com.qinweizhao.site.utils.footnotes.FootnoteExtension;
 
 /**
  * Markdown utils.
@@ -40,33 +41,33 @@ import com.qinweizhao.site.utils.footnotes.FootnoteExtension;
 public class MarkdownUtils {
 
     private static final DataHolder OPTIONS =
-        new MutableDataSet().set(Parser.EXTENSIONS, Arrays.asList(AttributesExtension.create(),
-            AutolinkExtension.create(),
-            EmojiExtension.create(),
-            EscapedCharacterExtension.create(),
-            StrikethroughExtension.create(),
-            TaskListExtension.create(),
-            InsExtension.create(),
-            MediaTagsExtension.create(),
-            TablesExtension.create(),
-            TocExtension.create(),
-            SuperscriptExtension.create(),
-            YamlFrontMatterExtension.create(),
-            FootnoteExtension.create(),
-            GitLabExtension.create()))
-            .set(TocExtension.LEVELS, 255)
-            .set(TablesExtension.WITH_CAPTION, false)
-            .set(TablesExtension.COLUMN_SPANS, false)
-            .set(TablesExtension.MIN_SEPARATOR_DASHES, 1)
-            .set(TablesExtension.MIN_HEADER_ROWS, 1)
-            .set(TablesExtension.MAX_HEADER_ROWS, 1)
-            .set(TablesExtension.APPEND_MISSING_COLUMNS, true)
-            .set(TablesExtension.DISCARD_EXTRA_COLUMNS, true)
-            .set(TablesExtension.HEADER_SEPARATOR_COLUMN_MATCH, true)
-            .set(EmojiExtension.USE_SHORTCUT_TYPE, EmojiShortcutType.EMOJI_CHEAT_SHEET)
-            .set(EmojiExtension.USE_IMAGE_TYPE, EmojiImageType.UNICODE_ONLY)
-            .set(HtmlRenderer.SOFT_BREAK, "<br />\n")
-            .set(FootnoteExtension.FOOTNOTE_BACK_REF_STRING, "↩︎");
+            new MutableDataSet().set(Parser.EXTENSIONS, Arrays.asList(AttributesExtension.create(),
+                    AutolinkExtension.create(),
+                    EmojiExtension.create(),
+                    EscapedCharacterExtension.create(),
+                    StrikethroughExtension.create(),
+                    TaskListExtension.create(),
+                    InsExtension.create(),
+                    MediaTagsExtension.create(),
+                    TablesExtension.create(),
+                    TocExtension.create(),
+                    SuperscriptExtension.create(),
+                    YamlFrontMatterExtension.create(),
+                    FootnoteExtension.create(),
+                    GitLabExtension.create()))
+                    .set(TocExtension.LEVELS, 255)
+                    .set(TablesExtension.WITH_CAPTION, false)
+                    .set(TablesExtension.COLUMN_SPANS, false)
+                    .set(TablesExtension.MIN_SEPARATOR_DASHES, 1)
+                    .set(TablesExtension.MIN_HEADER_ROWS, 1)
+                    .set(TablesExtension.MAX_HEADER_ROWS, 1)
+                    .set(TablesExtension.APPEND_MISSING_COLUMNS, true)
+                    .set(TablesExtension.DISCARD_EXTRA_COLUMNS, true)
+                    .set(TablesExtension.HEADER_SEPARATOR_COLUMN_MATCH, true)
+                    .set(EmojiExtension.USE_SHORTCUT_TYPE, EmojiShortcutType.EMOJI_CHEAT_SHEET)
+                    .set(EmojiExtension.USE_IMAGE_TYPE, EmojiImageType.UNICODE_ONLY)
+                    .set(HtmlRenderer.SOFT_BREAK, "<br />\n")
+                    .set(FootnoteExtension.FOOTNOTE_BACK_REF_STRING, "↩︎");
 
     private static final Parser PARSER = Parser.builder(OPTIONS).build();
 
@@ -97,19 +98,19 @@ public class MarkdownUtils {
         // Render netease music short url.
         if (markdown.contains(HaloConst.NETEASE_MUSIC_PREFIX)) {
             markdown = markdown
-                .replaceAll(HaloConst.NETEASE_MUSIC_REG_PATTERN, HaloConst.NETEASE_MUSIC_IFRAME);
+                    .replaceAll(HaloConst.NETEASE_MUSIC_REG_PATTERN, HaloConst.NETEASE_MUSIC_IFRAME);
         }
 
         // Render bilibili video short url.
         if (markdown.contains(HaloConst.BILIBILI_VIDEO_PREFIX)) {
             markdown = markdown
-                .replaceAll(HaloConst.BILIBILI_VIDEO_REG_PATTERN, HaloConst.BILIBILI_VIDEO_IFRAME);
+                    .replaceAll(HaloConst.BILIBILI_VIDEO_REG_PATTERN, HaloConst.BILIBILI_VIDEO_IFRAME);
         }
 
         // Render youtube video short url.
         if (markdown.contains(HaloConst.YOUTUBE_VIDEO_PREFIX)) {
             markdown = markdown
-                .replaceAll(HaloConst.YOUTUBE_VIDEO_REG_PATTERN, HaloConst.YOUTUBE_VIDEO_IFRAME);
+                    .replaceAll(HaloConst.YOUTUBE_VIDEO_REG_PATTERN, HaloConst.YOUTUBE_VIDEO_IFRAME);
         }
 
         Node document = PARSER.parse(markdown);

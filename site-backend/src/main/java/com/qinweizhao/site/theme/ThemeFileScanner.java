@@ -1,6 +1,9 @@
 package com.qinweizhao.site.theme;
 
-import static com.qinweizhao.site.service.ThemeService.CAN_EDIT_SUFFIX;
+import com.qinweizhao.site.exception.ServiceException;
+import com.qinweizhao.site.model.support.ThemeFile;
+import org.springframework.lang.NonNull;
+import org.springframework.util.Assert;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -10,10 +13,8 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Stream;
-import org.springframework.lang.NonNull;
-import org.springframework.util.Assert;
-import com.qinweizhao.site.exception.ServiceException;
-import com.qinweizhao.site.model.support.ThemeFile;
+
+import static com.qinweizhao.site.service.ThemeService.CAN_EDIT_SUFFIX;
 
 /**
  * Theme file scanner.

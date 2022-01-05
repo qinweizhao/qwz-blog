@@ -5,6 +5,7 @@ import com.qinweizhao.site.model.properties.EmailProperties;
 import com.qinweizhao.site.service.OptionService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.boot.autoconfigure.mail.MailProperties;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 import org.springframework.mail.javamail.JavaMailSender;

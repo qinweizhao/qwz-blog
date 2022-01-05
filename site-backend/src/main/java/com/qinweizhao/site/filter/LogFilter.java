@@ -1,16 +1,17 @@
 package com.qinweizhao.site.filter;
 
-import java.io.IOException;
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import com.qinweizhao.site.utils.ServletUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
-import com.qinweizhao.site.utils.ServletUtils;
+
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 /**
  * Filter for logging.
@@ -24,14 +25,14 @@ public class LogFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
-        FilterChain filterChain) throws ServletException, IOException {
+                                    FilterChain filterChain) throws ServletException, IOException {
 
         final String remoteAddr = ServletUtils.getClientIP(request);
 
         log.debug("Starting url: [{}], method: [{}], ip: [{}]",
-            request.getRequestURL(),
-            request.getMethod(),
-            remoteAddr);
+                request.getRequestURL(),
+                request.getMethod(),
+                remoteAddr);
 
         // Set start time
         final long startTime = System.currentTimeMillis();
@@ -40,10 +41,10 @@ public class LogFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
 
         log.debug("Ending   url: [{}], method: [{}], ip: [{}], status: [{}], usage: [{}] ms",
-            request.getRequestURL(),
-            request.getMethod(),
-            remoteAddr,
-            response.getStatus(),
-            System.currentTimeMillis() - startTime);
+                request.getRequestURL(),
+                request.getMethod(),
+                remoteAddr,
+                response.getStatus(),
+                System.currentTimeMillis() - startTime);
     }
 }

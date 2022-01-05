@@ -1,12 +1,5 @@
 package com.qinweizhao.site.utils;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.tuple.Pair;
 import org.eclipse.jgit.api.Git;
@@ -22,6 +15,9 @@ import org.eclipse.jgit.treewalk.filter.TreeFilter;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 import org.springframework.util.CollectionUtils;
+
+import java.io.IOException;
+import java.util.*;
 
 /**
  * Git utilities.
@@ -39,9 +35,9 @@ public class GitUtils {
         List<String> branches = new ArrayList<>();
         try {
             Collection<Ref> refs = Git.lsRemoteRepository()
-                .setHeads(true)
-                .setRemote(repoUrl)
-                .call();
+                    .setHeads(true)
+                    .setRemote(repoUrl)
+                    .call();
             for (Ref ref : refs) {
                 branches.add(ref.getName().substring(ref.getName().lastIndexOf("/") + 1));
             }
@@ -57,7 +53,7 @@ public class GitUtils {
 
     @Nullable
     public static Pair<Ref, RevCommit> getLatestTag(final Git git)
-        throws GitAPIException, IOException {
+            throws GitAPIException, IOException {
         final var tags = git.tagList().call();
         if (CollectionUtils.isEmpty(tags)) {
             return null;
@@ -75,30 +71,30 @@ public class GitUtils {
                 commitTagMap.put(commit, tag);
                 if (log.isDebugEnabled()) {
                     log.debug("tag: {} with commit: {} {}", tag.getName(),
-                        commit.getFullMessage(), new Date(commit.getCommitTime() * 1000L));
+                            commit.getFullMessage(), new Date(commit.getCommitTime() * 1000L));
                 }
             }
 
             return commitTagMap.keySet()
-                .stream()
-                .max(Comparator.comparing(RevCommit::getCommitTime))
-                .map(latestCommit -> Pair.of(commitTagMap.get(latestCommit), latestCommit))
-                .orElse(null);
+                    .stream()
+                    .max(Comparator.comparing(RevCommit::getCommitTime))
+                    .map(latestCommit -> Pair.of(commitTagMap.get(latestCommit), latestCommit))
+                    .orElse(null);
         }
     }
 
     public static void removeRemoteIfExists(final Git git, String remote) throws GitAPIException {
         final var remoteExists = git.remoteList()
-            .call()
-            .stream().map(RemoteConfig::getName)
-            .anyMatch(name -> name.equals(remote));
+                .call()
+                .stream().map(RemoteConfig::getName)
+                .anyMatch(name -> name.equals(remote));
         if (remoteExists) {
             // remove newRepo remote
             final var removedRemoteConfig = git.remoteRemove()
-                .setRemoteName(remote)
-                .call();
+                    .setRemoteName(remote)
+                    .call();
             log.info("git remote remove {} {}", removedRemoteConfig.getName(),
-                removedRemoteConfig.getURIs());
+                    removedRemoteConfig.getURIs());
         }
     }
 
@@ -107,9 +103,9 @@ public class GitUtils {
             return;
         }
         log.info("Commit result: {} {} {}",
-            commit.getName(),
-            commit.getFullMessage(),
-            new Date(commit.getCommitTime() * 1000L));
+                commit.getName(),
+                commit.getFullMessage(),
+                new Date(commit.getCommitTime() * 1000L));
     }
 
     public static void commitAutomatically(final Git git) throws GitAPIException, IOException {
@@ -128,10 +124,10 @@ public class GitUtils {
         log.info("git add .");
         // git commit -m "Committed by halo automatically."
         final var commit = git.commit()
-            .setSign(false)
-            .setAuthor("halo", "hi@halo.run")
-            .setMessage("Committed by halo automatically.")
-            .call();
+                .setSign(false)
+                .setAuthor("halo", "hi@halo.run")
+                .setMessage("Committed by halo automatically.")
+                .call();
         log.info("git commit -m \"Committed by halo automatically.\"");
         logCommit(commit);
     }

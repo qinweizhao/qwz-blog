@@ -1,5 +1,6 @@
 package com.qinweizhao.site.utils.footnotes;
 
+import com.qinweizhao.site.utils.footnotes.internal.*;
 import com.vladsch.flexmark.formatter.Formatter;
 import com.vladsch.flexmark.html.HtmlRenderer;
 import com.vladsch.flexmark.parser.Parser;
@@ -10,11 +11,6 @@ import com.vladsch.flexmark.util.data.MutableDataHolder;
 import com.vladsch.flexmark.util.format.options.ElementPlacement;
 import com.vladsch.flexmark.util.format.options.ElementPlacementSort;
 import org.springframework.lang.NonNull;
-import com.qinweizhao.site.utils.footnotes.internal.FootnoteBlockParser;
-import com.qinweizhao.site.utils.footnotes.internal.FootnoteLinkRefProcessor;
-import com.qinweizhao.site.utils.footnotes.internal.FootnoteNodeFormatter;
-import com.qinweizhao.site.utils.footnotes.internal.FootnoteNodeRenderer;
-import com.qinweizhao.site.utils.footnotes.internal.FootnoteRepository;
 
 /**
  * Extension for footnotes
@@ -25,30 +21,30 @@ import com.qinweizhao.site.utils.footnotes.internal.FootnoteRepository;
  * footnote definitions are turned into {@link FootnoteBlock} nodes.
  */
 public class FootnoteExtension
-    implements Parser.ParserExtension, HtmlRenderer.HtmlRendererExtension,
-    Parser.ReferenceHoldingExtension, Formatter.FormatterExtension {
+        implements Parser.ParserExtension, HtmlRenderer.HtmlRendererExtension,
+        Parser.ReferenceHoldingExtension, Formatter.FormatterExtension {
 
     public static final DataKey<KeepType> FOOTNOTES_KEEP =
-        new DataKey<>("FOOTNOTES_KEEP", KeepType.FIRST);
+            new DataKey<>("FOOTNOTES_KEEP", KeepType.FIRST);
 
     public static final DataKey<FootnoteRepository> FOOTNOTES =
-        new DataKey<>("FOOTNOTES", new FootnoteRepository(null), FootnoteRepository::new);
+            new DataKey<>("FOOTNOTES", new FootnoteRepository(null), FootnoteRepository::new);
     public static final DataKey<String> FOOTNOTE_REF_PREFIX =
-        new DataKey<>("FOOTNOTE_REF_PREFIX", "");
+            new DataKey<>("FOOTNOTE_REF_PREFIX", "");
     public static final DataKey<String> FOOTNOTE_REF_SUFFIX =
-        new DataKey<>("FOOTNOTE_REF_SUFFIX", "");
+            new DataKey<>("FOOTNOTE_REF_SUFFIX", "");
     public static final DataKey<String> FOOTNOTE_BACK_REF_STRING =
-        new DataKey<>("FOOTNOTE_BACK_REF_STRING", "&#8617;");
+            new DataKey<>("FOOTNOTE_BACK_REF_STRING", "&#8617;");
     public static final DataKey<String> FOOTNOTE_LINK_REF_CLASS =
-        new DataKey<>("FOOTNOTE_LINK_REF_CLASS", "footnote-ref");
+            new DataKey<>("FOOTNOTE_LINK_REF_CLASS", "footnote-ref");
     public static final DataKey<String> FOOTNOTE_BACK_LINK_REF_CLASS =
-        new DataKey<>("FOOTNOTE_BACK_LINK_REF_CLASS", "footnote-backref");
+            new DataKey<>("FOOTNOTE_BACK_LINK_REF_CLASS", "footnote-backref");
 
     // formatter options
     public static final DataKey<ElementPlacement> FOOTNOTE_PLACEMENT =
-        new DataKey<>("FOOTNOTE_PLACEMENT", ElementPlacement.AS_IS);
+            new DataKey<>("FOOTNOTE_PLACEMENT", ElementPlacement.AS_IS);
     public static final DataKey<ElementPlacementSort> FOOTNOTE_SORT =
-        new DataKey<>("FOOTNOTE_SORT", ElementPlacementSort.AS_IS);
+            new DataKey<>("FOOTNOTE_SORT", ElementPlacementSort.AS_IS);
 
     private FootnoteExtension() {
     }
@@ -64,7 +60,7 @@ public class FootnoteExtension
 
     @Override
     public void extend(@NonNull HtmlRenderer.Builder htmlRendererBuilder,
-        @NonNull String rendererType) {
+                       @NonNull String rendererType) {
         if (htmlRendererBuilder.isRendererType("HTML")) {
             htmlRendererBuilder.nodeRendererFactory(new FootnoteNodeRenderer.Factory());
         }
@@ -90,7 +86,7 @@ public class FootnoteExtension
     public boolean transferReferences(MutableDataHolder document, DataHolder included) {
         if (document.contains(FOOTNOTES) && included.contains(FOOTNOTES)) {
             return Parser.transferReferences(FOOTNOTES.get(document), FOOTNOTES.get(included),
-                FOOTNOTES_KEEP.get(document) == KeepType.FIRST);
+                    FOOTNOTES_KEEP.get(document) == KeepType.FIRST);
         }
         return false;
     }

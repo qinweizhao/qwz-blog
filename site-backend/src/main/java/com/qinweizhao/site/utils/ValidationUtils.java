@@ -1,23 +1,15 @@
 package com.qinweizhao.site.utils;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.regex.Pattern;
-import javax.validation.ConstraintViolation;
-import javax.validation.ConstraintViolationException;
-import javax.validation.Path;
-import javax.validation.Validation;
-import javax.validation.Validator;
 import org.hibernate.validator.internal.engine.path.PathImpl;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 import org.springframework.util.CollectionUtils;
 import org.springframework.validation.FieldError;
+
+import javax.validation.*;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.regex.Pattern;
 
 /**
  * Object validation utilities.
@@ -28,13 +20,13 @@ import org.springframework.validation.FieldError;
 public class ValidationUtils {
 
     public static final Pattern EMAIL = Pattern.compile(
-        "(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:"
-            + "[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09"
-            + "\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9]"
-            + "(?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}"
-            + "(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b"
-            + "\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)])",
-        Pattern.CASE_INSENSITIVE);
+            "(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:"
+                    + "[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09"
+                    + "\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9]"
+                    + "(?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}"
+                    + "(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b"
+                    + "\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)])",
+            Pattern.CASE_INSENSITIVE);
 
     private static volatile Validator VALIDATOR;
 
@@ -63,7 +55,7 @@ public class ValidationUtils {
     /**
      * Validates bean by hand.
      *
-     * @param obj bean to be validated
+     * @param obj    bean to be validated
      * @param groups validation group
      * @throws ConstraintViolationException throw if validation failure
      */
@@ -88,7 +80,7 @@ public class ValidationUtils {
     /**
      * Validates iterable objects.
      *
-     * @param objs iterable objects could be null
+     * @param objs   iterable objects could be null
      * @param groups validation groups
      */
     public static void validate(@Nullable Iterable<?> objs, @Nullable Class<?>... groups) {
@@ -127,7 +119,7 @@ public class ValidationUtils {
      */
     @NonNull
     public static Map<String, String> mapWithValidError(
-        Set<ConstraintViolation<?>> constraintViolations) {
+            Set<ConstraintViolation<?>> constraintViolations) {
         if (CollectionUtils.isEmpty(constraintViolations)) {
             return Collections.emptyMap();
         }
@@ -135,8 +127,8 @@ public class ValidationUtils {
         Map<String, String> errMap = new HashMap<>(4);
         // Format the error message
         constraintViolations.forEach(constraintViolation ->
-            errMap.put(constraintViolation.getPropertyPath().toString(),
-                constraintViolation.getMessage()));
+                errMap.put(constraintViolation.getPropertyPath().toString(),
+                        constraintViolation.getMessage()));
         return errMap;
     }
 
@@ -153,7 +145,7 @@ public class ValidationUtils {
 
         Map<String, String> errMap = new HashMap<>(4);
         fieldErrors.forEach(
-            filedError -> errMap.put(filedError.getField(), filedError.getDefaultMessage()));
+                filedError -> errMap.put(filedError.getField(), filedError.getDefaultMessage()));
         return errMap;
     }
 

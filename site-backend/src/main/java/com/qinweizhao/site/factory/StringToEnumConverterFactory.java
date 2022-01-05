@@ -19,7 +19,7 @@ public class StringToEnumConverterFactory implements ConverterFactory<String, En
     }
 
     private static class StringToEnumConverter<T extends Enum<T>>
-        implements Converter<String, T> {
+            implements Converter<String, T> {
 
         private final Class<T> enumType;
 

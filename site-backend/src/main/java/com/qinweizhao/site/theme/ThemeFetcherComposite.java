@@ -1,11 +1,12 @@
 package com.qinweizhao.site.theme;
 
+import com.qinweizhao.site.handler.theme.config.support.ThemeProperty;
+import org.springframework.lang.NonNull;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-import org.springframework.lang.NonNull;
-import com.qinweizhao.site.handler.theme.config.support.ThemeProperty;
 
 /**
  * Theme fetcher composite.

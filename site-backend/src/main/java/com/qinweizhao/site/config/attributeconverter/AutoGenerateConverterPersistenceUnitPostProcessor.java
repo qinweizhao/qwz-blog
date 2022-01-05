@@ -1,17 +1,17 @@
 package com.qinweizhao.site.config.attributeconverter;
 
-import static java.util.stream.Collectors.toUnmodifiableSet;
-
-import java.util.Set;
-
+import com.qinweizhao.site.model.enums.ValueEnum;
+import com.qinweizhao.site.model.properties.PropertyEnum;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider;
 import org.springframework.core.type.filter.AssignableTypeFilter;
 import org.springframework.orm.jpa.persistenceunit.MutablePersistenceUnitInfo;
 import org.springframework.orm.jpa.persistenceunit.PersistenceUnitPostProcessor;
 import org.springframework.util.ClassUtils;
-import com.qinweizhao.site.model.enums.ValueEnum;
-import com.qinweizhao.site.model.properties.PropertyEnum;
+
+import java.util.Set;
+
+import static java.util.stream.Collectors.toUnmodifiableSet;
 
 /**
  * Attribute converter persistence unit post processor.
@@ -25,7 +25,7 @@ class AutoGenerateConverterPersistenceUnitPostProcessor implements PersistenceUn
     private final ConfigurableListableBeanFactory factory;
 
     public AutoGenerateConverterPersistenceUnitPostProcessor(
-        ConfigurableListableBeanFactory factory) {
+            ConfigurableListableBeanFactory factory) {
         this.factory = factory;
     }
 
@@ -34,10 +34,10 @@ class AutoGenerateConverterPersistenceUnitPostProcessor implements PersistenceUn
         var generator = new AttributeConverterAutoGenerator(factory.getBeanClassLoader());
 
         findValueEnumClasses()
-            .stream()
-            .map(generator::generate)
-            .map(Class::getName)
-            .forEach(pui::addManagedClassName);
+                .stream()
+                .map(generator::generate)
+                .map(Class::getName)
+                .forEach(pui::addManagedClassName);
     }
 
     private Set<Class<?>> findValueEnumClasses() {
@@ -48,9 +48,9 @@ class AutoGenerateConverterPersistenceUnitPostProcessor implements PersistenceUn
         scanner.addExcludeFilter(new AssignableTypeFilter(PropertyEnum.class));
 
         return scanner.findCandidateComponents(PACKAGE_TO_SCAN)
-            .stream()
-            .filter(bd -> bd.getBeanClassName() != null)
-            .map(bd -> ClassUtils.resolveClassName(bd.getBeanClassName(), null))
-            .collect(toUnmodifiableSet());
+                .stream()
+                .filter(bd -> bd.getBeanClassName() != null)
+                .map(bd -> ClassUtils.resolveClassName(bd.getBeanClassName(), null))
+                .collect(toUnmodifiableSet());
     }
 }

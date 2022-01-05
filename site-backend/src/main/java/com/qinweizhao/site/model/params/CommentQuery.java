@@ -1,7 +1,7 @@
 package com.qinweizhao.site.model.params;
 
-import lombok.Data;
 import com.qinweizhao.site.model.enums.CommentStatus;
+import lombok.Data;
 
 /**
  * Comment query params.

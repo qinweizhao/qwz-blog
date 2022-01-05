@@ -1,7 +1,8 @@
 package com.qinweizhao.site.model.params;
 
-import javax.validation.constraints.NotBlank;
 import lombok.Data;
+
+import javax.validation.constraints.NotBlank;
 
 /**
  * Reset password params.

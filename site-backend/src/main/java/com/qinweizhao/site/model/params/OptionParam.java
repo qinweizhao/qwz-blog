@@ -1,11 +1,12 @@
 package com.qinweizhao.site.model.params;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
-import lombok.Data;
 import com.qinweizhao.site.model.dto.base.InputConverter;
 import com.qinweizhao.site.model.entity.Option;
 import com.qinweizhao.site.model.enums.OptionType;
+import lombok.Data;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 /**
  * Optional param.
