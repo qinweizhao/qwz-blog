@@ -242,17 +242,17 @@
             <artifactId>thumbnailator</artifactId>
             <version>0.4.13</version>
         </dependency>
-        <dependency>
-            <groupId>net.sf.image4j</groupId>
-            <artifactId>image4j</artifactId>
-            <version>0.7zensight1</version>
-        </dependency>
-        <dependency>
-            <groupId>org.flywaydb</groupId>
-            <artifactId>flyway-core</artifactId>
-            <version>7.5.1</version>
+<!--        <dependency>-->
+<!--            <groupId>net.sf.image4j</groupId>-->
+<!--            <artifactId>image4j</artifactId>-->
+<!--            <version>0.7zensight1</version>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>org.flywaydb</groupId>-->
+<!--            <artifactId>flyway-core</artifactId>-->
+<!--            <version>7.5.1</version>-->
 
-        </dependency>
+<!--        </dependency>-->
         <dependency>
             <groupId>com.google.zxing</groupId>
             <artifactId>core</artifactId>

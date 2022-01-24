@@ -1,23 +1,14 @@
 package com.qinweizhao.site.listener;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.net.URI;
-import java.nio.file.FileSystem;
-import java.nio.file.FileSystemNotFoundException;
-import java.nio.file.FileSystems;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.sql.Connection;
-import java.sql.DatabaseMetaData;
-import java.sql.SQLException;
-import java.util.Collections;
+import com.qinweizhao.site.config.properties.HaloProperties;
+import com.qinweizhao.site.model.properties.PrimaryProperties;
+import com.qinweizhao.site.model.support.HaloConst;
+import com.qinweizhao.site.service.OptionService;
+import com.qinweizhao.site.service.ThemeService;
+import com.qinweizhao.site.utils.FileUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.SystemUtils;
 import org.eclipse.jgit.storage.file.WindowCacheConfig;
-import org.flywaydb.core.Flyway;
-import org.flywaydb.core.internal.jdbc.JdbcUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ansi.AnsiColor;
@@ -30,12 +21,13 @@ import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 import org.springframework.util.ResourceUtils;
-import com.qinweizhao.site.config.properties.HaloProperties;
-import com.qinweizhao.site.model.properties.PrimaryProperties;
-import com.qinweizhao.site.model.support.HaloConst;
-import com.qinweizhao.site.service.OptionService;
-import com.qinweizhao.site.service.ThemeService;
-import com.qinweizhao.site.utils.FileUtils;
+
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.net.URI;
+import java.nio.file.*;
+import java.sql.SQLException;
+import java.util.Collections;
 
 /**
  * The method executed after the application is started.
@@ -111,30 +103,30 @@ public class StartedListener implements ApplicationListener<ApplicationStartedEv
      */
     private void migrate() throws SQLException {
         log.info("Starting migrate database...");
-
-        Flyway flyway = Flyway
-            .configure()
-            .locations("classpath:/migration")
-            .baselineVersion("1")
-            .baselineOnMigrate(true)
-            .dataSource(url, username, password)
-            .load();
-        flyway.repair();
-        flyway.migrate();
-
-        // Gets database connection
-        Connection connection = flyway.getConfiguration().getDataSource().getConnection();
-
-        // Gets database metadata
-        DatabaseMetaData databaseMetaData = JdbcUtils.getDatabaseMetaData(connection);
-
-        // Gets database product name
-        HaloConst.DATABASE_PRODUCT_NAME = databaseMetaData.getDatabaseProductName() + " "
-            + databaseMetaData.getDatabaseProductVersion();
-
-        // Close connection.
-        connection.close();
-
+        // TODO 移除 flywaydb core
+//        Flyway flyway = Flyway
+//            .configure()
+//            .locations("classpath:/migration")
+//            .baselineVersion("1")
+//            .baselineOnMigrate(true)
+//            .dataSource(url, username, password)
+//            .load();
+//        flyway.repair();
+//        flyway.migrate();
+//
+//        // Gets database connection
+//        Connection connection = flyway.getConfiguration().getDataSource().getConnection();
+//
+//        // Gets database metadata
+//        DatabaseMetaData databaseMetaData = JdbcUtils.getDatabaseMetaData(connection);
+//
+//        // Gets database product name
+//        HaloConst.DATABASE_PRODUCT_NAME = databaseMetaData.getDatabaseProductName() + " "
+//            + databaseMetaData.getDatabaseProductVersion();
+//
+//        // Close connection.
+//        connection.close();
+        System.out.println("zhixing");
         log.info("Migrate database succeed.");
     }
 

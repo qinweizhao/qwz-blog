@@ -1,8 +1,6 @@
 package com.qinweizhao.site.utils;
 
-import com.qinweizhao.site.exception.ImageFormatException;
 import lombok.extern.slf4j.Slf4j;
-import net.sf.image4j.codec.ico.ICODecoder;
 import org.springframework.lang.NonNull;
 
 import javax.imageio.ImageIO;
@@ -26,15 +24,15 @@ public class ImageUtils {
             throws IOException {
         log.debug("Current File type is : [{}]", extension);
 
-        if (EXTENSION_ICO.equals(extension)) {
-            try {
-                return ICODecoder.read(is).get(0);
-            } catch (IOException e) {
-                throw new ImageFormatException("ico 文件已损坏", e);
-            }
-        } else {
-            return ImageIO.read(is);
-        }
+//        if (EXTENSION_ICO.equals(extension)) {
+//            try {
+//                return ICODecoder.read(is).get(0);
+//            } catch (IOException e) {
+//                throw new ImageFormatException("ico 文件已损坏", e);
+//            }
+//        } else {
+        return ImageIO.read(is);
+//        }
     }
 
     @NonNull

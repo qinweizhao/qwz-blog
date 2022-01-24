@@ -78,12 +78,14 @@ public interface FileHandler {
             // Handle image
             try (InputStream is = file.getInputStream()) {
                 String extension = uploadResult.getSuffix();
+                // 解决上传附件时选择ico文件会失败的问题
                 if (ImageUtils.EXTENSION_ICO.equals(extension)) {
                     BufferedImage icoImage =
                             ImageUtils.getImageFromFile(is, extension);
                     uploadResult.setWidth(icoImage.getWidth());
                     uploadResult.setHeight(icoImage.getHeight());
-                } else {
+                }
+                else {
                     ImageReader image =
                             ImageUtils.getImageReaderFromFile(is, extension);
                     uploadResult.setWidth(image.getWidth(0));
