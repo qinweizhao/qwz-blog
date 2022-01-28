@@ -1,10 +1,20 @@
 package com.qinweizhao.site.repository;
 
-import static com.qinweizhao.site.model.properties.PrimaryProperties.THEME;
-import static com.qinweizhao.site.model.support.HaloConst.DEFAULT_THEME_ID;
-import static com.qinweizhao.site.utils.FileUtils.copyFolder;
-import static com.qinweizhao.site.utils.FileUtils.deleteFolderQuietly;
-import static com.qinweizhao.site.utils.VersionUtil.compareVersion;
+import com.qinweizhao.site.config.properties.HaloProperties;
+import com.qinweizhao.site.event.options.OptionUpdatedEvent;
+import com.qinweizhao.site.exception.*;
+import com.qinweizhao.site.handler.theme.config.support.ThemeProperty;
+import com.qinweizhao.site.model.entity.Option;
+import com.qinweizhao.site.model.support.HaloConst;
+import com.qinweizhao.site.theme.ThemePropertyScanner;
+import com.qinweizhao.site.utils.FileUtils;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.context.ApplicationListener;
+import org.springframework.lang.NonNull;
+import org.springframework.stereotype.Repository;
+import org.springframework.util.Assert;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -13,25 +23,12 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicBoolean;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.context.ApplicationListener;
-import org.springframework.lang.NonNull;
-import org.springframework.stereotype.Repository;
-import org.springframework.util.Assert;
-import com.qinweizhao.site.config.properties.HaloProperties;
-import com.qinweizhao.site.event.options.OptionUpdatedEvent;
-import com.qinweizhao.site.exception.AlreadyExistsException;
-import com.qinweizhao.site.exception.NotFoundException;
-import com.qinweizhao.site.exception.ServiceException;
-import com.qinweizhao.site.exception.ThemeNotFoundException;
-import com.qinweizhao.site.exception.ThemeNotSupportException;
-import com.qinweizhao.site.handler.theme.config.support.ThemeProperty;
-import com.qinweizhao.site.model.entity.Option;
-import com.qinweizhao.site.model.support.HaloConst;
-import com.qinweizhao.site.theme.ThemePropertyScanner;
-import com.qinweizhao.site.utils.FileUtils;
+
+import static com.qinweizhao.site.model.properties.PrimaryProperties.THEME;
+import static com.qinweizhao.site.model.support.HaloConst.DEFAULT_THEME_ID;
+import static com.qinweizhao.site.utils.FileUtils.copyFolder;
+import static com.qinweizhao.site.utils.FileUtils.deleteFolderQuietly;
+import static com.qinweizhao.site.utils.VersionUtil.compareVersion;
 
 /**
  * Theme repository implementation.
@@ -41,7 +38,7 @@ import com.qinweizhao.site.utils.FileUtils;
 @Repository
 @Slf4j
 public class ThemeRepositoryImpl
-    implements ThemeRepository, ApplicationListener<OptionUpdatedEvent> {
+        implements ThemeRepository, ApplicationListener<OptionUpdatedEvent> {
 
     private final OptionRepository optionRepository;
 
@@ -52,8 +49,8 @@ public class ThemeRepositoryImpl
     private volatile ThemeProperty currentTheme;
 
     public ThemeRepositoryImpl(OptionRepository optionRepository,
-        HaloProperties properties,
-        ApplicationEventPublisher eventPublisher) {
+                               HaloProperties properties,
+                               ApplicationEventPublisher eventPublisher) {
         this.optionRepository = optionRepository;
         this.properties = properties;
         this.eventPublisher = eventPublisher;
@@ -61,7 +58,9 @@ public class ThemeRepositoryImpl
 
     @Override
     public String getActivatedThemeId() {
-        return getActivatedThemeProperty().getId();
+        return this.optionRepository.findByKey(THEME.getValue())
+                .map(Option::getValue)
+                .orElse(DEFAULT_THEME_ID);
     }
 
     @Override
@@ -72,20 +71,18 @@ public class ThemeRepositoryImpl
             synchronized (this) {
                 if (this.currentTheme == null) {
                     // get current theme id
-                    String currentThemeId = this.optionRepository.findByKey(THEME.getValue())
-                        .map(Option::getValue)
-                        .orElse(DEFAULT_THEME_ID);
+                    String currentThemeId = getActivatedThemeId();
 
                     // fetch current theme
                     this.currentTheme =
-                        this.fetchThemeByThemeId(currentThemeId).orElseGet(() -> {
-                            if (!StringUtils.equalsIgnoreCase(currentThemeId, DEFAULT_THEME_ID)) {
-                                fallbackTheme.set(true);
-                                return this.getThemeByThemeId(DEFAULT_THEME_ID);
-                            }
-                            throw new ThemeNotFoundException(
-                                "Default theme: " + DEFAULT_THEME_ID + " was not found!");
-                        });
+                            this.fetchThemePropertyByThemeId(currentThemeId).orElseGet(() -> {
+                                if (!StringUtils.equalsIgnoreCase(currentThemeId, DEFAULT_THEME_ID)) {
+                                    fallbackTheme.set(true);
+                                    return this.getThemeByThemeId(DEFAULT_THEME_ID);
+                                }
+                                throw new ThemeNotFoundException(
+                                        "Default theme: " + DEFAULT_THEME_ID + " was not found!");
+                            });
                 }
             }
             if (fallbackTheme.get()) {
@@ -98,10 +95,10 @@ public class ThemeRepositoryImpl
 
     @Override
     public Optional<ThemeProperty> fetchThemePropertyByThemeId(String themeId) {
-        return ThemePropertyScanner.INSTANCE.scan(getThemeRootPath(), null)
-            .stream()
-            .filter(property -> Objects.equals(themeId, property.getId()))
-            .findFirst();
+        return listAll()
+                .stream()
+                .filter(property -> Objects.equals(themeId, property.getId()))
+                .findFirst();
     }
 
     @Override
@@ -113,12 +110,12 @@ public class ThemeRepositoryImpl
     public void setActivatedTheme(@NonNull String themeId) {
         Assert.hasText(themeId, "Theme id must not be blank");
         final var newThemeOption = optionRepository.findByKey(THEME.getValue())
-            .map(themeOption -> {
-                // set theme id
-                themeOption.setValue(themeId);
-                return themeOption;
-            })
-            .orElseGet(() -> new Option(THEME.getValue(), themeId));
+                .map(themeOption -> {
+                    // set theme id
+                    themeOption.setValue(themeId);
+                    return themeOption;
+                })
+                .orElseGet(() -> new Option(THEME.getValue(), themeId));
         optionRepository.save(newThemeOption);
 
         eventPublisher.publishEvent(new OptionUpdatedEvent(this));
@@ -127,7 +124,7 @@ public class ThemeRepositoryImpl
     @Override
     public ThemeProperty attemptToAdd(ThemeProperty newProperty) {
         // 1. check existence
-        final var alreadyExist = fetchThemeByThemeId(newProperty.getId()).isPresent();
+        final var alreadyExist = fetchThemePropertyByThemeId(newProperty.getId()).isPresent();
         if (alreadyExist) {
             throw new AlreadyExistsException("当前安装的主题已存在");
         }
@@ -136,21 +133,21 @@ public class ThemeRepositoryImpl
         // Not support current halo version.
         if (checkThemePropertyCompatibility(newProperty)) {
             throw new ThemeNotSupportException(
-                "当前主题仅支持 Halo " + newProperty.getRequire() + " 及以上的版本");
+                    "当前主题仅支持 Halo " + newProperty.getRequire() + " 及以上的版本");
         }
 
         // 3. move the temp folder into templates/themes/{theme_id}
         final var sourceThemePath = Paths.get(newProperty.getThemePath());
         final var targetThemePath =
-            getThemeRootPath().resolve(newProperty.getId());
+                getThemeRootPath().resolve(newProperty.getId());
 
         // 4. clear target theme folder firstly
         deleteFolderQuietly(targetThemePath);
 
         log.info("Copying new theme({}) from {} to {}",
-            newProperty.getId(),
-            sourceThemePath,
-            targetThemePath);
+                newProperty.getId(),
+                sourceThemePath,
+                targetThemePath);
 
         try {
             copyFolder(sourceThemePath, targetThemePath);
@@ -170,7 +167,7 @@ public class ThemeRepositoryImpl
     @Override
     public void deleteTheme(String themeId) {
         final var themeProperty = fetchThemePropertyByThemeId(themeId)
-            .orElseThrow(() -> new NotFoundException("主题 ID 为 " + themeId + " 不存在或已删除！"));
+                .orElseThrow(() -> new NotFoundException("主题 ID 为 " + themeId + " 不存在或已删除！"));
         deleteTheme(themeProperty);
     }
 
@@ -189,7 +186,7 @@ public class ThemeRepositoryImpl
         // check version compatibility
         // Not support current halo version.
         return StringUtils.isNotEmpty(themeProperty.getRequire())
-            && !compareVersion(HaloConst.HALO_VERSION, themeProperty.getRequire());
+                && !compareVersion(HaloConst.HALO_VERSION, themeProperty.getRequire());
     }
 
     private Path getThemeRootPath() {
@@ -206,15 +203,8 @@ public class ThemeRepositoryImpl
 
     @NonNull
     protected ThemeProperty getThemeByThemeId(String themeId) {
-        return fetchThemeByThemeId(themeId).orElseThrow(
-            () -> new ThemeNotFoundException("Failed to find theme with id: " + themeId));
+        return fetchThemePropertyByThemeId(themeId).orElseThrow(
+                () -> new ThemeNotFoundException("Failed to find theme with id: " + themeId));
     }
 
-    @NonNull
-    protected Optional<ThemeProperty> fetchThemeByThemeId(String themeId) {
-        return ThemePropertyScanner.INSTANCE.scan(getThemeRootPath(), null)
-            .stream()
-            .filter(property -> Objects.equals(themeId, property.getId()))
-            .findFirst();
-    }
 }
