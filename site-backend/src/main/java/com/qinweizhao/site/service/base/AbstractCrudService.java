@@ -1,11 +1,5 @@
 package com.qinweizhao.site.service.base;
 
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,11 +9,18 @@ import org.springframework.util.CollectionUtils;
 import com.qinweizhao.site.exception.NotFoundException;
 import com.qinweizhao.site.repository.base.BaseRepository;
 
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
+
 /**
  * Abstract service implementation.
  *
  * @param <DOMAIN> domain type
- * @param <ID> id type
+ * @param <ID>     id type
  * @author johnniang
  */
 @Slf4j
@@ -47,8 +48,7 @@ public abstract class AbstractCrudService<DOMAIN, ID> implements CrudService<DOM
     private Type fetchType(int index) {
         Assert.isTrue(index >= 0 && index <= 1, "type index must be between 0 to 1");
 
-        return ((ParameterizedType) this.getClass().getGenericSuperclass())
-            .getActualTypeArguments()[index];
+        return ((ParameterizedType) this.getClass().getGenericSuperclass()).getActualTypeArguments()[index];
     }
 
     /**
@@ -101,7 +101,7 @@ public abstract class AbstractCrudService<DOMAIN, ID> implements CrudService<DOM
     /**
      * List all by ids and sort
      *
-     * @param ids ids
+     * @param ids  ids
      * @param sort sort
      * @return List
      */
@@ -109,8 +109,7 @@ public abstract class AbstractCrudService<DOMAIN, ID> implements CrudService<DOM
     public List<DOMAIN> listAllByIds(Collection<ID> ids, Sort sort) {
         Assert.notNull(sort, "Sort info must not be null");
 
-        return CollectionUtils.isEmpty(ids) ? Collections.emptyList() :
-            repository.findAllByIdIn(ids, sort);
+        return CollectionUtils.isEmpty(ids) ? Collections.emptyList() : repository.findAllByIdIn(ids, sort);
     }
 
     /**
@@ -135,8 +134,7 @@ public abstract class AbstractCrudService<DOMAIN, ID> implements CrudService<DOM
      */
     @Override
     public DOMAIN getById(ID id) {
-        return fetchById(id).orElseThrow(
-            () -> new NotFoundException(domainName + " was not found or has been deleted"));
+        return fetchById(id).orElseThrow(() -> new NotFoundException(domainName + " was not found or has been deleted"));
     }
 
     /**
@@ -207,8 +205,7 @@ public abstract class AbstractCrudService<DOMAIN, ID> implements CrudService<DOM
      */
     @Override
     public List<DOMAIN> createInBatch(Collection<DOMAIN> domains) {
-        return CollectionUtils.isEmpty(domains) ? Collections.emptyList() :
-            repository.saveAll(domains);
+        return CollectionUtils.isEmpty(domains) ? Collections.emptyList() : repository.saveAll(domains);
     }
 
     /**
@@ -237,8 +234,7 @@ public abstract class AbstractCrudService<DOMAIN, ID> implements CrudService<DOM
      */
     @Override
     public List<DOMAIN> updateInBatch(Collection<DOMAIN> domains) {
-        return CollectionUtils.isEmpty(domains) ? Collections.emptyList() :
-            repository.saveAll(domains);
+        return CollectionUtils.isEmpty(domains) ? Collections.emptyList() : repository.saveAll(domains);
     }
 
     /**

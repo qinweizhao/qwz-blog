@@ -1,10 +1,10 @@
 package com.qinweizhao.site.model.dto;
 
-import com.qinweizhao.site.model.dto.base.OutputConverter;
-import com.qinweizhao.site.model.entity.Option;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import com.qinweizhao.site.model.dto.base.OutputConverter;
+import com.qinweizhao.site.model.entity.Option;
 
 /**
  * Option output dto.

@@ -1,14 +1,15 @@
 package com.qinweizhao.site.repository;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Set;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.lang.NonNull;
 import com.qinweizhao.site.model.entity.PostCategory;
 import com.qinweizhao.site.model.enums.PostStatus;
 import com.qinweizhao.site.model.projection.CategoryPostCountProjection;
 import com.qinweizhao.site.repository.base.BaseRepository;
+
+import java.util.Collection;
+import java.util.List;
+import java.util.Set;
 
 
 /**
@@ -27,8 +28,7 @@ public interface PostCategoryRepository extends BaseRepository<PostCategory, Int
      * @return a list of category id
      */
     @NonNull
-    @Query("select postCategory.categoryId from PostCategory postCategory where postCategory"
-        + ".postId = ?1")
+    @Query("select postCategory.categoryId from PostCategory postCategory where postCategory.postId = ?1")
     Set<Integer> findAllCategoryIdsByPostId(@NonNull Integer postId);
 
     /**
@@ -38,35 +38,19 @@ public interface PostCategoryRepository extends BaseRepository<PostCategory, Int
      * @return a set of post id
      */
     @NonNull
-    @Query("select postCategory.postId from PostCategory postCategory where postCategory"
-        + ".categoryId = ?1")
+    @Query("select postCategory.postId from PostCategory postCategory where postCategory.categoryId = ?1")
     Set<Integer> findAllPostIdsByCategoryId(@NonNull Integer categoryId);
 
     /**
      * Finds all post ids by category id and post status.
      *
      * @param categoryId category id must not be null
-     * @param status post status must not be null
+     * @param status     post status must not be null
      * @return a set of post id
      */
     @NonNull
-    @Query("select postCategory.postId from PostCategory postCategory, Post post where "
-        + "postCategory.categoryId = ?1 and post.id = postCategory.postId and post.status = ?2")
-    Set<Integer> findAllPostIdsByCategoryId(@NonNull Integer categoryId,
-        @NonNull PostStatus status);
-
-    /**
-     * Finds all post ids by category id and post status.
-     *
-     * @param categoryId category id must not be null
-     * @param status     post status must not be empty
-     * @return a set of post id
-     */
-    @NonNull
-    @Query("select postCategory.postId from PostCategory postCategory, Post post where"
-        + " postCategory.categoryId = ?1 and post.id = postCategory.postId and post.status in (?2)")
-    Set<Integer> findAllPostIdsByCategoryId(
-        @NonNull Integer categoryId, @NonNull Set<PostStatus> status);
+    @Query("select postCategory.postId from PostCategory postCategory, Post post where postCategory.categoryId = ?1 and post.id = postCategory.postId and post.status = ?2")
+    Set<Integer> findAllPostIdsByCategoryId(@NonNull Integer categoryId, @NonNull PostStatus status);
 
     /**
      * Finds all post categories by post id in.
@@ -113,18 +97,7 @@ public interface PostCategoryRepository extends BaseRepository<PostCategory, Int
     @NonNull
     List<PostCategory> deleteByCategoryId(@NonNull Integer categoryId);
 
-    @Query("select new com.qinweizhao.site.model.projection.CategoryPostCountProjection(count(pc.postId)"
-        + ", pc.categoryId) from PostCategory pc group by pc.categoryId")
+    @Query("select new com.qinweizhao.site.model.projection.CategoryPostCountProjection(count(pc.postId), pc.categoryId) from PostCategory pc group by pc.categoryId")
     @NonNull
     List<CategoryPostCountProjection> findPostCount();
-
-    /**
-     * Finds all post categories by category id list.
-     *
-     * @param categoryIdList category id list must not be empty
-     * @return a list of post category
-     */
-    @Query("select pc from PostCategory pc where pc.categoryId in (?1)")
-    @NonNull
-    List<PostCategory> findAllByCategoryIdList(List<Integer> categoryIdList);
 }

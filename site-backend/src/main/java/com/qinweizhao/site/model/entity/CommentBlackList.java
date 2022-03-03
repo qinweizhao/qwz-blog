@@ -22,8 +22,7 @@ import java.util.Date;
 public class CommentBlackList extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "custom-id")
-    @GenericGenerator(name = "custom-id",
-            strategy = "com.qinweizhao.site.model.entity.support.CustomIdGenerator")
+    @GenericGenerator(name = "custom-id", strategy = "com.qinweizhao.site.model.entity.support.CustomIdGenerator")
     private Long id;
 
     @Column(name = "ip_address", length = 127, nullable = false)

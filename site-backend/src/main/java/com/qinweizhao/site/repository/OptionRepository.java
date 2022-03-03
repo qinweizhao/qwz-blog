@@ -1,9 +1,10 @@
 package com.qinweizhao.site.repository;
 
-import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import com.qinweizhao.site.model.entity.Option;
 import com.qinweizhao.site.repository.base.BaseRepository;
+
+import java.util.Optional;
 
 /**
  * Option repository.
@@ -12,8 +13,7 @@ import com.qinweizhao.site.repository.base.BaseRepository;
  * @author ryanwang
  * @date 2019-03-20
  */
-public interface OptionRepository
-    extends BaseRepository<Option, Integer>, JpaSpecificationExecutor<Option> {
+public interface OptionRepository extends BaseRepository<Option, Integer>, JpaSpecificationExecutor<Option> {
 
     /**
      * Query option by key

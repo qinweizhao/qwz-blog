@@ -1,13 +1,13 @@
 package com.qinweizhao.site.core.freemarker.tag;
 
-import com.qinweizhao.site.model.entity.PostComment;
-import com.qinweizhao.site.model.enums.CommentStatus;
-import com.qinweizhao.site.model.support.HaloConst;
-import com.qinweizhao.site.service.PostCommentService;
 import freemarker.core.Environment;
 import freemarker.template.*;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
+import com.qinweizhao.site.model.entity.PostComment;
+import com.qinweizhao.site.model.enums.CommentStatus;
+import com.qinweizhao.site.model.support.HaloConst;
+import com.qinweizhao.site.service.PostCommentService;
 
 import java.io.IOException;
 import java.util.Map;
@@ -29,20 +29,16 @@ public class CommentTagDirective implements TemplateDirectiveModel {
     }
 
     @Override
-    public void execute(Environment env, Map params, TemplateModel[] loopVars,
-                        TemplateDirectiveBody body) throws TemplateException, IOException {
-        final DefaultObjectWrapperBuilder builder =
-                new DefaultObjectWrapperBuilder(Configuration.VERSION_2_3_25);
+    public void execute(Environment env, Map params, TemplateModel[] loopVars, TemplateDirectiveBody body) throws TemplateException, IOException {
+        final DefaultObjectWrapperBuilder builder = new DefaultObjectWrapperBuilder(Configuration.VERSION_2_3_25);
 
         if (params.containsKey(HaloConst.METHOD_KEY)) {
             String method = params.get(HaloConst.METHOD_KEY).toString();
             switch (method) {
                 case "latest":
                     int top = Integer.parseInt(params.get("top").toString());
-                    Page<PostComment> postComments =
-                            postCommentService.pageLatest(top, CommentStatus.PUBLISHED);
-                    env.setVariable("comments",
-                            builder.build().wrap(postCommentService.convertToWithPostVo(postComments)));
+                    Page<PostComment> postComments = postCommentService.pageLatest(top, CommentStatus.PUBLISHED);
+                    env.setVariable("comments", builder.build().wrap(postCommentService.convertToWithPostVo(postComments)));
                     break;
                 case "count":
                     env.setVariable("count", builder.build().wrap(postCommentService.count()));

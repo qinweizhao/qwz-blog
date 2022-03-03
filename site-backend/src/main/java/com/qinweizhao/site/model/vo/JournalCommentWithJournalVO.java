@@ -1,10 +1,10 @@
 package com.qinweizhao.site.model.vo;
 
-import com.qinweizhao.site.model.dto.BaseCommentDTO;
-import com.qinweizhao.site.model.dto.JournalDTO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
+import com.qinweizhao.site.model.dto.BaseCommentDTO;
+import com.qinweizhao.site.model.dto.JournalDTO;
 
 /**
  * Journal comment with journal vo.

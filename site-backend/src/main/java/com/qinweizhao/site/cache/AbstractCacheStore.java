@@ -1,11 +1,11 @@
 package com.qinweizhao.site.cache;
 
-import com.qinweizhao.site.config.properties.HaloProperties;
-import com.qinweizhao.site.utils.DateUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
+import com.qinweizhao.site.config.properties.HaloProperties;
+import com.qinweizhao.site.utils.DateUtils;
 
 import java.util.Date;
 import java.util.Optional;
@@ -44,8 +44,7 @@ public abstract class AbstractCacheStore<K, V> implements CacheStore<K, V> {
      *
      * @param key          key must not be null
      * @param cacheWrapper cache wrapper must not be null
-     * @return true if the key is absent and the value is set, false if the key is present
-     * before, or null if any other reason
+     * @return true if the key is absent and the value is set, false if the key is present before, or null if any other reason
      */
     abstract Boolean putInternalIfAbsent(@NonNull K key, @NonNull CacheWrapper<V> cacheWrapper);
 
@@ -55,8 +54,7 @@ public abstract class AbstractCacheStore<K, V> implements CacheStore<K, V> {
 
         return getInternal(key).map(cacheWrapper -> {
             // Check expiration
-            if (cacheWrapper.getExpireAt() != null
-                    && cacheWrapper.getExpireAt().before(com.qinweizhao.site.utils.DateUtils.now())) {
+            if (cacheWrapper.getExpireAt() != null && cacheWrapper.getExpireAt().before(DateUtils.now())) {
                 // Expired then delete it
                 log.warn("Cache key: [{}] has been expired", key);
 
@@ -77,31 +75,29 @@ public abstract class AbstractCacheStore<K, V> implements CacheStore<K, V> {
     }
 
     @Override
-    public void put(K key, V value) {
-        putInternal(key, buildCacheWrapper(value, 0, null));
+    public Boolean putIfAbsent(K key, V value, long timeout, TimeUnit timeUnit) {
+        return putInternalIfAbsent(key, buildCacheWrapper(value, timeout, timeUnit));
     }
 
     @Override
-    public Boolean putIfAbsent(K key, V value, long timeout, TimeUnit timeUnit) {
-        return putInternalIfAbsent(key, buildCacheWrapper(value, timeout, timeUnit));
+    public void put(K key, V value) {
+        putInternal(key, buildCacheWrapper(value, 0, null));
     }
 
     /**
      * Builds cache wrapper.
      *
      * @param value    cache value must not be null
-     * @param timeout  the key expiry time, if the expiry time is less than 1, the cache won't be
-     *                 expired
+     * @param timeout  the key expiry time, if the expiry time is less than 1, the cache won't be expired
      * @param timeUnit timeout unit must
      * @return cache wrapper
      */
     @NonNull
-    private CacheWrapper<V> buildCacheWrapper(@NonNull V value, long timeout,
-                                              @Nullable TimeUnit timeUnit) {
+    private CacheWrapper<V> buildCacheWrapper(@NonNull V value, long timeout, @Nullable TimeUnit timeUnit) {
         Assert.notNull(value, "Cache value must not be null");
         Assert.isTrue(timeout >= 0, "Cache expiration timeout must not be less than 1");
 
-        Date now = com.qinweizhao.site.utils.DateUtils.now();
+        Date now = DateUtils.now();
 
         Date expireAt = null;
 

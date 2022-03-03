@@ -1,7 +1,6 @@
 package com.qinweizhao.site.model.properties;
 
 import com.qinweizhao.site.model.enums.PostPermalinkType;
-import com.qinweizhao.site.model.enums.SheetPermalinkType;
 
 /**
  * Permalink properties enum.
@@ -14,14 +13,7 @@ public enum PermalinkProperties implements PropertyEnum {
     /**
      * Post Permalink type.
      */
-    POST_PERMALINK_TYPE("post_permalink_type", PostPermalinkType.class,
-            PostPermalinkType.DEFAULT.name()),
-
-    /**
-     * Sheet Permalink type.
-     */
-    SHEET_PERMALINK_TYPE("sheet_permalink_type", SheetPermalinkType.class,
-            SheetPermalinkType.SECONDARY.name()),
+    POST_PERMALINK_TYPE("post_permalink_type", PostPermalinkType.class, PostPermalinkType.DEFAULT.name()),
 
     /**
      * Categories prefix

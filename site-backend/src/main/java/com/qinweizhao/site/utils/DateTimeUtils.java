@@ -5,88 +5,63 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.time.temporal.ChronoField;
 import java.time.temporal.Temporal;
-import java.util.Date;
+
+import static cn.hutool.core.date.DatePattern.*;
 
 /**
  * 日期工具
  *
  * @author LeiXinXin
- * @author guqing
  * @date 2019/12/10
  */
 public class DateTimeUtils {
-
-    /**
-     * 标准日期时间格式，精确到秒：yyyy-MM-dd HH:mm:ss
-     */
-    public static final String NORM_DATETIME_PATTERN = "yyyy-MM-dd HH:mm:ss";
-    /**
-     * 标准日期格式：yyyy-MM-dd
-     */
-    public static final String NORM_DATE_PATTERN = "yyyy-MM-dd";
-    /**
-     * 标准日期格式：yyyyMMddHHmmss
-     */
-    public static final String PURE_DATETIME_PATTERN = "yyyyMMddHHmmss";
-    /**
-     * 标准日期格式：yyyyMMdd
-     */
-    public static final String PURE_DATE_PATTERN = "yyyyMMdd";
-
     /**
      * 标准日期格式 {@link DateTimeFormatter}：yyyyMMddHHmmssSSS
      */
-    public static final DateTimeFormatter PURE_DATETIME_MS_FORMATTER =
-            new DateTimeFormatterBuilder()
-                    .appendPattern(PURE_DATETIME_PATTERN)
-                    .appendValue(ChronoField.MILLI_OF_SECOND, 3)
-                    .toFormatter();
+    public static final DateTimeFormatter PURE_DATETIME_MS_FORMATTER = new DateTimeFormatterBuilder()
+            .appendPattern(PURE_DATETIME_PATTERN)
+            .appendValue(ChronoField.MILLI_OF_SECOND, 3)
+            .toFormatter();
     /**
      * 标准日期格式 {@link DateTimeFormatter}：yyyyMMdd
      */
-    public static final DateTimeFormatter PURE_DATE_FORMATTER =
-            DateTimeFormatter.ofPattern(PURE_DATE_PATTERN);
+    public static final DateTimeFormatter PURE_DATE_FORMATTER = DateTimeFormatter.ofPattern(PURE_DATE_PATTERN);
     /**
      * 标准日期格式 {@link DateTimeFormatter}：yyyy-MM-dd
      */
-    public static final DateTimeFormatter NORM_DATE_FORMATTER =
-            DateTimeFormatter.ofPattern(NORM_DATE_PATTERN);
+    public static final DateTimeFormatter NORM_DATE_FORMATTER = DateTimeFormatter.ofPattern(NORM_DATE_PATTERN);
     /**
      * 标准日期格式：HHmm
      */
-    public static final String TIME_PATTERN = "HHmm";
+    public final static String TIME_PATTERN = "HHmm";
     /**
      * 标准日期格式 {@link DateTimeFormatter} HHmm
      */
-    public static final DateTimeFormatter TIME_FORMATTER =
-            DateTimeFormatter.ofPattern(TIME_PATTERN);
+    public static final DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern(TIME_PATTERN);
     /**
      * 标准日期格式：HH:mm
      */
-    public static final String NORM_TIME_PATTERN = "HH:mm";
+    public final static String NORM_TIME_PATTERN = "HH:mm";
 
     /**
      * 标准日期格式 {@link DateTimeFormatter} HH:mm
      */
-    public static final DateTimeFormatter NORM_TIME_FORMATTER =
-            DateTimeFormatter.ofPattern(NORM_TIME_PATTERN);
+    public static final DateTimeFormatter NORM_TIME_FORMATTER = DateTimeFormatter.ofPattern(NORM_TIME_PATTERN);
 
     /**
      * 标准日期时间格式，精确到秒 {@link DateTimeFormatter}：yyyy-MM-dd HH:mm:ss
      */
-    public static final DateTimeFormatter NORM_DATETIME_FORMATTER =
-            DateTimeFormatter.ofPattern(NORM_DATETIME_PATTERN);
+    public static final DateTimeFormatter NORM_DATETIME_FORMATTER = DateTimeFormatter.ofPattern(NORM_DATETIME_PATTERN);
 
     /**
      * 横线分隔日期时间格式：yyyy-MM-dd-HH-mm-ss-
      */
-    public static final String HORIZONTAL_LINE_PATTERN = "yyyy-MM-dd-HH-mm-ss-";
+    public final static String HORIZONTAL_LINE_PATTERN = "yyyy-MM-dd-HH-mm-ss-";
 
     /**
      * 横线分隔日期时间格式，精确到秒 {@link DateTimeFormatter}：yyyy-MM-dd-HH-mm-ss-
      */
-    public static final DateTimeFormatter HORIZONTAL_LINE_DATETIME_FORMATTER =
-            DateTimeFormatter.ofPattern(HORIZONTAL_LINE_PATTERN);
+    public static final DateTimeFormatter HORIZONTAL_LINE_DATETIME_FORMATTER = DateTimeFormatter.ofPattern(HORIZONTAL_LINE_PATTERN);
 
     /**
      * 上海时区格式
@@ -322,16 +297,6 @@ public class DateTimeUtils {
     }
 
     /**
-     * 新增一天
-     *
-     * @param localDate 日期
-     * @return 新增一天后的 LocalDate
-     */
-    public static LocalDate plusOneDayToDate(LocalDate localDate) {
-        return plusDays(localDate, 1);
-    }
-
-    /**
      * 根据days新增天数
      *
      * @param localDateTime 日期时间
@@ -340,6 +305,16 @@ public class DateTimeUtils {
      */
     public static LocalDateTime plusDays(LocalDateTime localDateTime, long days) {
         return localDateTime.plusDays(days);
+    }
+
+    /**
+     * 新增一天
+     *
+     * @param localDate 日期
+     * @return 新增一天后的 LocalDate
+     */
+    public static LocalDate plusOneDayToDate(LocalDate localDate) {
+        return plusDays(localDate, 1);
     }
 
     /**
@@ -387,6 +362,26 @@ public class DateTimeUtils {
     }
 
     /**
+     * 增加30分钟
+     *
+     * @param localDateTime 日期时间
+     * @return 返回新增的 LocalDateTime
+     */
+    public static LocalDateTime plusThirtyMinute(LocalDateTime localDateTime) {
+        return plusMinutes(localDateTime, 30);
+    }
+
+    /**
+     * 新增1分钟
+     *
+     * @param localDateTime 日期时间
+     * @return 返回新增的 LocalTime
+     */
+    public static LocalTime plusOneMinuteToTime(LocalDateTime localDateTime) {
+        return plusMinutes(localDateTime, 1).toLocalTime();
+    }
+
+    /**
      * 新增1分钟
      *
      * @param localTime 日期时间
@@ -399,32 +394,11 @@ public class DateTimeUtils {
     /**
      * 增加30分钟
      *
-     * @param localDateTime 日期时间
-     * @return 返回新增的 LocalDateTime
-     */
-    public static LocalDateTime plusThirtyMinute(LocalDateTime localDateTime) {
-        return plusMinutes(localDateTime, 30);
-    }
-
-
-    /**
-     * 增加30分钟
-     *
      * @param localTime 日期时间
      * @return 返回新增的 LocalTime
      */
     public static LocalTime plusThirtyMinute(LocalTime localTime) {
         return plusMinutes(localTime, 30);
-    }
-
-    /**
-     * 新增1分钟
-     *
-     * @param localDateTime 日期时间
-     * @return 返回新增的 LocalTime
-     */
-    public static LocalTime plusOneMinuteToTime(LocalDateTime localDateTime) {
-        return plusMinutes(localDateTime, 1).toLocalTime();
     }
 
     /**
@@ -579,15 +553,5 @@ public class DateTimeUtils {
      */
     public static boolean isLessThanOrEqual(Temporal startInclusive, Temporal endInclusive) {
         return Duration.between(startInclusive, endInclusive).toNanos() <= 0;
-    }
-
-    /**
-     * convert date to LocalDateTime
-     *
-     * @param date date
-     * @return LocalDateTime by default zone
-     */
-    public static LocalDateTime toLocalDateTime(Date date) {
-        return LocalDateTime.ofInstant(date.toInstant(), ZoneId.systemDefault());
     }
 }

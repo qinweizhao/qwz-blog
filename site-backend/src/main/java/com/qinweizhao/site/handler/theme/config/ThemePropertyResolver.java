@@ -1,8 +1,9 @@
 package com.qinweizhao.site.handler.theme.config;
 
-import java.io.IOException;
 import org.springframework.lang.NonNull;
 import com.qinweizhao.site.handler.theme.config.support.ThemeProperty;
+
+import java.io.IOException;
 
 /**
  * Theme file resolver.

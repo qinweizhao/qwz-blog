@@ -11,7 +11,17 @@ public enum MigrateType implements ValueEnum<Integer> {
     /**
      * Halo
      */
-    HALO(0);
+    HALO(0),
+
+    /**
+     * WordPress
+     */
+    WORDPRESS(1),
+
+    /**
+     * cnblogs.com
+     */
+    CNBLOGS(2);
 
     private final Integer value;
 

@@ -1,13 +1,13 @@
 package com.qinweizhao.site.security.service.impl;
 
-import java.time.Duration;
-import java.util.Optional;
-import java.util.concurrent.TimeUnit;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import com.qinweizhao.site.cache.AbstractStringCacheStore;
 import com.qinweizhao.site.security.service.OneTimeTokenService;
 import com.qinweizhao.site.utils.HaloUtils;
+
+import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 
 /**
  * One-time token service implementation.
@@ -17,9 +17,10 @@ import com.qinweizhao.site.utils.HaloUtils;
 @Service
 public class OneTimeTokenServiceImpl implements OneTimeTokenService {
 
-    private static final String tokenPrefix = "OTT-";
-
-    private static final Duration OTT_EXPIRATION_TIME = Duration.ofMinutes(5);
+    /**
+     * One-time token expired day. (unit: day)
+     */
+    public static final int OTT_EXPIRED_DAY = 1;
 
     private final AbstractStringCacheStore cacheStore;
 
@@ -32,7 +33,7 @@ public class OneTimeTokenServiceImpl implements OneTimeTokenService {
         Assert.hasText(oneTimeToken, "One-time token must not be blank");
 
         // Get from cache store
-        return cacheStore.get(tokenPrefix + oneTimeToken);
+        return cacheStore.get(oneTimeToken);
     }
 
     @Override
@@ -43,10 +44,7 @@ public class OneTimeTokenServiceImpl implements OneTimeTokenService {
         String oneTimeToken = HaloUtils.randomUUIDWithoutDash();
 
         // Put ott along with request uri
-        cacheStore.put(tokenPrefix + oneTimeToken,
-            uri,
-            OTT_EXPIRATION_TIME.getSeconds(),
-            TimeUnit.SECONDS);
+        cacheStore.put(oneTimeToken, uri, OTT_EXPIRED_DAY, TimeUnit.DAYS);
 
         // Return ott
         return oneTimeToken;
@@ -57,6 +55,6 @@ public class OneTimeTokenServiceImpl implements OneTimeTokenService {
         Assert.hasText(oneTimeToken, "One-time token must not be blank");
 
         // Delete the token
-        cacheStore.delete(tokenPrefix + oneTimeToken);
+        cacheStore.delete(oneTimeToken);
     }
 }

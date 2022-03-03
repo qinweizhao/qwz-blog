@@ -1,7 +1,8 @@
 package com.qinweizhao.site.utils;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.lang.NonNull;
+import net.sf.image4j.codec.ico.ICODecoder;
+import com.qinweizhao.site.exception.ImageFormatException;
 
 import javax.imageio.ImageIO;
 import javax.imageio.ImageReader;
@@ -20,24 +21,21 @@ public class ImageUtils {
 
     public static final String EXTENSION_ICO = "ico";
 
-    public static BufferedImage getImageFromFile(InputStream is, String extension)
-            throws IOException {
+    public static BufferedImage getImageFromFile(InputStream is, String extension) throws IOException {
         log.debug("Current File type is : [{}]", extension);
 
-//        if (EXTENSION_ICO.equals(extension)) {
-//            try {
-//                return ICODecoder.read(is).get(0);
-//            } catch (IOException e) {
-//                throw new ImageFormatException("ico 文件已损坏", e);
-//            }
-//        } else {
-        return ImageIO.read(is);
-//        }
+        if (EXTENSION_ICO.equals(extension)) {
+            try {
+                return ICODecoder.read(is).get(0);
+            } catch (IOException e) {
+                throw new ImageFormatException("ico 文件已损坏", e);
+            }
+        } else {
+            return ImageIO.read(is);
+        }
     }
 
-    @NonNull
-    public static ImageReader getImageReaderFromFile(InputStream is, String formatName)
-            throws IOException {
+    public static ImageReader getImageReaderFromFile(InputStream is, String formatName) {
         try {
             Iterator<ImageReader> readerIterator = ImageIO.getImageReadersByFormatName(formatName);
             ImageReader reader = readerIterator.next();
@@ -45,8 +43,9 @@ public class ImageUtils {
             ImageIO.getImageReadersByFormatName(formatName);
             reader.setInput(stream, true);
             return reader;
-        } catch (Exception e) {
-            throw new IOException("Failed to read image reader.", e);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+        return null;
     }
 }

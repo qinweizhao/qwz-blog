@@ -1,9 +1,7 @@
 package com.qinweizhao.site.security.handler;
 
+import cn.hutool.extra.servlet.ServletUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.IOException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.util.Assert;
@@ -11,7 +9,10 @@ import com.qinweizhao.site.exception.AbstractHaloException;
 import com.qinweizhao.site.model.support.BaseResponse;
 import com.qinweizhao.site.utils.ExceptionUtils;
 import com.qinweizhao.site.utils.JsonUtils;
-import com.qinweizhao.site.utils.ServletUtils;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 /**
  * Default AuthenticationFailureHandler.
@@ -30,11 +31,9 @@ public class DefaultAuthenticationFailureHandler implements AuthenticationFailur
     }
 
     @Override
-    public void onFailure(HttpServletRequest request, HttpServletResponse response,
-        AbstractHaloException exception) throws IOException {
-        log.warn("Handle unsuccessful authentication, ip: [{}]", ServletUtils.getClientIP(request));
-        log.error("Authentication failure: [{}], status: [{}], data: [{}]", exception.getMessage(),
-            exception.getStatus(), exception.getErrorData());
+    public void onFailure(HttpServletRequest request, HttpServletResponse response, AbstractHaloException exception) throws IOException {
+        log.warn("Handle unsuccessful authentication, ip: [{}]", ServletUtil.getClientIP(request));
+        log.error("Authentication failure: [{}], status: [{}], data: [{}]", exception.getMessage(), exception.getStatus(), exception.getErrorData());
 
         BaseResponse<Object> errorDetail = new BaseResponse<>();
 

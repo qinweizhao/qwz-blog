@@ -1,10 +1,10 @@
 package com.qinweizhao.site.event.logger;
 
+import org.springframework.context.ApplicationEvent;
 import com.qinweizhao.site.model.enums.LogType;
 import com.qinweizhao.site.model.params.LogParam;
 import com.qinweizhao.site.utils.ServletUtils;
 import com.qinweizhao.site.utils.ValidationUtils;
-import org.springframework.context.ApplicationEvent;
 
 /**
  * @author johnniang

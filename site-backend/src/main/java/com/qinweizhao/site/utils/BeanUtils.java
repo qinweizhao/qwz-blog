@@ -1,12 +1,12 @@
 package com.qinweizhao.site.utils;
 
-import com.qinweizhao.site.exception.BeanUtilsException;
 import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.beans.BeansException;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
+import com.qinweizhao.site.exception.BeanUtilsException;
 
 import java.beans.PropertyDescriptor;
 import java.util.*;
@@ -44,13 +44,11 @@ public class BeanUtils {
             // New instance for the target class
             T targetInstance = targetClass.newInstance();
             // Copy properties
-            org.springframework.beans.BeanUtils
-                    .copyProperties(source, targetInstance, getNullPropertyNames(source));
+            org.springframework.beans.BeanUtils.copyProperties(source, targetInstance, getNullPropertyNames(source));
             // Return the target instance
             return targetInstance;
         } catch (Exception e) {
-            throw new BeanUtilsException(
-                    "Failed to new " + targetClass.getName() + " instance or copy properties", e);
+            throw new BeanUtilsException("Failed to new " + targetClass.getName() + " instance or copy properties", e);
         }
     }
 
@@ -64,8 +62,7 @@ public class BeanUtils {
      * @throws BeanUtilsException if newing target instance failed or copying failed
      */
     @NonNull
-    public static <T> List<T> transformFromInBatch(Collection<?> sources,
-                                                   @NonNull Class<T> targetClass) {
+    public static <T> List<T> transformFromInBatch(Collection<?> sources, @NonNull Class<T> targetClass) {
         if (CollectionUtils.isEmpty(sources)) {
             return Collections.emptyList();
         }
@@ -89,8 +86,7 @@ public class BeanUtils {
 
         // Set non null properties from source properties to target properties
         try {
-            org.springframework.beans.BeanUtils
-                    .copyProperties(source, target, getNullPropertyNames(source));
+            org.springframework.beans.BeanUtils.copyProperties(source, target, getNullPropertyNames(source));
         } catch (BeansException e) {
             throw new BeanUtilsException("Failed to copy properties", e);
         }

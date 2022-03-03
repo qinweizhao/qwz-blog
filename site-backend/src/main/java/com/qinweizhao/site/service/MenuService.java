@@ -1,6 +1,5 @@
 package com.qinweizhao.site.service;
 
-import java.util.List;
 import org.springframework.data.domain.Sort;
 import org.springframework.lang.NonNull;
 import com.qinweizhao.site.model.dto.MenuDTO;
@@ -9,6 +8,8 @@ import com.qinweizhao.site.model.params.MenuParam;
 import com.qinweizhao.site.model.vo.MenuTeamVO;
 import com.qinweizhao.site.model.vo.MenuVO;
 import com.qinweizhao.site.service.base.CrudService;
+
+import java.util.List;
 
 /**
  * Menu service interface.

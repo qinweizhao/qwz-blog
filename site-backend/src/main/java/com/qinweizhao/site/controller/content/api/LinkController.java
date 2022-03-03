@@ -1,9 +1,6 @@
 package com.qinweizhao.site.controller.content.api;
 
-import static org.springframework.data.domain.Sort.Direction.DESC;
-
 import io.swagger.annotations.ApiOperation;
-import java.util.List;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.SortDefault;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,6 +9,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.qinweizhao.site.model.dto.LinkDTO;
 import com.qinweizhao.site.model.vo.LinkTeamVO;
 import com.qinweizhao.site.service.LinkService;
+
+import java.util.List;
+
+import static org.springframework.data.domain.Sort.Direction.DESC;
 
 /**
  * Content link controller.

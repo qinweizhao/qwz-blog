@@ -1,10 +1,11 @@
 package com.qinweizhao.site.security.handler;
 
-import java.io.IOException;
+import com.qinweizhao.site.exception.AbstractHaloException;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import com.qinweizhao.site.exception.AbstractHaloException;
+import java.io.IOException;
 
 /**
  * Authentication failure handler.
@@ -16,12 +17,11 @@ public interface AuthenticationFailureHandler {
     /**
      * Calls when a user has been unsuccessfully authenticated.
      *
-     * @param request http servlet request
-     * @param response http servlet response
+     * @param request   http servlet request
+     * @param response  http servlet response
      * @param exception api exception
      * @throws IOException      io exception
      * @throws ServletException service exception
      */
-    void onFailure(HttpServletRequest request, HttpServletResponse response,
-        AbstractHaloException exception) throws IOException, ServletException;
+    void onFailure(HttpServletRequest request, HttpServletResponse response, AbstractHaloException exception) throws IOException, ServletException;
 }

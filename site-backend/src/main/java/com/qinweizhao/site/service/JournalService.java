@@ -1,16 +1,18 @@
 package com.qinweizhao.site.service;
 
-import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
+import com.qinweizhao.site.model.dto.JournalDTO;
 import com.qinweizhao.site.model.dto.JournalWithCmtCountDTO;
 import com.qinweizhao.site.model.entity.Journal;
 import com.qinweizhao.site.model.enums.JournalType;
 import com.qinweizhao.site.model.params.JournalParam;
 import com.qinweizhao.site.model.params.JournalQuery;
 import com.qinweizhao.site.service.base.CrudService;
+
+import java.util.List;
 
 /**
  * Journal service interface.
@@ -50,7 +52,7 @@ public interface JournalService extends CrudService<Journal, Integer> {
      * Pages journals.
      *
      * @param journalQuery journal query must not be null
-     * @param pageable page info must not be null
+     * @param pageable     page info must not be null
      * @return a page of journal
      */
     @NonNull
@@ -59,7 +61,7 @@ public interface JournalService extends CrudService<Journal, Integer> {
     /**
      * Lists by type.
      *
-     * @param type journal type must not be null
+     * @param type     journal type must not be null
      * @param pageable page info must not be null
      * @return a page of journal
      */
@@ -67,13 +69,13 @@ public interface JournalService extends CrudService<Journal, Integer> {
     Page<Journal> pageBy(@NonNull JournalType type, @NonNull Pageable pageable);
 
     /**
-     * Converts to journal with comment count dto.
+     * Converts to journal dto.
      *
      * @param journal journal must not be null
-     * @return journal with comment count dto
+     * @return journal dto
      */
     @NonNull
-    JournalWithCmtCountDTO convertTo(@NonNull Journal journal);
+    JournalDTO convertTo(@NonNull Journal journal);
 
     /**
      * Converts to journal with comment count dto list.
@@ -92,19 +94,4 @@ public interface JournalService extends CrudService<Journal, Integer> {
      */
     @NonNull
     Page<JournalWithCmtCountDTO> convertToCmtCountDto(@NonNull Page<Journal> journalPage);
-
-    /**
-     * Increases journal likes(1).
-     *
-     * @param id id must not be null
-     */
-    void increaseLike(@NonNull Integer id);
-
-    /**
-     * Increase journal likes.
-     *
-     * @param likes likes must not be less than 1
-     * @param id id must not be null
-     */
-    void increaseLike(long likes, @NonNull Integer id);
 }

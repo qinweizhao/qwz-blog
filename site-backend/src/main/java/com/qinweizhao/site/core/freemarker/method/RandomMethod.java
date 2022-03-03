@@ -1,10 +1,10 @@
 package com.qinweizhao.site.core.freemarker.method;
 
+import cn.hutool.core.util.RandomUtil;
 import freemarker.template.Configuration;
 import freemarker.template.SimpleNumber;
 import freemarker.template.TemplateMethodModelEx;
 import freemarker.template.TemplateModelException;
-import org.apache.commons.lang3.RandomUtils;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -43,6 +43,6 @@ public class RandomMethod implements TemplateMethodModelEx {
         SimpleNumber argTwo = (SimpleNumber) arguments.get(1);
         int start = argOne.getAsNumber().intValue();
         int end = argTwo.getAsNumber().intValue();
-        return RandomUtils.nextInt(start, end);
+        return RandomUtil.randomInt(start, end);
     }
 }

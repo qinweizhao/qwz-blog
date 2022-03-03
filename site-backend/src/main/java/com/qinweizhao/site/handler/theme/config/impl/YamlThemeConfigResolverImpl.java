@@ -2,11 +2,6 @@ package com.qinweizhao.site.handler.theme.config.impl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
-import java.io.IOException;
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
@@ -16,6 +11,12 @@ import com.qinweizhao.site.handler.theme.config.support.Item;
 import com.qinweizhao.site.handler.theme.config.support.Option;
 import com.qinweizhao.site.model.enums.DataType;
 import com.qinweizhao.site.model.enums.InputType;
+
+import java.io.IOException;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Theme configuration resolver.
@@ -113,8 +114,7 @@ public class YamlThemeConfigResolverImpl implements ThemeConfigResolver {
                 item.setLabel(itemMap.getOrDefault("label", item.getName()).toString());
                 Object dataType = itemMap.getOrDefault("data-type", itemMap.get("dataType"));
                 item.setType(InputType.typeOf(itemMap.get("type")));
-                item.setDataType(item.getType().equals(InputType.SWITCH) ? DataType.BOOL :
-                    DataType.typeOf(dataType));
+                item.setDataType(item.getType().equals(InputType.SWITCH) ? DataType.BOOL : DataType.typeOf(dataType));
                 item.setDefaultValue(itemMap.get("default"));
                 item.setPlaceholder(itemMap.getOrDefault("placeholder", "").toString());
                 item.setDescription(itemMap.getOrDefault("description", "").toString());
@@ -141,8 +141,7 @@ public class YamlThemeConfigResolverImpl implements ThemeConfigResolver {
                 item.setLabel(itemMap.getOrDefault("label", item.getName()).toString());
                 Object dataType = itemMap.getOrDefault("data-type", itemMap.get("dataType"));
                 item.setType(InputType.typeOf(itemMap.get("type")));
-                item.setDataType(item.getType().equals(InputType.SWITCH) ? DataType.BOOL :
-                    DataType.typeOf(dataType));
+                item.setDataType(item.getType().equals(InputType.SWITCH) ? DataType.BOOL : DataType.typeOf(dataType));
                 item.setDefaultValue(itemMap.get("default"));
                 item.setPlaceholder(itemMap.getOrDefault("placeholder", "").toString());
                 item.setDescription(itemMap.getOrDefault("description", "").toString());

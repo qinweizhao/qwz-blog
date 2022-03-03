@@ -1,10 +1,10 @@
 package com.qinweizhao.site.model.dto;
 
-import com.qinweizhao.site.model.dto.base.OutputConverter;
-import com.qinweizhao.site.model.entity.Category;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
+import com.qinweizhao.site.model.dto.base.OutputConverter;
+import com.qinweizhao.site.model.entity.Category;
 
 import java.util.Date;
 
@@ -31,8 +31,6 @@ public class CategoryDTO implements OutputConverter<CategoryDTO, Category> {
     private String thumbnail;
 
     private Integer parentId;
-
-    private String password;
 
     private Date createTime;
 

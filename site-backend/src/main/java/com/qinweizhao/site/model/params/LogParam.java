@@ -1,11 +1,11 @@
 package com.qinweizhao.site.model.params;
 
-import com.qinweizhao.site.model.dto.base.InputConverter;
-import com.qinweizhao.site.model.entity.Log;
-import com.qinweizhao.site.model.enums.LogType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import com.qinweizhao.site.model.dto.base.InputConverter;
+import com.qinweizhao.site.model.entity.Log;
+import com.qinweizhao.site.model.enums.LogType;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;

@@ -1,7 +1,5 @@
 package com.qinweizhao.site.controller.content.model;
 
-import static org.springframework.data.domain.Sort.Direction.DESC;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -13,11 +11,9 @@ import com.qinweizhao.site.model.entity.Post;
 import com.qinweizhao.site.model.entity.Tag;
 import com.qinweizhao.site.model.enums.PostStatus;
 import com.qinweizhao.site.model.vo.PostListVO;
-import com.qinweizhao.site.service.OptionService;
-import com.qinweizhao.site.service.PostService;
-import com.qinweizhao.site.service.PostTagService;
-import com.qinweizhao.site.service.TagService;
-import com.qinweizhao.site.service.ThemeService;
+import com.qinweizhao.site.service.*;
+
+import static org.springframework.data.domain.Sort.Direction.DESC;
 
 /**
  * Tag Model.
@@ -38,8 +34,7 @@ public class TagModel {
 
     private final ThemeService themeService;
 
-    public TagModel(TagService tagService, PostService postService, PostTagService postTagService,
-        OptionService optionService, ThemeService themeService) {
+    public TagModel(TagService tagService, PostService postService, PostTagService postTagService, OptionService optionService, ThemeService themeService) {
         this.tagService = tagService;
         this.postService = postService;
         this.postTagService = postTagService;
@@ -59,10 +54,8 @@ public class TagModel {
         final Tag tag = tagService.getBySlugOfNonNull(slug);
         TagDTO tagDTO = tagService.convertTo(tag);
 
-        final Pageable pageable = PageRequest
-            .of(page - 1, optionService.getArchivesPageSize(), Sort.by(DESC, "createTime"));
-        Page<Post> postPage =
-            postTagService.pagePostsBy(tag.getId(), PostStatus.PUBLISHED, pageable);
+        final Pageable pageable = PageRequest.of(page - 1, optionService.getArchivesPageSize(), Sort.by(DESC, "createTime"));
+        Page<Post> postPage = postTagService.pagePostsBy(tag.getId(), PostStatus.PUBLISHED, pageable);
         Page<PostListVO> posts = postService.convertToListVo(postPage);
 
         model.addAttribute("is_tag", true);

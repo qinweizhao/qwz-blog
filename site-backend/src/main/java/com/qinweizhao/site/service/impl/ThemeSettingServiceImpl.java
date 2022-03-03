@@ -2,12 +2,6 @@ package com.qinweizhao.site.service.impl;
 
 import freemarker.template.Configuration;
 import freemarker.template.TemplateModelException;
-import java.util.HashMap;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Example;
@@ -26,6 +20,8 @@ import com.qinweizhao.site.service.ThemeSettingService;
 import com.qinweizhao.site.service.base.AbstractCrudService;
 import com.qinweizhao.site.utils.ServiceUtils;
 
+import java.util.*;
+
 /**
  * Theme setting service implementation.
  *
@@ -34,8 +30,7 @@ import com.qinweizhao.site.utils.ServiceUtils;
  */
 @Slf4j
 @Service
-public class ThemeSettingServiceImpl extends AbstractCrudService<ThemeSetting, Integer>
-    implements ThemeSettingService {
+public class ThemeSettingServiceImpl extends AbstractCrudService<ThemeSetting, Integer> implements ThemeSettingService {
 
     private final ThemeSettingRepository themeSettingRepository;
 
@@ -44,8 +39,8 @@ public class ThemeSettingServiceImpl extends AbstractCrudService<ThemeSetting, I
     private final Configuration configuration;
 
     public ThemeSettingServiceImpl(ThemeSettingRepository themeSettingRepository,
-        ThemeService themeService,
-        Configuration configuration) {
+            ThemeService themeService,
+            Configuration configuration) {
         super(themeSettingRepository);
         this.themeSettingRepository = themeSettingRepository;
         this.themeService = themeService;
@@ -60,17 +55,16 @@ public class ThemeSettingServiceImpl extends AbstractCrudService<ThemeSetting, I
         log.debug("Starting saving theme setting key: [{}], value: [{}]", key, value);
 
         // Find setting by key
-        Optional<ThemeSetting> themeSettingOptional =
-            themeSettingRepository.findByThemeIdAndKey(themeId, key);
+        Optional<ThemeSetting> themeSettingOptional = themeSettingRepository.findByThemeIdAndKey(themeId, key);
 
         if (StringUtils.isBlank(value)) {
             // Delete it
             return themeSettingOptional
-                .map(setting -> {
-                    themeSettingRepository.delete(setting);
-                    log.debug("Removed theme setting: [{}]", setting);
-                    return setting;
-                }).orElse(null);
+                    .map(setting -> {
+                        themeSettingRepository.delete(setting);
+                        log.debug("Removed theme setting: [{}]", setting);
+                        return setting;
+                    }).orElse(null);
         }
 
         // Get config item map
@@ -81,19 +75,19 @@ public class ThemeSettingServiceImpl extends AbstractCrudService<ThemeSetting, I
 
         // Update or create
         ThemeSetting themeSetting = themeSettingOptional
-            .map(setting -> {
-                log.debug("Updating theme setting: [{}]", setting);
-                setting.setValue(value);
-                log.debug("Updated theme setting: [{}]", setting);
-                return setting;
-            }).orElseGet(() -> {
-                ThemeSetting setting = new ThemeSetting();
-                setting.setKey(key);
-                setting.setValue(value);
-                setting.setThemeId(themeId);
-                log.debug("Creating theme setting: [{}]", setting);
-                return setting;
-            });
+                .map(setting -> {
+                    log.debug("Updating theme setting: [{}]", setting);
+                    setting.setValue(value);
+                    log.debug("Updated theme setting: [{}]", setting);
+                    return setting;
+                }).orElseGet(() -> {
+                    ThemeSetting setting = new ThemeSetting();
+                    setting.setKey(key);
+                    setting.setValue(value);
+                    setting.setThemeId(themeId);
+                    log.debug("Creating theme setting: [{}]", setting);
+                    return setting;
+                });
         // Determine whether the data already exists
         if (themeSettingRepository.findOne(Example.of(themeSetting)).isPresent()) {
             return null;
@@ -114,8 +108,7 @@ public class ThemeSettingServiceImpl extends AbstractCrudService<ThemeSetting, I
         settings.forEach((key, value) -> save(key, value.toString(), themeId));
 
         try {
-            configuration
-                .setSharedVariable("settings", listAsMapBy(themeService.getActivatedThemeId()));
+            configuration.setSharedVariable("settings", listAsMapBy(themeService.getActivatedThemeId()));
         } catch (TemplateModelException e) {
             throw new ServiceException("主题设置保存失败", e);
         }
@@ -149,8 +142,7 @@ public class ThemeSettingServiceImpl extends AbstractCrudService<ThemeSetting, I
             }
 
             Object convertedValue = item.getDataType().convertTo(themeSetting.getValue());
-            log.debug("Converted user-defined data from [{}] to [{}], type: [{}]",
-                themeSetting.getValue(), convertedValue, item.getDataType());
+            log.debug("Converted user-defined data from [{}] to [{}], type: [{}]", themeSetting.getValue(), convertedValue, item.getDataType());
 
             result.put(key, convertedValue);
         });
@@ -165,13 +157,25 @@ public class ThemeSettingServiceImpl extends AbstractCrudService<ThemeSetting, I
 
             // Set default value
             Object convertedDefaultValue = item.getDataType().convertTo(item.getDefaultValue());
-            log.debug("Converted pre-defined data from [{}] to [{}], type: [{}]",
-                item.getDefaultValue(), convertedDefaultValue, item.getDataType());
+            log.debug("Converted pre-defined data from [{}] to [{}], type: [{}]", item.getDefaultValue(), convertedDefaultValue, item.getDataType());
 
             result.put(name, convertedDefaultValue);
         });
 
         return result;
+    }
+
+    @Override
+    public List<ThemeSetting> replaceUrl(String oldUrl, String newUrl) {
+        List<ThemeSetting> themeSettings = listAll();
+        List<ThemeSetting> replaced = new ArrayList<>();
+        themeSettings.forEach(themeSetting -> {
+            if (StringUtils.isNotEmpty(themeSetting.getValue())) {
+                themeSetting.setValue(themeSetting.getValue().replaceAll(oldUrl, newUrl));
+            }
+            replaced.add(themeSetting);
+        });
+        return updateInBatch(replaced);
     }
 
     @Override

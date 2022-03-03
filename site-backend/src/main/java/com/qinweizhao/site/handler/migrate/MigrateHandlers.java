@@ -1,7 +1,5 @@
 package com.qinweizhao.site.handler.migrate;
 
-import java.util.Collection;
-import java.util.LinkedList;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationContext;
 import org.springframework.lang.NonNull;
@@ -12,6 +10,9 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.web.multipart.MultipartFile;
 import com.qinweizhao.site.exception.FileOperationException;
 import com.qinweizhao.site.model.enums.MigrateType;
+
+import java.util.Collection;
+import java.util.LinkedList;
 
 /**
  * Migrate handler manager.
@@ -45,8 +46,7 @@ public class MigrateHandlers {
             }
         }
 
-        throw new FileOperationException("No available migrate handler to migrate the file")
-            .setErrorData(migrateType);
+        throw new FileOperationException("No available migrate handler to migrate the file").setErrorData(migrateType);
     }
 
     /**
@@ -56,8 +56,7 @@ public class MigrateHandlers {
      * @return current migrate handlers
      */
     @NonNull
-    private MigrateHandlers addMigrateHandlers(
-        @Nullable Collection<MigrateHandler> migrateHandlers) {
+    private MigrateHandlers addMigrateHandlers(@Nullable Collection<MigrateHandler> migrateHandlers) {
         if (!CollectionUtils.isEmpty(migrateHandlers)) {
             this.migrateHandlers.addAll(migrateHandlers);
         }

@@ -1,10 +1,11 @@
 package com.qinweizhao.site.handler.theme.config.support;
 
-import java.util.List;
-import java.util.Objects;
 import lombok.Data;
 import com.qinweizhao.site.model.enums.DataType;
 import com.qinweizhao.site.model.enums.InputType;
+
+import java.util.List;
+import java.util.Objects;
 
 /**
  * Theme configuration: item entity

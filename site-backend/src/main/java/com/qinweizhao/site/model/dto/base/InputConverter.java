@@ -1,8 +1,8 @@
 package com.qinweizhao.site.model.dto.base;
 
+import org.springframework.lang.Nullable;
 import com.qinweizhao.site.utils.BeanUtils;
 import com.qinweizhao.site.utils.ReflectionUtils;
-import org.springframework.lang.Nullable;
 
 import java.lang.reflect.ParameterizedType;
 import java.util.Objects;
@@ -12,7 +12,7 @@ import java.util.Objects;
  *
  * @author johnniang
  */
-public interface InputConverter<D> {
+public interface InputConverter<DOMAIN> {
 
     /**
      * Convert to domain.(shallow)
@@ -20,15 +20,14 @@ public interface InputConverter<D> {
      * @return new domain with same value(not null)
      */
     @SuppressWarnings("unchecked")
-    default D convertTo() {
+    default DOMAIN convertTo() {
         // Get parameterized type
         ParameterizedType currentType = parameterizedType();
 
         // Assert not equal
-        Objects.requireNonNull(currentType,
-                "Cannot fetch actual type because parameterized type is null");
+        Objects.requireNonNull(currentType, "Cannot fetch actual type because parameterized type is null");
 
-        Class<D> domainClass = (Class<D>) currentType.getActualTypeArguments()[0];
+        Class<DOMAIN> domainClass = (Class<DOMAIN>) currentType.getActualTypeArguments()[0];
 
         return BeanUtils.transformFrom(this, domainClass);
     }
@@ -38,7 +37,7 @@ public interface InputConverter<D> {
      *
      * @param domain updated domain
      */
-    default void update(D domain) {
+    default void update(DOMAIN domain) {
         BeanUtils.updateProperties(this, domain);
     }
 

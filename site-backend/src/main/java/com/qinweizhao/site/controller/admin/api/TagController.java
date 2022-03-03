@@ -2,25 +2,18 @@ package com.qinweizhao.site.controller.admin.api;
 
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
-import java.util.List;
-import javax.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.SortDefault;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import com.qinweizhao.site.model.dto.TagDTO;
 import com.qinweizhao.site.model.entity.Tag;
 import com.qinweizhao.site.model.params.TagParam;
 import com.qinweizhao.site.service.PostTagService;
 import com.qinweizhao.site.service.TagService;
+
+import javax.validation.Valid;
+import java.util.List;
 
 /**
  * Tag controller.
@@ -38,17 +31,16 @@ public class TagController {
     private final PostTagService postTagService;
 
     public TagController(TagService tagService,
-        PostTagService postTagService) {
+            PostTagService postTagService) {
         this.tagService = tagService;
         this.postTagService = postTagService;
     }
 
     @GetMapping
     @ApiOperation("Lists tags")
-    public List<? extends TagDTO> listTags(
-        @SortDefault(sort = "createTime", direction = Sort.Direction.DESC) Sort sort,
-        @ApiParam("Return more information(post count) if it is set")
-        @RequestParam(name = "more", required = false, defaultValue = "false") Boolean more) {
+    public List<? extends TagDTO> listTags(@SortDefault(sort = "createTime", direction = Sort.Direction.DESC) Sort sort,
+            @ApiParam("Return more information(post count) if it is set")
+            @RequestParam(name = "more", required = false, defaultValue = "false") Boolean more) {
         if (more) {
             return postTagService.listTagWithCountDtos(sort);
         }
@@ -76,7 +68,7 @@ public class TagController {
     @PutMapping("{tagId:\\d+}")
     @ApiOperation("Updates a tag")
     public TagDTO updateBy(@PathVariable("tagId") Integer tagId,
-        @Valid @RequestBody TagParam tagParam) {
+            @Valid @RequestBody TagParam tagParam) {
         // Get old tag
         Tag tag = tagService.getById(tagId);
 

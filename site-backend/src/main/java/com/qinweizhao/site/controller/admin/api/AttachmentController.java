@@ -1,24 +1,11 @@
 package com.qinweizhao.site.controller.admin.api;
 
-import static org.springframework.data.domain.Sort.Direction.DESC;
-
 import io.swagger.annotations.ApiOperation;
-import java.util.LinkedList;
-import java.util.List;
-import javax.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import com.qinweizhao.site.model.dto.AttachmentDTO;
 import com.qinweizhao.site.model.entity.Attachment;
@@ -26,6 +13,12 @@ import com.qinweizhao.site.model.enums.AttachmentType;
 import com.qinweizhao.site.model.params.AttachmentParam;
 import com.qinweizhao.site.model.params.AttachmentQuery;
 import com.qinweizhao.site.service.AttachmentService;
+
+import javax.validation.Valid;
+import java.util.LinkedList;
+import java.util.List;
+
+import static org.springframework.data.domain.Sort.Direction.DESC;
 
 /**
  * Attachment controller.
@@ -44,9 +37,8 @@ public class AttachmentController {
     }
 
     @GetMapping
-    public Page<AttachmentDTO> pageBy(
-        @PageableDefault(sort = "createTime", direction = DESC) Pageable pageable,
-        AttachmentQuery attachmentQuery) {
+    public Page<AttachmentDTO> pageBy(@PageableDefault(sort = "createTime", direction = DESC) Pageable pageable,
+            AttachmentQuery attachmentQuery) {
         return attachmentService.pageDtosBy(pageable, attachmentQuery);
     }
 
@@ -60,7 +52,7 @@ public class AttachmentController {
     @PutMapping("{attachmentId:\\d+}")
     @ApiOperation("Updates a attachment")
     public AttachmentDTO updateBy(@PathVariable("attachmentId") Integer attachmentId,
-        @RequestBody @Valid AttachmentParam attachmentParam) {
+            @RequestBody @Valid AttachmentParam attachmentParam) {
         Attachment attachment = attachmentService.getById(attachmentId);
         attachmentParam.update(attachment);
         return new AttachmentDTO().convertFrom(attachmentService.update(attachment));

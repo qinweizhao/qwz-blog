@@ -1,11 +1,12 @@
 package com.qinweizhao.site.service;
 
-import java.util.List;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 import com.qinweizhao.site.model.dto.TagDTO;
 import com.qinweizhao.site.model.entity.Tag;
 import com.qinweizhao.site.service.base.CrudService;
+
+import java.util.List;
 
 /**
  * Tag service interface.
@@ -31,7 +32,7 @@ public interface TagService extends CrudService<Tag, Integer> {
      * @param slug slug
      * @return tag
      */
-    @Nullable
+    @NonNull
     Tag getBySlug(@NonNull String slug);
 
     /**

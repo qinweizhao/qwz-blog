@@ -26,8 +26,7 @@ public class PostCategory extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "custom-id")
-    @GenericGenerator(name = "custom-id",
-            strategy = "com.qinweizhao.site.model.entity.support.CustomIdGenerator")
+    @GenericGenerator(name = "custom-id", strategy = "com.qinweizhao.site.model.entity.support.CustomIdGenerator")
     private Integer id;
 
     /**
@@ -51,8 +50,8 @@ public class PostCategory extends BaseEntity {
             return false;
         }
         PostCategory that = (PostCategory) o;
-        return categoryId.equals(that.categoryId)
-                && postId.equals(that.postId);
+        return categoryId.equals(that.categoryId) &&
+                postId.equals(that.postId);
     }
 
     @Override

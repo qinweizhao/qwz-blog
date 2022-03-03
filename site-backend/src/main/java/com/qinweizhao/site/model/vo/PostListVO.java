@@ -1,10 +1,10 @@
 package com.qinweizhao.site.model.vo;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import com.qinweizhao.site.model.dto.CategoryDTO;
 import com.qinweizhao.site.model.dto.TagDTO;
 import com.qinweizhao.site.model.dto.post.BasePostSimpleDTO;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 import java.util.List;
 import java.util.Map;

@@ -8,18 +8,7 @@ import com.qinweizhao.site.model.dto.UserDTO;
 import com.qinweizhao.site.model.entity.User;
 import com.qinweizhao.site.model.enums.CommentStatus;
 import com.qinweizhao.site.model.enums.PostStatus;
-import com.qinweizhao.site.service.CategoryService;
-import com.qinweizhao.site.service.JournalCommentService;
-import com.qinweizhao.site.service.JournalService;
-import com.qinweizhao.site.service.LinkService;
-import com.qinweizhao.site.service.OptionService;
-import com.qinweizhao.site.service.PostCommentService;
-import com.qinweizhao.site.service.PostService;
-import com.qinweizhao.site.service.SheetCommentService;
-import com.qinweizhao.site.service.SheetService;
-import com.qinweizhao.site.service.StatisticService;
-import com.qinweizhao.site.service.TagService;
-import com.qinweizhao.site.service.UserService;
+import com.qinweizhao.site.service.*;
 
 /**
  * Statistic service implementation.
@@ -53,16 +42,16 @@ public class StatisticServiceImpl implements StatisticService {
     private final UserService userService;
 
     public StatisticServiceImpl(PostService postService,
-        SheetService sheetService,
-        JournalService journalService,
-        PostCommentService postCommentService,
-        SheetCommentService sheetCommentService,
-        JournalCommentService journalCommentService,
-        OptionService optionService,
-        LinkService linkService,
-        CategoryService categoryService,
-        TagService tagService,
-        UserService userService) {
+            SheetService sheetService,
+            JournalService journalService,
+            PostCommentService postCommentService,
+            SheetCommentService sheetCommentService,
+            JournalCommentService journalCommentService,
+            OptionService optionService,
+            LinkService linkService,
+            CategoryService categoryService,
+            TagService tagService,
+            UserService userService) {
         this.postService = postService;
         this.sheetService = sheetService;
         this.journalService = journalService;
@@ -78,42 +67,41 @@ public class StatisticServiceImpl implements StatisticService {
 
     @Override
     public StatisticDTO getStatistic() {
-        StatisticDTO statisticDto = new StatisticDTO();
-        statisticDto.setPostCount(postService.countByStatus(PostStatus.PUBLISHED));
+        StatisticDTO statisticDTO = new StatisticDTO();
+        statisticDTO.setPostCount(postService.countByStatus(PostStatus.PUBLISHED));
 
         // Handle comment count
         long postCommentCount = postCommentService.countByStatus(CommentStatus.PUBLISHED);
         long sheetCommentCount = sheetCommentService.countByStatus(CommentStatus.PUBLISHED);
         long journalCommentCount = journalCommentService.countByStatus(CommentStatus.PUBLISHED);
 
-        statisticDto.setCommentCount(postCommentCount + sheetCommentCount + journalCommentCount);
-        statisticDto.setTagCount(tagService.count());
-        statisticDto.setCategoryCount(categoryService.count());
-        statisticDto.setJournalCount(journalService.count());
+        statisticDTO.setCommentCount(postCommentCount + sheetCommentCount + journalCommentCount);
+        statisticDTO.setTagCount(tagService.count());
+        statisticDTO.setCategoryCount(categoryService.count());
+        statisticDTO.setJournalCount(journalService.count());
 
         long birthday = optionService.getBirthday();
         long days = (System.currentTimeMillis() - birthday) / (1000 * 24 * 3600);
-        statisticDto.setEstablishDays(days);
-        statisticDto.setBirthday(birthday);
+        statisticDTO.setEstablishDays(days);
+        statisticDTO.setBirthday(birthday);
 
-        statisticDto.setLinkCount(linkService.count());
-        statisticDto.setVisitCount(postService.countVisit() + sheetService.countVisit());
-        statisticDto.setLikeCount(postService.countLike() + sheetService.countLike());
-        return statisticDto;
+        statisticDTO.setLinkCount(linkService.count());
+        statisticDTO.setVisitCount(postService.countVisit() + sheetService.countVisit());
+        statisticDTO.setLikeCount(postService.countLike() + sheetService.countLike());
+        return statisticDTO;
     }
 
     @Override
     public StatisticWithUserDTO getStatisticWithUser() {
 
-        StatisticDTO statisticDto = getStatistic();
+        StatisticDTO statisticDTO = getStatistic();
 
-        StatisticWithUserDTO statisticWithUserDto = new StatisticWithUserDTO();
-        statisticWithUserDto.convertFrom(statisticDto);
+        StatisticWithUserDTO statisticWithUserDTO = new StatisticWithUserDTO();
+        statisticWithUserDTO.convertFrom(statisticDTO);
 
-        User user =
-            userService.getCurrentUser().orElseThrow(() -> new ServiceException("未查询到博主信息"));
-        statisticWithUserDto.setUser(new UserDTO().convertFrom(user));
+        User user = userService.getCurrentUser().orElseThrow(() -> new ServiceException("未查询到博主信息"));
+        statisticWithUserDTO.setUser(new UserDTO().convertFrom(user));
 
-        return statisticWithUserDto;
+        return statisticWithUserDTO;
     }
 }

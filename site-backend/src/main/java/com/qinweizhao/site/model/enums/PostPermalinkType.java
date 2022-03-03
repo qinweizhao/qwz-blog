@@ -31,12 +31,7 @@ public enum PostPermalinkType implements ValueEnum<Integer> {
     /**
      * /1970/${slug}
      */
-    YEAR(4),
-
-    /**
-     * archives/${id}
-     */
-    ID_SLUG(5);
+    YEAR(4);
 
     private final Integer value;
 

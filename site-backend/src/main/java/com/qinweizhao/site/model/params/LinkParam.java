@@ -1,9 +1,9 @@
 package com.qinweizhao.site.model.params;
 
-import com.qinweizhao.site.model.dto.base.InputConverter;
-import com.qinweizhao.site.model.entity.Link;
 import lombok.Data;
 import org.hibernate.validator.constraints.URL;
+import com.qinweizhao.site.model.dto.base.InputConverter;
+import com.qinweizhao.site.model.entity.Link;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;

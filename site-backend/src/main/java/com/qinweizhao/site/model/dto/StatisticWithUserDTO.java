@@ -1,8 +1,8 @@
 package com.qinweizhao.site.model.dto;
 
-import com.qinweizhao.site.model.dto.base.OutputConverter;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import com.qinweizhao.site.model.dto.base.OutputConverter;
 
 /**
  * Statistic with user info DTO.
@@ -12,8 +12,7 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class StatisticWithUserDTO extends StatisticDTO
-        implements OutputConverter<StatisticWithUserDTO, StatisticDTO> {
+public class StatisticWithUserDTO extends StatisticDTO implements OutputConverter<StatisticWithUserDTO, StatisticDTO> {
 
     private UserDTO user;
 }

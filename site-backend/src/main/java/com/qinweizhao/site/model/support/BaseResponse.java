@@ -73,7 +73,7 @@ public class BaseResponse<T> {
      * @param <T>  data type
      * @return base response with data
      */
-    public static <T> BaseResponse<T> ok(@Nullable T data) {
+    public static <T> BaseResponse<T> ok(@NonNull T data) {
         return new BaseResponse<>(HttpStatus.OK.value(), HttpStatus.OK.getReasonPhrase(), data);
     }
 }

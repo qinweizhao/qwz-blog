@@ -1,7 +1,5 @@
 package com.qinweizhao.site.service;
 
-import java.util.Collection;
-import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.lang.NonNull;
@@ -12,6 +10,9 @@ import com.qinweizhao.site.model.entity.Attachment;
 import com.qinweizhao.site.model.enums.AttachmentType;
 import com.qinweizhao.site.model.params.AttachmentQuery;
 import com.qinweizhao.site.service.base.CrudService;
+
+import java.util.Collection;
+import java.util.List;
 
 
 /**
@@ -25,7 +26,7 @@ public interface AttachmentService extends CrudService<Attachment, Integer> {
     /**
      * Pages attachment output dtos.
      *
-     * @param pageable page info must not be null
+     * @param pageable        page info must not be null
      * @param attachmentQuery attachment query param.
      * @return a page of attachment output dto
      */
@@ -82,4 +83,13 @@ public interface AttachmentService extends CrudService<Attachment, Integer> {
      * @return list of type.
      */
     List<AttachmentType> listAllType();
+
+    /**
+     * Replace attachment url in batch.
+     *
+     * @param oldUrl old blog url.
+     * @param newUrl new blog url.
+     * @return replaced attachments.
+     */
+    List<Attachment> replaceUrl(@NonNull String oldUrl, @NonNull String newUrl);
 }

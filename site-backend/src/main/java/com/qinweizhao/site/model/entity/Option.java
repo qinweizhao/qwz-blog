@@ -1,12 +1,12 @@
 package com.qinweizhao.site.model.entity;
 
-import com.qinweizhao.site.model.enums.OptionType;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.GenericGenerator;
+import com.qinweizhao.site.model.enums.OptionType;
 
 import javax.persistence.*;
 
@@ -27,8 +27,7 @@ public class Option extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "custom-id")
-    @GenericGenerator(name = "custom-id",
-            strategy = "com.qinweizhao.site.model.entity.support.CustomIdGenerator")
+    @GenericGenerator(name = "custom-id", strategy = "com.qinweizhao.site.model.entity.support.CustomIdGenerator")
     private Integer id;
 
     /**

@@ -1,7 +1,6 @@
 package com.qinweizhao.site.model.enums;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonValue;
 import org.springframework.lang.Nullable;
 
@@ -14,22 +13,22 @@ import org.springframework.lang.Nullable;
 public enum Mode {
 
     /**
-     * Production mode.
+     * Production mode
      */
     PRODUCTION,
 
     /**
-     * Develop mode.
+     * Develop mode
      */
     DEVELOPMENT,
 
     /**
-     * Demo mode.
+     * Demo mode
      */
     DEMO,
 
     /**
-     * Test mode.
+     * Test mode
      */
     TEST;
 
@@ -57,10 +56,5 @@ public enum Mode {
     @JsonValue
     String getValue() {
         return this.name().toLowerCase();
-    }
-
-    @JsonIgnore
-    public boolean isProductionEnv() {
-        return PRODUCTION.equals(this);
     }
 }

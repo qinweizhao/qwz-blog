@@ -1,9 +1,10 @@
 package com.qinweizhao.site.handler.theme.config;
 
-import java.io.IOException;
-import java.util.List;
 import org.springframework.lang.NonNull;
 import com.qinweizhao.site.handler.theme.config.support.Group;
+
+import java.io.IOException;
+import java.util.List;
 
 /**
  * Theme config resolver interface.

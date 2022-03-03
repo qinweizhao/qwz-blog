@@ -1,13 +1,13 @@
 package com.qinweizhao.site.core.freemarker.tag;
 
+import cn.hutool.core.util.PageUtil;
+import freemarker.core.Environment;
+import freemarker.template.*;
+import org.springframework.stereotype.Component;
 import com.qinweizhao.site.model.support.HaloConst;
 import com.qinweizhao.site.model.support.Pagination;
 import com.qinweizhao.site.model.support.RainbowPage;
 import com.qinweizhao.site.service.OptionService;
-import com.qinweizhao.site.utils.HaloUtils;
-import freemarker.core.Environment;
-import freemarker.template.*;
-import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -26,16 +26,14 @@ public class PaginationTagDirective implements TemplateDirectiveModel {
     private final OptionService optionService;
 
     public PaginationTagDirective(Configuration configuration,
-                                  OptionService optionService) {
+            OptionService optionService) {
         this.optionService = optionService;
         configuration.setSharedVariable("paginationTag", this);
     }
 
     @Override
-    public void execute(Environment env, Map params, TemplateModel[] loopVars,
-                        TemplateDirectiveBody body) throws TemplateException, IOException {
-        final DefaultObjectWrapperBuilder builder =
-                new DefaultObjectWrapperBuilder(Configuration.VERSION_2_3_25);
+    public void execute(Environment env, Map params, TemplateModel[] loopVars, TemplateDirectiveBody body) throws TemplateException, IOException {
+        final DefaultObjectWrapperBuilder builder = new DefaultObjectWrapperBuilder(Configuration.VERSION_2_3_25);
         if (params.containsKey(HaloConst.METHOD_KEY)) {
 
             // Get params
@@ -56,7 +54,7 @@ public class PaginationTagDirective implements TemplateDirectiveModel {
                 prevPageFullPath.append(optionService.getBlogBaseUrl());
             }
 
-            int[] rainbow = HaloUtils.rainbow(page + 1, total, display);
+            int[] rainbow = PageUtil.rainbow(page + 1, total, display);
 
             List<RainbowPage> rainbowPages = new ArrayList<>();
             StringBuilder fullPath = new StringBuilder();
@@ -104,7 +102,8 @@ public class PaginationTagDirective implements TemplateDirectiveModel {
                             .append(pathSuffix);
 
                     if (page == 1) {
-                        prevPageFullPath.append(pathSuffix);
+                        prevPageFullPath.
+                                append(pathSuffix);
                     } else {
                         prevPageFullPath.append("/page/")
                                 .append(page)
@@ -158,8 +157,7 @@ public class PaginationTagDirective implements TemplateDirectiveModel {
                     for (int current : rainbow) {
                         RainbowPage rainbowPage = new RainbowPage();
                         rainbowPage.setPage(current);
-                        rainbowPage.setFullPath(
-                                fullPath.toString() + current + pathSuffix + "?keyword=" + keyword);
+                        rainbowPage.setFullPath(fullPath.toString() + current + pathSuffix + "?keyword=" + keyword);
                         rainbowPage.setIsCurrent(page + 1 == current);
                         rainbowPages.add(rainbowPage);
                     }

@@ -1,11 +1,5 @@
 package com.qinweizhao.site.controller.content.model;
 
-import static org.springframework.data.domain.Sort.Direction.DESC;
-import static com.qinweizhao.site.model.support.HaloConst.POST_PASSWORD_TEMPLATE;
-import static com.qinweizhao.site.model.support.HaloConst.SUFFIX_FTL;
-
-import com.google.common.collect.Sets;
-import java.util.Set;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -16,15 +10,11 @@ import org.springframework.ui.Model;
 import com.qinweizhao.site.model.dto.CategoryDTO;
 import com.qinweizhao.site.model.entity.Category;
 import com.qinweizhao.site.model.entity.Post;
-import com.qinweizhao.site.model.enums.EncryptTypeEnum;
 import com.qinweizhao.site.model.enums.PostStatus;
 import com.qinweizhao.site.model.vo.PostListVO;
-import com.qinweizhao.site.service.AuthenticationService;
-import com.qinweizhao.site.service.CategoryService;
-import com.qinweizhao.site.service.OptionService;
-import com.qinweizhao.site.service.PostCategoryService;
-import com.qinweizhao.site.service.PostService;
-import com.qinweizhao.site.service.ThemeService;
+import com.qinweizhao.site.service.*;
+
+import static org.springframework.data.domain.Sort.Direction.DESC;
 
 /**
  * Category Model.
@@ -45,20 +35,12 @@ public class CategoryModel {
 
     private final OptionService optionService;
 
-    private final AuthenticationService authenticationService;
-
-    public CategoryModel(CategoryService categoryService,
-        ThemeService themeService,
-        PostCategoryService postCategoryService,
-        PostService postService,
-        OptionService optionService,
-        AuthenticationService authenticationService) {
+    public CategoryModel(CategoryService categoryService, ThemeService themeService, PostCategoryService postCategoryService, PostService postService, OptionService optionService) {
         this.categoryService = categoryService;
         this.themeService = themeService;
         this.postCategoryService = postCategoryService;
         this.postService = postService;
         this.optionService = optionService;
-        this.authenticationService = authenticationService;
     }
 
     /**
@@ -83,31 +65,14 @@ public class CategoryModel {
      * @return template name
      */
     public String listPost(Model model, String slug, Integer page) {
-
         // Get category by slug
-        final Category category = categoryService.getBySlugOfNonNull(slug, true);
-
-        if (!authenticationService.categoryAuthentication(category.getId(), null)) {
-            model.addAttribute("slug", category.getSlug());
-            model.addAttribute("type", EncryptTypeEnum.CATEGORY.getName());
-            if (themeService.templateExists(POST_PASSWORD_TEMPLATE + SUFFIX_FTL)) {
-                return themeService.render(POST_PASSWORD_TEMPLATE);
-            }
-            return "common/template/" + POST_PASSWORD_TEMPLATE;
-        }
-
-        Set<PostStatus> statuses = Sets.immutableEnumSet(PostStatus.PUBLISHED);
-        if (StringUtils.isNotBlank(category.getPassword())) {
-            statuses = Sets.immutableEnumSet(PostStatus.INTIMATE);
-        }
-
+        final Category category = categoryService.getBySlugOfNonNull(slug);
         CategoryDTO categoryDTO = categoryService.convertTo(category);
 
         final Pageable pageable = PageRequest.of(page - 1,
-            optionService.getArchivesPageSize(),
-            Sort.by(DESC, "topPriority", "createTime"));
-        Page<Post> postPage =
-            postCategoryService.pagePostBy(category.getId(), statuses, pageable);
+                optionService.getArchivesPageSize(),
+                Sort.by(DESC, "topPriority", "createTime"));
+        Page<Post> postPage = postCategoryService.pagePostBy(category.getId(), PostStatus.PUBLISHED, pageable);
         Page<PostListVO> posts = postService.convertToListVo(postPage);
 
         // Generate meta description.

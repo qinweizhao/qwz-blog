@@ -1,11 +1,11 @@
 package com.qinweizhao.site.cache;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.qinweizhao.site.exception.ServiceException;
-import com.qinweizhao.site.utils.JsonUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.lang.NonNull;
 import org.springframework.util.Assert;
+import com.qinweizhao.site.exception.ServiceException;
+import com.qinweizhao.site.utils.JsonUtils;
 
 import java.io.IOException;
 import java.util.Optional;
@@ -38,8 +38,7 @@ public abstract class AbstractStringCacheStore extends AbstractCacheStore<String
         }
     }
 
-    public <T> void putAny(@NonNull String key, @NonNull T value, long timeout,
-                           @NonNull TimeUnit timeUnit) {
+    public <T> void putAny(@NonNull String key, @NonNull T value, long timeout, @NonNull TimeUnit timeUnit) {
         try {
             put(key, JsonUtils.objectToJson(value), timeout, timeUnit);
         } catch (JsonProcessingException e) {

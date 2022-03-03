@@ -1,10 +1,5 @@
 package com.qinweizhao.site.handler.file;
 
-import static com.qinweizhao.site.model.support.HaloConst.FILE_SEPARATOR;
-import static com.qinweizhao.site.model.support.HaloConst.TEMP_DIR;
-import static com.qinweizhao.site.model.support.HaloConst.URL_SEPARATOR;
-import static com.qinweizhao.site.utils.HaloUtils.ensureSuffix;
-
 import com.qiniu.common.QiniuException;
 import com.qiniu.http.Response;
 import com.qiniu.storage.BucketManager;
@@ -14,10 +9,6 @@ import com.qiniu.storage.UploadManager;
 import com.qiniu.storage.persistent.FileRecorder;
 import com.qiniu.util.Auth;
 import com.qiniu.util.StringMap;
-import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.Objects;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -34,6 +25,15 @@ import com.qinweizhao.site.service.OptionService;
 import com.qinweizhao.site.utils.FilenameUtils;
 import com.qinweizhao.site.utils.ImageUtils;
 import com.qinweizhao.site.utils.JsonUtils;
+
+import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Objects;
+
+import static com.qinweizhao.site.handler.file.FileHandler.isImageType;
+import static com.qinweizhao.site.model.support.HaloConst.*;
+import static com.qinweizhao.site.utils.HaloUtils.ensureSuffix;
 
 /**
  * Qiniu oss file handler.
@@ -58,22 +58,14 @@ public class QiniuOssFileHandler implements FileHandler {
 
         Region region = optionService.getQiniuRegion();
 
-        String accessKey =
-            optionService.getByPropertyOfNonNull(QiniuOssProperties.OSS_ACCESS_KEY).toString();
-        String secretKey =
-            optionService.getByPropertyOfNonNull(QiniuOssProperties.OSS_SECRET_KEY).toString();
-        String bucket =
-            optionService.getByPropertyOfNonNull(QiniuOssProperties.OSS_BUCKET).toString();
-        String protocol =
-            optionService.getByPropertyOfNonNull(QiniuOssProperties.OSS_PROTOCOL).toString();
-        String domain =
-            optionService.getByPropertyOfNonNull(QiniuOssProperties.OSS_DOMAIN).toString();
-        String source =
-            optionService.getByPropertyOrDefault(QiniuOssProperties.OSS_SOURCE, String.class, "");
-        String styleRule = optionService
-            .getByPropertyOrDefault(QiniuOssProperties.OSS_STYLE_RULE, String.class, "");
-        String thumbnailStyleRule = optionService
-            .getByPropertyOrDefault(QiniuOssProperties.OSS_THUMBNAIL_STYLE_RULE, String.class, "");
+        String accessKey = optionService.getByPropertyOfNonNull(QiniuOssProperties.OSS_ACCESS_KEY).toString();
+        String secretKey = optionService.getByPropertyOfNonNull(QiniuOssProperties.OSS_SECRET_KEY).toString();
+        String bucket = optionService.getByPropertyOfNonNull(QiniuOssProperties.OSS_BUCKET).toString();
+        String protocol = optionService.getByPropertyOfNonNull(QiniuOssProperties.OSS_PROTOCOL).toString();
+        String domain = optionService.getByPropertyOfNonNull(QiniuOssProperties.OSS_DOMAIN).toString();
+        String source = optionService.getByPropertyOrDefault(QiniuOssProperties.OSS_SOURCE, String.class, "");
+        String styleRule = optionService.getByPropertyOrDefault(QiniuOssProperties.OSS_STYLE_RULE, String.class, "");
+        String thumbnailStyleRule = optionService.getByPropertyOrDefault(QiniuOssProperties.OSS_THUMBNAIL_STYLE_RULE, String.class, "");
 
         // Create configuration
         Configuration configuration = new Configuration(region);
@@ -82,9 +74,7 @@ public class QiniuOssFileHandler implements FileHandler {
         Auth auth = Auth.create(accessKey, secretKey);
         // Build put plicy
         StringMap putPolicy = new StringMap();
-        putPolicy.put("returnBody",
-            "{\"key\":\"$(key)\",\"hash\":\"$(etag)\",\"size\":$(fsize),\"width\":$(imageInfo"
-                + ".width),\"height\":$(imageInfo.height)}");
+        putPolicy.put("returnBody", "{\"key\":\"$(key)\",\"hash\":\"$(etag)\",\"size\":$(fsize),\"width\":$(imageInfo.width),\"height\":$(imageInfo.height)}");
         // Get upload token
         String uploadToken = auth.uploadToken(bucket, null, 60 * 60, putPolicy);
 
@@ -92,32 +82,30 @@ public class QiniuOssFileHandler implements FileHandler {
         Path tmpPath = Paths.get(ensureSuffix(TEMP_DIR, FILE_SEPARATOR), bucket);
 
         StringBuilder basePath = new StringBuilder(protocol)
-            .append(domain)
-            .append(URL_SEPARATOR);
+                .append(domain)
+                .append(URL_SEPARATOR);
 
         try {
-            String basename =
-                FilenameUtils.getBasename(Objects.requireNonNull(file.getOriginalFilename()));
+            String basename = FilenameUtils.getBasename(Objects.requireNonNull(file.getOriginalFilename()));
             String extension = FilenameUtils.getExtension(file.getOriginalFilename());
             String timestamp = String.valueOf(System.currentTimeMillis());
             StringBuilder upFilePath = new StringBuilder();
             if (StringUtils.isNotEmpty(source)) {
                 upFilePath.append(source)
-                    .append(URL_SEPARATOR);
+                        .append(URL_SEPARATOR);
             }
             upFilePath.append(basename)
-                .append("_")
-                .append(timestamp)
-                .append(".")
-                .append(extension);
+                    .append("_")
+                    .append(timestamp)
+                    .append(".")
+                    .append(extension);
 
             // Get file recorder for temp directory
             FileRecorder fileRecorder = new FileRecorder(tmpPath.toFile());
             // Get upload manager
             UploadManager uploadManager = new UploadManager(configuration, fileRecorder);
             // Put the file
-            Response response = uploadManager
-                .put(file.getInputStream(), upFilePath.toString(), uploadToken, null, null);
+            Response response = uploadManager.put(file.getInputStream(), upFilePath.toString(), uploadToken, null, null);
 
             if (log.isDebugEnabled()) {
                 log.debug("Qiniu oss response: [{}]", response.toString());
@@ -141,12 +129,11 @@ public class QiniuOssFileHandler implements FileHandler {
             result.setMediaType(MediaType.valueOf(Objects.requireNonNull(file.getContentType())));
             result.setSize(file.getSize());
 
-            if (isImageType(file)) {
+            if (isImageType(result.getMediaType())) {
                 if (ImageUtils.EXTENSION_ICO.equals(extension)) {
                     result.setThumbPath(filePath);
                 } else {
-                    result.setThumbPath(StringUtils.isBlank(thumbnailStyleRule) ? filePath :
-                        filePath + thumbnailStyleRule);
+                    result.setThumbPath(StringUtils.isBlank(thumbnailStyleRule) ? filePath : filePath + thumbnailStyleRule);
                 }
             }
 
@@ -166,12 +153,9 @@ public class QiniuOssFileHandler implements FileHandler {
 
         Region region = optionService.getQiniuRegion();
 
-        String accessKey =
-            optionService.getByPropertyOfNonNull(QiniuOssProperties.OSS_ACCESS_KEY).toString();
-        String secretKey =
-            optionService.getByPropertyOfNonNull(QiniuOssProperties.OSS_SECRET_KEY).toString();
-        String bucket =
-            optionService.getByPropertyOfNonNull(QiniuOssProperties.OSS_BUCKET).toString();
+        String accessKey = optionService.getByPropertyOfNonNull(QiniuOssProperties.OSS_ACCESS_KEY).toString();
+        String secretKey = optionService.getByPropertyOfNonNull(QiniuOssProperties.OSS_SECRET_KEY).toString();
+        String bucket = optionService.getByPropertyOfNonNull(QiniuOssProperties.OSS_BUCKET).toString();
 
         // Create configuration
         Configuration configuration = new Configuration(region);
@@ -185,7 +169,6 @@ public class QiniuOssFileHandler implements FileHandler {
             Response response = bucketManager.delete(bucket, key);
             if (!response.isOK()) {
                 log.warn("附件 " + key + " 从七牛云删除失败");
-                throw new FileOperationException("附件 " + key + " 从七牛云删除失败");
             }
         } catch (QiniuException e) {
             log.error("Qiniu oss error response: [{}]", e.response);

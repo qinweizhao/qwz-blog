@@ -1,8 +1,8 @@
 package com.qinweizhao.site.model.dto;
 
+import lombok.Data;
 import com.qinweizhao.site.model.dto.base.OutputConverter;
 import com.qinweizhao.site.model.entity.Photo;
-import lombok.Data;
 
 import java.util.Date;
 

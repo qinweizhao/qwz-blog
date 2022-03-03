@@ -1,10 +1,10 @@
 package com.qinweizhao.site.model.properties;
 
-import com.qinweizhao.site.model.enums.ValueEnum;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
+import com.qinweizhao.site.model.enums.ValueEnum;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -66,8 +66,7 @@ public interface PropertyEnum extends ValueEnum<String> {
         }
 
         // Should never happen
-        throw new UnsupportedOperationException(
-                "Unsupported convention for blog property type:" + type.getName() + " provided");
+        throw new UnsupportedOperationException("Unsupported convention for blog property type:" + type.getName() + " provided");
     }
 
     /**

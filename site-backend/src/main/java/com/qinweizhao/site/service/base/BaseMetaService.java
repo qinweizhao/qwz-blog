@@ -1,12 +1,13 @@
 package com.qinweizhao.site.service.base;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 import org.springframework.lang.NonNull;
 import com.qinweizhao.site.model.dto.BaseMetaDTO;
 import com.qinweizhao.site.model.entity.BaseMeta;
 import com.qinweizhao.site.model.params.BaseMetaParam;
+
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Base meta service interface.
@@ -15,16 +16,16 @@ import com.qinweizhao.site.model.params.BaseMetaParam;
  * @author ikaisec
  * @date 2019-08-04
  */
-public interface BaseMetaService<M extends BaseMeta> extends CrudService<M, Long> {
+public interface BaseMetaService<META extends BaseMeta> extends CrudService<META, Long> {
 
     /**
      * Creates by post metas and post id.
      *
      * @param postId post id must not be null
-     * @param metas metas must not be null
+     * @param metas  metas must not be null
      * @return a list of post meta
      */
-    List<M> createOrUpdateByPostId(@NonNull Integer postId, Set<M> metas);
+    List<META> createOrUpdateByPostId(@NonNull Integer postId, Set<META> metas);
 
     /**
      * Remove post metas by post id.
@@ -32,7 +33,7 @@ public interface BaseMetaService<M extends BaseMeta> extends CrudService<M, Long
      * @param postId post id must not be null
      * @return a list of post meta
      */
-    List<M> removeByPostId(@NonNull Integer postId);
+    List<META> removeByPostId(@NonNull Integer postId);
 
     /**
      * Lists post metas as map.
@@ -40,7 +41,7 @@ public interface BaseMetaService<M extends BaseMeta> extends CrudService<M, Long
      * @param postIds post ids must not be null
      * @return a map of post meta
      */
-    Map<Integer, List<M>> listPostMetaAsMap(@NonNull Set<Integer> postIds);
+    Map<Integer, List<META>> listPostMetaAsMap(@NonNull Set<Integer> postIds);
 
     /**
      * Lists metas by post id.
@@ -49,7 +50,7 @@ public interface BaseMetaService<M extends BaseMeta> extends CrudService<M, Long
      * @return a list of meta
      */
     @NonNull
-    List<M> listBy(@NonNull Integer postId);
+    List<META> listBy(@NonNull Integer postId);
 
     /**
      * Creates a meta by meta.
@@ -59,7 +60,7 @@ public interface BaseMetaService<M extends BaseMeta> extends CrudService<M, Long
      */
     @NonNull
     @Override
-    M create(@NonNull M meta);
+    META create(@NonNull META meta);
 
     /**
      * Creates a meta by meta param.
@@ -68,7 +69,7 @@ public interface BaseMetaService<M extends BaseMeta> extends CrudService<M, Long
      * @return created meta
      */
     @NonNull
-    M createBy(@NonNull BaseMetaParam<M> metaParam);
+    META createBy(@NonNull BaseMetaParam<META> metaParam);
 
     /**
      * Target validation.
@@ -83,7 +84,7 @@ public interface BaseMetaService<M extends BaseMeta> extends CrudService<M, Long
      * @param metas a list of metas
      * @return a map of metas
      */
-    Map<String, Object> convertToMap(List<M> metas);
+    Map<String, Object> convertToMap(List<META> metas);
 
     /**
      * Convert PostMeta to PostMetaDTO.
@@ -92,7 +93,7 @@ public interface BaseMetaService<M extends BaseMeta> extends CrudService<M, Long
      * @return post meta vo
      */
     @NonNull
-    BaseMetaDTO convertTo(@NonNull M postMeta);
+    BaseMetaDTO convertTo(@NonNull META postMeta);
 
     /**
      * Convert list of PostMeta to list of PostMetaDTO.
@@ -101,5 +102,5 @@ public interface BaseMetaService<M extends BaseMeta> extends CrudService<M, Long
      * @return a list of post meta dto
      */
     @NonNull
-    List<BaseMetaDTO> convertTo(@NonNull List<M> postMetaList);
+    List<BaseMetaDTO> convertTo(@NonNull List<META> postMetaList);
 }

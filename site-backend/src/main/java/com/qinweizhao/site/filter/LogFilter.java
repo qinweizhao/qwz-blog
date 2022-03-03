@@ -1,6 +1,6 @@
 package com.qinweizhao.site.filter;
 
-import com.qinweizhao.site.utils.ServletUtils;
+import cn.hutool.extra.servlet.ServletUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
@@ -20,31 +20,24 @@ import java.io.IOException;
  */
 @Slf4j
 @Component
-@Order(Ordered.HIGHEST_PRECEDENCE)
+@Order(Ordered.HIGHEST_PRECEDENCE + 9)
 public class LogFilter extends OncePerRequestFilter {
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
-                                    FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
-        final String remoteAddr = ServletUtils.getClientIP(request);
+        String remoteAddr = ServletUtil.getClientIP(request);
 
-        log.debug("Starting url: [{}], method: [{}], ip: [{}]",
-                request.getRequestURL(),
-                request.getMethod(),
-                remoteAddr);
+        log.debug("");
+        log.debug("Starting url: [{}], method: [{}], ip: [{}]", request.getRequestURL(), request.getMethod(), remoteAddr);
 
         // Set start time
-        final long startTime = System.currentTimeMillis();
+        long startTime = System.currentTimeMillis();
 
         // Do filter
         filterChain.doFilter(request, response);
 
-        log.debug("Ending   url: [{}], method: [{}], ip: [{}], status: [{}], usage: [{}] ms",
-                request.getRequestURL(),
-                request.getMethod(),
-                remoteAddr,
-                response.getStatus(),
-                System.currentTimeMillis() - startTime);
+        log.debug("Ending   url: [{}], method: [{}], ip: [{}], status: [{}], usage: [{}] ms", request.getRequestURL(), request.getMethod(), remoteAddr, response.getStatus(), System.currentTimeMillis() - startTime);
+        log.debug("");
     }
 }

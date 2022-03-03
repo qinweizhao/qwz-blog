@@ -1,9 +1,10 @@
 package com.qinweizhao.site.service.support;
 
-import java.nio.charset.Charset;
-import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
+
+import java.nio.charset.Charset;
+import java.util.Map;
 
 /**
  * Halo Media type.

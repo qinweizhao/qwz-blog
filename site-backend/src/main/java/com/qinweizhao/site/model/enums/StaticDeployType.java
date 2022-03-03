@@ -9,8 +9,7 @@ package com.qinweizhao.site.model.enums;
 public enum StaticDeployType implements ValueEnum<Integer> {
 
     /**
-     * Deploy static pages in remote git repository, such as github pages,gitee pages,coding
-     * pages.etc.
+     * Deploy static pages in remote git repository, such as github pages,gitee pages,coding pages.etc.
      */
     GIT(0),
 

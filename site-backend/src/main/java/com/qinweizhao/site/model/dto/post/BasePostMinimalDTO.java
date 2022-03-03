@@ -1,12 +1,12 @@
 package com.qinweizhao.site.model.dto.post;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import com.qinweizhao.site.model.dto.base.OutputConverter;
 import com.qinweizhao.site.model.entity.BasePost;
 import com.qinweizhao.site.model.enums.PostEditorType;
 import com.qinweizhao.site.model.enums.PostStatus;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
 
 import java.util.Date;
 

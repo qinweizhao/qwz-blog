@@ -28,8 +28,7 @@ public class ReflectionUtils {
      * @return parameterized type of the interface or null if it is mismatch
      */
     @Nullable
-    public static ParameterizedType getParameterizedType(@NonNull Class<?> superType,
-                                                         Type... genericTypes) {
+    public static ParameterizedType getParameterizedType(@NonNull Class<?> superType, Type... genericTypes) {
         Assert.notNull(superType, "Interface or super type must not be null");
 
         ParameterizedType currentType = null;
@@ -55,8 +54,7 @@ public class ReflectionUtils {
      * @return parameterized type of the interface or null if it is mismatch
      */
     @Nullable
-    public static ParameterizedType getParameterizedType(@NonNull Class<?> interfaceType,
-                                                         Class<?> implementationClass) {
+    public static ParameterizedType getParameterizedType(@NonNull Class<?> interfaceType, Class<?> implementationClass) {
         Assert.notNull(interfaceType, "Interface type must not be null");
         Assert.isTrue(interfaceType.isInterface(), "The give type must be an interface");
 
@@ -66,8 +64,7 @@ public class ReflectionUtils {
         }
 
         // Get parameterized type
-        ParameterizedType currentType =
-                getParameterizedType(interfaceType, implementationClass.getGenericInterfaces());
+        ParameterizedType currentType = getParameterizedType(interfaceType, implementationClass.getGenericInterfaces());
 
         if (currentType != null) {
             // return the current type
@@ -87,8 +84,7 @@ public class ReflectionUtils {
      * @return parameterized type or null
      */
     @Nullable
-    public static ParameterizedType getParameterizedTypeBySuperClass(
-            @NonNull Class<?> superClassType, Class<?> extensionClass) {
+    public static ParameterizedType getParameterizedTypeBySuperClass(@NonNull Class<?> superClassType, Class<?> extensionClass) {
 
         if (extensionClass == null) {
             return null;

@@ -1,7 +1,5 @@
 package com.qinweizhao.site.service.base;
 
-import java.util.List;
-import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.lang.NonNull;
@@ -11,6 +9,9 @@ import com.qinweizhao.site.model.dto.post.BasePostMinimalDTO;
 import com.qinweizhao.site.model.dto.post.BasePostSimpleDTO;
 import com.qinweizhao.site.model.entity.BasePost;
 import com.qinweizhao.site.model.enums.PostStatus;
+
+import java.util.List;
+import java.util.Optional;
 
 /**
  * Base post service implementation.
@@ -56,7 +57,7 @@ public interface BasePostService<POST extends BasePost> extends CrudService<POST
      * Gets post by post status and slug.
      *
      * @param status post status must not be null
-     * @param slug post slug must not be blank
+     * @param slug   post slug must not be blank
      * @return post info
      */
     @NonNull
@@ -66,7 +67,7 @@ public interface BasePostService<POST extends BasePost> extends CrudService<POST
      * Gets post by post status and id.
      *
      * @param status post status must not be null
-     * @param id post id must not be blank
+     * @param id     post id must not be blank
      * @return post info
      */
     @NonNull
@@ -149,7 +150,7 @@ public interface BasePostService<POST extends BasePost> extends CrudService<POST
     /**
      * Lists by status.
      *
-     * @param status post status must not be null
+     * @param status   post status must not be null
      * @param pageable page info must not be null
      * @return a page of post
      */
@@ -165,19 +166,19 @@ public interface BasePostService<POST extends BasePost> extends CrudService<POST
     void increaseVisit(long visits, @NonNull Integer postId);
 
     /**
+     * Increase post likes.
+     *
+     * @param likes  likes must not be less than 1
+     * @param postId post id must not be null
+     */
+    void increaseLike(long likes, @NonNull Integer postId);
+
+    /**
      * Increases post visits (1).
      *
      * @param postId post id must not be null
      */
     void increaseVisit(@NonNull Integer postId);
-
-    /**
-     * Increase post likes.
-     *
-     * @param likes likes must not be less than 1
-     * @param postId post id must not be null
-     */
-    void increaseLike(long likes, @NonNull Integer postId);
 
     /**
      * Increases post likes(1).
@@ -271,7 +272,7 @@ public interface BasePostService<POST extends BasePost> extends CrudService<POST
      * Updates draft content.
      *
      * @param content draft content could be blank
-     * @param postId post id must not be null
+     * @param postId  post id must not be null
      * @return updated post
      */
     @NonNull
@@ -290,12 +291,22 @@ public interface BasePostService<POST extends BasePost> extends CrudService<POST
     /**
      * Updates post status by ids.
      *
-     * @param ids post ids must not be null
+     * @param ids    post ids must not be null
      * @param status post status must not be null
      * @return updated posts
      */
     @NonNull
     List<POST> updateStatusByIds(@NonNull List<Integer> ids, @NonNull PostStatus status);
+
+    /**
+     * Replace post blog url in batch.
+     *
+     * @param oldUrl old blog url.
+     * @param newUrl new blog url.
+     * @return replaced posts.
+     */
+    @NonNull
+    List<BasePostDetailDTO> replaceUrl(@NonNull String oldUrl, @NonNull String newUrl);
 
     /**
      * Generate description.

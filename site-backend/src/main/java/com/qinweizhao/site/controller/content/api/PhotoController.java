@@ -1,8 +1,5 @@
 package com.qinweizhao.site.controller.content.api;
 
-import static org.springframework.data.domain.Sort.Direction.DESC;
-
-import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -14,6 +11,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.qinweizhao.site.model.dto.PhotoDTO;
 import com.qinweizhao.site.model.params.PhotoQuery;
 import com.qinweizhao.site.service.PhotoService;
+
+import java.util.List;
+
+import static org.springframework.data.domain.Sort.Direction.DESC;
 
 /**
  * Content photo controller.
@@ -38,15 +39,13 @@ public class PhotoController {
      * @return all of photos
      */
     @GetMapping(value = "latest")
-    public List<PhotoDTO> listPhotos(
-        @SortDefault(sort = "updateTime", direction = Sort.Direction.DESC) Sort sort) {
+    public List<PhotoDTO> listPhotos(@SortDefault(sort = "updateTime", direction = Sort.Direction.DESC) Sort sort) {
         return photoService.listDtos(sort);
     }
 
     @GetMapping
-    public Page<PhotoDTO> pageBy(
-        @PageableDefault(sort = "updateTime", direction = DESC) Pageable pageable,
-        PhotoQuery photoQuery) {
+    public Page<PhotoDTO> pageBy(@PageableDefault(sort = "updateTime", direction = DESC) Pageable pageable,
+            PhotoQuery photoQuery) {
         return photoService.pageDtosBy(pageable, photoQuery);
     }
 }

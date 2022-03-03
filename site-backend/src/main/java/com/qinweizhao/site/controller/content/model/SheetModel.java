@@ -1,6 +1,5 @@
 package com.qinweizhao.site.controller.content.model;
 
-import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.ui.Model;
@@ -17,6 +16,8 @@ import com.qinweizhao.site.service.SheetMetaService;
 import com.qinweizhao.site.service.SheetService;
 import com.qinweizhao.site.service.ThemeService;
 import com.qinweizhao.site.utils.MarkdownUtils;
+
+import java.util.List;
 
 /**
  * Sheet model.
@@ -38,10 +39,10 @@ public class SheetModel {
     private final OptionService optionService;
 
     public SheetModel(SheetService sheetService,
-        SheetMetaService sheetMetaService,
-        AbstractStringCacheStore cacheStore,
-        ThemeService themeService,
-        OptionService optionService) {
+            SheetMetaService sheetMetaService,
+            AbstractStringCacheStore cacheStore,
+            ThemeService themeService,
+            OptionService optionService) {
         this.sheetService = sheetService;
         this.sheetMetaService = sheetMetaService;
         this.cacheStore = cacheStore;
@@ -63,8 +64,7 @@ public class SheetModel {
             sheet = sheetService.getBy(PostStatus.PUBLISHED, sheet.getSlug());
         } else {
             // verify token
-            String cachedToken = cacheStore.getAny(token, String.class)
-                .orElseThrow(() -> new ForbiddenException("您没有该页面的访问权限"));
+            String cachedToken = cacheStore.getAny(token, String.class).orElseThrow(() -> new ForbiddenException("您没有该页面的访问权限"));
             if (!cachedToken.equals(token)) {
                 throw new ForbiddenException("您没有该页面的访问权限");
             }
@@ -93,8 +93,7 @@ public class SheetModel {
         if (StringUtils.isNotEmpty(sheet.getMetaDescription())) {
             model.addAttribute("meta_description", sheet.getMetaDescription());
         } else {
-            model.addAttribute("meta_description",
-                sheetService.generateDescription(sheet.getFormatContent()));
+            model.addAttribute("meta_description", sheetService.generateDescription(sheet.getFormatContent()));
         }
 
         // sheet and post all can use
@@ -103,8 +102,7 @@ public class SheetModel {
         model.addAttribute("is_sheet", true);
         model.addAttribute("metas", sheetMetaService.convertToMap(metas));
 
-        if (themeService.templateExists(
-            ThemeService.CUSTOM_SHEET_PREFIX + sheet.getTemplate() + HaloConst.SUFFIX_FTL)) {
+        if (themeService.templateExists(ThemeService.CUSTOM_SHEET_PREFIX + sheet.getTemplate() + HaloConst.SUFFIX_FTL)) {
             return themeService.render(ThemeService.CUSTOM_SHEET_PREFIX + sheet.getTemplate());
         }
         return themeService.render("sheet");

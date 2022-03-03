@@ -1,7 +1,6 @@
 package com.qinweizhao.site.controller.admin.api;
 
 import io.swagger.annotations.ApiOperation;
-import javax.validation.Valid;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,6 +9,8 @@ import com.qinweizhao.site.annotation.DisableOnCondition;
 import com.qinweizhao.site.mail.MailService;
 import com.qinweizhao.site.model.params.MailParam;
 import com.qinweizhao.site.model.support.BaseResponse;
+
+import javax.validation.Valid;
 
 /**
  * Mail controller.

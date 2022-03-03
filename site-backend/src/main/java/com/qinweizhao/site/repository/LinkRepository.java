@@ -1,9 +1,10 @@
 package com.qinweizhao.site.repository;
 
-import java.util.List;
 import org.springframework.data.jpa.repository.Query;
 import com.qinweizhao.site.model.entity.Link;
 import com.qinweizhao.site.repository.base.BaseRepository;
+
+import java.util.List;
 
 /**
  * Link repository.

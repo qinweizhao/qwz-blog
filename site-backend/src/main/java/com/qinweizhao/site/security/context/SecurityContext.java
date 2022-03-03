@@ -21,8 +21,7 @@ public interface SecurityContext {
     /**
      * Changes the currently authenticated principal, or removes the authentication information.
      *
-     * @param authentication the new authentication or null if no further authentication should
-     * not be stored
+     * @param authentication the new authentication or null if no further authentication should not be stored
      */
     void setAuthentication(@Nullable Authentication authentication);
 

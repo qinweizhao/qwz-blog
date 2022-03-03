@@ -1,6 +1,5 @@
 package com.qinweizhao.site.service;
 
-import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -11,6 +10,8 @@ import com.qinweizhao.site.model.params.PhotoParam;
 import com.qinweizhao.site.model.params.PhotoQuery;
 import com.qinweizhao.site.model.vo.PhotoTeamVO;
 import com.qinweizhao.site.service.base.CrudService;
+
+import java.util.List;
 
 /**
  * Photo service interface.
@@ -57,7 +58,7 @@ public interface PhotoService extends CrudService<Photo, Integer> {
     /**
      * Pages photo output dtos.
      *
-     * @param pageable page info must not be null
+     * @param pageable   page info must not be null
      * @param photoQuery photoQuery
      * @return a page of photo output dto
      */
@@ -79,4 +80,13 @@ public interface PhotoService extends CrudService<Photo, Integer> {
      * @return list of teams
      */
     List<String> listAllTeams();
+
+    /**
+     * Replace photo url in batch.
+     *
+     * @param oldUrl old blog url.
+     * @param newUrl new blog url.
+     * @return replaced photos.
+     */
+    List<PhotoDTO> replaceUrl(@NonNull String oldUrl, @NonNull String newUrl);
 }

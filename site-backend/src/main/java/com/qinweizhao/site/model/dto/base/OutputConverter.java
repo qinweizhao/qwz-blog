@@ -9,11 +9,11 @@ import static com.qinweizhao.site.utils.BeanUtils.updateProperties;
  *
  * <b>The implementation type must be equal to DTO type</b>
  *
- * @param <DtoT> the implementation class type
- * @param <D>    domain type
+ * @param <DTO>    the implementation class type
+ * @param <DOMAIN> domain type
  * @author johnniang
  */
-public interface OutputConverter<DtoT extends OutputConverter<DtoT, D>, D> {
+public interface OutputConverter<DTO extends OutputConverter<DTO, DOMAIN>, DOMAIN> {
 
     /**
      * Convert from domain.(shallow)
@@ -23,7 +23,7 @@ public interface OutputConverter<DtoT extends OutputConverter<DtoT, D>, D> {
      */
     @SuppressWarnings("unchecked")
     @NonNull
-    default <T extends DtoT> T convertFrom(@NonNull D domain) {
+    default <T extends DTO> T convertFrom(@NonNull DOMAIN domain) {
 
         updateProperties(domain, this);
 

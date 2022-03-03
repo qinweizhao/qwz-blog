@@ -1,16 +1,13 @@
 package com.qinweizhao.site.listener.post;
 
-import java.util.Map;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.LinkedBlockingQueue;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.Assert;
 import com.qinweizhao.site.event.post.AbstractVisitEvent;
 import com.qinweizhao.site.service.base.BasePostService;
+
+import java.util.Map;
+import java.util.concurrent.*;
 
 /**
  * Abstract visit event listener.
@@ -50,7 +47,7 @@ public abstract class AbstractVisitEventListener {
      * Handle visit event.
      *
      * @param event visit event must not be null
-     * @throws InterruptedException interrupted exception
+     * @throws InterruptedException
      */
     protected void handleVisitEvent(@NonNull AbstractVisitEvent event) throws InterruptedException {
         Assert.notNull(event, "Visit event must not be null");
@@ -61,8 +58,7 @@ public abstract class AbstractVisitEventListener {
         log.debug("Received a visit event, post id: [{}]", id);
 
         // Get post visit queue
-        BlockingQueue<Integer> postVisitQueue =
-            visitQueueMap.computeIfAbsent(id, this::createEmptyQueue);
+        BlockingQueue<Integer> postVisitQueue = visitQueueMap.computeIfAbsent(id, this::createEmptyQueue);
 
         visitTaskMap.computeIfAbsent(id, this::createPostVisitTask);
 
@@ -112,9 +108,7 @@ public abstract class AbstractVisitEventListener {
 
                     log.debug("Increased visits for post id: [{}]", postId);
                 } catch (InterruptedException e) {
-                    log.debug(
-                        "Post visit task: " + Thread.currentThread().getName() + " was interrupted",
-                        e);
+                    log.debug("Post visit task: " + Thread.currentThread().getName() + " was interrupted", e);
                     // Ignore this exception
                 }
             }

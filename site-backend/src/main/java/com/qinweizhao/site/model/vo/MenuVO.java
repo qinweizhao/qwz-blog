@@ -1,9 +1,9 @@
 package com.qinweizhao.site.model.vo;
 
-import com.qinweizhao.site.model.dto.MenuDTO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
+import com.qinweizhao.site.model.dto.MenuDTO;
 
 import java.util.LinkedList;
 import java.util.List;

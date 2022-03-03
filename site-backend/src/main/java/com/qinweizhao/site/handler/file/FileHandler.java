@@ -1,22 +1,14 @@
 package com.qinweizhao.site.handler.file;
 
-import com.qinweizhao.site.exception.FileOperationException;
-import com.qinweizhao.site.model.enums.AttachmentType;
-import com.qinweizhao.site.model.support.UploadResult;
-import com.qinweizhao.site.utils.ImageUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 import org.springframework.web.multipart.MultipartFile;
-
-import javax.imageio.ImageReader;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.function.Supplier;
+import com.qinweizhao.site.exception.FileOperationException;
+import com.qinweizhao.site.model.enums.AttachmentType;
+import com.qinweizhao.site.model.support.UploadResult;
 
 import static com.qinweizhao.site.model.support.HaloConst.FILE_SEPARATOR;
 
@@ -29,6 +21,26 @@ import static com.qinweizhao.site.model.support.HaloConst.FILE_SEPARATOR;
 public interface FileHandler {
 
     MediaType IMAGE_TYPE = MediaType.valueOf("image/*");
+
+    /**
+     * Check whether media type provided is an image type.
+     *
+     * @param mediaType media type provided
+     * @return true if it is an image type
+     */
+    static boolean isImageType(@Nullable String mediaType) {
+        return mediaType != null && IMAGE_TYPE.includes(MediaType.valueOf(mediaType));
+    }
+
+    /**
+     * Check whether media type provided is an image type.
+     *
+     * @param mediaType media type provided
+     * @return true if it is an image type
+     */
+    static boolean isImageType(@Nullable MediaType mediaType) {
+        return mediaType != null && IMAGE_TYPE.includes(mediaType);
+    }
 
     /**
      * Normalize directory full name, ensure the end path separator.
@@ -54,58 +66,6 @@ public interface FileHandler {
     UploadResult upload(@NonNull MultipartFile file);
 
     /**
-     * Check if the current file is an image.
-     *
-     * @param file multipart file must not be null
-     * @return true if the current file is an image, false otherwise
-     */
-    default boolean isImageType(@NonNull MultipartFile file) {
-        String mediaType = file.getContentType();
-        return mediaType != null && IMAGE_TYPE.includes(MediaType.valueOf(mediaType));
-    }
-
-    /**
-     * Update Metadata for image object.
-     *
-     * @param uploadResult      updated result must not be null
-     * @param file              multipart file must not be null
-     * @param thumbnailSupplier thumbnail supplier
-     */
-    default void handleImageMetadata(@NonNull MultipartFile file,
-                                     @NonNull UploadResult uploadResult,
-                                     @Nullable Supplier<String> thumbnailSupplier) {
-        if (isImageType(file)) {
-            // Handle image
-            try (InputStream is = file.getInputStream()) {
-                String extension = uploadResult.getSuffix();
-                // 解决上传附件时选择ico文件会失败的问题
-                if (ImageUtils.EXTENSION_ICO.equals(extension)) {
-                    BufferedImage icoImage =
-                            ImageUtils.getImageFromFile(is, extension);
-                    uploadResult.setWidth(icoImage.getWidth());
-                    uploadResult.setHeight(icoImage.getHeight());
-                }
-                else {
-                    ImageReader image =
-                            ImageUtils.getImageReaderFromFile(is, extension);
-                    uploadResult.setWidth(image.getWidth(0));
-                    uploadResult.setHeight(image.getHeight(0));
-                }
-
-                if (thumbnailSupplier != null) {
-                    uploadResult.setThumbPath(thumbnailSupplier.get());
-                }
-            } catch (IOException | OutOfMemoryError e) {
-                // ignore IOException and OOM
-                LoggerFactory.getLogger(getClass()).warn("Failed to fetch image meta data", e);
-            }
-        }
-        if (StringUtils.isBlank(uploadResult.getThumbPath())) {
-            uploadResult.setThumbPath(uploadResult.getFilePath());
-        }
-    }
-
-    /**
      * Deletes file.
      *
      * @param key file key must not be null
@@ -119,5 +79,4 @@ public interface FileHandler {
      * @return attachment type
      */
     AttachmentType getAttachmentType();
-
 }

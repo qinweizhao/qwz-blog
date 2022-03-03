@@ -3,6 +3,7 @@ package com.qinweizhao.site.service;
 import org.springframework.lang.NonNull;
 import com.qinweizhao.site.model.dto.EnvironmentDTO;
 import com.qinweizhao.site.model.dto.LoginPreCheckDTO;
+import com.qinweizhao.site.model.dto.StatisticDTO;
 import com.qinweizhao.site.model.entity.User;
 import com.qinweizhao.site.model.params.LoginParam;
 import com.qinweizhao.site.model.params.ResetPasswordParam;
@@ -64,6 +65,15 @@ public interface AdminService {
     void resetPasswordByCode(@NonNull ResetPasswordParam param);
 
     /**
+     * Get system counts.
+     *
+     * @return count dto
+     */
+    @NonNull
+    @Deprecated
+    StatisticDTO getCount();
+
+    /**
      * Get system environments
      *
      * @return environments
@@ -79,6 +89,11 @@ public interface AdminService {
      */
     @NonNull
     AuthToken refreshToken(@NonNull String refreshToken);
+
+    /**
+     * Updates halo admin assets.
+     */
+    void updateAdminAssets();
 
     /**
      * Get halo logs content.

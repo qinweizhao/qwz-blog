@@ -1,7 +1,7 @@
 package com.qinweizhao.site.model.params;
 
-import com.qinweizhao.site.model.enums.MFAType;
 import lombok.Data;
+import com.qinweizhao.site.model.enums.MFAType;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;

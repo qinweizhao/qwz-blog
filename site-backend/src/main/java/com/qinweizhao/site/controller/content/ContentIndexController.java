@@ -1,6 +1,5 @@
 package com.qinweizhao.site.controller.content;
 
-import java.util.Objects;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,6 +11,8 @@ import com.qinweizhao.site.model.entity.Post;
 import com.qinweizhao.site.model.enums.PostPermalinkType;
 import com.qinweizhao.site.service.OptionService;
 import com.qinweizhao.site.service.PostService;
+
+import java.util.Objects;
 
 /**
  * Blog index page controller
@@ -31,8 +32,8 @@ public class ContentIndexController {
     private final PostModel postModel;
 
     public ContentIndexController(PostService postService,
-        OptionService optionService,
-        PostModel postModel) {
+            OptionService optionService,
+            PostModel postModel) {
         this.postService = postService;
         this.optionService = optionService;
         this.postModel = postModel;
@@ -42,7 +43,7 @@ public class ContentIndexController {
     /**
      * Render blog index
      *
-     * @param p post id
+     * @param p     post id
      * @param model model
      * @return template path: themes/{theme}/index.ftl
      */
@@ -63,12 +64,12 @@ public class ContentIndexController {
      * Render blog index
      *
      * @param model model
-     * @param page current page number
+     * @param page  current page number
      * @return template path: themes/{theme}/index.ftl
      */
     @GetMapping(value = "page/{page}")
     public String index(Model model,
-        @PathVariable(value = "page") Integer page) {
+            @PathVariable(value = "page") Integer page) {
         return postModel.list(page, model);
     }
 }

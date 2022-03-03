@@ -1,7 +1,7 @@
 package com.qinweizhao.site.model.params;
 
-import com.qinweizhao.site.model.enums.JournalType;
 import lombok.Data;
+import com.qinweizhao.site.model.enums.JournalType;
 
 /**
  * Journal query params.

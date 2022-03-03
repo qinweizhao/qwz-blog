@@ -1,11 +1,11 @@
 package com.qinweizhao.site.model.entity;
 
-import com.qinweizhao.site.model.enums.MFAType;
-import com.qinweizhao.site.utils.DateUtils;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import org.hibernate.annotations.ColumnDefault;
+import com.qinweizhao.site.model.enums.MFAType;
+import com.qinweizhao.site.utils.DateUtils;
 
 import javax.persistence.*;
 import java.util.Date;

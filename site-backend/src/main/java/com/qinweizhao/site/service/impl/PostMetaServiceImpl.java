@@ -1,7 +1,7 @@
 package com.qinweizhao.site.service.impl;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.lang.NonNull;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 import com.qinweizhao.site.exception.NotFoundException;
 import com.qinweizhao.site.model.entity.PostMeta;
@@ -23,15 +23,14 @@ public class PostMetaServiceImpl extends BaseMetaServiceImpl<PostMeta> implement
 
     private final PostRepository postRepository;
 
-    public PostMetaServiceImpl(BaseMetaRepository<PostMeta> baseMetaRepository,
-        PostRepository postRepository) {
+    public PostMetaServiceImpl(BaseMetaRepository<PostMeta> baseMetaRepository, PostRepository postRepository) {
         super(baseMetaRepository);
         this.postRepository = postRepository;
     }
 
     @Override
-    public void validateTarget(@NonNull Integer postId) {
+    public void validateTarget(@NotNull Integer postId) {
         postRepository.findById(postId)
-            .orElseThrow(() -> new NotFoundException("查询不到该文章的信息").setErrorData(postId));
+                .orElseThrow(() -> new NotFoundException("查询不到该文章的信息").setErrorData(postId));
     }
 }

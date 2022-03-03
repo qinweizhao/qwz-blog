@@ -1,8 +1,8 @@
 package com.qinweizhao.site.model.entity.support;
 
-import com.qinweizhao.site.utils.ReflectionUtils;
 import org.hibernate.engine.spi.SharedSessionContractImplementor;
 import org.hibernate.id.IdentityGenerator;
+import com.qinweizhao.site.utils.ReflectionUtils;
 
 import java.io.Serializable;
 

@@ -1,7 +1,8 @@
 package com.qinweizhao.site.handler.theme.config.support;
 
-import java.util.List;
 import lombok.Data;
+
+import java.util.List;
 
 /**
  * Theme configuration: group entity.

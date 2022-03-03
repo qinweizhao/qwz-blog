@@ -1,10 +1,10 @@
 package com.qinweizhao.site.model.dto;
 
-import com.qinweizhao.site.model.dto.base.OutputConverter;
-import com.qinweizhao.site.model.entity.Menu;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
+import com.qinweizhao.site.model.dto.base.OutputConverter;
+import com.qinweizhao.site.model.entity.Menu;
 
 /**
  * Menu output dto.

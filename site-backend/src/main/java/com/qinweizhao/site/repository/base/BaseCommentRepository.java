@@ -1,7 +1,5 @@
 package com.qinweizhao.site.repository.base;
 
-import java.util.Collection;
-import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
@@ -15,6 +13,9 @@ import com.qinweizhao.site.model.enums.CommentStatus;
 import com.qinweizhao.site.model.projection.CommentChildrenCountProjection;
 import com.qinweizhao.site.model.projection.CommentCountProjection;
 
+import java.util.Collection;
+import java.util.List;
+
 /**
  * Base comment repository.
  *
@@ -23,13 +24,12 @@ import com.qinweizhao.site.model.projection.CommentCountProjection;
  * @date 2019-04-24
  */
 @NoRepositoryBean
-public interface BaseCommentRepository<COMMENT extends BaseComment>
-    extends BaseRepository<COMMENT, Long>, JpaSpecificationExecutor<COMMENT> {
+public interface BaseCommentRepository<COMMENT extends BaseComment> extends BaseRepository<COMMENT, Long>, JpaSpecificationExecutor<COMMENT> {
 
     /**
      * Finds all comments by status.
      *
-     * @param status status must not be null
+     * @param status   status must not be null
      * @param pageable page info must not be null
      * @return a page of comment
      */
@@ -64,32 +64,12 @@ public interface BaseCommentRepository<COMMENT extends BaseComment>
      * @param postIds post id collection must not be null
      * @return a list of comment count
      */
-    @Query(
-        "select new com.qinweizhao.site.model.projection.CommentCountProjection(count(comment.id), "
-            + "comment.postId) "
-            + "from BaseComment comment "
-            + "where comment.postId in ?1 "
-            + "group by comment.postId")
+    @Query("select new com.qinweizhao.site.model.projection.CommentCountProjection(count(comment.id), comment.postId) " +
+            "from BaseComment comment " +
+            "where comment.postId in ?1 " +
+            "group by comment.postId")
     @NonNull
     List<CommentCountProjection> countByPostIds(@NonNull Collection<Integer> postIds);
-
-    /**
-     * Counts comment count by comment status and post id collection.
-     *
-     * @param status status must not be null
-     * @param postIds post id collection must not be null
-     * @return a list of comment count
-     */
-    @Query(
-        "select new com.qinweizhao.site.model.projection.CommentCountProjection(count(comment.id), "
-            + "comment.postId) "
-            + "from BaseComment comment "
-            + "where comment.status = ?1 "
-            + "and comment.postId in ?2 "
-            + "group by comment.postId")
-    @NonNull
-    List<CommentCountProjection> countByStatusAndPostIds(@NonNull CommentStatus status,
-        @NonNull Collection<Integer> postIds);
 
     /**
      * Count comments by post id.
@@ -98,15 +78,6 @@ public interface BaseCommentRepository<COMMENT extends BaseComment>
      * @return comments count
      */
     long countByPostId(@NonNull Integer postId);
-
-    /**
-     * Count comments by comment status and post id.
-     *
-     * @param status status must not be null
-     * @param postId post id must not be null.
-     * @return comments count
-     */
-    long countByStatusAndPostId(@NonNull CommentStatus status, @NonNull Integer postId);
 
     /**
      * Counts by comment status.
@@ -148,8 +119,8 @@ public interface BaseCommentRepository<COMMENT extends BaseComment>
     /**
      * Finds comments by post id and comment status.
      *
-     * @param postId post id must not be null
-     * @param status comment status must not be null
+     * @param postId   post id must not be null
+     * @param status   comment status must not be null
      * @param pageable page info must not be null
      * @return a page of comment
      */
@@ -160,34 +131,19 @@ public interface BaseCommentRepository<COMMENT extends BaseComment>
     /**
      * Finds comments by post id, comment status and parent id.
      *
-     * @param postId post id must not be null
-     * @param status comment status must not be null
+     * @param postId   post id must not be null
+     * @param status   comment status must not be null
      * @param parentId comment parent id must not be null
      * @return a list of comment
      */
     @NonNull
     @SensitiveConceal
-    List<COMMENT> findAllByPostIdAndStatusAndParentId(@NonNull Integer postId,
-        @NonNull CommentStatus status, @NonNull Long parentId);
-
-    /**
-     * Finds comments by post id, comment status and parent id.
-     *
-     * @param postId post id must not be null
-     * @param status comment status must not be null
-     * @param parentId comment parent id must not be null
-     * @param pageable page info must not be null
-     * @return a page of comment
-     */
-    @NonNull
-    @SensitiveConceal
-    Page<COMMENT> findAllByPostIdAndStatusAndParentId(Integer postId, CommentStatus status,
-        Long parentId, Pageable pageable);
+    List<COMMENT> findAllByPostIdAndStatusAndParentId(@NonNull Integer postId, @NonNull CommentStatus status, @NonNull Long parentId);
 
     /**
      * Finds comments by post id and parent id.
      *
-     * @param postId post id must not be null
+     * @param postId   post id must not be null
      * @param parentId comment parent id must not be null
      * @return a list of comment
      */
@@ -198,14 +154,13 @@ public interface BaseCommentRepository<COMMENT extends BaseComment>
     /**
      * Finds all comments by status and parent id collection.
      *
-     * @param status comment status must not be null
+     * @param status    comment status must not be null
      * @param parentIds parent id collection must not be null
      * @return a list of comment
      */
     @NonNull
     @SensitiveConceal
-    List<COMMENT> findAllByStatusAndParentIdIn(@NonNull CommentStatus status,
-        @NonNull Collection<Long> parentIds);
+    List<COMMENT> findAllByStatusAndParentIdIn(@NonNull CommentStatus status, @NonNull Collection<Long> parentIds);
 
     /**
      * Finds all comments by parent id collection.
@@ -216,6 +171,19 @@ public interface BaseCommentRepository<COMMENT extends BaseComment>
     @SensitiveConceal
     List<COMMENT> findAllByParentIdIn(@NonNull Collection<Long> parentIds);
 
+    /**
+     * Finds comments by post id, comment status and parent id.
+     *
+     * @param postId   post id must not be null
+     * @param status   comment status must not be null
+     * @param parentId comment parent id must not be null
+     * @param pageable page info must not be null
+     * @return a page of comment
+     */
+    @NonNull
+    @SensitiveConceal
+    Page<COMMENT> findAllByPostIdAndStatusAndParentId(Integer postId, CommentStatus status, Long parentId, Pageable pageable);
+
 
     /**
      * Finds direct children count by comment ids.
@@ -223,32 +191,10 @@ public interface BaseCommentRepository<COMMENT extends BaseComment>
      * @param commentIds comment ids must not be null.
      * @return a list of CommentChildrenCountProjection
      */
-    @Query(
-        "select new com.qinweizhao.site.model.projection.CommentChildrenCountProjection(count(comment"
-            + ".id), comment.parentId) "
-            + "from BaseComment comment "
-            + "where comment.parentId in ?1 "
-            + "group by comment.parentId")
+    @Query("select new com.qinweizhao.site.model.projection.CommentChildrenCountProjection(count(comment.id), comment.parentId) " +
+            "from BaseComment comment " +
+            "where comment.parentId in ?1 " +
+            "group by comment.parentId")
     @NonNull
-    @Deprecated
-    List<CommentChildrenCountProjection> findDirectChildrenCount(
-        @NonNull Collection<Long> commentIds);
-
-    /**
-     * Finds direct children count by comment ids and status.
-     *
-     * @param commentIds comment ids must not be null.
-     * @param status comment status must not be null.
-     * @return a list of CommentChildrenCountProjection
-     */
-    @Query(
-        "select new com.qinweizhao.site.model.projection.CommentChildrenCountProjection(count(comment"
-            + ".id), comment.parentId) "
-            + "from BaseComment comment "
-            + "where comment.parentId in ?1 "
-            + "and comment.status = ?2 "
-            + "group by comment.parentId")
-    @NonNull
-    List<CommentChildrenCountProjection> findDirectChildrenCount(
-        @NonNull Collection<Long> commentIds, @NonNull CommentStatus status);
+    List<CommentChildrenCountProjection> findDirectChildrenCount(@NonNull Collection<Long> commentIds);
 }

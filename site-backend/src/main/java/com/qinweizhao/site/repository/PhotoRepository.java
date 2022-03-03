@@ -1,11 +1,12 @@
 package com.qinweizhao.site.repository;
 
-import java.util.List;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import com.qinweizhao.site.model.entity.Photo;
 import com.qinweizhao.site.repository.base.BaseRepository;
+
+import java.util.List;
 
 /**
  * Photo repository.
@@ -14,8 +15,7 @@ import com.qinweizhao.site.repository.base.BaseRepository;
  * @author ryanwang
  * @date 2019-04-03
  */
-public interface PhotoRepository
-    extends BaseRepository<Photo, Integer>, JpaSpecificationExecutor<Photo> {
+public interface PhotoRepository extends BaseRepository<Photo, Integer>, JpaSpecificationExecutor<Photo> {
 
     /**
      * Query photos by team

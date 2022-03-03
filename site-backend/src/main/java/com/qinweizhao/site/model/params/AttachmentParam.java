@@ -1,8 +1,8 @@
 package com.qinweizhao.site.model.params;
 
+import lombok.Data;
 import com.qinweizhao.site.model.dto.base.InputConverter;
 import com.qinweizhao.site.model.entity.Attachment;
-import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;

@@ -1,21 +1,14 @@
 package com.qinweizhao.site.controller.admin.api;
 
 import io.swagger.annotations.ApiOperation;
-import javax.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import com.qinweizhao.site.annotation.DisableOnCondition;
 import com.qinweizhao.site.cache.lock.CacheLock;
 import com.qinweizhao.site.model.dto.EnvironmentDTO;
 import com.qinweizhao.site.model.dto.LoginPreCheckDTO;
+import com.qinweizhao.site.model.dto.StatisticDTO;
 import com.qinweizhao.site.model.entity.User;
 import com.qinweizhao.site.model.enums.MFAType;
 import com.qinweizhao.site.model.params.LoginParam;
@@ -25,6 +18,8 @@ import com.qinweizhao.site.model.support.BaseResponse;
 import com.qinweizhao.site.security.token.AuthToken;
 import com.qinweizhao.site.service.AdminService;
 import com.qinweizhao.site.service.OptionService;
+
+import javax.validation.Valid;
 
 /**
  * Admin controller.
@@ -50,8 +45,7 @@ public class AdminController {
     @GetMapping(value = "/is_installed")
     @ApiOperation("Checks Installation status")
     public boolean isInstall() {
-        return optionService.getByPropertyOrDefault(PrimaryProperties.IS_INSTALLED, Boolean.class,
-            false);
+        return optionService.getByPropertyOrDefault(PrimaryProperties.IS_INSTALLED, Boolean.class, false);
     }
 
     @PostMapping("login/precheck")
@@ -99,10 +93,24 @@ public class AdminController {
         return adminService.refreshToken(refreshToken);
     }
 
+    @GetMapping("counts")
+    @ApiOperation("Gets count info")
+    @Deprecated
+    public StatisticDTO getCount() {
+        return adminService.getCount();
+    }
+
     @GetMapping("environments")
     @ApiOperation("Gets environments info")
     public EnvironmentDTO getEnvironments() {
         return adminService.getEnvironments();
+    }
+
+    @PutMapping("halo-admin")
+    @ApiOperation("Updates halo-admin manually")
+    @Deprecated
+    public void updateAdmin() {
+        adminService.updateAdminAssets();
     }
 
     @GetMapping(value = "halo/logfile")

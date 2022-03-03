@@ -1,12 +1,5 @@
 package com.qinweizhao.site.handler.file;
 
-import com.qinweizhao.site.exception.FileOperationException;
-import com.qinweizhao.site.model.enums.AttachmentType;
-import com.qinweizhao.site.model.properties.UpOssProperties;
-import com.qinweizhao.site.model.support.UploadResult;
-import com.qinweizhao.site.service.OptionService;
-import com.qinweizhao.site.utils.FilenameUtils;
-import com.qinweizhao.site.utils.ImageUtils;
 import com.upyun.RestManager;
 import com.upyun.UpException;
 import lombok.extern.slf4j.Slf4j;
@@ -17,7 +10,15 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 import org.springframework.util.DigestUtils;
 import org.springframework.web.multipart.MultipartFile;
+import com.qinweizhao.site.exception.FileOperationException;
+import com.qinweizhao.site.model.enums.AttachmentType;
+import com.qinweizhao.site.model.properties.UpOssProperties;
+import com.qinweizhao.site.model.support.UploadResult;
+import com.qinweizhao.site.service.OptionService;
+import com.qinweizhao.site.utils.FilenameUtils;
+import com.qinweizhao.site.utils.ImageUtils;
 
+import javax.imageio.ImageReader;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -45,19 +46,14 @@ public class UpOssFileHandler implements FileHandler {
         Assert.notNull(file, "Multipart file must not be null");
 
         String source = optionService.getByPropertyOfNonNull(UpOssProperties.OSS_SOURCE).toString();
-        String password =
-                optionService.getByPropertyOfNonNull(UpOssProperties.OSS_PASSWORD).toString();
+        String password = optionService.getByPropertyOfNonNull(UpOssProperties.OSS_PASSWORD).toString();
         String bucket = optionService.getByPropertyOfNonNull(UpOssProperties.OSS_BUCKET).toString();
-        String protocol =
-                optionService.getByPropertyOfNonNull(UpOssProperties.OSS_PROTOCOL).toString();
+        String protocol = optionService.getByPropertyOfNonNull(UpOssProperties.OSS_PROTOCOL).toString();
         String domain = optionService.getByPropertyOfNonNull(UpOssProperties.OSS_DOMAIN).toString();
-        String operator =
-                optionService.getByPropertyOfNonNull(UpOssProperties.OSS_OPERATOR).toString();
+        String operator = optionService.getByPropertyOfNonNull(UpOssProperties.OSS_OPERATOR).toString();
         // style rule can be null
-        String styleRule =
-                optionService.getByPropertyOrDefault(UpOssProperties.OSS_STYLE_RULE, String.class, "");
-        String thumbnailStyleRule = optionService
-                .getByPropertyOrDefault(UpOssProperties.OSS_THUMBNAIL_STYLE_RULE, String.class, "");
+        String styleRule = optionService.getByPropertyOrDefault(UpOssProperties.OSS_STYLE_RULE, String.class, "");
+        String thumbnailStyleRule = optionService.getByPropertyOrDefault(UpOssProperties.OSS_THUMBNAIL_STYLE_RULE, String.class, "");
 
         RestManager manager = new RestManager(bucket, operator, password);
         manager.setTimeout(60 * 10);
@@ -67,22 +63,19 @@ public class UpOssFileHandler implements FileHandler {
 
         try {
             // Get file basename
-            String basename =
-                    FilenameUtils.getBasename(Objects.requireNonNull(file.getOriginalFilename()));
+            String basename = FilenameUtils.getBasename(Objects.requireNonNull(file.getOriginalFilename()));
             // Get file extension
             String extension = FilenameUtils.getExtension(file.getOriginalFilename());
             // Get md5 value of the file
             String md5OfFile = DigestUtils.md5DigestAsHex(file.getInputStream());
             // Build file path
-            String upFilePath =
-                    StringUtils.appendIfMissing(source, "/") + md5OfFile + '.' + extension;
+            String upFilePath = StringUtils.appendIfMissing(source, "/") + md5OfFile + '.' + extension;
             // Set md5Content
             params.put(RestManager.PARAMS.CONTENT_MD5.getValue(), md5OfFile);
             // Write file
             Response result = manager.writeFile(upFilePath, file.getInputStream(), params);
             if (!result.isSuccessful()) {
-                throw new FileOperationException(
-                        "上传附件 " + file.getOriginalFilename() + " 到又拍云失败" + upFilePath);
+                throw new FileOperationException("上传附件 " + file.getOriginalFilename() + " 到又拍云失败" + upFilePath);
             }
 
             String filePath = protocol + StringUtils.removeEnd(domain, "/") + upFilePath;
@@ -90,24 +83,25 @@ public class UpOssFileHandler implements FileHandler {
             // Build upload result
             UploadResult uploadResult = new UploadResult();
             uploadResult.setFilename(basename);
-            uploadResult
-                    .setFilePath(StringUtils.isBlank(styleRule) ? filePath : filePath + styleRule);
+            uploadResult.setFilePath(StringUtils.isBlank(styleRule) ? filePath : filePath + styleRule);
             uploadResult.setKey(upFilePath);
-            uploadResult
-                    .setMediaType(MediaType.valueOf(Objects.requireNonNull(file.getContentType())));
+            uploadResult.setMediaType(MediaType.valueOf(Objects.requireNonNull(file.getContentType())));
             uploadResult.setSuffix(extension);
             uploadResult.setSize(file.getSize());
 
             // Handle thumbnail
-            handleImageMetadata(file, uploadResult, () -> {
+            if (FileHandler.isImageType(uploadResult.getMediaType())) {
+                ImageReader image = ImageUtils.getImageReaderFromFile(file.getInputStream(), extension);
+                assert image != null;
+                uploadResult.setWidth(image.getWidth(0));
+                uploadResult.setHeight(image.getHeight(0));
                 if (ImageUtils.EXTENSION_ICO.equals(extension)) {
                     uploadResult.setThumbPath(filePath);
-                    return filePath;
                 } else {
-                    return StringUtils.isBlank(thumbnailStyleRule) ? filePath :
-                            filePath + thumbnailStyleRule;
+                    uploadResult.setThumbPath(StringUtils.isBlank(thumbnailStyleRule) ? filePath : filePath + thumbnailStyleRule);
                 }
-            });
+            }
+
             return uploadResult;
         } catch (Exception e) {
             throw new FileOperationException("上传附件 " + file.getOriginalFilename() + " 到又拍云失败", e);
@@ -119,11 +113,9 @@ public class UpOssFileHandler implements FileHandler {
         Assert.notNull(key, "File key must not be blank");
 
         // Get config
-        String password =
-                optionService.getByPropertyOfNonNull(UpOssProperties.OSS_PASSWORD).toString();
+        String password = optionService.getByPropertyOfNonNull(UpOssProperties.OSS_PASSWORD).toString();
         String bucket = optionService.getByPropertyOfNonNull(UpOssProperties.OSS_BUCKET).toString();
-        String operator =
-                optionService.getByPropertyOfNonNull(UpOssProperties.OSS_OPERATOR).toString();
+        String operator = optionService.getByPropertyOfNonNull(UpOssProperties.OSS_OPERATOR).toString();
 
         RestManager manager = new RestManager(bucket, operator, password);
         manager.setTimeout(60 * 10);
@@ -133,7 +125,6 @@ public class UpOssFileHandler implements FileHandler {
             Response result = manager.deleteFile(key, null);
             if (!result.isSuccessful()) {
                 log.warn("附件 " + key + " 从又拍云删除失败");
-                throw new FileOperationException("附件 " + key + " 从又拍云删除失败");
             }
         } catch (IOException | UpException e) {
             e.printStackTrace();

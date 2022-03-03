@@ -1,11 +1,11 @@
 package com.qinweizhao.site.model.dto;
 
-import com.qinweizhao.site.model.dto.base.OutputConverter;
-import com.qinweizhao.site.model.entity.BaseComment;
-import com.qinweizhao.site.model.enums.CommentStatus;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
+import com.qinweizhao.site.model.dto.base.OutputConverter;
+import com.qinweizhao.site.model.entity.BaseComment;
+import com.qinweizhao.site.model.enums.CommentStatus;
 
 import java.util.Date;
 
@@ -47,5 +47,4 @@ public class BaseCommentDTO implements OutputConverter<BaseCommentDTO, BaseComme
 
     private Date createTime;
 
-    private String avatar;
 }

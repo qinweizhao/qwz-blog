@@ -1,18 +1,5 @@
 package com.qinweizhao.site.service.impl;
 
-import static com.qinweizhao.site.model.support.HaloConst.URL_SEPARATOR;
-
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
-import java.util.stream.Collectors;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -26,13 +13,18 @@ import com.qinweizhao.site.model.entity.Post;
 import com.qinweizhao.site.model.entity.PostCategory;
 import com.qinweizhao.site.model.enums.PostStatus;
 import com.qinweizhao.site.model.projection.CategoryPostCountProjection;
+import com.qinweizhao.site.repository.CategoryRepository;
 import com.qinweizhao.site.repository.PostCategoryRepository;
 import com.qinweizhao.site.repository.PostRepository;
-import com.qinweizhao.site.service.CategoryService;
 import com.qinweizhao.site.service.OptionService;
 import com.qinweizhao.site.service.PostCategoryService;
 import com.qinweizhao.site.service.base.AbstractCrudService;
 import com.qinweizhao.site.utils.ServiceUtils;
+
+import java.util.*;
+import java.util.stream.Collectors;
+
+import static com.qinweizhao.site.model.support.HaloConst.URL_SEPARATOR;
 
 /**
  * Post category service implementation.
@@ -43,51 +35,39 @@ import com.qinweizhao.site.utils.ServiceUtils;
  * @date 2019-03-19
  */
 @Service
-public class PostCategoryServiceImpl extends AbstractCrudService<PostCategory, Integer>
-    implements PostCategoryService {
+public class PostCategoryServiceImpl extends AbstractCrudService<PostCategory, Integer> implements PostCategoryService {
 
     private final PostCategoryRepository postCategoryRepository;
 
     private final PostRepository postRepository;
 
-    private CategoryService categoryService;
+    private final CategoryRepository categoryRepository;
 
     private final OptionService optionService;
 
     public PostCategoryServiceImpl(PostCategoryRepository postCategoryRepository,
-        PostRepository postRepository,
-        OptionService optionService) {
+            PostRepository postRepository,
+            CategoryRepository categoryRepository,
+            OptionService optionService) {
         super(postCategoryRepository);
         this.postCategoryRepository = postCategoryRepository;
         this.postRepository = postRepository;
+        this.categoryRepository = categoryRepository;
         this.optionService = optionService;
-    }
-
-    @Lazy
-    @Autowired
-    public void setCategoryService(CategoryService categoryService) {
-        this.categoryService = categoryService;
     }
 
     @Override
     public List<Category> listCategoriesBy(Integer postId) {
-        return listCategoriesBy(postId, false);
-    }
-
-    @Override
-    public List<Category> listCategoriesBy(Integer postId, boolean queryEncryptCategory) {
         Assert.notNull(postId, "Post id must not be null");
 
         // Find all category ids
         Set<Integer> categoryIds = postCategoryRepository.findAllCategoryIdsByPostId(postId);
 
-        return categoryService.listAllByIds(categoryIds, queryEncryptCategory);
+        return categoryRepository.findAllById(categoryIds);
     }
 
-
     @Override
-    public Map<Integer, List<Category>> listCategoryListMap(
-        Collection<Integer> postIds, boolean queryEncryptCategory) {
+    public Map<Integer, List<Category>> listCategoryListMap(Collection<Integer> postIds) {
         if (CollectionUtils.isEmpty(postIds)) {
             return Collections.emptyMap();
         }
@@ -96,11 +76,10 @@ public class PostCategoryServiceImpl extends AbstractCrudService<PostCategory, I
         List<PostCategory> postCategories = postCategoryRepository.findAllByPostIdIn(postIds);
 
         // Fetch category ids
-        Set<Integer> categoryIds =
-            ServiceUtils.fetchProperty(postCategories, PostCategory::getCategoryId);
+        Set<Integer> categoryIds = ServiceUtils.fetchProperty(postCategories, PostCategory::getCategoryId);
 
         // Find all categories
-        List<Category> categories = categoryService.listAllByIds(categoryIds, queryEncryptCategory);
+        List<Category> categories = categoryRepository.findAllById(categoryIds);
 
         // Convert to category map
         Map<Integer, Category> categoryMap = ServiceUtils.convertToMap(categories, Category::getId);
@@ -109,9 +88,8 @@ public class PostCategoryServiceImpl extends AbstractCrudService<PostCategory, I
         Map<Integer, List<Category>> categoryListMap = new HashMap<>();
 
         // Foreach and collect
-        postCategories.forEach(postCategory -> categoryListMap
-            .computeIfAbsent(postCategory.getPostId(), postId -> new LinkedList<>())
-            .add(categoryMap.get(postCategory.getCategoryId())));
+        postCategories.forEach(postCategory -> categoryListMap.computeIfAbsent(postCategory.getPostId(), postId -> new LinkedList<>())
+                .add(categoryMap.get(postCategory.getCategoryId())));
 
         return categoryListMap;
     }
@@ -132,39 +110,9 @@ public class PostCategoryServiceImpl extends AbstractCrudService<PostCategory, I
         Assert.notNull(status, "Post status must not be null");
 
         // Find all post ids
-        Set<Integer> postIds =
-            postCategoryRepository.findAllPostIdsByCategoryId(categoryId, status);
+        Set<Integer> postIds = postCategoryRepository.findAllPostIdsByCategoryId(categoryId, status);
 
         return postRepository.findAllById(postIds);
-    }
-
-    @Override
-    public List<Post> listPostBy(Integer categoryId, Set<PostStatus> status) {
-        Assert.notNull(categoryId, "Category id must not be null");
-        Assert.notNull(status, "Post status must not be null");
-
-        // Find all post ids
-        Set<Integer> postIds = postCategoryRepository
-            .findAllPostIdsByCategoryId(categoryId, status);
-
-        return postRepository.findAllById(postIds);
-    }
-
-    @Override
-    public List<Post> listPostBy(String slug, Set<PostStatus> status) {
-        Assert.notNull(slug, "Category slug must not be null");
-        Assert.notNull(status, "Post status must not be null");
-
-        Category category = categoryService.getBySlug(slug);
-
-        if (Objects.isNull(category)) {
-            throw new NotFoundException("查询不到该分类的信息").setErrorData(slug);
-        }
-
-        Set<Integer> postsIds = postCategoryRepository
-            .findAllPostIdsByCategoryId(category.getId(), status);
-
-        return postRepository.findAllById(postsIds);
     }
 
     @Override
@@ -172,14 +120,9 @@ public class PostCategoryServiceImpl extends AbstractCrudService<PostCategory, I
         Assert.notNull(slug, "Category slug must not be null");
         Assert.notNull(status, "Post status must not be null");
 
-        Category category = categoryService.getBySlug(slug);
+        Category category = categoryRepository.getBySlug(slug).orElseThrow(() -> new NotFoundException("查询不到该分类的信息").setErrorData(slug));
 
-        if (Objects.isNull(category)) {
-            throw new NotFoundException("查询不到该分类的信息").setErrorData(slug);
-        }
-
-        Set<Integer> postsIds =
-            postCategoryRepository.findAllPostIdsByCategoryId(category.getId(), status);
+        Set<Integer> postsIds = postCategoryRepository.findAllPostIdsByCategoryId(category.getId(), status);
 
         return postRepository.findAllById(postsIds);
     }
@@ -202,21 +145,7 @@ public class PostCategoryServiceImpl extends AbstractCrudService<PostCategory, I
         Assert.notNull(pageable, "Page info must not be null");
 
         // Find all post ids
-        Set<Integer> postIds = postCategoryRepository
-            .findAllPostIdsByCategoryId(categoryId, status);
-
-        return postRepository.findAllByIdIn(postIds, pageable);
-    }
-
-    @Override
-    public Page<Post> pagePostBy(Integer categoryId, Set<PostStatus> status, Pageable pageable) {
-        Assert.notNull(categoryId, "Category id must not be null");
-        Assert.notNull(status, "Post status must not be null");
-        Assert.notNull(pageable, "Page info must not be null");
-
-        // Find all post ids
-        Set<Integer> postIds =
-            postCategoryRepository.findAllPostIdsByCategoryId(categoryId, status);
+        Set<Integer> postIds = postCategoryRepository.findAllPostIdsByCategoryId(categoryId, status);
 
         return postRepository.findAllByIdIn(postIds, pageable);
     }
@@ -304,49 +233,38 @@ public class PostCategoryServiceImpl extends AbstractCrudService<PostCategory, I
     }
 
     @Override
-    public List<CategoryWithPostCountDTO> listCategoryWithPostCountDto(
-        Sort sort, boolean queryEncryptCategory) {
+    public List<CategoryWithPostCountDTO> listCategoryWithPostCountDto(Sort sort) {
         Assert.notNull(sort, "Sort info must not be null");
-        List<Category> categories = categoryService.listAll(sort, queryEncryptCategory);
+
+        List<Category> categories = categoryRepository.findAll(sort);
 
         // Query category post count
-        Map<Integer, Long> categoryPostCountMap = ServiceUtils
-            .convertToMap(postCategoryRepository.findPostCount(),
-                CategoryPostCountProjection::getCategoryId,
-                CategoryPostCountProjection::getPostCount);
+        Map<Integer, Long> categoryPostCountMap = ServiceUtils.convertToMap(postCategoryRepository.findPostCount(), CategoryPostCountProjection::getCategoryId, CategoryPostCountProjection::getPostCount);
 
         // Convert and return
         return categories.stream()
-            .map(category -> {
-                // Create category post count dto
-                CategoryWithPostCountDTO categoryWithPostCountDTO =
-                    new CategoryWithPostCountDTO().convertFrom(category);
-                // Set post count
-                categoryWithPostCountDTO
-                    .setPostCount(categoryPostCountMap.getOrDefault(category.getId(), 0L));
+                .map(category -> {
+                    // Create category post count dto
+                    CategoryWithPostCountDTO categoryWithPostCountDTO = new CategoryWithPostCountDTO().convertFrom(category);
+                    // Set post count
+                    categoryWithPostCountDTO.setPostCount(categoryPostCountMap.getOrDefault(category.getId(), 0L));
 
-                StringBuilder fullPath = new StringBuilder();
+                    StringBuilder fullPath = new StringBuilder();
 
-                if (optionService.isEnabledAbsolutePath()) {
-                    fullPath.append(optionService.getBlogBaseUrl());
-                }
+                    if (optionService.isEnabledAbsolutePath()) {
+                        fullPath.append(optionService.getBlogBaseUrl());
+                    }
 
-                fullPath.append(URL_SEPARATOR)
-                    .append(optionService.getCategoriesPrefix())
-                    .append(URL_SEPARATOR)
-                    .append(category.getSlug())
-                    .append(optionService.getPathSuffix());
+                    fullPath.append(URL_SEPARATOR)
+                            .append(optionService.getCategoriesPrefix())
+                            .append(URL_SEPARATOR)
+                            .append(category.getSlug())
+                            .append(optionService.getPathSuffix());
 
-                categoryWithPostCountDTO.setFullPath(fullPath.toString());
+                    categoryWithPostCountDTO.setFullPath(fullPath.toString());
 
-                return categoryWithPostCountDTO;
-            })
-            .collect(Collectors.toList());
-    }
-
-    @Override
-    public List<PostCategory> listByCategoryIdList(List<Integer> categoryIdList) {
-        Assert.notEmpty(categoryIdList, "category id list not empty");
-        return postCategoryRepository.findAllByCategoryIdList(categoryIdList);
+                    return categoryWithPostCountDTO;
+                })
+                .collect(Collectors.toList());
     }
 }

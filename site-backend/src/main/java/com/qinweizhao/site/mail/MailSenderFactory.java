@@ -34,8 +34,7 @@ public class MailSenderFactory {
         return mailSender;
     }
 
-    private void setProperties(@NonNull JavaMailSenderImpl mailSender,
-                               @NonNull MailProperties mailProperties) {
+    private void setProperties(@NonNull JavaMailSenderImpl mailSender, @NonNull MailProperties mailProperties) {
         mailSender.setHost(mailProperties.getHost());
         mailSender.setPort(mailProperties.getPort());
         mailSender.setUsername(mailProperties.getUsername());

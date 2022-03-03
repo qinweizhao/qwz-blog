@@ -1,7 +1,7 @@
 package com.qinweizhao.site.model.params;
 
-import com.qinweizhao.site.model.enums.OptionType;
 import lombok.Data;
+import com.qinweizhao.site.model.enums.OptionType;
 
 /**
  * Option query params.

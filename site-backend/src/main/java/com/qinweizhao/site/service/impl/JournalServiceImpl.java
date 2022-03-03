@@ -1,12 +1,5 @@
 package com.qinweizhao.site.service.impl;
 
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
-import javax.persistence.criteria.Predicate;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
@@ -15,14 +8,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
-import com.qinweizhao.site.exception.BadRequestException;
+import com.qinweizhao.site.model.dto.JournalDTO;
 import com.qinweizhao.site.model.dto.JournalWithCmtCountDTO;
 import com.qinweizhao.site.model.entity.Journal;
 import com.qinweizhao.site.model.entity.JournalComment;
-import com.qinweizhao.site.model.enums.CommentStatus;
 import com.qinweizhao.site.model.enums.JournalType;
 import com.qinweizhao.site.model.params.JournalParam;
 import com.qinweizhao.site.model.params.JournalQuery;
@@ -33,6 +24,10 @@ import com.qinweizhao.site.service.base.AbstractCrudService;
 import com.qinweizhao.site.utils.MarkdownUtils;
 import com.qinweizhao.site.utils.ServiceUtils;
 
+import javax.persistence.criteria.Predicate;
+import java.util.*;
+import java.util.stream.Collectors;
+
 /**
  * Journal service implementation.
  *
@@ -42,15 +37,14 @@ import com.qinweizhao.site.utils.ServiceUtils;
  */
 @Slf4j
 @Service
-public class JournalServiceImpl extends AbstractCrudService<Journal, Integer>
-    implements JournalService {
+public class JournalServiceImpl extends AbstractCrudService<Journal, Integer> implements JournalService {
 
     private final JournalRepository journalRepository;
 
     private final JournalCommentService journalCommentService;
 
     public JournalServiceImpl(JournalRepository journalRepository,
-        JournalCommentService journalCommentService) {
+            JournalCommentService journalCommentService) {
         super(journalRepository);
         this.journalRepository = journalRepository;
         this.journalCommentService = journalCommentService;
@@ -106,16 +100,10 @@ public class JournalServiceImpl extends AbstractCrudService<Journal, Integer>
     }
 
     @Override
-    public JournalWithCmtCountDTO convertTo(Journal journal) {
+    public JournalDTO convertTo(Journal journal) {
         Assert.notNull(journal, "Journal must not be null");
 
-        JournalWithCmtCountDTO journalWithCmtCountDto = new JournalWithCmtCountDTO()
-            .convertFrom(journal);
-
-        journalWithCmtCountDto.setCommentCount(journalCommentService.countByStatusAndPostId(
-            CommentStatus.PUBLISHED, journal.getId()));
-
-        return journalWithCmtCountDto;
+        return new JournalDTO().convertFrom(journal);
     }
 
     @Override
@@ -128,19 +116,16 @@ public class JournalServiceImpl extends AbstractCrudService<Journal, Integer>
         Set<Integer> journalIds = ServiceUtils.fetchProperty(journals, Journal::getId);
 
         // Get comment count map
-        Map<Integer, Long> journalCommentCountMap =
-            journalCommentService.countByStatusAndPostIds(CommentStatus.PUBLISHED, journalIds);
+        Map<Integer, Long> journalCommentCountMap = journalCommentService.countByPostIds(journalIds);
 
         return journals.stream()
-            .map(journal -> {
-                JournalWithCmtCountDTO journalWithCmtCountDTO =
-                    new JournalWithCmtCountDTO().convertFrom(journal);
-                // Set comment count
-                journalWithCmtCountDTO
-                    .setCommentCount(journalCommentCountMap.getOrDefault(journal.getId(), 0L));
-                return journalWithCmtCountDTO;
-            })
-            .collect(Collectors.toList());
+                .map(journal -> {
+                    JournalWithCmtCountDTO journalWithCmtCountDTO = new JournalWithCmtCountDTO().convertFrom(journal);
+                    // Set comment count
+                    journalWithCmtCountDTO.setCommentCount(journalCommentCountMap.getOrDefault(journal.getId(), 0L));
+                    return journalWithCmtCountDTO;
+                })
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -148,35 +133,12 @@ public class JournalServiceImpl extends AbstractCrudService<Journal, Integer>
         Assert.notNull(journalPage, "Journal page must not be null");
 
         // Convert
-        List<JournalWithCmtCountDTO> journalWithCmtCountDTOS =
-            convertToCmtCountDto(journalPage.getContent());
+        List<JournalWithCmtCountDTO> journalWithCmtCountDTOS = convertToCmtCountDto(journalPage.getContent());
 
         // Build and return
-        return new PageImpl<>(journalWithCmtCountDTOS, journalPage.getPageable(),
-            journalPage.getTotalElements());
+        return new PageImpl<>(journalWithCmtCountDTOS, journalPage.getPageable(), journalPage.getTotalElements());
     }
 
-    @Override
-    @Transactional
-    public void increaseLike(Integer id) {
-        increaseLike(1L, id);
-    }
-
-
-    @Override
-    @Transactional
-    public void increaseLike(long likes, Integer id) {
-        Assert.isTrue(likes > 0, "Likes to increase must not be less than 1");
-        Assert.notNull(id, "Journal id must not be null");
-
-        long affectedRows = journalRepository.updateLikes(likes, id);
-
-        if (affectedRows != 1) {
-            log.error("Journal with id: [{}] may not be found", id);
-            throw new BadRequestException(
-                "Failed to increase likes " + likes + " for journal with id " + id);
-        }
-    }
 
     /**
      * Build specification by journal query.
@@ -188,7 +150,7 @@ public class JournalServiceImpl extends AbstractCrudService<Journal, Integer>
     private Specification<Journal> buildSpecByQuery(@NonNull JournalQuery journalQuery) {
         Assert.notNull(journalQuery, "Journal query must not be null");
 
-        return (root, query, criteriaBuilder) -> {
+        return (Specification<Journal>) (root, query, criteriaBuilder) -> {
             List<Predicate> predicates = new LinkedList<>();
 
             if (journalQuery.getType() != null) {
@@ -197,8 +159,7 @@ public class JournalServiceImpl extends AbstractCrudService<Journal, Integer>
 
             if (journalQuery.getKeyword() != null) {
                 // Format like condition
-                String likeCondition =
-                    String.format("%%%s%%", StringUtils.strip(journalQuery.getKeyword()));
+                String likeCondition = String.format("%%%s%%", StringUtils.strip(journalQuery.getKeyword()));
 
                 // Build like predicate
                 Predicate contentLike = criteriaBuilder.like(root.get("content"), likeCondition);

@@ -1,11 +1,11 @@
 package com.qinweizhao.site.model.entity;
 
-import com.qinweizhao.site.model.enums.JournalType;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.GenericGenerator;
+import com.qinweizhao.site.model.enums.JournalType;
 
 import javax.persistence.*;
 
@@ -25,8 +25,7 @@ public class Journal extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "custom-id")
-    @GenericGenerator(name = "custom-id",
-            strategy = "com.qinweizhao.site.model.entity.support.CustomIdGenerator")
+    @GenericGenerator(name = "custom-id", strategy = "com.qinweizhao.site.model.entity.support.CustomIdGenerator")
     private Integer id;
 
     @Column(name = "source_content", nullable = false)
@@ -42,7 +41,7 @@ public class Journal extends BaseEntity {
     private Long likes;
 
     @Column(name = "type")
-    @ColumnDefault("0")
+    @ColumnDefault("1")
     private JournalType type;
 
     @Override

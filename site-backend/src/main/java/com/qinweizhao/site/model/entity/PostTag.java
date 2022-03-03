@@ -27,8 +27,7 @@ public class PostTag extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "custom-id")
-    @GenericGenerator(name = "custom-id",
-            strategy = "com.qinweizhao.site.model.entity.support.CustomIdGenerator")
+    @GenericGenerator(name = "custom-id", strategy = "com.qinweizhao.site.model.entity.support.CustomIdGenerator")
     private Integer id;
 
     /**
@@ -52,8 +51,8 @@ public class PostTag extends BaseEntity {
             return false;
         }
         PostTag postTag = (PostTag) o;
-        return Objects.equals(postId, postTag.postId)
-                && Objects.equals(tagId, postTag.tagId);
+        return Objects.equals(postId, postTag.postId) &&
+                Objects.equals(tagId, postTag.tagId);
     }
 
     @Override

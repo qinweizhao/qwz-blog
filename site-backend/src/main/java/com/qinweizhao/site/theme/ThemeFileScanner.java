@@ -1,9 +1,9 @@
 package com.qinweizhao.site.theme;
 
-import com.qinweizhao.site.exception.ServiceException;
-import com.qinweizhao.site.model.support.ThemeFile;
 import org.springframework.lang.NonNull;
 import org.springframework.util.Assert;
+import com.qinweizhao.site.exception.ServiceException;
+import com.qinweizhao.site.model.support.ThemeFile;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -29,7 +29,7 @@ public enum ThemeFileScanner {
      * Lists theme folder by absolute path.
      *
      * @param absolutePath absolutePath
-     * @return a list of theme files
+     * @return List<ThemeFile> a list of theme files
      */
     @NonNull
     public List<ThemeFile> scan(@NonNull String absolutePath) {

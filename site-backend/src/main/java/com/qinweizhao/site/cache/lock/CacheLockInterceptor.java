@@ -1,9 +1,5 @@
 package com.qinweizhao.site.cache.lock;
 
-import com.qinweizhao.site.cache.AbstractStringCacheStore;
-import com.qinweizhao.site.exception.FrequentAccessException;
-import com.qinweizhao.site.exception.ServiceException;
-import com.qinweizhao.site.utils.ServletUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -13,6 +9,10 @@ import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.lang.NonNull;
 import org.springframework.util.Assert;
+import com.qinweizhao.site.cache.AbstractStringCacheStore;
+import com.qinweizhao.site.exception.FrequentAccessException;
+import com.qinweizhao.site.exception.ServiceException;
+import com.qinweizhao.site.utils.ServletUtils;
 
 import java.lang.annotation.Annotation;
 
@@ -27,9 +27,9 @@ import java.lang.annotation.Annotation;
 @Configuration
 public class CacheLockInterceptor {
 
-    private static final String CACHE_LOCK_PREFIX = "cache_lock_";
+    private final static String CACHE_LOCK_PREFOX = "cache_lock_";
 
-    private static final String CACHE_LOCK_VALUE = "locked";
+    private final static String CACHE_LOCK_VALUE = "locked";
 
     private final AbstractStringCacheStore cacheStore;
 
@@ -55,13 +55,10 @@ public class CacheLockInterceptor {
 
         try {
             // Get from cache
-            Boolean cacheResult = cacheStore
-                    .putIfAbsent(cacheLockKey, CACHE_LOCK_VALUE, cacheLock.expired(),
-                            cacheLock.timeUnit());
+            Boolean cacheResult = cacheStore.putIfAbsent(cacheLockKey, CACHE_LOCK_VALUE, cacheLock.expired(), cacheLock.timeUnit());
 
             if (cacheResult == null) {
-                throw new ServiceException("Unknown reason of cache " + cacheLockKey)
-                        .setErrorData(cacheLockKey);
+                throw new ServiceException("Unknown reason of cache " + cacheLockKey).setErrorData(cacheLockKey);
             }
 
             if (!cacheResult) {
@@ -79,8 +76,7 @@ public class CacheLockInterceptor {
         }
     }
 
-    private String buildCacheLockKey(@NonNull CacheLock cacheLock,
-                                     @NonNull ProceedingJoinPoint joinPoint) {
+    private String buildCacheLockKey(@NonNull CacheLock cacheLock, @NonNull ProceedingJoinPoint joinPoint) {
         Assert.notNull(cacheLock, "Cache lock must not be null");
         Assert.notNull(joinPoint, "Proceeding join point must not be null");
 
@@ -88,7 +84,7 @@ public class CacheLockInterceptor {
         MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
 
         // Build the cache lock key
-        StringBuilder cacheKeyBuilder = new StringBuilder(CACHE_LOCK_PREFIX);
+        StringBuilder cacheKeyBuilder = new StringBuilder(CACHE_LOCK_PREFOX);
 
         String delimiter = cacheLock.delimiter();
 

@@ -1,10 +1,10 @@
 package com.qinweizhao.site.model.params;
 
+import lombok.Data;
+import org.apache.commons.lang3.StringUtils;
 import com.qinweizhao.site.model.dto.base.InputConverter;
 import com.qinweizhao.site.model.entity.Category;
 import com.qinweizhao.site.utils.SlugUtils;
-import lombok.Data;
-import org.apache.commons.lang3.StringUtils;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -31,9 +31,6 @@ public class CategoryParam implements InputConverter<Category> {
 
     @Size(max = 1023, message = "封面图链接的字符长度不能超过 {max}")
     private String thumbnail;
-
-    @Size(max = 255, message = "分类密码的字符长度不能超过 {max}")
-    private String password;
 
     private Integer parentId = 0;
 

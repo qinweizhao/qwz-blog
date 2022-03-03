@@ -1,8 +1,8 @@
 package com.qinweizhao.site.model.dto;
 
-import com.qinweizhao.site.model.enums.OptionType;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import com.qinweizhao.site.model.enums.OptionType;
 
 import java.util.Date;
 

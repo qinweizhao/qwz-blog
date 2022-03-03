@@ -1,9 +1,9 @@
 package com.qinweizhao.site.model.params;
 
-import com.qinweizhao.site.model.dto.base.InputConverter;
-import com.qinweizhao.site.model.entity.Menu;
 import lombok.Data;
 import lombok.ToString;
+import com.qinweizhao.site.model.dto.base.InputConverter;
+import com.qinweizhao.site.model.entity.Menu;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;

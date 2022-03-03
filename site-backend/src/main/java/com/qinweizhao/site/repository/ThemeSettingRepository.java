@@ -1,10 +1,11 @@
 package com.qinweizhao.site.repository;
 
-import java.util.List;
-import java.util.Optional;
 import org.springframework.lang.NonNull;
 import com.qinweizhao.site.model.entity.ThemeSetting;
 import com.qinweizhao.site.repository.base.BaseRepository;
+
+import java.util.List;
+import java.util.Optional;
 
 /**
  * Theme setting repository interface.
@@ -27,7 +28,7 @@ public interface ThemeSettingRepository extends BaseRepository<ThemeSetting, Int
      * Deletes theme setting by theme id and setting key.
      *
      * @param themeId theme id must not be blank
-     * @param key setting key must not be blank
+     * @param key     setting key must not be blank
      * @return affected row(s)
      */
     long deleteByThemeIdAndKey(@NonNull String themeId, @NonNull String key);
@@ -36,7 +37,7 @@ public interface ThemeSettingRepository extends BaseRepository<ThemeSetting, Int
      * Finds theme settings by theme id and setting key.
      *
      * @param themeId theme id must not be blank
-     * @param key setting key must not be blank
+     * @param key     setting key must not be blank
      * @return an optional theme setting
      */
     @NonNull

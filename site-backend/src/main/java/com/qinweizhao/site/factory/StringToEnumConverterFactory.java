@@ -1,5 +1,6 @@
 package com.qinweizhao.site.factory;
 
+import org.jetbrains.annotations.NotNull;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.core.convert.converter.ConverterFactory;
 import org.springframework.lang.NonNull;
@@ -14,7 +15,7 @@ public class StringToEnumConverterFactory implements ConverterFactory<String, En
 
     @Override
     @NonNull
-    public <T extends Enum<?>> Converter<String, T> getConverter(@NonNull Class<T> targetType) {
+    public <T extends Enum<?>> Converter<String, T> getConverter(@NotNull Class<T> targetType) {
         return new StringToEnumConverter(targetType);
     }
 

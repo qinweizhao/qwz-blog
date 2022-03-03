@@ -1,40 +1,38 @@
 package com.qinweizhao.site.config;
 
 import com.fasterxml.classmate.TypeResolver;
-import com.qinweizhao.site.utils.SwaggerUtils;
 import io.swagger.models.auth.In;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.lang.NonNull;
-import org.springframework.util.AntPathMatcher;
 import org.springframework.util.Assert;
-import org.springframework.util.PathMatcher;
-import springfox.documentation.builders.ApiInfoBuilder;
-import springfox.documentation.builders.PathSelectors;
-import springfox.documentation.builders.RequestHandlerSelectors;
+import org.springframework.web.bind.annotation.RequestMethod;
+import com.qinweizhao.site.config.properties.HaloProperties;
+import com.qinweizhao.site.model.entity.User;
+import com.qinweizhao.site.security.support.UserDetail;
+import springfox.documentation.builders.*;
 import springfox.documentation.schema.AlternateTypeRule;
 import springfox.documentation.schema.AlternateTypeRuleConvention;
-import springfox.documentation.schema.WildcardType;
 import springfox.documentation.service.*;
+import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spi.service.contexts.SecurityContext;
 import springfox.documentation.spring.web.plugins.Docket;
-import springfox.documentation.swagger.web.*;
+import springfox.documentation.swagger.web.SecurityConfiguration;
+import springfox.documentation.swagger.web.SecurityConfigurationBuilder;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import java.lang.reflect.Type;
 import java.time.temporal.Temporal;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
 import static com.qinweizhao.site.model.support.HaloConst.*;
-import static com.qinweizhao.site.utils.SwaggerUtils.customMixin;
-import static com.qinweizhao.site.utils.SwaggerUtils.propertyBuilder;
 import static springfox.documentation.schema.AlternateTypeRules.newRule;
 
 /**
@@ -42,30 +40,51 @@ import static springfox.documentation.schema.AlternateTypeRules.newRule;
  *
  * @author johnniang
  */
-@Slf4j
+@EnableSwagger2
 @Configuration
-@ConditionalOnProperty(
-        value = "springfox.documentation.enabled",
-        havingValue = "true",
-        matchIfMissing = true)
+@Slf4j
 public class SwaggerConfiguration {
+
+    private final HaloProperties haloProperties;
+
+    private final List<ResponseMessage> globalResponses = Arrays.asList(
+            new ResponseMessageBuilder().code(200).message("Success").build(),
+            new ResponseMessageBuilder().code(400).message("Bad request").build(),
+            new ResponseMessageBuilder().code(401).message("Unauthorized").build(),
+            new ResponseMessageBuilder().code(403).message("Forbidden").build(),
+            new ResponseMessageBuilder().code(404).message("Not found").build(),
+            new ResponseMessageBuilder().code(500).message("Internal server error").build());
+
+    public SwaggerConfiguration(HaloProperties haloProperties) {
+        this.haloProperties = haloProperties;
+    }
 
     @Bean
     public Docket haloDefaultApi() {
+        if (haloProperties.isDocDisabled()) {
+            log.debug("Doc has been disabled");
+        }
+
         return buildApiDocket("com.qinweizhao.site.content.api",
                 "com.qinweizhao.site.controller.content.api",
                 "/api/content/**")
-                .securitySchemes(contentApiKeys())
-                .securityContexts(contentSecurityContext());
+                //.securitySchemes(contentApiKeys())
+                .securityContexts(contentSecurityContext())
+                .enable(!haloProperties.isDocDisabled());
     }
 
     @Bean
     public Docket haloAdminApi() {
+        if (haloProperties.isDocDisabled()) {
+            log.debug("Doc has been disabled");
+        }
+
         return buildApiDocket("com.qinweizhao.site.admin.api",
                 "com.qinweizhao.site.controller.admin",
                 "/api/admin/**")
-                .securitySchemes(adminApiKeys())
-                .securityContexts(adminSecurityContext());
+                //.securitySchemes(adminApiKeys())
+                .securityContexts(adminSecurityContext())
+                .enable(!haloProperties.isDocDisabled());
     }
 
     @Bean
@@ -81,95 +100,68 @@ public class SwaggerConfiguration {
                 .build();
     }
 
-    @Bean
-    UiConfiguration uiConfig() {
-        return UiConfigurationBuilder.builder()
-                .deepLinking(true)
-                .displayOperationId(false)
-                .defaultModelsExpandDepth(1)
-                .defaultModelExpandDepth(1)
-                .defaultModelRendering(ModelRendering.EXAMPLE)
-                .displayRequestDuration(false)
-                .docExpansion(DocExpansion.NONE)
-                .filter(false)
-                .maxDisplayedTags(null)
-                .operationsSorter(OperationsSorter.ALPHA)
-                .showExtensions(false)
-                .showCommonExtensions(false)
-                .tagsSorter(TagsSorter.ALPHA)
-                .supportedSubmitMethods(UiConfiguration.Constants.DEFAULT_SUBMIT_METHODS)
-                .validatorUrl(null)
-                .build();
-    }
-
-    private Docket buildApiDocket(@NonNull String groupName, @NonNull String basePackage,
-                                  @NonNull String antPattern) {
+    private Docket buildApiDocket(@NonNull String groupName, @NonNull String basePackage, @NonNull String antPattern) {
         Assert.hasText(groupName, "Group name must not be blank");
         Assert.hasText(basePackage, "Base package must not be blank");
         Assert.hasText(antPattern, "Ant pattern must not be blank");
 
-        return SwaggerUtils.defaultDocket()
+        return new Docket(DocumentationType.SWAGGER_2)
                 .groupName(groupName)
                 .select()
                 .apis(RequestHandlerSelectors.basePackage(basePackage))
                 .paths(PathSelectors.ant(antPattern))
                 .build()
                 .apiInfo(apiInfo())
+                .useDefaultResponseMessages(false)
+                .globalResponseMessage(RequestMethod.GET, globalResponses)
+                .globalResponseMessage(RequestMethod.POST, globalResponses)
+                .globalResponseMessage(RequestMethod.DELETE, globalResponses)
+                .globalResponseMessage(RequestMethod.PUT, globalResponses)
                 .directModelSubstitute(Temporal.class, String.class);
     }
 
-    private List<SecurityScheme> adminApiKeys() {
+    private List<ApiKey> adminApiKeys() {
         return Arrays.asList(
-                new ApiKey(ADMIN_TOKEN_HEADER_NAME, ADMIN_TOKEN_HEADER_NAME, In.HEADER.name()),
-                new ApiKey(ADMIN_TOKEN_QUERY_NAME, ADMIN_TOKEN_QUERY_NAME, In.QUERY.name())
+                new ApiKey("Token from header", ADMIN_TOKEN_HEADER_NAME, In.HEADER.name()),
+                new ApiKey("Token from query", ADMIN_TOKEN_QUERY_NAME, In.QUERY.name())
         );
     }
 
     private List<SecurityContext> adminSecurityContext() {
-        final PathMatcher pathMatcher = new AntPathMatcher();
         return Collections.singletonList(
                 SecurityContext.builder()
-                        .securityReferences(adminApiAuths())
-                        .operationSelector(operationContext -> {
-                            var requestMappingPattern = operationContext.requestMappingPattern();
-                            return pathMatcher.match("/api/admin/**/*", requestMappingPattern);
-                        })
+                        .securityReferences(defaultAuth())
+                        .forPaths(PathSelectors.regex("/api/admin/.*"))
                         .build()
         );
     }
 
-    private List<SecurityScheme> contentApiKeys() {
-        return Arrays.asList(
-                new ApiKey(API_ACCESS_KEY_HEADER_NAME, API_ACCESS_KEY_HEADER_NAME, In.HEADER.name()),
-                new ApiKey(API_ACCESS_KEY_QUERY_NAME, API_ACCESS_KEY_QUERY_NAME, In.QUERY.name())
-        );
+    private List<ApiKey> contentApiKeys() {
+        List<ApiKey> list = new ArrayList<>();
+        list.add(new ApiKey("Access key from header", API_ACCESS_KEY_HEADER_NAME, In.HEADER.name()));
+        list.add(new ApiKey("Access key from query", API_ACCESS_KEY_QUERY_NAME, In.QUERY.name()));
+        return list;
     }
 
     private List<SecurityContext> contentSecurityContext() {
-        final PathMatcher pathMatcher = new AntPathMatcher();
         return Collections.singletonList(
                 SecurityContext.builder()
-                        .securityReferences(contentApiAuths())
-                        .operationSelector(operationContext -> {
-                            var requestMappingPattern = operationContext.requestMappingPattern();
-                            return pathMatcher.match("/api/content/**/*", requestMappingPattern);
-                        })
+                        .securityReferences(contentApiAuth())
+                        .forPaths(PathSelectors.regex("/api/content/.*"))
                         .build()
         );
     }
 
-    private List<SecurityReference> adminApiAuths() {
-        AuthorizationScope[] authorizationScopes =
-                {new AuthorizationScope("Admin api", "Access admin api")};
-        return Arrays.asList(new SecurityReference(ADMIN_TOKEN_HEADER_NAME, authorizationScopes),
-                new SecurityReference(ADMIN_TOKEN_QUERY_NAME, authorizationScopes));
+    private List<SecurityReference> defaultAuth() {
+        AuthorizationScope[] authorizationScopes = {new AuthorizationScope("Admin api", "Access admin api")};
+        return Arrays.asList(new SecurityReference("Token from header", authorizationScopes),
+                new SecurityReference("Token from query", authorizationScopes));
     }
 
-    private List<SecurityReference> contentApiAuths() {
-        AuthorizationScope[] authorizationScopes =
-                {new AuthorizationScope("content api", "Access content api")};
-        return Arrays.asList(new SecurityReference(API_ACCESS_KEY_HEADER_NAME, authorizationScopes),
-                new SecurityReference(API_ACCESS_KEY_QUERY_NAME, authorizationScopes));
+    private List<SecurityReference> contentApiAuth() {
+        AuthorizationScope[] authorizationScopes = {new AuthorizationScope("content api", "Access content api")};
+        return Arrays.asList(new SecurityReference("Access key from header", authorizationScopes),
+                new SecurityReference("Access key from query", authorizationScopes));
     }
 
     private ApiInfo apiInfo() {
@@ -178,8 +170,7 @@ public class SwaggerConfiguration {
                 .description("Documentation for Halo API")
                 .version(HALO_VERSION)
                 .termsOfServiceUrl("https://github.com/halo-dev")
-                .contact(
-                        new Contact("halo-dev", "https://github.com/halo-dev/halo/issues", "hi@halo.run"))
+                .contact(new Contact("halo-dev", "https://github.com/halo-dev/halo/issues", "i#ryanc.cc"))
                 .license("GNU General Public License v3.0")
                 .licenseUrl("https://github.com/halo-dev/halo/blob/master/LICENSE")
                 .build();
@@ -196,55 +187,49 @@ public class SwaggerConfiguration {
             @Override
             public List<AlternateTypeRule> rules() {
                 return Arrays.asList(
-                        newRule(resolver.resolve(Page.class, WildcardType.class),
-                                resolver.resolve(CustomizedPage.class, WildcardType.class)),
+                        newRule(User.class, emptyMixin(User.class)),
+                        newRule(UserDetail.class, emptyMixin(UserDetail.class)),
                         newRule(resolver.resolve(Pageable.class), resolver.resolve(pageableMixin())),
                         newRule(resolver.resolve(Sort.class), resolver.resolve(sortMixin())));
             }
         };
     }
 
+    /**
+     * For controller parameter(like eg: HttpServletRequest, ModelView ...).
+     *
+     * @param clazz controller parameter class type must not be null
+     * @return empty type
+     */
+    private Type emptyMixin(Class<?> clazz) {
+        Assert.notNull(clazz, "class type must not be null");
+
+        return new AlternateTypeBuilder()
+                .fullyQualifiedClassName(String.format("%s.generated.%s", clazz.getPackage().getName(), clazz.getSimpleName()))
+                .withProperties(Collections.emptyList())
+                .build();
+    }
+
     private Type sortMixin() {
-        return customMixin(Sort.class,
-                Collections.singletonList(propertyBuilder(String[].class, "sort")));
+        return new AlternateTypeBuilder()
+                .fullyQualifiedClassName(String.format("%s.generated.%s", Sort.class.getPackage().getName(), Sort.class.getSimpleName()))
+                .withProperties(Collections.singletonList(property(String[].class, "sort")))
+                .build();
     }
 
     private Type pageableMixin() {
-        return customMixin(Pageable.class, Arrays.asList(
-                propertyBuilder(Integer.class, "page"),
-                propertyBuilder(Integer.class, "size"),
-                propertyBuilder(String[].class, "sort")
-        ));
+        return new AlternateTypeBuilder()
+                .fullyQualifiedClassName(String.format("%s.generated.%s", Pageable.class.getPackage().getName(), Pageable.class.getSimpleName()))
+                .withProperties(Arrays.asList(property(Integer.class, "page"), property(Integer.class, "size"), property(String[].class, "sort")))
+                .build();
     }
 
-    /**
-     * Alternative page type.
-     *
-     * @param <T> content type
-     * @author johnniang
-     */
-    interface CustomizedPage<T> {
-
-        List<T> getContent();
-
-        int getPage();
-
-        int getPages();
-
-        long getTotal();
-
-        int getRpp();
-
-        boolean getHasNext();
-
-        boolean getHasPrevious();
-
-        boolean getIsFirst();
-
-        boolean getIsEmpty();
-
-        boolean getHasContent();
-
+    private AlternateTypePropertyBuilder property(Class<?> type, String name) {
+        return new AlternateTypePropertyBuilder()
+                .withName(name)
+                .withType(type)
+                .withCanRead(true)
+                .withCanWrite(true);
     }
 
 }

@@ -1,14 +1,14 @@
 package com.qinweizhao.site.handler.theme.config.support;
 
+import lombok.Data;
+
 import java.util.Objects;
 import java.util.Set;
-import lombok.Data;
 
 /**
  * Theme property.
  *
  * @author ryanwang
- * @author johnniang
  * @date 2019-03-22
  */
 @Data
@@ -32,17 +32,12 @@ public class ThemeProperty {
     /**
      * Theme remote branch.(default is master)
      */
-    private String branch = "master";
+    private String branch;
 
     /**
-     * Theme git repo url.
+     * Theme repo url.
      */
     private String repo;
-
-    /**
-     * Theme update strategy. Default is branch.
-     */
-    private UpdateStrategy updateStrategy = UpdateStrategy.RELEASE;
 
     /**
      * Theme description.
@@ -121,13 +116,8 @@ public class ThemeProperty {
         return Objects.hash(id);
     }
 
-    /**
-     * Theme author info.
-     *
-     * @author johnniang
-     */
     @Data
-    public static class Author {
+    private static class Author {
 
         /**
          * Author name.
@@ -143,23 +133,5 @@ public class ThemeProperty {
          * Author avatar.
          */
         private String avatar;
-    }
-
-    /**
-     * Theme update strategy.
-     *
-     * @author johnniang
-     */
-    public enum UpdateStrategy {
-
-        /**
-         * Update from specific branch
-         */
-        BRANCH,
-
-        /**
-         * Update from latest release, only available if the repo is a github repo
-         */
-        RELEASE;
     }
 }

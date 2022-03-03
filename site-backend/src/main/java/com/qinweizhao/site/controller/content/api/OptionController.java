@@ -1,22 +1,16 @@
 package com.qinweizhao.site.controller.content.api;
 
 import io.swagger.annotations.ApiOperation;
+import org.springframework.http.HttpStatus;
+import org.springframework.util.CollectionUtils;
+import org.springframework.web.bind.annotation.*;
+import com.qinweizhao.site.model.dto.OptionDTO;
+import com.qinweizhao.site.model.support.BaseResponse;
+import com.qinweizhao.site.service.OptionService;
+
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
-import org.springframework.util.CollectionUtils;
-import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-import com.qinweizhao.site.model.dto.OptionDTO;
-import com.qinweizhao.site.model.properties.CommentProperties;
-import com.qinweizhao.site.model.support.BaseResponse;
-import com.qinweizhao.site.service.ClientOptionService;
 
 /**
  * Content option controller.
@@ -28,10 +22,10 @@ import com.qinweizhao.site.service.ClientOptionService;
 @RequestMapping("/api/content/options")
 public class OptionController {
 
-    private final ClientOptionService optionService;
+    private final OptionService optionService;
 
-    public OptionController(ClientOptionService clientOptionService) {
-        this.optionService = clientOptionService;
+    public OptionController(OptionService optionService) {
+        this.optionService = optionService;
     }
 
     @GetMapping("list_view")
@@ -42,41 +36,27 @@ public class OptionController {
 
     @GetMapping("map_view")
     @ApiOperation("Lists options with map view")
-    public Map<String, Object> listAllWithMapView(
-        @Deprecated(since = "1.4.8", forRemoval = true)
-        @RequestParam(value = "key", required = false) List<String> keyList,
-        @RequestParam(value = "keys", required = false) String keys) {
-        // handle for key list
-        if (!CollectionUtils.isEmpty(keyList)) {
-            return optionService.listOptions(keyList);
+    public Map<String, Object> listAllWithMapView(@RequestParam(value = "key", required = false) List<String> keys) {
+        if (CollectionUtils.isEmpty(keys)) {
+            return optionService.listOptions();
         }
-        // handle for keys
-        if (StringUtils.hasText(keys)) {
-            var nameSet = Arrays.stream(keys.split(","))
-                .map(String::trim)
-                .collect(Collectors.toUnmodifiableSet());
-            return optionService.listOptions(nameSet);
-        }
-        // list all
-        return optionService.listOptions();
+
+        return optionService.listOptions(keys);
     }
 
     @GetMapping("keys/{key}")
     @ApiOperation("Gets option value by option key")
     public BaseResponse<Object> getBy(@PathVariable("key") String key) {
-        Object optionValue = optionService.getByKey(key).orElse(null);
-        return BaseResponse.ok(optionValue);
+        return BaseResponse.ok(HttpStatus.OK.getReasonPhrase(), optionService.getByKey(key).orElse(null));
     }
+
 
     @GetMapping("comment")
-    @ApiOperation("Options for comment(@deprecated, use /bulk api instead of this.)")
-    @Deprecated
+    @ApiOperation("Options for comment")
     public Map<String, Object> comment() {
         List<String> keys = new ArrayList<>();
-        keys.add(CommentProperties.GRAVATAR_DEFAULT.getValue());
-        keys.add(CommentProperties.CONTENT_PLACEHOLDER.getValue());
-        keys.add(CommentProperties.GRAVATAR_SOURCE.getValue());
+        keys.add("comment_gravatar_default");
+        keys.add("comment_content_placeholder");
         return optionService.listOptions(keys);
     }
-
 }

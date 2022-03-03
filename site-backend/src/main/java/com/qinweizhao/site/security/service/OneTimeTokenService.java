@@ -1,7 +1,8 @@
 package com.qinweizhao.site.security.service;
 
-import java.util.Optional;
 import org.springframework.lang.NonNull;
+
+import java.util.Optional;
 
 /**
  * One-time-token service interface.

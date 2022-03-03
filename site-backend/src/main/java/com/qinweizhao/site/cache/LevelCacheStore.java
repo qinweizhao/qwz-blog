@@ -1,14 +1,13 @@
 package com.qinweizhao.site.cache;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.qinweizhao.site.config.properties.HaloProperties;
-import com.qinweizhao.site.utils.JsonUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.iq80.leveldb.*;
 import org.iq80.leveldb.impl.Iq80DBFactory;
-import org.springframework.lang.NonNull;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
+import com.qinweizhao.site.config.properties.HaloProperties;
+import com.qinweizhao.site.utils.JsonUtils;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -26,7 +25,7 @@ public class LevelCacheStore extends AbstractStringCacheStore {
     /**
      * Cleaner schedule period. (ms)
      */
-    private static final long PERIOD = 60 * 1000;
+    private final static long PERIOD = 60 * 1000;
 
     private static DB LEVEL_DB;
 
@@ -70,25 +69,23 @@ public class LevelCacheStore extends AbstractStringCacheStore {
     }
 
     @Override
-    @NonNull
-    Optional<CacheWrapper<String>> getInternal(@NonNull String key) {
+    Optional<CacheWrapper<String>> getInternal(String key) {
         Assert.hasText(key, "Cache key must not be blank");
         byte[] bytes = LEVEL_DB.get(stringToBytes(key));
         if (bytes != null) {
             String valueJson = bytesToString(bytes);
-            return StringUtils.isEmpty(valueJson) ? Optional.empty() :
-                    jsonToCacheWrapper(valueJson);
+            return StringUtils.isEmpty(valueJson) ? Optional.empty() : jsonToCacheWrapper(valueJson);
         }
         return Optional.empty();
     }
 
     @Override
-    void putInternal(@NonNull String key, @NonNull CacheWrapper<String> cacheWrapper) {
+    void putInternal(String key, CacheWrapper<String> cacheWrapper) {
         putInternalIfAbsent(key, cacheWrapper);
     }
 
     @Override
-    Boolean putInternalIfAbsent(@NonNull String key, @NonNull CacheWrapper<String> cacheWrapper) {
+    Boolean putInternalIfAbsent(String key, CacheWrapper<String> cacheWrapper) {
         Assert.hasText(key, "Cache key must not be blank");
         Assert.notNull(cacheWrapper, "Cache wrapper must not be null");
         try {
@@ -105,7 +102,7 @@ public class LevelCacheStore extends AbstractStringCacheStore {
     }
 
     @Override
-    public void delete(@NonNull String key) {
+    public void delete(String key) {
         LEVEL_DB.delete(stringToBytes(key));
         log.debug("cache remove key: [{}]", key);
     }
@@ -135,9 +132,7 @@ public class LevelCacheStore extends AbstractStringCacheStore {
                 }
 
                 String valueJson = bytesToString(next.getValue());
-                Optional<CacheWrapper<String>> stringCacheWrapper =
-                        StringUtils.isEmpty(valueJson) ? Optional.empty() :
-                                jsonToCacheWrapper(valueJson);
+                Optional<CacheWrapper<String>> stringCacheWrapper = StringUtils.isEmpty(valueJson) ? Optional.empty() : jsonToCacheWrapper(valueJson);
                 if (stringCacheWrapper.isPresent()) {
                     //get expireat time
                     long expireAtTime = stringCacheWrapper.map(CacheWrapper::getExpireAt)
@@ -146,8 +141,7 @@ public class LevelCacheStore extends AbstractStringCacheStore {
                     //if expire
                     if (expireAtTime != 0 && currentTimeMillis > expireAtTime) {
                         writeBatch.delete(next.getKey());
-                        log.debug("deleted the cache: [{}] for expiration",
-                                bytesToString(next.getKey()));
+                        log.debug("deleted the cache: [{}] for expiration", bytesToString(next.getKey()));
                     }
                 }
             }

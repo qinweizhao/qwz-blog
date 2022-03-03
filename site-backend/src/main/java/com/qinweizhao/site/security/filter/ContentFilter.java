@@ -1,10 +1,5 @@
 package com.qinweizhao.site.security.filter;
 
-import java.io.IOException;
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import com.qinweizhao.site.cache.AbstractStringCacheStore;
@@ -13,6 +8,12 @@ import com.qinweizhao.site.security.handler.ContentAuthenticationFailureHandler;
 import com.qinweizhao.site.security.service.OneTimeTokenService;
 import com.qinweizhao.site.service.OptionService;
 import com.qinweizhao.site.utils.HaloUtils;
+
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 /**
  * Content filter
@@ -25,21 +26,21 @@ import com.qinweizhao.site.utils.HaloUtils;
 public class ContentFilter extends AbstractAuthenticationFilter {
 
     public ContentFilter(HaloProperties haloProperties,
-        OptionService optionService,
-        AbstractStringCacheStore cacheStore,
-        OneTimeTokenService oneTimeTokenService) {
+            OptionService optionService,
+            AbstractStringCacheStore cacheStore,
+            OneTimeTokenService oneTimeTokenService) {
         super(haloProperties, optionService, cacheStore, oneTimeTokenService);
 
         addUrlPatterns("/**");
 
         String adminPattern = HaloUtils.ensureBoth(haloProperties.getAdminPath(), "/") + "**";
         addExcludeUrlPatterns(
-            adminPattern,
-            "/api/**",
-            "/install",
-            "/version",
-            "/js/**",
-            "/css/**");
+                adminPattern,
+                "/api/**",
+                "/install",
+                "/version",
+                "/js/**",
+                "/css/**");
 
         // set failure handler
         setFailureHandler(new ContentAuthenticationFailureHandler());
@@ -51,11 +52,8 @@ public class ContentFilter extends AbstractAuthenticationFilter {
     }
 
     @Override
-    protected void doAuthenticate(HttpServletRequest request, HttpServletResponse response,
-        FilterChain filterChain) throws ServletException, IOException {
+    protected void doAuthenticate(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         // Do nothing
-        // create session
-        request.getSession(true);
         filterChain.doFilter(request, response);
     }
 }

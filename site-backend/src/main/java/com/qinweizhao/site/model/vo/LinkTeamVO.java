@@ -1,8 +1,8 @@
 package com.qinweizhao.site.model.vo;
 
-import com.qinweizhao.site.model.dto.LinkDTO;
 import lombok.Data;
 import lombok.ToString;
+import com.qinweizhao.site.model.dto.LinkDTO;
 
 import java.util.List;
 

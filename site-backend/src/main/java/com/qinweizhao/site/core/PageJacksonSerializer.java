@@ -3,8 +3,8 @@ package com.qinweizhao.site.core;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
-import com.qinweizhao.site.model.support.CommentPage;
 import org.springframework.data.domain.Page;
+import com.qinweizhao.site.model.support.CommentPage;
 
 import java.io.IOException;
 
@@ -17,8 +17,7 @@ import java.io.IOException;
 public class PageJacksonSerializer extends JsonSerializer<Page> {
 
     @Override
-    public void serialize(Page page, JsonGenerator generator, SerializerProvider serializers)
-            throws IOException {
+    public void serialize(Page page, JsonGenerator generator, SerializerProvider serializers) throws IOException {
         generator.writeStartObject();
 
         generator.writeObjectField("content", page.getContent());

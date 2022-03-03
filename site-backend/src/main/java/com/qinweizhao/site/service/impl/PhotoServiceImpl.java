@@ -1,11 +1,5 @@
 package com.qinweizhao.site.service.impl;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
-import javax.persistence.criteria.Predicate;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -23,6 +17,10 @@ import com.qinweizhao.site.repository.PhotoRepository;
 import com.qinweizhao.site.service.PhotoService;
 import com.qinweizhao.site.service.base.AbstractCrudService;
 import com.qinweizhao.site.utils.ServiceUtils;
+
+import javax.persistence.criteria.Predicate;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * PhotoService implementation class
@@ -44,8 +42,7 @@ public class PhotoServiceImpl extends AbstractCrudService<Photo, Integer> implem
     public List<PhotoDTO> listDtos(Sort sort) {
         Assert.notNull(sort, "Sort info must not be null");
 
-        return listAll(sort).stream().map(photo -> (PhotoDTO) new PhotoDTO().convertFrom(photo))
-            .collect(Collectors.toList());
+        return listAll(sort).stream().map(photo -> (PhotoDTO) new PhotoDTO().convertFrom(photo)).collect(Collectors.toList());
     }
 
     @Override
@@ -58,8 +55,7 @@ public class PhotoServiceImpl extends AbstractCrudService<Photo, Integer> implem
         // Get teams
         Set<String> teams = ServiceUtils.fetchProperty(photos, PhotoDTO::getTeam);
 
-        Map<String, List<PhotoDTO>> teamPhotoListMap =
-            ServiceUtils.convertToListMap(teams, photos, PhotoDTO::getTeam);
+        Map<String, List<PhotoDTO>> teamPhotoListMap = ServiceUtils.convertToListMap(teams, photos, PhotoDTO::getTeam);
 
         List<PhotoTeamVO> result = new LinkedList<>();
 
@@ -80,8 +76,7 @@ public class PhotoServiceImpl extends AbstractCrudService<Photo, Integer> implem
     @Override
     public List<PhotoDTO> listByTeam(String team, Sort sort) {
         List<Photo> photos = photoRepository.findByTeam(team, sort);
-        return photos.stream().map(photo -> (PhotoDTO) new PhotoDTO().convertFrom(photo))
-            .collect(Collectors.toList());
+        return photos.stream().map(photo -> (PhotoDTO) new PhotoDTO().convertFrom(photo)).collect(Collectors.toList());
     }
 
     @Override
@@ -116,11 +111,28 @@ public class PhotoServiceImpl extends AbstractCrudService<Photo, Integer> implem
         return photoRepository.findAllTeams();
     }
 
+    @Override
+    public List<PhotoDTO> replaceUrl(String oldUrl, String newUrl) {
+        List<Photo> photos = listAll();
+        List<Photo> replaced = new ArrayList<>();
+        photos.forEach(photo -> {
+            if (StringUtils.isNotEmpty(photo.getThumbnail())) {
+                photo.setThumbnail(photo.getThumbnail().replace(oldUrl, newUrl));
+            }
+            if (StringUtils.isNotEmpty(photo.getUrl())) {
+                photo.setUrl(photo.getUrl().replaceAll(oldUrl, newUrl));
+            }
+            replaced.add(photo);
+        });
+        List<Photo> updated = updateInBatch(replaced);
+        return updated.stream().map(photo -> (PhotoDTO) new PhotoDTO().convertFrom(photo)).collect(Collectors.toList());
+    }
+
     @NonNull
     private Specification<Photo> buildSpecByQuery(@NonNull PhotoQuery photoQuery) {
         Assert.notNull(photoQuery, "Photo query must not be null");
 
-        return (root, query, criteriaBuilder) -> {
+        return (Specification<Photo>) (root, query, criteriaBuilder) -> {
             List<Predicate> predicates = new LinkedList<>();
 
             if (photoQuery.getTeam() != null) {
@@ -129,12 +141,10 @@ public class PhotoServiceImpl extends AbstractCrudService<Photo, Integer> implem
 
             if (photoQuery.getKeyword() != null) {
 
-                String likeCondition =
-                    String.format("%%%s%%", StringUtils.strip(photoQuery.getKeyword()));
+                String likeCondition = String.format("%%%s%%", StringUtils.strip(photoQuery.getKeyword()));
 
                 Predicate nameLike = criteriaBuilder.like(root.get("name"), likeCondition);
-                Predicate descriptionLike =
-                    criteriaBuilder.like(root.get("description"), likeCondition);
+                Predicate descriptionLike = criteriaBuilder.like(root.get("description"), likeCondition);
                 Predicate locationLike = criteriaBuilder.like(root.get("location"), likeCondition);
 
                 predicates.add(criteriaBuilder.or(nameLike, descriptionLike, locationLike));

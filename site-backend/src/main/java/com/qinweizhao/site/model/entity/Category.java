@@ -26,8 +26,7 @@ public class Category extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "custom-id")
-    @GenericGenerator(name = "custom-id",
-            strategy = "com.qinweizhao.site.model.entity.support.CustomIdGenerator")
+    @GenericGenerator(name = "custom-id", strategy = "com.qinweizhao.site.model.entity.support.CustomIdGenerator")
     private Integer id;
 
     /**
@@ -67,12 +66,6 @@ public class Category extends BaseEntity {
     @Column(name = "parent_id")
     @ColumnDefault("0")
     private Integer parentId;
-
-    /**
-     * Category password.
-     */
-    @Column(name = "password")
-    private String password;
 
     @Override
     public void prePersist() {

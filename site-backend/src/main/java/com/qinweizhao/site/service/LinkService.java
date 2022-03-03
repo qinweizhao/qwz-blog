@@ -1,6 +1,5 @@
 package com.qinweizhao.site.service;
 
-import java.util.List;
 import org.springframework.data.domain.Sort;
 import org.springframework.lang.NonNull;
 import com.qinweizhao.site.model.dto.LinkDTO;
@@ -8,6 +7,8 @@ import com.qinweizhao.site.model.entity.Link;
 import com.qinweizhao.site.model.params.LinkParam;
 import com.qinweizhao.site.model.vo.LinkTeamVO;
 import com.qinweizhao.site.service.base.CrudService;
+
+import java.util.List;
 
 /**
  * Link service interface.
@@ -39,7 +40,7 @@ public interface LinkService extends CrudService<Link, Integer> {
     /**
      * Lists link team vos by random
      *
-     * @param sort sort
+     * @param sort
      * @return a list of link team vo by random
      */
     @NonNull
@@ -56,6 +57,7 @@ public interface LinkService extends CrudService<Link, Integer> {
 
     /**
      * Updates link by link param.
+     *
      *
      * @param id must not be null
      * @param linkParam must not be null

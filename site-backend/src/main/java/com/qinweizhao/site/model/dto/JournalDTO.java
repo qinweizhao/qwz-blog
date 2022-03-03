@@ -1,9 +1,9 @@
 package com.qinweizhao.site.model.dto;
 
+import lombok.Data;
 import com.qinweizhao.site.model.dto.base.OutputConverter;
 import com.qinweizhao.site.model.entity.Journal;
 import com.qinweizhao.site.model.enums.JournalType;
-import lombok.Data;
 
 import java.util.Date;
 

@@ -1,9 +1,5 @@
 package com.qinweizhao.site.core;
 
-import com.qinweizhao.site.exception.AbstractHaloException;
-import com.qinweizhao.site.model.support.BaseResponse;
-import com.qinweizhao.site.utils.ExceptionUtils;
-import com.qinweizhao.site.utils.ValidationUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -19,6 +15,10 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.servlet.NoHandlerFoundException;
+import com.qinweizhao.site.exception.AbstractHaloException;
+import com.qinweizhao.site.model.support.BaseResponse;
+import com.qinweizhao.site.utils.ExceptionUtils;
+import com.qinweizhao.site.utils.ValidationUtils;
 
 import javax.validation.ConstraintViolationException;
 import java.util.Map;
@@ -28,15 +28,13 @@ import java.util.Map;
  *
  * @author johnniang
  */
-@RestControllerAdvice(value = {"com.qinweizhao.site.controller.admin.api",
-        "com.qinweizhao.site.controller.content.api"})
+@RestControllerAdvice(value = {"com.qinweizhao.site.controller.admin.api", "com.qinweizhao.site.controller.content.api"})
 @Slf4j
 public class ControllerExceptionHandler {
 
     @ExceptionHandler(DataIntegrityViolationException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public BaseResponse<?> handleDataIntegrityViolationException(
-            DataIntegrityViolationException e) {
+    public BaseResponse<?> handleDataIntegrityViolationException(DataIntegrityViolationException e) {
         BaseResponse<?> baseResponse = handleBaseException(e);
         if (e.getCause() instanceof org.hibernate.exception.ConstraintViolationException) {
             baseResponse = handleBaseException(e.getCause());
@@ -47,11 +45,9 @@ public class ControllerExceptionHandler {
 
     @ExceptionHandler(MissingServletRequestParameterException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public BaseResponse<?> handleMissingServletRequestParameterException(
-            MissingServletRequestParameterException e) {
+    public BaseResponse<?> handleMissingServletRequestParameterException(MissingServletRequestParameterException e) {
         BaseResponse<?> baseResponse = handleBaseException(e);
-        baseResponse.setMessage(
-                String.format("请求字段缺失, 类型为 %s，名称为 %s", e.getParameterType(), e.getParameterName()));
+        baseResponse.setMessage(String.format("请求字段缺失, 类型为 %s，名称为 %s", e.getParameterType(), e.getParameterName()));
         return baseResponse;
     }
 
@@ -67,21 +63,18 @@ public class ControllerExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public BaseResponse<?> handleMethodArgumentNotValidException(
-            MethodArgumentNotValidException e) {
+    public BaseResponse<?> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
         BaseResponse<Map<String, String>> baseResponse = handleBaseException(e);
         baseResponse.setStatus(HttpStatus.BAD_REQUEST.value());
         baseResponse.setMessage("字段验证错误，请完善后重试！");
-        Map<String, String> errMap =
-                ValidationUtils.mapWithFieldError(e.getBindingResult().getFieldErrors());
+        Map<String, String> errMap = ValidationUtils.mapWithFieldError(e.getBindingResult().getFieldErrors());
         baseResponse.setData(errMap);
         return baseResponse;
     }
 
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public BaseResponse<?> handleHttpRequestMethodNotSupportedException(
-            HttpRequestMethodNotSupportedException e) {
+    public BaseResponse<?> handleHttpRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException e) {
         BaseResponse<?> baseResponse = handleBaseException(e);
         baseResponse.setStatus(HttpStatus.BAD_REQUEST.value());
         return baseResponse;
@@ -89,8 +82,7 @@ public class ControllerExceptionHandler {
 
     @ExceptionHandler(HttpMediaTypeNotAcceptableException.class)
     @ResponseStatus(HttpStatus.NOT_ACCEPTABLE)
-    public BaseResponse<?> handleHttpMediaTypeNotAcceptableException(
-            HttpMediaTypeNotAcceptableException e) {
+    public BaseResponse<?> handleHttpMediaTypeNotAcceptableException(HttpMediaTypeNotAcceptableException e) {
         BaseResponse<?> baseResponse = handleBaseException(e);
         baseResponse.setStatus(HttpStatus.NOT_ACCEPTABLE.value());
         return baseResponse;
@@ -98,8 +90,7 @@ public class ControllerExceptionHandler {
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public BaseResponse<?> handleHttpMessageNotReadableException(
-            HttpMessageNotReadableException e) {
+    public BaseResponse<?> handleHttpMessageNotReadableException(HttpMessageNotReadableException e) {
         BaseResponse<?> baseResponse = handleBaseException(e);
         baseResponse.setStatus(HttpStatus.BAD_REQUEST.value());
         baseResponse.setMessage("缺失请求主体");
@@ -149,10 +140,11 @@ public class ControllerExceptionHandler {
         BaseResponse<T> baseResponse = new BaseResponse<>();
         baseResponse.setMessage(t.getMessage());
 
-        log.error("Captured an exception:", t);
-
         if (log.isDebugEnabled()) {
+            log.error("Captured an exception:", t);
             baseResponse.setDevMessage(ExceptionUtils.getStackTrace(t));
+        } else {
+            log.error("Captured an exception: [{}]", t.getMessage());
         }
 
         return baseResponse;

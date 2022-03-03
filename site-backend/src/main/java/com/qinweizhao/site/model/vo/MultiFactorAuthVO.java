@@ -1,10 +1,10 @@
 package com.qinweizhao.site.model.vo;
 
-import com.qinweizhao.site.model.enums.MFAType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import com.qinweizhao.site.model.enums.MFAType;
 
 /**
  * MultiFactorAuth VO.
