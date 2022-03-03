@@ -4,7 +4,7 @@ const baseUrl = '/api/admin/logs'
 
 const logApi = {}
 
-logApi.listLatest = top => {
+logApi.listLatest = (top) => {
   return service({
     url: `${baseUrl}/latest`,
     params: {
@@ -84,7 +84,7 @@ logApi.logTypes = {
   },
   LOGGED_PRE_CHECK: {
     value: 70,
-    text: '登录验证'
+    text: '登陆验证'
   }
 }
 

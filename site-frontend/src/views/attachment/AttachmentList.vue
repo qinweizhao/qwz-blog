@@ -1,17 +1,36 @@
 <template>
   <page-view>
-    <a-row :gutter="12" type="flex" align="middle">
-      <a-col :span="24" class="pb-3">
-        <a-card :bordered="false" :bodyStyle="{ padding: '16px' }">
+    <a-row
+      :gutter="12"
+      type="flex"
+      align="middle"
+    >
+      <a-col
+        :span="24"
+        class="pb-3"
+      >
+        <a-card
+          :bordered="false"
+          :bodyStyle="{ padding: '16px' }"
+        >
           <div class="table-page-search-wrapper">
             <a-form layout="inline">
               <a-row :gutter="48">
-                <a-col :md="6" :sm="24">
+                <a-col
+                  :md="6"
+                  :sm="24"
+                >
                   <a-form-item label="关键词：">
-                    <a-input v-model="queryParam.keyword" @keyup.enter="handleQuery()" />
+                    <a-input
+                      v-model="queryParam.keyword"
+                      @keyup.enter="handleQuery()"
+                    />
                   </a-form-item>
                 </a-col>
-                <a-col :md="6" :sm="24">
+                <a-col
+                  :md="6"
+                  :sm="24"
+                >
                   <a-form-item label="存储位置：">
                     <a-select
                       v-model="queryParam.attachmentType"
@@ -19,13 +38,20 @@
                       :loading="typesLoading"
                       allowClear
                     >
-                      <a-select-option v-for="item in types" :key="item" :value="item">{{
+                      <a-select-option
+                        v-for="item in types"
+                        :key="item"
+                        :value="item"
+                      >{{
                         attachmentType[item].text
                       }}</a-select-option>
                     </a-select>
                   </a-form-item>
                 </a-col>
-                <a-col :md="6" :sm="24">
+                <a-col
+                  :md="6"
+                  :sm="24"
+                >
                   <a-form-item label="文件类型：">
                     <a-select
                       v-model="queryParam.mediaType"
@@ -33,16 +59,26 @@
                       :loading="mediaTypesLoading"
                       allowClear
                     >
-                      <a-select-option v-for="(item, index) in mediaTypes" :key="index" :value="item">{{
+                      <a-select-option
+                        v-for="(item, index) in mediaTypes"
+                        :key="index"
+                        :value="item"
+                      >{{
                         item
                       }}</a-select-option>
                     </a-select>
                   </a-form-item>
                 </a-col>
-                <a-col :md="6" :sm="24">
+                <a-col
+                  :md="6"
+                  :sm="24"
+                >
                   <span class="table-page-search-submitButtons">
                     <a-space>
-                      <a-button type="primary" @click="handleQuery()">查询</a-button>
+                      <a-button
+                        type="primary"
+                        @click="handleQuery()"
+                      >查询</a-button>
                       <a-button @click="handleResetParam()">重置</a-button>
                     </a-space>
                   </span>
@@ -50,9 +86,17 @@
               </a-row>
             </a-form>
           </div>
-          <div class="mb-0 table-operator">
-            <a-button type="primary" icon="cloud-upload" @click="() => (uploadVisible = true)">上传</a-button>
-            <a-button icon="select" v-show="!supportMultipleSelection" @click="handleMultipleSelection">
+          <div class="table-operator mb-0">
+            <a-button
+              type="primary"
+              icon="cloud-upload"
+              @click="() => (uploadVisible = true)"
+            >上传</a-button>
+            <a-button
+              icon="select"
+              v-show="!supportMultipleSelection"
+              @click="handleMultipleSelection"
+            >
               批量操作
             </a-button>
             <a-button
@@ -63,7 +107,11 @@
             >
               删除
             </a-button>
-            <a-button icon="close" v-show="supportMultipleSelection" @click="handleCancelMultipleSelection">
+            <a-button
+              icon="close"
+              v-show="supportMultipleSelection"
+              @click="handleCancelMultipleSelection"
+            >
               取消
             </a-button>
           </div>
@@ -75,7 +123,11 @@
           :dataSource="formattedDatas"
           :loading="listLoading"
         >
-          <a-list-item slot="renderItem" slot-scope="item, index" :key="index">
+          <a-list-item
+            slot="renderItem"
+            slot-scope="item, index"
+            :key="index"
+          >
             <a-card
               :bodyStyle="{ padding: 0 }"
               hoverable
@@ -84,10 +136,18 @@
             >
               <div class="attach-thumb">
                 <span v-show="!handleJudgeMediaType(item)">当前格式不支持预览</span>
-                <img :src="item.thumbPath" v-show="handleJudgeMediaType(item)" loading="lazy" />
+                <img
+                  :src="item.thumbPath"
+                  v-show="handleJudgeMediaType(item)"
+                  loading="lazy"
+                />
               </div>
               <a-card-meta class="p-3">
-                <ellipsis :length="isMobile() ? 12 : 16" tooltip slot="description">{{ item.name }}</ellipsis>
+                <ellipsis
+                  :length="isMobile() ? 12 : 16"
+                  tooltip
+                  slot="description"
+                >{{ item.name }}</ellipsis>
               </a-card-meta>
               <a-checkbox
                 class="select-attachment-checkbox"
@@ -114,8 +174,17 @@
         showLessItems
       />
     </div>
-    <a-modal title="上传附件" v-model="uploadVisible" :footer="null" :afterClose="onUploadClose" destroyOnClose>
-      <FilePondUpload ref="upload" :uploadHandler="uploadHandler"></FilePondUpload>
+    <a-modal
+      title="上传附件"
+      v-model="uploadVisible"
+      :footer="null"
+      :afterClose="onUploadClose"
+      destroyOnClose
+    >
+      <FilePondUpload
+        ref="upload"
+        :uploadHandler="uploadHandler"
+      ></FilePondUpload>
     </a-modal>
     <AttachmentDetailDrawer
       v-model="drawerVisible"
@@ -128,7 +197,7 @@
 </template>
 
 <script>
-import { mixin, mixinDevice } from '@/mixins/mixin.js'
+import { mixin, mixinDevice } from '@/utils/mixin.js'
 import { PageView } from '@/layouts'
 import AttachmentDetailDrawer from './components/AttachmentDetailDrawer'
 import attachmentApi from '@/api/attachment'
@@ -249,7 +318,11 @@ export default {
     },
     handleShowDetailDrawer(attachment) {
       this.selectAttachment = attachment
-      this.drawerVisible = !this.supportMultipleSelection
+      if (this.supportMultipleSelection) {
+        this.drawerVisible = false
+      } else {
+        this.drawerVisible = true
+      }
     },
     handleContextMenu(event, item) {
       this.$contextmenu({
@@ -316,12 +389,18 @@ export default {
       this.handleListTypes()
     },
     handleJudgeMediaType(attachment) {
-      const mediaType = attachment.mediaType
+      var mediaType = attachment.mediaType
       // 判断文件类型
       if (mediaType) {
-        const prefix = mediaType.split('/')[0]
+        var prefix = mediaType.split('/')[0]
 
-        return prefix === 'image'
+        if (prefix === 'image') {
+          // 是图片
+          return true
+        } else {
+          // 非图片
+          return false
+        }
       }
       // 没有获取到文件返回false
       return false
@@ -341,24 +420,24 @@ export default {
       this.supportMultipleSelection = false
       this.drawerVisible = false
       this.batchSelectedAttachments = []
-      for (const key in this.selectedCheckbox) {
+      for (var key in this.selectedCheckbox) {
         this.$set(this.selectedAttachmentCheckbox, key, false)
       }
     },
     handleAttachmentSelectionChanged(e, item) {
-      const isChecked = e.target.checked || false
+      var isChecked = e.target.checked || false
       if (isChecked) {
         this.$set(this.selectedAttachmentCheckbox, item.id, true)
         this.batchSelectedAttachments.push(item.id)
       } else {
         this.$set(this.selectedAttachmentCheckbox, item.id, false)
         // 从选中id集合中删除id
-        const index = this.batchSelectedAttachments.indexOf(item.id)
+        var index = this.batchSelectedAttachments.indexOf(item.id)
         this.batchSelectedAttachments.splice(index, 1)
       }
     },
     handleDeleteAttachmentInBatch() {
-      const that = this
+      var that = this
       if (this.batchSelectedAttachments.length <= 0) {
         this.$message.warn('你还未选择任何附件，请至少选择一个！')
         return
@@ -369,7 +448,7 @@ export default {
         onOk() {
           attachmentApi
             .deleteInBatch(that.batchSelectedAttachments)
-            .then(() => {
+            .then(res => {
               that.handleCancelMultipleSelection()
               that.$message.success('删除成功')
             })

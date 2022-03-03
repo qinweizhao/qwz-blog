@@ -1,7 +1,6 @@
 <script>
 import Tooltip from 'ant-design-vue/es/tooltip'
 import { cutStrByFullLength, getStrFullLength } from '@/components/_util/util'
-
 export default {
   name: 'Ellipsis',
   components: {
@@ -43,9 +42,10 @@ export default {
   },
   render() {
     const { tooltip, length } = this.$props
-    const str = this.$slots.default.map(vNode => vNode.text).join('')
+    const str = this.$slots.default.map((vNode) => vNode.text).join('')
     const fullLength = getStrFullLength(str)
-    return tooltip && fullLength > length ? this.getTooltip(str, fullLength) : this.getStrDom(str, fullLength)
+    const strDom = tooltip && fullLength > length ? this.getTooltip(str, fullLength) : this.getStrDom(str, fullLength)
+    return strDom
   }
 }
 </script>

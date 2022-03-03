@@ -96,15 +96,4 @@ sheetApi.sheetStatus = {
     text: '回收站'
   }
 }
-
-sheetApi.permalinkType = {
-  SECONDARY: {
-    type: 'SECONDARY',
-    text: '二级路径'
-  },
-  ROOT: {
-    type: 'ROOT',
-    text: '根路径'
-  }
-}
 export default sheetApi

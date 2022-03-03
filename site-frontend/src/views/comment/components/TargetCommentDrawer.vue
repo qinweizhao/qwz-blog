@@ -8,13 +8,19 @@
     @close="onClose"
     :afterVisibleChange="handleAfterVisibleChanged"
   >
-    <a-row type="flex" align="middle">
+    <a-row
+      type="flex"
+      align="middle"
+    >
       <a-col :span="24">
         <a-list itemLayout="horizontal">
           <a-list-item>
             <a-list-item-meta>
               <template slot="description">
-                <p v-html="description" class="comment-drawer-content"></p>
+                <p
+                  v-html="description"
+                  class="comment-drawer-content"
+                ></p>
               </template>
               <h3 slot="title">{{ title }}</h3>
             </a-list-item-meta>
@@ -24,7 +30,7 @@
       <a-divider />
       <a-col :span="24">
         <a-spin :spinning="list.loading">
-          <a-empty v-if="list.data.length === 0" />
+          <a-empty v-if="list.data.length == 0" />
           <TargetCommentTree
             v-else
             v-for="(comment, index) in list.data"
@@ -49,9 +55,17 @@
     </div>
     <a-divider class="divider-transparent" />
     <div class="bottom-control">
-      <a-button type="primary" @click="handleCommentReply({})">评论</a-button>
+      <a-button
+        type="primary"
+        @click="handleCommentReply({})"
+      >评论</a-button>
     </div>
-    <a-modal :title="replyModalTitle" v-model="replyModal.visible" @close="onReplyModalClose" destroyOnClose>
+    <a-modal
+      :title="replyModalTitle"
+      v-model="replyModal.visible"
+      @close="onReplyModalClose"
+      destroyOnClose
+    >
       <template slot="footer">
         <ReactiveButton
           type="primary"
@@ -64,16 +78,26 @@
           erroredText="回复失败"
         ></ReactiveButton>
       </template>
-      <a-form-model ref="replyCommentForm" :model="replyModal.model" :rules="replyModal.rules" layout="vertical">
+      <a-form-model
+        ref="replyCommentForm"
+        :model="replyModal.model"
+        :rules="replyModal.rules"
+        layout="vertical"
+      >
         <a-form-model-item prop="content">
-          <a-input ref="contentInput" type="textarea" :autoSize="{ minRows: 8 }" v-model="replyModal.model.content" />
+          <a-input
+            ref="contentInput"
+            type="textarea"
+            :autoSize="{ minRows: 8 }"
+            v-model="replyModal.model.content"
+          />
         </a-form-model-item>
       </a-form-model>
     </a-modal>
   </a-drawer>
 </template>
 <script>
-import { mixin, mixinDevice } from '@/mixins/mixin.js'
+import { mixin, mixinDevice } from '@/utils/mixin.js'
 import TargetCommentTree from './TargetCommentTree'
 import commentApi from '@/api/comment'
 export default {
@@ -90,14 +114,14 @@ export default {
           page: 1,
           size: 10,
           sort: null,
-          total: 1
+          total: 1,
         },
         queryParam: {
           page: 0,
           size: 10,
           sort: null,
-          keyword: null
-        }
+          keyword: null,
+        },
       },
       replyModal: {
         model: {},
@@ -105,42 +129,42 @@ export default {
         saving: false,
         saveErrored: false,
         rules: {
-          content: [{ required: true, message: '* 内容不能为空', trigger: ['change'] }]
-        }
-      }
+          content: [{ required: true, message: '* 内容不能为空', trigger: ['change'] }],
+        },
+      },
     }
   },
   props: {
     visible: {
       type: Boolean,
       required: false,
-      default: false
+      default: false,
     },
     title: {
       type: String,
       required: false,
-      default: ''
+      default: '',
     },
     description: {
       type: String,
       required: false,
-      default: ''
+      default: '',
     },
     target: {
       type: String,
       required: false,
-      default: ''
+      default: '',
     },
     id: {
       type: Number,
       required: false,
-      default: 0
-    }
+      default: 0,
+    },
   },
   computed: {
     replyModalTitle() {
       return this.list.selected.id ? `回复给：${this.list.selected.author}` : '评论'
-    }
+    },
   },
   methods: {
     handleListComments() {
@@ -150,7 +174,7 @@ export default {
       this.list.queryParam.sort = this.list.pagination.sort
       commentApi
         .commentTree(this.target, this.id, this.list.queryParam)
-        .then(response => {
+        .then((response) => {
           this.list.data = response.data.data.content
           this.list.pagination.total = response.data.data.total
         })
@@ -176,7 +200,7 @@ export default {
     },
     handleReplyClick() {
       const _this = this
-      _this.$refs.replyCommentForm.validate(valid => {
+      _this.$refs.replyCommentForm.validate((valid) => {
         if (valid) {
           _this.replyModal.saving = true
           commentApi
@@ -205,7 +229,7 @@ export default {
     handleEditStatusClick(comment, status) {
       commentApi
         .updateStatus(this.target, comment.id, status)
-        .then(() => {
+        .then((response) => {
           this.$message.success('操作成功！')
         })
         .finally(() => {
@@ -215,7 +239,7 @@ export default {
     handleCommentDelete(comment) {
       commentApi
         .delete(this.target, comment.id)
-        .then(() => {
+        .then((response) => {
           this.$message.success('删除成功！')
         })
         .finally(() => {
@@ -232,7 +256,7 @@ export default {
       this.list.pagination = {
         page: 1,
         size: 10,
-        sort: ''
+        sort: '',
       }
       this.$emit('close', false)
     },
@@ -240,7 +264,7 @@ export default {
       if (visible) {
         this.handleListComments()
       }
-    }
-  }
+    },
+  },
 }
 </script>

@@ -9,7 +9,11 @@
       :dataSource="formattedSheets"
       :loading="loading"
     >
-      <a-list-item slot="renderItem" slot-scope="item, index" :key="index">
+      <a-list-item
+        slot="renderItem"
+        slot-scope="item, index"
+        :key="index"
+      >
         <template slot="actions">
           <span>
             <a-icon type="eye" />
@@ -19,32 +23,38 @@
             <a-icon type="message" />
             {{ item.commentCount }}
           </span>
-          <a-dropdown placement="topLeft" :trigger="['click']">
+          <a-dropdown
+            placement="topLeft"
+            :trigger="['click']"
+          >
             <span>
               <a-icon type="bars" />
             </span>
             <a-menu slot="overlay">
               <a-menu-item v-if="item.status === 'PUBLISHED' || item.status === 'DRAFT'">
-                <a href="javascript:void(0);" @click="handleEditClick(item)">编辑</a>
+                <a
+                  href="javascript:;"
+                  @click="handleEditClick(item)"
+                >编辑</a>
               </a-menu-item>
               <a-menu-item v-else-if="item.status === 'RECYCLE'">
                 <a-popconfirm
                   :title="'你确定要发布【' + item.title + '】页面？'"
-                  @confirm="handleEditStatusClick(item.id, 'PUBLISHED')"
+                  @confirm="handleEditStatusClick(item.id,'PUBLISHED')"
                   okText="确定"
                   cancelText="取消"
                 >
-                  <a href="javascript:void(0);">还原</a>
+                  <a href="javascript:;">还原</a>
                 </a-popconfirm>
               </a-menu-item>
               <a-menu-item v-if="item.status === 'PUBLISHED' || item.status === 'DRAFT'">
                 <a-popconfirm
                   :title="'你确定要将【' + item.title + '】页面移到回收站？'"
-                  @confirm="handleEditStatusClick(item.id, 'RECYCLE')"
+                  @confirm="handleEditStatusClick(item.id,'RECYCLE')"
                   okText="确定"
                   cancelText="取消"
                 >
-                  <a href="javascript:void(0);">回收站</a>
+                  <a href="javascript:;">回收站</a>
                 </a-popconfirm>
               </a-menu-item>
               <a-menu-item v-else-if="item.status === 'RECYCLE'">
@@ -54,18 +64,25 @@
                   okText="确定"
                   cancelText="取消"
                 >
-                  <a href="javascript:void(0);">删除</a>
+                  <a href="javascript:;">删除</a>
                 </a-popconfirm>
               </a-menu-item>
               <a-menu-item>
-                <a rel="noopener noreferrer" href="javascript:void(0);" @click="handleShowSheetSettings(item)">设置</a>
+                <a
+                  rel="noopener noreferrer"
+                  href="javascript:void(0);"
+                  @click="handleShowSheetSettings(item)"
+                >设置</a>
               </a-menu-item>
             </a-menu>
           </a-dropdown>
         </template>
         <template slot="extra">
           <span>
-            <a-badge :status="item.statusProperty.status" :text="item.statusProperty.text" />
+            <a-badge
+              :status="item.statusProperty.status"
+              :text="item.statusProperty.text"
+            />
           </span>
         </template>
         <a-list-item-meta>
@@ -76,23 +93,42 @@
             slot="title"
             style="max-width: 300px;display: block;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;"
           >
-            <a v-if="item.status === 'PUBLISHED'" :href="item.fullPath" target="_blank" class="no-underline">
-              <a-tooltip placement="top" :title="'点击访问【' + item.title + '】'">{{ item.title }}</a-tooltip>
+            <a
+              v-if="item.status=='PUBLISHED'"
+              :href="item.fullPath"
+              target="_blank"
+              class="no-underline"
+            >
+              <a-tooltip
+                placement="top"
+                :title="'点击访问【'+item.title+'】'"
+              >{{ item.title }}</a-tooltip>
             </a>
             <a
-              v-else-if="item.status === 'DRAFT'"
+              v-else-if="item.status=='DRAFT'"
               href="javascript:void(0)"
               class="no-underline"
               @click="handlePreview(item.id)"
             >
-              <a-tooltip placement="topLeft" :title="'点击预览【' + item.title + '】'">{{ item.title }}</a-tooltip>
+              <a-tooltip
+                placement="topLeft"
+                :title="'点击预览【'+item.title+'】'"
+              >{{ item.title }}</a-tooltip>
             </a>
-            <a v-else href="javascript:void(0);" class="no-underline" disabled>
+            <a
+              v-else
+              href="javascript:void(0);"
+              class="no-underline"
+              disabled
+            >
               {{ item.title }}
             </a>
           </span>
+
         </a-list-item-meta>
-        <span> {{ item.summary }}... </span>
+        <span>
+          {{ item.summary }}...
+        </span>
       </a-list-item>
     </a-list>
 
@@ -106,46 +142,82 @@
       :loading="loading"
       :scrollToFirstRowOnChange="true"
     >
-      <span slot="sheetTitle" slot-scope="text, record">
-        <a v-if="record.status === 'PUBLISHED'" :href="record.fullPath" target="_blank" class="no-underline">
-          <a-tooltip placement="top" :title="'点击访问【' + text + '】'">{{ text }}</a-tooltip>
+      <span
+        slot="sheetTitle"
+        slot-scope="text,record"
+      >
+        <a
+          v-if="record.status=='PUBLISHED'"
+          :href="record.fullPath"
+          target="_blank"
+          class="no-underline"
+        >
+          <a-tooltip
+            placement="top"
+            :title="'点击访问【'+text+'】'"
+          >{{ text }}</a-tooltip>
         </a>
         <a
-          v-else-if="record.status === 'DRAFT'"
+          v-else-if="record.status=='DRAFT'"
           href="javascript:void(0)"
           class="no-underline"
           @click="handlePreview(record.id)"
         >
-          <a-tooltip placement="topLeft" :title="'点击预览【' + text + '】'">{{ text }}</a-tooltip>
+          <a-tooltip
+            placement="topLeft"
+            :title="'点击预览【'+text+'】'"
+          >{{ text }}</a-tooltip>
         </a>
-        <a v-else href="javascript:void(0);" class="no-underline" disabled>
+        <a
+          v-else
+          href="javascript:void(0);"
+          class="no-underline"
+          disabled
+        >
           {{ text }}
         </a>
       </span>
 
-      <span slot="status" slot-scope="statusProperty">
-        <a-badge :status="statusProperty.status" :text="statusProperty.text" />
+      <span
+        slot="status"
+        slot-scope="statusProperty"
+      >
+        <a-badge
+          :status="statusProperty.status"
+          :text="statusProperty.text"
+        />
       </span>
 
       <span
         slot="commentCount"
-        slot-scope="text, record"
+        slot-scope="text,record"
         @click="handleShowSheetComments(record)"
         class="cursor-pointer"
       >
         <a-badge
           :count="record.commentCount"
-          :numberStyle="{ backgroundColor: '#f38181' }"
+          :numberStyle="{backgroundColor: '#f38181'} "
           :showZero="true"
           :overflowCount="999"
         />
       </span>
 
-      <span slot="visits" slot-scope="visits">
-        <a-badge :count="visits" :numberStyle="{ backgroundColor: '#00e0ff' }" :showZero="true" :overflowCount="9999" />
+      <span
+        slot="visits"
+        slot-scope="visits"
+      >
+        <a-badge
+          :count="visits"
+          :numberStyle="{backgroundColor: '#00e0ff'} "
+          :showZero="true"
+          :overflowCount="9999"
+        />
       </span>
 
-      <span slot="createTime" slot-scope="createTime">
+      <span
+        slot="createTime"
+        slot-scope="createTime"
+      >
         <a-tooltip placement="top">
           <template slot="title">
             {{ createTime | moment }}
@@ -154,34 +226,36 @@
         </a-tooltip>
       </span>
 
-      <span slot="action" slot-scope="text, sheet">
+      <span
+        slot="action"
+        slot-scope="text, sheet"
+      >
         <a
-          href="javascript:void(0);"
+          href="javascript:;"
           @click="handleEditClick(sheet)"
           v-if="sheet.status === 'PUBLISHED' || sheet.status === 'DRAFT'"
-          >编辑</a
-        >
+        >编辑</a>
 
         <a-popconfirm
           :title="'你确定要发布【' + sheet.title + '】？'"
-          @confirm="handleEditStatusClick(sheet.id, 'PUBLISHED')"
+          @confirm="handleEditStatusClick(sheet.id,'PUBLISHED')"
           okText="确定"
           cancelText="取消"
           v-else-if="sheet.status === 'RECYCLE'"
         >
-          <a href="javascript:void(0);">还原</a>
+          <a href="javascript:;">还原</a>
         </a-popconfirm>
 
         <a-divider type="vertical" />
 
         <a-popconfirm
           :title="'你确定要将【' + sheet.title + '】页面移到回收站？'"
-          @confirm="handleEditStatusClick(sheet.id, 'RECYCLE')"
+          @confirm="handleEditStatusClick(sheet.id,'RECYCLE')"
           okText="确定"
           cancelText="取消"
           v-if="sheet.status === 'PUBLISHED' || sheet.status === 'DRAFT'"
         >
-          <a href="javascript:void(0);">回收站</a>
+          <a href="javascript:;">回收站</a>
         </a-popconfirm>
 
         <a-popconfirm
@@ -191,10 +265,13 @@
           cancelText="取消"
           v-else-if="sheet.status === 'RECYCLE'"
         >
-          <a href="javascript:void(0);">删除</a>
+          <a href="javascript:;">删除</a>
         </a-popconfirm>
         <a-divider type="vertical" />
-        <a href="javascript:void(0);" @click="handleShowSheetSettings(sheet)">设置</a>
+        <a
+          href="javascript:void(0);"
+          @click="handleShowSheetSettings(sheet)"
+        >设置</a>
       </span>
     </a-table>
     <div class="page-wrapper">
@@ -232,7 +309,7 @@
   </div>
 </template>
 <script>
-import { mixin, mixinDevice } from '@/mixins/mixin.js'
+import { mixin, mixinDevice } from '@/utils/mixin.js'
 import SheetSettingDrawer from './SheetSettingDrawer'
 import TargetCommentDrawer from '../../comment/components/TargetCommentDrawer'
 import sheetApi from '@/api/sheet'
@@ -242,41 +319,41 @@ const customColumns = [
     title: '标题',
     dataIndex: 'title',
     ellipsis: true,
-    scopedSlots: { customRender: 'sheetTitle' }
+    scopedSlots: { customRender: 'sheetTitle' },
   },
   {
     title: '状态',
     className: 'status',
     dataIndex: 'statusProperty',
-    scopedSlots: { customRender: 'status' }
+    scopedSlots: { customRender: 'status' },
   },
   {
     title: '评论量',
     dataIndex: 'commentCount',
-    scopedSlots: { customRender: 'commentCount' }
+    scopedSlots: { customRender: 'commentCount' },
   },
   {
     title: '访问量',
     dataIndex: 'visits',
-    scopedSlots: { customRender: 'visits' }
+    scopedSlots: { customRender: 'visits' },
   },
   {
     title: '发布时间',
     dataIndex: 'createTime',
-    scopedSlots: { customRender: 'createTime' }
+    scopedSlots: { customRender: 'createTime' },
   },
   {
     title: '操作',
     width: '180px',
-    scopedSlots: { customRender: 'action' }
-  }
+    scopedSlots: { customRender: 'action' },
+  },
 ]
 export default {
   name: 'CustomSheetList',
   mixins: [mixin, mixinDevice],
   components: {
     SheetSettingDrawer,
-    TargetCommentDrawer
+    TargetCommentDrawer,
   },
   data() {
     return {
@@ -284,7 +361,7 @@ export default {
         page: 1,
         size: 10,
         sort: null,
-        total: 1
+        total: 1,
       },
       queryParam: {
         page: 0,
@@ -292,7 +369,7 @@ export default {
         sort: null,
         keyword: null,
         categoryId: null,
-        status: null
+        status: null,
       },
       loading: false,
       sheetStatus: sheetApi.sheetStatus,
@@ -302,16 +379,16 @@ export default {
       sheetSettingVisible: false,
       sheetCommentVisible: false,
       sheets: [],
-      menu: {}
+      menu: {},
     }
   },
   computed: {
     formattedSheets() {
-      return this.sheets.map(sheet => {
+      return this.sheets.map((sheet) => {
         sheet.statusProperty = this.sheetStatus[sheet.status]
         return sheet
       })
-    }
+    },
   },
   created() {
     this.handleListSheets()
@@ -337,7 +414,7 @@ export default {
       this.queryParam.sort = this.pagination.sort
       sheetApi
         .list(this.queryParam)
-        .then(response => {
+        .then((response) => {
           this.sheets = response.data.data.content
           this.pagination.total = response.data.data.total
         })
@@ -353,7 +430,7 @@ export default {
     handleEditStatusClick(sheetId, status) {
       sheetApi
         .updateStatus(sheetId, status)
-        .then(() => {
+        .then((response) => {
           this.$message.success('操作成功！')
         })
         .finally(() => {
@@ -363,7 +440,7 @@ export default {
     handleDeleteClick(sheetId) {
       sheetApi
         .delete(sheetId)
-        .then(() => {
+        .then((response) => {
           this.$message.success('删除成功！')
         })
         .finally(() => {
@@ -371,20 +448,20 @@ export default {
         })
     },
     handleShowSheetSettings(sheet) {
-      sheetApi.get(sheet.id).then(response => {
+      sheetApi.get(sheet.id).then((response) => {
         this.selectedSheet = response.data.data
         this.selectedMetas = this.selectedSheet.metas
         this.sheetSettingVisible = true
       })
     },
     handleShowSheetComments(sheet) {
-      sheetApi.get(sheet.id).then(response => {
+      sheetApi.get(sheet.id).then((response) => {
         this.selectedSheet = response.data.data
         this.sheetCommentVisible = true
       })
     },
     handlePreview(sheetId) {
-      sheetApi.preview(sheetId).then(response => {
+      sheetApi.preview(sheetId).then((response) => {
         window.open(response.data, '_blank')
       })
     },
@@ -413,7 +490,7 @@ export default {
     },
     onRefreshSheetMetasFromSetting(metas) {
       this.selectedMetas = metas
-    }
-  }
+    },
+  },
 }
 </script>

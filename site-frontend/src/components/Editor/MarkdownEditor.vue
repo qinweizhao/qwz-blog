@@ -1,37 +1,38 @@
 <template>
-  <halo-editor
-    ref="md"
-    v-model="originalContentData"
-    :boxShadow="false"
-    :ishljs="true"
-    :toolbars="toolbars"
-    autofocus
-    @imgAdd="handleAttachmentUpload"
-    @save="handleSaveDraft"
-  />
+  <div>
+    <halo-editor
+      ref="md"
+      v-model="originalContentData"
+      :boxShadow="false"
+      :toolbars="toolbars"
+      :ishljs="true"
+      autofocus
+      @imgAdd="handleAttachmentUpload"
+      @save="handleSaveDraft"
+    />
+  </div>
 </template>
 <script>
 import { toolbars } from '@/core/const'
 import { haloEditor } from 'halo-editor'
 import 'halo-editor/dist/css/index.css'
 import attachmentApi from '@/api/attachment'
-
 export default {
   name: 'MarkdownEditor',
   components: {
-    haloEditor
+    haloEditor,
   },
   props: {
     originalContent: {
       type: String,
       required: false,
-      default: ''
-    }
+      default: '',
+    },
   },
   data() {
     return {
       toolbars,
-      originalContentData: ''
+      originalContentData: '',
     }
   },
   watch: {
@@ -40,21 +41,21 @@ export default {
     },
     originalContentData(val) {
       this.$emit('onContentChange', val)
-    }
+    },
   },
   methods: {
     handleAttachmentUpload(pos, $file) {
-      const formdata = new FormData()
+      var formdata = new FormData()
       formdata.append('file', $file)
-      attachmentApi.upload(formdata).then(response => {
-        const responseObject = response.data
-        const HaloEditor = this.$refs.md
+      attachmentApi.upload(formdata).then((response) => {
+        var responseObject = response.data
+        var HaloEditor = this.$refs.md
         HaloEditor.$img2Url(pos, encodeURI(responseObject.data.path))
       })
     },
     handleSaveDraft() {
       this.$emit('onSaveDraft')
-    }
-  }
+    },
+  },
 }
 </script>

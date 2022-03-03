@@ -4,10 +4,7 @@
     @click="handleClick"
     :icon="computedIcon"
     :loading="loading"
-    :size="size"
-    :block="block"
-    >{{ computedText }}</a-button
-  >
+  >{{ computedText }}</a-button>
 </template>
 <script>
 export default {
@@ -15,45 +12,37 @@ export default {
   props: {
     type: {
       type: String,
-      default: 'primary'
+      default: 'primary',
     },
     icon: {
       type: String,
-      default: null
-    },
-    size: {
-      type: String,
-      default: 'default'
-    },
-    block: {
-      type: Boolean,
-      default: false
+      default: null,
     },
     loading: {
       type: Boolean,
-      default: false
+      default: false,
     },
     errored: {
       type: Boolean,
-      default: false
+      default: false,
     },
     text: {
       type: String,
-      default: ''
+      default: '',
     },
     loadedText: {
       type: String,
-      default: ''
+      default: '',
     },
     erroredText: {
       type: String,
-      default: ''
-    }
+      default: '',
+    },
   },
   data() {
     return {
       loaded: false,
-      hasError: false
+      hasError: false,
     }
   },
   watch: {
@@ -69,7 +58,7 @@ export default {
           this.$emit('callback')
         }, 400)
       }
-    }
+    },
   },
   computed: {
     computedType() {
@@ -89,12 +78,12 @@ export default {
         return this.hasError ? this.erroredText : this.loadedText
       }
       return this.text
-    }
+    },
   },
   methods: {
     handleClick() {
       this.$emit('click')
-    }
-  }
+    },
+  },
 }
 </script>

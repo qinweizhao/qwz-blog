@@ -1,5 +1,8 @@
 <template>
-  <a-form layout="vertical" :wrapperCol="wrapperCol">
+  <a-form
+    layout="vertical"
+    :wrapperCol="wrapperCol"
+  >
     <a-form-item label="开发者选项：">
       <a-switch v-model="options.developer_mode" />
     </a-form-item>
@@ -7,7 +10,7 @@
       <ReactiveButton
         type="primary"
         @click="handleSaveOptions"
-        @callback="errored = false"
+        @callback="errored=false"
         :loading="saving"
         :errored="errored"
         text="保存"

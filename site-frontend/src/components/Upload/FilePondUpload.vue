@@ -6,7 +6,7 @@
       :name="name"
       :allow-multiple="multiple"
       :allowRevert="false"
-      :accepted-file-types="accepts"
+      :accepted-file-types="accept"
       :maxParallelUploads="maxParallelUploads"
       :allowImagePreview="allowImagePreview"
       :maxFiles="maxFiles"
@@ -16,8 +16,6 @@
       labelFileProcessingError="上传错误"
       labelTapToCancel="点击取消"
       labelTapToRetry="点击重试"
-      labelFileTypeNotAllowed="不支持当前文件格式"
-      fileValidateTypeLabelExpectedTypes="请选择 {lastType} 格式的文件"
       :files="fileList"
       :server="server"
       @init="handleFilePondInit"
@@ -35,10 +33,9 @@ import 'filepond/dist/filepond.min.css'
 // Plugins
 import FilePondPluginImagePreview from 'filepond-plugin-image-preview'
 import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css'
-import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type'
 
-// Create component and register plugins
-const FilePond = vueFilePond(FilePondPluginImagePreview, FilePondPluginFileValidateType)
+// Create component and regist plugins
+const FilePond = vueFilePond(FilePondPluginImagePreview)
 export default {
   name: 'FilePondUpload',
   components: {
@@ -60,12 +57,10 @@ export default {
       required: false,
       default: true
     },
-    accepts: {
-      type: Array,
+    accept: {
+      type: String,
       required: false,
-      default: () => {
-        return null
-      }
+      default: ''
     },
     label: {
       type: String,
@@ -75,6 +70,11 @@ export default {
     uploadHandler: {
       type: Function,
       required: true
+    },
+    loadOptions: {
+      type: Boolean,
+      required: false,
+      default: true
     }
   },
   computed: {
@@ -110,7 +110,7 @@ export default {
 
           this.uploadHandler(
             formData,
-            progressEvent => {
+            (progressEvent) => {
               if (progressEvent.total > 0) {
                 progress(progressEvent.lengthComputable, progressEvent.loaded, progressEvent.total)
               }
@@ -119,12 +119,12 @@ export default {
             this.filed,
             file
           )
-            .then(response => {
+            .then((response) => {
               load(response)
               this.$log.debug('Uploaded successfully', response)
               this.$emit('success', response, file)
             })
-            .catch(failure => {
+            .catch((failure) => {
               this.$log.debug('Failed to upload file', failure)
               this.$emit('failure', failure, file)
               error()

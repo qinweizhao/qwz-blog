@@ -1,8 +1,18 @@
 <template>
   <page-view>
     <a-row :gutter="12">
-      <a-col :xl="6" :lg="6" :md="6" :sm="24" :xs="24" class="mb-3">
-        <a-card :bodyStyle="{ padding: '16px' }" title="分组">
+      <a-col
+        :xl="6"
+        :lg="6"
+        :md="6"
+        :sm="24"
+        :xs="24"
+        class="mb-3"
+      >
+        <a-card
+          :bodyStyle="{ padding: '16px' }"
+          title="分组"
+        >
           <template slot="extra">
             <ReactiveButton
               type="default"
@@ -17,16 +27,19 @@
           </template>
           <div class="menu-teams">
             <a-spin :spinning="teams.loading">
-              <a-empty v-if="teams.data.length === 0 && !teams.loading" />
+              <a-empty v-if="teams.data.length===0 && !teams.loading" />
               <a-menu
                 class="w-full"
                 mode="inline"
                 v-model="selectedTeam"
-                v-if="teams.data.length > 0"
+                v-if="teams.data.length>0"
                 @select="handleSelectedTeam"
               >
-                <a-menu-item v-for="team in teams.data" :key="team">
-                  {{ team === '' ? '未分组' : team }}{{ defaultMenuTeam === team ? '（默认）' : '' }}
+                <a-menu-item
+                  v-for="(team) in teams.data"
+                  :key="team"
+                >
+                  {{ team===''?'未分组':team }}{{ defaultMenuTeam===team?'（默认）':'' }}
                 </a-menu-item>
               </a-menu>
             </a-spin>
@@ -47,22 +60,39 @@
                 @keyup.enter.native="handleCreateTeam"
               >
                 <a-form-model-item prop="team">
-                  <a-input v-model="teams.form.model.team" autoFocus />
+                  <a-input
+                    v-model="teams.form.model.team"
+                    autoFocus
+                  />
                 </a-form-model-item>
                 <a-form-model-item style="margin-bottom:0">
-                  <a-button type="primary" @click="handleCreateTeam">
+                  <a-button
+                    type="primary"
+                    @click="handleCreateTeam"
+                  >
                     新增
                   </a-button>
                 </a-form-model-item>
               </a-form-model>
             </template>
-            <a-button type="primary" block class="mt-3">
+            <a-button
+              type="primary"
+              block
+              class="mt-3"
+            >
               新增分组
             </a-button>
           </a-popover>
         </a-card>
       </a-col>
-      <a-col :xl="18" :lg="18" :md="18" :sm="24" :xs="24" class="pb-3">
+      <a-col
+        :xl="18"
+        :lg="18"
+        :md="18"
+        :sm="24"
+        :xs="24"
+        class="pb-3"
+      >
         <a-card :bodyStyle="{ padding: '16px' }">
           <template slot="title">
             <span>
@@ -71,28 +101,33 @@
             <a-tooltip
               slot="action"
               title="分组下的菜单为空时，该分组也不会保存"
-              v-if="list.data.length <= 0 && !list.loading"
+              v-if="list.data.length <= 0"
             >
-              <a-icon type="info-circle-o" class="cursor-pointer" />
+              <a-icon
+                type="info-circle-o"
+                class="cursor-pointer"
+              />
             </a-tooltip>
           </template>
           <template slot="extra">
             <a-space>
               <ReactiveButton
                 @click="handleUpdateBatch"
-                @callback="formBatch.errored = false"
+                @callback="formBatch.errored=false"
                 :loading="formBatch.saving"
                 :errored="formBatch.errored"
                 text="保存"
                 loadedText="保存成功"
                 erroredText="保存失败"
-                :disabled="list.data.length <= 0"
+                :disabled="list.data.length<=0"
               ></ReactiveButton>
-              <a-button v-if="!form.visible" @click="handleOpenCreateMenuForm()" type="primary" ghost>
+              <a-button
+                @click="handleOpenCreateMenuForm()"
+                :disabled="form.visible"
+                type="primary"
+                ghost
+              >
                 新增
-              </a-button>
-              <a-button v-else @click="handleCloseCreateMenuForm()" type="default">
-                取消新增
               </a-button>
               <a-dropdown :trigger="['click']">
                 <a-menu slot="overlay">
@@ -103,8 +138,7 @@
                     删除当前组
                   </a-menu-item>
                 </a-menu>
-                <a-button>
-                  其他
+                <a-button> 其他
                   <a-icon type="down" />
                 </a-button>
               </a-dropdown>
@@ -117,8 +151,12 @@
               @succeed="handleCreateMenuSucceed()"
               @cancel="handleCloseCreateMenuForm()"
             />
-            <a-empty v-if="list.data.length === 0 && !list.loading && !form.visible" />
-            <MenuTreeNode v-model="list.data" :excludedTeams="excludedTeams" @reload="handleListMenus" />
+            <a-empty v-if="list.data.length===0 && !list.loading && !form.visible" />
+            <MenuTreeNode
+              v-model="list.data"
+              :excludedTeams="excludedTeams"
+              @reload="handleListMenus"
+            />
           </a-spin>
         </a-card>
       </a-col>
@@ -134,6 +172,7 @@
 <script>
 // components
 import { PageView } from '@/layouts'
+import draggable from 'vuedraggable'
 import MenuTreeNode from './components/MenuTreeNode'
 import MenuForm from './components/MenuForm'
 import MenuInternalLinkSelector from './components/MenuInternalLinkSelector'
@@ -145,20 +184,20 @@ import { mapActions, mapGetters } from 'vuex'
 import menuApi from '@/api/menu'
 import optionApi from '@/api/option'
 export default {
-  components: { PageView, MenuTreeNode, MenuForm, MenuInternalLinkSelector },
+  components: { PageView, draggable, MenuTreeNode, MenuForm, MenuInternalLinkSelector },
   data() {
     return {
       list: {
         data: [],
-        loading: false
+        loading: false,
       },
       form: {
         visible: false,
-        model: {}
+        model: {},
       },
       formBatch: {
         saving: false,
-        errored: false
+        errored: false,
       },
       teams: {
         data: [],
@@ -167,24 +206,29 @@ export default {
         form: {
           visible: false,
           model: {
-            team: null
+            team: null,
           },
           rules: {
-            team: [{ required: true, message: '分组名称不能为空', trigger: ['change'] }]
-          }
+            team: [{ required: true, message: '分组名称不能为空', trigger: ['change'] }],
+          },
         },
         default: {
           saving: false,
-          errored: false
-        }
+          errored: false,
+        },
       },
       menuInternalLinkSelector: {
-        visible: false
-      }
+        visible: false,
+      },
     }
   },
   computed: {
     ...mapGetters(['options']),
+    computedTeams() {
+      return this.teams.data.filter((item) => {
+        return item !== ''
+      })
+    },
     computedMenusMoved() {
       const menus = deepClone(this.list.data)
       return this.handleMenuMoved(0, menus)
@@ -193,7 +237,7 @@ export default {
       return this.handleGetMenusWithoutLevel(this.computedMenusMoved, [])
     },
     computedMenuIds() {
-      return this.computedMenusWithoutLevel.map(menu => {
+      return this.computedMenusWithoutLevel.map((menu) => {
         return menu.id
       })
     },
@@ -203,19 +247,19 @@ export default {
       },
       set(value) {
         this.teams.selected = value[0]
-      }
+      },
     },
     menuListTitle() {
       return this.teams.selected === '' ? '未分组' : this.teams.selected
     },
     excludedTeams() {
-      return this.teams.data.filter(item => {
+      return this.teams.data.filter((item) => {
         return item !== this.teams.selected
       })
     },
     defaultMenuTeam() {
       return this.options.default_menu_team ? this.options.default_menu_team : ''
-    }
+    },
   },
   created() {
     this.handleListTeams()
@@ -226,7 +270,7 @@ export default {
       this.teams.loading = true
       menuApi
         .listTeams()
-        .then(response => {
+        .then((response) => {
           this.teams.data = response.data.data
           if (!this.teams.selected || autoSelectTeam) {
             this.teams.selected = this.teams.data[0]
@@ -240,11 +284,10 @@ export default {
         })
     },
     handleListMenus() {
-      this.list.data = []
       this.list.loading = true
       menuApi
         .listTreeByTeam(this.teams.selected)
-        .then(response => {
+        .then((response) => {
           this.list.data = response.data.data
         })
         .finally(() => {
@@ -265,16 +308,16 @@ export default {
       return menus
     },
     handleGetMenusWithoutLevel(menus, result) {
-      for (let i = 0; i < menus.length; i++) {
+      for (var i = 0; i < menus.length; i++) {
         result.push(menus[i])
-        const children = menus[i].children
+        var children = menus[i].children
         if (children.length > 0) {
           this.handleGetMenusWithoutLevel(children, result)
         }
       }
       return result
     },
-    handleSelectedTeam({ key }) {
+    handleSelectedTeam({ item, key, selectedKeys }) {
       this.teams.selected = key
       this.handleCloseCreateMenuForm()
       this.handleListMenus()
@@ -302,7 +345,7 @@ export default {
           menuApi.deleteBatch(_this.computedMenuIds).finally(() => {
             _this.handleListTeams(true)
           })
-        }
+        },
       })
     },
     handleTeamFormVisibleChange(visible) {
@@ -312,7 +355,7 @@ export default {
     },
     handleCreateTeam() {
       const _this = this
-      _this.$refs.teamForm.validate(valid => {
+      _this.$refs.teamForm.validate((valid) => {
         if (valid) {
           if (!_this.teams.data.includes(_this.teams.form.model.team)) {
             _this.teams.data.push(_this.teams.form.model.team)
@@ -327,7 +370,7 @@ export default {
       this.form.visible = true
       this.form.model = {
         team: this.teams.selected,
-        target: '_self'
+        target: '_self',
       }
     },
     handleCloseCreateMenuForm() {
@@ -342,7 +385,7 @@ export default {
       this.teams.default.saving = true
       optionApi
         .save({
-          default_menu_team: this.teams.selected
+          default_menu_team: this.teams.selected,
         })
         .catch(() => {
           this.teams.default.errored = true
@@ -359,7 +402,7 @@ export default {
       } else {
         this.refreshOptionsCache()
       }
-    }
-  }
+    },
+  },
 }
 </script>

@@ -21,8 +21,8 @@ export const asyncRouterMap = [
       {
         path: '/posts',
         name: 'Posts',
-        component: BlankLayout,
         redirect: '/posts/list',
+        component: PageView,
         meta: { title: '文章', icon: 'form' },
         children: [
           {
@@ -33,16 +33,9 @@ export const asyncRouterMap = [
           },
           {
             path: '/posts/write',
-            name: 'PostWrite',
+            name: 'PostEdit',
             component: () => import('@/views/post/PostEdit'),
             meta: { title: '写文章', hiddenHeaderContent: false, keepAlive: false }
-          },
-          {
-            path: '/posts/edit',
-            name: 'PostEdit',
-            hidden: true,
-            component: () => import('@/views/post/PostEdit'),
-            meta: { title: '编辑文章', hiddenHeaderContent: false, keepAlive: false }
           },
           {
             path: '/categories',
@@ -63,7 +56,7 @@ export const asyncRouterMap = [
       {
         path: '/sheets',
         name: 'Sheets',
-        component: BlankLayout,
+        component: PageView,
         redirect: '/sheets/list',
         meta: { title: '页面', icon: 'read' },
         children: [
@@ -75,16 +68,9 @@ export const asyncRouterMap = [
           },
           {
             path: '/sheets/write',
-            name: 'SheetWrite',
+            name: 'SheetEdit',
             component: () => import('@/views/sheet/SheetEdit'),
             meta: { title: '新建页面', hiddenHeaderContent: false, keepAlive: false }
-          },
-          {
-            path: '/sheets/edit',
-            name: 'SheetEdit',
-            hidden: true,
-            component: () => import('@/views/sheet/SheetEdit'),
-            meta: { title: '编辑页面', hiddenHeaderContent: false, keepAlive: false }
           },
           {
             path: '/sheets/links',
@@ -199,6 +185,13 @@ export const asyncRouterMap = [
             component: () => import('@/views/system/ToolList'),
             meta: { title: '小工具', hiddenHeaderContent: false }
           },
+          // {
+          //   path: '/system/tools/staticpages',
+          //   name: 'StaticPagesManage',
+          //   hidden: true,
+          //   component: () => import('@/views/system/staticpages/StaticPagesManage'),
+          //   meta: { title: '静态部署', hiddenHeaderContent: false }
+          // },
           {
             path: '/system/about',
             name: 'About',

@@ -1,27 +1,59 @@
 <template>
   <div>
-    <a-form-model ref="generalOptionsForm" :model="options" :rules="rules" layout="vertical" :wrapperCol="wrapperCol">
-      <a-form-model-item label="博客标题：" prop="blog_title">
+    <a-form-model
+      ref="generalOptionsForm"
+      :model="options"
+      :rules="rules"
+      layout="vertical"
+      :wrapperCol="wrapperCol"
+    >
+      <a-form-model-item
+        label="博客标题："
+        prop="blog_title"
+      >
         <a-input v-model="options.blog_title" />
       </a-form-model-item>
-      <a-form-model-item label="博客地址：" prop="blog_url">
-        <a-input v-model="options.blog_url" placeholder="如：https://halo.run" />
+      <a-form-model-item
+        label="博客地址："
+        prop="blog_url"
+      >
+        <a-input
+          v-model="options.blog_url"
+          placeholder="如：https://halo.run"
+        />
       </a-form-model-item>
-      <a-form-model-item label="Logo：" prop="blog_logo">
+      <a-form-model-item
+        label="Logo："
+        prop="blog_logo"
+      >
         <a-input v-model="options.blog_logo">
-          <a href="javascript:void(0);" slot="addonAfter" @click="handleShowLogoSelector">
+          <a
+            href="javascript:void(0);"
+            slot="addonAfter"
+            @click="handleShowLogoSelector"
+          >
             <a-icon type="picture" />
           </a>
         </a-input>
       </a-form-model-item>
-      <a-form-model-item label="Favicon：" prop="blog_favicon">
+      <a-form-model-item
+        label="Favicon："
+        prop="blog_favicon"
+      >
         <a-input v-model="options.blog_favicon">
-          <a href="javascript:void(0);" slot="addonAfter" @click="handleShowFaviconSelector">
+          <a
+            href="javascript:void(0);"
+            slot="addonAfter"
+            @click="handleShowFaviconSelector"
+          >
             <a-icon type="picture" />
           </a>
         </a-input>
       </a-form-model-item>
-      <a-form-model-item label="页脚信息：" prop="blog_footer_info">
+      <a-form-model-item
+        label="页脚信息："
+        prop="blog_footer_info"
+      >
         <a-input
           type="textarea"
           :autoSize="{ minRows: 5 }"
@@ -89,8 +121,14 @@ export default {
           { required: true, message: '* 博客地址不能为空', trigger: ['change'] },
           { max: 1023, message: '* 字符数不能超过 1023', trigger: ['change'] }
         ],
-        blog_logo: [{ max: 1023, message: '* 字符数不能超过 1023', trigger: ['change'] }],
-        blog_favicon: [{ max: 1023, message: '* 字符数不能超过 1023', trigger: ['change'] }],
+        blog_logo: [
+          { type: 'url', message: '* 链接格式不正确', trigger: ['change'] },
+          { max: 1023, message: '* 字符数不能超过 1023', trigger: ['change'] }
+        ],
+        blog_favicon: [
+          { type: 'url', message: '* 链接格式不正确', trigger: ['change'] },
+          { max: 1023, message: '* 字符数不能超过 1023', trigger: ['change'] }
+        ],
         blog_footer_info: [{ max: 1023, message: '* 字符数不能超过 1023', trigger: ['change'] }]
       }
     }

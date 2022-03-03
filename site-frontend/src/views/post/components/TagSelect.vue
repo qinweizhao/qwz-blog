@@ -8,7 +8,11 @@
       placeholder="选择或输入标签"
       @change="handleChange"
     >
-      <a-select-option v-for="tag in tags" :key="tag.id" :value="tag.name">{{ tag.name }}</a-select-option>
+      <a-select-option
+        v-for="tag in tags"
+        :key="tag.id"
+        :value="tag.name"
+      >{{ tag.name }}</a-select-option>
     </a-select>
   </div>
 </template>
@@ -40,7 +44,8 @@ export default {
     this.handleListTags()
   },
   watch: {
-    tags(newValue) {
+    tags(newValue, oldValue) {
+      // 解决tags未赋上值就使用导致的取值报错问题
       if (newValue) {
         this.selectedTagNames = this.tagIds.map(tagId => this.tagIdMap[tagId].name)
       }

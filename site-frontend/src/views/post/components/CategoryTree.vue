@@ -1,5 +1,11 @@
 <template>
-  <a-tree checkable :treeData="categoryTree" :defaultExpandAll="true" :checkedKeys="categoryIds" @check="onCheck">
+  <a-tree
+    checkable
+    :treeData="categoryTree"
+    :defaultExpandAll="true"
+    :checkedKeys="categoryIds"
+    @check="onCheck"
+  >
   </a-tree>
 </template>
 

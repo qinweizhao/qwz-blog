@@ -1,42 +1,120 @@
 <template>
-  <page-view affix :title="activatedTheme ? activatedTheme.name : '无'" subTitle="当前启用">
+  <page-view
+    :title="activatedTheme ? activatedTheme.name : '无'"
+    subTitle="当前启用"
+  >
     <template slot="extra">
-      <a-button icon="reload" :loading="list.loading" @click="handleRefreshThemesCache">
+      <a-button
+        icon="reload"
+        :loading="list.loading"
+        @click="handleRefreshThemesCache"
+      >
         刷新
       </a-button>
-      <a-button type="primary" icon="plus" @click="installModal.visible = true">
+      <a-button
+        type="primary"
+        icon="plus"
+        @click="installModal.visible = true"
+      >
         安装
       </a-button>
     </template>
-    <a-row :gutter="12" type="flex" align="middle">
+    <a-row
+      :gutter="12"
+      type="flex"
+      align="middle"
+    >
       <a-col :span="24">
         <a-list
           :grid="{ gutter: 12, xs: 1, sm: 1, md: 2, lg: 4, xl: 4, xxl: 4 }"
           :dataSource="sortedThemes"
           :loading="list.loading"
         >
-          <a-list-item slot="renderItem" slot-scope="item, index" :key="index">
-            <a-card hoverable :title="item.name" :bodyStyle="{ padding: 0 }">
+          <a-list-item
+            slot="renderItem"
+            slot-scope="item, index"
+            :key="index"
+          >
+            <a-card
+              hoverable
+              :title="item.name"
+              :bodyStyle="{ padding: 0 }"
+            >
               <div class="theme-screenshot">
-                <img :alt="item.name" :src="item.screenshots || '/images/placeholder.jpg'" loading="lazy" />
+                <img
+                  :alt="item.name"
+                  :src="item.screenshots || '/images/placeholder.jpg'"
+                  loading="lazy"
+                />
               </div>
-              <template class="ant-card-actions" slot="actions">
-                <div v-if="item.activated"><a-icon type="unlock" theme="twoTone" style="margin-right:3px" />已启用</div>
-                <div v-else @click="handleActiveTheme(item)"><a-icon type="lock" style="margin-right:3px" />启用</div>
-                <div @click="handleOpenThemeSettingDrawer(item)">
-                  <a-icon type="setting" style="margin-right:3px" />设置
+              <template
+                class="ant-card-actions"
+                slot="actions"
+              >
+                <div v-if="item.activated">
+                  <a-icon
+                    type="unlock"
+                    theme="twoTone"
+                    style="margin-right:3px"
+                  />已启用
                 </div>
-                <a-dropdown placement="topCenter" :trigger="['click']">
-                  <a class="ant-dropdown-link" href="#"> <a-icon type="ellipsis" style="margin-right:3px" />更多 </a>
+                <div
+                  v-else
+                  @click="handleActiveTheme(item)"
+                >
+                  <a-icon
+                    type="lock"
+                    style="margin-right:3px"
+                  />启用
+                </div>
+                <div @click="handleOpenThemeSettingDrawer(item)">
+                  <a-icon
+                    type="setting"
+                    style="margin-right:3px"
+                  />设置
+                </div>
+                <a-dropdown
+                  placement="topCenter"
+                  :trigger="['click']"
+                >
+                  <a
+                    class="ant-dropdown-link"
+                    href="#"
+                  >
+                    <a-icon
+                      type="ellipsis"
+                      style="margin-right:3px"
+                    />更多
+                  </a>
                   <a-menu slot="overlay">
-                    <a-menu-item :key="1" :disabled="item.activated" @click="handleOpenThemeDeleteModal(item)">
-                      <a-icon type="delete" style="margin-right:3px" />删除
+                    <a-menu-item
+                      :key="1"
+                      :disabled="item.activated"
+                      @click="handleOpenThemeDeleteModal(item)"
+                    >
+                      <a-icon
+                        type="delete"
+                        style="margin-right:3px"
+                      />删除
                     </a-menu-item>
-                    <a-menu-item :key="2" v-if="item.repo" @click="handleConfirmRemoteUpdate(item)">
-                      <a-icon type="cloud" style="margin-right:3px" />在线更新
+                    <a-menu-item
+                      :key="2"
+                      v-if="item.repo"
+                      @click="handleConfirmRemoteUpdate(item)"
+                    >
+                      <a-icon
+                        type="cloud"
+                        style="margin-right:3px"
+                      />在线更新
                     </a-menu-item>
-                    <a-menu-item :key="3" @click="handleOpenLocalUpdateModal(item)">
-                      <a-icon type="file" style="margin-right:3px" />从主题包更新
+                    <a-menu-item
+                      :key="3"
+                      @click="handleOpenLocalUpdateModal(item)"
+                    >
+                      <a-icon
+                        type="file"
+                        style="margin-right:3px"
+                      />从主题包更新
                     </a-menu-item>
                   </a-menu>
                 </a-dropdown>
@@ -62,50 +140,126 @@
       :afterClose="onThemeInstallModalClose"
     >
       <div class="custom-tab-wrapper">
-        <a-tabs :animated="{ inkBar: true, tabPane: false }">
-          <a-tab-pane tab="本地上传" key="1">
+        <a-tabs>
+          <a-tab-pane
+            tab="本地上传"
+            key="1"
+          >
             <FilePondUpload
               ref="upload"
               name="file"
-              :accepts="['application/x-zip', 'application/x-zip-compressed', 'application/zip']"
+              accept="application/zip"
               label="点击选择主题包或将主题包拖拽到此处<br>仅支持 ZIP 格式的文件"
               :uploadHandler="installModal.local.uploadHandler"
               @success="handleUploadSucceed"
             ></FilePondUpload>
-            <a-alert type="info" closable>
+            <a-alert
+              type="info"
+              closable
+            >
               <template slot="message">
                 更多主题请访问：
-                <a target="_blank" href="https://halo.run/themes.html">https://halo.run/themes</a>
+                <a
+                  target="_blank"
+                  href="https://halo.run/p/themes"
+                >https://halo.run/p/themes</a>
               </template>
             </a-alert>
           </a-tab-pane>
-          <a-tab-pane tab="远程下载" key="2">
+          <a-tab-pane
+            tab="远程拉取"
+            key="2"
+          >
             <a-form-model
               ref="remoteInstallForm"
               :model="installModal.remote"
               :rules="installModal.remote.rules"
               layout="vertical"
             >
-              <a-form-model-item prop="url" label="远程地址：" help="* 支持 Git 仓库地址，ZIP 链接。">
-                <a-input v-model="installModal.remote.url" />
+              <a-form-model-item
+                prop="url"
+                label="Github 仓库地址："
+              >
+                <a-input-search
+                  v-model="installModal.remote.url"
+                  enter-button="获取版本"
+                  @search="handleFetching"
+                  :loading="installModal.remote.repoFetching"
+                />
               </a-form-model-item>
-              <a-form-model-item>
+              <a-form-model-item label="版本类型：">
+                <a-select v-model="installModal.remote.byBranchOrRelease">
+                  <a-select-option value="release">发行版</a-select-option>
+                  <a-select-option value="branch">开发版</a-select-option>
+                </a-select>
+              </a-form-model-item>
+              <a-form-model-item
+                label="版本："
+                v-show="installModal.remote.byBranchOrRelease === 'release'"
+              >
+                <a-select
+                  v-model="installModal.remote.selectedRelease"
+                  :loading="installModal.remote.repoFetching"
+                >
+                  <a-select-option
+                    v-for="(item, index) in installModal.remote.releases"
+                    :key="index"
+                    :value="item.branch"
+                  >{{ item.branch }}</a-select-option>
+                </a-select>
+              </a-form-model-item>
+              <a-form-model-item
+                label="分支："
+                v-show="installModal.remote.byBranchOrRelease === 'branch'"
+              >
+                <a-select
+                  v-model="installModal.remote.selectedBranch"
+                  :loading="installModal.remote.repoFetching"
+                >
+                  <a-select-option
+                    v-for="(item, index) in installModal.remote.branches"
+                    :key="index"
+                    :value="item.branch"
+                  >{{ item.branch }}</a-select-option>
+                </a-select>
+              </a-form-model-item>
+              <a-form-model-item v-show="installModal.remote.byBranchOrRelease === 'release'">
                 <ReactiveButton
+                  :disabled="!installModal.remote.selectedRelease"
                   type="primary"
-                  @click="handleRemoteFetching"
-                  @callback="handleRemoteFetchCallback"
-                  :loading="installModal.remote.fetching"
-                  :errored="installModal.remote.fetchErrored"
+                  @click="handleReleaseDownloading"
+                  @callback="handleReleaseDownloadedCallback"
+                  :loading="installModal.remote.releaseDownloading"
+                  :errored="installModal.remote.releaseDownloadErrored"
+                  text="下载"
+                  loadedText="下载成功"
+                  erroredText="下载失败"
+                ></ReactiveButton>
+              </a-form-model-item>
+              <a-form-model-item v-show="installModal.remote.byBranchOrRelease === 'branch'">
+                <ReactiveButton
+                  :disabled="!installModal.remote.selectedBranch"
+                  type="primary"
+                  @click="handleBranchPulling"
+                  @callback="handleBranchPulledCallback"
+                  :loading="installModal.remote.branchPulling"
+                  :errored="installModal.remote.branchPullErrored"
                   text="下载"
                   loadedText="下载成功"
                   erroredText="下载失败"
                 ></ReactiveButton>
               </a-form-model-item>
             </a-form-model>
-            <a-alert type="info" closable>
+            <a-alert
+              type="info"
+              closable
+            >
               <template slot="message">
-                目前仅支持远程 Git 仓库和 ZIP 下载链接。更多主题请访问：
-                <a target="_blank" href="https://halo.run/themes.html">https://halo.run/themes</a>
+                远程地址即主题仓库地址，建议使用发行版本。更多主题请访问：
+                <a
+                  target="_blank"
+                  href="https://halo.run/p/themes.html"
+                >https://halo.run/p/themes</a>
               </template>
             </a-alert>
           </a-tab-pane>
@@ -122,7 +276,7 @@
       <FilePondUpload
         ref="updateByupload"
         name="file"
-        :accepts="['application/x-zip', 'application/x-zip-compressed', 'application/zip']"
+        accept="application/zip"
         label="点击选择主题更新包或将主题更新包拖拽到此处<br>仅支持 ZIP 格式的文件"
         :uploadHandler="localUpdateModel.uploadHandler"
         :filed="localUpdateModel.selected.id"
@@ -168,37 +322,49 @@ import themeApi from '@/api/theme'
 export default {
   components: {
     PageView,
-    ThemeSettingDrawer
+    ThemeSettingDrawer,
   },
   data() {
     return {
       list: {
         loading: false,
-        data: []
+        data: [],
       },
 
       installModal: {
         visible: false,
         local: {
-          uploadHandler: themeApi.upload
+          uploadHandler: themeApi.upload,
         },
 
         remote: {
           url: null,
 
-          fetching: false,
-          fetchErrored: false,
+          repoFetching: false,
+          repoFetchErrored: false,
+
+          branches: [],
+          selectedBranch: null,
+          branchPulling: false,
+          branchPullErrored: false,
+
+          releases: [],
+          selectedRelease: null,
+          releaseDownloading: false,
+          releaseDownloadErrored: false,
+
+          byBranchOrRelease: 'release', // release or branch, default is release
 
           rules: {
-            url: [{ required: true, message: '* 远程地址不能为空', trigger: ['change'] }]
-          }
-        }
+            url: [{ required: true, message: '* Github 仓库地址不能为空', trigger: ['change'] }],
+          },
+        },
       },
 
       localUpdateModel: {
         visible: false,
         uploadHandler: themeApi.updateByUpload,
-        selected: {}
+        selected: {},
       },
 
       themeDeleteModal: {
@@ -206,13 +372,13 @@ export default {
         deleteSettings: false,
         selected: {},
         deleting: false,
-        deleteErrored: false
+        deleteErrored: false,
       },
 
       themeSettingDrawer: {
         visible: false,
-        selected: {}
-      }
+        selected: {},
+      },
     }
   },
   computed: {
@@ -227,7 +393,7 @@ export default {
         return this.sortedThemes[0]
       }
       return null
-    }
+    },
   },
   beforeMount() {
     this.handleListThemes()
@@ -250,8 +416,8 @@ export default {
     handleListThemes() {
       this.list.loading = true
       themeApi
-        .list()
-        .then(response => {
+        .listAll()
+        .then((response) => {
           this.list.data = response.data.data
         })
         .finally(() => {
@@ -296,26 +462,72 @@ export default {
       this.localUpdateModel.visible = false
       this.handleListThemes()
     },
-    handleRemoteFetching() {
-      this.$refs.remoteInstallForm.validate(valid => {
+    handleFetching() {
+      const _this = this
+      _this.$refs.remoteInstallForm.validate((valid) => {
         if (valid) {
-          this.installModal.remote.fetching = true
+          _this.installModal.remote.repoFetching = true
+          themeApi.fetchingBranches(_this.installModal.remote.url).then((response) => {
+            const branches = response.data.data
+            _this.installModal.remote.branches = branches
+            if (branches && branches.length > 0) {
+              _this.installModal.remote.selectedBranch = branches[0].branch
+            }
+          })
           themeApi
-            .fetching(this.installModal.remote.url)
-            .catch(() => {
-              this.installModal.remote.fetchErrored = true
+            .fetchingReleases(_this.installModal.remote.url)
+            .then((response) => {
+              const releases = response.data.data
+              _this.installModal.remote.releases = releases
+              if (releases && releases.length > 0) {
+                _this.installModal.remote.selectedRelease = releases[0].branch
+              }
             })
             .finally(() => {
               setTimeout(() => {
-                this.installModal.remote.fetching = false
+                _this.installModal.remote.repoFetching = false
               }, 400)
             })
         }
       })
     },
-    handleRemoteFetchCallback() {
-      if (this.installModal.remote.fetchErrored) {
-        this.installModal.remote.fetchErrored = false
+    handleBranchPulling() {
+      this.installModal.remote.branchPulling = true
+      themeApi
+        .fetchingBranch(this.installModal.remote.url, this.installModal.remote.selectedBranch)
+        .catch(() => {
+          this.installModal.remote.branchPullErrored = true
+        })
+        .finally(() => {
+          setTimeout(() => {
+            this.installModal.remote.branchPulling = false
+          }, 400)
+        })
+    },
+    handleBranchPulledCallback() {
+      if (this.installModal.remote.branchPullErrored) {
+        this.installModal.remote.branchPullErrored = false
+      } else {
+        this.installModal.visible = false
+        this.handleListThemes()
+      }
+    },
+    handleReleaseDownloading() {
+      this.installModal.remote.releaseDownloading = true
+      themeApi
+        .fetchingRelease(this.installModal.remote.url, this.installModal.remote.selectedRelease)
+        .catch(() => {
+          this.installModal.remote.branchPullErrored = true
+        })
+        .finally(() => {
+          setTimeout(() => {
+            this.installModal.remote.releaseDownloading = false
+          }, 400)
+        })
+    },
+    handleReleaseDownloadedCallback() {
+      if (this.installModal.remote.releaseDownloadErrored) {
+        this.installModal.remote.releaseDownloadErrored = false
       } else {
         this.installModal.visible = false
         this.handleListThemes()
@@ -343,7 +555,7 @@ export default {
           const hide = _this.$message.loading('更新中...', 0)
           themeApi
             .update(item.id)
-            .then(() => {
+            .then((response) => {
               _this.$message.success('更新成功！')
             })
             .finally(() => {
@@ -351,7 +563,7 @@ export default {
               _this.handleListThemes()
             })
         },
-        onCancel() {}
+        onCancel() {},
       })
     },
     onThemeInstallModalClose() {
@@ -361,7 +573,12 @@ export default {
       if (this.$refs.updateByupload) {
         this.$refs.updateByupload.handleClearFileList()
       }
+      this.installModal.remote.branches = []
+      this.installModal.remote.selectedBranch = null
+      this.installModal.remote.releases = []
+      this.installModal.remote.selectedRelease = null
       this.installModal.remote.url = null
+      this.installModal.remote.byBranchOrRelease = 'release'
       this.handleListThemes()
     },
     onThemeSettingsDrawerClose() {
@@ -372,7 +589,7 @@ export default {
       this.themeDeleteModal.visible = false
       this.themeDeleteModal.deleteSettings = false
       this.themeDeleteModal.selected = {}
-    }
-  }
+    },
+  },
 }
 </script>

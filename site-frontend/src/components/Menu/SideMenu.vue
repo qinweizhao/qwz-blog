@@ -1,6 +1,6 @@
 <template>
   <a-layout-sider
-    :class="['sider', isDesktop() ? null : 'shadow', theme, fixSiderbar ? 'ant-fixed-sidemenu' : null]"
+    :class="['sider', isDesktop() ? null : 'shadow', theme, fixSiderbar ? 'ant-fixed-sidemenu' : null ]"
     width="256px"
     :collapsible="collapsible"
     v-model="collapsed"
@@ -21,7 +21,7 @@
 <script>
 import Logo from '@/components/Tools/Logo'
 import SMenu from './index'
-import { mixin, mixinDevice } from '@/mixins/mixin'
+import { mixin, mixinDevice } from '@/utils/mixin'
 
 export default {
   name: 'SideMenu',

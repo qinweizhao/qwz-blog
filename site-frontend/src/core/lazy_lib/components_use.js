@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import {
-  Affix,
   Anchor,
   AutoComplete,
   Alert,
@@ -55,7 +54,6 @@ import {
   Space
 } from 'ant-design-vue'
 
-Vue.use(Affix)
 Vue.use(Anchor)
 Vue.use(AutoComplete)
 Vue.use(Alert)

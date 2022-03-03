@@ -1,17 +1,21 @@
 <template>
   <div>
-    <a-form-model ref="commentOptionsForm" :model="options" :rules="rules" layout="vertical" :wrapperCol="wrapperCol">
+    <a-form-model
+      ref="commentOptionsForm"
+      :model="options"
+      :rules="rules"
+      layout="vertical"
+      :wrapperCol="wrapperCol"
+    >
       <a-form-model-item label="评论者头像：">
         <a-select v-model="options.comment_gravatar_default">
-          <a-select-option v-for="(avatarType, index) in avatarTypes" :key="index" :value="avatarType.value">
-            <a-avatar
-              class="comment_select_gravatar"
-              :size="18"
-              :src="options.gravatar_source + '?s=256&d=' + avatarType.value"
-            >
-            </a-avatar
-            >{{ avatarType.text }}
-          </a-select-option>
+          <a-select-option value="mm">默认</a-select-option>
+          <a-select-option value="identicon">抽象几何图形</a-select-option>
+          <a-select-option value="monsterid">小怪物</a-select-option>
+          <a-select-option value="wavatar">Wavatar</a-select-option>
+          <a-select-option value="retro">复古</a-select-option>
+          <a-select-option value="robohash">机器人</a-select-option>
+          <a-select-option value="blank">不显示头像</a-select-option>
         </a-select>
       </a-form-model-item>
       <a-form-model-item label="评论审核后才显示：">
@@ -23,21 +27,40 @@
       <a-form-model-item label="评论回复通知对方：">
         <a-switch v-model="options.comment_reply_notice" />
       </a-form-model-item>
-      <a-form-model-item label="API 评论开关：" help="* 关闭之后将无法进行评论">
+      <a-form-model-item
+        label="API 评论开关："
+        help="* 关闭之后将无法进行评论"
+      >
         <a-switch v-model="options.comment_api_enabled" />
       </a-form-model-item>
-      <a-form-model-item label="评论模块 JS：" help="* 该设置需要主题支持">
-        <a-input type="textarea" :autoSize="{ minRows: 2 }" v-model="options.comment_internal_plugin_js" />
-      </a-form-model-item>
-      <a-form-model-item label="Gravatar 镜像源：" help="* 例如：//gravatar.com/avatar/">
-        <a-input v-model="options.gravatar_source" />
+      <a-form-model-item label="评论模块 JS：">
+        <a-input
+          type="textarea"
+          :autoSize="{ minRows: 2 }"
+          v-model="options.comment_internal_plugin_js"
+          placeholder="该设置仅对内置的评论模块有效"
+        />
       </a-form-model-item>
       <a-form-model-item label="每页显示条数： ">
-        <a-input-number v-model="options.comment_page_size" :min="1" style="width:100%" />
+        <a-input-number
+          v-model="options.comment_page_size"
+          :min="1"
+          style="width:100%"
+        />
       </a-form-model-item>
       <a-form-model-item label="占位提示：">
         <a-input v-model="options.comment_content_placeholder" />
       </a-form-model-item>
+      <!-- <a-form-model-item
+                  label="自定义样式："
+
+                >
+                  <a-input
+                    type="textarea"
+                    :autoSize="{ minRows: 5 }"
+                    v-model="options.comment_custom_style"
+                  />
+                </a-form-model-item> -->
       <a-form-model-item>
         <ReactiveButton
           type="primary"
@@ -54,41 +77,6 @@
   </div>
 </template>
 <script>
-const avatarTypes = [
-  {
-    text: '默认',
-    value: ''
-  },
-  {
-    text: '匿名者',
-    value: 'mm'
-  },
-  {
-    text: '抽象几何图形',
-    value: 'identicon'
-  },
-  {
-    text: '小怪物',
-    value: 'monsterid'
-  },
-  {
-    text: 'Wavatar',
-    value: 'wavatar'
-  },
-  {
-    text: '复古',
-    value: 'retro'
-  },
-  {
-    text: '机器人',
-    value: 'robohash'
-  },
-  {
-    text: '不显示头像',
-    value: 'blank'
-  }
-]
-
 export default {
   name: 'CommentTab',
   props: {
@@ -113,8 +101,7 @@ export default {
         sm: { span: 12 },
         xs: { span: 24 }
       },
-      rules: {},
-      avatarTypes
+      rules: {}
     }
   },
   watch: {
@@ -144,10 +131,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-.comment_select_gravatar {
-  border: 1px #c8c8ca solid;
-  margin: 0 5px 3px 0;
-}
-</style>

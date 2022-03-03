@@ -1,3 +1,4 @@
+import '@babel/polyfill'
 import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
@@ -5,10 +6,10 @@ import Contextmenu from 'vue-contextmenujs'
 import store from './store/'
 import './logger'
 
-import '@/styles/tailwind.css'
+import '@/assets/css/tailwind.css'
 import './core/lazy_use'
-import '@/router/guard/'
-import '@/filters/filter' // global filter
+import './permission'
+import '@/utils/filter' // global filter
 import './components'
 import { version } from '../package.json'
 

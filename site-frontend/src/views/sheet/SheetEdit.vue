@@ -1,41 +1,34 @@
 <template>
-  <page-view :title="sheetToStage.title ? sheetToStage.title : '新页面'" affix>
-    <template slot="extra">
-      <a-space>
-        <ReactiveButton
-          :errored="draftSavedErrored"
-          :loading="draftSaving"
-          erroredText="保存失败"
-          loadedText="保存成功"
-          text="保存草稿"
-          type="danger"
-          @callback="draftSavedErrored = false"
-          @click="handleSaveDraft(false)"
-        ></ReactiveButton>
-        <a-button :loading="previewSaving" @click="handlePreview">预览</a-button>
-        <a-button type="primary" @click="sheetSettingVisible = true">发布</a-button>
-        <a-button type="dashed" @click="attachmentDrawerVisible = true">附件库</a-button>
-      </a-space>
-    </template>
+  <div>
     <a-row :gutter="12">
       <a-col :span="24">
         <div class="mb-4">
-          <a-input v-model="sheetToStage.title" placeholder="请输入页面标题" size="large" />
+          <a-input
+            v-model="sheetToStage.title"
+            size="large"
+            placeholder="请输入页面标题"
+          />
         </div>
 
-        <div id="editor" :style="{ height: editorHeight }">
+        <div id="editor">
           <MarkdownEditor
             :originalContent="sheetToStage.originalContent"
-            @onContentChange="onContentChange"
             @onSaveDraft="handleSaveDraft(true)"
+            @onContentChange="onContentChange"
           />
+
+          <!-- <RichTextEditor
+            v-else
+            :originalContent="sheetToStage.originalContent"
+            @onContentChange="onContentChange"
+          /> -->
         </div>
       </a-col>
     </a-row>
 
     <SheetSettingDrawer
-      :metas="selectedMetas"
       :sheet="sheetToStage"
+      :metas="selectedMetas"
       :visible="sheetSettingVisible"
       @close="sheetSettingVisible = false"
       @onRefreshSheet="onRefreshSheetFromSetting"
@@ -44,27 +37,55 @@
     />
 
     <AttachmentDrawer v-model="attachmentDrawerVisible" />
-  </page-view>
+    <footer-tool-bar :style="{ width: isSideMenu() && isDesktop() ? `calc(100% - ${sidebarOpened ? 256 : 80}px)` : '100%'}">
+      <a-space>
+        <ReactiveButton
+          type="danger"
+          @click="handleSaveDraft(false)"
+          @callback="draftSavederrored = false"
+          :loading="draftSaving"
+          :errored="draftSavederrored"
+          text="保存草稿"
+          loadedText="保存成功"
+          erroredText="保存失败"
+        ></ReactiveButton>
+        <a-button
+          @click="handlePreview"
+          :loading="previewSaving"
+        >预览</a-button>
+        <a-button
+          type="primary"
+          @click="sheetSettingVisible = true"
+        >发布</a-button>
+        <a-button
+          type="dashed"
+          @click="attachmentDrawerVisible = true"
+        >附件库</a-button>
+      </a-space>
+    </footer-tool-bar>
+  </div>
 </template>
 
 <script>
-import { mixin, mixinDevice, mixinPostEdit } from '@/mixins/mixin.js'
+import { mixin, mixinDevice } from '@/utils/mixin.js'
+// import { mapGetters } from 'vuex'
 import { datetimeFormat } from '@/utils/datetime'
-import { PageView } from '@/layouts'
 import SheetSettingDrawer from './components/SheetSettingDrawer'
 import AttachmentDrawer from '../attachment/components/AttachmentDrawer'
+import FooterToolBar from '@/components/FooterToolbar'
 import MarkdownEditor from '@/components/Editor/MarkdownEditor'
+// import RichTextEditor from '@/components/editor/RichTextEditor'
 
 import sheetApi from '@/api/sheet'
-
 export default {
   components: {
-    PageView,
+    FooterToolBar,
     AttachmentDrawer,
     SheetSettingDrawer,
     MarkdownEditor
+    // RichTextEditor
   },
-  mixins: [mixin, mixinDevice, mixinPostEdit],
+  mixins: [mixin, mixinDevice],
   data() {
     return {
       attachmentDrawerVisible: false,
@@ -81,9 +102,9 @@ export default {
     // Get sheetId id from query
     const sheetId = to.query.sheetId
 
-    next(vm => {
+    next((vm) => {
       if (sheetId) {
-        sheetApi.get(sheetId).then(response => {
+        sheetApi.get(sheetId).then((response) => {
           const sheet = response.data.data
           vm.sheetToStage = sheet
           vm.selectedMetas = sheet.metas
@@ -114,7 +135,7 @@ export default {
     } else {
       this.$confirm({
         title: '当前页面数据未保存，确定要离开吗？',
-        content: () => <div style="color:red;">如果离开当面页面，你的数据很可能会丢失！</div>,
+        content: (h) => <div style="color:red;">如果离开当面页面，你的数据很可能会丢失！</div>,
         onOk() {
           next()
         },
@@ -132,6 +153,22 @@ export default {
       }
       return '当前页面数据未保存，确定要离开吗？'
     }
+    // if (!this.sheetToStage.editorType) {
+    //   this.sheetToStage.editorType = this.options.default_editor
+    // }
+  },
+  watch: {
+    temporaryContent: function(newValue, oldValue) {
+      if (newValue) {
+        this.contentChanges++
+      }
+    }
+  },
+  computed: {
+    temporaryContent() {
+      return this.sheetToStage.originalContent
+    }
+    // ...mapGetters(['options'])
   },
   methods: {
     handleSaveDraft(draftOnly = false) {
@@ -145,11 +182,11 @@ export default {
         if (draftOnly) {
           sheetApi
             .updateDraft(this.sheetToStage.id, this.sheetToStage.originalContent)
-            .then(() => {
+            .then((response) => {
               this.handleRestoreSavedStatus()
             })
             .catch(() => {
-              this.draftSavedErrored = true
+              this.draftSavederrored = true
             })
             .finally(() => {
               setTimeout(() => {
@@ -159,12 +196,12 @@ export default {
         } else {
           sheetApi
             .update(this.sheetToStage.id, this.sheetToStage, false)
-            .then(response => {
+            .then((response) => {
               this.sheetToStage = response.data.data
               this.handleRestoreSavedStatus()
             })
             .catch(() => {
-              this.draftSavedErrored = true
+              this.draftSavederrored = true
             })
             .finally(() => {
               setTimeout(() => {
@@ -175,12 +212,12 @@ export default {
       } else {
         sheetApi
           .create(this.sheetToStage, false)
-          .then(response => {
+          .then((response) => {
             this.sheetToStage = response.data.data
             this.handleRestoreSavedStatus()
           })
           .catch(() => {
-            this.draftSavedErrored = true
+            this.draftSavederrored = true
           })
           .finally(() => {
             setTimeout(() => {
@@ -196,11 +233,11 @@ export default {
       }
       this.previewSaving = true
       if (this.sheetToStage.id) {
-        sheetApi.update(this.sheetToStage.id, this.sheetToStage, false).then(response => {
+        sheetApi.update(this.sheetToStage.id, this.sheetToStage, false).then((response) => {
           this.$log.debug('Updated sheet', response.data.data)
           sheetApi
             .preview(this.sheetToStage.id)
-            .then(response => {
+            .then((response) => {
               window.open(response.data, '_blank')
               this.handleRestoreSavedStatus()
             })
@@ -211,12 +248,12 @@ export default {
             })
         })
       } else {
-        sheetApi.create(this.sheetToStage, false).then(response => {
+        sheetApi.create(this.sheetToStage, false).then((response) => {
           this.$log.debug('Created sheet', response.data.data)
           this.sheetToStage = response.data.data
           sheetApi
             .preview(this.sheetToStage.id)
-            .then(response => {
+            .then((response) => {
               window.open(response.data, '_blank')
               this.handleRestoreSavedStatus()
             })
@@ -232,7 +269,6 @@ export default {
       this.contentChanges = 0
     },
     onContentChange(val) {
-      this.contentChanges++
       this.sheetToStage.originalContent = val
     },
     onRefreshSheetFromSetting(sheet) {

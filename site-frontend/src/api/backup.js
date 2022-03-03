@@ -6,7 +6,7 @@ const backupApi = {}
 
 backupApi.importMarkdown = (formData, uploadProgress, cancelToken) => {
   return service({
-    url: `${baseUrl}/markdown/import`,
+    url: `${baseUrl}/markdown`,
     timeout: 8640000, // 24 hours
     data: formData, // form data
     onUploadProgress: uploadProgress,
@@ -15,32 +15,17 @@ backupApi.importMarkdown = (formData, uploadProgress, cancelToken) => {
   })
 }
 
-backupApi.backupWorkDir = options => {
+backupApi.backupWorkDir = () => {
   return service({
     url: `${baseUrl}/work-dir`,
     method: 'post',
-    data: options,
     timeout: 8640000 // 24 hours
-  })
-}
-
-backupApi.listWorkDirOptions = () => {
-  return service({
-    url: `${baseUrl}/work-dir/options`,
-    method: 'get'
   })
 }
 
 backupApi.listWorkDirBackups = () => {
   return service({
     url: `${baseUrl}/work-dir`,
-    method: 'get'
-  })
-}
-
-backupApi.fetchWorkDir = filename => {
-  return service({
-    url: `${baseUrl}/work-dir/fetch?filename=${filename}`,
     method: 'get'
   })
 }
@@ -70,51 +55,9 @@ backupApi.listExportedData = () => {
   })
 }
 
-backupApi.fetchData = filename => {
-  return service({
-    url: `${baseUrl}/data/fetch?filename=${filename}`,
-    method: 'get'
-  })
-}
-
 backupApi.deleteExportedData = filename => {
   return service({
     url: `${baseUrl}/data`,
-    params: {
-      filename: filename
-    },
-    method: 'delete'
-  })
-}
-
-backupApi.exportMarkdowns = needFrontMatter => {
-  return service({
-    url: `${baseUrl}/markdown/export`,
-    method: 'post',
-    data: {
-      needFrontMatter: needFrontMatter
-    },
-    timeout: 8640000 // 24 hours
-  })
-}
-
-backupApi.listExportedMarkdowns = () => {
-  return service({
-    url: `${baseUrl}/markdown/export`,
-    method: 'get'
-  })
-}
-
-backupApi.fetchMarkdown = filename => {
-  return service({
-    url: `${baseUrl}/markdown/fetch?filename=${filename}`,
-    method: 'get'
-  })
-}
-
-backupApi.deleteExportedMarkdown = filename => {
-  return service({
-    url: `${baseUrl}/markdown/export`,
     params: {
       filename: filename
     },
