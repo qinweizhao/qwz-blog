@@ -58,3 +58,4 @@ halo:
   mode: development
   workDir: ${user.home}/halo-dev/
   cache: memory
+  admin-path: qwz
