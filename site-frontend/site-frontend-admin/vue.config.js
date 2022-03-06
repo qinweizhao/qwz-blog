@@ -8,6 +8,26 @@ function resolve(dir) {
 module.exports = {
   publicPath: process.env.PUBLIC_PATH,
 
+
+  devServer: {
+    host: '0.0.0.0',
+    port: 8088,
+    open: true,
+    proxy: {
+      // detail: https://cli.vuejs.org/config/#devserver-proxy
+      [process.env.VUE_APP_BASE_API]: {
+        target: `http://localhost:8090`,
+        // target: `http://10.200.47.43:8008`,
+        changeOrigin: true,
+        pathRewrite: {
+          ['^' + process.env.VUE_APP_BASE_API]: ''
+        }
+      }
+    },
+    disableHostCheck: true
+  },
+
+
   chainWebpack: (config) => {
     config.resolve.alias
       .set('@$', resolve('src'))
