@@ -412,11 +412,3 @@ location / {
     proxy_pass http://127.0.0.1:8090;
 }
 ```
-
-<br>
-
-### 📈 页面性能
-
-> 在页面没有大量图片和特效的场景下，各项性能指标都还不错。数据来自 `Chrome` 浏览器中的 `Lighthouse` 工具，仅供参考用。
-
-![页面性能报告](https://cdn.jsdelivr.net/gh/qinhua/halo-theme-joe2.0@master/source/img/dp/performance.png)
