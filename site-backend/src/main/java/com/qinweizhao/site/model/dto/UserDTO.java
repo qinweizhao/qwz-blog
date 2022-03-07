@@ -1,11 +1,10 @@
 package com.qinweizhao.site.model.dto;
 
+import com.qinweizhao.site.model.dto.base.OutputConverter;
+import com.qinweizhao.site.model.entity.User;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
-import com.qinweizhao.site.model.dto.base.OutputConverter;
-import com.qinweizhao.site.model.entity.User;
-import com.qinweizhao.site.model.enums.MFAType;
 
 import java.util.Date;
 
@@ -31,8 +30,6 @@ public class UserDTO implements OutputConverter<UserDTO, User> {
     private String avatar;
 
     private String description;
-
-    private MFAType mfaType;
 
     private Date createTime;
 

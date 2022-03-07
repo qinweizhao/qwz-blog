@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import com.qinweizhao.site.model.enums.MFAType;
 
 /**
  * MultiFactorAuth VO.
@@ -24,9 +23,4 @@ public class MultiFactorAuthVO {
 
     private String mfaKey;
 
-    private MFAType mfaType;
-
-    public MultiFactorAuthVO(MFAType mfaType) {
-        this.mfaType = mfaType;
-    }
 }

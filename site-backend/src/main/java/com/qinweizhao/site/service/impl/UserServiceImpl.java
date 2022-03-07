@@ -1,12 +1,6 @@
 package com.qinweizhao.site.service.impl;
 
 import cn.hutool.crypto.digest.BCrypt;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.lang.NonNull;
-import org.springframework.stereotype.Service;
-import org.springframework.util.Assert;
-import org.springframework.util.CollectionUtils;
 import com.qinweizhao.site.cache.AbstractStringCacheStore;
 import com.qinweizhao.site.cache.lock.CacheLock;
 import com.qinweizhao.site.event.logger.LogEvent;
@@ -17,13 +11,18 @@ import com.qinweizhao.site.exception.NotFoundException;
 import com.qinweizhao.site.exception.ServiceException;
 import com.qinweizhao.site.model.entity.User;
 import com.qinweizhao.site.model.enums.LogType;
-import com.qinweizhao.site.model.enums.MFAType;
 import com.qinweizhao.site.model.params.UserParam;
 import com.qinweizhao.site.repository.UserRepository;
 import com.qinweizhao.site.service.UserService;
 import com.qinweizhao.site.service.base.AbstractCrudService;
 import com.qinweizhao.site.utils.DateUtils;
 import com.qinweizhao.site.utils.HaloUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.lang.NonNull;
+import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
+import org.springframework.util.CollectionUtils;
 
 import java.util.Date;
 import java.util.List;
@@ -179,10 +178,7 @@ public class UserServiceImpl extends AbstractCrudService<User, Integer> implemen
     public void setPassword(@NonNull User user, @NonNull String plainPassword) {
         Assert.notNull(user, "User must not be null");
         Assert.hasText(plainPassword, "Plain password must not be blank");
-
         user.setPassword(BCrypt.hashpw(plainPassword, BCrypt.gensalt()));
-        user.setMfaType(MFAType.NONE);
-        user.setMfaKey(null);
     }
 
     @Override
@@ -191,22 +187,4 @@ public class UserServiceImpl extends AbstractCrudService<User, Integer> implemen
         return user.getUsername().equals(username) && user.getEmail().equals(password);
     }
 
-    @Override
-    @NonNull
-    public User updateMFA(@NonNull MFAType mfaType, String mfaKey, @NonNull Integer userId) {
-        Assert.notNull(mfaType, "MFA Type must not be null");
-
-        // get User
-        User user = getById(userId);
-        // set MFA
-        user.setMfaType(mfaType);
-        user.setMfaKey((MFAType.NONE == mfaType) ? null : mfaKey);
-        // Update this user
-        User updatedUser = update(user);
-        // Log it
-        eventPublisher.publishEvent(new LogEvent(this, updatedUser.getId().toString(), LogType.MFA_UPDATED, "MFA Type:" + mfaType));
-
-        return updatedUser;
-
-    }
 }

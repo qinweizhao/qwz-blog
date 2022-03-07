@@ -1,11 +1,9 @@
 package com.qinweizhao.site.model.entity;
 
+import com.qinweizhao.site.utils.DateUtils;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
-import org.hibernate.annotations.ColumnDefault;
-import com.qinweizhao.site.model.enums.MFAType;
-import com.qinweizhao.site.utils.DateUtils;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -71,18 +69,6 @@ public class User extends BaseEntity {
     @Temporal(TemporalType.TIMESTAMP)
     private Date expireTime;
 
-    /**
-     * mfa type (current: tfa)
-     */
-    @Column(name = "mfa_type", nullable = false)
-    @ColumnDefault("0")
-    private MFAType mfaType;
-
-    /**
-     * two factor auth key
-     */
-    @Column(name = "mfa_key", length = 64)
-    private String mfaKey;
 
     @Override
     public void prePersist() {

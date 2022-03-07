@@ -19,12 +19,10 @@ import com.qinweizhao.site.exception.NotFoundException;
 import com.qinweizhao.site.exception.ServiceException;
 import com.qinweizhao.site.mail.MailService;
 import com.qinweizhao.site.model.dto.EnvironmentDTO;
-import com.qinweizhao.site.model.dto.LoginPreCheckDTO;
 import com.qinweizhao.site.model.dto.StatisticDTO;
 import com.qinweizhao.site.model.entity.User;
 import com.qinweizhao.site.model.enums.CommentStatus;
 import com.qinweizhao.site.model.enums.LogType;
-import com.qinweizhao.site.model.enums.MFAType;
 import com.qinweizhao.site.model.enums.PostStatus;
 import com.qinweizhao.site.model.params.LoginParam;
 import com.qinweizhao.site.model.params.ResetPasswordParam;
@@ -95,19 +93,19 @@ public class AdminServiceImpl implements AdminService {
     private final ApplicationEventPublisher eventPublisher;
 
     public AdminServiceImpl(PostService postService,
-            SheetService sheetService,
-            AttachmentService attachmentService,
-            PostCommentService postCommentService,
-            SheetCommentService sheetCommentService,
-            JournalCommentService journalCommentService,
-            OptionService optionService,
-            UserService userService,
-            LinkService linkService,
-            MailService mailService,
-            AbstractStringCacheStore cacheStore,
-            RestTemplate restTemplate,
-            HaloProperties haloProperties,
-            ApplicationEventPublisher eventPublisher) {
+                            SheetService sheetService,
+                            AttachmentService attachmentService,
+                            PostCommentService postCommentService,
+                            SheetCommentService sheetCommentService,
+                            JournalCommentService journalCommentService,
+                            OptionService optionService,
+                            UserService userService,
+                            LinkService linkService,
+                            MailService mailService,
+                            AbstractStringCacheStore cacheStore,
+                            RestTemplate restTemplate,
+                            HaloProperties haloProperties,
+                            ApplicationEventPublisher eventPublisher) {
         this.postService = postService;
         this.sheetService = sheetService;
         this.attachmentService = attachmentService;
@@ -164,14 +162,6 @@ public class AdminServiceImpl implements AdminService {
     public AuthToken authCodeCheck(@NonNull final LoginParam loginParam) {
         // get user
         final User user = this.authenticate(loginParam);
-
-        // check authCode
-        if (MFAType.useMFA(user.getMfaType())) {
-            if (StrUtil.isBlank(loginParam.getAuthcode())) {
-                throw new BadRequestException("请输入两步验证码");
-            }
-            TwoFactorAuthUtils.validateTFACode(user.getMfaKey(), loginParam.getAuthcode());
-        }
 
         if (SecurityContextHolder.getContext().isAuthenticated()) {
             // If the user has been logged in
@@ -388,7 +378,7 @@ public class AdminServiceImpl implements AdminService {
 
             // find root folder
             Path adminRootPath = FileUtils.findRootPath(assetTempPath,
-                    path -> StringUtils.equalsIgnoreCase("index.html", path.getFileName().toString()))
+                            path -> StringUtils.equalsIgnoreCase("index.html", path.getFileName().toString()))
                     .orElseThrow(() -> new BadRequestException("无法准确定位到压缩包的根路径，请确认包含 index.html 文件。"));
 
             // Copy it to template/admin folder
@@ -525,19 +515,5 @@ public class AdminServiceImpl implements AdminService {
         return result.toString();
     }
 
-    @Override
-    public LoginPreCheckDTO getUserEnv(@NonNull String username) {
-        Assert.notNull(username, "username must not be null");
 
-        boolean useMFA = true;
-        try {
-            final User user = Validator.isEmail(username) ?
-                    userService.getByEmailOfNonNull(username) : userService.getByUsernameOfNonNull(username);
-            useMFA = MFAType.useMFA(user.getMfaType());
-        } catch (NotFoundException e) {
-            log.error("Failed to find user by name: " + username, e);
-            eventPublisher.publishEvent(new LogEvent(this, username, LogType.LOGIN_FAILED, username));
-        }
-        return new LoginPreCheckDTO(useMFA);
-    }
 }

@@ -7,10 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import com.qinweizhao.site.annotation.DisableOnCondition;
 import com.qinweizhao.site.cache.lock.CacheLock;
 import com.qinweizhao.site.model.dto.EnvironmentDTO;
-import com.qinweizhao.site.model.dto.LoginPreCheckDTO;
 import com.qinweizhao.site.model.dto.StatisticDTO;
-import com.qinweizhao.site.model.entity.User;
-import com.qinweizhao.site.model.enums.MFAType;
 import com.qinweizhao.site.model.params.LoginParam;
 import com.qinweizhao.site.model.params.ResetPasswordParam;
 import com.qinweizhao.site.model.properties.PrimaryProperties;
@@ -46,14 +43,6 @@ public class AdminController {
     @ApiOperation("Checks Installation status")
     public boolean isInstall() {
         return optionService.getByPropertyOrDefault(PrimaryProperties.IS_INSTALLED, Boolean.class, false);
-    }
-
-    @PostMapping("login/precheck")
-    @ApiOperation("Login")
-    @CacheLock(autoDelete = false, prefix = "login_precheck")
-    public LoginPreCheckDTO authPreCheck(@RequestBody @Valid LoginParam loginParam) {
-        final User user = adminService.authenticate(loginParam);
-        return new LoginPreCheckDTO(MFAType.useMFA(user.getMfaType()));
     }
 
     @PostMapping("login")

@@ -2,7 +2,6 @@ package com.qinweizhao.site.service;
 
 import org.springframework.lang.NonNull;
 import com.qinweizhao.site.model.dto.EnvironmentDTO;
-import com.qinweizhao.site.model.dto.LoginPreCheckDTO;
 import com.qinweizhao.site.model.dto.StatisticDTO;
 import com.qinweizhao.site.model.entity.User;
 import com.qinweizhao.site.model.params.LoginParam;
@@ -103,11 +102,4 @@ public interface AdminService {
      */
     String getLogFiles(@NonNull Long lines);
 
-    /**
-     * Get user login env
-     *
-     * @param username username must not be null
-     * @return LoginEnvDTO
-     */
-    LoginPreCheckDTO getUserEnv(@NonNull String username);
 }

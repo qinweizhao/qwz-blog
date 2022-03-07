@@ -5,7 +5,6 @@ import org.springframework.lang.Nullable;
 import com.qinweizhao.site.exception.ForbiddenException;
 import com.qinweizhao.site.exception.NotFoundException;
 import com.qinweizhao.site.model.entity.User;
-import com.qinweizhao.site.model.enums.MFAType;
 import com.qinweizhao.site.model.params.UserParam;
 import com.qinweizhao.site.service.base.CrudService;
 
@@ -135,15 +134,6 @@ public interface UserService extends CrudService<User, Integer> {
      */
     boolean verifyUser(@NonNull String username, @NonNull String password);
 
-    /**
-     * Updates user Multi-Factor Auth.
-     *
-     * @param mfaType Multi-Factor Auth Type.
-     * @param mfaKey  Multi-Factor Auth Key.
-     * @param userId  user id must not be null
-     * @return updated user detail
-     */
-    @NonNull
-    User updateMFA(@NonNull MFAType mfaType, String mfaKey, @NonNull Integer userId);
+
 
 }
