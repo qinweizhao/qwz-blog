@@ -2,6 +2,7 @@ package com.qinweizhao.site.service.impl;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -96,22 +97,22 @@ public class AttachmentServiceImpl extends AbstractCrudService<Attachment, Integ
 
     @Override
     public Attachment upload(MultipartFile file) {
-        Assert.notNull(file, "Multipart file must not be null");
+        Assert.notNull(file, "Multipart 不能为 null");
 
         AttachmentType attachmentType = getAttachmentType();
 
-        log.debug("Starting uploading... type: [{}], file: [{}]", attachmentType, file.getOriginalFilename());
+        log.debug("开始上传 类型: [{}], 文件: [{}]", attachmentType, file.getOriginalFilename());
 
-        // Upload file
+        // 上传文件
         UploadResult uploadResult = fileHandlers.upload(file, attachmentType);
 
-        log.debug("Attachment type: [{}]", attachmentType);
-        log.debug("Upload result: [{}]", uploadResult);
+        log.debug("附件类型: [{}]", attachmentType);
+        log.debug("上传结果: [{}]", uploadResult);
 
-        // Build attachment
+        // 构建 附件实体
         Attachment attachment = new Attachment();
         attachment.setName(uploadResult.getFilename());
-        // Convert separator
+        // 转换分隔符
         attachment.setPath(HaloUtils.changeFileSeparatorToUrlSeparator(uploadResult.getFilePath()));
         attachment.setFileKey(uploadResult.getKey());
         attachment.setThumbPath(uploadResult.getThumbPath());
@@ -122,9 +123,9 @@ public class AttachmentServiceImpl extends AbstractCrudService<Attachment, Integ
         attachment.setSize(uploadResult.getSize());
         attachment.setType(attachmentType);
 
-        log.debug("Creating attachment: [{}]", attachment);
+        log.debug("创建的附件实体为: [{}]", attachment);
 
-        // Create and return
+        // 创建并返回
         return create(attachment);
     }
 
@@ -186,7 +187,7 @@ public class AttachmentServiceImpl extends AbstractCrudService<Attachment, Integ
     }
 
     @Override
-    public List<Attachment> replaceUrl(String oldUrl, String newUrl) {
+    public List<Attachment> replaceUrl(@NotNull String oldUrl, @NotNull String newUrl) {
         List<Attachment> attachments = listAll();
         List<Attachment> replaced = new ArrayList<>();
         attachments.forEach(attachment -> {
@@ -202,10 +203,10 @@ public class AttachmentServiceImpl extends AbstractCrudService<Attachment, Integ
     }
 
     @Override
-    public Attachment create(Attachment attachment) {
-        Assert.notNull(attachment, "Attachment must not be null");
+    public @NotNull Attachment create(@NotNull Attachment attachment) {
+        Assert.notNull(attachment, "附件不能为空");
 
-        // Check attachment path
+        // 检查附件路径
         pathMustNotExist(attachment);
 
         return super.create(attachment);

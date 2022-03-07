@@ -34,14 +34,13 @@ public interface AttachmentService extends CrudService<Attachment, Integer> {
     Page<AttachmentDTO> pageDtosBy(@NonNull Pageable pageable, AttachmentQuery attachmentQuery);
 
     /**
-     * Uploads file.
+     * 上传文件
      *
-     * @param file multipart file must not be null
-     * @return attachment info
-     * @throws FileOperationException throws when failed to filehandler the file
+     * @param file file
+     * @return attachment attachment
+     * @throws FileOperationException e
      */
-    @NonNull
-    Attachment upload(@NonNull MultipartFile file);
+    Attachment upload(MultipartFile file);
 
     /**
      * Removes attachment permanently.

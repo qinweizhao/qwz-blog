@@ -155,9 +155,8 @@ public interface BaseCommentService<COMMENT extends BaseComment> extends CrudSer
      * @param comment comment must not be null
      * @return created comment
      */
-    @NonNull
     @Override
-    COMMENT create(@NonNull COMMENT comment);
+    COMMENT create(COMMENT comment);
 
     /**
      * Creates a comment by comment param.

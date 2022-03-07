@@ -71,7 +71,7 @@ public class AttachmentController {
     }
 
     @PostMapping("upload")
-    @ApiOperation("Uploads single file")
+    @ApiOperation("上传单个文件")
     public AttachmentDTO uploadAttachment(@RequestPart("file") MultipartFile file) {
         return attachmentService.convertToDto(attachmentService.upload(file));
     }

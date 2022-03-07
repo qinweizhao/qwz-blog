@@ -1,27 +1,28 @@
 package com.qinweizhao.site.model.entity;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
+import com.qinweizhao.site.model.enums.AttachmentType;
+import lombok.*;
+import org.hibernate.Hibernate;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.GenericGenerator;
-import com.qinweizhao.site.model.enums.AttachmentType;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 /**
- * Attachment entity
+ * 附件
  *
  * @author ryanwang
  * @date 2019-03-12
  */
-@Data
+@Getter
+@Setter
+@RequiredArgsConstructor
 @Entity
 @Table(name = "attachments", indexes = {
         @Index(name = "attachments_media_type", columnList = "media_type"),
         @Index(name = "attachments_create_time", columnList = "create_time")})
 @ToString
-@EqualsAndHashCode(callSuper = true)
 public class Attachment extends BaseEntity {
 
     @Id
@@ -30,63 +31,63 @@ public class Attachment extends BaseEntity {
     private Integer id;
 
     /**
-     * Attachment name.
+     * 名字
      */
     @Column(name = "name", nullable = false)
     private String name;
 
     /**
-     * Attachment access path.
+     * 路径
      */
     @Column(name = "path", length = 1023, nullable = false)
     private String path;
 
     /**
-     * File key: oss file key or local file key (Just for deleting)
+     * 文件 key :oss 文件或本地文件key 只用于删除
      */
     @Column(name = "file_key", length = 2047)
     private String fileKey;
 
     /**
-     * Thumbnail access path.
+     * 缩略图 路径
      */
     @Column(name = "thumb_path", length = 1023)
     private String thumbPath;
 
     /**
-     * Attachment media type.
+     * 类型
      */
     @Column(name = "media_type", length = 127, nullable = false)
     private String mediaType;
 
     /**
-     * Attachment suffix,such as png, zip, mp4, jpge.
+     * 后缀（png, zip, mp4, jpg）
      */
     @Column(name = "suffix", length = 50)
     private String suffix;
 
     /**
-     * Attachment width.
+     * 宽度
      */
     @Column(name = "width")
     @ColumnDefault("0")
     private Integer width;
 
     /**
-     * Attachment height.
+     * 高度
      */
     @Column(name = "height")
     @ColumnDefault("0")
     private Integer height;
 
     /**
-     * Attachment size.
+     * 大小
      */
     @Column(name = "size", nullable = false)
     private Long size;
 
     /**
-     * Attachment upload type,LOCAL,UPYUN or QNYUN.
+     * 上传类型（本地，云）
      */
     @Column(name = "type")
     @ColumnDefault("0")
@@ -119,5 +120,22 @@ public class Attachment extends BaseEntity {
         if (type == null) {
             type = AttachmentType.LOCAL;
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) {
+            return false;
+        }
+        Attachment that = (Attachment) o;
+        return id != null && Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
     }
 }
