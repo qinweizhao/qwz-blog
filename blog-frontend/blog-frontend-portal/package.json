@@ -1,0 +1,67 @@
+{
+  "name": "halo-theme-joe2.0",
+  "version": "1.0.9",
+  "description": "A halo theme joe2.0",
+  "main": "index.js",
+  "author": "BabyChin",
+  "scripts": {
+    "prepare": "husky install",
+    "docs": "docsify serve docs",
+    "all": "npm run lint && npm run build",
+    "build": "gulp && node source/utils/version.js",
+    "lint:staged": "lint-staged",
+    "lint": "stylelint --custom-syntax postcss-less --fix source/css/*.less && eslint --fix source/js/*.js"
+  },
+  "lint-staged": {
+    "source/css/*.less": [
+      "stylelint --fix --custom-syntax postcss-less"
+    ],
+    "source/js/*.js": [
+      "eslint --fix"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/qinhua/halo-theme-joe2.0.git"
+  },
+  "keywords": [
+    "halo",
+    "joe2.0",
+    "halo-blog",
+    "halo-theme",
+    "halo-theme-joe2.0"
+  ],
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/qinhua/halo-theme-joe2.0/issues"
+  },
+  "homepage": "https://github.com/qinhua/halo-theme-joe2.0#readme",
+  "contributors": [
+    "Baby Chin",
+    "Ryan Wang"
+  ],
+  "devDependencies": {
+    "@babel/core": "^7.15.5",
+    "@babel/plugin-transform-runtime": "^7.15.0",
+    "@babel/preset-env": "^7.15.6",
+    "babel-eslint": "^10.1.0",
+    "babel-loader": "^8.2.3",
+    "eslint": "^8.2.0",
+    "webpack": "^5.68.0",
+    "webpack-stream": "^7.0.0",
+    "gulp": "^4.0.2",
+    "gulp-autoprefixer": "^8.0.0",
+    "gulp-babel": "^8.0.0",
+    "gulp-clean": "^0.4.0",
+    "gulp-csso": "^4.0.1",
+    "gulp-gzip": "^1.4.2",
+    "gulp-less": "^5.0.0",
+    "gulp-rename": "^2.0.0",
+    "gulp-uglify": "^3.0.2",
+    "husky": "^7.0.4",
+    "lint-staged": "^11.2.5",
+    "postcss-less": "^5.0.0",
+    "stylelint": "^14.0.1",
+    "stylelint-config-recommended": "^6.0.0"
+  }
+}
