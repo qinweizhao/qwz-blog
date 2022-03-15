@@ -52,7 +52,7 @@ management:
         include: [ 'httptrace', 'metrics', 'env', 'logfile', 'health' ]
 logging:
   level:
-    com.qinweizhao.site: INFO
+    com.qinweizhao.blog: INFO
     org.eclipse.jetty.server.HttpChannel: ERROR
   file:
     path: ${halo.work-dir}/logs

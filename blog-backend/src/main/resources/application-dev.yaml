@@ -42,7 +42,7 @@ management:
         include: [ 'httptrace', 'metrics','env','logfile','health' ]
 logging:
   level:
-    com.qinweizhao.site: DEBUG
+    com.qinweizhao.blog: DEBUG
     org.hibernate: INFO
     org.hibernate.type.descriptor.sql.BasicBinder: INFO
     org.hibernate.type.descriptor.sql.BasicExtractor: INFO

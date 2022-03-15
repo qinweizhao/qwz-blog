@@ -1,6 +1,6 @@
 <p align="center">
-  <a class="logo" href="https://github.com/qinweizhao/qwz-site">
-    <img src="https://cdn.jsdelivr.net/gh/qinweizhao/qwz-site@master/logo.png" height="80" width="45%" alt="Authority">
+  <a class="logo" href="https://github.com/qinweizhao/qwz-blog">
+    <img src="https://cdn.jsdelivr.net/gh/qinweizhao/qwz-blog@master/logo.png" height="80" width="45%" alt="Authority">
   </a>
 </p>
 
@@ -9,8 +9,8 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/qinweizhao/qwz-site" target="_blank">
-    <img src="https://img.shields.io/github/v/release/qinweizhao/qwz-site?include_prereleases" alt="Release"/>
+  <a href="https://github.com/qinweizhao/qwz-blog" target="_blank">
+    <img src="https://img.shields.io/github/v/release/qinweizhao/qwz-blog?include_prereleases" alt="Release"/>
   </a>
 </p>
 
@@ -23,7 +23,7 @@
 ### 仓库结构
 
 ```
-qwz-site
+qwz-blog
 ├─blog-backend  后端源码
 │
 ├─blog-frontend 前端源码
