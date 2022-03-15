@@ -43,6 +43,8 @@ qwz-blog
 
 ### 修复
 
+- 后台管理前端 UI 显示
+
 ### 转换
 
 - Gradle 转为 Maven
