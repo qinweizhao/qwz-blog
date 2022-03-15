@@ -11,8 +11,8 @@
     <description>blog</description>
 
     <modules>
-        <module>site-frontend</module>
-        <module>site-backend</module>
-        <module>site-resource</module>
+        <module>blog-frontend</module>
+        <module>blog-backend</module>
+        <module>blog-resource</module>
     </modules>
 </project>

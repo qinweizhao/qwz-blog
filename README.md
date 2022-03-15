@@ -24,13 +24,13 @@
 
 ```
 qwz-site
-├─site-backend  后端源码
+├─blog-backend  后端源码
 │
-├─site-frontend 前端源码
-│  ├─site-frontend-admin 后台管理
-│  ├─site-frontend-portal 前台门面
+├─blog-frontend 前端源码
+│  ├─blog-frontend-admin 后台管理
+│  ├─blog-frontend-portal 前台门面
 │ 
-├─site-resource 项目资源
+├─blog-resource 项目资源
 │  ├─img 图片
 │  ├─jar 依赖包
 ```
