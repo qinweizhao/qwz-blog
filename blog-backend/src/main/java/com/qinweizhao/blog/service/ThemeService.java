@@ -49,9 +49,9 @@ public interface ThemeService {
     String[] FILTER_FILES = {".git", ".DS_Store", "theme.yaml", "theme.yml", "settings.yaml", "settings.yml"};
 
     /**
-     * Theme folder location.
+     * 主题文件夹位置
      */
-    String THEME_FOLDER = "templates/themes";
+    String THEME_FOLDER = "blog-frontend";
 
     /**
      * Theme screenshots name.
@@ -63,12 +63,12 @@ public interface ThemeService {
     /**
      * Render template.
      */
-    String RENDER_TEMPLATE = "themes/%s/%s";
+    String RENDER_TEMPLATE = "%s/%s";
 
     /**
      * Render template with suffix.
      */
-    String RENDER_TEMPLATE_SUFFIX = "themes/%s/%s.ftl";
+    String RENDER_TEMPLATE_SUFFIX = "%s/%s.ftl";
 
     /**
      * Theme cache key.

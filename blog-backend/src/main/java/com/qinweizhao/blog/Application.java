@@ -24,15 +24,15 @@ public class Application extends SpringBootServletInitializer {
 
     public static void main(String[] args) {
         // Customize the spring config location
-        // System.setProperty("spring.config.additional-location", "file:${user.home}/.halo/,file:${user.home}/halo-dev/");
+        //System.setProperty("spring.config.additional-location", "file:${user.home}/.halo/,file:${user.home}/halo-dev/");
 
-        // Run application
+        // 运行应用程序
         SpringApplication.run(Application.class, args);
     }
 
-    @Override
-    protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-        System.setProperty("spring.config.additional-location", "file:${user.home}/.halo/,file:${user.home}/halo-dev/");
-        return application.sources(Application.class);
-    }
+//    @Override
+//    protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+//        System.setProperty("spring.config.additional-location", "file:${user.home}/.halo/,file:${user.home}/halo-dev/");
+//        return application.sources(Application.class);
+//    }
 }

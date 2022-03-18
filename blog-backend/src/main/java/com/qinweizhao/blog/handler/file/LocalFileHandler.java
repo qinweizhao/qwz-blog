@@ -63,7 +63,7 @@ public class LocalFileHandler implements FileHandler {
             HaloProperties haloProperties) {
         this.optionService = optionService;
 
-        // Get work dir
+        // Get work dir TODO
         workDir = FileHandler.normalizeDirectory(haloProperties.getWorkDir());
 
         // Check work directory

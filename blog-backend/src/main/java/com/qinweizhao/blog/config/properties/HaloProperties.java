@@ -51,7 +51,7 @@ public class HaloProperties {
     /**
      * Work directory.
      */
-    private String workDir = ensureSuffix(USER_HOME, FILE_SEPARATOR) + ".halo" + FILE_SEPARATOR;
+    private String workDir = ensureSuffix(USER_HOME, FILE_SEPARATOR) + FILE_SEPARATOR;
 
     /**
      * Halo backup directory.(Not recommended to modify this config);

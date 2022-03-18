@@ -19,7 +19,7 @@ public interface StaticStorageService {
     /**
      * Static folder location.
      */
-    String STATIC_FOLDER = "static";
+    String STATIC_FOLDER = "blog-resource/static";
 
     /**
      * Lists static folder.

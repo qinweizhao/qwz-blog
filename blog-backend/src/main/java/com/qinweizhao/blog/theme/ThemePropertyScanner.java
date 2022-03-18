@@ -108,7 +108,7 @@ public enum ThemePropertyScanner {
         Path propertyPath = optionalPath.get();
 
         try {
-            // Get property content
+            // 获取属性内容
             String propertyContent = new String(Files.readAllBytes(propertyPath), StandardCharsets.UTF_8);
 
             // Resolve the base properties

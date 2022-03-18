@@ -47,9 +47,9 @@ public class HaloConst {
     public final static String STATIC_PAGE_PACK_PREFIX = "static-pages-";
 
     /**
-     * Default theme name.
+     * 默认主题名字
      */
-    public final static String DEFAULT_THEME_ID = "caicai_anatole";
+    public final static String DEFAULT_THEME_ID = "blog-frontend-portal";
 
     /**
      * Default error path.

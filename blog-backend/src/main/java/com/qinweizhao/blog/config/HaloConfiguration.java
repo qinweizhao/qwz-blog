@@ -55,12 +55,8 @@ public class HaloConfiguration {
             case "level":
                 stringCacheStore = new LevelCacheStore(this.haloProperties);
                 break;
-//            case "redis":
-//                stringCacheStore = new RedisCacheStore(this.haloProperties);
-//                break;
             case "memory":
             default:
-                //memory or default
                 stringCacheStore = new InMemoryCacheStore();
                 break;
         }

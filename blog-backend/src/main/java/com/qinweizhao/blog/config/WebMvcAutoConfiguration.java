@@ -96,25 +96,26 @@ public class WebMvcAutoConfiguration extends WebMvcConfigurationSupport {
      *
      * @param registry registry
      */
+
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         String workDir = FILE_PROTOCOL + ensureSuffix(haloProperties.getWorkDir(), FILE_SEPARATOR);
-
+        System.out.println("sssss=====--"+workDir + "blog-frontend/");
         // register /** resource handler.
         registry.addResourceHandler("/**")
                 .addResourceLocations("classpath:/admin/")
-                .addResourceLocations(workDir + "static/");
+                .addResourceLocations(workDir + "blog-resource/static/");
 
         // register /themes/** resource handler.
         registry.addResourceHandler("/themes/**")
-                .addResourceLocations(workDir + "templates/themes/");
+                .addResourceLocations(FILE_PROTOCOL + haloProperties.getWorkDir()  + "blog-frontend/");
 
         String uploadUrlPattern = ensureBoth(haloProperties.getUploadUrlPrefix(), URL_SEPARATOR) + "**";
         String adminPathPattern = ensureSuffix(haloProperties.getAdminPath(), URL_SEPARATOR) + "**";
 
         registry.addResourceHandler(uploadUrlPattern)
                 .setCacheControl(CacheControl.maxAge(7L, TimeUnit.DAYS))
-                .addResourceLocations(workDir + "upload/");
+                .addResourceLocations(workDir + "blog-resource/upload/");
         registry.addResourceHandler(adminPathPattern)
                 .addResourceLocations("classpath:/admin/");
 
@@ -134,14 +135,15 @@ public class WebMvcAutoConfiguration extends WebMvcConfigurationSupport {
     }
 
     /**
-     * Configuring freemarker template file path.
+     * 配置 freemarker 模板文件路径。
      *
      * @return new FreeMarkerConfigurer
      */
     @Bean
     public FreeMarkerConfigurer freemarkerConfig(HaloProperties haloProperties) throws IOException, TemplateException {
         FreeMarkerConfigurer configurer = new FreeMarkerConfigurer();
-        configurer.setTemplateLoaderPaths(FILE_PROTOCOL + haloProperties.getWorkDir() + "templates/", "classpath:/templates/");
+        configurer.setTemplateLoaderPaths(FILE_PROTOCOL + haloProperties.getWorkDir() + "blog-frontend/", "classpath:/templates/");
+        System.out.println("jiazia"+FILE_PROTOCOL + haloProperties.getWorkDir() + "blog-frontend/");
         configurer.setDefaultEncoding("UTF-8");
 
         Properties properties = new Properties();

@@ -114,10 +114,10 @@ public class StartedListener implements ApplicationListener<ApplicationStartedEv
     }
 
     /**
-     * Init internal themes
+     * 初始化内部主题
      */
     private void initThemes() {
-        // Whether the blog has initialized
+        // 博客是否已经初始化
         Boolean isInstalled = optionService.getByPropertyOrDefault(PrimaryProperties.IS_INSTALLED, Boolean.class, false);
         try {
             String themeClassPath = ResourceUtils.CLASSPATH_URL_PREFIX + ThemeService.THEME_FOLDER;

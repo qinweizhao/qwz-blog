@@ -17,9 +17,9 @@ spring:
 
     # MySQL database configuration.
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1:3306/blog?useUnicode=true&characterEncoding=utf8&characterSetResults=utf8&allowMultiQueries=true&autoReconnect=true&useSSL=false&serverTimezone=Asia/Shanghai&zeroDateTimeBehavior=convertToNull
+    url: jdbc:mysql://42.192.49.72:3306/site?useUnicode=true&characterEncoding=utf8&characterSetResults=utf8&allowMultiQueries=true&autoReconnect=true&useSSL=false&serverTimezone=Asia/Shanghai&zeroDateTimeBehavior=convertToNull
     username: root
-    password: Qwz#1201
+    password: 112121
 
   jpa:
     hibernate:
@@ -54,6 +54,6 @@ springfox:
 halo:
   auth-enabled: true
   mode: development
-  workDir: ${user.home}/Code/qwz/qwz-blog/
+  workDir: ${user.home}/halo-dev/
   cache: memory
   admin-path: qwz

@@ -58,6 +58,7 @@ public class FreemarkerConfigAwareListener {
     public void onApplicationStartedEvent(ApplicationStartedEvent applicationStartedEvent) throws TemplateModelException {
         log.debug("Received application started event");
 
+        // 加载主题配置
         loadThemeConfig();
         loadOptionsConfig();
         loadUserConfig();

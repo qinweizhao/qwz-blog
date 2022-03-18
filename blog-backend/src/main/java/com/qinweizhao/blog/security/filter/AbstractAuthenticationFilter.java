@@ -186,7 +186,7 @@ public abstract class AbstractAuthenticationFilter extends OncePerRequestFilter 
                 return;
             }
 
-            // Do authenticate
+            // 进行身份验证
             doAuthenticate(request, response, filterChain);
         } catch (AbstractHaloException e) {
             getFailureHandler().onFailure(request, response, e);

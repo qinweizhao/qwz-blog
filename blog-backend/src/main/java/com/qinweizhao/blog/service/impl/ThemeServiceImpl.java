@@ -105,6 +105,7 @@ public class ThemeServiceImpl implements ThemeService {
         this.restTemplate = restTemplate;
 
         themeWorkDir = Paths.get(haloProperties.getWorkDir(), THEME_FOLDER);
+        System.out.println("themeWorkDir = " + themeWorkDir);
         this.eventPublisher = eventPublisher;
         this.themeSettingRepository = themeSettingRepository;
     }
@@ -339,6 +340,7 @@ public class ThemeServiceImpl implements ThemeService {
         return String.format(RENDER_TEMPLATE_SUFFIX, activatedTheme.getFolderName(), pageName);
     }
 
+    // TODO
     @Override
     @NonNull
     public String getActivatedThemeId() {
@@ -367,7 +369,7 @@ public class ThemeServiceImpl implements ThemeService {
     }
 
     /**
-     * Sets activated theme.
+     * 设置激活的主题
      *
      * @param activatedTheme activated theme
      */
@@ -474,6 +476,7 @@ public class ThemeServiceImpl implements ThemeService {
 
         // Copy the temporary path to current theme folder
         Path targetThemePath = themeWorkDir.resolve(tmpThemeProperty.getId());
+        System.out.println("targetThemePath = " + targetThemePath);
         FileUtils.copyFolder(themeTmpPath, targetThemePath);
 
         // Get property again
