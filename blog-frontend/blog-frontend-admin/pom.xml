@@ -15,51 +15,51 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <frontend-maven-plugin.version>1.9.1</frontend-maven-plugin.version>
+        <frontend-maven-plugin.version>1.12.1</frontend-maven-plugin.version>
     </properties>
 
     <build>
-<!--        <plugins>-->
-<!--            <plugin>-->
-<!--                <groupId>com.github.eirslett</groupId>-->
-<!--                <artifactId>frontend-maven-plugin</artifactId>-->
-<!--                <version>${frontend-maven-plugin.version}</version>-->
-<!--                <executions>-->
-<!--                    &lt;!&ndash; Install our node and npm version to run npm/node scripts&ndash;&gt;-->
-<!--                    <execution>-->
-<!--                        <id>install node and npm</id>-->
-<!--                        <goals>-->
-<!--                            <goal>install-node-and-npm</goal>-->
-<!--                        </goals>-->
-<!--                        <configuration>-->
-<!--                            <nodeVersion>v12.12.0</nodeVersion>-->
-<!--                        </configuration>-->
-<!--                    </execution>-->
-<!--                    &lt;!&ndash; Install all project dependencies &ndash;&gt;-->
-<!--                    <execution>-->
-<!--                        <id>npm install</id>-->
-<!--                        <goals>-->
-<!--                            <goal>npm</goal>-->
-<!--                        </goals>-->
-<!--                        &lt;!&ndash; optional: default phase is "generate-resources" &ndash;&gt;-->
-<!--                        <phase>generate-resources</phase>-->
-<!--                        &lt;!&ndash; Optional configuration which provides for running any npm command &ndash;&gt;-->
-<!--                        <configuration>-->
-<!--                            <arguments>install</arguments>-->
-<!--                        </configuration>-->
-<!--                    </execution>-->
-<!--                    &lt;!&ndash; Build and minify static files &ndash;&gt;-->
-<!--                    <execution>-->
-<!--                        <id>npm run build</id>-->
-<!--                        <goals>-->
-<!--                            <goal>npm</goal>-->
-<!--                        </goals>-->
-<!--                        <configuration>-->
-<!--                            <arguments>run build</arguments>-->
-<!--                        </configuration>-->
-<!--                    </execution>-->
-<!--                </executions>-->
-<!--            </plugin>-->
-<!--        </plugins>-->
+        <plugins>
+            <plugin>
+                <groupId>com.github.eirslett</groupId>
+                <artifactId>frontend-maven-plugin</artifactId>
+                <version>${frontend-maven-plugin.version}</version>
+                <executions>
+                    <!-- Install our node and npm version to run npm/node scripts-->
+                    <execution>
+                        <id>install node and npm</id>
+                        <goals>
+                            <goal>install-node-and-npm</goal>
+                        </goals>
+                        <configuration>
+                            <nodeVersion>v14.17.0</nodeVersion>
+                        </configuration>
+                    </execution>
+                    <!-- Install all project dependencies -->
+                    <execution>
+                        <id>npm install</id>
+                        <goals>
+                            <goal>npm</goal>
+                        </goals>
+                        <!-- optional: default phase is "generate-resources" -->
+                        <phase>generate-resources</phase>
+                        <!-- Optional configuration which provides for running any npm command -->
+                        <configuration>
+                            <arguments>install</arguments>
+                        </configuration>
+                    </execution>
+                    <!-- Build and minify static files -->
+                    <execution>
+                        <id>npm build</id>
+                        <goals>
+                            <goal>npm</goal>
+                        </goals>
+                        <configuration>
+                            <arguments>run build</arguments>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
     </build>
 </project>

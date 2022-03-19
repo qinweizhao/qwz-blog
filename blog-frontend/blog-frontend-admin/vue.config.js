@@ -7,6 +7,10 @@ function resolve(dir) {
 // vue.config.js
 module.exports = {
   publicPath: process.env.PUBLIC_PATH,
+  assetsDir: 'static',
+  // 打包时不生成.map文件
+  productionSourceMap: false,
+  // 输出文件目录
   devServer: {
     host: '0.0.0.0',
     port: 1201,
@@ -24,8 +28,6 @@ module.exports = {
     },
     disableHostCheck: true
   },
-
-
   chainWebpack: (config) => {
     config.resolve.alias
       .set('@$', resolve('src'))
@@ -63,6 +65,5 @@ module.exports = {
 
   lintOnSave: undefined,
   // babel-loader no-ignore node_modules/*
-  transpileDependencies: [],
-  productionSourceMap: false
+  transpileDependencies: []
 }

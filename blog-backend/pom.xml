@@ -3,8 +3,15 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.qinweizhao</groupId>
+
+    <parent>
+        <artifactId>qwz-blog</artifactId>
+        <groupId>com.qinweizhao</groupId>
+        <version>1.0.0</version>
+    </parent>
+
     <artifactId>blog-backend</artifactId>
+    <name>a-backend</name>
     <version>1.0.0</version>
 
     <dependencyManagement>
@@ -59,13 +66,11 @@
         </dependency>
 
 
-
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-boot-starter</artifactId>
             <version>3.0.0</version>
         </dependency>
-
 
 
         <dependency>
@@ -91,7 +96,6 @@
             <artifactId>mysql-connector-java</artifactId>
             <scope>runtime</scope>
         </dependency>
-
 
 
         <dependency>
@@ -136,8 +140,11 @@
             <version>7.1.4</version>
         </dependency>
 
-
-
+        <dependency>
+            <groupId>net.sf.image4j</groupId>
+            <artifactId>image4j</artifactId>
+            <version>0.7zensight1</version>
+        </dependency>
 
 
         <dependency>
@@ -170,31 +177,12 @@
             <version>0.62.2</version>
         </dependency>
 
-
-
-        <dependency>
-            <groupId>com.vladsch.flexmark</groupId>
-            <artifactId>flexmark-ext-superscript</artifactId>
-            <version>0.62.2</version>
-
-        </dependency>
-        <dependency>
-            <groupId>com.vladsch.flexmark</groupId>
-            <artifactId>flexmark-ext-yaml-front-matter</artifactId>
-            <version>0.62.2</version>
-
-        </dependency>
-        <dependency>
-            <groupId>com.vladsch.flexmark</groupId>
-            <artifactId>flexmark-ext-gitlab</artifactId>
-            <version>0.62.2</version>
-
-        </dependency>
         <dependency>
             <groupId>kr.pe.kwonnam.freemarker</groupId>
             <artifactId>freemarker-template-inheritance</artifactId>
             <version>0.4.RELEASE</version>
         </dependency>
+
         <dependency>
             <groupId>net.coobird</groupId>
             <artifactId>thumbnailator</artifactId>
@@ -245,9 +233,24 @@
     </dependencies>
 
 
-
     <build>
         <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>2.3.4.RELEASE</version>
+                <configuration>
+                    <mainClass>com.qinweizhao.blog.Application</mainClass>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>repackage</id>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -256,6 +259,35 @@
                     <source>8</source>
                     <target>8</target>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>3.1.0</version>
+                <executions>
+                    <execution>
+                        <id>copy blog-frontend-admin</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>src/main/resources/admin</outputDirectory>
+                            <overwrite>true</overwrite>
+                            <resources>
+                                <resource>
+                                    <directory>${project.parent.basedir}/blog-frontend/blog-frontend-admin/dist
+                                    </directory>
+                                    <includes>
+                                        <include>static/</include>
+                                        <include>index.html</include>
+                                        <include>favicon.ico</include>
+                                    </includes>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

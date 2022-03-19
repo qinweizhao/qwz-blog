@@ -51,4 +51,8 @@ qwz-blog
 
 - Gradle 转为 Maven
 
+### 新增
+
+- 利用 maven 插件将前端代码编译并复制到后端的 resources 文件夹下。
+
 

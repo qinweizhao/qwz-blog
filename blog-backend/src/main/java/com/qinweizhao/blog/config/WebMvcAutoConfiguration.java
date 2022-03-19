@@ -112,9 +112,6 @@ public class WebMvcAutoConfiguration extends WebMvcConfigurationSupport {
 
         String uploadUrlPattern = ensureBoth(haloProperties.getUploadUrlPrefix(), URL_SEPARATOR) + "**";
         String adminPathPattern = ensureSuffix(haloProperties.getAdminPath(), URL_SEPARATOR) + "**";
-        System.out.println("uploadUrlPattern = " + uploadUrlPattern);
-        System.out.println("adminPathPattern = " + adminPathPattern);
-        System.out.println("workDirblog-resource/upload/\" = " + workDir + "blog-resource/upload/");
         registry.addResourceHandler(uploadUrlPattern)
                 .setCacheControl(CacheControl.maxAge(7L, TimeUnit.DAYS))
                 .addResourceLocations(workDir + "blog-resource/upload/");

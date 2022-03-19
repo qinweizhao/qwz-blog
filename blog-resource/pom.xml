@@ -9,6 +9,7 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
+    <name>a-resource</name>
     <artifactId>blog-resource</artifactId>
 
 </project>
