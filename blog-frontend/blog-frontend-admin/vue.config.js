@@ -7,8 +7,6 @@ function resolve(dir) {
 // vue.config.js
 module.exports = {
   publicPath: process.env.PUBLIC_PATH,
-
-
   devServer: {
     host: '0.0.0.0',
     port: 1201,

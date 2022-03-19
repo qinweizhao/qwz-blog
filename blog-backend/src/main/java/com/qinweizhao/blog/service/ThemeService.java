@@ -315,15 +315,6 @@ public interface ThemeService {
     ThemeProperty fetch(@NonNull String uri);
 
     /**
-     * Fetches the latest release
-     *
-     * @param uri theme remote uri must not be null
-     * @return theme property
-     */
-    @NonNull
-    ThemeProperty fetchLatestRelease(@NonNull String uri);
-
-    /**
      * Fetches all the branches info
      *
      * @param uri theme remote uri must not be null
@@ -331,25 +322,6 @@ public interface ThemeService {
      */
     @NonNull
     List<ThemeProperty> fetchBranches(@NonNull String uri);
-
-    /**
-     * Fetches all the release info
-     *
-     * @param uri theme remote uri must not be null
-     * @return list of theme properties
-     */
-    @NonNull
-    List<ThemeProperty> fetchReleases(@NonNull String uri);
-
-    /**
-     * Fetches a specific release
-     *
-     * @param uri     theme remote uri must not be null
-     * @param tagName release tag name must not be null
-     * @return theme property
-     */
-    @NonNull
-    ThemeProperty fetchRelease(@NonNull String uri, @NonNull String tagName);
 
     /**
      * Fetches a specific branch (clone)
@@ -366,21 +338,4 @@ public interface ThemeService {
      */
     void reload();
 
-    /**
-     * Updates theme by theme id.
-     *
-     * @param themeId theme id must not be blank
-     * @return theme property
-     */
-    @NonNull
-    ThemeProperty update(@NonNull String themeId);
-
-    /**
-     * Updates theme by theme id.
-     *
-     * @param themeId theme id must not be blank
-     * @param file    multipart file must not be null
-     * @return theme info
-     */
-    ThemeProperty update(@NonNull String themeId, @NonNull MultipartFile file);
 }

@@ -1,27 +1,5 @@
 package com.qinweizhao.blog.service.impl;
 
-import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
-import org.eclipse.jgit.api.Git;
-import org.eclipse.jgit.api.PullResult;
-import org.eclipse.jgit.api.ResetCommand;
-import org.eclipse.jgit.api.errors.GitAPIException;
-import org.eclipse.jgit.lib.Constants;
-import org.eclipse.jgit.lib.Ref;
-import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.revwalk.RevCommit;
-import org.eclipse.jgit.revwalk.RevWalk;
-import org.eclipse.jgit.transport.RemoteConfig;
-import org.eclipse.jgit.transport.URIish;
-import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.http.ResponseEntity;
-import org.springframework.lang.NonNull;
-import org.springframework.lang.Nullable;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Assert;
-import org.springframework.web.client.RestTemplate;
-import org.springframework.web.multipart.MultipartFile;
 import com.qinweizhao.blog.cache.AbstractStringCacheStore;
 import com.qinweizhao.blog.config.properties.HaloProperties;
 import com.qinweizhao.blog.event.theme.ThemeActivatedEvent;
@@ -39,9 +17,20 @@ import com.qinweizhao.blog.service.ThemeService;
 import com.qinweizhao.blog.theme.ThemeFileScanner;
 import com.qinweizhao.blog.theme.ThemePropertyScanner;
 import com.qinweizhao.blog.utils.*;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
+import org.eclipse.jgit.api.errors.GitAPIException;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.http.ResponseEntity;
+import org.springframework.lang.NonNull;
+import org.springframework.lang.Nullable;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -93,12 +82,12 @@ public class ThemeServiceImpl implements ThemeService {
     private volatile ThemeProperty activatedTheme;
 
     public ThemeServiceImpl(HaloProperties haloProperties,
-            OptionService optionService,
-            AbstractStringCacheStore cacheStore,
-            ThemeConfigResolver themeConfigResolver,
-            RestTemplate restTemplate,
-            ApplicationEventPublisher eventPublisher,
-            ThemeSettingRepository themeSettingRepository) {
+                            OptionService optionService,
+                            AbstractStringCacheStore cacheStore,
+                            ThemeConfigResolver themeConfigResolver,
+                            RestTemplate restTemplate,
+                            ApplicationEventPublisher eventPublisher,
+                            ThemeSettingRepository themeSettingRepository) {
         this.optionService = optionService;
         this.cacheStore = cacheStore;
         this.themeConfigResolver = themeConfigResolver;
@@ -378,6 +367,11 @@ public class ThemeServiceImpl implements ThemeService {
         this.activatedThemeId = Optional.ofNullable(activatedTheme).map(ThemeProperty::getId).orElse(null);
     }
 
+    /**
+     * 获取激活的主题
+     *
+     * @return
+     */
     @Override
     @NonNull
     public Optional<ThemeProperty> fetchActivatedTheme() {
@@ -541,66 +535,6 @@ public class ThemeServiceImpl implements ThemeService {
     }
 
     @Override
-    public ThemeProperty fetchRelease(@NonNull String uri, @NonNull String tagName) {
-        Assert.hasText(uri, "Theme remote uri must not be blank");
-        Assert.hasText(tagName, "Theme remote tagName must not be blank");
-
-        Path tmpPath = null;
-        try {
-            tmpPath = FileUtils.createTempDirectory();
-
-            Path themeTmpPath = tmpPath.resolve(HaloUtils.randomUUIDWithoutDash());
-
-            Map<String, Object> releaseInfo = GithubUtils.getRelease(uri, tagName);
-
-            if (releaseInfo == null) {
-                throw new ServiceException("主题拉取失败" + uri);
-            }
-
-            String zipUrl = (String) releaseInfo.get(ZIP_FILE_KEY);
-
-            downloadZipAndUnzip(zipUrl, themeTmpPath);
-
-            // find root theme folder
-            Path themeRootPath = getThemeRootPath(themeTmpPath);
-            log.debug("Got theme root path: [{}]", themeRootPath);
-            return add(themeRootPath);
-        } catch (IOException e) {
-            throw new ServiceException("主题拉取失败 " + uri, e);
-        } finally {
-            FileUtils.deleteFolderQuietly(tmpPath);
-        }
-    }
-
-    @Override
-    public ThemeProperty fetchLatestRelease(@NonNull String uri) {
-        Assert.hasText(uri, "Theme remote uri must not be blank");
-
-        Path tmpPath = null;
-        try {
-            tmpPath = FileUtils.createTempDirectory();
-
-            Path themeTmpPath = tmpPath.resolve(HaloUtils.randomUUIDWithoutDash());
-
-            Map<String, Object> releaseInfo = GithubUtils.getLatestRelease(uri);
-
-            if (releaseInfo == null) {
-                throw new ServiceException("主题拉取失败" + uri);
-            }
-
-            String zipUrl = (String) releaseInfo.get(ZIP_FILE_KEY);
-
-            downloadZipAndUnzip(zipUrl, themeTmpPath);
-
-            return add(themeTmpPath);
-        } catch (IOException e) {
-            throw new ServiceException("主题拉取失败 " + uri, e);
-        } finally {
-            FileUtils.deleteFolderQuietly(tmpPath);
-        }
-    }
-
-    @Override
     public List<ThemeProperty> fetchBranches(String uri) {
         Assert.hasText(uri, "Theme remote uri must not be blank");
 
@@ -618,202 +552,32 @@ public class ThemeServiceImpl implements ThemeService {
         return themeProperties;
     }
 
-    @Override
-    public List<ThemeProperty> fetchReleases(@NonNull String uri) {
-        Assert.hasText(uri, "Theme remote uri must not be blank");
-
-        List<String> releases = GithubUtils.getReleases(uri);
-
-        List<ThemeProperty> themeProperties = new ArrayList<>();
-
-        if (releases == null) {
-            throw new ServiceException("主题拉取失败！可能原因：当前服务器无法链接到对方服务器或连接超时。");
-        }
-
-        releases.forEach(tagName -> {
-            ThemeProperty themeProperty = new ThemeProperty();
-            themeProperty.setBranch(tagName);
-            themeProperties.add(themeProperty);
-        });
-
-        return themeProperties;
-    }
+//    @Override
+//    public List<ThemeProperty> fetchReleases(@NonNull String uri) {
+//        Assert.hasText(uri, "Theme remote uri must not be blank");
+//
+//        List<String> releases = GithubUtils.getReleases(uri);
+//
+//        List<ThemeProperty> themeProperties = new ArrayList<>();
+//
+//        if (releases == null) {
+//            throw new ServiceException("主题拉取失败！可能原因：当前服务器无法链接到对方服务器或连接超时。");
+//        }
+//
+//        releases.forEach(tagName -> {
+//            ThemeProperty themeProperty = new ThemeProperty();
+//            themeProperty.setBranch(tagName);
+//            themeProperties.add(themeProperty);
+//        });
+//
+//        return themeProperties;
+//    }
 
     @Override
     public void reload() {
         eventPublisher.publishEvent(new ThemeUpdatedEvent(this));
     }
 
-    @Override
-    public ThemeProperty update(String themeId) {
-        Assert.hasText(themeId, "Theme id must not be blank");
-
-        ThemeProperty updatingTheme = getThemeOfNonNullBy(themeId);
-
-        try {
-            pullFromGit(updatingTheme);
-
-        } catch (Exception e) {
-            if (e instanceof ThemeNotSupportException) {
-                throw (ThemeNotSupportException) e;
-            }
-            if (e instanceof GitAPIException) {
-                throw new ThemeUpdateException("主题更新失败！" + e.getMessage(), e);
-            }
-            throw new ThemeUpdateException("主题更新失败！您与主题作者可能同时更改了同一个文件，您也可以尝试删除主题并重新拉取最新的主题", e).setErrorData(themeId);
-        }
-
-        eventPublisher.publishEvent(new ThemeUpdatedEvent(this));
-
-        return getThemeOfNonNullBy(themeId);
-    }
-
-    @Override
-    public ThemeProperty update(String themeId, MultipartFile file) {
-        Assert.hasText(themeId, "Theme id must not be blank");
-        Assert.notNull(themeId, "Theme file must not be blank");
-
-        if (!StringUtils.endsWithIgnoreCase(file.getOriginalFilename(), ".zip")) {
-            throw new UnsupportedMediaTypeException("不支持的文件类型: " + file.getContentType()).setErrorData(file.getOriginalFilename());
-        }
-
-        ThemeProperty updatingTheme = getThemeOfNonNullBy(themeId);
-
-        ZipInputStream zis = null;
-        Path tempPath = null;
-
-        try {
-            // Create temp directory
-            tempPath = FileUtils.createTempDirectory();
-
-            String basename = FilenameUtils.getBasename(file.getOriginalFilename());
-            Path themeTempPath = tempPath.resolve(basename);
-
-            // Check directory traversal
-            FileUtils.checkDirectoryTraversal(tempPath, themeTempPath);
-
-            // New zip input stream
-            zis = new ZipInputStream(file.getInputStream());
-
-            // Unzip to temp path
-            FileUtils.unzip(zis, themeTempPath);
-
-            Path preparePath = getThemeRootPath(themeTempPath);
-
-            ThemeProperty prepareThemeProperty = getProperty(preparePath);
-
-            if (!prepareThemeProperty.getId().equals(updatingTheme.getId())) {
-                throw new ServiceException("上传的主题包不是该主题的更新包: " + file.getOriginalFilename());
-            }
-
-            // Not support current halo version.
-            if (StringUtils.isNotEmpty(prepareThemeProperty.getRequire()) && !VersionUtil.compareVersion(HaloConst.HALO_VERSION, prepareThemeProperty.getRequire())) {
-                throw new ThemeNotSupportException("新版本主题仅支持 Halo " + prepareThemeProperty.getRequire() + " 以上的版本");
-            }
-
-            // Coping new theme files to old theme folder.
-            FileUtils.copyFolder(preparePath, Paths.get(updatingTheme.getThemePath()));
-
-            eventPublisher.publishEvent(new ThemeUpdatedEvent(this));
-
-            // Gets theme property again.
-            return getProperty(Paths.get(updatingTheme.getThemePath()));
-        } catch (IOException e) {
-            throw new ServiceException("更新主题失败: " + file.getOriginalFilename(), e);
-        } finally {
-            // Close zip input stream
-            FileUtils.closeQuietly(zis);
-            // Delete folder after testing
-            FileUtils.deleteFolderQuietly(tempPath);
-        }
-    }
-
-    private void pullFromGit(@NonNull ThemeProperty themeProperty) throws
-            IOException, GitAPIException, URISyntaxException {
-        Assert.notNull(themeProperty, "Theme property must not be null");
-
-        // Get branch
-        String branch = StringUtils.isBlank(themeProperty.getBranch()) ?
-                DEFAULT_REMOTE_BRANCH : themeProperty.getBranch();
-
-        Git git = null;
-
-        try {
-            git = GitUtils.openOrInit(Paths.get(themeProperty.getThemePath()));
-
-            Repository repository = git.getRepository();
-
-            // Add all changes
-            git.add()
-                    .addFilepattern(".")
-                    .call();
-            // Commit the changes
-            git.commit().setMessage("Commit by halo automatically").call();
-
-            RevWalk revWalk = new RevWalk(repository);
-
-            Ref ref = repository.findRef(Constants.HEAD);
-
-            Assert.notNull(ref, Constants.HEAD + " ref was not found!");
-
-            RevCommit lastCommit = revWalk.parseCommit(ref.getObjectId());
-
-            // Force to set remote name
-            git.remoteRemove().setRemoteName(THEME_PROVIDER_REMOTE_NAME).call();
-            RemoteConfig remoteConfig = git.remoteAdd()
-                    .setName(THEME_PROVIDER_REMOTE_NAME)
-                    .setUri(new URIish(themeProperty.getRepo()))
-                    .call();
-
-            // Check out to specified branch
-            if (!StringUtils.equalsIgnoreCase(branch, git.getRepository().getBranch())) {
-                boolean present = git.branchList()
-                        .call()
-                        .stream()
-                        .map(Ref::getName)
-                        .anyMatch(name -> StringUtils.equalsIgnoreCase(name, branch));
-
-                git.checkout()
-                        .setCreateBranch(true)
-                        .setForced(!present)
-                        .setName(branch)
-                        .call();
-            }
-
-            // Pull with rebasing
-            PullResult pullResult = git.pull()
-                    .setRemote(remoteConfig.getName())
-                    .setRemoteBranchName(branch)
-                    .setRebase(true)
-                    .call();
-
-            if (!pullResult.isSuccessful()) {
-                log.debug("Rebase result: [{}]", pullResult.getRebaseResult());
-                log.debug("Merge result: [{}]", pullResult.getMergeResult());
-
-                throw new ThemeUpdateException("拉取失败！您与主题作者可能同时更改了同一个文件");
-            }
-
-            String latestTagName = (String) GithubUtils.getLatestRelease(themeProperty.getRepo()).get(TAG_KEY);
-            git.checkout().setName(latestTagName).call();
-
-            // updated successfully.
-            ThemeProperty updatedThemeProperty = getProperty(Paths.get(themeProperty.getThemePath()));
-
-            // Not support current halo version.
-            if (StringUtils.isNotEmpty(updatedThemeProperty.getRequire()) && !VersionUtil.compareVersion(HaloConst.HALO_VERSION, updatedThemeProperty.getRequire())) {
-                // reset theme version
-                git.reset()
-                        .setMode(ResetCommand.ResetType.HARD)
-                        .setRef(lastCommit.getName())
-                        .call();
-                throw new ThemeNotSupportException("新版本主题仅支持 Halo " + updatedThemeProperty.getRequire() + " 以上的版本");
-            }
-        } finally {
-            GitUtils.closeQuietly(git);
-        }
-
-    }
 
     /**
      * Downloads zip file and unzip it into specified path.
@@ -884,7 +648,7 @@ public class ThemeServiceImpl implements ThemeService {
     @NonNull
     private Path getThemeRootPath(@NonNull Path themePath) throws IOException {
         return FileUtils.findRootPath(themePath,
-                path -> StringUtils.equalsAny(path.getFileName().toString(), "theme.yaml", "theme.yml"))
+                        path -> StringUtils.equalsAny(path.getFileName().toString(), "theme.yaml", "theme.yml"))
                 .orElseThrow(() -> new BadRequestException("无法准确定位到主题根目录，请确认主题目录中包含 theme.yml（theme.yaml）。"));
     }
 }

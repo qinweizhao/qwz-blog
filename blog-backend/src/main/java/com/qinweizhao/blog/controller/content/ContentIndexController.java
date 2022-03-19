@@ -54,6 +54,7 @@ public class ContentIndexController {
 
         if (PostPermalinkType.ID.equals(permalinkType) && !Objects.isNull(p)) {
             Post post = postService.getById(p);
+            System.out.println("postModel.content(post, token, model) = " + postModel.content(post, token, model));
             return postModel.content(post, token, model);
         }
 
@@ -70,6 +71,7 @@ public class ContentIndexController {
     @GetMapping(value = "page/{page}")
     public String index(Model model,
             @PathVariable(value = "page") Integer page) {
+        System.out.println("postModel.list(page, model) = " + postModel.list(page, model));
         return postModel.list(page, model);
     }
 }

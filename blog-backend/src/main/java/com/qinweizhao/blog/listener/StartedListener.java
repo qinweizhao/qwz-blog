@@ -1,8 +1,11 @@
 package com.qinweizhao.blog.listener;
 
+import com.qinweizhao.blog.config.properties.HaloProperties;
+import com.qinweizhao.blog.model.properties.PrimaryProperties;
+import com.qinweizhao.blog.service.OptionService;
+import com.qinweizhao.blog.service.ThemeService;
+import com.qinweizhao.blog.utils.FileUtils;
 import lombok.extern.slf4j.Slf4j;
-import org.flywaydb.core.Flyway;
-import org.flywaydb.core.internal.jdbc.JdbcUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ansi.AnsiColor;
@@ -15,19 +18,10 @@ import org.springframework.core.annotation.Order;
 import org.springframework.lang.NonNull;
 import org.springframework.util.Assert;
 import org.springframework.util.ResourceUtils;
-import com.qinweizhao.blog.config.properties.HaloProperties;
-import com.qinweizhao.blog.model.properties.PrimaryProperties;
-import com.qinweizhao.blog.model.support.HaloConst;
-import com.qinweizhao.blog.service.OptionService;
-import com.qinweizhao.blog.service.ThemeService;
-import com.qinweizhao.blog.utils.FileUtils;
 
 import java.io.IOException;
 import java.net.URI;
 import java.nio.file.*;
-import java.sql.Connection;
-import java.sql.DatabaseMetaData;
-import java.sql.SQLException;
 import java.util.Collections;
 
 /**
@@ -62,11 +56,6 @@ public class StartedListener implements ApplicationListener<ApplicationStartedEv
 
     @Override
     public void onApplicationEvent(ApplicationStartedEvent event) {
-        try {
-            this.migrate();
-        } catch (SQLException e) {
-            log.error("Failed to migrate database!", e);
-        }
         this.initThemes();
         this.initDirectory();
         this.printStartInfo();
@@ -80,37 +69,6 @@ public class StartedListener implements ApplicationListener<ApplicationStartedEv
             log.debug(AnsiOutput.toString(AnsiColor.BRIGHT_BLUE, "Halo api doc was enabled at  ", blogUrl, "/swagger-ui.html"));
         }
         log.info(AnsiOutput.toString(AnsiColor.BRIGHT_YELLOW, "Halo has started successfully!"));
-    }
-
-    /**
-     * Migrate database.
-     */
-    private void migrate() throws SQLException {
-        log.info("Starting migrate database...");
-
-        Flyway flyway = Flyway
-                .configure()
-                .locations("classpath:/migration")
-                .baselineVersion("1")
-                .baselineOnMigrate(true)
-                .dataSource(url, username, password)
-                .load();
-        flyway.repair();
-        flyway.migrate();
-
-        // Gets database connection
-        Connection connection = flyway.getConfiguration().getDataSource().getConnection();
-
-        // Gets database metadata
-        DatabaseMetaData databaseMetaData = JdbcUtils.getDatabaseMetaData(connection);
-
-        // Gets database product name
-        HaloConst.DATABASE_PRODUCT_NAME = databaseMetaData.getDatabaseProductName() + " " + databaseMetaData.getDatabaseProductVersion();
-
-        // Close connection.
-        connection.close();
-
-        log.info("Migrate database succeed.");
     }
 
     /**

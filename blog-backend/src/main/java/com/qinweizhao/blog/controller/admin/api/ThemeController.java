@@ -165,12 +165,12 @@ public class ThemeController {
         return themeService.upload(file);
     }
 
-    @PutMapping("upload/{themeId}")
-    @ApiOperation("Upgrades theme by file")
-    public ThemeProperty updateThemeByUpload(@PathVariable("themeId") String themeId,
-            @RequestPart("file") MultipartFile file) {
-        return themeService.update(themeId, file);
-    }
+//    @PutMapping("upload/{themeId}")
+//    @ApiOperation("Upgrades theme by file")
+//    public ThemeProperty updateThemeByUpload(@PathVariable("themeId") String themeId,
+//            @RequestPart("file") MultipartFile file) {
+//        return themeService.update(themeId, file);
+//    }
 
     @PostMapping("fetching")
     @ApiOperation("Fetches a new theme")
@@ -184,34 +184,10 @@ public class ThemeController {
         return themeService.fetchBranches(uri);
     }
 
-    @PostMapping("fetchingReleases")
-    @ApiOperation("Fetches all releases")
-    public List<ThemeProperty> fetchReleases(@RequestParam("uri") String uri) {
-        return themeService.fetchReleases(uri);
-    }
-
-    @GetMapping("fetchingRelease")
-    @ApiOperation("Fetches a specific release")
-    public ThemeProperty fetchRelease(@RequestParam("uri") String uri, @RequestParam("tag") String tagName) {
-        return themeService.fetchRelease(uri, tagName);
-    }
-
     @GetMapping("fetchBranch")
     @ApiOperation("Fetch specific branch")
     public ThemeProperty fetchBranch(@RequestParam("uri") String uri, @RequestParam("branch") String branchName) {
         return themeService.fetchBranch(uri, branchName);
-    }
-
-    @GetMapping("fetchLatestRelease")
-    @ApiOperation("Fetch latest release")
-    public ThemeProperty fetchLatestRelease(@RequestParam("uri") String uri) {
-        return themeService.fetchLatestRelease(uri);
-    }
-
-    @PutMapping("fetching/{themeId}")
-    @ApiOperation("Upgrades theme by remote")
-    public ThemeProperty updateThemeByFetching(@PathVariable("themeId") String themeId) {
-        return themeService.update(themeId);
     }
 
     @PostMapping("reload")
