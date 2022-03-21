@@ -7,7 +7,6 @@
       class="copyright"
       style="color: rgba(0, 0, 0, 0.45);font-size: 14px;"
     >
-      By
       <router-link :to="{ name:'About' }">
         YVKG
       </router-link>

@@ -29,19 +29,19 @@ export const asyncRouterMap = [
             path: '/posts/list',
             name: 'PostList',
             component: () => import('@/views/post/PostList'),
-            meta: { title: '所有文章', hiddenHeaderContent: false }
+            meta: { title: '所有', hiddenHeaderContent: false }
           },
           {
             path: '/posts/write',
             name: 'PostEdit',
             component: () => import('@/views/post/PostEdit'),
-            meta: { title: '写文章', hiddenHeaderContent: false, keepAlive: false }
+            meta: { title: '新增', hiddenHeaderContent: false, keepAlive: false }
           },
           {
             path: '/categories',
             name: 'CategoryList',
             component: () => import('@/views/post/CategoryList'),
-            meta: { title: '分类目录', hiddenHeaderContent: false }
+            meta: { title: '分类', hiddenHeaderContent: false }
           },
           {
             path: '/tags',
@@ -71,6 +71,12 @@ export const asyncRouterMap = [
             name: 'SheetEdit',
             component: () => import('@/views/sheet/SheetEdit'),
             meta: { title: '新建页面', hiddenHeaderContent: false, keepAlive: false }
+          },
+          {
+            path: '/interface/menus',
+            name: 'MenuList',
+            component: () => import('@/views/interface/MenuList'),
+            meta: { title: '菜单', hiddenHeaderContent: false }
           },
           {
             path: '/sheets/links',
@@ -124,13 +130,8 @@ export const asyncRouterMap = [
             path: '/interface/themes',
             name: 'ThemeList',
             component: () => import('@/views/interface/ThemeList'),
+            // component: () => import('@/views/interface/components/ThemeSettingDrawer'),
             meta: { title: '主题', hiddenHeaderContent: false }
-          },
-          {
-            path: '/interface/menus',
-            name: 'MenuList',
-            component: () => import('@/views/interface/MenuList'),
-            meta: { title: '菜单', hiddenHeaderContent: false }
           },
           {
             path: '/interface/themes/edit',
@@ -178,13 +179,13 @@ export const asyncRouterMap = [
             path: '/system/options',
             name: 'SystemOptions',
             component: () => import('@/views/system/SystemOptions'),
-            meta: { title: '博客设置', hiddenHeaderContent: false }
+            meta: { title: '设置', hiddenHeaderContent: false }
           },
           {
             path: '/system/tools',
             name: 'ToolList',
             component: () => import('@/views/system/ToolList'),
-            meta: { title: '小工具', hiddenHeaderContent: false }
+            meta: { title: '工具', hiddenHeaderContent: false }
           }
         ]
       }
