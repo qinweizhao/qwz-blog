@@ -14,7 +14,7 @@ export const asyncRouterMap = [
         path: '/dashboard',
         name: 'Dashboard',
         component: () => import('@/views/dashboard/Dashboard'),
-        meta: { title: '仪表盘', icon: 'dashboard', hiddenHeaderContent: false, keepAlive: false }
+        meta: { title: '首页', icon: 'dashboard', hiddenHeaderContent: false, keepAlive: false }
       },
 
       // posts
@@ -29,7 +29,7 @@ export const asyncRouterMap = [
             path: '/posts/list',
             name: 'PostList',
             component: () => import('@/views/post/PostList'),
-            meta: { title: '所有', hiddenHeaderContent: false }
+            meta: { title: '全部', hiddenHeaderContent: false }
           },
           {
             path: '/posts/write',
@@ -51,7 +51,27 @@ export const asyncRouterMap = [
           }
         ]
       },
-
+      // comments
+      {
+        path: '/comments',
+        name: 'Comments',
+        component: () => import('@/views/comment/CommentList'),
+        meta: { title: '评论', icon: 'message', hiddenHeaderContent: false }
+      },
+      // attachments
+      {
+        path: '/attachments',
+        name: 'Attachments',
+        component: () => import('@/views/attachment/AttachmentList'),
+        meta: { title: '附件', icon: 'picture', hiddenHeaderContent: false }
+      },
+      // menu
+      {
+        path: '/interface/menus',
+        name: 'MenuList',
+        component: () => import('@/views/interface/MenuList'),
+        meta: { title: '菜单', hiddenHeaderContent: false }
+      },
       // sheets
       {
         path: '/sheets',
@@ -64,19 +84,13 @@ export const asyncRouterMap = [
             path: '/sheets/list',
             name: 'SheetList',
             component: () => import('@/views/sheet/SheetList'),
-            meta: { title: '所有页面', hiddenHeaderContent: false }
+            meta: { title: '全部', hiddenHeaderContent: false }
           },
           {
             path: '/sheets/write',
             name: 'SheetEdit',
             component: () => import('@/views/sheet/SheetEdit'),
-            meta: { title: '新建页面', hiddenHeaderContent: false, keepAlive: false }
-          },
-          {
-            path: '/interface/menus',
-            name: 'MenuList',
-            component: () => import('@/views/interface/MenuList'),
-            meta: { title: '菜单', hiddenHeaderContent: false }
+            meta: { title: '新建', hiddenHeaderContent: false, keepAlive: false }
           },
           {
             path: '/sheets/links',
@@ -102,42 +116,26 @@ export const asyncRouterMap = [
         ]
       },
 
-      // attachments
-      {
-        path: '/attachments',
-        name: 'Attachments',
-        component: () => import('@/views/attachment/AttachmentList'),
-        meta: { title: '附件', icon: 'picture', hiddenHeaderContent: false }
-      },
-
-      // comments
-      {
-        path: '/comments',
-        name: 'Comments',
-        component: () => import('@/views/comment/CommentList'),
-        meta: { title: '评论', icon: 'message', hiddenHeaderContent: false }
-      },
-
       // interface
       {
         path: '/interface',
         name: 'Interface',
         component: BlankLayout,
         redirect: '/interface/themes',
-        meta: { title: '外观', icon: 'skin' },
+        meta: { title: '主题', icon: 'skin' },
         children: [
           {
             path: '/interface/themes',
             name: 'ThemeList',
             component: () => import('@/views/interface/ThemeList'),
             // component: () => import('@/views/interface/components/ThemeSettingDrawer'),
-            meta: { title: '主题', hiddenHeaderContent: false }
+            meta: { title: '设置', hiddenHeaderContent: false }
           },
           {
             path: '/interface/themes/edit',
             name: 'ThemeEdit',
             component: () => import('@/views/interface/ThemeEdit'),
-            meta: { title: '主题编辑', hiddenHeaderContent: false }
+            meta: { title: '编辑', hiddenHeaderContent: false }
           }
         ]
       },

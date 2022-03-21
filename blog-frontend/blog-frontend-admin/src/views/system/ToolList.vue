@@ -97,9 +97,6 @@ export default {
     handleToDeveloperOptions() {
       this.$router.push({ name: 'DeveloperOptions' })
     },
-    // handleToStaticPagesManage() {
-    //   this.$router.push({ name: 'StaticPagesManage' })
-    // },
     onUploadClose() {
       this.$refs.upload.handleClearFileList()
     },
