@@ -8,7 +8,7 @@
       <h1
         class="logo-sub-title"
         style="padding-left: 10px;"
-      >Dashboard</h1>
+      >YVKG</h1>
     </a>
   </div>
 </template>

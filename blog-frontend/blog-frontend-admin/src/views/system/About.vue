@@ -20,79 +20,12 @@
                 <a-icon type="copy" />
               </a>
             </template>
-            <a-popover
-              slot="extra"
-              placement="left"
-              :title="isLatest?'当前为最新版本':'有新版本'"
-            >
-              <template slot="content">
-                <p>{{ versionMessage }}</p>
-                <a-button
-                  type="dashed"
-                  @click="handleShowVersionContent"
-                >查看详情</a-button>
-              </template>
-              <a-button
-                :loading="checking"
-                type="dashed"
-                shape="circle"
-                :icon="isLatest?'check-circle':'exclamation-circle'"
-              ></a-button>
-            </a-popover>
-
             <ul class="m-0 p-0 list-none">
               <li>版本：{{ environments.version }}</li>
               <li>数据库：{{ environments.database }}</li>
               <li>运行模式：{{ environments.mode }}</li>
               <li>启动时间：{{ environments.startTime | moment }}</li>
             </ul>
-
-            <a
-              href="https://github.com/halo-dev"
-              target="_blank"
-              class="mr-3"
-            >开源组织
-              <a-icon type="link" />
-            </a>
-            <a
-              href="https://halo.run"
-              target="_blank"
-              class="mr-3"
-            >用户文档
-              <a-icon type="link" />
-            </a>
-            <a
-              href="https://bbs.halo.run"
-              target="_blank"
-              class="mr-3"
-            >在线社区
-              <a-icon type="link" />
-            </a>
-          </a-card>
-
-          <a-card
-            title="开发者"
-            :bordered="false"
-            :bodyStyle="{ padding: '16px' }"
-            :loading="contributorsLoading"
-          >
-            <a
-              :href="item.html_url"
-              v-for="(item,index) in contributors"
-              :key="index"
-              target="_blank"
-            >
-              <a-tooltip
-                placement="top"
-                :title="item.login"
-              >
-                <a-avatar
-                  size="large"
-                  :src="item.avatar_url"
-                  :style="{ marginRight: '10px',marginBottom: '10px'}"
-                />
-              </a-tooltip>
-            </a>
           </a-card>
         </a-card>
       </a-col>
@@ -182,7 +115,6 @@ export default {
       await adminApi.environments().then((response) => {
         this.environments = response.data.data
       })
-      this.checkServerUpdate()
     },
     handleCopyEnvironments() {
       const text = `版本：${this.environments.version}
@@ -213,55 +145,6 @@ User Agent：${navigator.userAgent}`
         .finally(() => {
           setTimeout(() => {
             _this.contributorsLoading = false
-          }, 200)
-        })
-    },
-    checkServerUpdate() {
-      const _this = this
-      _this.checking = true
-      axios
-        .get('https://api.github.com/repos/halo-dev/halo/releases/latest')
-        .then((response) => {
-          const data = response.data
-          _this.latestData = data
-          if (data.draft || data.prerelease) {
-            return
-          }
-          const current = _this.calculateIntValue(_this.environments.version)
-          const latest = _this.calculateIntValue(data.name)
-          if (current >= latest) {
-            _this.isLatest = true
-            return
-          }
-          const title = '新版本提醒'
-          const content = '检测到 Halo 新版本：' + data.name + '，点击下方按钮查看最新版本。'
-          _this.$notification.open({
-            message: title,
-            description: content,
-            icon: <a-icon type="smile" style="color: #108ee9" />,
-            btn: (h) => {
-              return h(
-                'a-button',
-                {
-                  props: {
-                    type: 'primary',
-                    size: 'small',
-                  },
-                  on: {
-                    click: () => this.handleShowVersionContent(),
-                  },
-                },
-                '去看看'
-              )
-            },
-          })
-        })
-        .catch(function(error) {
-          console.error('Check update fail', error)
-        })
-        .finally(() => {
-          setTimeout(() => {
-            this.checking = false
           }, 200)
         })
     },

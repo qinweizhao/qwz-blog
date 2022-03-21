@@ -147,6 +147,7 @@ export const asyncRouterMap = [
         name: 'User',
         component: PageView,
         redirect: '/user/profile',
+        hidden: true,
         meta: { title: '用户', icon: 'user' },
         children: [
           {
