@@ -4,11 +4,9 @@
       href="javascript:void(0);"
       @click="onLogoClick()"
     >
-      <h1 class="logo-title"></h1>
       <h1
         class="logo-sub-title"
-        style="padding-left: 10px;"
-      >YVKG</h1>
+      >Monday_1201</h1>
     </a>
   </div>
 </template>

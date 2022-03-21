@@ -1,17 +1,17 @@
 {
   "name": "blog-frontend-admin",
   "version": "1.4.2",
-  "author": "halo-dev",
-  "description": "Halo admin client.",
+  "author": "qwz",
+  "description": "admin client.",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/halo-dev/halo-admin.git"
+    "url": "git+https://gitee.com/qinweizhao/qwz-blog.git"
   },
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/halo-dev/halo-admin/issues"
+    "url": "https://gitee.com/qinweizhao/qwz-blog/issues"
   },
-  "homepage": "https://github.com/halo-dev/halo-admin#readme",
+  "homepage": "https://gitee.com/qinweizhao/qwz-blog#readme",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",

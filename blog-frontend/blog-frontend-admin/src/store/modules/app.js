@@ -8,8 +8,7 @@ import {
   DEFAULT_FIXED_SIDEMENU,
   DEFAULT_FIXED_HEADER_HIDDEN,
   DEFAULT_CONTENT_WIDTH_TYPE,
-  API_URL,
-  LAYOUT_SETTING
+  API_URL
 } from '@/store/mutation-types'
 
 const app = {
@@ -76,10 +75,7 @@ const app = {
       Vue.ls.set(DEFAULT_COLOR, color)
       state.color = color
     },
-    TOGGLE_LAYOUT_SETTING: (state, show) => {
-      Vue.ls.set(LAYOUT_SETTING, show)
-      state.layoutSetting = show
-    },
+    // 后台布局
     TOGGLE_LOGIN_MODAL: (state, show) => {
       state.loginModal = show
     }
@@ -117,9 +113,6 @@ const app = {
     },
     ToggleColor({ commit }, color) {
       commit('TOGGLE_COLOR', color)
-    },
-    ToggleLayoutSetting({ commit }, show) {
-      commit('TOGGLE_LAYOUT_SETTING', show)
     },
     ToggleLoginModal({ commit }, show) {
       commit('TOGGLE_LOGIN_MODAL', show)

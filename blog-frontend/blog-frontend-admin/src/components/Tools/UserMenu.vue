@@ -13,19 +13,6 @@
         </span>
       </a-tooltip>
     </a>
-    <a
-      href="javascript:void(0)"
-      @click="handleShowLayoutSetting"
-    >
-      <a-tooltip
-        placement="bottom"
-        title="后台布局设置"
-      >
-        <span class="action">
-          <a-icon type="setting" />
-        </span>
-      </a-tooltip>
-    </a>
     <header-comment class="action" />
     <a-dropdown>
       <span
@@ -98,9 +85,6 @@ export default {
         },
         onCancel() {}
       })
-    },
-    handleShowLayoutSetting() {
-      this.ToggleLayoutSetting(true)
     }
   }
 }

@@ -1,5 +1,5 @@
 export default {
-  primaryColor: '#1890FF',
+  primaryColor: '#fffff',
   navTheme: 'dark',
   layout: 'topmenu',
   contentWidth: 'Fixed',
