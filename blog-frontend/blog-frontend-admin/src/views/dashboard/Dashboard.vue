@@ -2,8 +2,8 @@
   <page-view>
     <a-row :gutter="12">
       <a-col
-        :xl="6"
-        :lg="6"
+        :xl="8"
+        :lg="8"
         :md="12"
         :sm="12"
         :xs="12"
@@ -29,35 +29,8 @@
         </analysis-card>
       </a-col>
       <a-col
-        :xl="6"
-        :lg="6"
-        :md="12"
-        :sm="12"
-        :xs="12"
-        class="mb-3"
-      >
-        <analysis-card
-          title="评论"
-          :number="statisticsData.commentCount"
-        >
-          <router-link
-            :to="{ name:'Comments' }"
-            slot="action"
-          >
-            <a-icon
-              v-if="statisticsLoading"
-              type="loading"
-            />
-            <a-icon
-              v-else
-              type="unordered-list"
-            />
-          </router-link>
-        </analysis-card>
-      </a-col>
-      <a-col
-        :xl="6"
-        :lg="6"
+        :xl="8"
+        :lg="8"
         :md="12"
         :sm="12"
         :xs="12"
@@ -85,37 +58,37 @@
         </analysis-card>
       </a-col>
       <a-col
-        :xl="6"
-        :lg="6"
+        :xl="8"
+        :lg="8"
         :md="12"
         :sm="12"
         :xs="12"
         class="mb-3"
       >
         <analysis-card
-          title="建立天数"
-          :number="statisticsData.establishDays"
+          title="评论"
+          :number="statisticsData.commentCount"
         >
-          <a-tooltip slot="action">
-            <template slot="title">博客建立于 {{ statisticsData.birthday | moment }}</template>
-            <a href="javascript:void(0);">
-              <a-icon
-                v-if="statisticsLoading"
-                type="loading"
-              />
-              <a-icon
-                v-else
-                type="info-circle-o"
-              />
-            </a>
-          </a-tooltip>
+          <router-link
+            :to="{ name:'Comments' }"
+            slot="action"
+          >
+            <a-icon
+              v-if="statisticsLoading"
+              type="loading"
+            />
+            <a-icon
+              v-else
+              type="unordered-list"
+            />
+          </router-link>
         </analysis-card>
       </a-col>
     </a-row>
     <a-row :gutter="12">
       <a-col
-        :xl="8"
-        :lg="8"
+        :xl="12"
+        :lg="12"
         :md="12"
         :sm="24"
         :xs="24"
@@ -124,10 +97,10 @@
         <a-card
           :bordered="false"
           title="新动态"
-          :bodyStyle="{ padding: 0 }"
+          :bodyStyle="{ padding: '17px' }"
         >
           <div class="card-container">
-            <a-tabs type="card">
+            <a-tabs type="card" >
               <a-tab-pane
                 key="1"
                 tab="最近文章"
@@ -140,6 +113,7 @@
                     slot="renderItem"
                     slot-scope="item, index"
                     :key="index"
+                    style="margin: 6px"
                   >
                     <a-list-item-meta>
                       <a
@@ -185,12 +159,6 @@
                     >
                       <recent-comment-tab type="sheets"></recent-comment-tab>
                     </a-tab-pane>
-                    <!-- <a-tab-pane
-                      tab="日志"
-                      key="3"
-                    >
-                      <recent-comment-tab type="journals"></recent-comment-tab>
-                    </a-tab-pane>-->
                   </a-tabs>
                 </div>
               </a-tab-pane>
@@ -199,18 +167,8 @@
         </a-card>
       </a-col>
       <a-col
-        :xl="8"
-        :lg="8"
-        :md="12"
-        :sm="24"
-        :xs="24"
-        class="mb-3"
-      >
-        <JournalPublishCard />
-      </a-col>
-      <a-col
-        :xl="8"
-        :lg="8"
+        :xl="12"
+        :lg="12"
         :md="12"
         :sm="24"
         :xs="24"
@@ -266,7 +224,6 @@
 <script>
 import { PageView } from '@/layouts'
 import AnalysisCard from './components/AnalysisCard'
-import JournalPublishCard from './components/JournalPublishCard'
 import RecentCommentTab from './components/RecentCommentTab'
 import LogListDrawer from './components/LogListDrawer'
 import countTo from 'vue-count-to'
@@ -279,7 +236,6 @@ export default {
   components: {
     PageView,
     AnalysisCard,
-    JournalPublishCard,
     RecentCommentTab,
     countTo,
     LogListDrawer
