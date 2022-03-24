@@ -1,34 +1,25 @@
 <template>
   <div class="user-wrapper">
-    <a
-      :href="options.blog_url"
-      target="_blank"
-    >
-      <a-tooltip
-        placement="bottom"
-        title="点击跳转到首页"
-      >
+    <a :href="options.blog_url" target="_blank">
+      <a-tooltip placement="bottom" title="点击跳转到首页">
         <span class="action">
           <a-icon type="link" />
         </span>
       </a-tooltip>
     </a>
+    <a href="javascript:void(0)" @click="handleShowLayoutSetting">
+      <a-tooltip placement="bottom" title="后台布局设置">
+        <span class="action">
+          <a-icon type="setting" />
+        </span>
+      </a-tooltip>
+    </a>
     <header-comment class="action" />
     <a-dropdown>
-      <span
-        class="action ant-dropdown-link user-dropdown-menu"
-        v-if="user"
-      >
-        <a-avatar
-          class="avatar"
-          size="small"
-          :src="user.avatar || '//cn.gravatar.com/avatar/?s=256&d=mm'"
-        />
+      <span v-if="user" class="action ant-dropdown-link user-dropdown-menu">
+        <a-avatar :src="user.avatar || '//cn.gravatar.com/avatar/?s=256&d=mm'" class="avatar" size="small" />
       </span>
-      <a-menu
-        slot="overlay"
-        class="user-dropdown-menu-wrapper"
-      >
+      <a-menu slot="overlay" class="user-dropdown-menu-wrapper">
         <a-menu-item key="0">
           <router-link :to="{ name: 'Profile' }">
             <a-icon type="user" />
@@ -37,10 +28,7 @@
         </a-menu-item>
         <a-menu-divider />
         <a-menu-item key="1">
-          <a
-            href="javascript:;"
-            @click="handleLogout"
-          >
+          <a href="javascript:void(0);" @click="handleLogout">
             <a-icon type="logout" />
             <span>退出登录</span>
           </a>
@@ -65,26 +53,26 @@ export default {
   methods: {
     ...mapActions(['logout', 'ToggleLayoutSetting']),
     handleLogout() {
-      const that = this
+      const _this = this
 
       this.$confirm({
         title: '提示',
         content: '确定要注销登录吗 ?',
-        onOk() {
-          return that
-            .logout({})
-            .then(() => {
-              window.location.reload()
+        onOk: async () => {
+          try {
+            await _this.logout()
+            window.location.reload()
+          } catch (e) {
+            _this.$message.error({
+              title: '错误',
+              description: e.message
             })
-            .catch((err) => {
-              that.$message.error({
-                title: '错误',
-                description: err.message
-              })
-            })
-        },
-        onCancel() {}
+          }
+        }
       })
+    },
+    handleShowLayoutSetting() {
+      this.ToggleLayoutSetting(true)
     }
   }
 }

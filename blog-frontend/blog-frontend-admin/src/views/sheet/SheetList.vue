@@ -1,33 +1,31 @@
 <template>
-  <div>
+  <page-view>
     <a-row>
       <a-col :span="24">
         <div class="card-container">
-          <a-tabs
-            v-model="activeKey"
-            type="card"
-          >
-            <a-tab-pane
-              v-for="pane in panes"
-              :key="pane.key"
-            >
-              <span slot="tab">
-                <a-icon :type="pane.icon" />{{ pane.title }}
-              </span>
+          <a-tabs v-model="activeKey" type="card">
+            <a-tab-pane v-for="pane in panes" :key="pane.key">
+              <span slot="tab"> <a-icon :type="pane.icon" />{{ pane.title }} </span>
               <component :is="pane.component"></component>
             </a-tab-pane>
           </a-tabs>
         </div>
       </a-col>
     </a-row>
-  </div>
+  </page-view>
 </template>
 
 <script>
+import { PageView } from '@/layouts'
 import IndependentSheetList from './components/IndependentSheetList'
 import CustomSheetList from './components/CustomSheetList'
 
 export default {
+  components: {
+    PageView,
+    IndependentSheetList,
+    CustomSheetList
+  },
   data() {
     const panes = [
       { title: '独立页面', icon: 'paper-clip', component: 'IndependentSheetList', key: 'independent' },
@@ -48,18 +46,12 @@ export default {
     })
   },
   watch: {
-    activeKey: {
-      handler: function(newVal, oldVal) {
-        if (newVal) {
-          const path = this.$router.history.current.path
-          this.$router.push({ path, query: { activeKey: newVal } }).catch(err => err)
-        }
+    activeKey(newVal) {
+      if (newVal) {
+        const path = this.$router.history.current.path
+        this.$router.push({ path, query: { activeKey: newVal } }).catch(err => err)
       }
     }
-  },
-  components: {
-    IndependentSheetList,
-    CustomSheetList
   }
 }
 </script>

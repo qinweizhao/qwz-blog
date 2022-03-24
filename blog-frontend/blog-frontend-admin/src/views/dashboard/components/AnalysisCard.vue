@@ -1,8 +1,5 @@
 <template>
-  <a-card
-    :body-style="{ padding: '24px' }"
-    :bordered="false"
-  >
+  <a-card :body-style="{ padding: '24px' }" :bordered="false">
     <div class="analysis-card-container">
       <div class="meta">
         <span class="analysis-card-title">
@@ -15,10 +12,10 @@
       <div class="number">
         <slot name="number">
           <countTo
-            :startVal="startNumber"
-            :endVal="typeof number === 'function' && number() || number"
-            :duration="3000"
             :autoplay="true"
+            :duration="3000"
+            :endVal="(typeof number === 'function' && number()) || number"
+            :startVal="startNumber"
           ></countTo>
         </slot>
       </div>
@@ -28,6 +25,7 @@
 
 <script>
 import countTo from 'vue-count-to'
+
 export default {
   name: 'AnalysisCard',
   components: {
@@ -51,7 +49,7 @@ export default {
     }
   },
   watch: {
-    number: function(newValue, oldValue) {
+    number: function (newValue, oldValue) {
       this.startNumber = oldValue
     }
   }

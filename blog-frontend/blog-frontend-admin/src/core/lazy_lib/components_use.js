@@ -1,19 +1,24 @@
 import Vue from 'vue'
 import {
+  Affix,
+  Alert,
   Anchor,
   AutoComplete,
-  Alert,
   Avatar,
   Badge,
   Breadcrumb,
   Button,
   Card,
-  Collapse,
   Checkbox,
   Col,
+  Collapse,
+  Comment,
+  ConfigProvider,
   DatePicker,
   Divider,
+  Drawer,
   Dropdown,
+  Empty,
   Form,
   FormModel,
   Icon,
@@ -22,8 +27,8 @@ import {
   Layout,
   List,
   LocaleProvider,
-  message,
   Menu,
+  message,
   Modal,
   notification,
   PageHeader,
@@ -32,28 +37,26 @@ import {
   Popover,
   Progress,
   Radio,
+  Result,
   Row,
   Select,
+  Skeleton,
+  Space,
   Spin,
+  Steps,
   Switch,
   Table,
-  Tree,
-  TreeSelect,
   Tabs,
   Tag,
+  Timeline,
   TimePicker,
   Tooltip,
-  Drawer,
-  Skeleton,
-  Comment,
-  ConfigProvider,
-  Timeline,
-  Steps,
-  Empty,
-  Result,
-  Space
+  Tree,
+  TreeSelect,
+  Descriptions
 } from 'ant-design-vue'
 
+Vue.use(Affix)
 Vue.use(Anchor)
 Vue.use(AutoComplete)
 Vue.use(Alert)
@@ -104,6 +107,7 @@ Vue.use(Steps)
 Vue.use(Empty)
 Vue.use(Result)
 Vue.use(Space)
+Vue.use(Descriptions)
 
 // message config
 message.config({

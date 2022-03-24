@@ -1,61 +1,95 @@
 <template>
-  <div>
+  <div class="h-full">
     <halo-editor
-      ref="md"
+      ref="editor"
       v-model="originalContentData"
       :boxShadow="false"
+      :subfield="subfield"
       :toolbars="toolbars"
-      :ishljs="true"
+      :uploadRequest="handleAttachmentUpload"
       autofocus
-      @imgAdd="handleAttachmentUpload"
-      @save="handleSaveDraft"
+      @change="handleChange"
+      @openImagePicker="attachmentSelectVisible = true"
+      @save="handleSave"
     />
+
+    <AttachmentSelectModal :visible.sync="attachmentSelectVisible" @confirm="handleSelectAttachment" />
   </div>
 </template>
 <script>
-import { toolbars } from '@/core/const'
-import { haloEditor } from 'halo-editor'
-import 'halo-editor/dist/css/index.css'
-import attachmentApi from '@/api/attachment'
+import haloEditor from '@halo-dev/editor'
+import '@halo-dev/editor/dist/lib/style.css'
+import apiClient from '@/utils/api-client'
+import { editorToolbars } from '@/core/constant'
+
 export default {
   name: 'MarkdownEditor',
   components: {
-    haloEditor,
+    haloEditor: haloEditor.editor
   },
   props: {
     originalContent: {
       type: String,
       required: false,
-      default: '',
+      default: ''
     },
+    toolbars: {
+      type: Object,
+      default: () => {
+        return editorToolbars
+      }
+    },
+    subfield: {
+      type: Boolean,
+      default: true
+    }
   },
   data() {
     return {
-      toolbars,
-      originalContentData: '',
+      attachmentSelectVisible: false
     }
   },
-  watch: {
-    originalContent(val) {
-      this.originalContentData = val
-    },
-    originalContentData(val) {
-      this.$emit('onContentChange', val)
-    },
+  computed: {
+    originalContentData: {
+      get() {
+        return this.originalContent
+      },
+      set(value) {
+        this.$emit('update:originalContent', value)
+      }
+    }
   },
   methods: {
-    handleAttachmentUpload(pos, $file) {
-      var formdata = new FormData()
-      formdata.append('file', $file)
-      attachmentApi.upload(formdata).then((response) => {
-        var responseObject = response.data
-        var HaloEditor = this.$refs.md
-        HaloEditor.$img2Url(pos, encodeURI(responseObject.data.path))
+    handleAttachmentUpload(file) {
+      return new Promise((resolve, reject) => {
+        const hideLoading = this.$message.loading('上传中...', 0)
+        apiClient.attachment
+          .upload(file)
+          .then(response => {
+            const attachment = response.data
+            resolve({
+              name: attachment.name,
+              path: encodeURI(attachment.path)
+            })
+          })
+          .catch(e => {
+            this.$log.error('upload image error: ', e)
+            reject(e)
+          })
+          .finally(() => {
+            hideLoading()
+          })
       })
     },
-    handleSaveDraft() {
-      this.$emit('onSaveDraft')
+    handleSelectAttachment({ markdown }) {
+      this.$refs.editor.insetAtCursor(markdown.join('\n'))
     },
-  },
+    handleSave() {
+      this.$emit('save')
+    },
+    handleChange({ originalContent, renderContent }) {
+      this.$emit('change', { originalContent, renderContent })
+    }
+  }
 }
 </script>

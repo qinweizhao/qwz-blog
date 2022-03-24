@@ -1,9 +1,6 @@
 <template>
   <a-config-provider :locale="locale">
-    <div
-      id="app"
-      class="h-full"
-    >
+    <div id="app" class="h-full">
       <router-view />
     </div>
   </a-config-provider>
@@ -11,7 +8,7 @@
 
 <script>
 import zhCN from 'ant-design-vue/lib/locale-provider/zh_CN'
-import { deviceEnquire, DEVICE_TYPE } from '@/utils/device'
+import { DEVICE_TYPE, deviceEnquire } from '@/utils/device'
 
 export default {
   data() {
@@ -21,15 +18,15 @@ export default {
   },
   mounted() {
     const { $store } = this
-    deviceEnquire((deviceType) => {
+    deviceEnquire(deviceType => {
       switch (deviceType) {
         case DEVICE_TYPE.DESKTOP:
           $store.commit('TOGGLE_DEVICE', 'desktop')
-          $store.dispatch('setSidebar', true)
+          $store.dispatch('setSidebar', this.$store.getters.sidebar)
           break
         case DEVICE_TYPE.TABLET:
           $store.commit('TOGGLE_DEVICE', 'tablet')
-          $store.dispatch('setSidebar', false)
+          $store.dispatch('setSidebar', this.$store.getters.sidebar)
           break
         case DEVICE_TYPE.MOBILE:
         default:

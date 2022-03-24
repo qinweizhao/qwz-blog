@@ -1,58 +1,45 @@
 <template>
   <page-view>
     <a-row :gutter="12">
-      <a-col
-        :xl="6"
-        :lg="6"
-        :md="6"
-        :sm="24"
-        :xs="24"
-        class="mb-3"
-      >
-        <a-card
-          :bodyStyle="{ padding: '16px' }"
-          title="分组"
-        >
-          <template slot="extra">
+      <a-col :lg="6" :md="6" :sm="24" :xl="6" :xs="24" class="mb-3">
+        <a-card :bodyStyle="{ padding: '16px' }" title="分组">
+          <template #extra>
             <ReactiveButton
-              type="default"
-              @click="handleSetDefaultTeam"
-              @callback="handleSetDefaultTeamCallback"
-              :loading="teams.default.saving"
               :errored="teams.default.errored"
-              text="设为默认"
-              loadedText="设置成功"
+              :loading="teams.default.saving"
               erroredText="设置失败"
+              loadedText="设置成功"
+              text="设为默认"
+              type="default"
+              @callback="handleSetDefaultTeamCallback"
+              @click="handleSetDefaultTeam"
             ></ReactiveButton>
           </template>
           <div class="menu-teams">
             <a-spin :spinning="teams.loading">
-              <a-empty v-if="teams.data.length===0 && !teams.loading" />
+              <a-empty v-if="teams.data.length === 0 && !teams.loading" />
               <a-menu
+                v-if="teams.data.length > 0"
+                v-model="selectedTeam"
                 class="w-full"
                 mode="inline"
-                v-model="selectedTeam"
-                v-if="teams.data.length>0"
                 @select="handleSelectedTeam"
               >
-                <a-menu-item
-                  v-for="(team) in teams.data"
-                  :key="team"
-                >
-                  {{ team===''?'未分组':team }}{{ defaultMenuTeam===team?'（默认）':'' }}
+                <a-menu-item v-for="team in teams.data" :key="team">
+                  {{ team === '' ? '未分组' : team }}{{ defaultMenuTeam === team ? '（默认）' : '' }}
                 </a-menu-item>
               </a-menu>
             </a-spin>
           </div>
           <a-popover
             v-model="teams.form.visible"
+            destroyTooltipOnHide
+            placement="bottom"
             title="新增分组"
             trigger="click"
-            placement="bottom"
             @visibleChange="handleTeamFormVisibleChange"
-            destroyTooltipOnHide
           >
-            <template slot="content">
+            <template #content>
               <a-form-model
                 ref="teamForm"
                 :model="teams.form.model"
@@ -60,85 +47,53 @@
                 @keyup.enter.native="handleCreateTeam"
               >
                 <a-form-model-item prop="team">
-                  <a-input
-                    v-model="teams.form.model.team"
-                    autoFocus
-                  />
+                  <a-input v-model="teams.form.model.team" autoFocus />
                 </a-form-model-item>
-                <a-form-model-item style="margin-bottom:0">
-                  <a-button
-                    type="primary"
-                    @click="handleCreateTeam"
-                  >
-                    新增
-                  </a-button>
+                <a-form-model-item style="margin-bottom: 0">
+                  <a-button type="primary" @click="handleCreateTeam"> 新增</a-button>
                 </a-form-model-item>
               </a-form-model>
             </template>
-            <a-button
-              type="primary"
-              block
-              class="mt-3"
-            >
-              新增分组
-            </a-button>
+            <a-button block class="mt-3" type="primary"> 新增分组</a-button>
           </a-popover>
         </a-card>
       </a-col>
-      <a-col
-        :xl="18"
-        :lg="18"
-        :md="18"
-        :sm="24"
-        :xs="24"
-        class="pb-3"
-      >
+      <a-col :lg="18" :md="18" :sm="24" :xl="18" :xs="24" class="pb-3">
         <a-card :bodyStyle="{ padding: '16px' }">
-          <template slot="title">
-            <span>
-              {{ menuListTitle }}
-            </span>
+          <template #title>
+            {{ menuListTitle }}
             <a-tooltip
+              v-if="list.data.length <= 0 && !list.loading"
               slot="action"
               title="分组下的菜单为空时，该分组也不会保存"
-              v-if="list.data.length <= 0"
             >
-              <a-icon
-                type="info-circle-o"
-                class="cursor-pointer"
-              />
+              <a-icon class="cursor-pointer" type="info-circle-o" />
             </a-tooltip>
           </template>
-          <template slot="extra">
+          <template #extra>
             <a-space>
               <ReactiveButton
-                @click="handleUpdateBatch"
-                @callback="formBatch.errored=false"
-                :loading="formBatch.saving"
+                :disabled="list.data.length <= 0"
                 :errored="formBatch.errored"
-                text="保存"
-                loadedText="保存成功"
+                :loading="formBatch.saving"
                 erroredText="保存失败"
-                :disabled="list.data.length<=0"
+                loadedText="保存成功"
+                text="保存"
+                @callback="formBatch.errored = false"
+                @click="handleUpdateBatch"
               ></ReactiveButton>
-              <a-button
-                @click="handleOpenCreateMenuForm()"
-                :disabled="form.visible"
-                type="primary"
-                ghost
-              >
-                新增
-              </a-button>
+              <a-button v-if="!form.visible" ghost type="primary" @click="handleOpenCreateMenuForm()"> 新增</a-button>
+              <a-button v-else type="default" @click="handleCloseCreateMenuForm()"> 取消新增</a-button>
               <a-dropdown :trigger="['click']">
-                <a-menu slot="overlay">
-                  <a-menu-item @click="menuInternalLinkSelector.visible = true">
-                    从系统预设链接添加
-                  </a-menu-item>
-                  <a-menu-item @click="handleDeleteBatch">
-                    删除当前组
-                  </a-menu-item>
-                </a-menu>
-                <a-button> 其他
+                <template #overlay>
+                  <a-menu>
+                    <a-menu-item @click="menuInternalLinkSelector.visible = true"> 从系统预设链接添加</a-menu-item>
+                    <a-menu-item @click="handleOpenUpdateTeamForm"> 重命名分组</a-menu-item>
+                    <a-menu-item @click="handleDeleteBatch"> 删除当前组</a-menu-item>
+                  </a-menu>
+                </template>
+                <a-button>
+                  其他
                   <a-icon type="down" />
                 </a-button>
               </a-dropdown>
@@ -148,31 +103,48 @@
             <MenuForm
               v-if="form.visible"
               :menu="form.model"
-              @succeed="handleCreateMenuSucceed()"
               @cancel="handleCloseCreateMenuForm()"
+              @succeed="handleCreateMenuSucceed()"
             />
-            <a-empty v-if="list.data.length===0 && !list.loading && !form.visible" />
-            <MenuTreeNode
-              v-model="list.data"
-              :excludedTeams="excludedTeams"
-              @reload="handleListMenus"
-            />
+            <a-empty v-if="list.data.length === 0 && !list.loading && !form.visible" />
+            <MenuTreeNode v-model="list.data" :excludedTeams="excludedTeams" @reload="handleListMenus" />
           </a-spin>
         </a-card>
       </a-col>
     </a-row>
+
     <MenuInternalLinkSelector
       v-model="menuInternalLinkSelector.visible"
       :team="teams.selected"
       @reload="handleListMenus"
     />
+
+    <a-modal v-model="updateTeamForm.visible" title="重命名分组">
+      <a-form layout="vertical">
+        <a-form-item label="分组名称：">
+          <a-input ref="teamInput" v-model="updateTeamForm.team" allowClear style="width: 100%" />
+        </a-form-item>
+      </a-form>
+
+      <template #footer>
+        <ReactiveButton
+          :errored="updateTeamForm.saveErrored"
+          :loading="updateTeamForm.saving"
+          erroredText="更改失败"
+          loadedText="更改成功"
+          text="确定"
+          @callback="handleUpdateTeamInBatchCallback"
+          @click="handleUpdateTeamInBatch"
+        ></ReactiveButton>
+        <a-button @click="updateTeamForm.visible = false">关闭</a-button>
+      </template>
+    </a-modal>
   </page-view>
 </template>
 
 <script>
 // components
 import { PageView } from '@/layouts'
-import draggable from 'vuedraggable'
 import MenuTreeNode from './components/MenuTreeNode'
 import MenuForm from './components/MenuForm'
 import MenuInternalLinkSelector from './components/MenuInternalLinkSelector'
@@ -181,23 +153,23 @@ import { deepClone } from '@/utils/util'
 import { mapActions, mapGetters } from 'vuex'
 
 // apis
-import menuApi from '@/api/menu'
-import optionApi from '@/api/option'
+import apiClient from '@/utils/api-client'
+
 export default {
-  components: { PageView, draggable, MenuTreeNode, MenuForm, MenuInternalLinkSelector },
+  components: { PageView, MenuTreeNode, MenuForm, MenuInternalLinkSelector },
   data() {
     return {
       list: {
         data: [],
-        loading: false,
+        loading: false
       },
       form: {
         visible: false,
-        model: {},
+        model: {}
       },
       formBatch: {
         saving: false,
-        errored: false,
+        errored: false
       },
       teams: {
         data: [],
@@ -206,29 +178,30 @@ export default {
         form: {
           visible: false,
           model: {
-            team: null,
+            team: null
           },
           rules: {
-            team: [{ required: true, message: '分组名称不能为空', trigger: ['change'] }],
-          },
+            team: [{ required: true, message: '分组名称不能为空', trigger: ['change'] }]
+          }
         },
         default: {
           saving: false,
-          errored: false,
-        },
+          errored: false
+        }
+      },
+      updateTeamForm: {
+        team: undefined,
+        visible: false,
+        saving: false,
+        saveErrored: false
       },
       menuInternalLinkSelector: {
-        visible: false,
-      },
+        visible: false
+      }
     }
   },
   computed: {
     ...mapGetters(['options']),
-    computedTeams() {
-      return this.teams.data.filter((item) => {
-        return item !== ''
-      })
-    },
     computedMenusMoved() {
       const menus = deepClone(this.list.data)
       return this.handleMenuMoved(0, menus)
@@ -237,7 +210,7 @@ export default {
       return this.handleGetMenusWithoutLevel(this.computedMenusMoved, [])
     },
     computedMenuIds() {
-      return this.computedMenusWithoutLevel.map((menu) => {
+      return this.computedMenusWithoutLevel.map(menu => {
         return menu.id
       })
     },
@@ -247,19 +220,19 @@ export default {
       },
       set(value) {
         this.teams.selected = value[0]
-      },
+      }
     },
     menuListTitle() {
       return this.teams.selected === '' ? '未分组' : this.teams.selected
     },
     excludedTeams() {
-      return this.teams.data.filter((item) => {
+      return this.teams.data.filter(item => {
         return item !== this.teams.selected
       })
     },
     defaultMenuTeam() {
       return this.options.default_menu_team ? this.options.default_menu_team : ''
-    },
+    }
   },
   created() {
     this.handleListTeams()
@@ -268,32 +241,29 @@ export default {
     ...mapActions(['refreshOptionsCache']),
     handleListTeams(autoSelectTeam = false) {
       this.teams.loading = true
-      menuApi
+      apiClient.menu
         .listTeams()
-        .then((response) => {
-          this.teams.data = response.data.data
+        .then(response => {
+          this.teams.data = response.data
           if (!this.teams.selected || autoSelectTeam) {
             this.teams.selected = this.teams.data[0]
           }
           this.handleListMenus()
         })
         .finally(() => {
-          setTimeout(() => {
-            this.teams.loading = false
-          }, 200)
+          this.teams.loading = false
         })
     },
     handleListMenus() {
+      this.list.data = []
       this.list.loading = true
-      menuApi
-        .listTreeByTeam(this.teams.selected)
-        .then((response) => {
-          this.list.data = response.data.data
+      apiClient.menu
+        .listTreeViewByTeam(this.teams.selected)
+        .then(response => {
+          this.list.data = response.data
         })
         .finally(() => {
-          setTimeout(() => {
-            this.list.loading = false
-          }, 200)
+          this.list.loading = false
         })
     },
     handleMenuMoved(pid, menus) {
@@ -308,24 +278,24 @@ export default {
       return menus
     },
     handleGetMenusWithoutLevel(menus, result) {
-      for (var i = 0; i < menus.length; i++) {
+      for (let i = 0; i < menus.length; i++) {
         result.push(menus[i])
-        var children = menus[i].children
+        const children = menus[i].children
         if (children.length > 0) {
           this.handleGetMenusWithoutLevel(children, result)
         }
       }
       return result
     },
-    handleSelectedTeam({ item, key, selectedKeys }) {
+    handleSelectedTeam({ key }) {
       this.teams.selected = key
       this.handleCloseCreateMenuForm()
       this.handleListMenus()
     },
     handleUpdateBatch() {
       this.formBatch.saving = true
-      menuApi
-        .updateBatch(this.computedMenusWithoutLevel)
+      apiClient.menu
+        .updateInBatch(this.computedMenusWithoutLevel)
         .catch(() => {
           this.formBatch.errored = true
         })
@@ -342,10 +312,10 @@ export default {
         title: '提示',
         content: '确定要删除当前分组以及所有菜单？',
         onOk() {
-          menuApi.deleteBatch(_this.computedMenuIds).finally(() => {
+          apiClient.menu.deleteInBatch(_this.computedMenuIds).finally(() => {
             _this.handleListTeams(true)
           })
-        },
+        }
       })
     },
     handleTeamFormVisibleChange(visible) {
@@ -355,7 +325,7 @@ export default {
     },
     handleCreateTeam() {
       const _this = this
-      _this.$refs.teamForm.validate((valid) => {
+      _this.$refs.teamForm.validate(valid => {
         if (valid) {
           if (!_this.teams.data.includes(_this.teams.form.model.team)) {
             _this.teams.data.push(_this.teams.form.model.team)
@@ -370,7 +340,7 @@ export default {
       this.form.visible = true
       this.form.model = {
         team: this.teams.selected,
-        target: '_self',
+        target: '_self'
       }
     },
     handleCloseCreateMenuForm() {
@@ -383,9 +353,9 @@ export default {
     },
     handleSetDefaultTeam() {
       this.teams.default.saving = true
-      optionApi
-        .save({
-          default_menu_team: this.teams.selected,
+      apiClient.option
+        .saveMapView({
+          default_menu_team: this.teams.selected
         })
         .catch(() => {
           this.teams.default.errored = true
@@ -403,6 +373,55 @@ export default {
         this.refreshOptionsCache()
       }
     },
-  },
+
+    handleOpenUpdateTeamForm() {
+      this.updateTeamForm.team = this.teams.selected
+      this.updateTeamForm.visible = true
+      this.$nextTick(() => {
+        this.$refs.teamInput.focus()
+      })
+    },
+
+    async handleUpdateTeamInBatch() {
+      try {
+        this.updateTeamForm.saving = true
+        await apiClient.menu.updateInBatch(
+          this.computedMenusWithoutLevel.map(menu => {
+            return {
+              ...menu,
+              team: this.updateTeamForm.team
+            }
+          })
+        )
+
+        if (this.teams.selected === this.defaultMenuTeam) {
+          await apiClient.option.saveMapView({
+            default_menu_team: this.updateTeamForm.team
+          })
+
+          await this.refreshOptionsCache()
+        }
+
+        this.teams.selected = this.updateTeamForm.team
+      } catch (e) {
+        this.updateTeamForm.saveErrored = true
+        this.$log.debug('Failed update menus team', e)
+      } finally {
+        setTimeout(() => {
+          this.updateTeamForm.saving = false
+        }, 400)
+      }
+    },
+
+    handleUpdateTeamInBatchCallback() {
+      if (this.updateTeamForm.saveErrored) {
+        this.updateTeamForm.saveErrored = false
+      } else {
+        this.handleListMenus()
+        this.handleListTeams()
+        this.updateTeamForm.visible = false
+      }
+    }
+  }
 }
 </script>

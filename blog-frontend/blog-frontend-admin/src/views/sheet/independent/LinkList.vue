@@ -1,162 +1,82 @@
 <template>
-  <div>
+  <page-view>
     <a-row :gutter="12">
-      <a-col
-        :xl="10"
-        :lg="10"
-        :md="10"
-        :sm="24"
-        :xs="24"
-        class="pb-3"
-      >
-        <a-card
-          :title="title"
-          :bodyStyle="{ padding: '16px' }"
-        >
-          <a-form-model
-            ref="linkForm"
-            :model="form.model"
-            :rules="form.rules"
-            layout="horizontal"
-          >
-            <a-form-model-item
-              label="网站名称："
-              prop="name"
-            >
+      <a-col :lg="10" :md="10" :sm="24" :xl="10" :xs="24" class="pb-3">
+        <a-card :bodyStyle="{ padding: '16px' }" :title="title">
+          <a-form-model ref="linkForm" :model="form.model" :rules="form.rules" layout="horizontal">
+            <a-form-model-item label="网站名称：" prop="name">
               <a-input v-model="form.model.name" />
             </a-form-model-item>
-            <a-form-model-item
-              label="网站地址："
-              help="* 需要加上 http://"
-              prop="url"
-            >
-              <a-input v-model="form.model.url">
-                <!-- <a
-                  href="javascript:void(0);"
-                  slot="addonAfter"
-                  @click="handleParseUrl"
-                >
-                  <a-icon type="sync" />
-                </a> -->
-              </a-input>
+            <a-form-model-item help="* 需要加上 http://" label="网站地址：" prop="url">
+              <a-input v-model="form.model.url" />
             </a-form-model-item>
-            <a-form-model-item
-              label="Logo："
-              prop="logo"
-            >
+            <a-form-model-item label="Logo：" prop="logo">
               <a-input v-model="form.model.logo" />
             </a-form-model-item>
-            <a-form-model-item
-              label="分组："
-              prop="team"
-            >
-              <a-auto-complete
-                :dataSource="computedTeams"
-                v-model="form.model.team"
-                allowClear
-              />
+            <a-form-model-item label="分组：" prop="team">
+              <a-auto-complete v-model="form.model.team" :dataSource="computedTeams" allowClear />
             </a-form-model-item>
-            <a-form-model-item
-              label="排序编号："
-              prop="priority"
-            >
-              <a-input-number
-                :min="0"
-                v-model="form.model.priority"
-                style="width:100%"
-              />
+            <a-form-model-item label="排序编号：" prop="priority">
+              <a-input-number v-model="form.model.priority" :min="0" style="width: 100%" />
             </a-form-model-item>
-            <a-form-model-item
-              label="描述："
-              prop="description"
-            >
-              <a-input
-                type="textarea"
-                :autoSize="{ minRows: 5 }"
-                v-model="form.model.description"
-              />
+            <a-form-model-item label="描述：" prop="description">
+              <a-input v-model="form.model.description" :autoSize="{ minRows: 5 }" type="textarea" />
             </a-form-model-item>
             <a-form-model-item>
               <ReactiveButton
                 v-if="!isUpdateMode"
-                type="primary"
-                @click="handleCreateOrUpdateLink"
-                @callback="handleSavedCallback"
-                :loading="form.saving"
                 :errored="form.errored"
-                text="保存"
-                loadedText="保存成功"
+                :loading="form.saving"
                 erroredText="保存失败"
+                loadedText="保存成功"
+                text="保存"
+                type="primary"
+                @callback="handleSavedCallback"
+                @click="handleCreateOrUpdateLink"
               ></ReactiveButton>
               <a-button-group v-else>
                 <ReactiveButton
-                  type="primary"
-                  @click="handleCreateOrUpdateLink"
-                  @callback="handleSavedCallback"
-                  :loading="form.saving"
                   :errored="form.errored"
-                  text="更新"
-                  loadedText="更新成功"
+                  :loading="form.saving"
                   erroredText="更新失败"
+                  loadedText="更新成功"
+                  text="更新"
+                  type="primary"
+                  @callback="handleSavedCallback"
+                  @click="handleCreateOrUpdateLink"
                 ></ReactiveButton>
-                <a-button
-                  type="dashed"
-                  @click="form.model = {}"
-                  v-if="isUpdateMode"
-                >返回添加</a-button>
+                <a-button v-if="isUpdateMode" type="dashed" @click="form.model = {}">返回添加</a-button>
               </a-button-group>
             </a-form-model-item>
           </a-form-model>
         </a-card>
       </a-col>
-      <a-col
-        :xl="14"
-        :lg="14"
-        :md="14"
-        :sm="24"
-        :xs="24"
-        class="pb-3"
-      >
-        <a-card
-          title="所有友情链接"
-          :bodyStyle="{ padding: '16px' }"
-        >
+      <a-col :lg="14" :md="14" :sm="24" :xl="14" :xs="24" class="pb-3">
+        <a-card :bodyStyle="{ padding: '16px' }" title="所有友情链接">
           <!-- Mobile -->
           <a-list
             v-if="isMobile()"
-            itemLayout="vertical"
-            size="large"
             :dataSource="table.data"
             :loading="table.loading"
+            itemLayout="vertical"
+            size="large"
           >
-            <a-list-item
-              slot="renderItem"
-              slot-scope="item, index"
-              :key="index"
-            >
+            <a-list-item :key="index" slot="renderItem" slot-scope="item, index">
               <template slot="actions">
-                <a-dropdown
-                  placement="topLeft"
-                  :trigger="['click']"
-                >
+                <a-dropdown :trigger="['click']" placement="topLeft">
                   <span>
                     <a-icon type="bars" />
                   </span>
                   <a-menu slot="overlay">
-                    <a-menu-item>
-                      <a
-                        href="javascript:void(0);"
-                        @click="form.model = item"
-                      >编辑</a>
-                    </a-menu-item>
+                    <a-menu-item @click="form.model = item">编辑</a-menu-item>
                     <a-menu-item>
                       <a-popconfirm
                         :title="'你确定要删除【' + item.name + '】链接？'"
-                        @confirm="handleDeleteLink(item.id)"
-                        okText="确定"
                         cancelText="取消"
+                        okText="确定"
+                        @confirm="handleDeleteLink(item.id)"
                       >
-                        <a href="javascript:;">删除</a>
+                        删除
                       </a-popconfirm>
                     </a-menu-item>
                   </a-menu>
@@ -173,15 +93,18 @@
                 </template>
                 <span
                   slot="title"
-                  style="max-width: 300px;display: block;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;"
+                  style="
+                    max-width: 300px;
+                    display: block;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                  "
                 >
                   {{ item.name }}
                 </span>
               </a-list-item-meta>
-              <a
-                :href="item.url"
-                target="_blank"
-              >{{ item.url }}</a>
+              <a :href="item.url" target="_blank">{{ item.url }}</a>
             </a-list-item>
           </a-list>
           <!-- Desktop -->
@@ -193,117 +116,93 @@
             :rowKey="link => link.id"
             :scrollToFirstRowOnChange="true"
           >
-            <template
-              slot="url"
-              slot-scope="text"
-            >
-              <a
-                target="_blank"
-                :href="text"
-              >{{ text }}</a>
+            <template slot="url" slot-scope="text">
+              <a :href="text" target="_blank">{{ text }}</a>
             </template>
-            <ellipsis
-              :length="15"
-              tooltip
-              slot="name"
-              slot-scope="text"
-            >{{ text }}</ellipsis>
-            <span
-              slot="action"
-              slot-scope="text, record"
-            >
-              <a
-                href="javascript:void(0);"
-                @click="form.model = record"
-              >编辑</a>
+            <ellipsis slot="name" slot-scope="text" :length="15" tooltip>{{ text }}</ellipsis>
+            <span slot="action" slot-scope="text, record">
+              <a-button class="!p-0" type="link" @click="handleEdit(record)">编辑</a-button>
               <a-divider type="vertical" />
               <a-popconfirm
                 :title="'你确定要删除【' + record.name + '】链接？'"
-                @confirm="handleDeleteLink(record.id)"
-                okText="确定"
                 cancelText="取消"
+                okText="确定"
+                @confirm="handleDeleteLink(record.id)"
               >
-                <a href="javascript:;">删除</a>
+                <a-button class="!p-0" type="link">删除</a-button>
               </a-popconfirm>
             </span>
           </a-table>
         </a-card>
       </a-col>
     </a-row>
-    <div style="position: fixed;bottom: 30px;right: 30px;">
+    <div style="position: fixed; bottom: 30px; right: 30px">
       <a-button
-        type="primary"
-        shape="circle"
         icon="setting"
+        shape="circle"
         size="large"
-        @click="optionsModal.visible=true"
+        type="primary"
+        @click="optionsModal.visible = true"
       ></a-button>
     </div>
-    <a-modal
-      v-model="optionsModal.visible"
-      title="页面设置"
-      :afterClose="() => optionsModal.visible = false"
-    >
+    <a-modal v-model="optionsModal.visible" :afterClose="() => (optionsModal.visible = false)" title="页面设置">
       <template slot="footer">
-        <a-button
-          key="submit"
-          type="primary"
-          @click="handleSaveOptions()"
-        >保存</a-button>
+        <a-button key="submit" type="primary" @click="handleSaveOptions()">保存</a-button>
       </template>
       <a-form layout="vertical">
-        <a-form-item
-          label="页面标题："
-          help="* 需要主题进行适配"
-        >
+        <a-form-item help="* 需要主题进行适配" label="页面标题：">
           <a-input v-model="optionsModal.data.links_title" />
         </a-form-item>
       </a-form>
     </a-modal>
-  </div>
+  </page-view>
 </template>
 
 <script>
+import { PageView } from '@/layouts'
 import { mapActions } from 'vuex'
-import { mixin, mixinDevice } from '@/utils/mixin.js'
-import optionApi from '@/api/option'
-import linkApi from '@/api/link'
+import { mixin, mixinDevice } from '@/mixins/mixin.js'
+import apiClient from '@/utils/api-client'
+
 const columns = [
   {
     title: '名称',
     dataIndex: 'name',
     ellipsis: true,
-    scopedSlots: { customRender: 'name' },
+    scopedSlots: { customRender: 'name' }
   },
   {
     title: '网址',
     dataIndex: 'url',
     ellipsis: true,
-    scopedSlots: { customRender: 'url' },
+    scopedSlots: { customRender: 'url' }
   },
   {
     title: '分组',
     ellipsis: true,
-    dataIndex: 'team',
+    dataIndex: 'team'
   },
   {
     title: '排序',
-    dataIndex: 'priority',
+    dataIndex: 'priority'
   },
   {
     title: '操作',
     key: 'action',
-    scopedSlots: { customRender: 'action' },
-  },
+    scopedSlots: { customRender: 'action' }
+  }
 ]
 export default {
   mixins: [mixin, mixinDevice],
+  components: {
+    PageView
+  },
   data() {
     return {
       table: {
         columns,
         data: [],
-        loading: false,
+        loading: false
       },
       form: {
         model: {},
@@ -312,23 +211,23 @@ export default {
         rules: {
           name: [
             { required: true, message: '* 友情链接名称不能为空', trigger: ['change'] },
-            { max: 255, message: '* 友情链接名称的字符长度不能超过 255', trigger: ['change'] },
+            { max: 255, message: '* 友情链接名称的字符长度不能超过 255', trigger: ['change'] }
           ],
           url: [
             { required: true, message: '* 友情链接地址不能为空', trigger: ['change'] },
             { max: 1023, message: '* 友情链接地址的字符长度不能超过 1023', trigger: ['change'] },
-            { type: 'url', message: '* 友情链接地址格式有误', trigger: ['change'] },
+            { type: 'url', message: '* 友情链接地址格式有误', trigger: ['change'] }
           ],
           logo: [{ max: 1023, message: '* 友情链接 Logo 的字符长度不能超过 1023', trigger: ['change'] }],
           description: [{ max: 255, message: '* 友情链接描述的字符长度不能超过 255', trigger: ['change'] }],
-          team: [{ max: 255, message: '* 友情链接分组的字符长度 255', trigger: ['change'] }],
-        },
+          team: [{ max: 255, message: '* 友情链接分组的字符长度 255', trigger: ['change'] }]
+        }
       },
       optionsModal: {
         visible: false,
-        data: [],
+        data: []
       },
-      teams: [],
+      teams: []
     }
   },
   computed: {
@@ -342,10 +241,10 @@ export default {
       return !!this.form.model.id
     },
     computedTeams() {
-      return this.teams.filter((item) => {
+      return this.teams.filter(item => {
         return item !== ''
       })
-    },
+    }
   },
   created() {
     this.handleListLinks()
@@ -356,31 +255,33 @@ export default {
     ...mapActions(['refreshOptionsCache']),
     handleListLinks() {
       this.table.loading = true
-      linkApi
-        .listAll()
-        .then((response) => {
-          this.table.data = response.data.data
+      apiClient.link
+        .list()
+        .then(response => {
+          this.table.data = response.data
         })
         .finally(() => {
-          setTimeout(() => {
-            this.table.loading = false
-          }, 200)
+          this.table.loading = false
         })
     },
     handleListLinkTeams() {
-      linkApi.listTeams().then((response) => {
-        this.teams = response.data.data
+      apiClient.link.listTeams().then(response => {
+        this.teams = response.data
       })
     },
     handleListOptions() {
-      optionApi.listAll().then((response) => {
-        this.optionsModal.data = response.data.data
+      apiClient.option.list().then(response => {
+        this.optionsModal.data = response.data
       })
     },
+    handleEdit(record) {
+      this.form.model = record
+      this.$refs.linkForm.clearValidate()
+    },
     handleDeleteLink(id) {
-      linkApi
+      apiClient.link
         .delete(id)
-        .then((response) => {
+        .then(() => {
           this.$message.success('删除成功！')
         })
         .finally(() => {
@@ -388,18 +289,13 @@ export default {
           this.handleListLinkTeams()
         })
     },
-    handleParseUrl() {
-      linkApi.getByParse(this.form.model.url).then((response) => {
-        this.form.model = response.data.data
-      })
-    },
     handleCreateOrUpdateLink() {
       const _this = this
-      _this.$refs.linkForm.validate((valid) => {
+      _this.$refs.linkForm.validate(valid => {
         if (valid) {
           _this.form.saving = true
           if (_this.isUpdateMode) {
-            linkApi
+            apiClient.link
               .update(_this.form.model.id, _this.form.model)
               .catch(() => {
                 this.form.errored = true
@@ -410,7 +306,7 @@ export default {
                 }, 400)
               })
           } else {
-            linkApi
+            apiClient.link
               .create(_this.form.model)
               .catch(() => {
                 this.form.errored = true
@@ -425,19 +321,18 @@ export default {
       })
     },
     handleSavedCallback() {
-      const _this = this
-      if (_this.form.errored) {
-        _this.form.errored = false
+      if (this.form.errored) {
+        this.form.errored = false
       } else {
-        _this.form.model = {}
-        _this.handleListLinks()
-        _this.handleListLinkTeams()
+        this.form.model = {}
+        this.handleListLinks()
+        this.handleListLinkTeams()
       }
     },
     handleSaveOptions() {
-      optionApi
+      apiClient.option
         .save(this.optionsModal.data)
-        .then((response) => {
+        .then(() => {
           this.$message.success('保存成功！')
           this.optionsModal.visible = false
         })
@@ -445,7 +340,7 @@ export default {
           this.handleListOptions()
           this.refreshOptionsCache()
         })
-    },
-  },
+    }
+  }
 }
 </script>

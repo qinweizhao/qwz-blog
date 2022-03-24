@@ -3,29 +3,29 @@
     <!-- SideMenu -->
     <a-drawer
       v-if="isMobile()"
-      placement="left"
-      :wrapClassName="`drawer-sider ${navTheme}`"
       :closable="false"
       :visible="collapsed"
+      :wrapClassName="`drawer-sider ${navTheme}`"
+      placement="left"
       @close="drawerClose"
     >
       <side-menu
-        mode="inline"
-        :menus="menus"
-        :theme="navTheme"
         :collapsed="false"
         :collapsible="true"
+        :menus="menus"
+        :theme="navTheme"
+        mode="inline"
         @menuSelect="menuSelect"
       ></side-menu>
     </a-drawer>
 
     <side-menu
       v-else-if="isSideMenu()"
-      mode="inline"
-      :menus="menus"
-      :theme="navTheme"
       :collapsed="collapsed"
       :collapsible="true"
+      :menus="menus"
+      :theme="navTheme"
+      mode="inline"
     ></side-menu>
 
     <a-layout
@@ -34,11 +34,11 @@
     >
       <!-- layout header -->
       <global-header
-        :mode="layoutMode"
-        :menus="menus"
-        :theme="navTheme"
         :collapsed="collapsed"
         :device="device"
+        :menus="menus"
+        :mode="layoutMode"
+        :theme="navTheme"
         @toggle="toggle"
       />
 
@@ -63,8 +63,8 @@
 
 <script>
 import { triggerWindowResizeEvent } from '@/utils/util'
-import { mapState, mapActions } from 'vuex'
-import { mixin, mixinDevice } from '@/utils/mixin'
+import { mapActions } from 'vuex'
+import { mixin, mixinDevice } from '@/mixins/mixin'
 import config from '@/config/defaultSettings'
 import { asyncRouterMap } from '@/config/router.config.js'
 
@@ -94,12 +94,8 @@ export default {
     }
   },
   computed: {
-    ...mapState({
-      // 动态主路由
-      mainMenu: (state) => state.permission.addRouters
-    }),
     contentPaddingLeft() {
-      if (!this.fixSidebar || this.isMobile()) {
+      if (!this.fixedSidebar || this.isMobile()) {
         return '0'
       }
       if (this.sidebarOpened) {
@@ -114,8 +110,7 @@ export default {
     }
   },
   created() {
-    this.menus = asyncRouterMap.find((item) => item.path === '/').children
-    // this.menus = this.mainMenu.find((item) => item.path === '/').children
+    this.menus = asyncRouterMap.find(item => item.path === '/').children
     this.collapsed = !this.sidebarOpened
   },
   mounted() {
@@ -136,15 +131,6 @@ export default {
       this.setSidebar(!this.collapsed)
       triggerWindowResizeEvent()
     },
-    paddingCalc() {
-      let left = ''
-      if (this.sidebarOpened) {
-        left = this.isDesktop() ? '256px' : '80px'
-      } else {
-        left = (this.isMobile() && '0') || (this.fixSidebar && '80px') || '0'
-      }
-      return left
-    },
     menuSelect() {
       if (!this.isDesktop()) {
         this.collapsed = false
@@ -161,7 +147,7 @@ export default {
 </script>
 
 <style lang="less">
-@import url('../components/global.less');
+@import url('../styles/global.less');
 
 .page-transition-enter {
   opacity: 0;

@@ -1,53 +1,28 @@
 <template>
   <div class="comment-tab-wrapper">
-    <a-card
-      :bordered="false"
-      :bodyStyle="{ padding: 0 }"
-    >
+    <a-card :bodyStyle="{ padding: 0 }" :bordered="false">
       <div class="table-page-search-wrapper">
         <a-form layout="inline">
           <a-row :gutter="48">
-            <a-col
-              :md="6"
-              :sm="24"
-            >
+            <a-col :md="6" :sm="24">
               <a-form-item label="关键词：">
-                <a-input
-                  v-model="queryParam.keyword"
-                  @keyup.enter="handleQuery()"
-                />
+                <a-input v-model="list.params.keyword" @keyup.enter="handleQuery()" />
               </a-form-item>
             </a-col>
-            <a-col
-              :md="6"
-              :sm="24"
-            >
+            <a-col :md="6" :sm="24">
               <a-form-item label="评论状态：">
-                <a-select
-                  v-model="queryParam.status"
-                  placeholder="请选择评论状态"
-                  @change="handleQuery()"
-                  allowClear
-                >
-                  <a-select-option
-                    v-for="status in Object.keys(commentStatus)"
-                    :key="status"
-                    :value="status"
-                  >{{ commentStatus[status].text }}</a-select-option>
+                <a-select v-model="list.params.status" allowClear placeholder="请选择评论状态" @change="handleQuery()">
+                  <a-select-option v-for="status in Object.keys(commentStatuses)" :key="status" :value="status">
+                    {{ commentStatuses[status].text }}
+                  </a-select-option>
                 </a-select>
               </a-form-item>
             </a-col>
 
-            <a-col
-              :md="12"
-              :sm="24"
-            >
+            <a-col :md="12" :sm="24">
               <span class="table-page-search-submitButtons">
                 <a-space>
-                  <a-button
-                    type="primary"
-                    @click="handleQuery()"
-                  >查询</a-button>
+                  <a-button type="primary" @click="handleQuery()">查询</a-button>
                   <a-button @click="handleResetParam()">重置</a-button>
                 </a-space>
               </span>
@@ -57,393 +32,292 @@
       </div>
 
       <div class="table-operator">
-        <a-dropdown v-show="queryParam.status!=null && queryParam.status!='' && !isMobile()">
-          <a-menu slot="overlay">
-            <a-menu-item
-              key="1"
-              v-if="queryParam.status ==='AUDITING'"
-            >
-              <a
-                href="javascript:void(0);"
-                @click="handleEditStatusMore(commentStatus.PUBLISHED.value)"
+        <a-dropdown v-show="list.params.status != null && list.params.status !== '' && !isMobile()">
+          <template #overlay>
+            <a-menu>
+              <a-menu-item
+                v-if="list.params.status === commentStatuses.AUDITING.value"
+                key="1"
+                @click="handleChangeStatusInBatch(commentStatuses.PUBLISHED.value)"
               >
                 通过
-              </a>
-            </a-menu-item>
-            <a-menu-item
-              key="2"
-              v-if="queryParam.status === 'PUBLISHED' || queryParam.status ==='AUDITING'"
-            >
-              <a
-                href="javascript:void(0);"
-                @click="handleEditStatusMore(commentStatus.RECYCLE.value)"
+              </a-menu-item>
+              <a-menu-item
+                v-if="[commentStatuses.PUBLISHED.value, commentStatuses.AUDITING.value].includes(list.params.status)"
+                key="2"
+                @click="handleChangeStatusInBatch(commentStatuses.RECYCLE.value)"
               >
                 移到回收站
-              </a>
-            </a-menu-item>
-            <a-menu-item
-              key="3"
-              v-if="queryParam.status === 'RECYCLE'"
-            >
-              <a
-                href="javascript:void(0);"
-                @click="handleDeleteMore"
+              </a-menu-item>
+              <a-menu-item
+                v-if="list.params.status === commentStatuses.RECYCLE.value"
+                key="3"
+                @click="handleDeleteInBatch"
               >
                 永久删除
-              </a>
-            </a-menu-item>
-          </a-menu>
+              </a-menu-item>
+            </a-menu>
+          </template>
           <a-button>
             批量操作
             <a-icon type="down" />
           </a-button>
         </a-dropdown>
       </div>
+
       <div class="mt-4">
         <!-- Mobile -->
         <a-list
           v-if="isMobile()"
+          :dataSource="list.data"
+          :loading="list.loading"
+          :pagination="false"
           itemLayout="vertical"
           size="large"
-          :pagination="false"
-          :dataSource="formattedComments"
-          :loading="loading"
         >
-          <a-list-item
-            slot="renderItem"
-            slot-scope="item, index"
-            :key="index"
-          >
-            <template slot="actions">
-              <a-dropdown
-                placement="topLeft"
-                :trigger="['click']"
-              >
-                <span>
-                  <a-icon type="bars" />
-                </span>
-                <a-menu slot="overlay">
-                  <a-menu-item v-if="item.status === 'AUDITING'">
-                    <a
-                      href="javascript:;"
-                      @click="handleEditStatusClick(item.id,'PUBLISHED')"
-                    >通过</a>
-                  </a-menu-item>
-                  <a-menu-item v-if="item.status === 'AUDITING'">
-                    <a
-                      href="javascript:;"
-                      @click="handleReplyAndPassClick(item)"
-                    >通过并回复</a>
-                  </a-menu-item>
-                  <a-menu-item v-else-if="item.status === 'PUBLISHED'">
-                    <a
-                      href="javascript:;"
-                      @click="handleReplyClick(item)"
-                    >回复</a>
-                  </a-menu-item>
-                  <a-menu-item v-else-if="item.status === 'RECYCLE'">
-                    <a-popconfirm
-                      :title="'你确定要还原该评论？'"
-                      @confirm="handleEditStatusClick(item.id,'PUBLISHED')"
-                      okText="确定"
-                      cancelText="取消"
-                    >
-                      <a href="javascript:;">还原</a>
-                    </a-popconfirm>
-                  </a-menu-item>
-                  <a-menu-item v-if="item.status === 'PUBLISHED' || item.status === 'AUDITING'">
-                    <a-popconfirm
-                      :title="'你确定要将该评论移到回收站？'"
-                      @confirm="handleEditStatusClick(item.id,'RECYCLE')"
-                      okText="确定"
-                      cancelText="取消"
-                    >
-                      <a href="javascript:;">回收站</a>
-                    </a-popconfirm>
-                  </a-menu-item>
-                  <a-menu-item v-else-if="item.status === 'RECYCLE'">
-                    <a-popconfirm
-                      :title="'你确定要永久删除该评论？'"
-                      @confirm="handleDeleteClick(item.id)"
-                      okText="确定"
-                      cancelText="取消"
-                    >
-                      <a href="javascript:;">删除</a>
-                    </a-popconfirm>
-                  </a-menu-item>
-                </a-menu>
-              </a-dropdown>
-            </template>
-            <template slot="extra">
-              <span>
-                <a-badge
-                  :status="item.statusProperty.status"
-                  :text="item.statusProperty.text"
-                />
-              </span>
-            </template>
-            <a-list-item-meta>
-              <template slot="description">
-                发表在
-                <a
-                  v-if="type==='posts'"
-                  :href="item.post.fullPath"
-                  target="_blank"
-                >《{{ item.post.title }}》</a>
-                <a
-                  v-if="type === 'sheets'"
-                  :href="item.sheet.fullPath"
-                  target="_blank"
-                >《{{ item.sheet.title }}》</a>
+          <template #renderItem="item, index">
+            <a-list-item :key="index">
+              <template #actions>
+                <a-dropdown :trigger="['click']" placement="topLeft">
+                  <span>
+                    <a-icon type="bars" />
+                  </span>
+                  <template #overlay>
+                    <a-menu>
+                      <a-menu-item
+                        v-if="item.status === commentStatuses.AUDITING.value"
+                        @click="handleChangeStatus(item.id, commentStatuses.PUBLISHED.value)"
+                      >
+                        通过
+                      </a-menu-item>
+                      <a-menu-item
+                        v-if="item.status === commentStatuses.AUDITING.value"
+                        @click="handlePublishAndReply(item)"
+                      >
+                        通过并回复
+                      </a-menu-item>
+                      <a-menu-item
+                        v-else-if="item.status === commentStatuses.PUBLISHED.value"
+                        @click="handleOpenReplyModal(item)"
+                      >
+                        回复
+                      </a-menu-item>
+                      <a-menu-item v-else-if="item.status === commentStatuses.RECYCLE.value">
+                        <a-popconfirm
+                          :title="'你确定要还原该评论？'"
+                          cancelText="取消"
+                          okText="确定"
+                          @confirm="handleChangeStatus(item.id, commentStatuses.PUBLISHED.value)"
+                        >
+                          还原
+                        </a-popconfirm>
+                      </a-menu-item>
+                      <a-menu-item
+                        v-if="[commentStatuses.PUBLISHED.value, commentStatuses.AUDITING.value].includes(item.status)"
+                      >
+                        <a-popconfirm
+                          :title="'你确定要将该评论移到回收站？'"
+                          cancelText="取消"
+                          okText="确定"
+                          @confirm="handleChangeStatus(item.id, commentStatuses.RECYCLE.value)"
+                        >
+                          回收站
+                        </a-popconfirm>
+                      </a-menu-item>
+                      <a-menu-item v-else-if="item.status === commentStatuses.RECYCLE.value">
+                        <a-popconfirm
+                          :title="'你确定要永久删除该评论？'"
+                          cancelText="取消"
+                          okText="确定"
+                          @confirm="handleDelete(item.id)"
+                        >
+                          删除
+                        </a-popconfirm>
+                      </a-menu-item>
+                    </a-menu>
+                  </template>
+                </a-dropdown>
               </template>
-              <a-avatar
-                slot="avatar"
-                size="large"
-                :src="'//cn.gravatar.com/avatar/' + item.gravatarMd5 + '&d=mm'"
-              />
-              <span
-                slot="title"
-                style="max-width: 300px;display: block;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;"
-                v-if="item.authorUrl"
-              >
-                <a-icon
-                  type="user"
-                  v-if="item.isAdmin"
-                  style="margin-right: 3px;"
-                />&nbsp;
-                <a
-                  :href="item.authorUrl"
-                  target="_blank"
-                >{{ item.author }}</a>
-                &nbsp;<small style="color:rgba(0, 0, 0, 0.45)">{{ item.createTime | timeAgo }}</small>
-              </span>
-              <span
-                slot="title"
-                style="max-width: 300px;display: block;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;"
-                v-else
-              >
-                <a-icon
-                  type="user"
-                  v-if="item.isAdmin"
-                  style="margin-right: 3px;"
-                />&nbsp;{{ item.author }}&nbsp;<small style="color:rgba(0, 0, 0, 0.45)">{{ item.createTime | timeAgo }}</small>
-              </span>
-            </a-list-item-meta>
-            <p v-html="item.content"></p>
-          </a-list-item>
+              <template #extra>
+                <a-badge :status="commentStatuses[item.status].status" :text="item.status | statusText" />
+              </template>
+              <a-list-item-meta>
+                <template #description>
+                  发表在
+                  <a v-if="targetName === 'posts'" :href="item.post.fullPath" target="_blank">
+                    《{{ item.post.title }}》
+                  </a>
+                  <a v-if="targetName === 'sheets'" :href="item.sheet.fullPath" target="_blank">
+                    《{{ item.sheet.title }}》
+                  </a>
+                  <a v-if="targetName === 'journals'" href="javascript:void(0);">
+                    《{{ item.journal.createTime | moment }}》
+                  </a>
+                </template>
+
+                <template #avatar>
+                  <a-avatar :src="item.avatar" size="large" />
+                </template>
+
+                <template #title>
+                  <div class="truncate">
+                    <a-icon v-if="item.isAdmin" class="mr-2" type="user" />
+
+                    <a v-if="item.authorUrl" :href="item.authorUrl" class="mr-1" target="_blank">{{ item.author }}</a>
+                    <span v-else class="mr-1">{{ item.author }}</span>
+
+                    <small style="color: rgba(0, 0, 0, 0.45)">
+                      {{ item.createTime | timeAgo }}
+                    </small>
+                  </div>
+                </template>
+              </a-list-item-meta>
+              <div class="comment-content-wrapper" v-html="$options.filters.markdownRender(item.content)"></div>
+            </a-list-item>
+          </template>
         </a-list>
         <!-- Desktop -->
         <a-table
           v-else
+          :columns="columns"
+          :dataSource="list.data"
+          :loading="list.loading"
+          :pagination="false"
           :rowKey="comment => comment.id"
           :rowSelection="{
             selectedRowKeys: selectedRowKeys,
             onChange: onSelectionChange,
             getCheckboxProps: getCheckboxProps
           }"
-          :columns="columns"
-          :dataSource="formattedComments"
-          :loading="loading"
-          :pagination="false"
           scrollToFirstRowOnChange
         >
-          <template
-            slot="author"
-            slot-scope="text,record"
-          >
-            <a-icon
-              type="user"
-              v-if="record.isAdmin"
-              style="margin-right: 3px;"
-            />
-            <a
-              :href="record.authorUrl"
-              target="_blank"
-              v-if="record.authorUrl"
-            >{{ text }}</a>
+          <template #author="text, record">
+            <a-icon v-if="record.isAdmin" class="mr-2" type="user" />
+            <a v-if="record.authorUrl" :href="record.authorUrl" target="_blank">{{ text }}</a>
             <span v-else>{{ text }}</span>
           </template>
-          <p
-            class="comment-content-wrapper"
-            slot="content"
-            slot-scope="content"
-            v-html="content"
-          >
-          </p>
-          <span
-            slot="status"
-            slot-scope="statusProperty"
-          >
-            <a-badge
-              :status="statusProperty.status"
-              :text="statusProperty.text"
-            />
-          </span>
-          <a
-            v-if="type==='posts'"
-            slot="post"
-            slot-scope="post"
-            :href="post.fullPath"
-            target="_blank"
-          >{{ post.title }}</a>
-          <a
-            v-if="type === 'sheets'"
-            slot="sheet"
-            slot-scope="sheet"
-            :href="sheet.fullPath"
-            target="_blank"
-          >{{ sheet.title }}</a>
-          <span
-            slot="createTime"
-            slot-scope="createTime"
-          >
+
+          <template #content="content">
+            <div class="comment-content-wrapper" v-html="$options.filters.markdownRender(content)"></div>
+          </template>
+
+          <template #status="status">
+            <a-badge :status="commentStatuses[status].status" :text="status | statusText" />
+          </template>
+
+          <template v-if="targetName === 'posts'" #post="post">
+            <a :href="post.fullPath" target="_blank">
+              {{ post.title }}
+            </a>
+          </template>
+
+          <template v-if="targetName === 'sheets'" #sheet="sheet">
+            <a :href="sheet.fullPath" target="_blank">
+              {{ sheet.title }}
+            </a>
+          </template>
+
+          <template v-if="targetName === 'journals'" #journal="journal">
+            <p class="comment-content-wrapper" v-html="journal.content"></p>
+          </template>
+
+          <template #createTime="createTime">
             <a-tooltip placement="top">
-              <template slot="title">
+              <template #title>
                 {{ createTime | moment }}
               </template>
               {{ createTime | timeAgo }}
             </a-tooltip>
-          </span>
-          <span
-            slot="action"
-            slot-scope="text, record"
-          >
+          </template>
 
-            <a-dropdown
-              :trigger="['click']"
-              v-if="record.status === 'AUDITING'"
-            >
-              <a
-                href="javascript:void(0);"
-                class="ant-dropdown-link"
-              >通过</a>
-              <a-menu slot="overlay">
-                <a-menu-item key="1">
-                  <a
-                    href="javascript:void(0);"
-                    @click="handleEditStatusClick(record.id,'PUBLISHED')"
-                  >通过</a>
-                </a-menu-item>
-                <a-menu-item key="2">
-                  <a
-                    href="javascript:void(0);"
-                    @click="handleReplyAndPassClick(record)"
-                  >通过并回复</a>
-                </a-menu-item>
-              </a-menu>
+          <template #action="text, record">
+            <a-dropdown v-if="record.status === commentStatuses.AUDITING.value" :trigger="['click']">
+              <a-button class="!p-0" type="link">通过</a-button>
+
+              <template #overlay>
+                <a-menu>
+                  <a-menu-item key="1" @click="handleChangeStatus(record.id, commentStatuses.PUBLISHED.value)">
+                    通过
+                  </a-menu-item>
+                  <a-menu-item key="2" @click="handlePublishAndReply(record)"> 通过并回复</a-menu-item>
+                </a-menu>
+              </template>
             </a-dropdown>
 
-            <a
-              href="javascript:void(0);"
-              v-else-if="record.status === 'PUBLISHED'"
-              @click="handleReplyClick(record)"
-            >回复</a>
+            <a-button
+              v-else-if="record.status === commentStatuses.PUBLISHED.value"
+              class="!p-0"
+              type="link"
+              @click="handleOpenReplyModal(record)"
+            >
+              回复
+            </a-button>
 
             <a-popconfirm
+              v-else-if="record.status === commentStatuses.RECYCLE.value"
               :title="'你确定要还原该评论？'"
-              @confirm="handleEditStatusClick(record.id,'PUBLISHED')"
-              okText="确定"
               cancelText="取消"
-              v-else-if="record.status === 'RECYCLE'"
+              okText="确定"
+              @confirm="handleChangeStatus(record.id, commentStatuses.PUBLISHED.value)"
             >
-              <a href="javascript:;">还原</a>
+              <a-button class="!p-0" type="link">还原</a-button>
             </a-popconfirm>
 
             <a-divider type="vertical" />
 
             <a-popconfirm
+              v-if="[commentStatuses.PUBLISHED.value, commentStatuses.AUDITING.value].includes(record.status)"
               :title="'你确定要将该评论移到回收站？'"
-              @confirm="handleEditStatusClick(record.id,'RECYCLE')"
-              okText="确定"
               cancelText="取消"
-              v-if="record.status === 'PUBLISHED' || record.status === 'AUDITING'"
+              okText="确定"
+              @confirm="handleChangeStatus(record.id, commentStatuses.RECYCLE.value)"
             >
-              <a href="javascript:;">回收站</a>
+              <a-button class="!p-0" type="link">回收站</a-button>
             </a-popconfirm>
 
             <a-popconfirm
+              v-else-if="record.status === commentStatuses.RECYCLE.value"
               :title="'你确定要永久删除该评论？'"
-              @confirm="handleDeleteClick(record.id)"
-              okText="确定"
               cancelText="取消"
-              v-else-if="record.status === 'RECYCLE'"
+              okText="确定"
+              @confirm="handleDelete(record.id)"
             >
-              <a href="javascript:;">删除</a>
+              <a-button class="!p-0" type="link">删除</a-button>
             </a-popconfirm>
-
-            <!-- <a-divider type="vertical" />
-
-            <a
-              href="javascript:;"
-              @click="handleShowDetailDrawer(record)"
-            >详情</a> -->
-          </span>
+          </template>
         </a-table>
         <div class="page-wrapper">
           <a-pagination
-            class="pagination"
             :current="pagination.page"
-            :total="pagination.total"
             :defaultPageSize="pagination.size"
-            :pageSizeOptions="['1', '2', '5', '10', '20', '50', '100']"
-            showSizeChanger
-            @showSizeChange="handlePaginationChange"
-            @change="handlePaginationChange"
+            :pageSizeOptions="['10', '20', '50', '100']"
+            :total="pagination.total"
+            class="pagination"
             showLessItems
+            showSizeChanger
+            @change="handlePageChange"
+            @showSizeChange="handlePageSizeChange"
           />
         </div>
       </div>
     </a-card>
 
-    <a-modal
-      v-if="selectedComment"
-      :title="'回复给：'+selectedComment.author"
-      v-model="replyCommentVisible"
-      @close="onReplyClose"
-      destroyOnClose
-    >
-      <template slot="footer">
-        <ReactiveButton
-          type="primary"
-          @click="handleCreateClick"
-          @callback="handleRepliedCallback"
-          :loading="replying"
-          :errored="replyErrored"
-          text="回复"
-          loadedText="回复成功"
-          erroredText="回复失败"
-        ></ReactiveButton>
-      </template>
-      <a-form-model
-        ref="replyCommentForm"
-        :model="replyComment"
-        :rules="replyCommentRules"
-        layout="vertical"
-      >
-        <a-form-model-item prop="content">
-          <a-input
-            ref="contentInput"
-            type="textarea"
-            :autoSize="{ minRows: 8 }"
-            v-model.trim="replyComment.content"
-          />
-        </a-form-model-item>
-      </a-form-model>
-    </a-modal>
-    <!-- <CommentDetail
-      v-model="commentDetailVisible"
-      v-if="selectedComment"
+    <CommentReplyModal
       :comment="selectedComment"
-      :type="this.type"
-    /> -->
+      :target="target"
+      :target-id="targetId"
+      :visible.sync="replyModalVisible"
+      @succeed="onReplyModalClose"
+    />
   </div>
 </template>
 <script>
-import { mixin, mixinDevice } from '@/utils/mixin.js'
-import CommentDetail from './CommentDetail'
-import marked from 'marked'
-import commentApi from '@/api/comment'
-import { decodeHTML } from '@/utils/util'
+// components
+import CommentReplyModal from '@/components/Comment/CommentReplyModal'
+
+import { mixin, mixinDevice } from '@/mixins/mixin.js'
+import apiClient from '@/utils/api-client'
+import { commentStatuses } from '@/core/constant'
 
 const postColumns = [
   {
@@ -451,39 +325,38 @@ const postColumns = [
     dataIndex: 'author',
     width: '150px',
     ellipsis: true,
-    scopedSlots: { customRender: 'author' },
+    scopedSlots: { customRender: 'author' }
   },
   {
     title: '内容',
     dataIndex: 'content',
-    scopedSlots: { customRender: 'content' },
+    scopedSlots: { customRender: 'content' }
   },
   {
     title: '状态',
-    className: 'status',
-    dataIndex: 'statusProperty',
+    dataIndex: 'status',
     width: '100px',
-    scopedSlots: { customRender: 'status' },
+    scopedSlots: { customRender: 'status' }
   },
   {
     title: '评论文章',
     dataIndex: 'post',
     width: '200px',
     ellipsis: true,
-    scopedSlots: { customRender: 'post' },
+    scopedSlots: { customRender: 'post' }
   },
   {
     title: '日期',
     dataIndex: 'createTime',
     width: '170px',
-    scopedSlots: { customRender: 'createTime' },
+    scopedSlots: { customRender: 'createTime' }
   },
   {
     title: '操作',
     dataIndex: 'action',
     width: '180px',
-    scopedSlots: { customRender: 'action' },
-  },
+    scopedSlots: { customRender: 'action' }
+  }
 ]
 const sheetColumns = [
   {
@@ -491,253 +364,311 @@ const sheetColumns = [
     dataIndex: 'author',
     width: '150px',
     ellipsis: true,
-    scopedSlots: { customRender: 'author' },
+    scopedSlots: { customRender: 'author' }
   },
   {
     title: '内容',
     dataIndex: 'content',
-    scopedSlots: { customRender: 'content' },
+    scopedSlots: { customRender: 'content' }
   },
   {
     title: '状态',
-    className: 'status',
-    dataIndex: 'statusProperty',
+    dataIndex: 'status',
     width: '100px',
-    scopedSlots: { customRender: 'status' },
+    scopedSlots: { customRender: 'status' }
   },
   {
     title: '评论页面',
     dataIndex: 'sheet',
     width: '200px',
     ellipsis: true,
-    scopedSlots: { customRender: 'sheet' },
+    scopedSlots: { customRender: 'sheet' }
   },
   {
     title: '日期',
     dataIndex: 'createTime',
     width: '170px',
-    scopedSlots: { customRender: 'createTime' },
+    scopedSlots: { customRender: 'createTime' }
   },
   {
     title: '操作',
     dataIndex: 'action',
     width: '180px',
-    scopedSlots: { customRender: 'action' },
-  },
+    scopedSlots: { customRender: 'action' }
+  }
 ]
+
+const journalColumns = [
+  {
+    title: '昵称',
+    dataIndex: 'author',
+    width: '150px',
+    ellipsis: true,
+    scopedSlots: { customRender: 'author' }
+  },
+  {
+    title: '内容',
+    dataIndex: 'content',
+    scopedSlots: { customRender: 'content' }
+  },
+  {
+    title: '状态',
+    dataIndex: 'status',
+    width: '100px',
+    scopedSlots: { customRender: 'status' }
+  },
+  {
+    title: '评论日志',
+    dataIndex: 'journal',
+    width: '400px',
+    ellipsis: true,
+    scopedSlots: { customRender: 'journal' }
+  },
+  {
+    title: '日期',
+    dataIndex: 'createTime',
+    width: '170px',
+    scopedSlots: { customRender: 'createTime' }
+  },
+  {
+    title: '操作',
+    dataIndex: 'action',
+    width: '180px',
+    scopedSlots: { customRender: 'action' }
+  }
+]
+
 export default {
   name: 'CommentTab',
+  components: { CommentReplyModal },
   mixins: [mixin, mixinDevice],
-  components: {
-    CommentDetail,
-  },
   props: {
-    type: {
+    target: {
       type: String,
       required: false,
-      default: 'posts',
-      validator: function(value) {
-        return ['posts', 'sheets', 'journals'].indexOf(value) !== -1
-      },
+      default: 'post',
+      validator: function (value) {
+        return ['post', 'sheet', 'journal'].indexOf(value) !== -1
+      }
     },
+    defaultStatus: {
+      type: String,
+      default: undefined
+    }
   },
   data() {
     return {
-      columns: this.type === 'posts' ? postColumns : sheetColumns,
-      replyCommentVisible: false,
-      pagination: {
-        page: 1,
-        size: 10,
-        sort: null,
-        total: 1,
+      commentStatuses,
+
+      list: {
+        data: [],
+        loading: false,
+        total: 0,
+        hasPrevious: false,
+        hasNext: false,
+        params: {
+          page: 0,
+          size: 10,
+          keyword: null,
+          status: undefined
+        }
       },
-      queryParam: {
-        page: 0,
-        size: 10,
-        sort: null,
-        keyword: null,
-        status: null,
-      },
+
       selectedRowKeys: [],
       selectedRows: [],
-      comments: [],
       selectedComment: {},
-      replyComment: {},
-      replyCommentRules: {
-        content: [{ required: true, message: '* 内容不能为空', trigger: ['change'] }],
-      },
-      loading: false,
-      commentStatus: commentApi.commentStatus,
-      commentDetailVisible: false,
-      replying: false,
-      replyErrored: false,
+      replyModalVisible: false
     }
   },
-  created() {
-    this.handleListComments()
-  },
   computed: {
-    formattedComments() {
-      return this.comments.map((comment) => {
-        comment.statusProperty = this.commentStatus[comment.status]
-        comment.content = marked(decodeHTML(comment.content))
-        return comment
-      })
+    pagination() {
+      return {
+        page: this.list.params.page + 1,
+        size: this.list.params.size,
+        total: this.list.total
+      }
     },
+    columns() {
+      if (this.targetName === 'posts') return postColumns
+      if (this.targetName === 'sheets') return sheetColumns
+      if (this.targetName === 'journals') return journalColumns
+      return {}
+    },
+    targetName() {
+      return `${this.target}s`
+    },
+    targetId() {
+      if (Object.keys(this.selectedComment).length === 0) {
+        return 0
+      }
+      if (this.targetName === 'posts') {
+        return this.selectedComment.post.id
+      }
+      if (this.targetName === 'sheets') {
+        return this.selectedComment.sheet.id
+      }
+      if (this.targetName === 'journals') {
+        return this.selectedComment.journal.id
+      }
+      return 0
+    }
+  },
+  watch: {
+    defaultStatus(status) {
+      this.list.params.status = status
+      this.$nextTick(() => {
+        this.handleListComments()
+      })
+    }
+  },
+  mounted() {
+    this.list.params.status = this.defaultStatus
+    this.$nextTick(() => {
+      this.handleListComments()
+    })
   },
   methods: {
-    handleListComments() {
-      this.loading = true
-      this.queryParam.page = this.pagination.page - 1
-      this.queryParam.size = this.pagination.size
-      this.queryParam.sort = this.pagination.sort
-      commentApi
-        .queryComment(this.type, this.queryParam)
-        .then((response) => {
-          this.comments = response.data.data.content
-          this.pagination.total = response.data.data.total
-        })
-        .finally(() => {
-          setTimeout(() => {
-            this.loading = false
-          }, 200)
-        })
+    async handleListComments() {
+      try {
+        this.list.loading = true
+
+        const response = await apiClient.comment.list(this.targetName, this.list.params)
+
+        this.list.data = response.data.content
+        this.list.total = response.data.total
+        this.list.hasPrevious = response.data.hasPrevious
+        this.list.hasNext = response.data.hasNext
+      } catch (e) {
+        this.$log.error(e)
+      } finally {
+        this.list.loading = false
+      }
     },
+
     handleQuery() {
       this.handleClearRowKeys()
-      this.handlePaginationChange(1, this.pagination.size)
+      this.handlePageChange(1)
     },
-    handleEditStatusClick(commentId, status) {
-      commentApi
-        .updateStatus(this.type, commentId, status)
-        .then((response) => {
-          this.$message.success('操作成功！')
-        })
-        .finally(() => {
-          this.handleListComments()
-        })
+
+    async handleChangeStatus(commentId, status) {
+      try {
+        await apiClient.comment.updateStatusById(this.targetName, commentId, status)
+        this.$message.success('操作成功！')
+      } catch (e) {
+        this.$log.error('Failed to change comment status', e)
+      } finally {
+        await this.handleListComments()
+      }
     },
-    handleDeleteClick(commentId) {
-      commentApi
-        .delete(this.type, commentId)
-        .then((response) => {
-          this.$message.success('删除成功！')
-        })
-        .finally(() => {
-          this.handleListComments()
-        })
+
+    async handleChangeStatusInBatch(status) {
+      if (!this.selectedRowKeys.length) {
+        this.$message.info('请至少选择一项！')
+        return
+      }
+
+      try {
+        this.$log.debug(`commentIds: ${this.selectedRowKeys}, status: ${status}`)
+        await apiClient.comment.updateStatusInBatch(this.targetName, this.selectedRowKeys, status)
+        this.selectedRowKeys = []
+      } catch (e) {
+        this.$log.error('Failed to change comment status in batch', e)
+      } finally {
+        await this.handleListComments()
+      }
     },
-    handleReplyAndPassClick(comment) {
-      this.handleReplyClick(comment)
-      this.handleEditStatusClick(comment.id, 'PUBLISHED')
+
+    async handleDelete(commentId) {
+      try {
+        await apiClient.comment.delete(this.targetName, commentId)
+        this.$message.success('删除成功！')
+      } catch (e) {
+        this.$log.error('Failed to delete comment', e)
+      } finally {
+        await this.handleListComments()
+      }
     },
-    handleReplyClick(comment) {
+
+    async handleDeleteInBatch() {
+      if (!this.selectedRowKeys.length) {
+        this.$message.info('请至少选择一项！')
+        return
+      }
+
+      try {
+        this.$log.debug(`delete: ${this.selectedRowKeys}`)
+        await apiClient.comment.deleteInBatch(this.targetName, this.selectedRowKeys)
+        this.selectedRowKeys = []
+      } catch (e) {
+        this.$log.error('Failed to delete comments in batch', e)
+      } finally {
+        await this.handleListComments()
+      }
+    },
+
+    async handlePublishAndReply(comment) {
+      await this.handleChangeStatus(comment.id, this.commentStatuses.PUBLISHED.value)
+      this.handleOpenReplyModal(comment)
+    },
+
+    handleOpenReplyModal(comment) {
       this.selectedComment = comment
-      this.replyCommentVisible = true
-      this.replyComment.parentId = comment.id
-      if (this.type === 'posts') {
-        this.replyComment.postId = comment.post.id
-      } else {
-        this.replyComment.postId = comment.sheet.id
-      }
-      this.$nextTick(() => {
-        this.$refs.contentInput.focus()
-      })
+      this.replyModalVisible = true
     },
-    handleCreateClick() {
-      const _this = this
-      _this.$refs.replyCommentForm.validate((valid) => {
-        if (valid) {
-          _this.replying = true
-          commentApi
-            .create(_this.type, _this.replyComment)
-            .catch(() => {
-              _this.replyErrored = true
-            })
-            .finally(() => {
-              setTimeout(() => {
-                _this.replying = false
-              }, 400)
-            })
-        }
-      })
-    },
-    handleRepliedCallback() {
-      if (this.replyErrored) {
-        this.replyErrored = false
-      } else {
-        this.replyComment = {}
-        this.selectedComment = {}
-        this.replyCommentVisible = false
-        this.handleListComments()
-      }
-    },
-    handlePaginationChange(page, pageSize) {
-      this.$log.debug(`Current: ${page}, PageSize: ${pageSize}`)
-      this.pagination.page = page
-      this.pagination.size = pageSize
+
+    /**
+     * Handle page change
+     */
+    handlePageChange(page = 1) {
+      this.list.params.page = page - 1
       this.handleListComments()
     },
+
+    /**
+     * Handle page size change
+     */
+    handlePageSizeChange(current, size) {
+      this.$log.debug(`Current: ${current}, PageSize: ${size}`)
+      this.list.params.page = 0
+      this.list.params.size = size
+      this.handleListComments()
+    },
+
     handleResetParam() {
-      this.queryParam.keyword = null
-      this.queryParam.status = null
+      this.list.params.keyword = null
+      this.list.params.status = undefined
       this.handleClearRowKeys()
-      this.handlePaginationChange(1, this.pagination.size)
+      this.handlePageChange(1)
     },
-    handleEditStatusMore(status) {
-      if (this.selectedRowKeys.length <= 0) {
-        this.$message.info('请至少选择一项！')
-        return
-      }
-      commentApi
-        .updateStatusInBatch(this.type, this.selectedRowKeys, status)
-        .then((response) => {
-          this.$log.debug(`commentIds: ${this.selectedRowKeys}, status: ${status}`)
-          this.selectedRowKeys = []
-        })
-        .finally(() => {
-          this.handleListComments()
-        })
-    },
-    handleDeleteMore() {
-      if (this.selectedRowKeys.length <= 0) {
-        this.$message.info('请至少选择一项！')
-        return
-      }
-      commentApi
-        .deleteInBatch(this.type, this.selectedRowKeys)
-        .then((response) => {
-          this.$log.debug(`delete: ${this.selectedRowKeys}`)
-          this.selectedRowKeys = []
-        })
-        .finally(() => {
-          this.handleListComments()
-        })
-    },
+
     handleClearRowKeys() {
       this.selectedRowKeys = []
     },
-    onReplyClose() {
-      this.replyComment = {}
+
+    onReplyModalClose() {
       this.selectedComment = {}
-      this.replyCommentVisible = false
+      this.replyModalVisible = false
+      this.handleListComments()
     },
+
     onSelectionChange(selectedRowKeys) {
       this.selectedRowKeys = selectedRowKeys
       this.$log.debug(`SelectedRowKeys: ${selectedRowKeys}`)
     },
+
     getCheckboxProps(comment) {
       return {
         props: {
-          disabled: this.queryParam.status == null || this.queryParam.status === '',
-          name: comment.author,
-        },
+          disabled: this.list.params.status == null || this.list.params.status === '',
+          name: comment.author
+        }
       }
-    },
-    handleShowDetailDrawer(comment) {
-      this.selectedComment = comment
-      this.commentDetailVisible = true
-    },
+    }
   },
+  filters: {
+    statusText(type) {
+      return type ? commentStatuses[type].text : ''
+    }
+  }
 }
 </script>

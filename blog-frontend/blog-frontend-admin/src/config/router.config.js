@@ -70,7 +70,7 @@ export const asyncRouterMap = [
         path: '/interface/menus',
         name: 'MenuList',
         component: () => import('@/views/interface/MenuList'),
-        meta: { title: '菜单', hiddenHeaderContent: false }
+        meta: { title: '菜单', icon: 'menu', hiddenHeaderContent: false }
       },
       // sheets
       {
@@ -125,10 +125,9 @@ export const asyncRouterMap = [
         meta: { title: '主题', icon: 'skin' },
         children: [
           {
-            path: '/interface/themes',
-            name: 'ThemeList',
-            component: () => import('@/views/interface/ThemeList'),
-            // component: () => import('@/views/interface/components/ThemeSettingDrawer'),
+            path: '/interface/themes/setting',
+            name: 'ThemeSetting',
+            component: () => import('@/views/interface/ThemeSetting'),
             meta: { title: '设置', hiddenHeaderContent: false }
           },
           {
@@ -203,12 +202,12 @@ export const constantRouterMap = [
     meta: { title: '登录' },
     component: () => import('@/views/user/Login')
   },
-  {
-    path: '/install',
-    name: 'Install',
-    meta: { title: '安装向导' },
-    component: () => import('@/views/system/Installation')
-  },
+  // {
+  //   path: '/install',
+  //   name: 'Install',
+  //   meta: { title: '安装向导' },
+  //   component: () => import('@/views/system/Installation')
+  // },
   {
     path: '/password/reset',
     name: 'ResetPassword',

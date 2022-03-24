@@ -1,27 +1,27 @@
 <template>
   <div class="logo">
-    <a
-      href="javascript:void(0);"
+    <img
+      :style="{ width: sidebarOpened ? '64px' : '48px' }"
+      alt="Halo Logo"
+      class="select-none cursor-pointer hover:brightness-125 transition-all"
+      src="/images/logo.svg"
       @click="onLogoClick()"
-    >
-      <h1
-        class="logo-sub-title"
-      >Monday_1201</h1>
-    </a>
+    />
   </div>
 </template>
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
-import optionApi from '@/api/option'
+import apiClient from '@/utils/api-client'
+import throttle from 'lodash.throttle'
+import { mixin } from '@/mixins/mixin'
+
 export default {
   name: 'Logo',
+  mixins: [mixin],
   data() {
     return {
-      clickCount: 0,
-      optionsToCreate: {
-        developer_mode: true
-      }
+      clickCount: 0
     }
   },
   computed: {
@@ -29,16 +29,22 @@ export default {
   },
   methods: {
     ...mapActions(['refreshOptionsCache']),
-    onLogoClick() {
+    onLogoClick: throttle(async function () {
       this.clickCount++
       if (this.clickCount === 10) {
-        optionApi.save(this.optionsToCreate).then((response) => {
-          this.refreshOptionsCache()
+        try {
+          await apiClient.option.saveMapView({ developer_mode: true })
+
+          await this.refreshOptionsCache()
           this.$message.success(`开发者选项已启用！`)
           this.clickCount = 0
-          this.$router.push({ name: 'ToolList' })
-        })
-      } else if (this.clickCount >= 5) {
+          this.$router.push({ name: 'ToolList' }).catch(() => {})
+        } catch (e) {
+          this.$log.error(e)
+        }
+        return
+      }
+      if (this.clickCount >= 5) {
         if (this.options.developer_mode) {
           this.$message.info(`当前已启用开发者选项！`)
           this.clickCount = 0
@@ -46,7 +52,7 @@ export default {
           this.$message.info(`再点击 ${10 - this.clickCount} 次即可启用开发者选项！`)
         }
       }
-    }
+    }, 200)
   }
 }
 </script>

@@ -1,12 +1,6 @@
 <template>
   <div>
-    <a-form-model
-      ref="postOptionsForm"
-      :model="options"
-      :rules="rules"
-      layout="vertical"
-      :wrapperCol="wrapperCol"
-    >
+    <a-form-model ref="postOptionsForm" :model="options" :rules="rules" :wrapperCol="wrapperCol" layout="vertical">
       <!-- <a-form-model-item label="默认编辑器：">
         <a-select v-model="options.default_editor">
           <a-select-option value="MARKDOWN">Markdown 编辑器</a-select-option>
@@ -20,19 +14,11 @@
           <a-select-option value="visits">点击量</a-select-option>
         </a-select>
       </a-form-model-item>
-      <a-form-model-item label="首页每页条数：">
-        <a-input-number
-          v-model="options.post_index_page_size"
-          :min="1"
-          style="width:100%"
-        />
+      <a-form-model-item label="首页每页文章条数：">
+        <a-input-number v-model="options.post_index_page_size" :min="1" style="width: 100%" />
       </a-form-model-item>
-      <a-form-model-item label="归档每页条数：">
-        <a-input-number
-          v-model="options.post_archives_page_size"
-          :min="1"
-          style="width:100%"
-        />
+      <a-form-model-item help="* 包括标签所属文章页面、分类所属文章页面" label="归档页面每页文章条数：">
+        <a-input-number v-model="options.post_archives_page_size" :min="1" style="width: 100%" />
       </a-form-model-item>
       <a-form-model-item label="RSS 内容类型：">
         <a-select v-model="options.rss_content_type">
@@ -41,33 +27,18 @@
         </a-select>
       </a-form-model-item>
       <a-form-model-item label="RSS 内容条数：">
-        <a-input-number
-          v-model="options.rss_page_size"
-          :min="1"
-          style="width:100%"
-        />
+        <a-input-number v-model="options.rss_page_size" :min="1" style="width: 100%" />
       </a-form-model-item>
       <a-form-model-item label="文章摘要字数：">
-        <a-input-number
-          v-model="options.post_summary_length"
-          style="width:100%"
-        />
+        <a-input-number v-model="options.post_summary_length" style="width: 100%" />
       </a-form-model-item>
       <a-form-model-item label="自动清理回收站文章：">
         <a-switch v-model="options.recycled_post_cleaning_enabled" />
       </a-form-model-item>
-      <a-form-model-item
-        v-show="options.recycled_post_cleaning_enabled"
-        label="回收站文章保留时长：">
+      <a-form-model-item v-show="options.recycled_post_cleaning_enabled" label="回收站文章保留时长：">
         <a-input-group compact>
-          <a-input-number
-            v-model="options.recycled_post_retention_time"
-            :min="1"
-            :precision="0"
-            style="width: 70%"/>
-          <a-select
-            v-model="options.recycled_post_retention_timeunit"
-            style="width: 30%">
+          <a-input-number v-model="options.recycled_post_retention_time" :min="1" :precision="0" style="width: 70%" />
+          <a-select v-model="options.recycled_post_retention_timeunit" style="width: 30%">
             <a-select-option value="DAY">天</a-select-option>
             <a-select-option value="HOUR">小时</a-select-option>
           </a-select>
@@ -75,14 +46,14 @@
       </a-form-model-item>
       <a-form-model-item>
         <ReactiveButton
-          type="primary"
-          @click="handleSaveOptions"
-          @callback="$emit('callback')"
-          :loading="saving"
           :errored="errored"
-          text="保存"
-          loadedText="保存成功"
+          :loading="saving"
           erroredText="保存失败"
+          loadedText="保存成功"
+          text="保存"
+          type="primary"
+          @callback="$emit('callback')"
+          @click="handleSaveOptions"
         ></ReactiveButton>
       </a-form-model-item>
     </a-form-model>

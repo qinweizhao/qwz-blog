@@ -47,6 +47,8 @@ const updateTheme = primaryColor => {
   if (!primaryColor) {
     return
   }
+  const hideMessage = message.loading('正在编译主题！', 0)
+
   function buildIt() {
     if (!window.less) {
       return
@@ -57,12 +59,15 @@ const updateTheme = primaryColor => {
           '@primary-color': primaryColor
         })
         .then(() => {
+          hideMessage()
         })
         .catch(() => {
           message.error('Failed to update theme')
+          hideMessage()
         })
     }, 200)
   }
+
   if (!lessNodesAppended) {
     // insert less.js and color.less
     const lessStyleNode = document.createElement('link')
@@ -77,7 +82,7 @@ const updateTheme = primaryColor => {
         javascriptEnabled: true
       };
     `
-    lessScriptNode.src = 'https://cdn.jsdelivr.net/npm/less@3.8.1/dist/less.min.js'
+    lessScriptNode.src = 'https://unpkg.com/less@3.8.1/dist/less.min.js'
     lessScriptNode.async = true
     lessScriptNode.onload = () => {
       buildIt()

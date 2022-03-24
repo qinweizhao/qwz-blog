@@ -1,60 +1,34 @@
 <template>
   <transition name="showHeader">
-    <div
+    <a-layout-header
       v-if="visible"
-      class="header-animat"
+      :class="[
+        fixedHeader && 'ant-header-fixedHeader',
+        sidebarOpened ? 'ant-header-side-opened' : 'ant-header-side-closed'
+      ]"
+      style="padding: 0"
     >
-      <a-layout-header
-        v-if="visible"
-        :class="[fixedHeader && 'ant-header-fixedHeader', sidebarOpened ? 'ant-header-side-opened' : 'ant-header-side-closed', ]"
-        style="padding:0"
-      >
-        <div
-          v-if="mode === 'sidemenu'"
-          class="header"
-        >
-          <a-icon
-            v-if="device==='mobile'"
-            class="trigger"
-            :type="collapsed ? 'menu-fold' : 'menu-unfold'"
-            @click="toggle"
-          />
-          <a-icon
-            v-else
-            class="trigger"
-            :type="collapsed ? 'menu-unfold' : 'menu-fold'"
-            @click="toggle"
-          />
-          <user-menu></user-menu>
-        </div>
-        <div
-          v-else
-          :class="['top-nav-header-index', theme]"
-        >
-          <div class="header-index-wide">
-            <div class="header-index-left">
-              <logo
-                class="top-nav-header"
-                v-if="device !== 'mobile'"
-              />
-              <s-menu
-                v-if="device !== 'mobile'"
-                mode="horizontal"
-                :menu="menus"
-                :theme="theme"
-              />
-              <a-icon
-                v-else
-                class="trigger"
-                :type="collapsed ? 'menu-fold' : 'menu-unfold'"
-                @click="toggle"
-              />
-            </div>
-            <user-menu class="header-index-right"></user-menu>
+      <div v-if="mode === 'sidemenu'" class="header">
+        <a-icon
+          v-if="device === 'mobile'"
+          :type="collapsed ? 'menu-fold' : 'menu-unfold'"
+          class="trigger"
+          @click="toggle"
+        />
+        <a-icon v-else :type="collapsed ? 'menu-unfold' : 'menu-fold'" class="trigger" @click="toggle" />
+        <user-menu></user-menu>
+      </div>
+      <div v-else :class="['top-nav-header-index', theme]">
+        <div class="header-index-wide">
+          <div class="header-index-left">
+            <logo v-if="device !== 'mobile'" class="top-nav-header" />
+            <s-menu v-if="device !== 'mobile'" :menu="menus" :theme="theme" mode="horizontal" />
+            <a-icon v-else :type="collapsed ? 'menu-fold' : 'menu-unfold'" class="trigger" @click="toggle" />
           </div>
+          <user-menu class="header-index-right"></user-menu>
         </div>
-      </a-layout-header>
-    </div>
+      </div>
+    </a-layout-header>
   </transition>
 </template>
 
@@ -62,7 +36,7 @@
 import UserMenu from '../Tools/UserMenu'
 import SMenu from '../Menu/'
 import Logo from '../Tools/Logo'
-import { mixin } from '@/utils/mixin'
+import { mixin } from '@/mixins/mixin'
 
 export default {
   name: 'GlobalHeader',
@@ -140,16 +114,14 @@ export default {
 </script>
 
 <style lang="less">
-.header-animat {
-  position: relative;
-  z-index: 999;
-}
 .showHeader-enter-active {
   transition: all 0.25s ease;
 }
+
 .showHeader-leave-active {
   transition: all 0.5s ease;
 }
+
 .showHeader-enter,
 .showHeader-leave-to {
   opacity: 0;
