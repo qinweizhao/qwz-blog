@@ -7,13 +7,6 @@
         </span>
       </a-tooltip>
     </a>
-    <a href="javascript:void(0)" @click="handleShowLayoutSetting">
-      <a-tooltip placement="bottom" title="后台布局设置">
-        <span class="action">
-          <a-icon type="setting" />
-        </span>
-      </a-tooltip>
-    </a>
     <header-comment class="action" />
     <a-dropdown>
       <span v-if="user" class="action ant-dropdown-link user-dropdown-menu">
@@ -51,7 +44,7 @@ export default {
     ...mapGetters(['user', 'options'])
   },
   methods: {
-    ...mapActions(['logout', 'ToggleLayoutSetting']),
+    ...mapActions(['logout']),
     handleLogout() {
       const _this = this
 
@@ -70,9 +63,6 @@ export default {
           }
         }
       })
-    },
-    handleShowLayoutSetting() {
-      this.ToggleLayoutSetting(true)
     }
   }
 }

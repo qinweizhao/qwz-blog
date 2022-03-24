@@ -22,7 +22,7 @@ export const asyncRouterMap = [
         path: '/posts',
         name: 'Posts',
         redirect: '/posts/list',
-        component: PageView,
+        component: BlankLayout,
         meta: { title: '文章', icon: 'form' },
         children: [
           {
@@ -76,7 +76,7 @@ export const asyncRouterMap = [
       {
         path: '/sheets',
         name: 'Sheets',
-        component: PageView,
+        component: BlankLayout,
         redirect: '/sheets/list',
         meta: { title: '页面', icon: 'read' },
         children: [
@@ -183,6 +183,13 @@ export const asyncRouterMap = [
             name: 'ToolList',
             component: () => import('@/views/system/ToolList'),
             meta: { title: '工具', hiddenHeaderContent: false }
+          },
+          {
+            path: '/system/actionlogs',
+            name: 'SystemActionLogs',
+            hidden: true,
+            component: () => import('@/views/system/ActionLogs'),
+            meta: { title: '操作日志', hiddenHeaderContent: false }
           }
         ]
       }
@@ -202,12 +209,6 @@ export const constantRouterMap = [
     meta: { title: '登录' },
     component: () => import('@/views/user/Login')
   },
-  // {
-  //   path: '/install',
-  //   name: 'Install',
-  //   meta: { title: '安装向导' },
-  //   component: () => import('@/views/system/Installation')
-  // },
   {
     path: '/password/reset',
     name: 'ResetPassword',

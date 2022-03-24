@@ -6,7 +6,7 @@ export default {
   layout: 'topmenu',
   contentWidth: 'Fixed',
   fixedHeader: false,
-  // fixedSidebar: false,
+  fixedSidebar: false,
   autoHideHeader: false,
   storageOptions: {
     namespace: 'HALO__',
