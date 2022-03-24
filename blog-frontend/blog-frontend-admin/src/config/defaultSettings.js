@@ -1,7 +1,7 @@
 export default {
   primaryColor: '#1890FF',
-  // light
-  navTheme: 'dark',
+  // light dark
+  navTheme: 'light',
   // sidemenu, topmenu
   layout: 'topmenu',
   contentWidth: 'Fixed',
