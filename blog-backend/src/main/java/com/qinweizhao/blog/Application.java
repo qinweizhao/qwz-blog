@@ -10,9 +10,9 @@ import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 /**
- * Halo main class.
  *
  * @author ryanwang
+ * @author qinweizhao
  * @date 2017-11-14
  */
 @SpringBootApplication(exclude = {MultipartAutoConfiguration.class})

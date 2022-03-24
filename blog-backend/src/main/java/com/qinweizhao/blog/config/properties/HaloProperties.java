@@ -13,10 +13,11 @@ import static com.qinweizhao.blog.utils.HaloUtils.ensureSuffix;
 
 
 /**
- * Halo configuration properties.
+ * 配置属性
  *
  * @author johnniang
  * @author ryanwang
+ * @author qinweizhao
  * @date 2019-03-15
  */
 @Data
