@@ -72,7 +72,6 @@ import RouteView from './RouteView'
 import SideMenu from '@/components/Menu/SideMenu'
 import GlobalHeader from '@/components/GlobalHeader'
 import GlobalFooter from '@/components/GlobalFooter'
-import SettingDrawer from '@/components/SettingDrawer/SettingDrawer'
 import LoginModal from '@/components/Login/LoginModal'
 
 export default {
@@ -83,7 +82,6 @@ export default {
     SideMenu,
     GlobalHeader,
     GlobalFooter,
-    SettingDrawer,
     LoginModal
   },
   data() {

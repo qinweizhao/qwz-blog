@@ -1,40 +1,12 @@
 <template>
   <page-view :sub-title="theme.current.version || '-'" :title="theme.current.name || '-'" affix>
     <template slot="extra">
-      <a-dropdown>
-        <a-menu slot="overlay">
-          <a-menu-item key="1" @click="handleRemoteUpdate">
-            <a-icon type="cloud" />
-            在线更新
-          </a-menu-item>
-          <a-menu-item key="2" @click="localUpgradeModel.visible = true">
-            <a-icon type="file" />
-            本地更新
-          </a-menu-item>
-        </a-menu>
-        <a-button icon="upload">
-          更新
-          <a-icon type="down" />
-        </a-button>
-      </a-dropdown>
-      <a-dropdown>
-        <template #overlay>
-          <a-menu>
-            <a-menu-item :disabled="theme.current.activated" @click="handleActiveTheme">
-              <a-icon type="lock" />
-              启用
-            </a-menu-item>
-            <a-menu-item :disabled="!theme.current.activated" @click="handleRouteToThemeVisualSetting">
-              <a-icon type="eye" />
-              预览模式
-            </a-menu-item>
-          </a-menu>
-        </template>
-        <a-button icon="more">
-          更多
-          <a-icon type="down" />
-        </a-button>
-      </a-dropdown>
+      <a-button @click="localUpgradeModel.visible = true" icon="upload"> 更新 </a-button>
+
+      <a-button :disabled="!theme.current.activated" @click="handleRouteToThemeVisualSetting">
+        <a-icon type="eye" />
+        预览模式
+      </a-button>
       <a-button
         :disabled="theme.current.activated"
         icon="delete"
@@ -119,46 +91,9 @@ export default {
     onThemeDeleteSucceed() {
       this.$router.replace({ name: 'ThemeList' })
     },
-    handleRemoteUpdate() {
-      const _this = this
-      _this.$confirm({
-        title: '提示',
-        maskClosable: true,
-        content: '确定更新【' + _this.theme.current.name + '】主题吗？',
-        async onOk() {
-          const hideLoading = _this.$message.loading('更新中...', 0)
-          try {
-            await apiClient.theme.updateThemeByFetching(_this.theme.current.id)
-            _this.$message.success('更新成功！')
-          } catch (e) {
-            _this.$log.error('Failed to update theme: ', e)
-          } finally {
-            hideLoading()
-            await _this.handleGetTheme(_this.theme.current.id)
-          }
-        }
-      })
-    },
+
     handleRouteToThemeVisualSetting() {
       this.$router.push({ name: 'ThemeVisualSetting', query: { themeId: this.theme.current.id } })
-    },
-    handleActiveTheme() {
-      const _this = this
-      _this.$confirm({
-        title: '提示',
-        maskClosable: true,
-        content: '确定启用【' + _this.theme.current.name + '】主题吗？',
-        async onOk() {
-          try {
-            await apiClient.theme.active(_this.theme.current.id)
-            _this.$message.success('启用成功！')
-          } catch (e) {
-            _this.$log.error('Failed active theme', e)
-          } finally {
-            await _this.handleGetTheme(_this.theme.current.id)
-          }
-        }
-      })
     }
   }
 }

@@ -121,7 +121,7 @@ export const asyncRouterMap = [
         path: '/interface',
         name: 'Interface',
         component: BlankLayout,
-        redirect: '/interface/themes',
+        redirect: '/interface/themes/setting',
         meta: { title: '主题', icon: 'skin' },
         children: [
           {
@@ -194,6 +194,13 @@ export const asyncRouterMap = [
         ]
       }
     ]
+  },
+  {
+    path: '/interface/themes/setting/visual',
+    name: 'ThemeVisualSetting',
+    hidden: true,
+    component: () => import('@/views/interface/ThemeVisualSetting'),
+    meta: { title: '预览模式', hiddenHeaderContent: false }
   },
   {
     path: '*',

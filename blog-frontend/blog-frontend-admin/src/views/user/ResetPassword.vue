@@ -1,8 +1,7 @@
 <template>
   <div class="container-wrapper animated fadeIn">
     <div class="halo-logo">
-      <img alt="Halo Logo" src="/images/logo.svg" />
-      <span>重置密码</span>
+      <h1>重置密码</h1>
     </div>
     <div>
       <a-form-model ref="sendCodeForm" :model="form.model" :rules="form.sendCodeRules" layout="vertical">
