@@ -21,7 +21,7 @@
       <div v-else :class="['top-nav-header-index', theme]">
         <div class="header-index-wide">
           <div class="header-index-left">
-<!--            <logo v-if="device !== 'mobile'" class="top-nav-header" />-->
+            <!--            <logo v-if="device !== 'mobile'" class="top-nav-header" />-->
             <s-menu v-if="device !== 'mobile'" :menu="menus" :theme="theme" mode="horizontal" />
             <a-icon v-else :type="collapsed ? 'menu-fold' : 'menu-unfold'" class="trigger" @click="toggle" />
           </div>
