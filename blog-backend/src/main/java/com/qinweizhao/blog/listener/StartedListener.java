@@ -1,14 +1,9 @@
 package com.qinweizhao.blog.listener;
 
 import com.qinweizhao.blog.config.properties.HaloProperties;
-import com.qinweizhao.blog.model.properties.PrimaryProperties;
 import com.qinweizhao.blog.service.OptionService;
-import com.qinweizhao.blog.service.ThemeService;
-import com.qinweizhao.blog.utils.FileUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ansi.AnsiColor;
 import org.springframework.boot.ansi.AnsiOutput;
 import org.springframework.boot.context.event.ApplicationStartedEvent;
@@ -16,20 +11,19 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
-import org.springframework.lang.NonNull;
-import org.springframework.util.Assert;
-import org.springframework.util.ResourceUtils;
 
+import javax.annotation.Resource;
 import java.io.IOException;
-import java.net.URI;
-import java.nio.file.*;
-import java.util.Collections;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 /**
- * The method executed after the application is started.
+ * 应用程序启动后执行的方法。
  *
  * @author ryanwang
  * @author guqing
+ * @author qinweizhao
  * @date 2018-12-05
  */
 @Slf4j
@@ -37,10 +31,10 @@ import java.util.Collections;
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class StartedListener implements ApplicationListener<ApplicationStartedEvent> {
 
-    @Autowired
+    @Resource
     private HaloProperties haloProperties;
 
-    @Autowired
+    @Resource
     private OptionService optionService;
 
     @Override
@@ -61,26 +55,13 @@ public class StartedListener implements ApplicationListener<ApplicationStartedEv
 
     private void initDirectory() {
         Path workPath = Paths.get(haloProperties.getWorkDir());
-        Path backupPath = Paths.get(haloProperties.getBackupDir());
-        Path dataExportPath = Paths.get(haloProperties.getDataExportDir());
-
         try {
             if (Files.notExists(workPath)) {
                 Files.createDirectories(workPath);
-                log.info("Created work directory: [{}]", workPath);
-            }
-
-            if (Files.notExists(backupPath)) {
-                Files.createDirectories(backupPath);
-                log.info("Created backup directory: [{}]", backupPath);
-            }
-
-            if (Files.notExists(dataExportPath)) {
-                Files.createDirectories(dataExportPath);
-                log.info("Created data export directory: [{}]", dataExportPath);
+                log.info("创建工作目录: [{}]", workPath);
             }
         } catch (IOException ie) {
-            throw new RuntimeException("Failed to initialize directories", ie);
+            throw new RuntimeException("初始化目录失败", ie);
         }
     }
 }

@@ -49,32 +49,32 @@ public class HaloProperties {
     private String adminPath = "admin";
 
     /**
-     * Work directory.
+     * 工作目录
      */
     private String workDir = ensureSuffix(USER_HOME, FILE_SEPARATOR) + FILE_SEPARATOR;
 
     /**
-     * Halo backup directory.(Not recommended to modify this config);
+     * Halo 备份目录。（不建议修改此配置）
      */
     private String backupDir = ensureSuffix(TEMP_DIR, FILE_SEPARATOR) + "halo-backup" + FILE_SEPARATOR;
 
     /**
-     * Halo data export directory.
+     * Halo 数据导出目录
      */
     private String dataExportDir = ensureSuffix(TEMP_DIR, FILE_SEPARATOR) + "halo-data-export" + FILE_SEPARATOR;
 
     /**
-     * Upload prefix.
+     * 上传前缀
      */
     private String uploadUrlPrefix = "upload";
 
     /**
-     * Download Timeout.
+     * 下载超时
      */
     private Duration downloadTimeout = Duration.ofSeconds(30);
 
     /**
-     * cache store impl
+     * 缓存存储实现
      * memory
      * level
      */
