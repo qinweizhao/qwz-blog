@@ -40,7 +40,7 @@ public class AdminController {
     }
 
     @GetMapping(value = "/is_installed")
-    @ApiOperation("Checks Installation status")
+    @ApiOperation("检查安装状态")
     public boolean isInstall() {
         return optionService.getByPropertyOrDefault(PrimaryProperties.IS_INSTALLED, Boolean.class, false);
     }

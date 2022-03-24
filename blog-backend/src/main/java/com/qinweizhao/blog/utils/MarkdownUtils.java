@@ -69,15 +69,6 @@ public class MarkdownUtils {
     private static final HtmlRenderer RENDERER = HtmlRenderer.builder(OPTIONS).build();
     private static final Pattern FRONT_MATTER = Pattern.compile("^---[\\s\\S]*?---");
 
-    //    /**
-    //     * Render html document to markdown document.
-    //     *
-    //     * @param html html document
-    //     * @return markdown document
-    //     */
-    //    public static String renderMarkdown(String html) {
-    //        return FlexmarkHtmlParser.parse(html);
-    //    }
 
     /**
      * Render Markdown content

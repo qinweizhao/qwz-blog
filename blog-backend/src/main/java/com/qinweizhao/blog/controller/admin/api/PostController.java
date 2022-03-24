@@ -1,11 +1,6 @@
 package com.qinweizhao.blog.controller.admin.api;
 
 import cn.hutool.core.util.IdUtil;
-import io.swagger.annotations.ApiOperation;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
-import org.springframework.web.bind.annotation.*;
 import com.qinweizhao.blog.cache.AbstractStringCacheStore;
 import com.qinweizhao.blog.model.dto.post.BasePostDetailDTO;
 import com.qinweizhao.blog.model.dto.post.BasePostMinimalDTO;
@@ -19,7 +14,13 @@ import com.qinweizhao.blog.model.params.PostQuery;
 import com.qinweizhao.blog.model.vo.PostDetailVO;
 import com.qinweizhao.blog.service.OptionService;
 import com.qinweizhao.blog.service.PostService;
+import io.swagger.annotations.ApiOperation;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import javax.validation.Valid;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -35,31 +36,26 @@ import static org.springframework.data.domain.Sort.Direction.DESC;
  * @author johnniang
  * @author ryanwang
  * @author guqing
+ * @author qinweizhao
  * @date 2019-03-19
  */
 @RestController
 @RequestMapping("/api/admin/posts")
 public class PostController {
 
-    private final PostService postService;
+    @Resource
+    private PostService postService;
+    @Resource
+    private AbstractStringCacheStore cacheStore;
+    @Resource
+    private OptionService optionService;
 
-    private final AbstractStringCacheStore cacheStore;
-
-    private final OptionService optionService;
-
-    public PostController(PostService postService,
-            AbstractStringCacheStore cacheStore,
-            OptionService optionService) {
-        this.postService = postService;
-        this.cacheStore = cacheStore;
-        this.optionService = optionService;
-    }
 
     @GetMapping
     @ApiOperation("Lists posts")
     public Page<? extends BasePostSimpleDTO> pageBy(@PageableDefault(sort = {"topPriority", "createTime"}, direction = DESC) Pageable pageable,
-            PostQuery postQuery,
-            @RequestParam(value = "more", defaultValue = "true") Boolean more) {
+                                                    PostQuery postQuery,
+                                                    @RequestParam(value = "more", defaultValue = "true") Boolean more) {
         Page<Post> postPage = postService.pageBy(postQuery, pageable);
         if (more) {
             return postService.convertToListVo(postPage);
@@ -77,8 +73,8 @@ public class PostController {
     @GetMapping("status/{status}")
     @ApiOperation("Gets a page of post by post status")
     public Page<? extends BasePostSimpleDTO> pageByStatus(@PathVariable(name = "status") PostStatus status,
-            @RequestParam(value = "more", required = false, defaultValue = "false") Boolean more,
-            @PageableDefault(sort = "createTime", direction = DESC) Pageable pageable) {
+                                                          @RequestParam(value = "more", required = false, defaultValue = "false") Boolean more,
+                                                          @PageableDefault(sort = "createTime", direction = DESC) Pageable pageable) {
         Page<Post> posts = postService.pageBy(status, pageable);
 
         if (more) {
@@ -104,7 +100,7 @@ public class PostController {
     @PostMapping
     @ApiOperation("Creates a post")
     public PostDetailVO createBy(@Valid @RequestBody PostParam postParam,
-            @RequestParam(value = "autoSave", required = false, defaultValue = "false") Boolean autoSave) {
+                                 @RequestParam(value = "autoSave", required = false, defaultValue = "false") Boolean autoSave) {
         // Convert to
         Post post = postParam.convertTo();
         return postService.createBy(post, postParam.getTagIds(), postParam.getCategoryIds(), postParam.getPostMetas(), autoSave);
@@ -113,8 +109,8 @@ public class PostController {
     @PutMapping("{postId:\\d+}")
     @ApiOperation("Updates a post")
     public PostDetailVO updateBy(@Valid @RequestBody PostParam postParam,
-            @PathVariable("postId") Integer postId,
-            @RequestParam(value = "autoSave", required = false, defaultValue = "false") Boolean autoSave) {
+                                 @PathVariable("postId") Integer postId,
+                                 @RequestParam(value = "autoSave", required = false, defaultValue = "false") Boolean autoSave) {
         // Get the post info
         Post postToUpdate = postService.getById(postId);
 
@@ -135,7 +131,7 @@ public class PostController {
     @PutMapping("status/{status}")
     @ApiOperation("Updates post status in batch")
     public List<Post> updateStatusInBatch(@PathVariable(name = "status") PostStatus status,
-            @RequestBody List<Integer> ids) {
+                                          @RequestBody List<Integer> ids) {
         return postService.updateStatusByIds(ids, status);
     }
 

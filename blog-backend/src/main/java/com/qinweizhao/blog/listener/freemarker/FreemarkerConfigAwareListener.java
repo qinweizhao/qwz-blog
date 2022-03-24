@@ -1,13 +1,5 @@
 package com.qinweizhao.blog.listener.freemarker;
 
-import freemarker.template.Configuration;
-import freemarker.template.TemplateModelException;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.context.event.ApplicationStartedEvent;
-import org.springframework.context.event.EventListener;
-import org.springframework.core.Ordered;
-import org.springframework.core.annotation.Order;
-import org.springframework.stereotype.Component;
 import com.qinweizhao.blog.event.options.OptionUpdatedEvent;
 import com.qinweizhao.blog.event.theme.ThemeActivatedEvent;
 import com.qinweizhao.blog.event.theme.ThemeUpdatedEvent;
@@ -19,6 +11,16 @@ import com.qinweizhao.blog.service.OptionService;
 import com.qinweizhao.blog.service.ThemeService;
 import com.qinweizhao.blog.service.ThemeSettingService;
 import com.qinweizhao.blog.service.UserService;
+import freemarker.template.Configuration;
+import freemarker.template.TemplateModelException;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.context.event.ApplicationStartedEvent;
+import org.springframework.context.event.EventListener;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
+import org.springframework.stereotype.Component;
+
+import javax.annotation.Resource;
 
 /**
  * Freemarker config aware listener.
@@ -31,32 +33,25 @@ import com.qinweizhao.blog.service.UserService;
 @Component
 public class FreemarkerConfigAwareListener {
 
-    private final OptionService optionService;
+    @Resource
+    private OptionService optionService;
 
-    private final Configuration configuration;
+    @Resource
+    private Configuration configuration;
 
-    private final ThemeService themeService;
+    @Resource
+    private ThemeService themeService;
 
-    private final ThemeSettingService themeSettingService;
+    @Resource
+    private ThemeSettingService themeSettingService;
 
-    private final UserService userService;
-
-    public FreemarkerConfigAwareListener(OptionService optionService,
-            Configuration configuration,
-            ThemeService themeService,
-            ThemeSettingService themeSettingService,
-            UserService userService) {
-        this.optionService = optionService;
-        this.configuration = configuration;
-        this.themeService = themeService;
-        this.themeSettingService = themeSettingService;
-        this.userService = userService;
-    }
+    @Resource
+    private UserService userService;
 
     @EventListener
     @Order(Ordered.HIGHEST_PRECEDENCE + 1)
     public void onApplicationStartedEvent(ApplicationStartedEvent applicationStartedEvent) throws TemplateModelException {
-        log.debug("Received application started event");
+        log.debug("收到应用程序启动事件");
 
         // 加载主题配置
         loadThemeConfig();
@@ -66,21 +61,21 @@ public class FreemarkerConfigAwareListener {
 
     @EventListener
     public void onThemeActivatedEvent(ThemeActivatedEvent themeActivatedEvent) throws TemplateModelException {
-        log.debug("Received theme activated event");
+        log.debug("收到主题激活事件");
 
         loadThemeConfig();
     }
 
     @EventListener
     public void onThemeUpdatedEvent(ThemeUpdatedEvent event) throws TemplateModelException {
-        log.debug("Received theme updated event");
+        log.debug("收到主题更新事件");
 
         loadThemeConfig();
     }
 
     @EventListener
     public void onUserUpdate(UserUpdatedEvent event) throws TemplateModelException {
-        log.debug("Received user updated event, user id: [{}]", event.getUserId());
+        log.debug("收到用户更新事件, 用户 id: [{}]", event.getUserId());
 
         loadUserConfig();
     }
@@ -126,11 +121,11 @@ public class FreemarkerConfigAwareListener {
         configuration.setSharedVariable("categories_url", context + optionService.getCategoriesPrefix());
         configuration.setSharedVariable("tags_url", context + optionService.getTagsPrefix());
 
-        log.debug("Loaded options");
+        log.debug("已加载选项");
     }
 
     private void loadThemeConfig() {
-        // Get current activated theme.
+        // 获取当前激活的主题
         themeService.fetchActivatedTheme().ifPresent(activatedTheme -> {
             String themeBasePath = (optionService.isEnabledAbsolutePath() ? optionService.getBlogBaseUrl() : "") + "/themes/" + activatedTheme.getFolderName();
             try {

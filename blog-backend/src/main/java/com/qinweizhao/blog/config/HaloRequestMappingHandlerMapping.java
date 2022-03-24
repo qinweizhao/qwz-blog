@@ -90,7 +90,7 @@ public class HaloRequestMappingHandlerMapping extends RequestMappingHandlerMappi
                 );
             }
         } catch (IOException e) {
-            log.error("Failed to refresh static directory mapping", e);
+            log.error("刷新静态目录映射失败", e);
         }
     }
 }

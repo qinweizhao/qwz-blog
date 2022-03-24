@@ -1,9 +1,5 @@
 package com.qinweizhao.blog.controller.content;
 
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import com.qinweizhao.blog.config.properties.HaloProperties;
 import com.qinweizhao.blog.exception.ServiceException;
 import com.qinweizhao.blog.model.entity.User;
@@ -12,7 +8,12 @@ import com.qinweizhao.blog.model.support.HaloConst;
 import com.qinweizhao.blog.service.OptionService;
 import com.qinweizhao.blog.service.UserService;
 import com.qinweizhao.blog.utils.HaloUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
@@ -20,6 +21,7 @@ import java.io.IOException;
  * Main controller.
  *
  * @author ryanwang
+ * @author qinweizhao
  * @date 2019-04-23
  */
 @Controller
@@ -35,17 +37,14 @@ public class MainController {
      */
     private final static String INSTALL_REDIRECT_URI = INDEX_REDIRECT_URI + "#install";
 
-    private final UserService userService;
 
-    private final OptionService optionService;
+    @Resource
+    private UserService userService;
+    @Resource
+    private OptionService optionService;
+    @Resource
+    private HaloProperties haloProperties;
 
-    private final HaloProperties haloProperties;
-
-    public MainController(UserService userService, OptionService optionService, HaloProperties haloProperties) {
-        this.userService = userService;
-        this.optionService = optionService;
-        this.haloProperties = haloProperties;
-    }
 
     @GetMapping("${halo.admin-path:admin}")
     public void admin(HttpServletResponse response) throws IOException {
