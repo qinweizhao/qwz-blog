@@ -1,17 +1,19 @@
 package com.qinweizhao.blog.controller.content.model;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.stereotype.Component;
-import org.springframework.ui.Model;
 import com.qinweizhao.blog.model.dto.TagDTO;
 import com.qinweizhao.blog.model.entity.Post;
 import com.qinweizhao.blog.model.entity.Tag;
 import com.qinweizhao.blog.model.enums.PostStatus;
 import com.qinweizhao.blog.model.vo.PostListVO;
 import com.qinweizhao.blog.service.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Component;
+import org.springframework.ui.Model;
+
+import javax.annotation.Resource;
 
 import static org.springframework.data.domain.Sort.Direction.DESC;
 
@@ -19,28 +21,27 @@ import static org.springframework.data.domain.Sort.Direction.DESC;
  * Tag Model.
  *
  * @author ryanwang
+ * @author qinweizhao
  * @date 2020-01-11
  */
 @Component
 public class TagModel {
 
-    private final TagService tagService;
+    @Resource
+    private TagService tagService;
 
-    private final PostService postService;
+    @Resource
+    private PostService postService;
 
-    private final PostTagService postTagService;
+    @Resource
+    private PostTagService postTagService;
 
-    private final OptionService optionService;
+    @Resource
+    private OptionService optionService;
 
-    private final ThemeService themeService;
+    @Resource
+    private ThemeService themeService;
 
-    public TagModel(TagService tagService, PostService postService, PostTagService postTagService, OptionService optionService, ThemeService themeService) {
-        this.tagService = tagService;
-        this.postService = postService;
-        this.postTagService = postTagService;
-        this.optionService = optionService;
-        this.themeService = themeService;
-    }
 
     public String list(Model model) {
         model.addAttribute("is_tags", true);

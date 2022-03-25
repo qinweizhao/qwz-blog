@@ -40,8 +40,10 @@ public class MainController {
 
     @Resource
     private UserService userService;
+
     @Resource
     private OptionService optionService;
+
     @Resource
     private HaloProperties haloProperties;
 

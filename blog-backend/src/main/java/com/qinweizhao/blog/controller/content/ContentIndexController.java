@@ -1,23 +1,25 @@
 package com.qinweizhao.blog.controller.content;
 
+import com.qinweizhao.blog.controller.content.model.PostModel;
+import com.qinweizhao.blog.model.entity.Post;
+import com.qinweizhao.blog.model.enums.PostPermalinkType;
+import com.qinweizhao.blog.service.OptionService;
+import com.qinweizhao.blog.service.PostService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import com.qinweizhao.blog.controller.content.model.PostModel;
-import com.qinweizhao.blog.model.entity.Post;
-import com.qinweizhao.blog.model.enums.PostPermalinkType;
-import com.qinweizhao.blog.service.OptionService;
-import com.qinweizhao.blog.service.PostService;
 
+import javax.annotation.Resource;
 import java.util.Objects;
 
 /**
  * Blog index page controller
  *
  * @author ryanwang
+ * @author qinweizhao
  * @date 2019-03-17
  */
 @Slf4j
@@ -25,19 +27,14 @@ import java.util.Objects;
 @RequestMapping
 public class ContentIndexController {
 
-    private final PostService postService;
+    @Resource
+    private PostService postService;
 
-    private final OptionService optionService;
+    @Resource
+    private OptionService optionService;
 
-    private final PostModel postModel;
-
-    public ContentIndexController(PostService postService,
-            OptionService optionService,
-            PostModel postModel) {
-        this.postService = postService;
-        this.optionService = optionService;
-        this.postModel = postModel;
-    }
+    @Resource
+    private PostModel postModel;
 
 
     /**
@@ -70,7 +67,7 @@ public class ContentIndexController {
      */
     @GetMapping(value = "page/{page}")
     public String index(Model model,
-            @PathVariable(value = "page") Integer page) {
+                        @PathVariable(value = "page") Integer page) {
         System.out.println("postModel.list(page, model) = " + postModel.list(page, model));
         return postModel.list(page, model);
     }

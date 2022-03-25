@@ -1,9 +1,11 @@
 package com.qinweizhao.blog.controller.content.model;
 
-import org.springframework.stereotype.Component;
-import org.springframework.ui.Model;
 import com.qinweizhao.blog.service.OptionService;
 import com.qinweizhao.blog.service.ThemeService;
+import org.springframework.stereotype.Component;
+import org.springframework.ui.Model;
+
+import javax.annotation.Resource;
 
 /**
  * @author ryanwang
@@ -12,15 +14,12 @@ import com.qinweizhao.blog.service.ThemeService;
 @Component
 public class LinkModel {
 
-    private final ThemeService themeService;
+    @Resource
+    private ThemeService themeService;
 
-    private final OptionService optionService;
+    @Resource
+    private OptionService optionService;
 
-    public LinkModel(ThemeService themeService,
-            OptionService optionService) {
-        this.themeService = themeService;
-        this.optionService = optionService;
-    }
 
     public String list(Model model) {
         model.addAttribute("is_links", true);

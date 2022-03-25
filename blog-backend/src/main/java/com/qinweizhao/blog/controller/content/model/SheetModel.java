@@ -1,8 +1,5 @@
 package com.qinweizhao.blog.controller.content.model;
 
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.stereotype.Component;
-import org.springframework.ui.Model;
 import com.qinweizhao.blog.cache.AbstractStringCacheStore;
 import com.qinweizhao.blog.exception.ForbiddenException;
 import com.qinweizhao.blog.model.entity.Sheet;
@@ -16,39 +13,37 @@ import com.qinweizhao.blog.service.SheetMetaService;
 import com.qinweizhao.blog.service.SheetService;
 import com.qinweizhao.blog.service.ThemeService;
 import com.qinweizhao.blog.utils.MarkdownUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.stereotype.Component;
+import org.springframework.ui.Model;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
  * Sheet model.
  *
  * @author ryanwang
+ * @author qinweizhao
  * @date 2020-01-07
  */
 @Component
 public class SheetModel {
 
-    private final SheetService sheetService;
+    @Resource
+    private SheetService sheetService;
 
-    private final SheetMetaService sheetMetaService;
+    @Resource
+    private SheetMetaService sheetMetaService;
 
-    private final AbstractStringCacheStore cacheStore;
+    @Resource
+    private AbstractStringCacheStore cacheStore;
 
-    private final ThemeService themeService;
+    @Resource
+    private ThemeService themeService;
 
-    private final OptionService optionService;
-
-    public SheetModel(SheetService sheetService,
-            SheetMetaService sheetMetaService,
-            AbstractStringCacheStore cacheStore,
-            ThemeService themeService,
-            OptionService optionService) {
-        this.sheetService = sheetService;
-        this.sheetMetaService = sheetMetaService;
-        this.cacheStore = cacheStore;
-        this.themeService = themeService;
-        this.optionService = optionService;
-    }
+    @Resource
+    private OptionService optionService;
 
     /**
      * Sheet content.

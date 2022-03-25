@@ -1,5 +1,11 @@
 package com.qinweizhao.blog.controller.content.model;
 
+import com.qinweizhao.blog.model.dto.CategoryDTO;
+import com.qinweizhao.blog.model.entity.Category;
+import com.qinweizhao.blog.model.entity.Post;
+import com.qinweizhao.blog.model.enums.PostStatus;
+import com.qinweizhao.blog.model.vo.PostListVO;
+import com.qinweizhao.blog.service.*;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -7,12 +13,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 import org.springframework.ui.Model;
-import com.qinweizhao.blog.model.dto.CategoryDTO;
-import com.qinweizhao.blog.model.entity.Category;
-import com.qinweizhao.blog.model.entity.Post;
-import com.qinweizhao.blog.model.enums.PostStatus;
-import com.qinweizhao.blog.model.vo.PostListVO;
-import com.qinweizhao.blog.service.*;
+
+import javax.annotation.Resource;
 
 import static org.springframework.data.domain.Sort.Direction.DESC;
 
@@ -20,28 +22,27 @@ import static org.springframework.data.domain.Sort.Direction.DESC;
  * Category Model.
  *
  * @author ryanwang
+ * @author qinweizhao
  * @date 2020-01-11
  */
 @Component
 public class CategoryModel {
 
-    private final CategoryService categoryService;
+    @Resource
+    private CategoryService categoryService;
 
-    private final ThemeService themeService;
+    @Resource
+    private ThemeService themeService;
 
-    private final PostCategoryService postCategoryService;
+    @Resource
+    private PostCategoryService postCategoryService;
 
-    private final PostService postService;
+    @Resource
+    private PostService postService;
 
-    private final OptionService optionService;
+    @Resource
+    private OptionService optionService;
 
-    public CategoryModel(CategoryService categoryService, ThemeService themeService, PostCategoryService postCategoryService, PostService postService, OptionService optionService) {
-        this.categoryService = categoryService;
-        this.themeService = themeService;
-        this.postCategoryService = postCategoryService;
-        this.postService = postService;
-        this.optionService = optionService;
-    }
 
     /**
      * List categories.

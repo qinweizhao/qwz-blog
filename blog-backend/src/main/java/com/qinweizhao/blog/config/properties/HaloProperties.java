@@ -25,27 +25,27 @@ import static com.qinweizhao.blog.utils.HaloUtils.ensureSuffix;
 public class HaloProperties {
 
     /**
-     * Doc api disabled. (Default is true)
+     * 生产环境（默认为真）
      */
     private boolean docDisabled = true;
 
     /**
-     * Production env. (Default is true)
+     * 生产环境（默认为真）
      */
     private boolean productionEnv = true;
 
     /**
-     * Authentication enabled
+     * 启用身份验证
      */
     private boolean authEnabled = true;
 
     /**
-     * Halo startup mode.
+     * 启动模式
      */
     private Mode mode = Mode.PRODUCTION;
 
     /**
-     * Admin path.
+     * 后台管理路径
      */
     private String adminPath = "admin";
 
@@ -53,16 +53,6 @@ public class HaloProperties {
      * 工作目录
      */
     private String workDir = ensureSuffix(USER_HOME, FILE_SEPARATOR) + FILE_SEPARATOR;
-
-    /**
-     * 备份目录。（不建议修改此配置）
-     */
-    private String backupDir = ensureSuffix(TEMP_DIR, FILE_SEPARATOR) + "halo-backup" + FILE_SEPARATOR;
-
-    /**
-     * Halo 数据导出目录
-     */
-    private String dataExportDir = ensureSuffix(TEMP_DIR, FILE_SEPARATOR) + "halo-data-export" + FILE_SEPARATOR;
 
     /**
      * 上传前缀
@@ -81,18 +71,4 @@ public class HaloProperties {
      */
     private String cache = "memory";
 
-    private List<String> cacheRedisNodes = new ArrayList<>();
-
-    private String cacheRedisPassword = "";
-
-    /**
-     * hazelcast cache store impl
-     * memory
-     * level
-     */
-    private List<String> hazelcastMembers = new ArrayList<>();
-
-    private String hazelcastGroupName;
-
-    private int initialBackoffSeconds = 5;
 }

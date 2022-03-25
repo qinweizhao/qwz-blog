@@ -1,12 +1,5 @@
 package com.qinweizhao.blog.controller.content.model;
 
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.stereotype.Component;
-import org.springframework.ui.Model;
 import com.qinweizhao.blog.cache.AbstractStringCacheStore;
 import com.qinweizhao.blog.exception.ForbiddenException;
 import com.qinweizhao.blog.model.entity.Category;
@@ -20,7 +13,15 @@ import com.qinweizhao.blog.model.vo.ArchiveYearVO;
 import com.qinweizhao.blog.model.vo.PostListVO;
 import com.qinweizhao.blog.service.*;
 import com.qinweizhao.blog.utils.MarkdownUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Component;
+import org.springframework.ui.Model;
 
+import javax.annotation.Resource;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -28,48 +29,39 @@ import java.util.stream.Collectors;
  * Post Model
  *
  * @author ryanwang
+ * @author qinweizhao
  * @date 2020-01-07
  */
 @Component
 public class PostModel {
 
-    private final PostService postService;
+    @Resource
+    private PostService postService;
 
-    private final ThemeService themeService;
+    @Resource
+    private ThemeService themeService;
 
-    private final PostCategoryService postCategoryService;
+    @Resource
+    private PostCategoryService postCategoryService;
 
-    private final CategoryService categoryService;
+    @Resource
+    private CategoryService categoryService;
 
-    private final PostTagService postTagService;
+    @Resource
+    private PostTagService postTagService;
 
-    private final TagService tagService;
+    @Resource
+    private TagService tagService;
 
-    private final PostMetaService postMetaService;
+    @Resource
+    private PostMetaService postMetaService;
 
-    private final OptionService optionService;
+    @Resource
+    private OptionService optionService;
 
-    private final AbstractStringCacheStore cacheStore;
+    @Resource
+    private AbstractStringCacheStore cacheStore;
 
-    public PostModel(PostService postService,
-            ThemeService themeService,
-            PostCategoryService postCategoryService,
-            CategoryService categoryService,
-            PostMetaService postMetaService,
-            PostTagService postTagService,
-            TagService tagService,
-            OptionService optionService,
-            AbstractStringCacheStore cacheStore) {
-        this.postService = postService;
-        this.themeService = themeService;
-        this.postCategoryService = postCategoryService;
-        this.categoryService = categoryService;
-        this.postMetaService = postMetaService;
-        this.postTagService = postTagService;
-        this.tagService = tagService;
-        this.optionService = optionService;
-        this.cacheStore = cacheStore;
-    }
 
     public String content(Post post, String token, Model model) {
 

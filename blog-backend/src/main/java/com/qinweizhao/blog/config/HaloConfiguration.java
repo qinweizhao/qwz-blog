@@ -15,6 +15,7 @@ import com.qinweizhao.blog.cache.*;
 import com.qinweizhao.blog.config.properties.HaloProperties;
 import com.qinweizhao.blog.utils.HttpClientUtils;
 
+import javax.annotation.Resource;
 import java.security.KeyManagementException;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
@@ -29,7 +30,7 @@ import java.security.NoSuchAlgorithmException;
 @Slf4j
 public class HaloConfiguration {
 
-    @Autowired
+    @Resource
     private HaloProperties haloProperties;
 
     @Bean

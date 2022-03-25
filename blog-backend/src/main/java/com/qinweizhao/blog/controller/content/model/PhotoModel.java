@@ -1,39 +1,37 @@
 package com.qinweizhao.blog.controller.content.model;
 
+import com.qinweizhao.blog.model.dto.PhotoDTO;
+import com.qinweizhao.blog.model.properties.SheetProperties;
+import com.qinweizhao.blog.service.OptionService;
+import com.qinweizhao.blog.service.PhotoService;
+import com.qinweizhao.blog.service.ThemeService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 import org.springframework.ui.Model;
-import com.qinweizhao.blog.model.dto.PhotoDTO;
-import com.qinweizhao.blog.model.properties.SheetProperties;
-import com.qinweizhao.blog.service.OptionService;
-import com.qinweizhao.blog.service.PhotoService;
-import com.qinweizhao.blog.service.ThemeService;
+
+import javax.annotation.Resource;
 
 import static org.springframework.data.domain.Sort.Direction.DESC;
 
 /**
  * @author ryanwang
+ * @author qinweizhao
  * @date 2020-02-11
  */
 @Component
 public class PhotoModel {
 
-    private final PhotoService photoService;
+    @Resource
+    private PhotoService photoService;
 
-    private final ThemeService themeService;
+    @Resource
+    private ThemeService themeService;
 
-    private final OptionService optionService;
-
-    public PhotoModel(PhotoService photoService,
-            ThemeService themeService,
-            OptionService optionService) {
-        this.photoService = photoService;
-        this.themeService = themeService;
-        this.optionService = optionService;
-    }
+    @Resource
+    private OptionService optionService;
 
     public String list(Integer page, Model model) {
 

@@ -1,40 +1,39 @@
 package com.qinweizhao.blog.controller.content.model;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.stereotype.Component;
-import org.springframework.ui.Model;
 import com.qinweizhao.blog.model.entity.Journal;
 import com.qinweizhao.blog.model.enums.JournalType;
 import com.qinweizhao.blog.model.properties.SheetProperties;
 import com.qinweizhao.blog.service.JournalService;
 import com.qinweizhao.blog.service.OptionService;
 import com.qinweizhao.blog.service.ThemeService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Component;
+import org.springframework.ui.Model;
+
+import javax.annotation.Resource;
 
 import static org.springframework.data.domain.Sort.Direction.DESC;
 
 /**
  * @author ryanwang
+ * @author qinweizhao
  * @date 2020-02-11
  */
 @Component
 public class JournalModel {
 
-    private final JournalService journalService;
+    @Resource
+    private JournalService journalService;
 
-    private final OptionService optionService;
+    @Resource
+    private OptionService optionService;
 
-    private final ThemeService themeService;
+    @Resource
+    private ThemeService themeService;
 
-    public JournalModel(JournalService journalService,
-            OptionService optionService,
-            ThemeService themeService) {
-        this.journalService = journalService;
-        this.optionService = optionService;
-        this.themeService = themeService;
-    }
 
     public String list(Integer page, Model model) {
 

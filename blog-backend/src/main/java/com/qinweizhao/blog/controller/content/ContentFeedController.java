@@ -1,5 +1,14 @@
 package com.qinweizhao.blog.controller.content;
 
+import com.qinweizhao.blog.model.dto.CategoryDTO;
+import com.qinweizhao.blog.model.entity.Category;
+import com.qinweizhao.blog.model.entity.Post;
+import com.qinweizhao.blog.model.enums.PostStatus;
+import com.qinweizhao.blog.model.vo.PostDetailVO;
+import com.qinweizhao.blog.service.CategoryService;
+import com.qinweizhao.blog.service.OptionService;
+import com.qinweizhao.blog.service.PostCategoryService;
+import com.qinweizhao.blog.service.PostService;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import lombok.extern.slf4j.Slf4j;
@@ -19,16 +28,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
-import com.qinweizhao.blog.model.dto.CategoryDTO;
-import com.qinweizhao.blog.model.entity.Category;
-import com.qinweizhao.blog.model.entity.Post;
-import com.qinweizhao.blog.model.enums.PostStatus;
-import com.qinweizhao.blog.model.vo.PostDetailVO;
-import com.qinweizhao.blog.service.CategoryService;
-import com.qinweizhao.blog.service.OptionService;
-import com.qinweizhao.blog.service.PostCategoryService;
-import com.qinweizhao.blog.service.PostService;
 
+import javax.annotation.Resource;
 import java.io.IOException;
 import java.util.List;
 
@@ -36,6 +37,7 @@ import static org.springframework.data.domain.Sort.Direction.DESC;
 
 /**
  * @author ryanwang
+ * @author qinweizhao
  * @date 2019-03-21
  */
 @Slf4j
@@ -48,27 +50,20 @@ public class ContentFeedController {
 
     private final static String XML_MEDIA_TYPE = MediaType.APPLICATION_XML_VALUE + UTF_8_SUFFIX;
 
-    private final PostService postService;
+    @Resource
+    private PostService postService;
 
-    private final CategoryService categoryService;
+    @Resource
+    private CategoryService categoryService;
 
-    private final PostCategoryService postCategoryService;
+    @Resource
+    private PostCategoryService postCategoryService;
 
-    private final OptionService optionService;
+    @Resource
+    private OptionService optionService;
 
-    private final FreeMarkerConfigurer freeMarker;
-
-    public ContentFeedController(PostService postService,
-            CategoryService categoryService,
-            PostCategoryService postCategoryService,
-            OptionService optionService,
-            FreeMarkerConfigurer freeMarker) {
-        this.postService = postService;
-        this.categoryService = categoryService;
-        this.postCategoryService = postCategoryService;
-        this.optionService = optionService;
-        this.freeMarker = freeMarker;
-    }
+    @Resource
+    private FreeMarkerConfigurer freeMarker;
 
     /**
      * Get post rss
@@ -153,7 +148,7 @@ public class ContentFeedController {
     @GetMapping(value = {"sitemap", "sitemap.xml"}, produces = XML_MEDIA_TYPE)
     @ResponseBody
     public String sitemapXml(Model model,
-            @PageableDefault(size = Integer.MAX_VALUE, sort = "createTime", direction = DESC) Pageable pageable) throws IOException, TemplateException {
+                             @PageableDefault(size = Integer.MAX_VALUE, sort = "createTime", direction = DESC) Pageable pageable) throws IOException, TemplateException {
         model.addAttribute("posts", buildPosts(pageable));
         Template template = freeMarker.getConfiguration().getTemplate("common/web/sitemap_xml.ftl");
         return FreeMarkerTemplateUtils.processTemplateIntoString(template, model);
@@ -167,7 +162,7 @@ public class ContentFeedController {
      */
     @GetMapping(value = "sitemap.html")
     public String sitemapHtml(Model model,
-            @PageableDefault(size = Integer.MAX_VALUE, sort = "createTime", direction = DESC) Pageable pageable) {
+                              @PageableDefault(size = Integer.MAX_VALUE, sort = "createTime", direction = DESC) Pageable pageable) {
         model.addAttribute("posts", buildPosts(pageable));
         return "common/web/sitemap_html";
     }

@@ -1,5 +1,10 @@
 package com.qinweizhao.blog.controller.content;
 
+import com.qinweizhao.blog.model.entity.Post;
+import com.qinweizhao.blog.model.vo.PostListVO;
+import com.qinweizhao.blog.service.OptionService;
+import com.qinweizhao.blog.service.PostService;
+import com.qinweizhao.blog.service.ThemeService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -12,11 +17,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.util.HtmlUtils;
-import com.qinweizhao.blog.model.entity.Post;
-import com.qinweizhao.blog.model.vo.PostListVO;
-import com.qinweizhao.blog.service.OptionService;
-import com.qinweizhao.blog.service.PostService;
-import com.qinweizhao.blog.service.ThemeService;
+
+import javax.annotation.Resource;
 
 import static org.springframework.data.domain.Sort.Direction.DESC;
 
@@ -24,23 +26,22 @@ import static org.springframework.data.domain.Sort.Direction.DESC;
  * Search controller.
  *
  * @author ryanwang
+ * @author qinweizhao
  * @date 2019-04-21
  */
 @Controller
 @RequestMapping(value = "/search")
 public class ContentSearchController {
 
-    private final PostService postService;
+    @Resource
+    private PostService postService;
 
-    private final OptionService optionService;
+    @Resource
+    private OptionService optionService;
 
-    private final ThemeService themeService;
+    @Resource
+    private ThemeService themeService;
 
-    public ContentSearchController(PostService postService, OptionService optionService, ThemeService themeService) {
-        this.postService = postService;
-        this.optionService = optionService;
-        this.themeService = themeService;
-    }
 
     /**
      * Render post search page.
@@ -51,7 +52,7 @@ public class ContentSearchController {
      */
     @GetMapping
     public String search(Model model,
-            @RequestParam(value = "keyword") String keyword) {
+                         @RequestParam(value = "keyword") String keyword) {
         return this.search(model, HtmlUtils.htmlEscape(keyword), 1, Sort.by(DESC, "createTime"));
     }
 
@@ -64,9 +65,9 @@ public class ContentSearchController {
      */
     @GetMapping(value = "page/{page}")
     public String search(Model model,
-            @RequestParam(value = "keyword") String keyword,
-            @PathVariable(value = "page") Integer page,
-            @SortDefault(sort = "createTime", direction = DESC) Sort sort) {
+                         @RequestParam(value = "keyword") String keyword,
+                         @PathVariable(value = "page") Integer page,
+                         @SortDefault(sort = "createTime", direction = DESC) Sort sort) {
         final Pageable pageable = PageRequest.of(page - 1, optionService.getPostPageSize(), sort);
         final Page<Post> postPage = postService.pageBy(keyword, pageable);
 
