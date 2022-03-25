@@ -88,11 +88,6 @@
     <#--  <!-- 音乐播放器 -->
     <div id="global-aplayer"></div>
   </#if>
-  <#if settings.enable_live2d>
-    <!-- live2d -->
-    <#include "../../plugins/live2d/ftl/live2d.ftl">
-    <@live2d />
-  </#if>
   <#-- ===== 引入脚本 end ===== -->
 
   <#if settings.custom_external_js_body??>
