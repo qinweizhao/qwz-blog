@@ -98,20 +98,22 @@ public class WebMvcAutoConfiguration extends WebMvcConfigurationSupport {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         String workDir = FILE_PROTOCOL + ensureSuffix(haloProperties.getWorkDir(), FILE_SEPARATOR);
-        // register /** resource handler.
+        String uploadUrlPattern = ensureBoth(haloProperties.getUploadUrlPrefix(), URL_SEPARATOR) + "**";
+        String adminPathPattern = ensureSuffix(haloProperties.getAdminPath(), URL_SEPARATOR) + "**";
+
+
         registry.addResourceHandler("/**")
                 .addResourceLocations("classpath:/admin/")
                 .addResourceLocations(workDir + "blog-resource/static/");
 
-        // register /themes/** resource handler.
         registry.addResourceHandler("/themes/**")
                 .addResourceLocations(FILE_PROTOCOL + haloProperties.getWorkDir() + "blog-frontend/");
 
-        String uploadUrlPattern = ensureBoth(haloProperties.getUploadUrlPrefix(), URL_SEPARATOR) + "**";
-        String adminPathPattern = ensureSuffix(haloProperties.getAdminPath(), URL_SEPARATOR) + "**";
+
         registry.addResourceHandler(uploadUrlPattern)
                 .setCacheControl(CacheControl.maxAge(7L, TimeUnit.DAYS))
                 .addResourceLocations(workDir + "blog-resource/upload/");
+
         registry.addResourceHandler(adminPathPattern)
                 .addResourceLocations("classpath:/admin/");
 

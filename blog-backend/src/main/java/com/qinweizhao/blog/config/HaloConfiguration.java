@@ -25,9 +25,9 @@ import java.security.NoSuchAlgorithmException;
  *
  * @author johnniang
  */
+@Slf4j
 @Configuration
 @EnableConfigurationProperties(HaloProperties.class)
-@Slf4j
 public class HaloConfiguration {
 
     @Resource

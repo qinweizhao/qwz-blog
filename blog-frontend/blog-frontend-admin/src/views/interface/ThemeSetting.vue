@@ -7,25 +7,11 @@
         <a-icon type="eye" />
         预览模式
       </a-button>
-      <a-button
-        :disabled="theme.current.activated"
-        icon="delete"
-        type="danger"
-        @click="themeDeleteModal.visible = true"
-      >
-        删除
-      </a-button>
     </template>
 
     <a-spin :spinning="theme.loading">
       <ThemeSettingForm :theme="theme.current" />
     </a-spin>
-
-    <ThemeDeleteConfirmModal
-      :theme="theme.current"
-      :visible.sync="themeDeleteModal.visible"
-      @success="onThemeDeleteSucceed"
-    />
 
     <ThemeLocalUpgradeModal
       :theme="theme.current"
@@ -37,7 +23,6 @@
 <script>
 // components
 import { PageView } from '@/layouts'
-import ThemeDeleteConfirmModal from './components/ThemeDeleteConfirmModal'
 import ThemeLocalUpgradeModal from './components/ThemeLocalUpgradeModal'
 import ThemeSettingForm from './components/ThemeSettingForm'
 
@@ -48,7 +33,6 @@ export default {
   name: 'ThemeSetting',
   components: {
     PageView,
-    ThemeDeleteConfirmModal,
     ThemeLocalUpgradeModal,
     ThemeSettingForm
   },

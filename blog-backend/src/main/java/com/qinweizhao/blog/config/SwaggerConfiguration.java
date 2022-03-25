@@ -1,6 +1,9 @@
 package com.qinweizhao.blog.config;
 
 import com.fasterxml.classmate.TypeResolver;
+import com.qinweizhao.blog.config.properties.HaloProperties;
+import com.qinweizhao.blog.model.entity.User;
+import com.qinweizhao.blog.security.support.UserDetail;
 import io.swagger.models.auth.In;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
@@ -11,9 +14,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.lang.NonNull;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.RequestMethod;
-import com.qinweizhao.blog.config.properties.HaloProperties;
-import com.qinweizhao.blog.model.entity.User;
-import com.qinweizhao.blog.security.support.UserDetail;
 import springfox.documentation.builders.*;
 import springfox.documentation.schema.AlternateTypeRule;
 import springfox.documentation.schema.AlternateTypeRuleConvention;
@@ -62,7 +62,7 @@ public class SwaggerConfiguration {
     @Bean
     public Docket haloDefaultApi() {
         if (haloProperties.isDocDisabled()) {
-            log.debug("Doc has been disabled");
+            log.debug("文档已被禁用");
         }
 
         return buildApiDocket("com.qinweizhao.blog.content.api",

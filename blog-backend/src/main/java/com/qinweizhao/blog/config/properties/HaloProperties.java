@@ -1,14 +1,13 @@
 package com.qinweizhao.blog.config.properties;
 
+import com.qinweizhao.blog.model.enums.Mode;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import com.qinweizhao.blog.model.enums.Mode;
 
 import java.time.Duration;
-import java.util.ArrayList;
-import java.util.List;
 
-import static com.qinweizhao.blog.model.support.HaloConst.*;
+import static com.qinweizhao.blog.model.support.HaloConst.FILE_SEPARATOR;
+import static com.qinweizhao.blog.model.support.HaloConst.USER_HOME;
 import static com.qinweizhao.blog.utils.HaloUtils.ensureSuffix;
 
 
@@ -25,7 +24,7 @@ import static com.qinweizhao.blog.utils.HaloUtils.ensureSuffix;
 public class HaloProperties {
 
     /**
-     * 生产环境（默认为真）
+     * 生产环境
      */
     private boolean docDisabled = true;
 
