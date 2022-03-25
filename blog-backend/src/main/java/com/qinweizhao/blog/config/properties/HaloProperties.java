@@ -55,7 +55,7 @@ public class HaloProperties {
     private String workDir = ensureSuffix(USER_HOME, FILE_SEPARATOR) + FILE_SEPARATOR;
 
     /**
-     * Halo 备份目录。（不建议修改此配置）
+     * 备份目录。（不建议修改此配置）
      */
     private String backupDir = ensureSuffix(TEMP_DIR, FILE_SEPARATOR) + "halo-backup" + FILE_SEPARATOR;
 

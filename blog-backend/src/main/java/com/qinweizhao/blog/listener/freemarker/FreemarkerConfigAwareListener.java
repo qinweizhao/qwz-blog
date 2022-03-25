@@ -102,7 +102,6 @@ public class FreemarkerConfigAwareListener {
         configuration.setSharedVariable("options", optionService.listOptions());
         configuration.setSharedVariable("context", context);
         configuration.setSharedVariable("version", HaloConst.HALO_VERSION);
-
         configuration.setSharedVariable("globalAbsolutePathEnabled", optionService.isEnabledAbsolutePath());
         configuration.setSharedVariable("blog_title", optionService.getBlogTitle());
         configuration.setSharedVariable("blog_url", blogBaseUrl);
