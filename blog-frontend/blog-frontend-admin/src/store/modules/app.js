@@ -71,18 +71,21 @@ const app = {
     }
   },
   actions: {
+    // fetchIsInstalled({ commit }) {
+    //   return new Promise((resolve, reject) => {
+    //     apiClient
+    //       .isInstalled()
+    //       .then(response => {
+    //         commit('SET_IS_INSTALLED', response.data)
+    //         resolve(response)
+    //       })
+    //       .catch(error => {
+    //         reject(error)
+    //       })
+    //   })
+    // },
     fetchIsInstalled({ commit }) {
-      return new Promise((resolve, reject) => {
-        apiClient
-          .isInstalled()
-          .then(response => {
-            commit('SET_IS_INSTALLED', response.data)
-            resolve(response)
-          })
-          .catch(error => {
-            reject(error)
-          })
-      })
+      commit('SET_IS_INSTALLED', true)
     },
     setSidebar({ commit }, type) {
       commit('SET_SIDEBAR_TYPE', type)
