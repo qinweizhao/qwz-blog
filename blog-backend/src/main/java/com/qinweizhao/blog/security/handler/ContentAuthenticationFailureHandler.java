@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * Content authentication failure handler.
+ * 内容认证失败处理程序
  *
  * @author johnniang
  * @date 19-5-6

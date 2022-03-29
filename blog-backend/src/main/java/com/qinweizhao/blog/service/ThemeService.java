@@ -16,6 +16,7 @@ import java.util.Optional;
  * Theme service interface.
  *
  * @author ryanwang
+ * @author qinweizhao
  * @date 2019-03-26
  */
 public interface ThemeService {
@@ -44,21 +45,10 @@ public interface ThemeService {
     String[] CAN_EDIT_SUFFIX = {".ftl", ".css", ".js", ".yaml", ".yml", ".properties"};
 
     /**
-     * These file names cannot be displayed.
-     */
-    String[] FILTER_FILES = {".git", ".DS_Store", "theme.yaml", "theme.yml", "settings.yaml", "settings.yml"};
-
-    /**
-     * 主题文件夹位置
-     */
-    String THEME_FOLDER = "blog-frontend";
-
-    /**
      * Theme screenshots name.
      */
     @Deprecated
     String THEME_SCREENSHOTS_NAME = "screenshot";
-
 
     /**
      * Render template.

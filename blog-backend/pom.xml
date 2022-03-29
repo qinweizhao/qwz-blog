@@ -276,10 +276,11 @@
                             <overwrite>true</overwrite>
                             <resources>
                                 <resource>
-                                    <directory>${project.parent.basedir}/blog-frontend/blog-frontend-admin/dist
+                                    <directory>${project.parent.basedir}/blog-frontend/blog-frontend-admin/target
                                     </directory>
                                     <includes>
-                                        <include>static/</include>
+                                        <include>js/</include>
+                                        <include>css/</include>
                                         <include>index.html</include>
                                         <include>favicon.ico</include>
                                     </includes>

@@ -1,5 +1,5 @@
 server:
-  port: 8090
+  port: 8091
   forward-headers-strategy: native
   compression:
     enabled: true
@@ -13,13 +13,11 @@ spring:
     restart:
       eanbled: true
   datasource:
-    type: com.zaxxer.hikari.HikariDataSource
-
     # MySQL database configuration.
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://42.192.49.72:3306/site?useUnicode=true&characterEncoding=utf8&characterSetResults=utf8&allowMultiQueries=true&autoReconnect=true&useSSL=false&serverTimezone=Asia/Shanghai&zeroDateTimeBehavior=convertToNull
+    url: jdbc:mysql://127.0.0.1:3306/blog?useUnicode=true&characterEncoding=utf8&characterSetResults=utf8&allowMultiQueries=true&autoReconnect=true&useSSL=false&serverTimezone=Asia/Shanghai&zeroDateTimeBehavior=convertToNull
     username: root
-    password: 112121
+    password: Qwz#1201
 
   jpa:
     hibernate:
@@ -53,7 +51,7 @@ springfox:
 
 halo:
   auth-enabled: true
-  mode: development
-  work-dir: ${user.home}/.halo/
+  mode: PRODUCTION
+  work-dir: ${user.home}/.blog/
   cache: memory
   admin-path: qwz

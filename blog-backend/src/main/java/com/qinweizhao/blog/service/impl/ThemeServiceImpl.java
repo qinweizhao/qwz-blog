@@ -92,9 +92,11 @@ public class ThemeServiceImpl implements ThemeService {
         this.cacheStore = cacheStore;
         this.themeConfigResolver = themeConfigResolver;
         this.restTemplate = restTemplate;
-
-        themeWorkDir = Paths.get(haloProperties.getWorkDir(), THEME_FOLDER);
-        System.out.println("themeWorkDir = " + themeWorkDir);
+        if (haloProperties.isProductionEnv()){
+            themeWorkDir = Paths.get(haloProperties.getWorkDir(),"theme");
+        }else {
+            themeWorkDir = Paths.get(haloProperties.getWorkDir(),"blog-frontend");
+        }
         this.eventPublisher = eventPublisher;
         this.themeSettingRepository = themeSettingRepository;
     }
@@ -329,7 +331,6 @@ public class ThemeServiceImpl implements ThemeService {
         return String.format(RENDER_TEMPLATE_SUFFIX, activatedTheme.getFolderName(), pageName);
     }
 
-    // TODO
     @Override
     @NonNull
     public String getActivatedThemeId() {
@@ -340,6 +341,8 @@ public class ThemeServiceImpl implements ThemeService {
                 }
             }
         }
+        String activatedThemeId = this.activatedThemeId;
+        assert activatedThemeId != null;
         return activatedThemeId;
     }
 

@@ -125,17 +125,22 @@ public class FreemarkerConfigAwareListener {
 
     private void loadThemeConfig() {
         // 获取当前激活的主题
+        System.out.println("themeService.fetchActivatedTheme() = " + themeService.fetchActivatedTheme());
         themeService.fetchActivatedTheme().ifPresent(activatedTheme -> {
             String themeBasePath = (optionService.isEnabledAbsolutePath() ? optionService.getBlogBaseUrl() : "") + "/themes/" + activatedTheme.getFolderName();
             try {
                 configuration.setSharedVariable("theme", activatedTheme);
+                System.out.println("activatedTheme = " + activatedTheme);
 
                 // TODO: It will be removed in future versions
                 configuration.setSharedVariable("static", themeBasePath);
 
+                System.out.println("themeBasePath = " + themeBasePath);
+
                 configuration.setSharedVariable("theme_base", themeBasePath);
 
                 configuration.setSharedVariable("settings", themeSettingService.listAsMapBy(themeService.getActivatedThemeId()));
+                System.out.println("themeSettingService.listAsMapBy(themeService.getActivatedThemeId()) = " + themeSettingService.listAsMapBy(themeService.getActivatedThemeId()));
                 log.debug("Loaded theme and settings");
             } catch (TemplateModelException e) {
                 log.error("Failed to set shared variable!", e);
