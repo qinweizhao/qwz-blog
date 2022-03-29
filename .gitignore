@@ -31,3 +31,5 @@ build/
 .vscode/
 
 .DS_Store
+
+./blog-resource/logs/**

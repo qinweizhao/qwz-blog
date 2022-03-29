@@ -1,21 +1,20 @@
 package com.qinweizhao.blog.controller.admin.api;
 
-import io.swagger.annotations.ApiOperation;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
 import com.qinweizhao.blog.annotation.DisableOnCondition;
 import com.qinweizhao.blog.cache.lock.CacheLock;
 import com.qinweizhao.blog.model.dto.EnvironmentDTO;
 import com.qinweizhao.blog.model.dto.StatisticDTO;
 import com.qinweizhao.blog.model.params.LoginParam;
 import com.qinweizhao.blog.model.params.ResetPasswordParam;
-import com.qinweizhao.blog.model.properties.PrimaryProperties;
 import com.qinweizhao.blog.model.support.BaseResponse;
 import com.qinweizhao.blog.security.token.AuthToken;
 import com.qinweizhao.blog.service.AdminService;
-import com.qinweizhao.blog.service.OptionService;
+import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import javax.validation.Valid;
 
 /**
@@ -23,6 +22,7 @@ import javax.validation.Valid;
  *
  * @author johnniang
  * @author ryanwang
+ * @author qinweizhao
  * @date 2019-03-19
  */
 @Slf4j
@@ -30,20 +30,8 @@ import javax.validation.Valid;
 @RequestMapping("/api/admin")
 public class AdminController {
 
-    private final AdminService adminService;
-
-    private final OptionService optionService;
-
-    public AdminController(AdminService adminService, OptionService optionService) {
-        this.adminService = adminService;
-        this.optionService = optionService;
-    }
-
-    @GetMapping(value = "/is_installed")
-    @ApiOperation("检查安装状态")
-    public boolean isInstall() {
-        return optionService.getByPropertyOrDefault(PrimaryProperties.IS_INSTALLED, Boolean.class, false);
-    }
+    @Resource
+    private AdminService adminService;
 
     @PostMapping("login")
     @ApiOperation("Login")
@@ -83,14 +71,14 @@ public class AdminController {
     }
 
     @GetMapping("counts")
-    @ApiOperation("Gets count info")
+    @ApiOperation("获取计数信息")
     @Deprecated
     public StatisticDTO getCount() {
         return adminService.getCount();
     }
 
     @GetMapping("environments")
-    @ApiOperation("Gets environments info")
+    @ApiOperation("获取环境信息")
     public EnvironmentDTO getEnvironments() {
         return adminService.getEnvironments();
     }
