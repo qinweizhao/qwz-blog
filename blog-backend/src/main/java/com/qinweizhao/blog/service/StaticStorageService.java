@@ -17,11 +17,6 @@ public interface StaticStorageService {
     String API_FOLDER_NAME = "api";
 
     /**
-     * Static folder location.
-     */
-    String STATIC_FOLDER = "blog-resource/static";
-
-    /**
      * Lists static folder.
      *
      * @return List<StaticFile>

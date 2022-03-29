@@ -46,7 +46,12 @@ public class StaticStorageServiceImpl implements StaticStorageService, Applicati
 
     public StaticStorageServiceImpl(HaloProperties haloProperties,
             ApplicationEventPublisher eventPublisher) throws IOException {
-        staticDir = Paths.get(haloProperties.getWorkDir(), STATIC_FOLDER);
+        if (haloProperties.isProductionEnv()){
+            staticDir = Paths.get(haloProperties.getWorkDir(),"static");
+        }else {
+            staticDir = Paths.get(haloProperties.getWorkDir(), "blog-resource/static");
+        }
+
         this.eventPublisher = eventPublisher;
         FileUtils.createIfAbsent(staticDir);
     }
