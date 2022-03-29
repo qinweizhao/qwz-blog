@@ -7,10 +7,8 @@ import {
   DEFAULT_FIXED_SIDEBAR,
   DEFAULT_LAYOUT_MODE,
   DEFAULT_THEME,
-  LAYOUT_SETTING,
   SIDEBAR_TYPE
 } from '@/store/mutation-types'
-import apiClient from '@/utils/api-client'
 
 const app = {
   state: {
@@ -25,7 +23,6 @@ const app = {
     color: null,
     layoutSetting: false,
     loginModal: false,
-    isInstalled: undefined
   },
   mutations: {
     SET_SIDEBAR_TYPE: (state, type) => {
@@ -65,51 +62,11 @@ const app = {
     },
     TOGGLE_LOGIN_MODAL: (state, show) => {
       state.loginModal = show
-    },
-    SET_IS_INSTALLED: (state, isInstalled) => {
-      state.isInstalled = isInstalled
     }
   },
   actions: {
-    // fetchIsInstalled({ commit }) {
-    //   return new Promise((resolve, reject) => {
-    //     apiClient
-    //       .isInstalled()
-    //       .then(response => {
-    //         commit('SET_IS_INSTALLED', response.data)
-    //         resolve(response)
-    //       })
-    //       .catch(error => {
-    //         reject(error)
-    //       })
-    //   })
-    // },
-    fetchIsInstalled({ commit }) {
-      commit('SET_IS_INSTALLED', true)
-    },
     setSidebar({ commit }, type) {
       commit('SET_SIDEBAR_TYPE', type)
-    },
-    ToggleTheme({ commit }, theme) {
-      commit('TOGGLE_THEME', theme)
-    },
-    ToggleLayoutMode({ commit }, mode) {
-      commit('TOGGLE_LAYOUT_MODE', mode)
-    },
-    ToggleFixedHeader({ commit }, fixedHeader) {
-      commit('TOGGLE_FIXED_HEADER', fixedHeader)
-    },
-    ToggleFixedSidebar({ commit }, fixedSidebar) {
-      commit('TOGGLE_FIXED_SIDEBAR', fixedSidebar)
-    },
-    ToggleFixedHeaderHidden({ commit }, show) {
-      commit('TOGGLE_FIXED_HEADER_HIDDEN', show)
-    },
-    ToggleContentWidth({ commit }, type) {
-      commit('TOGGLE_CONTENT_WIDTH', type)
-    },
-    ToggleColor({ commit }, color) {
-      commit('TOGGLE_COLOR', color)
     },
     ToggleLoginModal({ commit }, show) {
       commit('TOGGLE_LOGIN_MODAL', show)

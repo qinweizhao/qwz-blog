@@ -18,27 +18,6 @@ router.beforeEach(async (to, from, next) => {
   // set title meta
   to.meta && typeof to.meta.title !== 'undefined' && setDocumentTitle(`${to.meta.title} - ${domTitle}`)
 
-  // check installation status
-  if (store.getters.isInstalled === undefined) {
-    await store.dispatch('fetchIsInstalled')
-  }
-
-  if (!store.getters.isInstalled && to.name !== 'Install') {
-    next({
-      name: 'Install'
-    })
-    onProgressTimerDone()
-    return
-  }
-
-  if (store.getters.isInstalled && to.name === 'Install') {
-    next({
-      name: 'Login'
-    })
-    onProgressTimerDone()
-    return
-  }
-
   if (store.getters.token) {
     if (!store.getters.options) {
       await store.dispatch('refreshOptionsCache').then()
