@@ -10,8 +10,8 @@ import freemarker.core.TemplateClassResolver;
 import freemarker.template.TemplateException;
 import freemarker.template.TemplateExceptionHandler;
 import lombok.extern.slf4j.Slf4j;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.boot.autoconfigure.web.servlet.MultipartProperties;
+import org.springframework.boot.autoconfigure.web.servlet.WebMvcRegistrations;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.jackson.JsonComponentModule;
 import org.springframework.context.annotation.Bean;
@@ -29,7 +29,7 @@ import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver;
@@ -45,7 +45,6 @@ import static com.qinweizhao.blog.model.support.HaloConst.FILE_SEPARATOR;
 import static com.qinweizhao.blog.utils.HaloUtils.*;
 
 /**
- *
  * @author ryanwang
  * @author qinweizhao
  * @date 2018-01-02
@@ -53,7 +52,7 @@ import static com.qinweizhao.blog.utils.HaloUtils.*;
 @Slf4j
 @Configuration
 @EnableConfigurationProperties(MultipartProperties.class)
-public class WebMvcAutoConfiguration extends WebMvcConfigurationSupport {
+public class WebMvcAutoConfiguration implements WebMvcConfigurer {
 
     private static final String FILE_PROTOCOL = "file:///";
 
@@ -65,7 +64,6 @@ public class WebMvcAutoConfiguration extends WebMvcConfigurationSupport {
 
     @Resource
     private HaloProperties haloProperties;
-
 
 
     @Override
@@ -101,19 +99,32 @@ public class WebMvcAutoConfiguration extends WebMvcConfigurationSupport {
         String uploadUrlPattern = ensureBoth(haloProperties.getUploadUrlPrefix(), URL_SEPARATOR) + "**";
         String adminPathPattern = ensureSuffix(haloProperties.getAdminPath(), URL_SEPARATOR) + "**";
 
+        if (haloProperties.isProductionEnv()) {
+            registry.addResourceHandler("/**")
+                    .addResourceLocations("classpath:/admin/")
+                    .addResourceLocations(workDir + "static/");
 
-        registry.addResourceHandler("/**")
-                .addResourceLocations("classpath:/admin/")
-                .addResourceLocations(workDir + "blog-resource/static/");
+            registry.addResourceHandler("/themes/**")
+                    .addResourceLocations(workDir + "theme/");
 
-        registry.addResourceHandler("/themes/**")
-                .addResourceLocations(FILE_PROTOCOL + haloProperties.getWorkDir() + "blog-frontend/");
+            registry.addResourceHandler(uploadUrlPattern)
+                    .setCacheControl(CacheControl.maxAge(7L, TimeUnit.DAYS))
+                    .addResourceLocations(workDir + "image/");
+
+        } else {
+            registry.addResourceHandler("/**")
+                    .addResourceLocations("classpath:/admin/")
+                    .addResourceLocations(workDir + "blog-resource/static/");
+
+            registry.addResourceHandler("/themes/**")
+                    .addResourceLocations(FILE_PROTOCOL + haloProperties.getWorkDir() + "blog-frontend/");
 
 
-        registry.addResourceHandler(uploadUrlPattern)
-                .setCacheControl(CacheControl.maxAge(7L, TimeUnit.DAYS))
-                .addResourceLocations(workDir + "blog-resource/upload/");
+            registry.addResourceHandler(uploadUrlPattern)
+                    .setCacheControl(CacheControl.maxAge(7L, TimeUnit.DAYS))
+                    .addResourceLocations(workDir + "blog-resource/upload/");
 
+        }
         registry.addResourceHandler(adminPathPattern)
                 .addResourceLocations("classpath:/admin/");
 
@@ -139,7 +150,11 @@ public class WebMvcAutoConfiguration extends WebMvcConfigurationSupport {
     @Bean
     public FreeMarkerConfigurer freemarkerConfig(HaloProperties haloProperties) throws IOException, TemplateException {
         FreeMarkerConfigurer configurer = new FreeMarkerConfigurer();
-        configurer.setTemplateLoaderPaths(FILE_PROTOCOL + haloProperties.getWorkDir() + "blog-frontend/", "classpath:/templates/");
+        if (haloProperties.isProductionEnv()) {
+            configurer.setTemplateLoaderPaths(FILE_PROTOCOL + haloProperties.getWorkDir() + "theme/", "classpath:/templates/");
+        } else {
+            configurer.setTemplateLoaderPaths(FILE_PROTOCOL + haloProperties.getWorkDir() + "blog-frontend/", "classpath:/templates/");
+        }
         configurer.setDefaultEncoding("UTF-8");
 
         Properties properties = new Properties();
@@ -199,9 +214,13 @@ public class WebMvcAutoConfiguration extends WebMvcConfigurationSupport {
         registry.viewResolver(resolver);
     }
 
-    @Override
-    protected @NotNull RequestMappingHandlerMapping createRequestMappingHandlerMapping() {
-        return new HaloRequestMappingHandlerMapping(haloProperties);
+    @Bean
+    WebMvcRegistrations webMvcRegistrations() {
+        return new WebMvcRegistrations() {
+            @Override
+            public RequestMappingHandlerMapping getRequestMappingHandlerMapping() {
+                return new HaloRequestMappingHandlerMapping(haloProperties);
+            }
+        };
     }
-
 }

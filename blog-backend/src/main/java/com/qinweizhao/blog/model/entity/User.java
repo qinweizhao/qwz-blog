@@ -1,12 +1,12 @@
 package com.qinweizhao.blog.model.entity;
 
 import com.qinweizhao.blog.utils.DateUtils;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
+import lombok.*;
+import org.hibernate.Hibernate;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.Objects;
 
 /**
  * User entity
@@ -15,10 +15,10 @@ import java.util.Date;
  * @date 2019-03-12
  */
 @Data
+@RequiredArgsConstructor
 @Entity
 @Table(name = "users")
 @ToString(callSuper = true)
-@EqualsAndHashCode(callSuper = true)
 public class User extends BaseEntity {
 
     @Id
@@ -89,5 +89,18 @@ public class User extends BaseEntity {
         if (expireTime == null) {
             expireTime = DateUtils.now();
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        User user = (User) o;
+        return id != null && Objects.equals(id, user.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
     }
 }
