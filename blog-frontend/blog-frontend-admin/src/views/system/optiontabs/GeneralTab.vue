@@ -5,7 +5,7 @@
         <a-input v-model="options.blog_title" />
       </a-form-model-item>
       <a-form-model-item label="博客地址：" prop="blog_url">
-        <a-input v-model="options.blog_url" placeholder="如：https://halo.run" />
+        <a-input v-model="options.blog_url" placeholder="如：https://www.qinweizhao.com" />
       </a-form-model-item>
       <a-form-model-item label="Logo：" prop="blog_logo">
         <AttachmentInput v-model="options.blog_logo" title="选择 Logo" />
