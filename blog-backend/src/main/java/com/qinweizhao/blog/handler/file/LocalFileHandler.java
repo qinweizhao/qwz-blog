@@ -15,6 +15,7 @@ import com.qinweizhao.blog.utils.FilenameUtils;
 import com.qinweizhao.blog.utils.HaloUtils;
 import com.qinweizhao.blog.utils.ImageUtils;
 
+import javax.annotation.Resource;
 import java.awt.image.BufferedImage;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -42,9 +43,12 @@ public class LocalFileHandler implements FileHandler {
     /**
      * Upload sub directory.
      */
-    private final static String UPLOAD_SUB_DIR = "upload/";
+    private final static String UPLOAD_SUB_DIR = "image/";
 
     private final static String THUMBNAIL_SUFFIX = "-thumbnail";
+
+    @Resource
+    private HaloProperties haloProperties;
 
     /**
      * Thumbnail width.
@@ -100,8 +104,13 @@ public class LocalFileHandler implements FileHandler {
         String monthString = month < 10 ? "0" + month : String.valueOf(month);
 
         // Build directory
-        String subDir = UPLOAD_SUB_DIR + year + FILE_SEPARATOR + monthString + FILE_SEPARATOR;
-
+        String subDir ;
+        if (haloProperties.isProductionEnv()) {
+            subDir= UPLOAD_SUB_DIR + year + FILE_SEPARATOR + monthString + FILE_SEPARATOR;
+        } else {
+            String uploadSubDir= "blog-resource/img/";
+            subDir= uploadSubDir + year + FILE_SEPARATOR + monthString + FILE_SEPARATOR;
+        }
         String originalBasename = FilenameUtils.getBasename(Objects.requireNonNull(file.getOriginalFilename()));
 
         // Get basename

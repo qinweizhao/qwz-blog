@@ -133,7 +133,7 @@ public class HaloUtils {
     }
 
     /**
-     * Changes file separator to url separator.
+     * 将文件分隔符更改为 url 分隔符
      *
      * @param pathname full path name must not be blank.
      * @return text with url separator
