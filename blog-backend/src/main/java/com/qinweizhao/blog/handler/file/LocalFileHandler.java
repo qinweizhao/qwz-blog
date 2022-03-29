@@ -108,7 +108,7 @@ public class LocalFileHandler implements FileHandler {
         if (haloProperties.isProductionEnv()) {
             subDir= UPLOAD_SUB_DIR + year + FILE_SEPARATOR + monthString + FILE_SEPARATOR;
         } else {
-            String uploadSubDir= "blog-resource/img/";
+            String uploadSubDir= "blog-resource/image/";
             subDir= uploadSubDir + year + FILE_SEPARATOR + monthString + FILE_SEPARATOR;
         }
         String originalBasename = FilenameUtils.getBasename(Objects.requireNonNull(file.getOriginalFilename()));

@@ -56,7 +56,7 @@ public class HaloProperties {
     /**
      * 上传前缀
      */
-    private String uploadUrlPrefix = "upload";
+    private String uploadUrlPrefix = "image";
 
     /**
      * 下载超时
