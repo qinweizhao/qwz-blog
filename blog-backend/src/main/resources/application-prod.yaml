@@ -1,5 +1,5 @@
 server:
-  port: 8091
+  port: 8090
   forward-headers-strategy: native
   compression:
     enabled: true
@@ -12,12 +12,12 @@ spring:
   devtools:
     restart:
       eanbled: true
-  datasource:
-    # MySQL database configuration.
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1:3306/blog?useUnicode=true&characterEncoding=utf8&characterSetResults=utf8&allowMultiQueries=true&autoReconnect=true&useSSL=false&serverTimezone=Asia/Shanghai&zeroDateTimeBehavior=convertToNull
-    username: root
-    password: Qwz#1201
+#  datasource:
+#    # MySQL database configuration.
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    url: jdbc:mysql://127.0.0.1:3306/blog?useUnicode=true&characterEncoding=utf8&characterSetResults=utf8&allowMultiQueries=true&autoReconnect=true&useSSL=false&serverTimezone=Asia/Shanghai&zeroDateTimeBehavior=convertToNull
+#    username: root
+#    password: Qwz#1201
 
   jpa:
     hibernate:
