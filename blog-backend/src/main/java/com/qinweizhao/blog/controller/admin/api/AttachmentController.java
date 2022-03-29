@@ -14,6 +14,7 @@ import com.qinweizhao.blog.model.params.AttachmentParam;
 import com.qinweizhao.blog.model.params.AttachmentQuery;
 import com.qinweizhao.blog.service.AttachmentService;
 
+import javax.annotation.Resource;
 import javax.validation.Valid;
 import java.util.LinkedList;
 import java.util.List;
@@ -30,11 +31,9 @@ import static org.springframework.data.domain.Sort.Direction.DESC;
 @RequestMapping("/api/admin/attachments")
 public class AttachmentController {
 
-    private final AttachmentService attachmentService;
+    @Resource
+    private AttachmentService attachmentService;
 
-    public AttachmentController(AttachmentService attachmentService) {
-        this.attachmentService = attachmentService;
-    }
 
     @GetMapping
     public Page<AttachmentDTO> pageBy(@PageableDefault(sort = "createTime", direction = DESC) Pageable pageable,

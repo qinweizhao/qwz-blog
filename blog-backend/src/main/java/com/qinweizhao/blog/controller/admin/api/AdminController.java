@@ -34,21 +34,21 @@ public class AdminController {
     private AdminService adminService;
 
     @PostMapping("login")
-    @ApiOperation("Login")
+    @ApiOperation("登陆")
     @CacheLock(autoDelete = false, prefix = "login_auth")
     public AuthToken auth(@RequestBody @Valid LoginParam loginParam) {
         return adminService.authCodeCheck(loginParam);
     }
 
     @PostMapping("logout")
-    @ApiOperation("Logs out (Clear session)")
+    @ApiOperation("退出")
     @CacheLock(autoDelete = false)
     public void logout() {
         adminService.clearToken();
     }
 
     @PostMapping("password/code")
-    @ApiOperation("Sends reset password verify code")
+    @ApiOperation("发送重置密码验证码")
     @CacheLock(autoDelete = false)
     @DisableOnCondition
     public void sendResetCode(@RequestBody @Valid ResetPasswordParam param) {
@@ -56,7 +56,7 @@ public class AdminController {
     }
 
     @PutMapping("password/reset")
-    @ApiOperation("Resets password by verify code")
+    @ApiOperation("通过验证码重置密码")
     @CacheLock(autoDelete = false)
     @DisableOnCondition
     public void resetPassword(@RequestBody @Valid ResetPasswordParam param) {
@@ -64,7 +64,7 @@ public class AdminController {
     }
 
     @PostMapping("refresh/{refreshToken}")
-    @ApiOperation("Refreshes token")
+    @ApiOperation("刷新令牌")
     @CacheLock(autoDelete = false)
     public AuthToken refresh(@PathVariable("refreshToken") String refreshToken) {
         return adminService.refreshToken(refreshToken);
@@ -84,14 +84,14 @@ public class AdminController {
     }
 
     @PutMapping("halo-admin")
-    @ApiOperation("Updates halo-admin manually")
+    @ApiOperation("手动更新 admin")
     @Deprecated
     public void updateAdmin() {
         adminService.updateAdminAssets();
     }
 
     @GetMapping(value = "halo/logfile")
-    @ApiOperation("Gets halo log file content")
+    @ApiOperation("获取日志文件内容")
     @DisableOnCondition
     public BaseResponse<String> getLogFiles(@RequestParam("lines") Long lines) {
         return BaseResponse.ok(HttpStatus.OK.getReasonPhrase(), adminService.getLogFiles(lines));
