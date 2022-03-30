@@ -57,3 +57,4 @@ halo:
   workDir: ${user.home}/Code/qwz/qwz-blog/
   cache: memory
   admin-path: qwz
+  productionEnv: false

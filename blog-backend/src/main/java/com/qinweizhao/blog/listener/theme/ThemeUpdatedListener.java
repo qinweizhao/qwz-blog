@@ -7,6 +7,8 @@ import com.qinweizhao.blog.event.options.OptionUpdatedEvent;
 import com.qinweizhao.blog.event.theme.ThemeUpdatedEvent;
 import com.qinweizhao.blog.service.ThemeService;
 
+import javax.annotation.Resource;
+
 /**
  * Theme updated listener.
  *
@@ -16,11 +18,8 @@ import com.qinweizhao.blog.service.ThemeService;
 @Component
 public class ThemeUpdatedListener {
 
-    private final AbstractStringCacheStore cacheStore;
-
-    public ThemeUpdatedListener(AbstractStringCacheStore cacheStore) {
-        this.cacheStore = cacheStore;
-    }
+    @Resource
+    private  AbstractStringCacheStore cacheStore;
 
     @EventListener
     public void onApplicationEvent(ThemeUpdatedEvent event) {

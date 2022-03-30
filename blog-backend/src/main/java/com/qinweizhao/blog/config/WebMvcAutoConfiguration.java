@@ -119,10 +119,10 @@ public class WebMvcAutoConfiguration implements WebMvcConfigurer {
             registry.addResourceHandler("/themes/**")
                     .addResourceLocations(FILE_PROTOCOL + haloProperties.getWorkDir() + "blog-frontend/");
 
-
-            registry.addResourceHandler(uploadUrlPattern)
+            String imageUrlPattern = ensureBoth("blog-resource/image/", URL_SEPARATOR) + "**";
+            registry.addResourceHandler(imageUrlPattern)
                     .setCacheControl(CacheControl.maxAge(7L, TimeUnit.DAYS))
-                    .addResourceLocations(workDir + "blog-resource/upload/");
+                    .addResourceLocations(workDir + "blog-resource/image/");
 
         }
         registry.addResourceHandler(adminPathPattern)
