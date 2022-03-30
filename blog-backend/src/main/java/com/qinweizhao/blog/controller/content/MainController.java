@@ -32,12 +32,6 @@ public class MainController {
      */
     private final static String INDEX_REDIRECT_URI = "index.html";
 
-    /**
-     * Install redirect uri.
-     */
-    private final static String INSTALL_REDIRECT_URI = INDEX_REDIRECT_URI + "#install";
-
-
     @Resource
     private UserService userService;
 
@@ -58,12 +52,6 @@ public class MainController {
     @ResponseBody
     public String version() {
         return HaloConst.HALO_VERSION;
-    }
-
-    @GetMapping("install")
-    public void installation(HttpServletResponse response) throws IOException {
-        String installRedirectUri = StringUtils.appendIfMissing(this.haloProperties.getAdminPath(), "/") + INSTALL_REDIRECT_URI;
-        response.sendRedirect(installRedirectUri);
     }
 
     @GetMapping("avatar")
