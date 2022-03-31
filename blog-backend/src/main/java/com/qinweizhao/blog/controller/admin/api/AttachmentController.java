@@ -22,9 +22,10 @@ import java.util.List;
 import static org.springframework.data.domain.Sort.Direction.DESC;
 
 /**
- * Attachment controller.
+ * 附件
  *
  * @author johnniang
+ * @author qinweizhao
  * @date 2019-03-21
  */
 @RestController
@@ -42,14 +43,14 @@ public class AttachmentController {
     }
 
     @GetMapping("{id:\\d+}")
-    @ApiOperation("Gets attachment detail by id")
+    @ApiOperation("通过 id 获取附件详细信息")
     public AttachmentDTO getBy(@PathVariable("id") Integer id) {
         Attachment attachment = attachmentService.getById(id);
         return attachmentService.convertToDto(attachment);
     }
 
     @PutMapping("{attachmentId:\\d+}")
-    @ApiOperation("Updates a attachment")
+    @ApiOperation("更新附件")
     public AttachmentDTO updateBy(@PathVariable("attachmentId") Integer attachmentId,
             @RequestBody @Valid AttachmentParam attachmentParam) {
         Attachment attachment = attachmentService.getById(attachmentId);
@@ -64,7 +65,7 @@ public class AttachmentController {
     }
 
     @DeleteMapping
-    @ApiOperation("Deletes attachments permanently in batch by id array")
+    @ApiOperation("通过 id 数组批量永久删除附件")
     public List<Attachment> deletePermanentlyInBatch(@RequestBody List<Integer> ids) {
         return attachmentService.removePermanently(ids);
     }

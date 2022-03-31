@@ -33,7 +33,7 @@ export const asyncRouterMap = [
           },
           {
             path: '/posts/write',
-            name: 'PostEdit',
+            name: 'PostWrite',
             component: () => import('@/views/post/PostEdit'),
             meta: { title: '新增', hiddenHeaderContent: false, keepAlive: false }
           },

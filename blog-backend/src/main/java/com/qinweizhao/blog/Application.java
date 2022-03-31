@@ -22,7 +22,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 public class Application extends SpringBootServletInitializer {
 
     public static void main(String[] args) {
-        // Customize the spring config location
+        // 自定义 spring 配置位置
         System.setProperty("spring.config.additional-location",
                 "optional:file:${user.home}/.blog/");
 
