@@ -131,7 +131,7 @@ public class FreemarkerConfigAwareListener {
             try {
                 configuration.setSharedVariable("theme", activatedTheme);
 
-                // TODO: It will be removed in future versions
+                // TODO: 未来删除
                 configuration.setSharedVariable("static", themeBasePath);
 
                 configuration.setSharedVariable("theme_base", themeBasePath);
