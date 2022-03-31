@@ -19,8 +19,6 @@ spring:
     hibernate:
       ddl-auto: update
     open-in-view: false
-  flyway:
-    enabled: false
   servlet:
     multipart:
       max-file-size: 10240MB
@@ -35,7 +33,7 @@ spring:
       - classpath:/templates/
     expose-spring-macro-helpers: false
   profiles:
-    active: dev
+    active: prod
 management:
   endpoints:
     web:
