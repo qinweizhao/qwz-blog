@@ -3,7 +3,7 @@
     <a-row :gutter="12">
       <a-col :lg="6" :md="12" :sm="12" :xl="6" :xs="12" class="mb-3">
         <analysis-card :number="statisticsData.postCount" title="文章">
-          <router-link slot="action" :to="{ name: 'PostWrite' }">
+          <router-link slot="action" :to="{ name: 'PostEdit' }">
             <a-icon v-if="statisticsLoading" type="loading" />
             <a-icon v-else type="plus" />
           </router-link>

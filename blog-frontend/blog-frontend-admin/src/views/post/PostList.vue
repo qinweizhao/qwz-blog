@@ -7,7 +7,7 @@
       @change:params="onChangeParams"
     >
       <template #operator-before>
-        <router-link :to="{ name: 'PostWrite' }">
+        <router-link :to="{ name: 'PostEdit' }">
           <a-button icon="plus" type="primary">写文章</a-button>
         </router-link>
       </template>
