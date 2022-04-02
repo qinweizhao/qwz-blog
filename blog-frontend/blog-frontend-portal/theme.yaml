@@ -1,15 +1,15 @@
 id: blog-frontend-portal
 name: blog-frontend-portal
 author:
-  name: M酷
-  website: https://bbchin.com
-description: Halo主题 Joe2.0
+  name: qinweizhao
+  website: https://www.qinweizhao.com
+description: Joe2.0改造版
 logo: https://bbchin.com/logo
-website: https://bbchin.com
-repo: https://github.com/qinhua/halo-theme-joe2.0
+website: https://www.qinweizhao.com
+repo: https://github.com/qinweizhao/qwz-blog/blog-frontend/blog-frontend-portal
 cover: https://cdn.jsdelivr.net/gh/qinhua/halo-theme-joe2.0@master/source/img/dp/welcome.jpg
-version: 1.0.9
-require: ^1.4.11
+version: 2.0.2
+require: ^1.0.0
 # 文章页 meta 变量
 postMetaField:
   - enable_passage_tips
