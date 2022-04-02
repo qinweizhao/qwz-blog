@@ -22,8 +22,6 @@ spring:
     password: Qwz#1201
 
   jpa:
-    hibernate:
-      ddl-auto: update
     show-sql: true
     open-in-view: false
   servlet:
