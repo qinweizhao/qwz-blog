@@ -75,31 +75,31 @@ https://www.qinweizhao.com/
 
 <table>
     <tr>
-        <td><img src="https://cdn.jsdelivr.net/gh/qinweizhao/qwz-blog/blog-resource/image/2022-04-02_201508.png"/></td>
-        <td><img src="https://cdn.jsdelivr.net/gh/qinweizhao/qwz-blog/blog-resource/image/2022-04-02_201552.png"/></td>
+        <td><img src="https://gitee.com/qinweizhao/qwz-blog/raw/master/blog-resource/image/2022-04-02_201508.png"/></td>
+        <td><img src="https://gitee.com/qinweizhao/qwz-blog/raw/master/blog-resource/image/2022-04-02_201552.png"/></td>
     </tr>
     <tr>
-        <td><img src="https://cdn.jsdelivr.net/gh/qinweizhao/qwz-blog/blog-resource/image/2022-04-02_201755.png"/></td>
-        <td><img src="https://cdn.jsdelivr.net/gh/qinweizhao/qwz-blog/blog-resource/image/2022-04-02_201804.png"/></td>
+        <td><img src="https://gitee.com/qinweizhao/qwz-blog/raw/master/blog-resource/image/2022-04-02_201755.png"/></td>
+        <td><img src="https://gitee.com/qinweizhao/qwz-blog/raw/master/blog-resource/image/2022-04-02_201804.png"/></td>
     </tr>
     <tr>
-        <td><img src="https://cdn.jsdelivr.net/gh/qinweizhao/qwz-blog/blog-resource/image/2022-04-02_201811.png"/></td>
-        <td><img src="https://cdn.jsdelivr.net/gh/qinweizhao/qwz-blog/blog-resource/image/2022-04-02_201815.png"/></td>
+        <td><img src="https://gitee.com/qinweizhao/qwz-blog/raw/master/blog-resource/image/2022-04-02_201811.png"/></td>
+        <td><img src="https://gitee.com/qinweizhao/qwz-blog/raw/master/blog-resource/image/2022-04-02_201815.png"/></td>
     </tr>
     <tr>
-        <td><img src="https://cdn.jsdelivr.net/gh/qinweizhao/qwz-blog/blog-resource/image/2022-04-02_201820.png"/></td>
-        <td><img src="https://cdn.jsdelivr.net/gh/qinweizhao/qwz-blog/blog-resource/image/2022-04-02_201826.png"/></td>
+        <td><img src="https://gitee.com/qinweizhao/qwz-blog/raw/master/blog-resource/image/2022-04-02_201820.png"/></td>
+        <td><img src="https://gitee.com/qinweizhao/qwz-blog/raw/master/blog-resource/image/2022-04-02_201826.png"/></td>
     </tr>
     <tr>
-        <td><img src="https://cdn.jsdelivr.net/gh/qinweizhao/qwz-blog/blog-resource/image/2022-04-02_201834.png"/></td>
-        <td><img src="https://cdn.jsdelivr.net/gh/qinweizhao/qwz-blog/blog-resource/image/2022-04-02_201904.png"/></td>
+        <td><img src="https://gitee.com/qinweizhao/qwz-blog/raw/master/blog-resource/image/2022-04-02_201834.png"/></td>
+        <td><img src="https://gitee.com/qinweizhao/qwz-blog/raw/master/blog-resource/image/2022-04-02_201904.png"/></td>
     </tr>
     <tr>
-        <td><img src="https://cdn.jsdelivr.net/gh/qinweizhao/qwz-blog/blog-resource/image/2022-04-02_201914.png"/></td>
-        <td><img src="https://cdn.jsdelivr.net/gh/qinweizhao/qwz-blog/blog-resource/image/2022-04-02_201925.png"/></td>
+        <td><img src="https://gitee.com/qinweizhao/qwz-blog/raw/master/blog-resource/image/2022-04-02_201914.png"/></td>
+        <td><img src="https://gitee.com/qinweizhao/qwz-blog/raw/master/blog-resource/image/2022-04-02_201925.png"/></td>
     </tr>
     <tr>
-        <td><img src="https://cdn.jsdelivr.net/gh/qinweizhao/qwz-blog/blog-resource/image/2022-04-02_201931.png"/></td>
-        <td><img src="https://cdn.jsdelivr.net/gh/qinweizhao/qwz-blog/blog-resource/image/2022-04-02_202053.png"/></td>
+        <td><img src="https://gitee.com/qinweizhao/qwz-blog/raw/master/blog-resource/image/2022-04-02_201931.png"/></td>
+        <td><img src="https://gitee.com/qinweizhao/qwz-blog/raw/master/blog-resource/image/2022-04-02_202053.png"/></td>
     </tr>
 </table>
