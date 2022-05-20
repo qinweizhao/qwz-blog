@@ -1,6 +1,6 @@
 <p align="center">
   <a class="logo" href="https://github.com/qinweizhao/qwz-blog">
-    <img src="https://cdn.jsdelivr.net/gh/qinweizhao/qwz-blog@master/logo.png" height="80" width="45%" alt="Authority">
+    <img src="https://cdn.jsdelivr.net/gh/qinweizhao/qwz-blog@master/logo.png" height="80" width="45%" alt="Blog">
   </a>
 </p>
 
