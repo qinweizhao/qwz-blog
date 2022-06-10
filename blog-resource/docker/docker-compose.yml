@@ -6,7 +6,7 @@ services:
       - "3306:3306"
     environment: # 指定用户root的密码
       - MYSQL_ROOT_PASSWORD=Qwz.1201
-  calf:
+  blog:
     image: blog:latest
     build: . # 表示以当前目录下的Dockerfile开始构建镜像
     ports:
