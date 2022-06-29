@@ -1,15 +1,14 @@
 package com.qinweizhao.blog.controller.admin.api;
 
-import io.swagger.annotations.ApiOperation;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.web.SortDefault;
-import org.springframework.web.bind.annotation.*;
 import com.qinweizhao.blog.model.dto.MenuDTO;
 import com.qinweizhao.blog.model.dto.base.InputConverter;
 import com.qinweizhao.blog.model.entity.Menu;
 import com.qinweizhao.blog.model.params.MenuParam;
 import com.qinweizhao.blog.model.vo.MenuVO;
 import com.qinweizhao.blog.service.MenuService;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.SortDefault;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -36,31 +35,26 @@ public class MenuController {
     }
 
     @GetMapping
-    @ApiOperation("Lists all menus")
     public List<MenuDTO> listAll(@SortDefault(sort = "team", direction = DESC) Sort sort) {
         return menuService.listDtos(sort.and(Sort.by(ASC, "priority")));
     }
 
     @GetMapping("tree_view")
-    @ApiOperation("Lists menus as tree")
     public List<MenuVO> listAsTree(@SortDefault(sort = "team", direction = DESC) Sort sort) {
         return menuService.listAsTree(sort.and(Sort.by(ASC, "priority")));
     }
 
     @GetMapping("team/tree_view")
-    @ApiOperation("Lists menus as tree by team")
     public List<MenuVO> listDefaultsAsTreeByTeam(@SortDefault(sort = "priority", direction = ASC) Sort sort, @RequestParam(name = "team") String team) {
         return menuService.listByTeamAsTree(team, sort);
     }
 
     @GetMapping("{menuId:\\d+}")
-    @ApiOperation("Gets menu detail by id")
     public MenuDTO getBy(@PathVariable("menuId") Integer menuId) {
         return new MenuDTO().convertFrom(menuService.getById(menuId));
     }
 
     @PostMapping
-    @ApiOperation("Creates a menu")
     public MenuDTO createBy(@RequestBody @Valid MenuParam menuParam) {
         return new MenuDTO().convertFrom(menuService.createBy(menuParam));
     }
@@ -77,15 +71,14 @@ public class MenuController {
     }
 
     @PutMapping("{menuId:\\d+}")
-    @ApiOperation("Updates a menu")
     public MenuDTO updateBy(@PathVariable("menuId") Integer menuId, @RequestBody @Valid MenuParam menuParam) {
-        // Get the menu
+        // 获取菜单
         Menu menu = menuService.getById(menuId);
 
-        // Update changed properties of the menu
+        // 更新菜单的更改属性
         menuParam.update(menu);
 
-        // Update menu in database
+        // 更新数据库中的菜单
         return new MenuDTO().convertFrom(menuService.update(menu));
     }
 
@@ -101,7 +94,6 @@ public class MenuController {
     }
 
     @DeleteMapping("{menuId:\\d+}")
-    @ApiOperation("Deletes a menu")
     public MenuDTO deleteBy(@PathVariable("menuId") Integer menuId) {
         List<Menu> menus = menuService.listByParentId(menuId);
         if (null != menus && menus.size() > 0) {
@@ -123,7 +115,6 @@ public class MenuController {
     }
 
     @GetMapping("teams")
-    @ApiOperation("Lists all menu teams")
     public List<String> teams() {
         return menuService.listAllTeams();
     }
