@@ -39,7 +39,7 @@ public class UserController {
     @PutMapping("profiles")
     @ApiOperation("Updates user profile")
     @DisableOnCondition
-    public UserDTO updateProfile(@RequestBody UserParam userParam, User user) {
+    public BaseResponse<String>  updateProfile(@RequestBody UserParam userParam, User user) {
         // Validate the user param
         ValidationUtils.validate(userParam, UpdateCheck.class);
 
@@ -47,7 +47,8 @@ public class UserController {
         userParam.update(user);
 
         // Update user and convert to dto
-        return new UserDTO().convertFrom(userService.update(user));
+        boolean b = userService.updateById(user);
+        return BaseResponse.ok("个人信息修改成功");
     }
 
     @PutMapping("profiles/password")

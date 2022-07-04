@@ -2,14 +2,6 @@ package com.qinweizhao.blog.service.impl;
 
 import cn.hutool.core.lang.Validator;
 import cn.hutool.core.util.RandomUtil;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.http.ResponseEntity;
-import org.springframework.lang.NonNull;
-import org.springframework.stereotype.Service;
-import org.springframework.util.Assert;
-import org.springframework.web.client.RestTemplate;
 import com.qinweizhao.blog.cache.AbstractStringCacheStore;
 import com.qinweizhao.blog.config.properties.HaloProperties;
 import com.qinweizhao.blog.event.logger.LogEvent;
@@ -34,6 +26,14 @@ import com.qinweizhao.blog.security.util.SecurityUtils;
 import com.qinweizhao.blog.service.*;
 import com.qinweizhao.blog.utils.FileUtils;
 import com.qinweizhao.blog.utils.HaloUtils;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.http.ResponseEntity;
+import org.springframework.lang.NonNull;
+import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
+import org.springframework.web.client.RestTemplate;
 
 import java.io.File;
 import java.io.IOException;
@@ -124,7 +124,7 @@ public class AdminServiceImpl implements AdminService {
     @Override
     @NonNull
     public User authenticate(@NonNull LoginParam loginParam) {
-        Assert.notNull(loginParam, "Login param must not be null");
+        Assert.notNull(loginParam, "登录参数不能为空");
 
         String username = loginParam.getUsername();
 
@@ -258,7 +258,7 @@ public class AdminServiceImpl implements AdminService {
         userService.setPassword(user, param.getPassword());
 
         // Update this user
-        userService.update(user);
+        userService.updateById(user);
 
         // clear code cache
         cacheStore.delete("code");

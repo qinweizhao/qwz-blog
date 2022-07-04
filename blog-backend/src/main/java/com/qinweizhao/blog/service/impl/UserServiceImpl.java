@@ -1,6 +1,7 @@
 package com.qinweizhao.blog.service.impl;
 
 import cn.hutool.crypto.digest.BCrypt;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.qinweizhao.blog.cache.AbstractStringCacheStore;
 import com.qinweizhao.blog.cache.lock.CacheLock;
 import com.qinweizhao.blog.event.logger.LogEvent;
@@ -9,21 +10,22 @@ import com.qinweizhao.blog.exception.BadRequestException;
 import com.qinweizhao.blog.exception.ForbiddenException;
 import com.qinweizhao.blog.exception.NotFoundException;
 import com.qinweizhao.blog.exception.ServiceException;
-import com.qinweizhao.blog.model.entity.User;
+import com.qinweizhao.blog.mapper.UserMapper;
 import com.qinweizhao.blog.model.enums.LogType;
 import com.qinweizhao.blog.model.params.UserParam;
-import com.qinweizhao.blog.repository.UserRepository;
+import com.qinweizhao.blog.model.entity.User;
 import com.qinweizhao.blog.service.UserService;
-import com.qinweizhao.blog.service.base.AbstractCrudService;
 import com.qinweizhao.blog.utils.DateUtils;
 import com.qinweizhao.blog.utils.HaloUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 
+import javax.annotation.Resource;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -37,40 +39,33 @@ import java.util.concurrent.TimeUnit;
  * @date 2019-03-14
  */
 @Service
-public class UserServiceImpl extends AbstractCrudService<User, Integer> implements UserService {
+public class UserServiceImpl extends ServiceImpl<UserMapper,User> implements UserService {
 
-    private final UserRepository userRepository;
 
-    private final AbstractStringCacheStore stringCacheStore;
+    @Resource
+    private AbstractStringCacheStore stringCacheStore;
 
-    private final ApplicationEventPublisher eventPublisher;
+    @Resource
+    private ApplicationEventPublisher eventPublisher;
 
-    public UserServiceImpl(UserRepository userRepository,
-            AbstractStringCacheStore stringCacheStore,
-            ApplicationEventPublisher eventPublisher) {
-        super(userRepository);
-        this.userRepository = userRepository;
-        this.stringCacheStore = stringCacheStore;
-        this.eventPublisher = eventPublisher;
-    }
 
     @Override
     public Optional<User> getCurrentUser() {
-        // Find all users
-        List<User> users = listAll();
+        // 获取所有用户
+        List<User> users = this.list();
 
         if (CollectionUtils.isEmpty(users)) {
-            // Return empty user
+            // 返回空用户
             return Optional.empty();
         }
 
-        // Return the first user
+        // 返回第一个用户
         return Optional.of(users.get(0));
     }
 
     @Override
-    public Optional<User> getByUsername(String username) {
-        return userRepository.findByUsername(username);
+    public @NotNull Optional<User> getByUsername(String username) {
+        return this.baseMapper.selectByUsername(username);
     }
 
     @Override
@@ -80,7 +75,7 @@ public class UserServiceImpl extends AbstractCrudService<User, Integer> implemen
 
     @Override
     public Optional<User> getByEmail(String email) {
-        return userRepository.findByEmail(email);
+        return this.baseMapper.selectByByEmail(email);
     }
 
     @Override
@@ -89,7 +84,7 @@ public class UserServiceImpl extends AbstractCrudService<User, Integer> implemen
     }
 
     @Override
-    public User updatePassword(String oldPassword, String newPassword, Integer userId) {
+    public boolean updatePassword(String oldPassword, String newPassword, Integer userId) {
         Assert.hasText(oldPassword, "Old password must not be blank");
         Assert.hasText(newPassword, "New password must not be blank");
         Assert.notNull(userId, "User id must not be blank");
@@ -110,24 +105,15 @@ public class UserServiceImpl extends AbstractCrudService<User, Integer> implemen
         setPassword(user, newPassword);
 
         // Update this user
-        User updatedUser = update(user);
+         update(user);
 
         // Log it
-        eventPublisher.publishEvent(new LogEvent(this, updatedUser.getId().toString(), LogType.PASSWORD_UPDATED, HaloUtils.desensitize(oldPassword, 2, 1)));
+        eventPublisher.publishEvent(new LogEvent(this, user.getId().toString(), LogType.PASSWORD_UPDATED, HaloUtils.desensitize(oldPassword, 2, 1)));
 
-        return updatedUser;
+        return true;
     }
 
-    @Override
-    public User createBy(UserParam userParam) {
-        Assert.notNull(userParam, "User param must not be null");
 
-        User user = userParam.convertTo();
-
-        setPassword(user, userParam.getPassword());
-
-        return create(user);
-    }
 
     @Override
     public void mustNotExpire(User user) {
@@ -148,30 +134,14 @@ public class UserServiceImpl extends AbstractCrudService<User, Integer> implemen
         return !StringUtils.isBlank(plainPassword) && BCrypt.checkpw(plainPassword, user.getPassword());
     }
 
-    @Override
-    @CacheLock
-    public User create(User user) {
-        // Check user
-        if (count() != 0) {
-            throw new BadRequestException("当前博客已有用户");
-        }
 
-        User createdUser = super.create(user);
-
-        eventPublisher.publishEvent(new UserUpdatedEvent(this, createdUser.getId()));
-
-        return createdUser;
-    }
-
-    @Override
-    public User update(User user) {
-        User updatedUser = super.update(user);
-
+    public boolean update(User user) {
+        boolean b = this.updateById(user);
         // Log it
         eventPublisher.publishEvent(new LogEvent(this, user.getId().toString(), LogType.PROFILE_UPDATED, user.getUsername()));
         eventPublisher.publishEvent(new UserUpdatedEvent(this, user.getId()));
 
-        return updatedUser;
+        return b;
     }
 
     @Override

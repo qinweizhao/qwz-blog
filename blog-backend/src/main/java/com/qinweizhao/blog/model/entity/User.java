@@ -1,7 +1,12 @@
 package com.qinweizhao.blog.model.entity;
 
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.qinweizhao.blog.model.entity.BaseEntity;
 import com.qinweizhao.blog.utils.DateUtils;
-import lombok.*;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 import org.hibernate.Hibernate;
 
 import javax.persistence.*;
@@ -15,92 +20,49 @@ import java.util.Objects;
  * @date 2019-03-12
  */
 @Data
-@RequiredArgsConstructor
-@Entity
-@Table(name = "users")
-@ToString(callSuper = true)
+@TableName("user")
+@EqualsAndHashCode(callSuper = true)
 public class User extends BaseEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+
+    /**
+     * 编号
+     */
     private Integer id;
 
     /**
-     * User name.
+     * 用户名
      */
-    @Column(name = "username", length = 50, nullable = false)
     private String username;
 
     /**
-     * User nick name,used to display on page.
+     * 昵称
      */
-    @Column(name = "nickname", nullable = false)
     private String nickname;
 
     /**
-     * Password.
+     * 密码
      */
-    @Column(name = "password", nullable = false)
     private String password;
 
     /**
-     * User email.
+     * 邮箱
      */
-    @Column(name = "email", length = 127)
     private String email;
 
     /**
-     * User avatar.
+     * 头像
      */
-    @Column(name = "avatar", length = 1023)
     private String avatar;
 
     /**
-     * User description.
+     * 描述
      */
-    @Column(name = "description", length = 1023)
     private String description;
 
     /**
-     * Expire time.
+     * 过期时间
      */
-    @Column(name = "expire_time")
-    @Temporal(TemporalType.TIMESTAMP)
     private Date expireTime;
 
-
-    @Override
-    public void prePersist() {
-        super.prePersist();
-
-        if (email == null) {
-            email = "";
-        }
-
-        if (avatar == null) {
-            avatar = "";
-        }
-
-        if (description == null) {
-            description = "";
-        }
-
-        if (expireTime == null) {
-            expireTime = DateUtils.now();
-        }
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        User user = (User) o;
-        return id != null && Objects.equals(id, user.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return getClass().hashCode();
-    }
 }

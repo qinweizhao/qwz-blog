@@ -34,7 +34,6 @@ public class AdminController {
     private AdminService adminService;
 
     @PostMapping("login")
-    @ApiOperation("登陆")
     @CacheLock(autoDelete = false, prefix = "login_auth")
     public AuthToken auth(@RequestBody @Valid LoginParam loginParam) {
         return adminService.authCodeCheck(loginParam);

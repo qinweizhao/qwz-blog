@@ -1,12 +1,11 @@
 package com.qinweizhao.blog.service;
 
-import org.springframework.lang.NonNull;
-import org.springframework.lang.Nullable;
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.qinweizhao.blog.exception.ForbiddenException;
 import com.qinweizhao.blog.exception.NotFoundException;
 import com.qinweizhao.blog.model.entity.User;
-import com.qinweizhao.blog.model.params.UserParam;
-import com.qinweizhao.blog.service.base.CrudService;
+import org.springframework.lang.NonNull;
+import org.springframework.lang.Nullable;
 
 import java.util.Optional;
 
@@ -17,7 +16,7 @@ import java.util.Optional;
  * @author ryanwang
  * @date 2019-03-14
  */
-public interface UserService extends CrudService<User, Integer> {
+public interface UserService extends IService<User> {
 
     /**
      * Login failure count key.
@@ -88,17 +87,8 @@ public interface UserService extends CrudService<User, Integer> {
      * @param userId      user id must not be null
      * @return updated user detail
      */
-    @NonNull
-    User updatePassword(@NonNull String oldPassword, @NonNull String newPassword, @NonNull Integer userId);
+    boolean updatePassword( String oldPassword, String newPassword, Integer userId);
 
-    /**
-     * Creates an user.
-     *
-     * @param userParam user param must not be null.
-     * @return created user
-     */
-    @NonNull
-    User createBy(@NonNull UserParam userParam);
 
     /**
      * The user must not expire.
@@ -133,7 +123,6 @@ public interface UserService extends CrudService<User, Integer> {
      * @return boolean
      */
     boolean verifyUser(@NonNull String username, @NonNull String password);
-
 
 
 }
