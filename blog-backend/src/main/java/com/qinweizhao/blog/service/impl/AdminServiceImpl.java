@@ -26,6 +26,7 @@ import com.qinweizhao.blog.security.util.SecurityUtils;
 import com.qinweizhao.blog.service.*;
 import com.qinweizhao.blog.utils.FileUtils;
 import com.qinweizhao.blog.utils.HaloUtils;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.ApplicationEventPublisher;
@@ -56,10 +57,12 @@ import static com.qinweizhao.blog.model.support.HaloConst.*;
  *
  * @author johnniang
  * @author ryanwang
+ * @author qinweizhao
  * @date 2019-04-29
  */
 @Slf4j
 @Service
+@AllArgsConstructor
 public class AdminServiceImpl implements AdminService {
 
     private final PostService postService;
@@ -90,37 +93,6 @@ public class AdminServiceImpl implements AdminService {
 
     private final ApplicationEventPublisher eventPublisher;
 
-    public AdminServiceImpl(PostService postService,
-                            SheetService sheetService,
-                            AttachmentService attachmentService,
-                            PostCommentService postCommentService,
-                            SheetCommentService sheetCommentService,
-                            JournalCommentService journalCommentService,
-                            OptionService optionService,
-                            UserService userService,
-                            LinkService linkService,
-                            MailService mailService,
-                            AbstractStringCacheStore cacheStore,
-                            RestTemplate restTemplate,
-                            HaloProperties haloProperties,
-                            ApplicationEventPublisher eventPublisher) {
-        this.postService = postService;
-        this.sheetService = sheetService;
-        this.attachmentService = attachmentService;
-        this.postCommentService = postCommentService;
-        this.sheetCommentService = sheetCommentService;
-        this.journalCommentService = journalCommentService;
-        this.optionService = optionService;
-        this.userService = userService;
-        this.linkService = linkService;
-        this.mailService = mailService;
-        this.cacheStore = cacheStore;
-        this.restTemplate = restTemplate;
-        this.haloProperties = haloProperties;
-        this.eventPublisher = eventPublisher;
-    }
-
-
     @Override
     @NonNull
     public User authenticate(@NonNull LoginParam loginParam) {
@@ -133,11 +105,11 @@ public class AdminServiceImpl implements AdminService {
         final User user;
 
         try {
-            // Get user by username or email
+            // 通过用户名或电子邮件获取用户
             user = Validator.isEmail(username) ?
                     userService.getByEmailOfNonNull(username) : userService.getByUsernameOfNonNull(username);
         } catch (NotFoundException e) {
-            log.error("Failed to find user by name: " + username);
+            log.error("查找用户失败: " + username);
             eventPublisher.publishEvent(new LogEvent(this, loginParam.getUsername(), LogType.LOGIN_FAILED, loginParam.getUsername()));
 
             throw new BadRequestException(mismatchTip);
@@ -146,7 +118,7 @@ public class AdminServiceImpl implements AdminService {
         userService.mustNotExpire(user);
 
         if (!userService.passwordMatch(user, loginParam.getPassword())) {
-            // If the password is mismatch
+            // 如果密码不匹配 记录日志
             eventPublisher.publishEvent(new LogEvent(this, loginParam.getUsername(), LogType.LOGIN_FAILED, loginParam.getUsername()));
 
             throw new BadRequestException(mismatchTip);
@@ -156,16 +128,15 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    @NonNull
-    public AuthToken authCodeCheck(@NonNull final LoginParam loginParam) {
-        // get user
+    public AuthToken attemptAuthentication(@NonNull final LoginParam loginParam) {
+        // 认证
         final User user = this.authenticate(loginParam);
 
         if (SecurityContextHolder.getContext().isAuthenticated()) {
-            // If the user has been logged in
             throw new BadRequestException("您已登录，请不要重复登录");
         }
 
+        // todo 使用注解记录日志
         // 日志记录登录成功
         eventPublisher.publishEvent(new LogEvent(this, user.getUsername(), LogType.LOGGED_IN, user.getNickname()));
 
@@ -175,7 +146,7 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public void clearToken() {
-        // Check if the current is logging in
+        // 检查当前是否正在登录
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         if (authentication == null) {
@@ -424,27 +395,26 @@ public class AdminServiceImpl implements AdminService {
     }
 
     /**
-     * Builds authentication token.
+     * 构建身份验证令牌
      *
-     * @param user user info must not be null
-     * @return authentication token
+     * @param user 用户信息不能为空
+     * @return 令牌
      */
-    @NonNull
     private AuthToken buildAuthToken(@NonNull User user) {
-        Assert.notNull(user, "User must not be null");
+        Assert.notNull(user, "用户不能为空");
 
-        // Generate new token
+        // 生成新令牌
         AuthToken token = new AuthToken();
 
         token.setAccessToken(HaloUtils.randomUUIDWithoutDash());
         token.setExpiredIn(ACCESS_TOKEN_EXPIRED_SECONDS);
         token.setRefreshToken(HaloUtils.randomUUIDWithoutDash());
 
-        // Cache those tokens, just for clearing
+        // 缓存这些令牌，仅用于清除
         cacheStore.putAny(SecurityUtils.buildAccessTokenKey(user), token.getAccessToken(), ACCESS_TOKEN_EXPIRED_SECONDS, TimeUnit.SECONDS);
         cacheStore.putAny(SecurityUtils.buildRefreshTokenKey(user), token.getRefreshToken(), REFRESH_TOKEN_EXPIRED_DAYS, TimeUnit.DAYS);
 
-        // Cache those tokens with user id
+        // 使用用户 ID 缓存这些令牌
         cacheStore.putAny(SecurityUtils.buildTokenAccessKey(token.getAccessToken()), user.getId(), ACCESS_TOKEN_EXPIRED_SECONDS, TimeUnit.SECONDS);
         cacheStore.putAny(SecurityUtils.buildTokenRefreshKey(token.getRefreshToken()), user.getId(), REFRESH_TOKEN_EXPIRED_DAYS, TimeUnit.DAYS);
 

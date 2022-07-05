@@ -36,13 +36,12 @@ public interface AdminService {
     User authenticate(@NonNull LoginParam loginParam);
 
     /**
-     * Check authCode and build authToken.
+     * 尝试身份验证
      *
      * @param loginParam login param must not be null
      * @return User
      */
-    @NonNull
-    AuthToken authCodeCheck(@NonNull LoginParam loginParam);
+    AuthToken attemptAuthentication(@NonNull LoginParam loginParam);
 
     /**
      * Clears authentication.

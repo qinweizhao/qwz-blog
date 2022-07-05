@@ -58,7 +58,7 @@ public interface UserService extends IService<User> {
      * @throws NotFoundException throws when the username does not exist
      */
     @NonNull
-    User getByUsernameOfNonNull(@NonNull String username);
+    User getByUsernameOfNonNull(String username);
 
     /**
      * Gets user by email.

@@ -36,18 +36,16 @@ public class AdminController {
     @PostMapping("login")
     @CacheLock(autoDelete = false, prefix = "login_auth")
     public AuthToken auth(@RequestBody @Valid LoginParam loginParam) {
-        return adminService.authCodeCheck(loginParam);
+        return adminService.attemptAuthentication(loginParam);
     }
 
     @PostMapping("logout")
-    @ApiOperation("退出")
     @CacheLock(autoDelete = false)
     public void logout() {
         adminService.clearToken();
     }
 
     @PostMapping("password/code")
-    @ApiOperation("发送重置密码验证码")
     @CacheLock(autoDelete = false)
     @DisableOnCondition
     public void sendResetCode(@RequestBody @Valid ResetPasswordParam param) {

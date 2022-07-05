@@ -69,7 +69,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper,User> implements Use
     }
 
     @Override
-    public User getByUsernameOfNonNull(String username) {
+    public @NotNull User getByUsernameOfNonNull(@NotNull String username) {
         return getByUsername(username).orElseThrow(() -> new NotFoundException("The username does not exist").setErrorData(username));
     }
 
