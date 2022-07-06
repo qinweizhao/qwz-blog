@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qinweizhao.blog.mapper.PostMapper">
+
+    <select id="countVisit" resultType="java.lang.Long">
+        select sum(p.visits)
+        from Post p
+    </select>
+
+    <select id="countLike" resultType="java.lang.Long">
+        select sum(p.likes)
+        from Post p
+    </select>
+
+    <select id="selectByTimeAndSlug" resultType="com.qinweizhao.blog.model.entity.Post">
+        select *
+        from Post p
+        where
+        <if test="year != null and year != ''">
+            and p.year (post.createTime) = ${year}
+        </if>
+
+        <if test="month != null and month != ''">
+            and p.month (post.createTime) = ${month}
+        </if>
+
+        <if test="day != null and day != ''">
+            and p.day (post.createTime) = ${day}
+        </if>
+
+        <if test="slug != null and slug != ''">
+            and p.slug = ${slug}
+        </if>
+
+        <if test="status != null and status != ''">
+            and p.status = ${status}
+        </if>
+    </select>
+
+</mapper>
