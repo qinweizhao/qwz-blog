@@ -42,15 +42,24 @@ public class AttachmentController {
         return attachmentService.pageDtosBy(pageable, attachmentQuery);
     }
 
+    /**
+     * 通过 id 获取附件详细信息
+     * @param id
+     * @return
+     */
     @GetMapping("{id:\\d+}")
-    @ApiOperation("通过 id 获取附件详细信息")
     public AttachmentDTO getBy(@PathVariable("id") Integer id) {
         Attachment attachment = attachmentService.getById(id);
         return attachmentService.convertToDto(attachment);
     }
 
+    /**
+     * 更新附件
+     * @param attachmentId
+     * @param attachmentParam
+     * @return
+     */
     @PutMapping("{attachmentId:\\d+}")
-    @ApiOperation("更新附件")
     public AttachmentDTO updateBy(@PathVariable("attachmentId") Integer attachmentId,
             @RequestBody @Valid AttachmentParam attachmentParam) {
         Attachment attachment = attachmentService.getById(attachmentId);
@@ -58,20 +67,34 @@ public class AttachmentController {
         return new AttachmentDTO().convertFrom(attachmentService.update(attachment));
     }
 
+
+    /**
+     * 按 id 永久删除附件
+     * @param id id
+     * @return AttachmentDTO
+     */
     @DeleteMapping("{id:\\d+}")
-    @ApiOperation("Deletes attachment permanently by id")
     public AttachmentDTO deletePermanently(@PathVariable("id") Integer id) {
         return attachmentService.convertToDto(attachmentService.removePermanently(id));
     }
 
+
+    /**
+     * 通过 id 数组批量永久删除附件
+     * @param ids ids
+     * @return List
+     */
     @DeleteMapping
-    @ApiOperation("通过 id 数组批量永久删除附件")
     public List<Attachment> deletePermanentlyInBatch(@RequestBody List<Integer> ids) {
         return attachmentService.removePermanently(ids);
     }
 
+    /**
+     * 上传单个文件
+     * @param file file
+     * @return AttachmentDTO
+     */
     @PostMapping("upload")
-    @ApiOperation("上传单个文件")
     public AttachmentDTO uploadAttachment(@RequestPart("file") MultipartFile file) {
         return attachmentService.convertToDto(attachmentService.upload(file));
     }

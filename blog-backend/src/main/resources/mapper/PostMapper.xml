@@ -17,23 +17,23 @@
         from Post p
         where
         <if test="year != null and year != ''">
-            and p.year (post.createTime) = ${year}
+            and p.year (p.createTime) = #{year}
         </if>
 
         <if test="month != null and month != ''">
-            and p.month (post.createTime) = ${month}
+            and p.month (p.createTime) = #{month}
         </if>
 
         <if test="day != null and day != ''">
-            and p.day (post.createTime) = ${day}
+            and p.day (p.createTime) = #{day}
         </if>
 
         <if test="slug != null and slug != ''">
-            and p.slug = ${slug}
+            and p.slug = #{slug}
         </if>
 
         <if test="status != null and status != ''">
-            and p.status = ${status}
+            and p.status = #{status}
         </if>
     </select>
 
