@@ -2,7 +2,6 @@ package com.qinweizhao.blog.service.base;
 
 import org.springframework.lang.NonNull;
 import com.qinweizhao.blog.model.dto.BaseMetaDTO;
-import com.qinweizhao.blog.model.entity.BaseMeta;
 import com.qinweizhao.blog.model.params.BaseMetaParam;
 
 import java.util.List;

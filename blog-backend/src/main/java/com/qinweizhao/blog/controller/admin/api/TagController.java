@@ -7,7 +7,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.SortDefault;
 import org.springframework.web.bind.annotation.*;
 import com.qinweizhao.blog.model.dto.TagDTO;
-import com.qinweizhao.blog.model.entity.Tag;
 import com.qinweizhao.blog.model.params.TagParam;
 import com.qinweizhao.blog.service.PostTagService;
 import com.qinweizhao.blog.service.TagService;

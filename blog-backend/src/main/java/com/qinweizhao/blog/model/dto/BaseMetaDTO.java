@@ -4,7 +4,6 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import com.qinweizhao.blog.model.dto.base.OutputConverter;
-import com.qinweizhao.blog.model.entity.BaseMeta;
 
 import java.util.Date;
 

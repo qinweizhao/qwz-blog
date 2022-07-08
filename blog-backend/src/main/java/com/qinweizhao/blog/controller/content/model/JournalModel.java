@@ -1,6 +1,5 @@
 package com.qinweizhao.blog.controller.content.model;
 
-import com.qinweizhao.blog.model.entity.Journal;
 import com.qinweizhao.blog.model.enums.JournalType;
 import com.qinweizhao.blog.model.properties.SheetProperties;
 import com.qinweizhao.blog.service.JournalService;

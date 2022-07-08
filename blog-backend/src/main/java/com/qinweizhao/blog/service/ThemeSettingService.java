@@ -3,7 +3,6 @@ package com.qinweizhao.blog.service;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 import org.springframework.transaction.annotation.Transactional;
-import com.qinweizhao.blog.model.entity.ThemeSetting;
 import com.qinweizhao.blog.service.base.CrudService;
 
 import java.util.List;

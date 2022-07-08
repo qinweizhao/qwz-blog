@@ -4,7 +4,6 @@ import freemarker.core.Environment;
 import freemarker.template.*;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
-import com.qinweizhao.blog.model.entity.PostComment;
 import com.qinweizhao.blog.model.enums.CommentStatus;
 import com.qinweizhao.blog.model.support.HaloConst;
 import com.qinweizhao.blog.service.PostCommentService;

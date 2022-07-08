@@ -8,7 +8,6 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.data.web.SortDefault;
 import org.springframework.web.bind.annotation.*;
 import com.qinweizhao.blog.model.dto.PhotoDTO;
-import com.qinweizhao.blog.model.entity.Photo;
 import com.qinweizhao.blog.model.params.PhotoParam;
 import com.qinweizhao.blog.model.params.PhotoQuery;
 import com.qinweizhao.blog.service.PhotoService;

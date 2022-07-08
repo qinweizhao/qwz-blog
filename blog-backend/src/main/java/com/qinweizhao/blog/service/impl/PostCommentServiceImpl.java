@@ -12,8 +12,6 @@ import com.qinweizhao.blog.exception.BadRequestException;
 import com.qinweizhao.blog.exception.ForbiddenException;
 import com.qinweizhao.blog.exception.NotFoundException;
 import com.qinweizhao.blog.model.dto.post.BasePostMinimalDTO;
-import com.qinweizhao.blog.model.entity.Post;
-import com.qinweizhao.blog.model.entity.PostComment;
 import com.qinweizhao.blog.model.enums.CommentViolationTypeEnum;
 import com.qinweizhao.blog.model.enums.PostPermalinkType;
 import com.qinweizhao.blog.model.properties.CommentProperties;

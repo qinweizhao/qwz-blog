@@ -8,7 +8,6 @@ import org.springframework.util.CollectionUtils;
 import com.qinweizhao.blog.exception.AlreadyExistsException;
 import com.qinweizhao.blog.exception.NotFoundException;
 import com.qinweizhao.blog.model.dto.TagDTO;
-import com.qinweizhao.blog.model.entity.Tag;
 import com.qinweizhao.blog.repository.TagRepository;
 import com.qinweizhao.blog.service.OptionService;
 import com.qinweizhao.blog.service.TagService;

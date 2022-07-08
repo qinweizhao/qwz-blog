@@ -13,8 +13,6 @@ import com.qinweizhao.blog.cache.lock.CacheLock;
 import com.qinweizhao.blog.model.dto.BaseCommentDTO;
 import com.qinweizhao.blog.model.dto.JournalDTO;
 import com.qinweizhao.blog.model.dto.JournalWithCmtCountDTO;
-import com.qinweizhao.blog.model.entity.Journal;
-import com.qinweizhao.blog.model.entity.JournalComment;
 import com.qinweizhao.blog.model.enums.CommentStatus;
 import com.qinweizhao.blog.model.enums.JournalType;
 import com.qinweizhao.blog.model.params.JournalCommentParam;

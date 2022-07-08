@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.qinweizhao.blog.model.dto.LogDTO;
-import com.qinweizhao.blog.model.entity.Log;
 import com.qinweizhao.blog.service.LogService;
 
 import java.util.List;

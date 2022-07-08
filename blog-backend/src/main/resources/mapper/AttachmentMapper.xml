@@ -2,6 +2,28 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.qinweizhao.blog.mapper.AttachmentMapper">
 
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.qinweizhao.blog.model.entity.Attachment">
+        <id column="id" property="id" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+        <result column="file_key" property="fileKey" />
+        <result column="height" property="height" />
+        <result column="media_type" property="mediaType" />
+        <result column="name" property="name" />
+        <result column="path" property="path" />
+        <result column="size" property="size" />
+        <result column="suffix" property="suffix" />
+        <result column="thumb_path" property="thumbPath" />
+        <result column="type" property="type" />
+        <result column="width" property="width" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, create_time, update_time, file_key, height, media_type, name, path, size, suffix, thumb_path, type, width
+    </sql>
+
     <select id="selectListMediaType" resultType="java.lang.String">
         select distinct a.mediaType
         from Attachment a

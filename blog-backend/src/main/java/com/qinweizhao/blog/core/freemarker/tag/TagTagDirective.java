@@ -4,7 +4,6 @@ import freemarker.core.Environment;
 import freemarker.template.*;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
-import com.qinweizhao.blog.model.entity.Tag;
 import com.qinweizhao.blog.model.support.HaloConst;
 import com.qinweizhao.blog.service.PostTagService;
 import com.qinweizhao.blog.service.TagService;

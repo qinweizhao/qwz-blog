@@ -12,8 +12,6 @@ import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 import com.qinweizhao.blog.model.dto.JournalDTO;
 import com.qinweizhao.blog.model.dto.JournalWithCmtCountDTO;
-import com.qinweizhao.blog.model.entity.Journal;
-import com.qinweizhao.blog.model.entity.JournalComment;
 import com.qinweizhao.blog.model.enums.JournalType;
 import com.qinweizhao.blog.model.params.JournalParam;
 import com.qinweizhao.blog.model.params.JournalQuery;

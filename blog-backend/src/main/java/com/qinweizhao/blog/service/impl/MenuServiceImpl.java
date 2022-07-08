@@ -8,7 +8,6 @@ import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 import com.qinweizhao.blog.exception.AlreadyExistsException;
 import com.qinweizhao.blog.model.dto.MenuDTO;
-import com.qinweizhao.blog.model.entity.Menu;
 import com.qinweizhao.blog.model.params.MenuParam;
 import com.qinweizhao.blog.model.vo.MenuTeamVO;
 import com.qinweizhao.blog.model.vo.MenuVO;

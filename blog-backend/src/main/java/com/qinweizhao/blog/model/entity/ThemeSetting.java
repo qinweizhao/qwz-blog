@@ -1,48 +1,28 @@
 package com.qinweizhao.blog.model.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.qinweizhao.blog.model.base.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.ToString;
-import org.hibernate.annotations.GenericGenerator;
-
-import javax.persistence.*;
 
 /**
- * Theme setting entity.
- *
- * @author johnniang
- * @date 4/8/19
+ * @author qinweizhao
+ * @since 2022-07-08
  */
 @Data
-@Entity
-@Table(name = "theme_settings", indexes = {
-        @Index(name = "theme_settings_setting_key", columnList = "setting_key"),
-        @Index(name = "theme_settings_theme_id", columnList = "theme_id")})
-@ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
+@TableName("theme_setting")
 public class ThemeSetting extends BaseEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "custom-id")
-    @GenericGenerator(name = "custom-id", strategy = "com.qinweizhao.blog.model.entity.support.CustomIdGenerator")
+    @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
-    /**
-     * Setting key.
-     */
-    @Column(name = "setting_key", nullable = false)
-    private String key;
-
-    /**
-     * Setting value
-     */
-    @Column(name = "setting_value", nullable = false)
-    @Lob
-    private String value;
-
-    /**
-     * Theme id.
-     */
-    @Column(name = "theme_id", nullable = false)
     private String themeId;
+
+    private String settingKey;
+
+    private String settingValue;
+
 }

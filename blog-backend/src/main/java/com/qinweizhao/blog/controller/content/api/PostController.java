@@ -3,8 +3,6 @@ package com.qinweizhao.blog.controller.content.api;
 import com.qinweizhao.blog.cache.lock.CacheLock;
 import com.qinweizhao.blog.model.dto.BaseCommentDTO;
 import com.qinweizhao.blog.model.dto.post.BasePostSimpleDTO;
-import com.qinweizhao.blog.model.entity.Post;
-import com.qinweizhao.blog.model.entity.PostComment;
 import com.qinweizhao.blog.model.enums.CommentStatus;
 import com.qinweizhao.blog.model.enums.PostStatus;
 import com.qinweizhao.blog.model.params.PostCommentParam;

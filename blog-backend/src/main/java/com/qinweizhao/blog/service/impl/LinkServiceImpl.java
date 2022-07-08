@@ -10,7 +10,6 @@ import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 import com.qinweizhao.blog.exception.AlreadyExistsException;
 import com.qinweizhao.blog.model.dto.LinkDTO;
-import com.qinweizhao.blog.model.entity.Link;
 import com.qinweizhao.blog.model.params.LinkParam;
 import com.qinweizhao.blog.model.vo.LinkTeamVO;
 import com.qinweizhao.blog.repository.LinkRepository;

@@ -1,70 +1,28 @@
 package com.qinweizhao.blog.model.entity;
 
-
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.qinweizhao.blog.model.base.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.ToString;
-import org.hibernate.annotations.GenericGenerator;
-import com.qinweizhao.blog.model.enums.LogType;
-
-import javax.persistence.*;
 
 /**
- * Log entity.
- *
- * @author johnniang
+ * @author qinweizhao
+ * @since 2022-07-08
  */
 @Data
-@Entity
-@Table(name = "logs", indexes = {@Index(name = "logs_create_time", columnList = "create_time")})
-@ToString
 @EqualsAndHashCode(callSuper = true)
 public class Log extends BaseEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "custom-id")
-    @GenericGenerator(name = "custom-id", strategy = "com.qinweizhao.blog.model.entity.support.CustomIdGenerator")
+    @TableId(value = "id", type = IdType.AUTO)
     private Long id;
 
-    /**
-     * Log key.
-     */
-    @Column(name = "log_key", length = 1023)
-    private String logKey;
-
-    /**
-     * Log type.
-     */
-    @Column(name = "type", nullable = false)
-    private LogType type;
-
-    /**
-     * Log content.
-     */
-    @Column(name = "content", length = 1023, nullable = false)
     private String content;
 
-    /**
-     * Operator's ip address.
-     */
-    @Column(name = "ip_address", length = 127)
     private String ipAddress;
 
+    private String logKey;
 
-    @Override
-    public void prePersist() {
-        super.prePersist();
+    private Integer type;
 
-        if (logKey == null) {
-            logKey = "";
-        }
-
-        // Get ip address
-        // ###!!! Do not get request IP from here due to asynchronous
-        // ipAddress = ServletUtils.getRequestIp();
-
-        if (ipAddress == null) {
-            logKey = "";
-        }
-    }
 }

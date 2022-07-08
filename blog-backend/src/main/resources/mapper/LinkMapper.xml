@@ -2,7 +2,27 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.qinweizhao.blog.mapper.LinkMapper">
 
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.qinweizhao.blog.model.entity.Link">
+        <id column="id" property="id" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+        <result column="description" property="description" />
+        <result column="logo" property="logo" />
+        <result column="name" property="name" />
+        <result column="priority" property="priority" />
+        <result column="team" property="team" />
+        <result column="url" property="url" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, create_time, update_time, description, logo, name, priority, team, url
+    </sql>
+
+
     <select id="selectListTeams" resultType="java.lang.String">
         select distinct a.team from Link a
     </select>
+
 </mapper>

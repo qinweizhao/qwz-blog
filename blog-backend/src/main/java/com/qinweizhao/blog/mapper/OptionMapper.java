@@ -18,7 +18,7 @@ public interface OptionMapper extends BaseMapper<Option> {
      */
     default Option selectByKey(String key) {
         return selectOne(new LambdaQueryWrapper<Option>()
-                .eq(Option::getKey, key));
+                .eq(Option::getOptionKey, key));
     }
 
     /**
@@ -29,6 +29,6 @@ public interface OptionMapper extends BaseMapper<Option> {
      */
     default int deleteByKey(String key) {
         return delete(new LambdaQueryWrapper<Option>()
-                .eq(Option::getKey, key));
+                .eq(Option::getOptionKey, key));
     }
 }

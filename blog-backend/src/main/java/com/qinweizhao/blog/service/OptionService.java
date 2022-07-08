@@ -10,7 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.qinweizhao.blog.exception.MissingPropertyException;
 import com.qinweizhao.blog.model.dto.OptionDTO;
 import com.qinweizhao.blog.model.dto.OptionSimpleDTO;
-import com.qinweizhao.blog.model.entity.Option;
 import com.qinweizhao.blog.model.enums.PostPermalinkType;
 import com.qinweizhao.blog.model.enums.ValueEnum;
 import com.qinweizhao.blog.model.params.OptionParam;

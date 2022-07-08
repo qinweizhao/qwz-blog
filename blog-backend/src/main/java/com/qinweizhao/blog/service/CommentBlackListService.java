@@ -1,6 +1,5 @@
 package com.qinweizhao.blog.service;
 
-import com.qinweizhao.blog.model.entity.CommentBlackList;
 import com.qinweizhao.blog.model.enums.CommentViolationTypeEnum;
 import com.qinweizhao.blog.service.base.CrudService;
 

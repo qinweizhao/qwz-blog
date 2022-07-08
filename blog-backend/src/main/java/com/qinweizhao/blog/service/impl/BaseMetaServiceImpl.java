@@ -7,7 +7,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 import com.qinweizhao.blog.model.dto.BaseMetaDTO;
-import com.qinweizhao.blog.model.entity.BaseMeta;
 import com.qinweizhao.blog.model.params.BaseMetaParam;
 import com.qinweizhao.blog.repository.base.BaseMetaRepository;
 import com.qinweizhao.blog.service.base.AbstractCrudService;

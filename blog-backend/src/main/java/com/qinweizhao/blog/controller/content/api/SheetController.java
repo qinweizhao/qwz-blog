@@ -11,8 +11,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.HtmlUtils;
 import com.qinweizhao.blog.cache.lock.CacheLock;
 import com.qinweizhao.blog.model.dto.BaseCommentDTO;
-import com.qinweizhao.blog.model.entity.Sheet;
-import com.qinweizhao.blog.model.entity.SheetComment;
 import com.qinweizhao.blog.model.enums.CommentStatus;
 import com.qinweizhao.blog.model.enums.PostStatus;
 import com.qinweizhao.blog.model.params.SheetCommentParam;

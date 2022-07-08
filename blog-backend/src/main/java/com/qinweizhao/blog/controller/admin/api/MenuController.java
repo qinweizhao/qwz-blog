@@ -2,7 +2,6 @@ package com.qinweizhao.blog.controller.admin.api;
 
 import com.qinweizhao.blog.model.dto.MenuDTO;
 import com.qinweizhao.blog.model.dto.base.InputConverter;
-import com.qinweizhao.blog.model.entity.Menu;
 import com.qinweizhao.blog.model.params.MenuParam;
 import com.qinweizhao.blog.model.vo.MenuVO;
 import com.qinweizhao.blog.service.MenuService;

@@ -5,7 +5,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.lang.NonNull;
 import com.qinweizhao.blog.model.dto.PhotoDTO;
-import com.qinweizhao.blog.model.entity.Photo;
 import com.qinweizhao.blog.model.params.PhotoParam;
 import com.qinweizhao.blog.model.params.PhotoQuery;
 import com.qinweizhao.blog.model.vo.PhotoTeamVO;

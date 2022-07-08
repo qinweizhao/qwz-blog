@@ -3,7 +3,6 @@ package com.qinweizhao.blog.model.params;
 import lombok.Data;
 import lombok.ToString;
 import com.qinweizhao.blog.model.dto.base.InputConverter;
-import com.qinweizhao.blog.model.entity.Menu;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;

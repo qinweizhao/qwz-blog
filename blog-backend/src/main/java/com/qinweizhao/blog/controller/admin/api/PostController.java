@@ -5,7 +5,6 @@ import com.qinweizhao.blog.cache.AbstractStringCacheStore;
 import com.qinweizhao.blog.model.dto.post.BasePostDetailDTO;
 import com.qinweizhao.blog.model.dto.post.BasePostMinimalDTO;
 import com.qinweizhao.blog.model.dto.post.BasePostSimpleDTO;
-import com.qinweizhao.blog.model.entity.Post;
 import com.qinweizhao.blog.model.enums.PostPermalinkType;
 import com.qinweizhao.blog.model.enums.PostStatus;
 import com.qinweizhao.blog.model.params.PostContentParam;
@@ -15,12 +14,12 @@ import com.qinweizhao.blog.model.vo.PostDetailVO;
 import com.qinweizhao.blog.service.OptionService;
 import com.qinweizhao.blog.service.PostService;
 import io.swagger.annotations.ApiOperation;
+import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
 import javax.validation.Valid;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -40,15 +39,15 @@ import static org.springframework.data.domain.Sort.Direction.DESC;
  * @date 2019-03-19
  */
 @RestController
+@AllArgsConstructor
 @RequestMapping("/api/admin/posts")
 public class PostController {
 
-    @Resource
-    private PostService postService;
-    @Resource
-    private AbstractStringCacheStore cacheStore;
-    @Resource
-    private OptionService optionService;
+    private final PostService postService;
+
+    private final AbstractStringCacheStore cacheStore;
+
+    private final OptionService optionService;
 
 
     @GetMapping

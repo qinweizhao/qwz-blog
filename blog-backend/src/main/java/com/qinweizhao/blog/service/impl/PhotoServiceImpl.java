@@ -9,7 +9,6 @@ import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import com.qinweizhao.blog.model.dto.PhotoDTO;
-import com.qinweizhao.blog.model.entity.Photo;
 import com.qinweizhao.blog.model.params.PhotoParam;
 import com.qinweizhao.blog.model.params.PhotoQuery;
 import com.qinweizhao.blog.model.vo.PhotoTeamVO;

@@ -5,7 +5,6 @@ import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 import org.springframework.transaction.annotation.Transactional;
 import com.qinweizhao.blog.model.dto.CategoryDTO;
-import com.qinweizhao.blog.model.entity.Category;
 import com.qinweizhao.blog.model.vo.CategoryVO;
 import com.qinweizhao.blog.service.base.CrudService;
 

@@ -2,7 +2,6 @@ package com.qinweizhao.blog.service;
 
 import org.springframework.data.domain.Page;
 import com.qinweizhao.blog.model.dto.LogDTO;
-import com.qinweizhao.blog.model.entity.Log;
 import com.qinweizhao.blog.service.base.CrudService;
 
 /**

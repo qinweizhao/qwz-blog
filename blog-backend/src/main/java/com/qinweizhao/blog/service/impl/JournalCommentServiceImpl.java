@@ -8,8 +8,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import com.qinweizhao.blog.exception.NotFoundException;
 import com.qinweizhao.blog.model.dto.JournalDTO;
-import com.qinweizhao.blog.model.entity.Journal;
-import com.qinweizhao.blog.model.entity.JournalComment;
 import com.qinweizhao.blog.model.vo.JournalCommentWithJournalVO;
 import com.qinweizhao.blog.repository.JournalCommentRepository;
 import com.qinweizhao.blog.repository.JournalRepository;

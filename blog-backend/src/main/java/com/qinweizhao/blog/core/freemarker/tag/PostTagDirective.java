@@ -3,7 +3,6 @@ package com.qinweizhao.blog.core.freemarker.tag;
 import freemarker.core.Environment;
 import freemarker.template.*;
 import org.springframework.stereotype.Component;
-import com.qinweizhao.blog.model.entity.Post;
 import com.qinweizhao.blog.model.enums.PostStatus;
 import com.qinweizhao.blog.model.support.HaloConst;
 import com.qinweizhao.blog.service.PostCategoryService;

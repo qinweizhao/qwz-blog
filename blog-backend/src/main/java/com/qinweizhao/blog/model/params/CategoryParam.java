@@ -3,7 +3,6 @@ package com.qinweizhao.blog.model.params;
 import lombok.Data;
 import org.apache.commons.lang3.StringUtils;
 import com.qinweizhao.blog.model.dto.base.InputConverter;
-import com.qinweizhao.blog.model.entity.Category;
 import com.qinweizhao.blog.utils.SlugUtils;
 
 import javax.validation.constraints.NotBlank;

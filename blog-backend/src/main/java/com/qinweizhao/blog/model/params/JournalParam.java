@@ -2,7 +2,6 @@ package com.qinweizhao.blog.model.params;
 
 import lombok.Data;
 import com.qinweizhao.blog.model.dto.base.InputConverter;
-import com.qinweizhao.blog.model.entity.Journal;
 import com.qinweizhao.blog.model.enums.JournalType;
 
 import javax.validation.constraints.NotBlank;

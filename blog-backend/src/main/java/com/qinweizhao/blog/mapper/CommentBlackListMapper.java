@@ -3,7 +3,6 @@ package com.qinweizhao.blog.mapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.qinweizhao.blog.model.entity.CommentBlackList;
 import org.apache.ibatis.annotations.Mapper;
 
 /**

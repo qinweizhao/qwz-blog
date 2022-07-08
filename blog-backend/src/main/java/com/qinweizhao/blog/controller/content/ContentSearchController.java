@@ -1,6 +1,5 @@
 package com.qinweizhao.blog.controller.content;
 
-import com.qinweizhao.blog.model.entity.Post;
 import com.qinweizhao.blog.model.vo.PostListVO;
 import com.qinweizhao.blog.service.OptionService;
 import com.qinweizhao.blog.service.PostService;

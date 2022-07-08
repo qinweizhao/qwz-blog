@@ -4,7 +4,6 @@ import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import com.qinweizhao.blog.event.logger.LogEvent;
-import com.qinweizhao.blog.model.entity.Log;
 import com.qinweizhao.blog.service.LogService;
 
 /**

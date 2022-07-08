@@ -1,6 +1,5 @@
 package com.qinweizhao.blog.service;
 
-import com.qinweizhao.blog.model.entity.PostMeta;
 import com.qinweizhao.blog.service.base.BaseMetaService;
 
 /**

@@ -1,37 +1,29 @@
 package com.qinweizhao.blog.model.entity;
 
-import lombok.*;
-import org.hibernate.annotations.GenericGenerator;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.qinweizhao.blog.model.base.BaseEntity;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
-import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
- * comment_black_list
- *
- * @author Lei XinXin
- * @date 2020/1/3
+ * @author qinweizhao
+ * @since 2022-07-08
  */
 @Data
-@Entity
-@Table(name = "comment_black_list")
 @EqualsAndHashCode(callSuper = true)
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
+@TableName("comment_black_list")
 public class CommentBlackList extends BaseEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "custom-id")
-    @GenericGenerator(name = "custom-id", strategy = "com.qinweizhao.blog.model.entity.support.CustomIdGenerator")
+
+    @TableId(value = "id", type = IdType.AUTO)
     private Long id;
 
-    @Column(name = "ip_address", length = 127, nullable = false)
+    private LocalDateTime banTime;
+
     private String ipAddress;
 
-    /**
-     * 封禁时间
-     */
-    @Column(name = "ban_time")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date banTime;
+
 }

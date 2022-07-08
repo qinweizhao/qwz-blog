@@ -3,7 +3,6 @@ package com.qinweizhao.blog.service;
 import org.springframework.data.domain.Page;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
-import com.qinweizhao.blog.model.entity.JournalComment;
 import com.qinweizhao.blog.model.vo.JournalCommentWithJournalVO;
 import com.qinweizhao.blog.service.base.BaseCommentService;
 

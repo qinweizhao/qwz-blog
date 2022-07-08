@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qinweizhao.blog.mapper.CommentMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.qinweizhao.blog.model.entity.Comment">
+        <id column="id" property="id" />
+        <result column="type" property="type" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+        <result column="allow_notification" property="allowNotification" />
+        <result column="author" property="author" />
+        <result column="author_url" property="authorUrl" />
+        <result column="content" property="content" />
+        <result column="email" property="email" />
+        <result column="gravatar_md5" property="gravatarMd5" />
+        <result column="ip_address" property="ipAddress" />
+        <result column="is_admin" property="isAdmin" />
+        <result column="parent_id" property="parentId" />
+        <result column="post_id" property="postId" />
+        <result column="status" property="status" />
+        <result column="top_priority" property="topPriority" />
+        <result column="user_agent" property="userAgent" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        type, id, create_time, update_time, allow_notification, author, author_url, content, email, gravatar_md5, ip_address, is_admin, parent_id, post_id, status, top_priority, user_agent
+    </sql>
+
+</mapper>

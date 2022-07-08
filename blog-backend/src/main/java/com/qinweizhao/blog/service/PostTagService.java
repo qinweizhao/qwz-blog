@@ -7,9 +7,6 @@ import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 import org.springframework.transaction.annotation.Transactional;
 import com.qinweizhao.blog.model.dto.TagWithPostCountDTO;
-import com.qinweizhao.blog.model.entity.Post;
-import com.qinweizhao.blog.model.entity.PostTag;
-import com.qinweizhao.blog.model.entity.Tag;
 import com.qinweizhao.blog.model.enums.PostStatus;
 import com.qinweizhao.blog.service.base.CrudService;
 

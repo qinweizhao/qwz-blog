@@ -19,7 +19,6 @@ import com.qinweizhao.blog.event.comment.CommentReplyEvent;
 import com.qinweizhao.blog.exception.BadRequestException;
 import com.qinweizhao.blog.exception.NotFoundException;
 import com.qinweizhao.blog.model.dto.BaseCommentDTO;
-import com.qinweizhao.blog.model.entity.BaseComment;
 import com.qinweizhao.blog.model.entity.User;
 import com.qinweizhao.blog.model.enums.CommentStatus;
 import com.qinweizhao.blog.model.params.BaseCommentParam;

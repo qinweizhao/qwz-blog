@@ -1,33 +1,28 @@
 package com.qinweizhao.blog.model.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.qinweizhao.blog.model.entity.BaseEntity;
-import com.qinweizhao.blog.utils.DateUtils;
+import com.qinweizhao.blog.model.base.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.RequiredArgsConstructor;
-import lombok.ToString;
-import org.hibernate.Hibernate;
 
-import javax.persistence.*;
 import java.util.Date;
-import java.util.Objects;
 
 /**
- * User entity
  *
- * @author ryanwang
- * @date 2019-03-12
+ * @author qinweizhao
+ * @since 2022/7/1
  */
 @Data
 @TableName("user")
 @EqualsAndHashCode(callSuper = true)
 public class User extends BaseEntity {
 
-
     /**
      * 编号
      */
+    @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
     /**

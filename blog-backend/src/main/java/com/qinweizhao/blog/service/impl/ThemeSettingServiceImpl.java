@@ -13,7 +13,6 @@ import org.springframework.util.CollectionUtils;
 import com.qinweizhao.blog.exception.ServiceException;
 import com.qinweizhao.blog.handler.theme.config.support.Group;
 import com.qinweizhao.blog.handler.theme.config.support.Item;
-import com.qinweizhao.blog.model.entity.ThemeSetting;
 import com.qinweizhao.blog.repository.ThemeSettingRepository;
 import com.qinweizhao.blog.service.ThemeService;
 import com.qinweizhao.blog.service.ThemeSettingService;

@@ -6,8 +6,6 @@ import com.qinweizhao.blog.cache.lock.CacheLock;
 import com.qinweizhao.blog.controller.content.model.*;
 import com.qinweizhao.blog.exception.NotFoundException;
 import com.qinweizhao.blog.model.dto.post.BasePostMinimalDTO;
-import com.qinweizhao.blog.model.entity.Post;
-import com.qinweizhao.blog.model.entity.Sheet;
 import com.qinweizhao.blog.model.enums.PostPermalinkType;
 import com.qinweizhao.blog.model.enums.PostStatus;
 import com.qinweizhao.blog.service.OptionService;

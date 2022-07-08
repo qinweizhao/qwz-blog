@@ -1,72 +1,26 @@
 package com.qinweizhao.blog.model.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.qinweizhao.blog.model.base.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
-import org.hibernate.annotations.ColumnDefault;
-import org.hibernate.annotations.GenericGenerator;
-import com.qinweizhao.blog.model.enums.OptionType;
-
-import javax.persistence.*;
 
 /**
- * Setting entity.
- *
- * @author johnniang
- * @author ryanwang
- * @date 2019-03-20
+ * @author qinweizhao
+ * @since 2022-07-08
  */
 @Data
-@Entity
-@Table(name = "options")
-@ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
-@NoArgsConstructor
 public class Option extends BaseEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "custom-id")
-    @GenericGenerator(name = "custom-id", strategy = "com.qinweizhao.blog.model.entity.support.CustomIdGenerator")
+    @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
-    /**
-     * option type
-     */
-    @Column(name = "type")
-    @ColumnDefault("0")
-    private OptionType type;
+    private String optionKey;
 
-    /**
-     * option key
-     */
-    @Column(name = "option_key", length = 100, nullable = false)
-    private String key;
+    private Integer type;
 
-    /**
-     * option value
-     */
-    @Column(name = "option_value", nullable = false)
-    @Lob
-    private String value;
+    private String optionValue;
 
-    public Option(String key, String value) {
-        this.key = key;
-        this.value = value;
-    }
-
-    public Option(OptionType type, String key, String value) {
-        this.type = type;
-        this.key = key;
-        this.value = value;
-    }
-
-    @Override
-    public void prePersist() {
-        super.prePersist();
-
-        if (type == null) {
-            type = OptionType.INTERNAL;
-        }
-    }
 }

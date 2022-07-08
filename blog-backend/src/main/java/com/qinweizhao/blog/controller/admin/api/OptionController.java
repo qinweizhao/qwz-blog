@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.*;
 import com.qinweizhao.blog.annotation.DisableOnCondition;
 import com.qinweizhao.blog.model.dto.OptionDTO;
 import com.qinweizhao.blog.model.dto.OptionSimpleDTO;
-import com.qinweizhao.blog.model.entity.Option;
 import com.qinweizhao.blog.model.params.OptionParam;
 import com.qinweizhao.blog.model.params.OptionQuery;
 import com.qinweizhao.blog.service.OptionService;

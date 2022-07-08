@@ -17,7 +17,6 @@ import com.qinweizhao.blog.exception.ServiceException;
 import com.qinweizhao.blog.model.dto.post.BasePostDetailDTO;
 import com.qinweizhao.blog.model.dto.post.BasePostMinimalDTO;
 import com.qinweizhao.blog.model.dto.post.BasePostSimpleDTO;
-import com.qinweizhao.blog.model.entity.BasePost;
 import com.qinweizhao.blog.model.enums.PostEditorType;
 import com.qinweizhao.blog.model.enums.PostStatus;
 import com.qinweizhao.blog.model.properties.PostProperties;

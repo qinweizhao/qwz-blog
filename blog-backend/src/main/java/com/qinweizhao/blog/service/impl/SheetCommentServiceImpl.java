@@ -9,8 +9,6 @@ import org.springframework.util.CollectionUtils;
 import com.qinweizhao.blog.exception.BadRequestException;
 import com.qinweizhao.blog.exception.NotFoundException;
 import com.qinweizhao.blog.model.dto.post.BasePostMinimalDTO;
-import com.qinweizhao.blog.model.entity.Sheet;
-import com.qinweizhao.blog.model.entity.SheetComment;
 import com.qinweizhao.blog.model.vo.SheetCommentWithSheetVO;
 import com.qinweizhao.blog.repository.SheetCommentRepository;
 import com.qinweizhao.blog.repository.SheetRepository;

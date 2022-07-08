@@ -9,7 +9,6 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.data.web.SortDefault;
 import org.springframework.web.bind.annotation.*;
 import com.qinweizhao.blog.model.dto.BaseCommentDTO;
-import com.qinweizhao.blog.model.entity.JournalComment;
 import com.qinweizhao.blog.model.enums.CommentStatus;
 import com.qinweizhao.blog.model.params.CommentQuery;
 import com.qinweizhao.blog.model.params.JournalCommentParam;

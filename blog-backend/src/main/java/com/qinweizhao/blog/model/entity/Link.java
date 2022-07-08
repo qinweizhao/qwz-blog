@@ -1,86 +1,34 @@
 package com.qinweizhao.blog.model.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.qinweizhao.blog.model.base.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.ToString;
-import org.hibernate.annotations.ColumnDefault;
-import org.hibernate.annotations.GenericGenerator;
-
-import javax.persistence.*;
 
 /**
- * Link entity
+
  *
- * @author ryanwang
- * @date 2019-03-12
+ * @author qinweizhao
+ * @since 2022-07-08
  */
 @Data
-@Entity
-@Table(name = "links", indexes = {@Index(name = "links_name", columnList = "name")})
-@ToString
 @EqualsAndHashCode(callSuper = true)
 public class Link extends BaseEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "custom-id")
-    @GenericGenerator(name = "custom-id", strategy = "com.qinweizhao.blog.model.entity.support.CustomIdGenerator")
+    @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
-    /**
-     * Link name.
-     */
-    @Column(name = "name", nullable = false)
-    private String name;
-
-    /**
-     * Link website address.
-     */
-    @Column(name = "url", length = 1023, nullable = false)
-    private String url;
-
-    /**
-     * Website logo.
-     */
-    @Column(name = "logo", length = 1023)
-    private String logo;
-
-    /**
-     * Website description.
-     */
-    @Column(name = "description")
     private String description;
 
-    /**
-     * Link team name.
-     */
-    @Column(name = "team")
-    private String team;
+    private String logo;
 
-    /**
-     * Sort.
-     */
-    @Column(name = "priority")
-    @ColumnDefault("0")
+    private String name;
+
     private Integer priority;
 
-    @Override
-    public void prePersist() {
-        super.prePersist();
+    private String team;
 
-        if (priority == null) {
-            priority = 0;
-        }
+    private String url;
 
-        if (logo == null) {
-            logo = "";
-        }
-
-        if (description == null) {
-            description = "";
-        }
-
-        if (team == null) {
-            team = "";
-        }
-    }
 }

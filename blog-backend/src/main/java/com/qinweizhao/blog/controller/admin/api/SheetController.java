@@ -10,7 +10,6 @@ import com.qinweizhao.blog.cache.AbstractStringCacheStore;
 import com.qinweizhao.blog.model.dto.IndependentSheetDTO;
 import com.qinweizhao.blog.model.dto.post.BasePostDetailDTO;
 import com.qinweizhao.blog.model.dto.post.BasePostMinimalDTO;
-import com.qinweizhao.blog.model.entity.Sheet;
 import com.qinweizhao.blog.model.enums.PostStatus;
 import com.qinweizhao.blog.model.params.PostContentParam;
 import com.qinweizhao.blog.model.params.SheetParam;

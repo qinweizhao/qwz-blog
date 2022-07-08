@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import com.qinweizhao.blog.model.dto.base.InputConverter;
-import com.qinweizhao.blog.model.entity.Log;
 import com.qinweizhao.blog.model.enums.LogType;
 
 import javax.validation.constraints.NotBlank;

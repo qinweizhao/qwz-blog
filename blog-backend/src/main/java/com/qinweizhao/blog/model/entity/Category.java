@@ -1,83 +1,35 @@
 package com.qinweizhao.blog.model.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.qinweizhao.blog.model.base.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.ToString;
-import org.hibernate.annotations.ColumnDefault;
-import org.hibernate.annotations.GenericGenerator;
-
-import javax.persistence.*;
 
 /**
- * Category entity.
  *
- * @author johnniang
- * @author ryanwang
- * @date 2019-03-15
+ * @author qinweizhao
+ * @since 2022-07-08
  */
 @Data
-@Entity
-@Table(name = "categories", indexes = {
-        @Index(name = "categories_name", columnList = "name"),
-        @Index(name = "categories_parent_id", columnList = "parent_id")})
-@ToString
 @EqualsAndHashCode(callSuper = true)
 public class Category extends BaseEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "custom-id")
-    @GenericGenerator(name = "custom-id", strategy = "com.qinweizhao.blog.model.entity.support.CustomIdGenerator")
+    @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
-    /**
-     * Category name.
-     */
-    @Column(name = "name", nullable = false)
-    private String name;
-
-    /**
-     * Category slug name.
-     */
-    @Deprecated
-    @Column(name = "slug_name")
-    private String slugName;
-
-    /**
-     * Category slug.
-     */
-    @Column(name = "slug", unique = true)
-    private String slug;
-
-    /**
-     * Description,can be display on category page.
-     */
-    @Column(name = "description", length = 100)
     private String description;
 
-    /**
-     * Cover thumbnail of the category.
-     */
-    @Column(name = "thumbnail", length = 1023)
-    private String thumbnail;
+    private String name;
 
-    /**
-     * Parent category.
-     */
-    @Column(name = "parent_id")
-    @ColumnDefault("0")
     private Integer parentId;
 
-    @Override
-    public void prePersist() {
-        super.prePersist();
+    private String password;
 
-        if (description == null) {
-            description = "";
-        }
+    private String slug;
 
-        if (parentId == null || parentId < 0) {
-            parentId = 0;
-        }
-    }
+    private String slugName;
+
+    private String thumbnail;
 
 }

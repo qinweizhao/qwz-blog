@@ -11,7 +11,6 @@ import org.springframework.util.CollectionUtils;
 import com.qinweizhao.blog.exception.AlreadyExistsException;
 import com.qinweizhao.blog.exception.NotFoundException;
 import com.qinweizhao.blog.model.dto.CategoryDTO;
-import com.qinweizhao.blog.model.entity.Category;
 import com.qinweizhao.blog.model.vo.CategoryVO;
 import com.qinweizhao.blog.repository.CategoryRepository;
 import com.qinweizhao.blog.service.CategoryService;

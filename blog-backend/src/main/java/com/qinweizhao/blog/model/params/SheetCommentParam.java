@@ -3,7 +3,6 @@ package com.qinweizhao.blog.model.params;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
-import com.qinweizhao.blog.model.entity.SheetComment;
 
 /**
  * Sheet comment param.

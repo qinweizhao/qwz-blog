@@ -1,61 +1,26 @@
 package com.qinweizhao.blog.model.entity;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
-import org.hibernate.annotations.GenericGenerator;
-
-import javax.persistence.*;
-import java.util.Objects;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.qinweizhao.blog.model.base.BaseEntity;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
- * Post category entity.
- *
- * @author johnniang
+ * @author qinweizhao
+ * @since 2022-07-08
  */
-@Getter
-@Setter
-@ToString(callSuper = true)
-@RequiredArgsConstructor
-@Entity
-@Table(name = "post_categories", indexes = {
-        @Index(name = "post_categories_post_id", columnList = "post_id"),
-        @Index(name = "post_categories_category_id", columnList = "category_id")})
+@Data
+@EqualsAndHashCode(callSuper = true)
+@TableName("post_category")
 public class PostCategory extends BaseEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "custom-id")
-    @GenericGenerator(name = "custom-id", strategy = "com.qinweizhao.blog.model.entity.support.CustomIdGenerator")
+    @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
-    /**
-     * Category id.
-     */
-    @Column(name = "category_id")
     private Integer categoryId;
 
-    /**
-     * Post id.
-     */
-    @Column(name = "post_id")
     private Integer postId;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        PostCategory that = (PostCategory) o;
-        return categoryId.equals(that.categoryId) &&
-                postId.equals(that.postId);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(categoryId, postId);
-    }
 }

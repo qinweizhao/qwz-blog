@@ -2,7 +2,6 @@ package com.qinweizhao.blog.model.params;
 
 import lombok.Data;
 import com.qinweizhao.blog.model.dto.base.InputConverter;
-import com.qinweizhao.blog.model.entity.Photo;
 
 import javax.validation.constraints.NotBlank;
 import java.util.Date;

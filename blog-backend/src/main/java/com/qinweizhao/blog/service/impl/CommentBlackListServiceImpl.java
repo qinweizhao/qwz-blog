@@ -2,7 +2,6 @@ package com.qinweizhao.blog.service.impl;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import com.qinweizhao.blog.model.entity.CommentBlackList;
 import com.qinweizhao.blog.model.enums.CommentViolationTypeEnum;
 import com.qinweizhao.blog.model.properties.CommentProperties;
 import com.qinweizhao.blog.repository.CommentBlackListRepository;

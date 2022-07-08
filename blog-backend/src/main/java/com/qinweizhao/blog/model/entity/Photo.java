@@ -1,98 +1,36 @@
 package com.qinweizhao.blog.model.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.qinweizhao.blog.model.base.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.ToString;
-import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
- * Photo entity
- *
- * @author ryanwang
- * @date 2019-03-12
+ * @author qinweizhao
+ * @since 2022-07-08
  */
 @Data
-@Entity
-@Table(name = "photos", indexes = {
-        @Index(name = "photos_team", columnList = "team"),
-        @Index(name = "photos_create_time", columnList = "create_time")})
-@ToString
 @EqualsAndHashCode(callSuper = true)
 public class Photo extends BaseEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "custom-id")
-    @GenericGenerator(name = "custom-id", strategy = "com.qinweizhao.blog.model.entity.support.CustomIdGenerator")
+    @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
-    /**
-     * Picture name.
-     */
-    @Column(name = "name", nullable = false)
-    private String name;
-
-    /**
-     * Picture description.
-     */
-    @Column(name = "description")
     private String description;
 
-    /**
-     * Shooting time / creation time.
-     */
-    @Column(name = "take_time")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date takeTime;
-
-    /**
-     * Picture location.
-     */
-    @Column(name = "location")
     private String location;
 
-    /**
-     * Thumbnail
-     */
-    @Column(name = "thumbnail", length = 1023)
-    private String thumbnail;
+    private String name;
 
-    /**
-     * Picture access path.
-     */
-    @Column(name = "url", length = 1023, nullable = false)
-    private String url;
+    private LocalDateTime takeTime;
 
-    /**
-     * Photo team name.
-     */
-    @Column(name = "team")
     private String team;
 
-    @Override
-    public void prePersist() {
-        super.prePersist();
+    private String thumbnail;
 
-        if (takeTime == null) {
-            takeTime = this.getCreateTime();
-        }
+    private String url;
 
-        if (description == null) {
-            description = "";
-        }
-
-        if (location == null) {
-            location = "";
-        }
-
-        if (thumbnail == null) {
-            thumbnail = "";
-        }
-
-        if (team == null) {
-            team = "";
-        }
-    }
 }

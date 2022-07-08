@@ -2,10 +2,6 @@ package com.qinweizhao.blog.controller.content.model;
 
 import com.qinweizhao.blog.cache.AbstractStringCacheStore;
 import com.qinweizhao.blog.exception.ForbiddenException;
-import com.qinweizhao.blog.model.entity.Category;
-import com.qinweizhao.blog.model.entity.Post;
-import com.qinweizhao.blog.model.entity.PostMeta;
-import com.qinweizhao.blog.model.entity.Tag;
 import com.qinweizhao.blog.model.enums.PostEditorType;
 import com.qinweizhao.blog.model.enums.PostStatus;
 import com.qinweizhao.blog.model.support.HaloConst;

@@ -5,7 +5,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.SortDefault;
 import org.springframework.web.bind.annotation.*;
 import com.qinweizhao.blog.model.dto.LinkDTO;
-import com.qinweizhao.blog.model.entity.Link;
 import com.qinweizhao.blog.model.params.LinkParam;
 import com.qinweizhao.blog.service.LinkService;
 

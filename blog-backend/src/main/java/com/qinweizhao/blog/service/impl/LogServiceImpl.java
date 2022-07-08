@@ -6,7 +6,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import com.qinweizhao.blog.model.dto.LogDTO;
-import com.qinweizhao.blog.model.entity.Log;
 import com.qinweizhao.blog.repository.LogRepository;
 import com.qinweizhao.blog.service.LogService;
 import com.qinweizhao.blog.service.base.AbstractCrudService;

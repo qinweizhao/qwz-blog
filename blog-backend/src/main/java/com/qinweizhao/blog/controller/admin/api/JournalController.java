@@ -7,7 +7,6 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 import com.qinweizhao.blog.model.dto.JournalDTO;
 import com.qinweizhao.blog.model.dto.JournalWithCmtCountDTO;
-import com.qinweizhao.blog.model.entity.Journal;
 import com.qinweizhao.blog.model.params.JournalParam;
 import com.qinweizhao.blog.model.params.JournalQuery;
 import com.qinweizhao.blog.service.JournalService;

@@ -1,8 +1,6 @@
 package com.qinweizhao.blog.controller.content;
 
 import com.qinweizhao.blog.model.dto.CategoryDTO;
-import com.qinweizhao.blog.model.entity.Category;
-import com.qinweizhao.blog.model.entity.Post;
 import com.qinweizhao.blog.model.enums.PostStatus;
 import com.qinweizhao.blog.model.vo.PostDetailVO;
 import com.qinweizhao.blog.service.CategoryService;

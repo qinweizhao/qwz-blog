@@ -6,7 +6,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 import com.qinweizhao.blog.model.dto.BaseCommentDTO;
-import com.qinweizhao.blog.model.entity.BaseComment;
 import com.qinweizhao.blog.model.enums.CommentStatus;
 import com.qinweizhao.blog.model.params.BaseCommentParam;
 import com.qinweizhao.blog.model.params.CommentQuery;
