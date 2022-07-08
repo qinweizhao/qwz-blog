@@ -29,9 +29,7 @@ spring:
       max-lifetime: 1200000
       # 从池返回的连接的默认自动提交行为。默认值为true。
       auto-commit: true
-  jpa:
-    show-sql: true
-    open-in-view: false
+
   servlet:
     multipart:
       max-file-size: 10240MB

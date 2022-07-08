@@ -1,11 +1,12 @@
 package com.qinweizhao.blog.aspect;
 
+import com.qinweizhao.blog.model.entity.Comment;
+import com.qinweizhao.blog.security.context.SecurityContextHolder;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.stereotype.Component;
-import com.qinweizhao.blog.security.context.SecurityContextHolder;
 
 
 /**
@@ -23,9 +24,9 @@ public class SensitiveConcealAspect {
     }
 
     private Object sensitiveMask(Object comment) {
-        if (comment instanceof BaseComment) {
-            ((BaseComment) comment).setEmail("");
-            ((BaseComment) comment).setIpAddress("");
+        if (comment instanceof Comment) {
+            ((Comment) comment).setEmail("");
+            ((Comment) comment).setIpAddress("");
         }
         return comment;
     }

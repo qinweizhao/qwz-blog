@@ -31,9 +31,6 @@ spring:
     username: root
     password: root
 
-  jpa:
-    show-sql: true
-    open-in-view: false
   servlet:
     multipart:
       max-file-size: 10240MB
