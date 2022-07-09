@@ -2,10 +2,10 @@ package com.qinweizhao.blog.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.google.common.base.Objects;
+import com.qinweizhao.blog.convert.CategoryConvert;
 import com.qinweizhao.blog.exception.AlreadyExistsException;
 import com.qinweizhao.blog.exception.NotFoundException;
 import com.qinweizhao.blog.mapper.CategoryMapper;
-import com.qinweizhao.blog.model.dto.CategoryDTO;
 import com.qinweizhao.blog.model.entity.Category;
 import com.qinweizhao.blog.model.vo.CategoryVO;
 import com.qinweizhao.blog.service.CategoryService;
@@ -82,7 +82,8 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
         Assert.notNull(sort, "Sort info must not be null");
 
         // List all category
-        List<Category> categories = listAll(sort);
+//        List<Category> categories = list(sort);
+        List<Category> categories = list();
 
         if (CollectionUtils.isEmpty(categories)) {
             return Collections.emptyList();
@@ -117,7 +118,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
 
         children.forEach(category -> {
             // Convert to child category vo
-            CategoryVO child = new CategoryVO().convertFrom(category);
+            CategoryVO child = CategoryConvert.INSTANCE.convertVO(category);
             // Init children if absent
             if (parentCategory.getChildren() == null) {
                 parentCategory.setChildren(new LinkedList<>());
@@ -168,27 +169,23 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
 
     @Override
     public Category getBySlug(String slug) {
-        return categoryRepository.getBySlug(slug).orElse(null);
+        return this.baseMapper.selectBySlug(slug);
     }
 
-    @Override
-    public Category getBySlugOfNonNull(String slug) {
-        return categoryRepository.getBySlug(slug).orElseThrow(() -> new NotFoundException("查询不到该分类的信息").setErrorData(slug));
-    }
 
     @Override
     public Category getByName(String name) {
-        return categoryRepository.getByName(name).orElse(null);
+        return this.baseMapper.selectByName(name);
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public void removeCategoryAndPostCategoryBy(Integer categoryId) {
         List<Category> categories = listByParentId(categoryId);
         if (null != categories && categories.size() > 0) {
             categories.forEach(category -> {
                 category.setParentId(0);
-                update(category);
+                this.baseMapper.updateById(category);
             });
         }
         // Remove category
@@ -198,42 +195,9 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
     }
 
     @Override
-    public List<Category> listByParentId(Integer id) {
-        Assert.notNull(id, "Parent id must not be null");
-        return categoryRepository.findByParentId(id);
+    public List<Category> listByParentId(Integer parentId) {
+        Assert.notNull(parentId, "Parent id must not be null");
+        return this.baseMapper.selectListByParentId(parentId);
     }
 
-    @Override
-    public CategoryDTO convertTo(Category category) {
-        Assert.notNull(category, "Category must not be null");
-
-        CategoryDTO categoryDTO = new CategoryDTO().convertFrom(category);
-
-        StringBuilder fullPath = new StringBuilder();
-
-        if (optionService.isEnabledAbsolutePath()) {
-            fullPath.append(optionService.getBlogBaseUrl());
-        }
-
-        fullPath.append(URL_SEPARATOR)
-                .append(optionService.getCategoriesPrefix())
-                .append(URL_SEPARATOR)
-                .append(category.getSlug())
-                .append(optionService.getPathSuffix());
-
-        categoryDTO.setFullPath(fullPath.toString());
-
-        return categoryDTO;
-    }
-
-    @Override
-    public List<CategoryDTO> convertTo(List<Category> categories) {
-        if (CollectionUtils.isEmpty(categories)) {
-            return Collections.emptyList();
-        }
-
-        return categories.stream()
-                .map(this::convertTo)
-                .collect(Collectors.toList());
-    }
 }

@@ -43,17 +43,8 @@ public interface CategoryService extends IService<Category> {
      * @param slug slug
      * @return Category
      */
-
     Category getBySlug(String slug);
 
-    /**
-     * Get category by slug
-     *
-     * @param slug slug
-     * @return Category
-     */
-
-    Category getBySlugOfNonNull(String slug);
 
     /**
      * Get Category by name.

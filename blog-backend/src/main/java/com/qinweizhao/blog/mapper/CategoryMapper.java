@@ -74,8 +74,9 @@ public interface CategoryMapper extends BaseMapper<Category> {
      * @param parentId parentId
      * @return List
      */
-    default List<Category> findByParentId(@NonNull Integer parentId) {
-        return selectList(new LambdaQueryWrapper<Category>().eq(Category::getParentId, parentId));
+    default List<Category> selectListByParentId(@NonNull Integer parentId) {
+        return selectList(new LambdaQueryWrapper<Category>()
+                .eq(Category::getParentId, parentId));
     }
 
 }
