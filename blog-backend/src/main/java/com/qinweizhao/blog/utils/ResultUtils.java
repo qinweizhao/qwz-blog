@@ -31,4 +31,6 @@ public class ResultUtils {
     public static <T> T judge(boolean b, T object) {
         return b ? object : null;
     }
+
+
 }

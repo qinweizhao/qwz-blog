@@ -1,5 +1,6 @@
 package com.qinweizhao.blog.model.params;
 
+import com.qinweizhao.blog.model.entity.Option;
 import lombok.Data;
 import com.qinweizhao.blog.model.dto.base.InputConverter;
 import com.qinweizhao.blog.model.enums.OptionType;

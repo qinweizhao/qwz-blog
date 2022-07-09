@@ -1,5 +1,6 @@
 package com.qinweizhao.blog.model.params;
 
+import com.qinweizhao.blog.model.entity.Category;
 import lombok.Data;
 import org.apache.commons.lang3.StringUtils;
 import com.qinweizhao.blog.model.dto.base.InputConverter;

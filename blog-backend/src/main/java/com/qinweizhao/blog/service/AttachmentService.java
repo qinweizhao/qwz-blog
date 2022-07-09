@@ -1,15 +1,13 @@
 package com.qinweizhao.blog.service;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.lang.NonNull;
-import org.springframework.web.multipart.MultipartFile;
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.qinweizhao.blog.exception.FileOperationException;
-import com.qinweizhao.blog.model.dto.AttachmentDTO;
 import com.qinweizhao.blog.model.entity.Attachment;
 import com.qinweizhao.blog.model.enums.AttachmentType;
 import com.qinweizhao.blog.model.params.AttachmentQuery;
-import com.qinweizhao.blog.service.base.CrudService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Collection;
 import java.util.List;
@@ -21,17 +19,16 @@ import java.util.List;
  * @author johnniang
  * @date 2019-03-14
  */
-public interface AttachmentService extends CrudService<Attachment, Integer> {
+public interface AttachmentService extends IService<Attachment> {
 
     /**
-     * Pages attachment output dtos.
+     * 分页
      *
-     * @param pageable        page info must not be null
-     * @param attachmentQuery attachment query param.
-     * @return a page of attachment output dto
+     * @param pageable        pageable
+     * @param attachmentQuery attachmentQuery
+     * @return Page
      */
-    @NonNull
-    Page<AttachmentDTO> pageDtosBy(@NonNull Pageable pageable, AttachmentQuery attachmentQuery);
+    Page<Attachment> page(Pageable pageable, AttachmentQuery attachmentQuery);
 
     /**
      * 上传文件
@@ -48,8 +45,7 @@ public interface AttachmentService extends CrudService<Attachment, Integer> {
      * @param id attachment id must not be null
      * @return attachment detail deleted
      */
-    @NonNull
-    Attachment removePermanently(@NonNull Integer id);
+    Attachment removePermanently(Integer id);
 
     /**
      * Removes attachment permanently in batch.
@@ -57,17 +53,7 @@ public interface AttachmentService extends CrudService<Attachment, Integer> {
      * @param ids attachment ids must not be null
      * @return attachment detail list deleted
      */
-    @NonNull
-    List<Attachment> removePermanently(@NonNull Collection<Integer> ids);
-
-    /**
-     * Converts to attachment output dto.
-     *
-     * @param attachment attachment must not be null
-     * @return an attachment output dto
-     */
-    @NonNull
-    AttachmentDTO convertToDto(@NonNull Attachment attachment);
+    List<Attachment> removePermanently(Collection<Integer> ids);
 
     /**
      * List all media type.
@@ -90,5 +76,5 @@ public interface AttachmentService extends CrudService<Attachment, Integer> {
      * @param newUrl new blog url.
      * @return replaced attachments.
      */
-    List<Attachment> replaceUrl(@NonNull String oldUrl, @NonNull String newUrl);
+    List<Attachment> replaceUrl(String oldUrl, String newUrl);
 }

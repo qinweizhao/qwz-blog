@@ -1,16 +1,17 @@
 package com.qinweizhao.blog.controller.admin.api;
 
 import com.qinweizhao.blog.model.dto.CategoryDTO;
+import com.qinweizhao.blog.model.entity.Category;
 import com.qinweizhao.blog.model.params.CategoryParam;
 import com.qinweizhao.blog.model.vo.CategoryVO;
 import com.qinweizhao.blog.service.CategoryService;
 import com.qinweizhao.blog.service.PostCategoryService;
 import io.swagger.annotations.ApiOperation;
+import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.SortDefault;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -24,13 +25,12 @@ import static org.springframework.data.domain.Sort.Direction.DESC;
  * @date 2019-03-21
  */
 @RestController
+@AllArgsConstructor
 @RequestMapping("/api/admin/categories")
 public class CategoryController {
 
-    @Resource
     private CategoryService categoryService;
 
-    @Resource
     private PostCategoryService postCategoryService;
 
 

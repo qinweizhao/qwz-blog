@@ -36,7 +36,7 @@ import static org.springframework.data.domain.Sort.Direction.DESC;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/api/admin/posts/comments")
-public class PostCommentController {
+public class CommentController {
 
     private final CommentService commentService;
 

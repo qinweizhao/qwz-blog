@@ -1,7 +1,11 @@
 package com.qinweizhao.blog.service.impl;
 
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.qiniu.common.Zone;
 import com.qiniu.storage.Region;
+import com.qinweizhao.blog.mapper.OptionMapper;
+import com.qinweizhao.blog.model.entity.Option;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.ApplicationContext;
@@ -26,7 +30,6 @@ import com.qinweizhao.blog.model.enums.ValueEnum;
 import com.qinweizhao.blog.model.params.OptionParam;
 import com.qinweizhao.blog.model.params.OptionQuery;
 import com.qinweizhao.blog.model.properties.*;
-import com.qinweizhao.blog.repository.OptionRepository;
 import com.qinweizhao.blog.service.OptionService;
 import com.qinweizhao.blog.service.base.AbstractCrudService;
 import com.qinweizhao.blog.utils.DateUtils;
@@ -46,36 +49,19 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 @Service
-public class OptionServiceImpl extends AbstractCrudService<Option, Integer> implements OptionService {
+@AllArgsConstructor
+public class OptionServiceImpl extends ServiceImpl<OptionMapper, Option> implements OptionService {
 
-    private final OptionRepository optionRepository;
     private final ApplicationContext applicationContext;
+
     private final AbstractStringCacheStore cacheStore;
+
     private final Map<String, PropertyEnum> propertyEnumMap;
+
     private final ApplicationEventPublisher eventPublisher;
+
     private final HaloProperties haloProperties;
 
-    public OptionServiceImpl(HaloProperties haloProperties,
-            OptionRepository optionRepository,
-            ApplicationContext applicationContext,
-            AbstractStringCacheStore cacheStore,
-            ApplicationEventPublisher eventPublisher) {
-        super(optionRepository);
-        this.haloProperties = haloProperties;
-        this.optionRepository = optionRepository;
-        this.applicationContext = applicationContext;
-        this.cacheStore = cacheStore;
-        this.eventPublisher = eventPublisher;
-
-        propertyEnumMap = Collections.unmodifiableMap(PropertyEnum.getValuePropertyEnumMap());
-    }
-
-    @Deprecated
-    @Transactional
-    private void save(@NonNull String key, @Nullable String value) {
-        Assert.hasText(key, "Option key must not be blank");
-        save(Collections.singletonMap(key, value));
-    }
 
     @Override
     @Transactional
@@ -84,14 +70,14 @@ public class OptionServiceImpl extends AbstractCrudService<Option, Integer> impl
             return;
         }
 
-        Map<String, Option> optionKeyMap = ServiceUtils.convertToMap(listAll(), Option::getKey);
+        Map<String, Option> optionKeyMap = ServiceUtils.convertToMap(this.list(), Option::getOptionKey);
 
         List<Option> optionsToCreate = new LinkedList<>();
         List<Option> optionsToUpdate = new LinkedList<>();
 
         optionMap.forEach((key, value) -> {
             Option oldOption = optionKeyMap.get(key);
-            if (oldOption == null || !StringUtils.equals(oldOption.getValue(), value.toString())) {
+            if (oldOption == null || !StringUtils.equals(oldOption.getOptionValue(), value.toString())) {
                 OptionParam optionParam = new OptionParam();
                 optionParam.setKey(key);
                 optionParam.setValue(value.toString());
@@ -100,7 +86,7 @@ public class OptionServiceImpl extends AbstractCrudService<Option, Integer> impl
                 if (oldOption == null) {
                     // Create it
                     optionsToCreate.add(optionParam.convertTo());
-                } else if (!StringUtils.equals(oldOption.getValue(), value.toString())) {
+                } else if (!StringUtils.equals(oldOption.getOptionValue(), value.toString())) {
                     // Update it
                     optionParam.update(oldOption);
                     optionsToUpdate.add(oldOption);
@@ -109,10 +95,10 @@ public class OptionServiceImpl extends AbstractCrudService<Option, Integer> impl
         });
 
         // Update them
-        updateInBatch(optionsToUpdate);
+        this.updateBatchById(optionsToUpdate);
 
         // Create them
-        createInBatch(optionsToCreate);
+        this.saveBatch(optionsToCreate);
 
         if (!CollectionUtils.isEmpty(optionsToUpdate) || !CollectionUtils.isEmpty(optionsToCreate)) {
             // If there is something changed
@@ -134,7 +120,7 @@ public class OptionServiceImpl extends AbstractCrudService<Option, Integer> impl
     @Override
     public void save(OptionParam optionParam) {
         Option option = optionParam.convertTo();
-        create(option);
+        save(option);
         publishOptionUpdatedEvent();
     }
 

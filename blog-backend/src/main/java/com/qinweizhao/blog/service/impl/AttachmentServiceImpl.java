@@ -1,32 +1,31 @@
 package com.qinweizhao.blog.service.impl;
 
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.qinweizhao.blog.exception.AlreadyExistsException;
+import com.qinweizhao.blog.handler.file.FileHandlers;
+import com.qinweizhao.blog.mapper.AttachmentMapper;
+import com.qinweizhao.blog.model.entity.Attachment;
+import com.qinweizhao.blog.model.enums.AttachmentType;
+import com.qinweizhao.blog.model.params.AttachmentQuery;
+import com.qinweizhao.blog.model.properties.AttachmentProperties;
+import com.qinweizhao.blog.model.support.UploadResult;
+import com.qinweizhao.blog.service.AttachmentService;
+import com.qinweizhao.blog.service.OptionService;
+import com.qinweizhao.blog.utils.HaloUtils;
+import com.qinweizhao.blog.utils.ResultUtils;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.multipart.MultipartFile;
-import com.qinweizhao.blog.exception.AlreadyExistsException;
-import com.qinweizhao.blog.handler.file.FileHandlers;
-import com.qinweizhao.blog.model.dto.AttachmentDTO;
-import com.qinweizhao.blog.model.entity.Attachment;
-import com.qinweizhao.blog.model.enums.AttachmentType;
-import com.qinweizhao.blog.model.params.AttachmentQuery;
-import com.qinweizhao.blog.model.properties.AttachmentProperties;
-import com.qinweizhao.blog.model.support.UploadResult;
-import com.qinweizhao.blog.repository.AttachmentRepository;
-import com.qinweizhao.blog.service.AttachmentService;
-import com.qinweizhao.blog.service.OptionService;
-import com.qinweizhao.blog.service.base.AbstractCrudService;
-import com.qinweizhao.blog.utils.HaloUtils;
 
-import javax.persistence.criteria.Predicate;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -39,60 +38,17 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 @Service
-public class AttachmentServiceImpl extends AbstractCrudService<Attachment, Integer> implements AttachmentService {
+@AllArgsConstructor
+public class AttachmentServiceImpl extends ServiceImpl<AttachmentMapper, Attachment> implements AttachmentService {
 
-    private final AttachmentRepository attachmentRepository;
 
     private final OptionService optionService;
 
     private final FileHandlers fileHandlers;
 
-    public AttachmentServiceImpl(AttachmentRepository attachmentRepository,
-            OptionService optionService,
-            FileHandlers fileHandlers) {
-        super(attachmentRepository);
-        this.attachmentRepository = attachmentRepository;
-        this.optionService = optionService;
-        this.fileHandlers = fileHandlers;
-    }
-
     @Override
-    public Page<AttachmentDTO> pageDtosBy(@NonNull Pageable pageable, AttachmentQuery attachmentQuery) {
-        Assert.notNull(pageable, "Page info must not be null");
-
-        // List all
-        Page<Attachment> attachmentPage = attachmentRepository.findAll(buildSpecByQuery(attachmentQuery), pageable);
-
-        // Convert and return
-        return attachmentPage.map(this::convertToDto);
-    }
-
-    @NonNull
-    private Specification<Attachment> buildSpecByQuery(@NonNull AttachmentQuery attachmentQuery) {
-        Assert.notNull(attachmentQuery, "Attachment query must not be null");
-
-        return (Specification<Attachment>) (root, query, criteriaBuilder) -> {
-            List<Predicate> predicates = new LinkedList<>();
-
-            if (attachmentQuery.getMediaType() != null) {
-                predicates.add(criteriaBuilder.equal(root.get("mediaType"), attachmentQuery.getMediaType()));
-            }
-
-            if (attachmentQuery.getAttachmentType() != null) {
-                predicates.add(criteriaBuilder.equal(root.get("type"), attachmentQuery.getAttachmentType()));
-            }
-
-            if (attachmentQuery.getKeyword() != null) {
-
-                String likeCondition = String.format("%%%s%%", StringUtils.strip(attachmentQuery.getKeyword()));
-
-                Predicate nameLike = criteriaBuilder.like(root.get("name"), likeCondition);
-
-                predicates.add(criteriaBuilder.or(nameLike));
-            }
-
-            return query.where(predicates.toArray(new Predicate[0])).getRestriction();
-        };
+    public Page<Attachment> page(Pageable pageable, AttachmentQuery attachmentQuery) {
+        return this.baseMapper.selectPage(pageable, attachmentQuery);
     }
 
     @Override
@@ -131,13 +87,14 @@ public class AttachmentServiceImpl extends AbstractCrudService<Attachment, Integ
 
     @Override
     public Attachment removePermanently(Integer id) {
-        // Remove it from database
-        Attachment deletedAttachment = removeById(id);
+        Attachment deletedAttachment = this.baseMapper.selectById(id);
+        // 从数据库中删除它
+        this.baseMapper.deleteById(id);
 
-        // Remove the file
+        // 删除文件
         fileHandlers.delete(deletedAttachment);
 
-        log.debug("Deleted attachment: [{}]", deletedAttachment);
+        log.debug("已删除的附件: [{}]", deletedAttachment);
 
         return deletedAttachment;
     }
@@ -151,44 +108,21 @@ public class AttachmentServiceImpl extends AbstractCrudService<Attachment, Integ
         return ids.stream().map(this::removePermanently).collect(Collectors.toList());
     }
 
-    @Override
-    public AttachmentDTO convertToDto(Attachment attachment) {
-        Assert.notNull(attachment, "Attachment must not be null");
-
-        // Get blog base url
-        String blogBaseUrl = optionService.getBlogBaseUrl();
-
-        Boolean enabledAbsolutePath = optionService.isEnabledAbsolutePath();
-
-        // Convert to output dto
-        AttachmentDTO attachmentDTO = new AttachmentDTO().convertFrom(attachment);
-
-        if (Objects.equals(attachmentDTO.getType(), AttachmentType.LOCAL)) {
-            // Append blog base url to path and thumbnail
-            String fullPath = StringUtils.join(enabledAbsolutePath ? blogBaseUrl : "", "/", attachmentDTO.getPath());
-            String fullThumbPath = StringUtils.join(enabledAbsolutePath ? blogBaseUrl : "", "/", attachmentDTO.getThumbPath());
-
-            // Set full path and full thumb path
-            attachmentDTO.setPath(fullPath);
-            attachmentDTO.setThumbPath(fullThumbPath);
-        }
-
-        return attachmentDTO;
-    }
 
     @Override
     public List<String> listAllMediaType() {
-        return attachmentRepository.findAllMediaType();
+        return this.baseMapper.selectListMediaType();
     }
 
     @Override
     public List<AttachmentType> listAllType() {
-        return attachmentRepository.findAllType();
+        return this.baseMapper.selectListType();
     }
 
     @Override
     public List<Attachment> replaceUrl(@NotNull String oldUrl, @NotNull String newUrl) {
-        List<Attachment> attachments = listAll();
+        List<Attachment> attachments = this.list();
+
         List<Attachment> replaced = new ArrayList<>();
         attachments.forEach(attachment -> {
             if (StringUtils.isNotEmpty(attachment.getPath())) {
@@ -199,17 +133,20 @@ public class AttachmentServiceImpl extends AbstractCrudService<Attachment, Integ
             }
             replaced.add(attachment);
         });
-        return updateInBatch(replaced);
+
+        boolean b = this.updateBatchById(replaced);
+
+        return ResultUtils.judge(b, replaced);
     }
 
-    @Override
-    public @NotNull Attachment create(@NotNull Attachment attachment) {
+    public Attachment create(Attachment attachment) {
         Assert.notNull(attachment, "附件不能为空");
 
         // 检查附件路径
         pathMustNotExist(attachment);
+        boolean b = this.save(attachment);
 
-        return super.create(attachment);
+        return ResultUtils.judge(b, attachment);
     }
 
     /**
@@ -220,7 +157,7 @@ public class AttachmentServiceImpl extends AbstractCrudService<Attachment, Integ
     private void pathMustNotExist(@NonNull Attachment attachment) {
         Assert.notNull(attachment, "Attachment must not be null");
 
-        long pathCount = attachmentRepository.countByPath(attachment.getPath());
+        long pathCount = this.baseMapper.countByPath(attachment.getPath());
 
         if (pathCount > 0) {
             throw new AlreadyExistsException("附件路径为 " + attachment.getPath() + " 已经存在");
