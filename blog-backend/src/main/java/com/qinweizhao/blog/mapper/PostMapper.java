@@ -1,6 +1,7 @@
 package com.qinweizhao.blog.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.qinweizhao.blog.model.entity.Post;
 import com.qinweizhao.blog.model.enums.PostStatus;
 import org.apache.ibatis.annotations.Param;
 

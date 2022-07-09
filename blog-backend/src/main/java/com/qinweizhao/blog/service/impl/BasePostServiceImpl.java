@@ -20,7 +20,6 @@ import com.qinweizhao.blog.model.dto.post.BasePostSimpleDTO;
 import com.qinweizhao.blog.model.enums.PostEditorType;
 import com.qinweizhao.blog.model.enums.PostStatus;
 import com.qinweizhao.blog.model.properties.PostProperties;
-import com.qinweizhao.blog.repository.base.BasePostRepository;
 import com.qinweizhao.blog.service.OptionService;
 import com.qinweizhao.blog.service.base.AbstractCrudService;
 import com.qinweizhao.blog.service.base.BasePostService;

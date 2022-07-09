@@ -2,6 +2,7 @@ package com.qinweizhao.blog.mapper;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.qinweizhao.blog.model.entity.ThemeSetting;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -34,7 +35,7 @@ public interface ThemeSettingMapper extends BaseMapper<ThemeSetting> {
     default long deleteByThemeIdAndKey(String themeId, String key) {
         return delete(new LambdaQueryWrapper<ThemeSetting>()
                 .eq(ThemeSetting::getThemeId, themeId)
-                .eq(ThemeSetting::getKey, key));
+                .eq(ThemeSetting::getSettingKey, key));
     }
 
     /**
@@ -48,7 +49,7 @@ public interface ThemeSettingMapper extends BaseMapper<ThemeSetting> {
     default ThemeSetting selectByThemeIdAndKey(String themeId, String key) {
         return selectOne(new LambdaQueryWrapper<ThemeSetting>()
                 .eq(ThemeSetting::getThemeId, themeId)
-                .eq(ThemeSetting::getKey, key));
+                .eq(ThemeSetting::getSettingKey, key));
     }
 
 

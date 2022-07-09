@@ -1,14 +1,17 @@
 package com.qinweizhao.blog.service;
 
+import com.baomidou.mybatisplus.extension.service.IService;
+import com.qinweizhao.blog.model.dto.CategoryWithPostCountDTO;
+import com.qinweizhao.blog.model.entity.Category;
+import com.qinweizhao.blog.model.entity.Post;
+import com.qinweizhao.blog.model.entity.PostCategory;
+import com.qinweizhao.blog.model.enums.PostStatus;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 import org.springframework.transaction.annotation.Transactional;
-import com.qinweizhao.blog.model.dto.CategoryWithPostCountDTO;
-import com.qinweizhao.blog.model.enums.PostStatus;
-import com.qinweizhao.blog.service.base.CrudService;
 
 import java.util.Collection;
 import java.util.List;
@@ -22,7 +25,7 @@ import java.util.Set;
  * @author ryanwang
  * @date 2019-03-19
  */
-public interface PostCategoryService extends CrudService<PostCategory, Integer> {
+public interface PostCategoryService extends IService<PostCategory> {
 
     /**
      * Lists category by post id.

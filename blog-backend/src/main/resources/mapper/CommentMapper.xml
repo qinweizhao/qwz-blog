@@ -28,4 +28,26 @@
         type, id, create_time, update_time, allow_notification, author, author_url, content, email, gravatar_md5, ip_address, is_admin, parent_id, post_id, status, top_priority, user_agent
     </sql>
 
+
+    <select id="selectCountByPostIds" resultType="com.qinweizhao.blog.model.projection.CommentCountProjection">
+        select count(comment.id) as count, comment.postId
+        from PostComment comment
+        where comment.postId in
+        <foreach collection="postIds" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+        group by comment.postId
+    </select>
+
+    <select id="selectCountDirectChildren"
+            resultType="com.qinweizhao.blog.model.projection.CommentChildrenCountProjection">
+        select count(comment.id) as count, comment.postId
+        from PostComment comment
+        where comment.parentId in
+        <foreach collection="commentIds" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+        group by comment.parentId
+    </select>
+
 </mapper>

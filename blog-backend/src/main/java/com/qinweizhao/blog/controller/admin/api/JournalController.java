@@ -1,15 +1,18 @@
 package com.qinweizhao.blog.controller.admin.api;
 
+import com.qinweizhao.blog.model.dto.JournalDTO;
+import com.qinweizhao.blog.model.dto.JournalWithCmtCountDTO;
+import com.qinweizhao.blog.model.entity.Journal;
+import com.qinweizhao.blog.model.params.JournalParam;
+import com.qinweizhao.blog.model.params.JournalQuery;
+import com.qinweizhao.blog.service.JournalService;
+import com.qinweizhao.blog.utils.ResultUtils;
 import io.swagger.annotations.ApiOperation;
+import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
-import com.qinweizhao.blog.model.dto.JournalDTO;
-import com.qinweizhao.blog.model.dto.JournalWithCmtCountDTO;
-import com.qinweizhao.blog.model.params.JournalParam;
-import com.qinweizhao.blog.model.params.JournalQuery;
-import com.qinweizhao.blog.service.JournalService;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -24,19 +27,22 @@ import static org.springframework.data.domain.Sort.Direction.DESC;
  * @date 2019-04-25
  */
 @RestController
+@AllArgsConstructor
 @RequestMapping("/api/admin/journals")
 public class JournalController {
 
     private final JournalService journalService;
 
-    public JournalController(JournalService journalService) {
-        this.journalService = journalService;
-    }
-
+    /**
+     * 日志分页
+     *
+     * @param pageable     pageable
+     * @param journalQuery journalQuery
+     * @return Page
+     */
     @GetMapping
-    @ApiOperation("Lists journals")
     public Page<JournalWithCmtCountDTO> pageBy(@PageableDefault(sort = "createTime", direction = DESC) Pageable pageable,
-            JournalQuery journalQuery) {
+                                               JournalQuery journalQuery) {
         Page<Journal> journalPage = journalService.pageBy(journalQuery, pageable);
         return journalService.convertToCmtCountDto(journalPage);
     }
@@ -58,7 +64,7 @@ public class JournalController {
     @PutMapping("{id:\\d+}")
     @ApiOperation("Updates a Journal")
     public JournalDTO updateBy(@PathVariable("id") Integer id,
-            @RequestBody @Valid JournalParam journalParam) {
+                               @RequestBody @Valid JournalParam journalParam) {
         Journal journal = journalService.getById(id);
         journalParam.update(journal);
         Journal updatedJournal = journalService.updateBy(journal);
@@ -68,7 +74,8 @@ public class JournalController {
     @DeleteMapping("{journalId:\\d+}")
     @ApiOperation("Delete journal")
     public JournalDTO deleteBy(@PathVariable("journalId") Integer journalId) {
-        Journal deletedJournal = journalService.removeById(journalId);
-        return journalService.convertTo(deletedJournal);
+        boolean b = journalService.removeById(journalId);
+        Journal judge = ResultUtils.judge(b, journalService.getById(journalId));
+        return journalService.convertTo(judge);
     }
 }

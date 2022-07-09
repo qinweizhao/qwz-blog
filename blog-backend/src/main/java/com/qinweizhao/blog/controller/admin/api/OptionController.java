@@ -1,6 +1,8 @@
 package com.qinweizhao.blog.controller.admin.api;
 
+import com.qinweizhao.blog.model.entity.Option;
 import io.swagger.annotations.ApiOperation;
+import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -26,14 +28,11 @@ import static org.springframework.data.domain.Sort.Direction.DESC;
  * @date 2019-03-20
  */
 @RestController
+@AllArgsConstructor
 @RequestMapping("/api/admin/options")
 public class OptionController {
 
     private final OptionService optionService;
-
-    public OptionController(OptionService optionService) {
-        this.optionService = optionService;
-    }
 
     @GetMapping
     @ApiOperation("Lists options")
@@ -54,8 +53,12 @@ public class OptionController {
         return optionService.listOptions();
     }
 
+    /**
+     * Lists options with map view by keys
+     * @param keys keys
+     * @return Map
+     */
     @PostMapping("map_view/keys")
-    @ApiOperation("Lists options with map view by keys")
     public Map<String, Object> listAllWithMapView(@RequestBody List<String> keys) {
         return optionService.listOptions(keys);
     }

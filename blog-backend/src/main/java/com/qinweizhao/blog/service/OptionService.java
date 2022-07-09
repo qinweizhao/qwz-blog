@@ -1,21 +1,22 @@
 package com.qinweizhao.blog.service;
 
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.qiniu.common.Zone;
 import com.qiniu.storage.Region;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.lang.NonNull;
-import org.springframework.lang.Nullable;
-import org.springframework.transaction.annotation.Transactional;
 import com.qinweizhao.blog.exception.MissingPropertyException;
 import com.qinweizhao.blog.model.dto.OptionDTO;
 import com.qinweizhao.blog.model.dto.OptionSimpleDTO;
+import com.qinweizhao.blog.model.entity.Option;
 import com.qinweizhao.blog.model.enums.PostPermalinkType;
 import com.qinweizhao.blog.model.enums.ValueEnum;
 import com.qinweizhao.blog.model.params.OptionParam;
 import com.qinweizhao.blog.model.params.OptionQuery;
 import com.qinweizhao.blog.model.properties.PropertyEnum;
-import com.qinweizhao.blog.service.base.CrudService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.lang.NonNull;
+import org.springframework.lang.Nullable;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Locale;
@@ -29,7 +30,7 @@ import java.util.Optional;
  * @author ryanwang
  * @date 2019-03-14
  */
-public interface OptionService extends CrudService<Option, Integer> {
+public interface OptionService extends IService<Option> {
 
     int DEFAULT_POST_PAGE_SIZE = 10;
 

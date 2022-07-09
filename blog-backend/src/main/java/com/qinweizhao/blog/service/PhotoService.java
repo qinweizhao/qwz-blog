@@ -1,14 +1,15 @@
 package com.qinweizhao.blog.service;
 
+import com.baomidou.mybatisplus.extension.service.IService;
+import com.qinweizhao.blog.model.dto.PhotoDTO;
+import com.qinweizhao.blog.model.entity.Photo;
+import com.qinweizhao.blog.model.params.PhotoParam;
+import com.qinweizhao.blog.model.params.PhotoQuery;
+import com.qinweizhao.blog.model.vo.PhotoTeamVO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.lang.NonNull;
-import com.qinweizhao.blog.model.dto.PhotoDTO;
-import com.qinweizhao.blog.model.params.PhotoParam;
-import com.qinweizhao.blog.model.params.PhotoQuery;
-import com.qinweizhao.blog.model.vo.PhotoTeamVO;
-import com.qinweizhao.blog.service.base.CrudService;
 
 import java.util.List;
 
@@ -19,7 +20,7 @@ import java.util.List;
  * @author ryanwang
  * @date 2019-03-14
  */
-public interface PhotoService extends CrudService<Photo, Integer> {
+public interface PhotoService extends IService<Photo> {
 
     /**
      * List photo dtos.

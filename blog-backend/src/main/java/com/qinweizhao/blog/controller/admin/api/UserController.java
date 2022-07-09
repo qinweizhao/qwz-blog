@@ -10,6 +10,7 @@ import com.qinweizhao.blog.model.support.UpdateCheck;
 import com.qinweizhao.blog.service.UserService;
 import com.qinweizhao.blog.utils.ValidationUtils;
 import io.swagger.annotations.ApiOperation;
+import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -18,41 +19,54 @@ import javax.validation.Valid;
  * User controller.
  *
  * @author johnniang
+ * @author qinweizhao
  * @date 2019-03-19
  */
 @RestController
+@AllArgsConstructor
 @RequestMapping("/api/admin/users")
 public class UserController {
 
     private final UserService userService;
 
-    public UserController(UserService userService) {
-        this.userService = userService;
-    }
-
+    /**
+     * 获取用户资料
+     * @param user user
+     * @return UserDTO
+     */
     @GetMapping("profiles")
-    @ApiOperation("Gets user profile")
     public UserDTO getProfile(User user) {
         return new UserDTO().convertFrom(user);
     }
 
+
+    /**
+     * 更新用户资料
+     * @param userParam userParam
+     * @param user user
+     * @return UserDTO
+     */
     @PutMapping("profiles")
-    @ApiOperation("Updates user profile")
     @DisableOnCondition
     public UserDTO updateProfile(@RequestBody UserParam userParam, User user) {
-        // Validate the user param
+        // 验证用户参数
         ValidationUtils.validate(userParam, UpdateCheck.class);
 
-        // Update properties
+        // 更新属性
         userParam.update(user);
 
-        // Update user and convert to dto
+        // 更新用户并转换为 dto
         userService.updateById(user);
         return new UserDTO().convertFrom(user);
     }
 
+    /**
+     * 更新用户密码
+     * @param passwordParam passwordParam
+     * @param user user
+     * @return BaseResponse
+     */
     @PutMapping("profiles/password")
-    @ApiOperation("Updates user's password")
     @DisableOnCondition
     public BaseResponse<String> updatePassword(@RequestBody @Valid PasswordParam passwordParam, User user) {
         userService.updatePassword(passwordParam.getOldPassword(), passwordParam.getNewPassword(), user.getId());

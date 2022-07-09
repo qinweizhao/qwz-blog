@@ -18,6 +18,7 @@
 ![Alt](https://repobeats.axiom.co/api/embed/407d1af8c2e1faff46c37b1336137e2d0d7e27c4.svg "Analytics image")
 ## 简介
 
+目前 master 分支代码不可用（开发中），选择发行版进行下载。
 根据个人需求，基于 Halo-1.4.2 博客改造的个人博客。
 
 ## 结构

@@ -1,9 +1,8 @@
 package com.qinweizhao.blog.service;
 
-import org.springframework.lang.NonNull;
-import org.springframework.lang.Nullable;
+import com.baomidou.mybatisplus.extension.service.IService;
+import com.qinweizhao.blog.model.entity.ThemeSetting;
 import org.springframework.transaction.annotation.Transactional;
-import com.qinweizhao.blog.service.base.CrudService;
 
 import java.util.List;
 import java.util.Map;
@@ -12,9 +11,9 @@ import java.util.Map;
  * Theme setting service interface.
  *
  * @author johnniang
- * @date 2019-04-08
+ * @date 2019-0I-08
  */
-public interface ThemeSettingService extends CrudService<ThemeSetting, Integer> {
+public interface ThemeSettingService extends IService<ThemeSetting> {
 
 
     /**
@@ -25,9 +24,9 @@ public interface ThemeSettingService extends CrudService<ThemeSetting, Integer> 
      * @param themeId theme id must not be blank
      * @return theme setting or null if the key does not exist
      */
-    @Nullable
+
     @Transactional
-    ThemeSetting save(@NonNull String key, @Nullable String value, @NonNull String themeId);
+    ThemeSetting save(String key, String value, String themeId);
 
     /**
      * Saves theme settings.
@@ -36,7 +35,7 @@ public interface ThemeSettingService extends CrudService<ThemeSetting, Integer> 
      * @param themeId  theme id must not be blank
      */
     @Transactional
-    void save(@Nullable Map<String, Object> settings, @NonNull String themeId);
+    void save(Map<String, Object> settings, String themeId);
 
     /**
      * Lists theme settings by theme id.
@@ -44,7 +43,7 @@ public interface ThemeSettingService extends CrudService<ThemeSetting, Integer> 
      * @param themeId theme id must not be blank
      * @return a list of theme setting
      */
-    @NonNull
+
     List<ThemeSetting> listBy(String themeId);
 
     /**
@@ -53,8 +52,8 @@ public interface ThemeSettingService extends CrudService<ThemeSetting, Integer> 
      * @param themeId theme id must not be blank
      * @return theme setting map
      */
-    @NonNull
-    Map<String, Object> listAsMapBy(@NonNull String themeId);
+
+    Map<String, Object> listAsMapBy(String themeId);
 
     /**
      * Replace theme setting url in batch.
@@ -63,7 +62,7 @@ public interface ThemeSettingService extends CrudService<ThemeSetting, Integer> 
      * @param newUrl new blog url.
      * @return replaced theme settings.
      */
-    List<ThemeSetting> replaceUrl(@NonNull String oldUrl, @NonNull String newUrl);
+    List<ThemeSetting> replaceUrl(String oldUrl, String newUrl);
 
     /**
      * Delete unused theme setting.

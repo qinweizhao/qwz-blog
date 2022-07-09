@@ -1,6 +1,8 @@
 package com.qinweizhao.blog.controller.admin.api;
 
+import com.qinweizhao.blog.model.entity.Comment;
 import io.swagger.annotations.ApiOperation;
+import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -31,6 +33,7 @@ import static org.springframework.data.domain.Sort.Direction.DESC;
  * @date 2019-03-29
  */
 @RestController
+@AllArgsConstructor
 @RequestMapping("/api/admin/posts/comments")
 public class PostCommentController {
 
@@ -38,17 +41,16 @@ public class PostCommentController {
 
     private final OptionService optionService;
 
-    public PostCommentController(PostCommentService postCommentService,
-            OptionService optionService) {
-        this.postCommentService = postCommentService;
-        this.optionService = optionService;
-    }
-
+    /**
+     * Lists post comments
+     * @param pageable pageable
+     * @param commentQuery commentQuery
+     * @return Page
+     */
     @GetMapping
-    @ApiOperation("Lists post comments")
     public Page<PostCommentWithPostVO> pageBy(@PageableDefault(sort = "createTime", direction = DESC) Pageable pageable,
             CommentQuery commentQuery) {
-        Page<PostComment> commentPage = postCommentService.pageBy(commentQuery, pageable);
+        Page<Comment> commentPage = postCommentService.page(commentQuery, pageable);
         return postCommentService.convertToWithPostVo(commentPage);
     }
 

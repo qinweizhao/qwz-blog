@@ -33,18 +33,31 @@ public class AdminController {
     @Resource
     private AdminService adminService;
 
+    /**
+     * 登陆
+     * @param loginParam loginParam
+     * @return AuthToken
+     */
     @PostMapping("login")
     @CacheLock(autoDelete = false, prefix = "login_auth")
     public AuthToken auth(@RequestBody @Valid LoginParam loginParam) {
         return adminService.attemptAuthentication(loginParam);
     }
 
+    /**
+     * 退出
+     */
     @PostMapping("logout")
     @CacheLock(autoDelete = false)
     public void logout() {
         adminService.clearToken();
     }
 
+
+    /**
+     * 重置密码
+     * @param param param
+     */
     @PostMapping("password/code")
     @CacheLock(autoDelete = false)
     @DisableOnCondition
@@ -52,43 +65,65 @@ public class AdminController {
         adminService.sendResetPasswordCode(param);
     }
 
+    /**
+     * 重置密码（通过验证码重置密码）
+     * @param param param
+     */
     @PutMapping("password/reset")
-    @ApiOperation("通过验证码重置密码")
     @CacheLock(autoDelete = false)
     @DisableOnCondition
     public void resetPassword(@RequestBody @Valid ResetPasswordParam param) {
         adminService.resetPasswordByCode(param);
     }
 
+    /**
+     * 刷新令牌
+     * @param refreshToken refreshToken
+     * @return AuthToken
+     */
     @PostMapping("refresh/{refreshToken}")
-    @ApiOperation("刷新令牌")
     @CacheLock(autoDelete = false)
     public AuthToken refresh(@PathVariable("refreshToken") String refreshToken) {
         return adminService.refreshToken(refreshToken);
     }
 
+    /**
+     * 获取计数信息
+     * @return StatisticDTO
+     */
     @GetMapping("counts")
-    @ApiOperation("获取计数信息")
+    @ApiOperation("")
     @Deprecated
     public StatisticDTO getCount() {
         return adminService.getCount();
     }
 
+
+    /**
+     * 获取环境信息
+     * @return EnvironmentDTO
+     */
     @GetMapping("environments")
-    @ApiOperation("获取环境信息")
+    @ApiOperation("")
     public EnvironmentDTO getEnvironments() {
         return adminService.getEnvironments();
     }
 
+    /**
+     * 手动更新
+     */
     @PutMapping("halo-admin")
-    @ApiOperation("手动更新 admin")
     @Deprecated
     public void updateAdmin() {
         adminService.updateAdminAssets();
     }
 
+    /**
+     * 获取日志文件内容
+     * @param lines lines
+     * @return BaseResponse
+     */
     @GetMapping(value = "halo/logfile")
-    @ApiOperation("获取日志文件内容")
     @DisableOnCondition
     public BaseResponse<String> getLogFiles(@RequestParam("lines") Long lines) {
         return BaseResponse.ok(HttpStatus.OK.getReasonPhrase(), adminService.getLogFiles(lines));

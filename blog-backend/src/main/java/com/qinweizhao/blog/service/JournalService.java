@@ -1,15 +1,15 @@
 package com.qinweizhao.blog.service;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.lang.NonNull;
-import org.springframework.lang.Nullable;
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.qinweizhao.blog.model.dto.JournalDTO;
 import com.qinweizhao.blog.model.dto.JournalWithCmtCountDTO;
+import com.qinweizhao.blog.model.entity.Journal;
 import com.qinweizhao.blog.model.enums.JournalType;
 import com.qinweizhao.blog.model.params.JournalParam;
 import com.qinweizhao.blog.model.params.JournalQuery;
-import com.qinweizhao.blog.service.base.CrudService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.lang.Nullable;
 
 import java.util.List;
 
@@ -18,9 +18,10 @@ import java.util.List;
  *
  * @author johnniang
  * @author ryanwang
+ * @author qinweizhao
  * @date 2019-04-24
  */
-public interface JournalService extends CrudService<Journal, Integer> {
+public interface JournalService extends IService<Journal> {
 
     /**
      * Creates a journal.
@@ -28,8 +29,7 @@ public interface JournalService extends CrudService<Journal, Integer> {
      * @param journalParam journal param must not be null
      * @return created journal
      */
-    @NonNull
-    Journal createBy(@NonNull JournalParam journalParam);
+    Journal createBy(JournalParam journalParam);
 
     /**
      * Updates a journal.
@@ -37,7 +37,7 @@ public interface JournalService extends CrudService<Journal, Integer> {
      * @param journal journal must not be null
      * @return updated journal
      */
-    Journal updateBy(@NonNull Journal journal);
+    Journal updateBy(Journal journal);
 
     /**
      * Gets latest journals.
@@ -54,8 +54,8 @@ public interface JournalService extends CrudService<Journal, Integer> {
      * @param pageable     page info must not be null
      * @return a page of journal
      */
-    @NonNull
-    Page<Journal> pageBy(@NonNull JournalQuery journalQuery, @NonNull Pageable pageable);
+
+    Page<Journal> pageBy(JournalQuery journalQuery, Pageable pageable);
 
     /**
      * Lists by type.
@@ -64,8 +64,8 @@ public interface JournalService extends CrudService<Journal, Integer> {
      * @param pageable page info must not be null
      * @return a page of journal
      */
-    @NonNull
-    Page<Journal> pageBy(@NonNull JournalType type, @NonNull Pageable pageable);
+
+    Page<Journal> pageBy(JournalType type, Pageable pageable);
 
     /**
      * Converts to journal dto.
@@ -73,8 +73,8 @@ public interface JournalService extends CrudService<Journal, Integer> {
      * @param journal journal must not be null
      * @return journal dto
      */
-    @NonNull
-    JournalDTO convertTo(@NonNull Journal journal);
+
+    JournalDTO convertTo(Journal journal);
 
     /**
      * Converts to journal with comment count dto list.
@@ -82,7 +82,7 @@ public interface JournalService extends CrudService<Journal, Integer> {
      * @param journals journal list
      * @return journal with comment count dto list
      */
-    @NonNull
+
     List<JournalWithCmtCountDTO> convertToCmtCountDto(@Nullable List<Journal> journals);
 
     /**
@@ -91,6 +91,6 @@ public interface JournalService extends CrudService<Journal, Integer> {
      * @param journalPage journal page must not be null
      * @return a page of journal with comment count dto
      */
-    @NonNull
-    Page<JournalWithCmtCountDTO> convertToCmtCountDto(@NonNull Page<Journal> journalPage);
+
+    Page<JournalWithCmtCountDTO> convertToCmtCountDto(Page<Journal> journalPage);
 }

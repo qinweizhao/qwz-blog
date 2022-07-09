@@ -56,6 +56,8 @@ public class AdminAuthenticationFilter extends AbstractAuthenticationFilter {
 
         addUrlPatterns("/api/admin/**", "/api/content/comments");
 
+        // todo
+        // "/api/admin/login",
         addExcludeUrlPatterns(
                 "/api/admin/login",
                 "/api/admin/refresh/*",

@@ -30,4 +30,6 @@ public interface JournalMapper extends BaseMapper<Journal> {
         selectPage(page, new LambdaQueryWrapper<Journal>().eq(Journal::getType, type));
         return new PageImpl<>(page.getRecords(), pageable, page.getTotal());
     }
+
+
 }
