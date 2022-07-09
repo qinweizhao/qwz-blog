@@ -1,6 +1,18 @@
 package com.qinweizhao.blog.service.impl;
 
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.google.common.base.Objects;
+import com.qinweizhao.blog.exception.AlreadyExistsException;
+import com.qinweizhao.blog.exception.NotFoundException;
+import com.qinweizhao.blog.mapper.CategoryMapper;
+import com.qinweizhao.blog.model.dto.CategoryDTO;
+import com.qinweizhao.blog.model.entity.Category;
+import com.qinweizhao.blog.model.vo.CategoryVO;
+import com.qinweizhao.blog.service.CategoryService;
+import com.qinweizhao.blog.service.OptionService;
+import com.qinweizhao.blog.service.PostCategoryService;
+import com.qinweizhao.blog.utils.ServiceUtils;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Sort;
 import org.springframework.lang.NonNull;
@@ -8,16 +20,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
-import com.qinweizhao.blog.exception.AlreadyExistsException;
-import com.qinweizhao.blog.exception.NotFoundException;
-import com.qinweizhao.blog.model.dto.CategoryDTO;
-import com.qinweizhao.blog.model.vo.CategoryVO;
-import com.qinweizhao.blog.repository.CategoryRepository;
-import com.qinweizhao.blog.service.CategoryService;
-import com.qinweizhao.blog.service.OptionService;
-import com.qinweizhao.blog.service.PostCategoryService;
-import com.qinweizhao.blog.service.base.AbstractCrudService;
-import com.qinweizhao.blog.utils.ServiceUtils;
 
 import java.util.Collections;
 import java.util.LinkedList;
@@ -35,30 +37,21 @@ import static com.qinweizhao.blog.model.support.HaloConst.URL_SEPARATOR;
  */
 @Slf4j
 @Service
-public class CategoryServiceImpl extends AbstractCrudService<Category, Integer> implements CategoryService {
-
-    private final CategoryRepository categoryRepository;
+@AllArgsConstructor
+public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> implements CategoryService {
 
     private final PostCategoryService postCategoryService;
 
     private final OptionService optionService;
 
-    public CategoryServiceImpl(CategoryRepository categoryRepository,
-            PostCategoryService postCategoryService,
-            OptionService optionService) {
-        super(categoryRepository);
-        this.categoryRepository = categoryRepository;
-        this.postCategoryService = postCategoryService;
-        this.optionService = optionService;
-    }
 
     @Override
-    @Transactional
-    public Category create(Category category) {
-        Assert.notNull(category, "Category to create must not be null");
+    @Transactional(rollbackFor = Exception.class)
+    public boolean saveCategory(Category category) {
+        Assert.notNull(category, "要创建的类别不能为空");
 
         // Check the category name
-        long count = categoryRepository.countByName(category.getName());
+        long count = this.baseMapper.selectCountByName(category.getName());
 
         if (count > 0) {
             log.error("Category has exist already: [{}]", category);
@@ -67,7 +60,7 @@ public class CategoryServiceImpl extends AbstractCrudService<Category, Integer> 
 
         // Check parent id
         if (!ServiceUtils.isEmptyId(category.getParentId())) {
-            count = categoryRepository.countById(category.getParentId());
+            count = this.baseMapper.selectCountById(category.getParentId());
 
             if (count == 0) {
                 log.error("Parent category with id: [{}] was not found, category: [{}]", category.getParentId(), category);
@@ -76,7 +69,12 @@ public class CategoryServiceImpl extends AbstractCrudService<Category, Integer> 
         }
 
         // Create it
-        return super.create(category);
+        return this.baseMapper.insert(category) > 0;
+    }
+
+    @Override
+    public List<Category> list() {
+        return this.baseMapper.selectList();
     }
 
     @Override

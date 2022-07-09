@@ -1,9 +1,7 @@
 package com.qinweizhao.blog.model.params;
 
-import com.qinweizhao.blog.model.entity.Option;
-import lombok.Data;
-import com.qinweizhao.blog.model.dto.base.InputConverter;
 import com.qinweizhao.blog.model.enums.OptionType;
+import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -16,7 +14,7 @@ import javax.validation.constraints.Size;
  * @date 2019-03-20
  */
 @Data
-public class OptionParam implements InputConverter<Option> {
+public class OptionParam {
 
     @NotBlank(message = "Option key must not be blank")
     @Size(max = 100, message = "Length of option key must not be more than {max}")

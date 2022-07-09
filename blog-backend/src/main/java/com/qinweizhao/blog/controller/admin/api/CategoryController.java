@@ -1,11 +1,12 @@
 package com.qinweizhao.blog.controller.admin.api;
 
+import com.qinweizhao.blog.convert.CategoryConvert;
 import com.qinweizhao.blog.model.dto.CategoryDTO;
 import com.qinweizhao.blog.model.entity.Category;
 import com.qinweizhao.blog.model.params.CategoryParam;
 import com.qinweizhao.blog.model.vo.CategoryVO;
 import com.qinweizhao.blog.service.CategoryService;
-import com.qinweizhao.blog.service.PostCategoryService;
+import com.qinweizhao.blog.utils.ResultUtils;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Sort;
@@ -16,7 +17,6 @@ import javax.validation.Valid;
 import java.util.List;
 
 import static org.springframework.data.domain.Sort.Direction.ASC;
-import static org.springframework.data.domain.Sort.Direction.DESC;
 
 /**
  * Category controller.
@@ -29,27 +29,28 @@ import static org.springframework.data.domain.Sort.Direction.DESC;
 @RequestMapping("/api/admin/categories")
 public class CategoryController {
 
-    private CategoryService categoryService;
-
-    private PostCategoryService postCategoryService;
+    private final CategoryService categoryService;
 
 
+    /**
+     * 获取分类详细信息
+     *
+     * @param categoryId categoryId
+     * @return CategoryDTO
+     */
     @GetMapping("{categoryId:\\d+}")
-    @ApiOperation("获取分类详细信息")
     public CategoryDTO getBy(@PathVariable("categoryId") Integer categoryId) {
-        return categoryService.convertTo(categoryService.getById(categoryId));
+        return CategoryConvert.INSTANCE.convert(categoryService.getById(categoryId));
     }
 
+    /**
+     * 分类列表
+     *
+     * @return List
+     */
     @GetMapping
-    @ApiOperation("分类列表")
-    public List<? extends CategoryDTO> listAll(
-            @SortDefault(sort = "createTime", direction = DESC) Sort sort,
-            @RequestParam(name = "more", required = false, defaultValue = "false") boolean more) {
-        if (more) {
-            return postCategoryService.listCategoryWithPostCountDto(sort);
-        }
-
-        return categoryService.convertTo(categoryService.listAll(sort));
+    public List<? extends CategoryDTO> listAll() {
+        return CategoryConvert.INSTANCE.convertToDTO(categoryService.list());
     }
 
     @GetMapping("tree_view")
@@ -61,20 +62,21 @@ public class CategoryController {
     @PostMapping
     @ApiOperation("新增分类")
     public CategoryDTO createBy(@RequestBody @Valid CategoryParam categoryParam) {
-        // Convert to category
-        Category category = categoryParam.convertTo();
 
-        // Save it
-        return categoryService.convertTo(categoryService.create(category));
+        Category category = CategoryConvert.INSTANCE.convert(categoryParam);
+        boolean b = categoryService.saveCategory(category);
+        return ResultUtils.judge(b, new CategoryDTO());
     }
 
     @PutMapping("{categoryId:\\d+}")
     @ApiOperation("更新分类")
     public CategoryDTO updateBy(@PathVariable("categoryId") Integer categoryId,
                                 @RequestBody @Valid CategoryParam categoryParam) {
-        Category categoryToUpdate = categoryService.getById(categoryId);
-        categoryParam.update(categoryToUpdate);
-        return categoryService.convertTo(categoryService.update(categoryToUpdate));
+        Category category = CategoryConvert.INSTANCE.convert(categoryParam);
+        category.setId(categoryId);
+        boolean b = categoryService.updateById(category);
+        CategoryDTO resultCategory = CategoryConvert.INSTANCE.convert(category);
+        return ResultUtils.judge(b, resultCategory);
     }
 
     @DeleteMapping("{categoryId:\\d+}")

@@ -1,10 +1,6 @@
 package com.qinweizhao.blog.model.params;
 
-import com.qinweizhao.blog.model.entity.Category;
 import lombok.Data;
-import org.apache.commons.lang3.StringUtils;
-import com.qinweizhao.blog.model.dto.base.InputConverter;
-import com.qinweizhao.blog.utils.SlugUtils;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -14,10 +10,11 @@ import javax.validation.constraints.Size;
  *
  * @author johnniang
  * @author ryanwang
+ * @author qinweizhao
  * @date 2019-03-21
  */
 @Data
-public class CategoryParam implements InputConverter<Category> {
+public class CategoryParam {
 
     @NotBlank(message = "分类名称不能为空")
     @Size(max = 255, message = "分类名称的字符长度不能超过 {max}")
@@ -34,27 +31,4 @@ public class CategoryParam implements InputConverter<Category> {
 
     private Integer parentId = 0;
 
-    @Override
-    public Category convertTo() {
-
-        slug = StringUtils.isBlank(slug) ? SlugUtils.slug(name) : SlugUtils.slug(slug);
-
-        if (null == thumbnail) {
-            thumbnail = "";
-        }
-
-        return InputConverter.super.convertTo();
-    }
-
-    @Override
-    public void update(Category category) {
-
-        slug = StringUtils.isBlank(slug) ? SlugUtils.slug(name) : SlugUtils.slug(slug);
-
-        if (null == thumbnail) {
-            thumbnail = "";
-        }
-
-        InputConverter.super.update(category);
-    }
 }
