@@ -3,6 +3,7 @@ package com.qinweizhao.blog.mapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.qinweizhao.blog.model.entity.Comment;
+import com.qinweizhao.blog.model.enums.CommentStatus;
 import com.qinweizhao.blog.model.projection.CommentChildrenCountProjection;
 import com.qinweizhao.blog.model.projection.CommentCountProjection;
 import org.apache.ibatis.annotations.Param;
@@ -51,5 +52,16 @@ public interface CommentMapper extends BaseMapper<Comment> {
     default long countByIpAndTime(String ipAddress, Date startTime, Date endTime) {
         return selectCount(new LambdaQueryWrapper<Comment>().eq(Comment::getIpAddress, ipAddress)
                 .between(Comment::getUpdateTime, startTime, endTime));
+    }
+
+    /**
+     * 根据状态统计个数
+     * @param published published
+     * @return long
+     */
+    default long selectCountByStatus(CommentStatus published){
+        return selectCount(new LambdaQueryWrapper<Comment>()
+                .eq(Comment::getStatus,published)
+                );
     }
 }

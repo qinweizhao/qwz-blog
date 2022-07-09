@@ -71,7 +71,7 @@ public class AdminServiceImpl implements AdminService {
 
     private final AttachmentService attachmentService;
 
-    private final PostCommentService postCommentService;
+    private final CommentService commentService;
 
     private final SheetCommentService sheetCommentService;
 
@@ -243,7 +243,7 @@ public class AdminServiceImpl implements AdminService {
         statisticDTO.setAttachmentCount(attachmentService.count());
 
         // Handle comment count
-        long postCommentCount = postCommentService.countByStatus(CommentStatus.PUBLISHED);
+        long postCommentCount = commentService.countByStatus(CommentStatus.PUBLISHED);
         long sheetCommentCount = sheetCommentService.countByStatus(CommentStatus.PUBLISHED);
         long journalCommentCount = journalCommentService.countByStatus(CommentStatus.PUBLISHED);
 

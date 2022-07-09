@@ -34,7 +34,7 @@ public class CommentEventListener {
 
     private final OptionService optionService;
 
-    private final PostCommentService postCommentService;
+    private final CommentService commentService;
 
     private final SheetCommentService sheetCommentService;
 
@@ -50,10 +50,10 @@ public class CommentEventListener {
 
     private final ThemeService themeService;
 
-    public CommentEventListener(MailService mailService, OptionService optionService, PostCommentService postCommentService, SheetCommentService sheetCommentService, JournalCommentService journalCommentService, PostService postService, SheetService sheetService, JournalService journalService, UserService userService, ThemeService themeService) {
+    public CommentEventListener(MailService mailService, OptionService optionService, CommentService commentService, SheetCommentService sheetCommentService, JournalCommentService journalCommentService, PostService postService, SheetService sheetService, JournalService journalService, UserService userService, ThemeService themeService) {
         this.mailService = mailService;
         this.optionService = optionService;
-        this.postCommentService = postCommentService;
+        this.commentService = commentService;
         this.sheetCommentService = sheetCommentService;
         this.journalCommentService = journalCommentService;
         this.postService = postService;
@@ -86,9 +86,9 @@ public class CommentEventListener {
 
         Boolean enabledAbsolutePath = optionService.isEnabledAbsolutePath();
 
-        if (newEvent.getSource() instanceof PostCommentService) {
+        if (newEvent.getSource() instanceof CommentService) {
             // Get postComment id
-            PostComment postComment = postCommentService.getById(newEvent.getCommentId());
+            PostComment postComment = commentService.getById(newEvent.getCommentId());
 
             log.debug("Got post comment: [{}]", postComment);
 
@@ -172,11 +172,11 @@ public class CommentEventListener {
 
         log.debug("replyEvent.getSource():" + replyEvent.getSource().toString());
 
-        if (replyEvent.getSource() instanceof PostCommentService) {
+        if (replyEvent.getSource() instanceof CommentService) {
 
-            PostComment postComment = postCommentService.getById(replyEvent.getCommentId());
+            PostComment postComment = commentService.getById(replyEvent.getCommentId());
 
-            PostComment baseComment = postCommentService.getById(postComment.getParentId());
+            PostComment baseComment = commentService.getById(postComment.getParentId());
 
             if (StringUtils.isEmpty(baseComment.getEmail()) && !Validator.isEmail(baseComment.getEmail())) {
                 return;

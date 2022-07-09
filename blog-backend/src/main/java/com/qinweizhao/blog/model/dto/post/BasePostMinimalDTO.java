@@ -1,5 +1,6 @@
 package com.qinweizhao.blog.model.dto.post;
 
+import com.qinweizhao.blog.model.entity.Post;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -19,7 +20,7 @@ import java.util.Date;
 @Data
 @ToString
 @EqualsAndHashCode
-public class BasePostMinimalDTO implements OutputConverter<BasePostMinimalDTO, BasePost> {
+public class BasePostMinimalDTO implements OutputConverter<BasePostMinimalDTO, Post> {
 
     private Integer id;
 

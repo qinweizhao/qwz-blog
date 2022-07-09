@@ -10,6 +10,7 @@ import com.qinweizhao.blog.model.support.BaseResponse;
 import com.qinweizhao.blog.security.token.AuthToken;
 import com.qinweizhao.blog.service.AdminService;
 import io.swagger.annotations.ApiOperation;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -27,11 +28,11 @@ import javax.validation.Valid;
  */
 @Slf4j
 @RestController
+@AllArgsConstructor
 @RequestMapping("/api/admin")
 public class AdminController {
 
-    @Resource
-    private AdminService adminService;
+    private final AdminService adminService;
 
     /**
      * 登陆

@@ -1,6 +1,5 @@
 package com.qinweizhao.blog.service;
 
-import org.springframework.lang.NonNull;
 import com.qinweizhao.blog.model.dto.EnvironmentDTO;
 import com.qinweizhao.blog.model.dto.StatisticDTO;
 import com.qinweizhao.blog.model.entity.User;
@@ -13,12 +12,13 @@ import com.qinweizhao.blog.security.token.AuthToken;
  *
  * @author johnniang
  * @author ryanwang
+ * @author qinweizhao
  * @date 2019-04-29
  */
 public interface AdminService {
 
     /**
-     * Expired seconds.
+     * 过期秒数
      */
     int ACCESS_TOKEN_EXPIRED_SECONDS = 24 * 3600;
 
@@ -27,78 +27,74 @@ public interface AdminService {
     String LOG_PATH = "logs/spring.log";
 
     /**
-     * Authenticates username password.
+     * 验证用户名密码
      *
-     * @param loginParam login param must not be null
+     * @param loginParam loginParam
      * @return User
      */
-    @NonNull
-    User authenticate(@NonNull LoginParam loginParam);
+    User authenticate(LoginParam loginParam);
 
     /**
      * 尝试身份验证
      *
-     * @param loginParam login param must not be null
+     * @param loginParam loginParam
      * @return User
      */
-    AuthToken attemptAuthentication(@NonNull LoginParam loginParam);
+    AuthToken attemptAuthentication(LoginParam loginParam);
 
     /**
-     * Clears authentication.
+     * 清除身份验证
      */
     void clearToken();
 
     /**
-     * Send reset password code to administrator's email.
+     * 将重置密码验证码发送到管理员的电子邮件
+     *
+     * @param param param
+     */
+    void sendResetPasswordCode(ResetPasswordParam param);
+
+    /**
+     * 通过验证码重置密码
      *
      * @param param param must not be null
      */
-    void sendResetPasswordCode(@NonNull ResetPasswordParam param);
+    void resetPasswordByCode(ResetPasswordParam param);
 
     /**
-     * Reset password by code.
+     * 获取系统计数
      *
-     * @param param param must not be null
+     * @return StatisticDTO
      */
-    void resetPasswordByCode(@NonNull ResetPasswordParam param);
-
-    /**
-     * Get system counts.
-     *
-     * @return count dto
-     */
-    @NonNull
     @Deprecated
     StatisticDTO getCount();
 
     /**
-     * Get system environments
+     * 获取系统环境
      *
-     * @return environments
+     * @return EnvironmentDTO
      */
-    @NonNull
     EnvironmentDTO getEnvironments();
 
     /**
-     * Refreshes token.
+     * 刷新令牌
      *
-     * @param refreshToken refresh token must not be blank
-     * @return authentication token
+     * @param refreshToken refreshToken
+     * @return AuthToken
      */
-    @NonNull
-    AuthToken refreshToken(@NonNull String refreshToken);
+    AuthToken refreshToken(String refreshToken);
 
     /**
-     * Updates halo admin assets.
+     * 更新
      */
     void updateAdminAssets();
 
     /**
-     * Get halo logs content.
+     * 获取日志文件
      *
      * @param lines lines
-     * @return logs content.
+     * @return String
      */
-    String getLogFiles(@NonNull Long lines);
+    String getLogFiles(Long lines);
 
 }

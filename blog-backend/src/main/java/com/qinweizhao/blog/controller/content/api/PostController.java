@@ -8,7 +8,7 @@ import com.qinweizhao.blog.model.enums.PostStatus;
 import com.qinweizhao.blog.model.params.PostCommentParam;
 import com.qinweizhao.blog.model.vo.*;
 import com.qinweizhao.blog.service.OptionService;
-import com.qinweizhao.blog.service.PostCommentService;
+import com.qinweizhao.blog.service.CommentService;
 import com.qinweizhao.blog.service.PostService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.data.domain.Page;
@@ -41,7 +41,7 @@ public class PostController {
     private PostService postService;
 
     @Resource
-    private PostCommentService postCommentService;
+    private CommentService commentService;
 
     @Resource
     private OptionService optionService;
@@ -112,7 +112,7 @@ public class PostController {
                                                           @RequestParam(name = "page", required = false, defaultValue = "0") int page,
                                                           @SortDefault(sort = "createTime", direction = DESC) Sort sort) {
 
-        return postCommentService.pageTopCommentsBy(postId, CommentStatus.PUBLISHED, PageRequest.of(page, optionService.getCommentPageSize(), sort));
+        return commentService.pageTopCommentsBy(postId, CommentStatus.PUBLISHED, PageRequest.of(page, optionService.getCommentPageSize(), sort));
     }
 
 
@@ -121,10 +121,10 @@ public class PostController {
                                                @PathVariable("commentParentId") Long commentParentId,
                                                @SortDefault(sort = "createTime", direction = DESC) Sort sort) {
         // Find all children comments
-        List<PostComment> postComments = postCommentService.listChildrenBy(postId, commentParentId, CommentStatus.PUBLISHED, sort);
+        List<PostComment> postComments = commentService.listChildrenBy(postId, commentParentId, CommentStatus.PUBLISHED, sort);
         // Convert to base comment dto
 
-        return postCommentService.convertTo(postComments);
+        return commentService.convertTo(postComments);
     }
 
     @GetMapping("{postId:\\d+}/comments/tree_view")
@@ -132,7 +132,7 @@ public class PostController {
     public Page<BaseCommentVO> listCommentsTree(@PathVariable("postId") Integer postId,
                                                 @RequestParam(name = "page", required = false, defaultValue = "0") int page,
                                                 @SortDefault(sort = "createTime", direction = DESC) Sort sort) {
-        return postCommentService.pageVosBy(postId, PageRequest.of(page, optionService.getCommentPageSize(), sort));
+        return commentService.pageVosBy(postId, PageRequest.of(page, optionService.getCommentPageSize(), sort));
     }
 
     @GetMapping("{postId:\\d+}/comments/list_view")
@@ -140,7 +140,7 @@ public class PostController {
     public Page<BaseCommentWithParentVO> listComments(@PathVariable("postId") Integer postId,
                                                       @RequestParam(name = "page", required = false, defaultValue = "0") int page,
                                                       @SortDefault(sort = "createTime", direction = DESC) Sort sort) {
-        Page<BaseCommentWithParentVO> result = postCommentService.pageWithParentVoBy(postId, PageRequest.of(page, optionService.getCommentPageSize(), sort));
+        Page<BaseCommentWithParentVO> result = commentService.pageWithParentVoBy(postId, PageRequest.of(page, optionService.getCommentPageSize(), sort));
         return result;
     }
 
@@ -148,11 +148,11 @@ public class PostController {
     @ApiOperation("Comments a post")
     @CacheLock(autoDelete = false, traceRequest = true)
     public BaseCommentDTO comment(@RequestBody PostCommentParam postCommentParam) {
-        postCommentService.validateCommentBlackListStatus();
+        commentService.validateCommentBlackListStatus();
 
         // Escape content
         postCommentParam.setContent(HtmlUtils.htmlEscape(postCommentParam.getContent(), StandardCharsets.UTF_8.displayName()));
-        return postCommentService.convertTo(postCommentService.createBy(postCommentParam));
+        return commentService.convertTo(commentService.createBy(postCommentParam));
     }
 
     @PostMapping("{postId:\\d+}/likes")

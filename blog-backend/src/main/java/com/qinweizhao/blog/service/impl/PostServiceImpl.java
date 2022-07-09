@@ -73,7 +73,7 @@ public class PostServiceImpl extends BasePostServiceImpl<Post> implements PostSe
 
     private final PostCategoryService postCategoryService;
 
-    private final PostCommentService postCommentService;
+    private final CommentService commentService;
 
     private final ApplicationEventPublisher eventPublisher;
 
@@ -88,7 +88,7 @@ public class PostServiceImpl extends BasePostServiceImpl<Post> implements PostSe
             CategoryService categoryService,
             PostTagService postTagService,
             PostCategoryService postCategoryService,
-            PostCommentService postCommentService,
+            CommentService commentService,
             ApplicationEventPublisher eventPublisher,
             PostMetaService postMetaService) {
         super(basePostRepository, optionService);
@@ -97,7 +97,7 @@ public class PostServiceImpl extends BasePostServiceImpl<Post> implements PostSe
         this.categoryService = categoryService;
         this.postTagService = postTagService;
         this.postCategoryService = postCategoryService;
-        this.postCommentService = postCommentService;
+        this.commentService = commentService;
         this.eventPublisher = eventPublisher;
         this.postMetaService = postMetaService;
         this.optionService = optionService;
@@ -507,7 +507,7 @@ public class PostServiceImpl extends BasePostServiceImpl<Post> implements PostSe
         log.debug("Removed post metas: [{}]", metas);
 
         // Remove post comments
-        List<PostComment> postComments = postCommentService.removeByPostId(postId);
+        List<PostComment> postComments = commentService.removeByPostId(postId);
         log.debug("Removed post comments: [{}]", postComments);
 
         Post deletedPost = super.removeById(postId);
@@ -535,7 +535,7 @@ public class PostServiceImpl extends BasePostServiceImpl<Post> implements PostSe
                 .listCategoryListMap(postIds);
 
         // Get comment count
-        Map<Integer, Long> commentCountMap = postCommentService.countByPostIds(postIds);
+        Map<Integer, Long> commentCountMap = commentService.countByPostIds(postIds);
 
         // Get post meta list map
         Map<Integer, List<PostMeta>> postMetaListMap = postMetaService.listPostMetaAsMap(postIds);
@@ -593,7 +593,7 @@ public class PostServiceImpl extends BasePostServiceImpl<Post> implements PostSe
                 .listCategoryListMap(postIds);
 
         // Get comment count
-        Map<Integer, Long> commentCountMap = postCommentService.countByPostIds(postIds);
+        Map<Integer, Long> commentCountMap = commentService.countByPostIds(postIds);
 
         // Get post meta list map
         Map<Integer, List<PostMeta>> postMetaListMap = postMetaService.listPostMetaAsMap(postIds);
@@ -718,7 +718,7 @@ public class PostServiceImpl extends BasePostServiceImpl<Post> implements PostSe
         postDetailVO.setMetaIds(metaIds);
         postDetailVO.setMetas(postMetaService.convertTo(postMetaList));
 
-        postDetailVO.setCommentCount(postCommentService.countByPostId(post.getId()));
+        postDetailVO.setCommentCount(commentService.countByPostId(post.getId()));
 
         postDetailVO.setFullPath(buildFullPath(post));
 

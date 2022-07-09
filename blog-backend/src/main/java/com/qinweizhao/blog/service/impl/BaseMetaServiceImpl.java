@@ -8,7 +8,6 @@ import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 import com.qinweizhao.blog.model.dto.BaseMetaDTO;
 import com.qinweizhao.blog.model.params.BaseMetaParam;
-import com.qinweizhao.blog.repository.base.BaseMetaRepository;
 import com.qinweizhao.blog.service.base.AbstractCrudService;
 import com.qinweizhao.blog.service.base.BaseMetaService;
 import com.qinweizhao.blog.utils.ServiceUtils;

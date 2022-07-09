@@ -16,7 +16,7 @@ public class DataProcessServiceImpl implements DataProcessService {
 
     private final SheetService sheetService;
 
-    private final PostCommentService postCommentService;
+    private final CommentService commentService;
 
     private final SheetCommentService sheetCommentService;
 
@@ -32,7 +32,7 @@ public class DataProcessServiceImpl implements DataProcessService {
 
     public DataProcessServiceImpl(PostService postService,
             SheetService sheetService,
-            PostCommentService postCommentService,
+            CommentService commentService,
             SheetCommentService sheetCommentService,
             JournalCommentService journalCommentService,
             AttachmentService attachmentService,
@@ -41,7 +41,7 @@ public class DataProcessServiceImpl implements DataProcessService {
             ThemeSettingService themeSettingService) {
         this.postService = postService;
         this.sheetService = sheetService;
-        this.postCommentService = postCommentService;
+        this.commentService = commentService;
         this.sheetCommentService = sheetCommentService;
         this.journalCommentService = journalCommentService;
         this.attachmentService = attachmentService;
@@ -54,7 +54,7 @@ public class DataProcessServiceImpl implements DataProcessService {
     public void replaceAllUrl(String oldUrl, String newUrl) {
         postService.replaceUrl(oldUrl, newUrl);
         sheetService.replaceUrl(oldUrl, newUrl);
-        postCommentService.replaceUrl(oldUrl, newUrl);
+        commentService.replaceUrl(oldUrl, newUrl);
         sheetCommentService.replaceUrl(oldUrl, newUrl);
         journalCommentService.replaceUrl(oldUrl, newUrl);
         attachmentService.replaceUrl(oldUrl, newUrl);

@@ -6,7 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 import com.qinweizhao.blog.model.enums.CommentStatus;
 import com.qinweizhao.blog.model.support.HaloConst;
-import com.qinweizhao.blog.service.PostCommentService;
+import com.qinweizhao.blog.service.CommentService;
 
 import java.io.IOException;
 import java.util.Map;
@@ -20,10 +20,10 @@ import java.util.Map;
 @Component
 public class CommentTagDirective implements TemplateDirectiveModel {
 
-    private final PostCommentService postCommentService;
+    private final CommentService commentService;
 
-    public CommentTagDirective(Configuration configuration, PostCommentService postCommentService) {
-        this.postCommentService = postCommentService;
+    public CommentTagDirective(Configuration configuration, CommentService commentService) {
+        this.commentService = commentService;
         configuration.setSharedVariable("commentTag", this);
     }
 
@@ -36,11 +36,11 @@ public class CommentTagDirective implements TemplateDirectiveModel {
             switch (method) {
                 case "latest":
                     int top = Integer.parseInt(params.get("top").toString());
-                    Page<PostComment> postComments = postCommentService.pageLatest(top, CommentStatus.PUBLISHED);
-                    env.setVariable("comments", builder.build().wrap(postCommentService.convertToWithPostVo(postComments)));
+                    Page<PostComment> postComments = commentService.pageLatest(top, CommentStatus.PUBLISHED);
+                    env.setVariable("comments", builder.build().wrap(commentService.convertToWithPostVo(postComments)));
                     break;
                 case "count":
-                    env.setVariable("count", builder.build().wrap(postCommentService.count()));
+                    env.setVariable("count", builder.build().wrap(commentService.count()));
                     break;
                 default:
                     break;
