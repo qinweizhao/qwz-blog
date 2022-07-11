@@ -1,10 +1,9 @@
 package com.qinweizhao.blog.model.params;
 
+import com.qinweizhao.blog.model.enums.LogType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import com.qinweizhao.blog.model.dto.base.InputConverter;
-import com.qinweizhao.blog.model.enums.LogType;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -17,7 +16,7 @@ import javax.validation.constraints.Size;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class LogParam implements InputConverter<Log> {
+public class LogParam {
 
     @Size(max = 1023, message = "Length of log key must not be more than {max}")
     private String logKey;

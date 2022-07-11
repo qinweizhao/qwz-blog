@@ -1,9 +1,8 @@
 package com.qinweizhao.blog.model.params;
 
+import com.qinweizhao.blog.utils.ReflectionUtils;
 import lombok.Data;
 import org.hibernate.validator.constraints.URL;
-import com.qinweizhao.blog.model.dto.base.InputConverter;
-import com.qinweizhao.blog.utils.ReflectionUtils;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Min;
@@ -19,7 +18,7 @@ import java.lang.reflect.ParameterizedType;
  * @date 2019-03-22
  */
 @Data
-public abstract class BaseCommentParam<COMMENT> implements InputConverter<COMMENT> {
+public abstract class BaseCommentParam<COMMENT> {
 
     @NotBlank(message = "评论者昵称不能为空")
     @Size(max = 50, message = "评论者昵称的字符长度不能超过 {max}")
@@ -46,7 +45,6 @@ public abstract class BaseCommentParam<COMMENT> implements InputConverter<COMMEN
 
     private Boolean allowNotification = true;
 
-    @Override
     public ParameterizedType parameterizedType() {
         return ReflectionUtils.getParameterizedTypeBySuperClass(BaseCommentParam.class, this.getClass());
     }

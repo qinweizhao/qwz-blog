@@ -1,12 +1,7 @@
 package com.qinweizhao.blog.service;
 
-import org.springframework.data.domain.Sort;
-import org.springframework.lang.NonNull;
-import com.qinweizhao.blog.model.dto.MenuDTO;
-import com.qinweizhao.blog.model.params.MenuParam;
-import com.qinweizhao.blog.model.vo.MenuTeamVO;
-import com.qinweizhao.blog.model.vo.MenuVO;
-import com.qinweizhao.blog.service.base.CrudService;
+import com.baomidou.mybatisplus.extension.service.IService;
+import com.qinweizhao.blog.model.entity.Menu;
 
 import java.util.List;
 
@@ -15,75 +10,84 @@ import java.util.List;
  *
  * @author johnniang
  * @author ryanwang
+ * @author qinweizhao
  * @date 2019-03-14
  */
-public interface MenuService extends CrudService<Menu, Integer> {
+public interface MenuService extends IService<Menu> {
+//
+//    /**
+//     * Lists all menu dtos.
+//     *
+//     * @param sort must not be null
+//     * @return a list of menu output dto
+//     */
+//    List<MenuDTO> list(Sort sort);
+//
+//    /**
+//     * Lists menu team vos.
+//     *
+//     * @param sort must not be null
+//     * @return a list of menu team vo
+//     */
+//    @NonNull
+//    List<MenuTeamVO> listTeamVos(@NonNull Sort sort);
+//
+//    /**
+//     * List menus by team.
+//     *
+//     * @param team team
+//     * @param sort sort
+//     * @return list of menus
+//     */
+//    List<MenuDTO> listByTeam(@NonNull String team, Sort sort);
 
-    /**
-     * Lists all menu dtos.
-     *
-     * @param sort must not be null
-     * @return a list of menu output dto
-     */
-    @NonNull
-    List<MenuDTO> listDtos(@NonNull Sort sort);
+//    /**
+//     * List menus by team as tree.
+//     *
+//     * @param team team
+//     * @param sort sort
+//     * @return list of tree menus
+//     */
+//    List<MenuVO> listByTeamAsTree(@NonNull String team, Sort sort);
+//
+//    /**
+//     * Creates a menu.
+//     *
+//     * @param menuParam must not be null
+//     * @return created menu
+//     */
+//    @NonNull
+//    Menu createBy(@NonNull MenuParam menuParam);
+//
+//    /**
+//     * Lists as menu tree.
+//     *
+//     * @param sort sort info must not be null
+//     * @return a menu tree
+//     */
+//    List<MenuVO> listAsTree(@NonNull Sort sort);
+//
+//    /**
+//     * Lists menu by parent id.
+//     *
+//     * @param id id
+//     * @return a list of menu
+//     */
+//    List<Menu> listByParentId(@NonNull Integer id);
 
-    /**
-     * Lists menu team vos.
-     *
-     * @param sort must not be null
-     * @return a list of menu team vo
-     */
-    @NonNull
-    List<MenuTeamVO> listTeamVos(@NonNull Sort sort);
-
-    /**
-     * List menus by team.
-     *
-     * @param team team
-     * @param sort sort
-     * @return list of menus
-     */
-    List<MenuDTO> listByTeam(@NonNull String team, Sort sort);
-
-    /**
-     * List menus by team as tree.
-     *
-     * @param team team
-     * @param sort sort
-     * @return list of tree menus
-     */
-    List<MenuVO> listByTeamAsTree(@NonNull String team, Sort sort);
-
-    /**
-     * Creates a menu.
-     *
-     * @param menuParam must not be null
-     * @return created menu
-     */
-    @NonNull
-    Menu createBy(@NonNull MenuParam menuParam);
-
-    /**
-     * Lists as menu tree.
-     *
-     * @param sort sort info must not be null
-     * @return a menu tree
-     */
-    List<MenuVO> listAsTree(@NonNull Sort sort);
-
-    /**
-     * Lists menu by parent id.
-     *
-     * @param id id
-     * @return a list of menu
-     */
-    List<Menu> listByParentId(@NonNull Integer id);
-
-    /**
-     * List all menu teams.
-     *
-     * @return a list of teams.
-     */
-    List<String> listAllTeams();
+//    /**
+//     * List all menu teams.
+//     *
+//     * @return a list of teams.
+//     */
+//    List<String> listAllTeams();
+//
+//
+//    /**
+//     * 列表
+//     *
+//     * @param sort sort
+//     * @return List
+//     */
+//    List<MenuDTO> listMenu(Sort sort);
 }

@@ -1,8 +1,7 @@
 package com.qinweizhao.blog.model.dto;
 
-import lombok.Data;
-import com.qinweizhao.blog.model.dto.base.OutputConverter;
 import com.qinweizhao.blog.model.enums.JournalType;
+import lombok.Data;
 
 import java.util.Date;
 
@@ -14,7 +13,7 @@ import java.util.Date;
  * @date 2019-04-24
  */
 @Data
-public class JournalDTO implements OutputConverter<JournalDTO, Journal> {
+public class JournalDTO {
 
     private Integer id;
 

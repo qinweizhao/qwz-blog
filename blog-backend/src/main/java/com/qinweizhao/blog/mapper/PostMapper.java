@@ -85,4 +85,6 @@ public interface PostMapper extends BaseMapper<Post> {
      * @return Post
      */
     Post selectByTimeAndSlug(@Param("year") Integer year, @Param("month") Integer month, @Param("day") Integer day, @Param("slug") String slug, @Param("status") PostStatus status);
+
+
 }

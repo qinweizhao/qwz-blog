@@ -1,15 +1,15 @@
 package com.qinweizhao.blog.theme;
 
+import com.qinweizhao.blog.handler.theme.config.ThemePropertyResolver;
+import com.qinweizhao.blog.handler.theme.config.impl.YamlThemePropertyResolver;
+import com.qinweizhao.blog.handler.theme.config.support.ThemeProperty;
+import com.qinweizhao.blog.utils.FilenameUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
-import com.qinweizhao.blog.handler.theme.config.ThemePropertyResolver;
-import com.qinweizhao.blog.handler.theme.config.impl.YamlThemePropertyResolver;
-import com.qinweizhao.blog.handler.theme.config.support.ThemeProperty;
-import com.qinweizhao.blog.utils.FilenameUtils;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -146,8 +146,8 @@ public enum ThemePropertyScanner {
 
         try (Stream<Path> pathStream = Files.list(themePath)) {
             return pathStream.filter(path -> Files.isRegularFile(path)
-                    && Files.isReadable(path)
-                    && FilenameUtils.getBasename(path.toString()).equalsIgnoreCase(THEME_SCREENSHOTS_NAME))
+                            && Files.isReadable(path)
+                            && FilenameUtils.getBasename(path.toString()).equalsIgnoreCase(THEME_SCREENSHOTS_NAME))
                     .findFirst()
                     .map(path -> path.getFileName().toString());
         }

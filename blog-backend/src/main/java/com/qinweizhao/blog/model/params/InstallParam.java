@@ -1,8 +1,8 @@
 package com.qinweizhao.blog.model.params;
 
+import com.qinweizhao.blog.model.support.CreateCheck;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import com.qinweizhao.blog.model.support.CreateCheck;
 
 import javax.validation.constraints.NotBlank;
 

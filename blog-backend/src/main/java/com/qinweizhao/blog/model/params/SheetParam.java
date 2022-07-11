@@ -1,19 +1,13 @@
 package com.qinweizhao.blog.model.params;
 
-import lombok.Data;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.util.CollectionUtils;
-import com.qinweizhao.blog.model.dto.base.InputConverter;
 import com.qinweizhao.blog.model.enums.PostEditorType;
 import com.qinweizhao.blog.model.enums.PostStatus;
-import com.qinweizhao.blog.utils.SlugUtils;
+import lombok.Data;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * Sheet param.
@@ -23,7 +17,7 @@ import java.util.Set;
  * @date 2019-4-24
  */
 @Data
-public class SheetParam implements InputConverter<Sheet> {
+public class SheetParam {
 
     @NotBlank(message = "页面标题不能为空")
     @Size(max = 100, message = "页面标题的字符长度不能超过 {max}")
@@ -60,48 +54,7 @@ public class SheetParam implements InputConverter<Sheet> {
 
     private String metaDescription;
 
-    private Set<SheetMetaParam> metas;
+//    private Set<SheetMetaParam> metas;
 
-    @Override
-    public Sheet convertTo() {
-        slug = StringUtils.isBlank(slug) ? SlugUtils.slug(title) : SlugUtils.slug(slug);
 
-        if (null == thumbnail) {
-            thumbnail = "";
-        }
-
-        if (null == editorType) {
-            editorType = PostEditorType.MARKDOWN;
-        }
-
-        return InputConverter.super.convertTo();
-    }
-
-    @Override
-    public void update(Sheet sheet) {
-        slug = StringUtils.isBlank(slug) ? SlugUtils.slug(title) : SlugUtils.slug(slug);
-
-        if (null == thumbnail) {
-            thumbnail = "";
-        }
-
-        if (null == editorType) {
-            editorType = PostEditorType.MARKDOWN;
-        }
-
-        InputConverter.super.update(sheet);
-    }
-
-    public Set<SheetMeta> getSheetMetas() {
-        Set<SheetMeta> sheetMetasSet = new HashSet<>();
-        if (CollectionUtils.isEmpty(metas)) {
-            return sheetMetasSet;
-        }
-
-        for (SheetMetaParam sheetMetaParam : metas) {
-            SheetMeta sheetMeta = sheetMetaParam.convertTo();
-            sheetMetasSet.add(sheetMeta);
-        }
-        return sheetMetasSet;
-    }
 }

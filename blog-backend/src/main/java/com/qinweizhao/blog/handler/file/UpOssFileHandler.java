@@ -1,5 +1,12 @@
 package com.qinweizhao.blog.handler.file;
 
+import com.qinweizhao.blog.exception.FileOperationException;
+import com.qinweizhao.blog.model.enums.AttachmentType;
+import com.qinweizhao.blog.model.properties.UpOssProperties;
+import com.qinweizhao.blog.model.support.UploadResult;
+import com.qinweizhao.blog.service.OptionService;
+import com.qinweizhao.blog.utils.FilenameUtils;
+import com.qinweizhao.blog.utils.ImageUtils;
 import com.upyun.RestManager;
 import com.upyun.UpException;
 import lombok.extern.slf4j.Slf4j;
@@ -10,13 +17,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 import org.springframework.util.DigestUtils;
 import org.springframework.web.multipart.MultipartFile;
-import com.qinweizhao.blog.exception.FileOperationException;
-import com.qinweizhao.blog.model.enums.AttachmentType;
-import com.qinweizhao.blog.model.properties.UpOssProperties;
-import com.qinweizhao.blog.model.support.UploadResult;
-import com.qinweizhao.blog.service.OptionService;
-import com.qinweizhao.blog.utils.FilenameUtils;
-import com.qinweizhao.blog.utils.ImageUtils;
 
 import javax.imageio.ImageReader;
 import java.io.IOException;

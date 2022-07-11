@@ -4,9 +4,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.qinweizhao.blog.exception.FileOperationException;
 import com.qinweizhao.blog.model.entity.Attachment;
 import com.qinweizhao.blog.model.enums.AttachmentType;
-import com.qinweizhao.blog.model.params.AttachmentQuery;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Collection;
@@ -21,14 +18,14 @@ import java.util.List;
  */
 public interface AttachmentService extends IService<Attachment> {
 
-    /**
-     * 分页
-     *
-     * @param pageable        pageable
-     * @param attachmentQuery attachmentQuery
-     * @return Page
-     */
-    Page<Attachment> page(Pageable pageable, AttachmentQuery attachmentQuery);
+//    /**
+//     * 分页
+//     *
+//     * @param pageable        pageable
+//     * @param attachmentQuery attachmentQuery
+//     * @return Page
+//     */
+//    Page<Attachment> page(Pageable pageable, AttachmentQuery attachmentQuery);
 
     /**
      * 上传文件

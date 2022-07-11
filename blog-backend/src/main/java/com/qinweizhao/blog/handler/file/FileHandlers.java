@@ -1,5 +1,10 @@
 package com.qinweizhao.blog.handler.file;
 
+import com.qinweizhao.blog.exception.FileOperationException;
+import com.qinweizhao.blog.exception.RepeatTypeException;
+import com.qinweizhao.blog.model.entity.Attachment;
+import com.qinweizhao.blog.model.enums.AttachmentType;
+import com.qinweizhao.blog.model.support.UploadResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationContext;
 import org.springframework.lang.NonNull;
@@ -8,11 +13,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.multipart.MultipartFile;
-import com.qinweizhao.blog.exception.FileOperationException;
-import com.qinweizhao.blog.exception.RepeatTypeException;
-import com.qinweizhao.blog.model.entity.Attachment;
-import com.qinweizhao.blog.model.enums.AttachmentType;
-import com.qinweizhao.blog.model.support.UploadResult;
 
 import java.util.Collection;
 import java.util.concurrent.ConcurrentHashMap;

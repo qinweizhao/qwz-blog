@@ -1,5 +1,6 @@
 package com.qinweizhao.blog.core;
 
+import com.qinweizhao.blog.model.support.BaseResponse;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.HttpStatus;
@@ -13,7 +14,6 @@ import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
-import com.qinweizhao.blog.model.support.BaseResponse;
 
 /**
  * Controller advice for comment result.
@@ -31,11 +31,11 @@ public class CommonResultControllerAdvice implements ResponseBodyAdvice<Object> 
     @Override
     @NonNull
     public final Object beforeBodyWrite(@Nullable Object body,
-            @NotNull MethodParameter returnType,
-            @NotNull MediaType contentType,
-            @NotNull Class<? extends HttpMessageConverter<?>> converterType,
-            @NotNull ServerHttpRequest request,
-            @NotNull ServerHttpResponse response) {
+                                        @NotNull MethodParameter returnType,
+                                        @NotNull MediaType contentType,
+                                        @NotNull Class<? extends HttpMessageConverter<?>> converterType,
+                                        @NotNull ServerHttpRequest request,
+                                        @NotNull ServerHttpResponse response) {
         MappingJacksonValue container = getOrCreateContainer(body);
         // The contain body will never be null
         beforeBodyWriteInternal(container, contentType, returnType, request, response);
@@ -51,10 +51,10 @@ public class CommonResultControllerAdvice implements ResponseBodyAdvice<Object> 
     }
 
     private void beforeBodyWriteInternal(MappingJacksonValue bodyContainer,
-            MediaType contentType,
-            MethodParameter returnType,
-            ServerHttpRequest request,
-            ServerHttpResponse response) {
+                                         MediaType contentType,
+                                         MethodParameter returnType,
+                                         ServerHttpRequest request,
+                                         ServerHttpResponse response) {
         // Get return body
         Object returnBody = bodyContainer.getValue();
 

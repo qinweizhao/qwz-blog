@@ -10,7 +10,6 @@ import lombok.EqualsAndHashCode;
 import java.util.Date;
 
 /**
- *
  * @author qinweizhao
  * @since 2022/7/1
  */

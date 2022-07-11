@@ -1,7 +1,6 @@
 package com.qinweizhao.blog.model.params;
 
 import lombok.Data;
-import com.qinweizhao.blog.model.dto.base.InputConverter;
 
 import javax.validation.constraints.NotBlank;
 import java.util.Date;
@@ -13,7 +12,7 @@ import java.util.Date;
  * @date 2019/04/25
  */
 @Data
-public class PhotoParam implements InputConverter<Photo> {
+public class PhotoParam {
 
     @NotBlank(message = "照片名称不能为空")
     private String name;

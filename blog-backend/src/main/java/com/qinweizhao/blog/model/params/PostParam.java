@@ -1,18 +1,13 @@
 package com.qinweizhao.blog.model.params;
 
-import lombok.Data;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.util.CollectionUtils;
-import com.qinweizhao.blog.model.dto.base.InputConverter;
 import com.qinweizhao.blog.model.enums.PostEditorType;
 import com.qinweizhao.blog.model.enums.PostStatus;
-import com.qinweizhao.blog.utils.SlugUtils;
+import lombok.Data;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -24,7 +19,7 @@ import java.util.Set;
  * @date 2019-03-21
  */
 @Data
-public class PostParam implements InputConverter<Post> {
+public class PostParam {
 
     @NotBlank(message = "文章标题不能为空")
     @Size(max = 100, message = "文章标题的字符长度不能超过 {max}")
@@ -67,46 +62,4 @@ public class PostParam implements InputConverter<Post> {
 
     private Set<PostMetaParam> metas;
 
-    @Override
-    public Post convertTo() {
-        slug = StringUtils.isBlank(slug) ? SlugUtils.slug(title) : SlugUtils.slug(slug);
-
-        if (null == thumbnail) {
-            thumbnail = "";
-        }
-
-        if (null == editorType) {
-            editorType = PostEditorType.MARKDOWN;
-        }
-
-        return InputConverter.super.convertTo();
-    }
-
-    @Override
-    public void update(Post post) {
-        slug = StringUtils.isBlank(slug) ? SlugUtils.slug(title) : SlugUtils.slug(slug);
-
-        if (null == thumbnail) {
-            thumbnail = "";
-        }
-
-        if (null == editorType) {
-            editorType = PostEditorType.MARKDOWN;
-        }
-
-        InputConverter.super.update(post);
-    }
-
-    public Set<PostMeta> getPostMetas() {
-        Set<PostMeta> postMetaSet = new HashSet<>();
-        if (CollectionUtils.isEmpty(metas)) {
-            return postMetaSet;
-        }
-
-        for (PostMetaParam postMetaParam : metas) {
-            PostMeta postMeta = postMetaParam.convertTo();
-            postMetaSet.add(postMeta);
-        }
-        return postMetaSet;
-    }
 }

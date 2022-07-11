@@ -1,8 +1,8 @@
 package com.qinweizhao.blog.model.dto;
 
+import com.qinweizhao.blog.model.dto.base.OutputConverter;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import com.qinweizhao.blog.model.dto.base.OutputConverter;
 
 /**
  * Statistic with user info DTO.

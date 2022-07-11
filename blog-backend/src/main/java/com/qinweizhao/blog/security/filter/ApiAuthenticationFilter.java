@@ -1,11 +1,6 @@
 package com.qinweizhao.blog.security.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.core.annotation.Order;
-import org.springframework.lang.NonNull;
-import org.springframework.stereotype.Component;
 import com.qinweizhao.blog.cache.AbstractStringCacheStore;
 import com.qinweizhao.blog.config.properties.HaloProperties;
 import com.qinweizhao.blog.exception.AuthenticationException;
@@ -15,6 +10,11 @@ import com.qinweizhao.blog.model.properties.CommentProperties;
 import com.qinweizhao.blog.security.handler.DefaultAuthenticationFailureHandler;
 import com.qinweizhao.blog.security.service.OneTimeTokenService;
 import com.qinweizhao.blog.service.OptionService;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.core.annotation.Order;
+import org.springframework.lang.NonNull;
+import org.springframework.stereotype.Component;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -39,10 +39,10 @@ public class ApiAuthenticationFilter extends AbstractAuthenticationFilter {
     private final OptionService optionService;
 
     public ApiAuthenticationFilter(HaloProperties haloProperties,
-            OptionService optionService,
-            AbstractStringCacheStore cacheStore,
-            OneTimeTokenService oneTimeTokenService,
-            ObjectMapper objectMapper) {
+                                   OptionService optionService,
+                                   AbstractStringCacheStore cacheStore,
+                                   OneTimeTokenService oneTimeTokenService,
+                                   ObjectMapper objectMapper) {
         super(haloProperties, optionService, cacheStore, oneTimeTokenService);
         this.optionService = optionService;
 
@@ -69,7 +69,8 @@ public class ApiAuthenticationFilter extends AbstractAuthenticationFilter {
         }
 
         // Get api_enable from option
-        Boolean apiEnabled = optionService.getByPropertyOrDefault(ApiProperties.API_ENABLED, Boolean.class, false);
+//        Boolean apiEnabled = optionService.getByPropertyOrDefault(ApiProperties.API_ENABLED, Boolean.class, false);
+        Boolean apiEnabled = false;
 
         if (!apiEnabled) {
             throw new ForbiddenException("API has been disabled by blogger currently");

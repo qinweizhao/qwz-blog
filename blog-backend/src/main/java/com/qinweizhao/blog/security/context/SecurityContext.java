@@ -1,7 +1,7 @@
 package com.qinweizhao.blog.security.context;
 
-import org.springframework.lang.Nullable;
 import com.qinweizhao.blog.security.authentication.Authentication;
+import org.springframework.lang.Nullable;
 
 /**
  * Security context interface.

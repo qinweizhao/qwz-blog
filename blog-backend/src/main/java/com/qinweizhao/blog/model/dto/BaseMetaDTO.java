@@ -3,7 +3,6 @@ package com.qinweizhao.blog.model.dto;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
-import com.qinweizhao.blog.model.dto.base.OutputConverter;
 
 import java.util.Date;
 
@@ -16,7 +15,7 @@ import java.util.Date;
 @Data
 @ToString
 @EqualsAndHashCode
-public class BaseMetaDTO implements OutputConverter<BaseMetaDTO, BaseMeta> {
+public class BaseMetaDTO {
     private Long id;
 
     private Integer postId;

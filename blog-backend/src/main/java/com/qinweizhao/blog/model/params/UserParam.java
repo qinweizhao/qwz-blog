@@ -1,11 +1,10 @@
 package com.qinweizhao.blog.model.params;
 
-import com.qinweizhao.blog.model.entity.User;
-import lombok.Data;
 import com.qinweizhao.blog.model.dto.base.InputConverter;
-
+import com.qinweizhao.blog.model.entity.User;
 import com.qinweizhao.blog.model.support.CreateCheck;
 import com.qinweizhao.blog.model.support.UpdateCheck;
+import lombok.Data;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;

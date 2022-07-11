@@ -2,13 +2,6 @@ package com.qinweizhao.blog.handler.file;
 
 import com.obs.services.ObsClient;
 import com.obs.services.model.PutObjectResult;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
-import org.jetbrains.annotations.NotNull;
-import org.springframework.http.MediaType;
-import org.springframework.stereotype.Component;
-import org.springframework.util.Assert;
-import org.springframework.web.multipart.MultipartFile;
 import com.qinweizhao.blog.exception.FileOperationException;
 import com.qinweizhao.blog.model.enums.AttachmentType;
 import com.qinweizhao.blog.model.properties.HuaweiObsProperties;
@@ -16,6 +9,13 @@ import com.qinweizhao.blog.model.support.UploadResult;
 import com.qinweizhao.blog.service.OptionService;
 import com.qinweizhao.blog.utils.FilenameUtils;
 import com.qinweizhao.blog.utils.ImageUtils;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
+import org.jetbrains.annotations.NotNull;
+import org.springframework.http.MediaType;
+import org.springframework.stereotype.Component;
+import org.springframework.util.Assert;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.imageio.ImageReader;
 import java.io.IOException;

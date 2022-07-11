@@ -1,13 +1,13 @@
 package com.qinweizhao.blog.mail;
 
+import com.qinweizhao.blog.event.options.OptionUpdatedEvent;
+import com.qinweizhao.blog.service.OptionService;
 import freemarker.template.Template;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
-import com.qinweizhao.blog.event.options.OptionUpdatedEvent;
-import com.qinweizhao.blog.service.OptionService;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -27,7 +27,7 @@ public class MailServiceImpl extends AbstractMailService implements ApplicationL
     private final FreeMarkerConfigurer freeMarker;
 
     public MailServiceImpl(FreeMarkerConfigurer freeMarker,
-            OptionService optionService) {
+                           OptionService optionService) {
         super(optionService);
         this.freeMarker = freeMarker;
     }

@@ -5,15 +5,10 @@ import com.qiniu.common.Zone;
 import com.qiniu.storage.Region;
 import com.qinweizhao.blog.exception.MissingPropertyException;
 import com.qinweizhao.blog.model.dto.OptionDTO;
-import com.qinweizhao.blog.model.dto.OptionSimpleDTO;
 import com.qinweizhao.blog.model.entity.Option;
 import com.qinweizhao.blog.model.enums.PostPermalinkType;
 import com.qinweizhao.blog.model.enums.ValueEnum;
-import com.qinweizhao.blog.model.params.OptionParam;
-import com.qinweizhao.blog.model.params.OptionQuery;
 import com.qinweizhao.blog.model.properties.PropertyEnum;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 import org.springframework.transaction.annotation.Transactional;
@@ -42,53 +37,53 @@ public interface OptionService extends IService<Option> {
 
     String OPTIONS_KEY = "options";
 
-    /**
-     * Save multiple options
-     *
-     * @param options options
-     */
-    @Transactional
-    void save(@Nullable Map<String, Object> options);
-
-    /**
-     * Save multiple options
-     *
-     * @param optionParams option params
-     */
-    @Transactional
-    void save(@Nullable List<OptionParam> optionParams);
-
-    /**
-     * Save single option.
-     *
-     * @param optionParam option param
-     */
-    void save(@Nullable OptionParam optionParam);
-
-    /**
-     * Update option by id.
-     *
-     * @param optionId    option id must not be null.
-     * @param optionParam option param must not be null.
-     */
-    void update(@NonNull Integer optionId, @NonNull OptionParam optionParam);
-
-    /**
-     * Saves a property.
-     *
-     * @param property must not be null
-     * @param value    could be null
-     */
-    @Transactional
-    void saveProperty(@NonNull PropertyEnum property, @Nullable String value);
+//    /**
+//     * Save multiple options
+//     *
+//     * @param options options
+//     */
+//    @Transactional
+//    void save(@Nullable Map<String, Object> options);
+//
+//    /**
+//     * Save multiple options
+//     *
+//     * @param optionParams option params
+//     */
+//    @Transactional
+//    void save(@Nullable List<OptionParam> optionParams);
+//
+//    /**
+//     * Save single option.
+//     *
+//     * @param optionParam option param
+//     */
+//    void save(@Nullable OptionParam optionParam);
+//
+//    /**
+//     * Update option by id.
+//     *
+//     * @param optionId    option id must not be null.
+//     * @param optionParam option param must not be null.
+//     */
+//    void update(@NonNull Integer optionId, @NonNull OptionParam optionParam);
+//
+//    /**
+//     * Saves a property.
+//     *
+//     * @param property must not be null
+//     * @param value    could be null
+//     */
+//    @Transactional
+//    void saveProperty(@NonNull PropertyEnum property, @Nullable String value);
 
     /**
      * Saves blog properties.
      *
      * @param properties blog properties
      */
-    @Transactional
-    void saveProperties(@NonNull Map<? extends PropertyEnum, String> properties);
+//    @Transactional
+//    void saveProperties(@NonNull Map<? extends PropertyEnum, String> properties);
 
     /**
      * Get all options
@@ -116,23 +111,23 @@ public interface OptionService extends IService<Option> {
     @NonNull
     List<OptionDTO> listDtos();
 
-    /**
-     * Pages option output dtos.
-     *
-     * @param pageable    page info must not be null
-     * @param optionQuery optionQuery
-     * @return a page of option output dto
-     */
-    Page<OptionSimpleDTO> pageDtosBy(@NonNull Pageable pageable, OptionQuery optionQuery);
-
-    /**
-     * Removes option permanently.
-     *
-     * @param id option id must not be null
-     * @return option detail deleted
-     */
-    @NonNull
-    Option removePermanently(@NonNull Integer id);
+//    /**
+//     * Pages option output dtos.
+//     *
+//     * @param pageable    page info must not be null
+//     * @param optionQuery optionQuery
+//     * @return a page of option output dto
+//     */
+//    Page<OptionSimpleDTO> pageDtosBy(@NonNull Pageable pageable, OptionQuery optionQuery);
+//
+//    /**
+//     * Removes option permanently.
+//     *
+//     * @param id option id must not be null
+//     * @return option detail deleted
+//     */
+//    @NonNull
+//    Option removePermanently(@NonNull Integer id);
 
     /**
      * Get option by key
@@ -383,7 +378,7 @@ public interface OptionService extends IService<Option> {
      *
      * @return birthday timestamp
      */
-    long getBirthday();
+//    long getBirthday();
 
     /**
      * Get post permalink type.
@@ -454,22 +449,22 @@ public interface OptionService extends IService<Option> {
      * @return true or false.
      */
     Boolean isEnabledAbsolutePath();
-
-    /**
-     * Replace option url in batch.
-     *
-     * @param oldUrl old blog url.
-     * @param newUrl new blog url.
-     * @return replaced options.
-     */
-    List<OptionDTO> replaceUrl(@NonNull String oldUrl, @NonNull String newUrl);
-
-    /**
-     * Converts to option output dto.
-     *
-     * @param option option must not be null
-     * @return an option output dto
-     */
-    @NonNull
-    OptionSimpleDTO convertToDto(@NonNull Option option);
+//
+//    /**
+//     * Replace option url in batch.
+//     *
+//     * @param oldUrl old blog url.
+//     * @param newUrl new blog url.
+//     * @return replaced options.
+//     */
+//    List<OptionDTO> replaceUrl(@NonNull String oldUrl, @NonNull String newUrl);
+//
+//    /**
+//     * Converts to option output dto.
+//     *
+//     * @param option option must not be null
+//     * @return an option output dto
+//     */
+//    @NonNull
+//    OptionSimpleDTO convertToDto(@NonNull Option option);
 }

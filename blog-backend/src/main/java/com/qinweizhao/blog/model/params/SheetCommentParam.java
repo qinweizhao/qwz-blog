@@ -12,7 +12,6 @@ import lombok.ToString;
  */
 @Data
 @ToString(callSuper = true)
-@EqualsAndHashCode(callSuper = true)
-public class SheetCommentParam extends BaseCommentParam<SheetComment> {
+public class SheetCommentParam {
 
 }

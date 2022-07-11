@@ -1,5 +1,9 @@
 package com.qinweizhao.blog.core;
 
+import com.qinweizhao.blog.exception.AbstractHaloException;
+import com.qinweizhao.blog.model.support.BaseResponse;
+import com.qinweizhao.blog.utils.ExceptionUtils;
+import com.qinweizhao.blog.utils.ValidationUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -15,10 +19,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.servlet.NoHandlerFoundException;
-import com.qinweizhao.blog.exception.AbstractHaloException;
-import com.qinweizhao.blog.model.support.BaseResponse;
-import com.qinweizhao.blog.utils.ExceptionUtils;
-import com.qinweizhao.blog.utils.ValidationUtils;
 
 import javax.validation.ConstraintViolationException;
 import java.util.Map;
@@ -36,9 +36,9 @@ public class ControllerExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public BaseResponse<?> handleDataIntegrityViolationException(DataIntegrityViolationException e) {
         BaseResponse<?> baseResponse = handleBaseException(e);
-        if (e.getCause() instanceof org.hibernate.exception.ConstraintViolationException) {
-            baseResponse = handleBaseException(e.getCause());
-        }
+//        if (e.getCause() instanceof org.hibernate.exception.ConstraintViolationException) {
+//            baseResponse = handleBaseException(e.getCause());
+//        }
         baseResponse.setMessage("字段验证错误，请完善后重试！");
         return baseResponse;
     }

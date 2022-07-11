@@ -1,8 +1,8 @@
 package com.qinweizhao.blog.service;
 
+import com.qinweizhao.blog.model.support.StaticFile;
 import org.springframework.lang.NonNull;
 import org.springframework.web.multipart.MultipartFile;
-import com.qinweizhao.blog.model.support.StaticFile;
 
 import java.util.List;
 

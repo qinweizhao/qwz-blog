@@ -3,7 +3,6 @@ package com.qinweizhao.blog.service.impl;
 import cn.hutool.crypto.digest.BCrypt;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.qinweizhao.blog.cache.AbstractStringCacheStore;
-import com.qinweizhao.blog.cache.lock.CacheLock;
 import com.qinweizhao.blog.event.logger.LogEvent;
 import com.qinweizhao.blog.event.user.UserUpdatedEvent;
 import com.qinweizhao.blog.exception.BadRequestException;
@@ -11,9 +10,8 @@ import com.qinweizhao.blog.exception.ForbiddenException;
 import com.qinweizhao.blog.exception.NotFoundException;
 import com.qinweizhao.blog.exception.ServiceException;
 import com.qinweizhao.blog.mapper.UserMapper;
-import com.qinweizhao.blog.model.enums.LogType;
-import com.qinweizhao.blog.model.params.UserParam;
 import com.qinweizhao.blog.model.entity.User;
+import com.qinweizhao.blog.model.enums.LogType;
 import com.qinweizhao.blog.service.UserService;
 import com.qinweizhao.blog.utils.DateUtils;
 import com.qinweizhao.blog.utils.HaloUtils;
@@ -39,7 +37,7 @@ import java.util.concurrent.TimeUnit;
  * @date 2019-03-14
  */
 @Service
-public class UserServiceImpl extends ServiceImpl<UserMapper,User> implements UserService {
+public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
 
 
     @Resource
@@ -105,14 +103,13 @@ public class UserServiceImpl extends ServiceImpl<UserMapper,User> implements Use
         setPassword(user, newPassword);
 
         // Update this user
-         update(user);
+        update(user);
 
         // Log it
         eventPublisher.publishEvent(new LogEvent(this, user.getId().toString(), LogType.PASSWORD_UPDATED, HaloUtils.desensitize(oldPassword, 2, 1)));
 
         return true;
     }
-
 
 
     @Override

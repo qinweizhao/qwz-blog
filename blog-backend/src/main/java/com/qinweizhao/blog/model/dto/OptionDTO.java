@@ -3,7 +3,6 @@ package com.qinweizhao.blog.model.dto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import com.qinweizhao.blog.model.dto.base.OutputConverter;
 
 /**
  * Option output dto.
@@ -14,7 +13,7 @@ import com.qinweizhao.blog.model.dto.base.OutputConverter;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class OptionDTO implements OutputConverter<OptionDTO, Option> {
+public class OptionDTO {
 
     private String key;
 

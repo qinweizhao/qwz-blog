@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.qinweizhao.blog.model.entity.Category;
 import org.apache.ibatis.annotations.Mapper;
-import org.springframework.data.domain.Sort;
 import org.springframework.lang.NonNull;
 
 import java.util.List;
@@ -18,9 +17,10 @@ public interface CategoryMapper extends BaseMapper<Category> {
 
     /**
      * 列表
+     *
      * @return List
      */
-    default List<Category> selectList(){
+    default List<Category> selectList() {
         return selectList(new LambdaQueryWrapper<Category>()
                 .orderByDesc(Category::getCreateTime)
         );

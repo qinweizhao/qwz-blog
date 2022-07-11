@@ -1,10 +1,10 @@
 package com.qinweizhao.blog.model.properties;
 
+import com.qinweizhao.blog.model.enums.ValueEnum;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
-import com.qinweizhao.blog.model.enums.ValueEnum;
 
 import java.util.HashMap;
 import java.util.LinkedList;

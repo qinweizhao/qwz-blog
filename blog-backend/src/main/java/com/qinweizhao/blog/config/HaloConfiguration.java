@@ -1,8 +1,12 @@
 package com.qinweizhao.blog.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.qinweizhao.blog.cache.AbstractStringCacheStore;
+import com.qinweizhao.blog.cache.InMemoryCacheStore;
+import com.qinweizhao.blog.cache.LevelCacheStore;
+import com.qinweizhao.blog.config.properties.HaloProperties;
+import com.qinweizhao.blog.utils.HttpClientUtils;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.web.client.RestTemplateBuilder;
@@ -11,9 +15,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.web.client.RestTemplate;
-import com.qinweizhao.blog.cache.*;
-import com.qinweizhao.blog.config.properties.HaloProperties;
-import com.qinweizhao.blog.utils.HttpClientUtils;
 
 import javax.annotation.Resource;
 import java.security.KeyManagementException;

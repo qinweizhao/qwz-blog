@@ -1,7 +1,7 @@
 package com.qinweizhao.blog.model.dto;
 
-import lombok.Data;
 import com.qinweizhao.blog.model.enums.Mode;
+import lombok.Data;
 
 /**
  * Theme controller.

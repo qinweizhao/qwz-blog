@@ -1,8 +1,8 @@
 package com.qinweizhao.blog.event.post;
 
+import com.qinweizhao.blog.utils.ServiceUtils;
 import org.springframework.lang.NonNull;
 import org.springframework.util.Assert;
-import com.qinweizhao.blog.utils.ServiceUtils;
 
 /**
  * Post visit event.

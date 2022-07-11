@@ -6,7 +6,6 @@ import com.qinweizhao.blog.handler.file.FileHandlers;
 import com.qinweizhao.blog.mapper.AttachmentMapper;
 import com.qinweizhao.blog.model.entity.Attachment;
 import com.qinweizhao.blog.model.enums.AttachmentType;
-import com.qinweizhao.blog.model.params.AttachmentQuery;
 import com.qinweizhao.blog.model.properties.AttachmentProperties;
 import com.qinweizhao.blog.model.support.UploadResult;
 import com.qinweizhao.blog.service.AttachmentService;
@@ -17,8 +16,6 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
@@ -46,10 +43,10 @@ public class AttachmentServiceImpl extends ServiceImpl<AttachmentMapper, Attachm
 
     private final FileHandlers fileHandlers;
 
-    @Override
-    public Page<Attachment> page(Pageable pageable, AttachmentQuery attachmentQuery) {
-        return this.baseMapper.selectPage(pageable, attachmentQuery);
-    }
+//    @Override
+//    public Page<Attachment> page(Pageable pageable, AttachmentQuery attachmentQuery) {
+//        return this.baseMapper.selectPage(pageable, attachmentQuery);
+//    }
 
     @Override
     public Attachment upload(MultipartFile file) {

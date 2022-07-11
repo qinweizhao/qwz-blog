@@ -1,7 +1,5 @@
 package com.qinweizhao.blog.model.dto;
 
-import com.qinweizhao.blog.model.dto.base.OutputConverter;
-import com.qinweizhao.blog.model.entity.User;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -17,7 +15,7 @@ import java.util.Date;
 @Data
 @ToString
 @EqualsAndHashCode
-public class UserDTO implements OutputConverter<UserDTO, User> {
+public class UserDTO {
 
     private Integer id;
 

@@ -1,13 +1,5 @@
 package com.qinweizhao.blog.security.filter;
 
-import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.lang.NonNull;
-import org.springframework.lang.Nullable;
-import org.springframework.util.AntPathMatcher;
-import org.springframework.util.Assert;
-import org.springframework.web.filter.OncePerRequestFilter;
-import org.springframework.web.util.UrlPathHelper;
 import com.qinweizhao.blog.cache.AbstractStringCacheStore;
 import com.qinweizhao.blog.config.properties.HaloProperties;
 import com.qinweizhao.blog.exception.AbstractHaloException;
@@ -21,6 +13,14 @@ import com.qinweizhao.blog.security.handler.AuthenticationFailureHandler;
 import com.qinweizhao.blog.security.handler.DefaultAuthenticationFailureHandler;
 import com.qinweizhao.blog.security.service.OneTimeTokenService;
 import com.qinweizhao.blog.service.OptionService;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.lang.NonNull;
+import org.springframework.lang.Nullable;
+import org.springframework.util.AntPathMatcher;
+import org.springframework.util.Assert;
+import org.springframework.web.filter.OncePerRequestFilter;
+import org.springframework.web.util.UrlPathHelper;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -43,7 +43,7 @@ public abstract class AbstractAuthenticationFilter extends OncePerRequestFilter 
 
     protected final AntPathMatcher antPathMatcher;
     protected final HaloProperties haloProperties;
-    protected final OptionService optionService;
+//    protected final OptionService optionService;
     protected final AbstractStringCacheStore cacheStore;
     private final UrlPathHelper urlPathHelper = new UrlPathHelper();
     private final OneTimeTokenService oneTimeTokenService;
@@ -57,11 +57,11 @@ public abstract class AbstractAuthenticationFilter extends OncePerRequestFilter 
     private Set<String> urlPatterns = new LinkedHashSet<>();
 
     AbstractAuthenticationFilter(HaloProperties haloProperties,
-            OptionService optionService,
-            AbstractStringCacheStore cacheStore,
-            OneTimeTokenService oneTimeTokenService) {
+                                 OptionService optionService,
+                                 AbstractStringCacheStore cacheStore,
+                                 OneTimeTokenService oneTimeTokenService) {
         this.haloProperties = haloProperties;
-        this.optionService = optionService;
+//        this.optionService = optionService;
         this.cacheStore = cacheStore;
         this.oneTimeTokenService = oneTimeTokenService;
 
@@ -171,13 +171,14 @@ public abstract class AbstractAuthenticationFilter extends OncePerRequestFilter 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         // Check whether the blog is installed or not
-        Boolean isInstalled = optionService.getByPropertyOrDefault(PrimaryProperties.IS_INSTALLED, Boolean.class, false);
+        // 检查博客是否安装
+//        Boolean isInstalled = optionService.getByPropertyOrDefault(PrimaryProperties.IS_INSTALLED, Boolean.class, false);
 
-        if (!isInstalled && !Mode.TEST.equals(haloProperties.getMode())) {
-            // If not installed
-            getFailureHandler().onFailure(request, response, new NotInstallException("当前博客还没有初始化"));
-            return;
-        }
+//        if (!isInstalled && !Mode.TEST.equals(haloProperties.getMode())) {
+//            // If not installed
+//            getFailureHandler().onFailure(request, response, new NotInstallException("当前博客还没有初始化"));
+//            return;
+//        }
 
         try {
             // Check the one-time-token

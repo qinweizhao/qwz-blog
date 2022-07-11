@@ -1,14 +1,10 @@
 package com.qinweizhao.blog.service.impl;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
-import org.springframework.stereotype.Service;
-import org.springframework.util.Assert;
-import com.qinweizhao.blog.model.dto.LogDTO;
-import com.qinweizhao.blog.repository.LogRepository;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.qinweizhao.blog.mapper.LogMapper;
+import com.qinweizhao.blog.model.entity.Log;
 import com.qinweizhao.blog.service.LogService;
-import com.qinweizhao.blog.service.base.AbstractCrudService;
+import org.springframework.stereotype.Service;
 
 /**
  * LogService implementation class
@@ -17,23 +13,17 @@ import com.qinweizhao.blog.service.base.AbstractCrudService;
  * @date 2019-03-14
  */
 @Service
-public class LogServiceImpl extends AbstractCrudService<Log, Long> implements LogService {
+public class LogServiceImpl extends ServiceImpl<LogMapper, Log> implements LogService {
 
-    private final LogRepository logRepository;
 
-    public LogServiceImpl(LogRepository logRepository) {
-        super(logRepository);
-        this.logRepository = logRepository;
-    }
-
-    @Override
-    public Page<LogDTO> pageLatest(int top) {
-        Assert.isTrue(top > 0, "Top number must not be less than 0");
-
-        // Build page request
-        PageRequest latestPageable = PageRequest.of(0, top, Sort.by(Sort.Direction.DESC, "createTime"));
-
-        // List all
-        return listAll(latestPageable).map(log -> new LogDTO().convertFrom(log));
-    }
+//    @Override
+//    public Page<LogDTO> pageLatest(int top) {
+//        Assert.isTrue(top > 0, "Top number must not be less than 0");
+//
+//        // Build page request
+//        PageRequest latestPageable = PageRequest.of(0, top, Sort.by(Sort.Direction.DESC, "createTime"));
+//
+//        // List all
+//        return listAll(latestPageable).map(log -> new LogDTO().convertFrom(log));
+//    }
 }

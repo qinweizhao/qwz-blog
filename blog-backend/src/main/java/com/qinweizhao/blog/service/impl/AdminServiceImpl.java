@@ -2,6 +2,7 @@ package com.qinweizhao.blog.service.impl;
 
 import cn.hutool.core.lang.Validator;
 import cn.hutool.core.util.RandomUtil;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.qinweizhao.blog.cache.AbstractStringCacheStore;
 import com.qinweizhao.blog.config.properties.HaloProperties;
 import com.qinweizhao.blog.event.logger.LogEvent;
@@ -9,8 +10,10 @@ import com.qinweizhao.blog.exception.BadRequestException;
 import com.qinweizhao.blog.exception.NotFoundException;
 import com.qinweizhao.blog.exception.ServiceException;
 import com.qinweizhao.blog.mail.MailService;
+import com.qinweizhao.blog.model.base.BaseEntity;
 import com.qinweizhao.blog.model.dto.EnvironmentDTO;
 import com.qinweizhao.blog.model.dto.StatisticDTO;
+import com.qinweizhao.blog.model.entity.Comment;
 import com.qinweizhao.blog.model.entity.User;
 import com.qinweizhao.blog.model.enums.CommentStatus;
 import com.qinweizhao.blog.model.enums.LogType;
@@ -65,23 +68,23 @@ import static com.qinweizhao.blog.model.support.HaloConst.*;
 @AllArgsConstructor
 public class AdminServiceImpl implements AdminService {
 
-    private final PostService postService;
-
-    private final SheetService sheetService;
-
-    private final AttachmentService attachmentService;
-
-    private final CommentService commentService;
-
-    private final SheetCommentService sheetCommentService;
-
-    private final JournalCommentService journalCommentService;
+//    private final PostService postService;
+//
+//    private final SheetService sheetService;
+//
+//    private final AttachmentService attachmentService;
+//
+//    private final CommentService<BaseMapper<Comment>, BaseEntity> commentService;
+//
+//    private final SheetCommentService sheetCommentService;
+//
+//    private final JournalCommentService journalCommentService;
 
     private final OptionService optionService;
 
     private final UserService userService;
 
-    private final LinkService linkService;
+//    private final LinkService linkService;
 
     private final MailService mailService;
 
@@ -234,32 +237,32 @@ public class AdminServiceImpl implements AdminService {
         // clear code cache
         cacheStore.delete("code");
     }
-
-    @Override
-    @NonNull
-    public StatisticDTO getCount() {
-        StatisticDTO statisticDTO = new StatisticDTO();
-        statisticDTO.setPostCount(postService.countByStatus(PostStatus.PUBLISHED) + sheetService.countByStatus(PostStatus.PUBLISHED));
-        statisticDTO.setAttachmentCount(attachmentService.count());
-
-        // Handle comment count
-        long postCommentCount = commentService.countByStatus(CommentStatus.PUBLISHED);
-        long sheetCommentCount = sheetCommentService.countByStatus(CommentStatus.PUBLISHED);
-        long journalCommentCount = journalCommentService.countByStatus(CommentStatus.PUBLISHED);
-
-        statisticDTO.setCommentCount(postCommentCount + sheetCommentCount + journalCommentCount);
-
-        long birthday = optionService.getBirthday();
-        long days = (System.currentTimeMillis() - birthday) / (1000 * 24 * 3600);
-        statisticDTO.setEstablishDays(days);
-        statisticDTO.setBirthday(birthday);
-
-        statisticDTO.setLinkCount(linkService.count());
-
-        statisticDTO.setVisitCount(postService.countVisit() + sheetService.countVisit());
-        statisticDTO.setLikeCount(postService.countLike() + sheetService.countLike());
-        return statisticDTO;
-    }
+//
+//    @Override
+//    @NonNull
+//    public StatisticDTO getCount() {
+//        StatisticDTO statisticDTO = new StatisticDTO();
+//        statisticDTO.setPostCount(postService.countByStatus(PostStatus.PUBLISHED) + sheetService.countByStatus(PostStatus.PUBLISHED));
+//        statisticDTO.setAttachmentCount(attachmentService.count());
+//
+//        // Handle comment count
+//        long postCommentCount = commentService.countByStatus(CommentStatus.PUBLISHED);
+//        long sheetCommentCount = sheetCommentService.countByStatus(CommentStatus.PUBLISHED);
+//        long journalCommentCount = journalCommentService.countByStatus(CommentStatus.PUBLISHED);
+//
+//        statisticDTO.setCommentCount(postCommentCount + sheetCommentCount + journalCommentCount);
+//
+//        long birthday = optionService.getBirthday();
+//        long days = (System.currentTimeMillis() - birthday) / (1000 * 24 * 3600);
+//        statisticDTO.setEstablishDays(days);
+//        statisticDTO.setBirthday(birthday);
+//
+//        statisticDTO.setLinkCount(linkService.count());
+//
+//        statisticDTO.setVisitCount(postService.countVisit() + sheetService.countVisit());
+//        statisticDTO.setLikeCount(postService.countLike() + sheetService.countLike());
+//        return statisticDTO;
+//    }
 
     @Override
     @NonNull

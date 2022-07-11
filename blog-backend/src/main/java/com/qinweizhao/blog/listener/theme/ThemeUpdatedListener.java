@@ -1,11 +1,11 @@
 package com.qinweizhao.blog.listener.theme;
 
-import org.springframework.context.event.EventListener;
-import org.springframework.stereotype.Component;
 import com.qinweizhao.blog.cache.AbstractStringCacheStore;
 import com.qinweizhao.blog.event.options.OptionUpdatedEvent;
 import com.qinweizhao.blog.event.theme.ThemeUpdatedEvent;
 import com.qinweizhao.blog.service.ThemeService;
+import org.springframework.context.event.EventListener;
+import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 
@@ -19,7 +19,7 @@ import javax.annotation.Resource;
 public class ThemeUpdatedListener {
 
     @Resource
-    private  AbstractStringCacheStore cacheStore;
+    private AbstractStringCacheStore cacheStore;
 
     @EventListener
     public void onApplicationEvent(ThemeUpdatedEvent event) {

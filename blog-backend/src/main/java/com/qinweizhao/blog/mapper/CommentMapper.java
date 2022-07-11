@@ -23,8 +23,6 @@ import java.util.List;
 public interface CommentMapper extends BaseMapper<Comment> {
 
 
-
-
     /**
      * Count comments by post ids.
      *
@@ -56,12 +54,13 @@ public interface CommentMapper extends BaseMapper<Comment> {
 
     /**
      * 根据状态统计个数
+     *
      * @param published published
      * @return long
      */
-    default long selectCountByStatus(CommentStatus published){
+    default long selectCountByStatus(CommentStatus published) {
         return selectCount(new LambdaQueryWrapper<Comment>()
-                .eq(Comment::getStatus,published)
-                );
+                .eq(Comment::getStatus, published)
+        );
     }
 }

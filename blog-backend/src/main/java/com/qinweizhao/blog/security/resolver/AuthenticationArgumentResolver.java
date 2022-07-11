@@ -1,5 +1,10 @@
 package com.qinweizhao.blog.security.resolver;
 
+import com.qinweizhao.blog.exception.AuthenticationException;
+import com.qinweizhao.blog.model.entity.User;
+import com.qinweizhao.blog.security.authentication.Authentication;
+import com.qinweizhao.blog.security.context.SecurityContextHolder;
+import com.qinweizhao.blog.security.support.UserDetail;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.MethodParameter;
 import org.springframework.lang.Nullable;
@@ -7,11 +12,6 @@ import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
-import com.qinweizhao.blog.exception.AuthenticationException;
-import com.qinweizhao.blog.model.entity.User;
-import com.qinweizhao.blog.security.authentication.Authentication;
-import com.qinweizhao.blog.security.context.SecurityContextHolder;
-import com.qinweizhao.blog.security.support.UserDetail;
 
 import java.util.Optional;
 

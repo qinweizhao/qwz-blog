@@ -1,10 +1,10 @@
 package com.qinweizhao.blog.model.vo;
 
+import com.qinweizhao.blog.model.dto.BaseMetaDTO;
+import com.qinweizhao.blog.model.dto.post.BasePostDetailDTO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
-import com.qinweizhao.blog.model.dto.BaseMetaDTO;
-import com.qinweizhao.blog.model.dto.post.BasePostDetailDTO;
 
 import java.util.List;
 import java.util.Set;

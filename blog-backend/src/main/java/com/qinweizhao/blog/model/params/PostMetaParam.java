@@ -13,6 +13,5 @@ import lombok.ToString;
  */
 @Data
 @ToString(callSuper = true)
-@EqualsAndHashCode(callSuper = true)
-public class PostMetaParam extends BaseMetaParam<PostMeta> {
+public class PostMetaParam {
 }

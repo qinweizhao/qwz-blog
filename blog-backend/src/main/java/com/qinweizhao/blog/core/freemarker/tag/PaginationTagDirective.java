@@ -1,13 +1,13 @@
 package com.qinweizhao.blog.core.freemarker.tag;
 
 import cn.hutool.core.util.PageUtil;
-import freemarker.core.Environment;
-import freemarker.template.*;
-import org.springframework.stereotype.Component;
 import com.qinweizhao.blog.model.support.HaloConst;
 import com.qinweizhao.blog.model.support.Pagination;
 import com.qinweizhao.blog.model.support.RainbowPage;
 import com.qinweizhao.blog.service.OptionService;
+import freemarker.core.Environment;
+import freemarker.template.*;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -26,7 +26,7 @@ public class PaginationTagDirective implements TemplateDirectiveModel {
     private final OptionService optionService;
 
     public PaginationTagDirective(Configuration configuration,
-            OptionService optionService) {
+                                  OptionService optionService) {
         this.optionService = optionService;
         configuration.setSharedVariable("paginationTag", this);
     }

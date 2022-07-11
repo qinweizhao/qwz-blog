@@ -87,7 +87,7 @@ public interface UserService extends IService<User> {
      * @param userId      user id must not be null
      * @return updated user detail
      */
-    boolean updatePassword( String oldPassword, String newPassword, Integer userId);
+    boolean updatePassword(String oldPassword, String newPassword, Integer userId);
 
 
     /**

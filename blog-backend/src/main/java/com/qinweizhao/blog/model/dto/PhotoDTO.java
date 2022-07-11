@@ -1,16 +1,16 @@
 package com.qinweizhao.blog.model.dto;
 
 import lombok.Data;
-import com.qinweizhao.blog.model.dto.base.OutputConverter;
 
 import java.util.Date;
 
 /**
  * @author ryanwang
+ * @author qinweizhao
  * @date 2019-03-21
  */
 @Data
-public class PhotoDTO implements OutputConverter<PhotoDTO, Photo> {
+public class PhotoDTO {
 
     private Integer id;
 

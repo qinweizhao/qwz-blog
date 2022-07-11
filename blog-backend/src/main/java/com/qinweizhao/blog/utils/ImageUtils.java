@@ -1,8 +1,8 @@
 package com.qinweizhao.blog.utils;
 
+import com.qinweizhao.blog.exception.ImageFormatException;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.image4j.codec.ico.ICODecoder;
-import com.qinweizhao.blog.exception.ImageFormatException;
 
 import javax.imageio.ImageIO;
 import javax.imageio.ImageReader;

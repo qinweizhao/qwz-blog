@@ -1,10 +1,10 @@
 package com.qinweizhao.blog.security.context;
 
+import com.qinweizhao.blog.security.authentication.Authentication;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import com.qinweizhao.blog.security.authentication.Authentication;
 
 /**
  * Security context implementation.

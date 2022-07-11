@@ -153,7 +153,7 @@ class TimeBasedOneTimePasswordUtil {
      * @return True if the authNumber matched the calculated number within the specified window.
      */
     public static boolean validateCurrentNumber(String base32Secret, int authNumber, int windowMillis, long timeMillis,
-            int timeStepSeconds) throws GeneralSecurityException {
+                                                int timeStepSeconds) throws GeneralSecurityException {
         long fromTimeMillis = timeMillis;
         long toTimeMillis = timeMillis;
         if (windowMillis > 0) {

@@ -1,6 +1,13 @@
 package com.qinweizhao.blog.service.impl;
 
 import cn.hutool.core.util.IdUtil;
+import com.qinweizhao.blog.config.properties.HaloProperties;
+import com.qinweizhao.blog.event.StaticStorageChangedEvent;
+import com.qinweizhao.blog.exception.FileOperationException;
+import com.qinweizhao.blog.exception.ServiceException;
+import com.qinweizhao.blog.model.support.StaticFile;
+import com.qinweizhao.blog.service.StaticStorageService;
+import com.qinweizhao.blog.utils.FileUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.boot.context.event.ApplicationStartedEvent;
@@ -11,13 +18,6 @@ import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.springframework.web.multipart.MultipartFile;
-import com.qinweizhao.blog.config.properties.HaloProperties;
-import com.qinweizhao.blog.event.StaticStorageChangedEvent;
-import com.qinweizhao.blog.exception.FileOperationException;
-import com.qinweizhao.blog.exception.ServiceException;
-import com.qinweizhao.blog.model.support.StaticFile;
-import com.qinweizhao.blog.service.StaticStorageService;
-import com.qinweizhao.blog.utils.FileUtils;
 
 import javax.activation.MimetypesFileTypeMap;
 import java.io.IOException;
@@ -45,10 +45,10 @@ public class StaticStorageServiceImpl implements StaticStorageService, Applicati
     private final ApplicationEventPublisher eventPublisher;
 
     public StaticStorageServiceImpl(HaloProperties haloProperties,
-            ApplicationEventPublisher eventPublisher) throws IOException {
-        if (haloProperties.isProductionEnv()){
-            staticDir = Paths.get(haloProperties.getWorkDir(),"static");
-        }else {
+                                    ApplicationEventPublisher eventPublisher) throws IOException {
+        if (haloProperties.isProductionEnv()) {
+            staticDir = Paths.get(haloProperties.getWorkDir(), "static");
+        } else {
             staticDir = Paths.get(haloProperties.getWorkDir(), "blog-resource/static");
         }
 

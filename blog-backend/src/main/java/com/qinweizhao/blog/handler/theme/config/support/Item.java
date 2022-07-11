@@ -1,8 +1,8 @@
 package com.qinweizhao.blog.handler.theme.config.support;
 
-import lombok.Data;
 import com.qinweizhao.blog.model.enums.DataType;
 import com.qinweizhao.blog.model.enums.InputType;
+import lombok.Data;
 
 import java.util.List;
 import java.util.Objects;

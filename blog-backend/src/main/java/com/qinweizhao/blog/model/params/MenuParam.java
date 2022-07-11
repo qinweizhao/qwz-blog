@@ -1,8 +1,6 @@
 package com.qinweizhao.blog.model.params;
 
 import lombok.Data;
-import lombok.ToString;
-import com.qinweizhao.blog.model.dto.base.InputConverter;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
@@ -13,11 +11,11 @@ import javax.validation.constraints.Size;
  *
  * @author johnniang
  * @author ryanwang
+ * @author qinweizhao
  * @date 4/3/19
  */
 @Data
-@ToString
-public class MenuParam implements InputConverter<Menu> {
+public class MenuParam {
 
     private Integer id;
 

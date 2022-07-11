@@ -1,10 +1,9 @@
 package com.qinweizhao.blog.model.dto;
 
+import com.qinweizhao.blog.model.enums.CommentStatus;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
-import com.qinweizhao.blog.model.dto.base.OutputConverter;
-import com.qinweizhao.blog.model.enums.CommentStatus;
 
 import java.util.Date;
 
@@ -18,7 +17,7 @@ import java.util.Date;
 @Data
 @ToString
 @EqualsAndHashCode
-public class BaseCommentDTO implements OutputConverter<BaseCommentDTO, BaseComment> {
+public class BaseCommentDTO {
 
     private Long id;
 

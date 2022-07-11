@@ -1,7 +1,6 @@
 package com.qinweizhao.blog.model.params;
 
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 /**
@@ -12,7 +11,6 @@ import lombok.ToString;
  */
 @Data
 @ToString(callSuper = true)
-@EqualsAndHashCode(callSuper = true)
-public class PostCommentParam extends BaseCommentParam<PostComment> {
+public class PostCommentParam {
 
 }

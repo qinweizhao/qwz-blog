@@ -1,9 +1,7 @@
 package com.qinweizhao.blog.model.dto;
 
-import lombok.Data;
-import com.qinweizhao.blog.model.dto.base.OutputConverter;
-import com.qinweizhao.blog.model.entity.Attachment;
 import com.qinweizhao.blog.model.enums.AttachmentType;
+import lombok.Data;
 
 import java.util.Date;
 
@@ -14,7 +12,7 @@ import java.util.Date;
  * @date 3/21/19
  */
 @Data
-public class AttachmentDTO implements OutputConverter<AttachmentDTO, Attachment> {
+public class AttachmentDTO {
 
     private Integer id;
 

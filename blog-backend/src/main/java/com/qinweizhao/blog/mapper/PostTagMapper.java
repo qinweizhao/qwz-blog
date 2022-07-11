@@ -1,11 +1,11 @@
 package com.qinweizhao.blog.mapper;
 
-import com.qinweizhao.blog.model.entity.PostTag;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.qinweizhao.blog.model.entity.PostTag;
 
 /**
  * <p>
- *  Mapper 接口
+ * Mapper 接口
  * </p>
  *
  * @author qinweizhao

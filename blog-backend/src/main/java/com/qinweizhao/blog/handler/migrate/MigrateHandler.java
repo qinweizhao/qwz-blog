@@ -1,9 +1,9 @@
 package com.qinweizhao.blog.handler.migrate;
 
+import com.qinweizhao.blog.model.enums.MigrateType;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 import org.springframework.web.multipart.MultipartFile;
-import com.qinweizhao.blog.model.enums.MigrateType;
 
 /**
  * Migrate handler interface.

@@ -1,12 +1,12 @@
 package com.qinweizhao.blog.security.support;
 
+import com.qinweizhao.blog.exception.AuthenticationException;
+import com.qinweizhao.blog.model.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.springframework.lang.NonNull;
-import com.qinweizhao.blog.exception.AuthenticationException;
-import com.qinweizhao.blog.model.entity.User;
 
 /**
  * User detail.

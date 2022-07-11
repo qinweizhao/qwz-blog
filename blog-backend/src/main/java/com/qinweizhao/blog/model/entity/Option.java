@@ -2,6 +2,7 @@ package com.qinweizhao.blog.model.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.qinweizhao.blog.model.base.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -12,6 +13,7 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
+@TableName("config")
 public class Option extends BaseEntity {
 
     @TableId(value = "id", type = IdType.AUTO)

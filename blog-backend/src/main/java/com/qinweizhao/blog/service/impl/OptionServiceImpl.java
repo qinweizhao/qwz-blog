@@ -3,42 +3,28 @@ package com.qinweizhao.blog.service.impl;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.qiniu.common.Zone;
 import com.qiniu.storage.Region;
+import com.qinweizhao.blog.cache.AbstractStringCacheStore;
+import com.qinweizhao.blog.config.properties.HaloProperties;
+import com.qinweizhao.blog.event.options.OptionUpdatedEvent;
+import com.qinweizhao.blog.exception.MissingPropertyException;
 import com.qinweizhao.blog.mapper.OptionMapper;
+import com.qinweizhao.blog.model.dto.OptionDTO;
 import com.qinweizhao.blog.model.entity.Option;
+import com.qinweizhao.blog.model.enums.PostPermalinkType;
+import com.qinweizhao.blog.model.enums.ValueEnum;
+import com.qinweizhao.blog.model.properties.*;
+import com.qinweizhao.blog.service.OptionService;
+import com.qinweizhao.blog.utils.ServiceUtils;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.domain.Specification;
-import org.springframework.lang.NonNull;
-import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
-import com.qinweizhao.blog.cache.AbstractStringCacheStore;
-import com.qinweizhao.blog.config.properties.HaloProperties;
-import com.qinweizhao.blog.event.options.OptionUpdatedEvent;
-import com.qinweizhao.blog.exception.MissingPropertyException;
-import com.qinweizhao.blog.model.dto.OptionDTO;
-import com.qinweizhao.blog.model.dto.OptionSimpleDTO;
-import com.qinweizhao.blog.model.enums.PostPermalinkType;
-import com.qinweizhao.blog.model.enums.ValueEnum;
-import com.qinweizhao.blog.model.params.OptionParam;
-import com.qinweizhao.blog.model.params.OptionQuery;
-import com.qinweizhao.blog.model.properties.*;
-import com.qinweizhao.blog.service.OptionService;
-import com.qinweizhao.blog.service.base.AbstractCrudService;
-import com.qinweizhao.blog.utils.DateUtils;
-import com.qinweizhao.blog.utils.ServiceUtils;
-import com.qinweizhao.blog.utils.ValidationUtils;
 
-import javax.persistence.criteria.Predicate;
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * OptionService implementation class
@@ -62,115 +48,115 @@ public class OptionServiceImpl extends ServiceImpl<OptionMapper, Option> impleme
 
     private final HaloProperties haloProperties;
 
+//
+//    @Override
+//    @Transactional(rollbackFor = Exception.class)
+//    public void save(Map<String, Object> optionMap) {
+//        if (CollectionUtils.isEmpty(optionMap)) {
+//            return;
+//        }
+//
+//        Map<String, Option> optionKeyMap = ServiceUtils.convertToMap(this.list(), Option::getOptionKey);
+//
+//        List<Option> optionsToCreate = new LinkedList<>();
+//        List<Option> optionsToUpdate = new LinkedList<>();
+//
+//        optionMap.forEach((key, value) -> {
+//            Option oldOption = optionKeyMap.get(key);
+//            if (oldOption == null || !StringUtils.equals(oldOption.getOptionValue(), value.toString())) {
+//                OptionParam optionParam = new OptionParam();
+//                optionParam.setKey(key);
+//                optionParam.setValue(value.toString());
+//                ValidationUtils.validate(optionParam);
+//
+//                if (oldOption == null) {
+//                    // Create it
+////                    optionsToCreate.add(optionParam.convertTo());
+//                } else if (!StringUtils.equals(oldOption.getOptionValue(), value.toString())) {
+//                    // Update it
+////                    optionParam.update(oldOption);
+//                    optionsToUpdate.add(oldOption);
+//                }
+//            }
+//        });
+//
+//        // Update them
+//        this.updateBatchById(optionsToUpdate);
+//
+//        // Create them
+//        this.saveBatch(optionsToCreate);
+//
+//        if (!CollectionUtils.isEmpty(optionsToUpdate) || !CollectionUtils.isEmpty(optionsToCreate)) {
+//            // If there is something changed
+//            publishOptionUpdatedEvent();
+//        }
+//
+//    }
+//
+//    @Override
+//    public void save(List<OptionParam> optionParams) {
+//        if (CollectionUtils.isEmpty(optionParams)) {
+//            return;
+//        }
+//
+//        Map<String, Object> optionMap = ServiceUtils.convertToMap(optionParams, OptionParam::getKey, OptionParam::getValue);
+//        save(optionMap);
+//    }
+//
+//    @Override
+//    public void save(OptionParam optionParam) {
+//        Option option = optionParam.convertTo();
+//        save(option);
+//        publishOptionUpdatedEvent();
+//    }
+//
+//    @Override
+//    public void update(Integer optionId, OptionParam optionParam) {
+//        Option optionToUpdate = getById(optionId);
+//        optionParam.update(optionToUpdate);
+//        update(optionToUpdate);
+//        publishOptionUpdatedEvent();
+//    }
 
-    @Override
-    @Transactional
-    public void save(Map<String, Object> optionMap) {
-        if (CollectionUtils.isEmpty(optionMap)) {
-            return;
-        }
-
-        Map<String, Option> optionKeyMap = ServiceUtils.convertToMap(this.list(), Option::getOptionKey);
-
-        List<Option> optionsToCreate = new LinkedList<>();
-        List<Option> optionsToUpdate = new LinkedList<>();
-
-        optionMap.forEach((key, value) -> {
-            Option oldOption = optionKeyMap.get(key);
-            if (oldOption == null || !StringUtils.equals(oldOption.getOptionValue(), value.toString())) {
-                OptionParam optionParam = new OptionParam();
-                optionParam.setKey(key);
-                optionParam.setValue(value.toString());
-                ValidationUtils.validate(optionParam);
-
-                if (oldOption == null) {
-                    // Create it
-                    optionsToCreate.add(optionParam.convertTo());
-                } else if (!StringUtils.equals(oldOption.getOptionValue(), value.toString())) {
-                    // Update it
-                    optionParam.update(oldOption);
-                    optionsToUpdate.add(oldOption);
-                }
-            }
-        });
-
-        // Update them
-        this.updateBatchById(optionsToUpdate);
-
-        // Create them
-        this.saveBatch(optionsToCreate);
-
-        if (!CollectionUtils.isEmpty(optionsToUpdate) || !CollectionUtils.isEmpty(optionsToCreate)) {
-            // If there is something changed
-            publishOptionUpdatedEvent();
-        }
-
-    }
-
-    @Override
-    public void save(List<OptionParam> optionParams) {
-        if (CollectionUtils.isEmpty(optionParams)) {
-            return;
-        }
-
-        Map<String, Object> optionMap = ServiceUtils.convertToMap(optionParams, OptionParam::getKey, OptionParam::getValue);
-        save(optionMap);
-    }
-
-    @Override
-    public void save(OptionParam optionParam) {
-        Option option = optionParam.convertTo();
-        save(option);
-        publishOptionUpdatedEvent();
-    }
-
-    @Override
-    public void update(Integer optionId, OptionParam optionParam) {
-        Option optionToUpdate = getById(optionId);
-        optionParam.update(optionToUpdate);
-        update(optionToUpdate);
-        publishOptionUpdatedEvent();
-    }
-
-    @Override
-    public void saveProperty(PropertyEnum property, String value) {
-        Assert.notNull(property, "Property must not be null");
-
-        save(property.getValue(), value);
-    }
-
-    @Override
-    public void saveProperties(Map<? extends PropertyEnum, String> properties) {
-        if (CollectionUtils.isEmpty(properties)) {
-            return;
-        }
-
-        Map<String, Object> optionMap = new LinkedHashMap<>();
-
-        properties.forEach((property, value) -> optionMap.put(property.getValue(), value));
-
-        save(optionMap);
-    }
+//    @Override
+//    public void saveProperty(PropertyEnum property, String value) {
+//        Assert.notNull(property, "Property must not be null");
+//
+//        save(property.getValue(), value);
+//    }
+//
+//    @Override
+//    public void saveProperties(Map<? extends PropertyEnum, String> properties) {
+//        if (CollectionUtils.isEmpty(properties)) {
+//            return;
+//        }
+//
+//        Map<String, Object> optionMap = new LinkedHashMap<>();
+//
+//        properties.forEach((property, value) -> optionMap.put(property.getValue(), value));
+//
+//        save(optionMap);
+//    }
 
     @Override
     @SuppressWarnings("unchecked")
     public Map<String, Object> listOptions() {
         // Get options from cache
         return cacheStore.getAny(OPTIONS_KEY, Map.class).orElseGet(() -> {
-            List<Option> options = listAll();
+            List<Option> options = list();
 
-            Set<String> keys = ServiceUtils.fetchProperty(options, Option::getKey);
+            Set<String> keys = ServiceUtils.fetchProperty(options, Option::getOptionKey);
 
-            Map<String, Object> userDefinedOptionMap = ServiceUtils.convertToMap(options, Option::getKey, option -> {
-                String key = option.getKey();
+            Map<String, Object> userDefinedOptionMap = ServiceUtils.convertToMap(options, Option::getOptionKey, option -> {
+                String key = option.getOptionKey();
 
                 PropertyEnum propertyEnum = propertyEnumMap.get(key);
 
                 if (propertyEnum == null) {
-                    return option.getValue();
+                    return option.getOptionValue();
                 }
 
-                return PropertyEnum.convertTo(option.getValue(), propertyEnum);
+                return PropertyEnum.convertTo(option.getOptionValue(), propertyEnum);
             });
 
             Map<String, Object> result = new HashMap<>(userDefinedOptionMap);
@@ -222,47 +208,48 @@ public class OptionServiceImpl extends ServiceImpl<OptionMapper, Option> impleme
         return result;
     }
 
-    @Override
-    public Page<OptionSimpleDTO> pageDtosBy(Pageable pageable, OptionQuery optionQuery) {
-        Assert.notNull(pageable, "Page info must not be null");
+//    @Override
+//    public Page<OptionSimpleDTO> pageDtosBy(Pageable pageable, OptionQuery optionQuery) {
+//        Assert.notNull(pageable, "Page info must not be null");
+//
+//        com.baomidou.mybatisplus.extension.plugins.pagination.Page page = new com.baomidou.mybatisplus.extension.plugins.pagination.Page(1,10);
+//        Page<Option> optionPage = (Page<Option>) this.page(page);
+//
+//        return optionPage.map(this::convertToDto);
+//    }
 
-        Page<Option> optionPage = optionRepository.findAll(buildSpecByQuery(optionQuery), pageable);
+//    @Override
+//    public Option removePermanently(Integer id) {
+//        removeById(id);
+//        publishOptionUpdatedEvent();
+//        return null;
+//    }
 
-        return optionPage.map(this::convertToDto);
-    }
-
-    @Override
-    public Option removePermanently(Integer id) {
-        Option deletedOption = removeById(id);
-        publishOptionUpdatedEvent();
-        return deletedOption;
-    }
-
-    @NonNull
-    private Specification<Option> buildSpecByQuery(@NonNull OptionQuery optionQuery) {
-        Assert.notNull(optionQuery, "Option query must not be null");
-
-        return (Specification<Option>) (root, query, criteriaBuilder) -> {
-            List<Predicate> predicates = new LinkedList<>();
-
-            if (optionQuery.getType() != null) {
-                predicates.add(criteriaBuilder.equal(root.get("type"), optionQuery.getType()));
-            }
-
-            if (optionQuery.getKeyword() != null) {
-
-                String likeCondition = String.format("%%%s%%", StringUtils.strip(optionQuery.getKeyword()));
-
-                Predicate keyLike = criteriaBuilder.like(root.get("key"), likeCondition);
-
-                Predicate valueLike = criteriaBuilder.like(root.get("value"), likeCondition);
-
-                predicates.add(criteriaBuilder.or(keyLike, valueLike));
-            }
-
-            return query.where(predicates.toArray(new Predicate[0])).getRestriction();
-        };
-    }
+//    @NonNull
+//    private Specification<Option> buildSpecByQuery(@NonNull OptionQuery optionQuery) {
+//        Assert.notNull(optionQuery, "Option query must not be null");
+//
+//        return (Specification<Option>) (root, query, criteriaBuilder) -> {
+//            List<Predicate> predicates = new LinkedList<>();
+//
+//            if (optionQuery.getType() != null) {
+//                predicates.add(criteriaBuilder.equal(root.get("type"), optionQuery.getType()));
+//            }
+//
+//            if (optionQuery.getKeyword() != null) {
+//
+//                String likeCondition = String.format("%%%s%%", StringUtils.strip(optionQuery.getKeyword()));
+//
+//                Predicate keyLike = criteriaBuilder.like(root.get("key"), likeCondition);
+//
+//                Predicate valueLike = criteriaBuilder.like(root.get("value"), likeCondition);
+//
+//                predicates.add(criteriaBuilder.or(keyLike, valueLike));
+//            }
+//
+//            return query.where(predicates.toArray(new Predicate[0])).getRestriction();
+//        };
+//    }
 
     @Override
     public Object getByKeyOfNullable(String key) {
@@ -489,14 +476,14 @@ public class OptionServiceImpl extends ServiceImpl<OptionMapper, Option> impleme
         return getByProperty(SeoProperties.DESCRIPTION).orElse("").toString();
     }
 
-    @Override
-    public long getBirthday() {
-        return getByProperty(PrimaryProperties.BIRTHDAY, Long.class).orElseGet(() -> {
-            long currentTime = DateUtils.now().getTime();
-            saveProperty(PrimaryProperties.BIRTHDAY, String.valueOf(currentTime));
-            return currentTime;
-        });
-    }
+//    @Override
+//    public long getBirthday() {
+//        return getByProperty(PrimaryProperties.BIRTHDAY, Long.class).orElseGet(() -> {
+//            long currentTime = DateUtils.now().getTime();
+//            saveProperty(PrimaryProperties.BIRTHDAY, String.valueOf(currentTime));
+//            return currentTime;
+//        });
+//    }
 
     @Override
     public PostPermalinkType getPostPermalinkType() {
@@ -548,34 +535,34 @@ public class OptionServiceImpl extends ServiceImpl<OptionMapper, Option> impleme
         return getByPropertyOrDefault(OtherProperties.GLOBAL_ABSOLUTE_PATH_ENABLED, Boolean.class, true);
     }
 
-    @Override
-    public List<OptionDTO> replaceUrl(String oldUrl, String newUrl) {
-        List<Option> options = listAll();
-        List<Option> replaced = new ArrayList<>();
-        options.forEach(option -> {
-            if (StringUtils.isNotEmpty(option.getValue())) {
-                option.setValue(option.getValue().replaceAll(oldUrl, newUrl));
-            }
-            replaced.add(option);
-        });
-        List<Option> updated = updateInBatch(replaced);
-        publishOptionUpdatedEvent();
-        return updated.stream().map(this::convertToDto).collect(Collectors.toList());
-    }
-
-    @Override
-    public OptionSimpleDTO convertToDto(Option option) {
-        Assert.notNull(option, "Option must not be null");
-
-        return new OptionSimpleDTO().convertFrom(option);
-    }
+//    @Override
+//    public List<OptionDTO> replaceUrl(String oldUrl, String newUrl) {
+//        List<Option> options = listAll();
+//        List<Option> replaced = new ArrayList<>();
+//        options.forEach(option -> {
+//            if (StringUtils.isNotEmpty(option.getValue())) {
+//                option.setValue(option.getValue().replaceAll(oldUrl, newUrl));
+//            }
+//            replaced.add(option);
+//        });
+//        List<Option> updated = updateInBatch(replaced);
+//        publishOptionUpdatedEvent();
+//        return updated.stream().map(this::convertToDto).collect(Collectors.toList());
+//    }
+//
+//    @Override
+//    public OptionSimpleDTO convertToDto(Option option) {
+//        Assert.notNull(option, "Option must not be null");
+//
+//        return new OptionSimpleDTO().convertFrom(option);
+//    }
 
     private void cleanCache() {
         cacheStore.delete(OPTIONS_KEY);
     }
 
     private void publishOptionUpdatedEvent() {
-        flush();
+//        flush();
         cleanCache();
         eventPublisher.publishEvent(new OptionUpdatedEvent(this));
     }

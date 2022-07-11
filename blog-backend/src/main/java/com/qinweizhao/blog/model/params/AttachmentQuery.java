@@ -1,7 +1,7 @@
 package com.qinweizhao.blog.model.params;
 
-import lombok.Data;
 import com.qinweizhao.blog.model.enums.AttachmentType;
+import lombok.Data;
 
 /**
  * Attachment query params.

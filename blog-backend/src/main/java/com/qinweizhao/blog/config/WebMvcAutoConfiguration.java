@@ -1,11 +1,8 @@
 package com.qinweizhao.blog.config;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.qinweizhao.blog.config.properties.HaloProperties;
-import com.qinweizhao.blog.core.PageJacksonSerializer;
 import com.qinweizhao.blog.factory.StringToEnumConverterFactory;
 import com.qinweizhao.blog.model.support.HaloConst;
-import com.qinweizhao.blog.security.resolver.AuthenticationArgumentResolver;
 import freemarker.core.TemplateClassResolver;
 import freemarker.template.TemplateException;
 import freemarker.template.TemplateExceptionHandler;
@@ -13,18 +10,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.web.servlet.MultipartProperties;
 import org.springframework.boot.autoconfigure.web.servlet.WebMvcRegistrations;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.boot.jackson.JsonComponentModule;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
-import org.springframework.data.web.SortHandlerMethodArgumentResolver;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.http.CacheControl;
-import org.springframework.http.converter.HttpMessageConverter;
-import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
-import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -37,7 +26,6 @@ import org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver;
 import javax.annotation.Resource;
 import javax.servlet.MultipartConfigElement;
 import java.io.IOException;
-import java.util.List;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
@@ -56,37 +44,37 @@ public class WebMvcAutoConfiguration implements WebMvcConfigurer {
 
     private static final String FILE_PROTOCOL = "file:///";
 
-    @Resource
-    private PageableHandlerMethodArgumentResolver pageableResolver;
-
-    @Resource
-    private SortHandlerMethodArgumentResolver sortResolver;
+//    @Resource
+//    private PageableHandlerMethodArgumentResolver pageableResolver;
+//
+//    @Resource
+//    private SortHandlerMethodArgumentResolver sortResolver;
 
     @Resource
     private HaloProperties haloProperties;
 
 
-    @Override
-    public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
-        converters.stream()
-                .filter(c -> c instanceof MappingJackson2HttpMessageConverter)
-                .findFirst()
-                .ifPresent(converter -> {
-                    MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter = (MappingJackson2HttpMessageConverter) converter;
-                    Jackson2ObjectMapperBuilder builder = Jackson2ObjectMapperBuilder.json();
-                    JsonComponentModule module = new JsonComponentModule();
-                    module.addSerializer(PageImpl.class, new PageJacksonSerializer());
-                    ObjectMapper objectMapper = builder.modules(module).build();
-                    mappingJackson2HttpMessageConverter.setObjectMapper(objectMapper);
-                });
-    }
+//    @Override
+//    public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
+//        converters.stream()
+//                .filter(c -> c instanceof MappingJackson2HttpMessageConverter)
+//                .findFirst()
+//                .ifPresent(converter -> {
+//                    MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter = (MappingJackson2HttpMessageConverter) converter;
+//                    Jackson2ObjectMapperBuilder builder = Jackson2ObjectMapperBuilder.json();
+//                    JsonComponentModule module = new JsonComponentModule();
+//                    module.addSerializer(PageImpl.class, new PageJacksonSerializer());
+//                    ObjectMapper objectMapper = builder.modules(module).build();
+//                    mappingJackson2HttpMessageConverter.setObjectMapper(objectMapper);
+//                });
+//    }
 
-    @Override
-    public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
-        resolvers.add(new AuthenticationArgumentResolver());
-        resolvers.add(pageableResolver);
-        resolvers.add(sortResolver);
-    }
+//    @Override
+//    public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
+//        resolvers.add(new AuthenticationArgumentResolver());
+//        resolvers.add(pageableResolver);
+//        resolvers.add(sortResolver);
+//    }
 
     /**
      * 配置静态资源路径

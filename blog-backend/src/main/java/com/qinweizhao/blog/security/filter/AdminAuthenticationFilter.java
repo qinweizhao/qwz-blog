@@ -1,11 +1,6 @@
 package com.qinweizhao.blog.security.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.core.annotation.Order;
-import org.springframework.lang.NonNull;
-import org.springframework.stereotype.Component;
 import com.qinweizhao.blog.cache.AbstractStringCacheStore;
 import com.qinweizhao.blog.config.properties.HaloProperties;
 import com.qinweizhao.blog.exception.AuthenticationException;
@@ -19,6 +14,11 @@ import com.qinweizhao.blog.security.support.UserDetail;
 import com.qinweizhao.blog.security.util.SecurityUtils;
 import com.qinweizhao.blog.service.OptionService;
 import com.qinweizhao.blog.service.UserService;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.core.annotation.Order;
+import org.springframework.lang.NonNull;
+import org.springframework.stereotype.Component;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -45,11 +45,11 @@ public class AdminAuthenticationFilter extends AbstractAuthenticationFilter {
     private final UserService userService;
 
     public AdminAuthenticationFilter(AbstractStringCacheStore cacheStore,
-            UserService userService,
-            HaloProperties haloProperties,
-            OptionService optionService,
-            OneTimeTokenService oneTimeTokenService,
-            ObjectMapper objectMapper) {
+                                     UserService userService,
+                                     HaloProperties haloProperties,
+                                     OptionService optionService,
+                                     OneTimeTokenService oneTimeTokenService,
+                                     ObjectMapper objectMapper) {
         super(haloProperties, optionService, cacheStore, oneTimeTokenService);
         this.userService = userService;
         this.haloProperties = haloProperties;

@@ -1,13 +1,13 @@
 package com.qinweizhao.blog.config;
 
+import com.qinweizhao.blog.config.properties.HaloProperties;
+import com.qinweizhao.blog.event.StaticStorageChangedEvent;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationListener;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.util.PathMatcher;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
-import com.qinweizhao.blog.config.properties.HaloProperties;
-import com.qinweizhao.blog.event.StaticStorageChangedEvent;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;

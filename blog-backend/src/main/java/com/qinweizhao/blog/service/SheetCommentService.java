@@ -1,13 +1,5 @@
 package com.qinweizhao.blog.service;
 
-import org.springframework.data.domain.Page;
-import org.springframework.lang.NonNull;
-import org.springframework.lang.Nullable;
-import com.qinweizhao.blog.model.vo.SheetCommentWithSheetVO;
-import com.qinweizhao.blog.service.base.BaseCommentService;
-
-import java.util.List;
-
 /**
  * Sheet comment service interface.
  *
@@ -15,32 +7,32 @@ import java.util.List;
  * @author ryanwang
  * @date 2019-04-24
  */
-public interface SheetCommentService extends BaseCommentService<SheetComment> {
+public interface SheetCommentService {
 
-    /**
-     * Converts to with sheet vo
-     *
-     * @param comment comment
-     * @return a comment with sheet vo
-     */
-    @NonNull
-    SheetCommentWithSheetVO convertToWithSheetVo(@NonNull SheetComment comment);
-
-    /**
-     * Converts to with sheet vo
-     *
-     * @param sheetComments sheet comments
-     * @return a sheet comments with sheet vo
-     */
-    @NonNull
-    List<SheetCommentWithSheetVO> convertToWithSheetVo(@Nullable List<SheetComment> sheetComments);
-
-    /**
-     * Converts to with sheet vo
-     *
-     * @param sheetCommentPage sheet comments
-     * @return a page of sheet comments with sheet vo
-     */
-    @NonNull
-    Page<SheetCommentWithSheetVO> convertToWithSheetVo(@NonNull Page<SheetComment> sheetCommentPage);
+//    /**
+//     * Converts to with sheet vo
+//     *
+//     * @param comment comment
+//     * @return a comment with sheet vo
+//     */
+//    @NonNull
+//    SheetCommentWithSheetVO convertToWithSheetVo(@NonNull SheetComment comment);
+//
+//    /**
+//     * Converts to with sheet vo
+//     *
+//     * @param sheetComments sheet comments
+//     * @return a sheet comments with sheet vo
+//     */
+//    @NonNull
+//    List<SheetCommentWithSheetVO> convertToWithSheetVo(@Nullable List<SheetComment> sheetComments);
+//
+//    /**
+//     * Converts to with sheet vo
+//     *
+//     * @param sheetCommentPage sheet comments
+//     * @return a page of sheet comments with sheet vo
+//     */
+//    @NonNull
+//    Page<SheetCommentWithSheetVO> convertToWithSheetVo(@NonNull Page<SheetComment> sheetCommentPage);
 }

@@ -3,7 +3,6 @@ package com.qinweizhao.blog.model.dto;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
-import com.qinweizhao.blog.model.dto.base.OutputConverter;
 
 /**
  * Menu output dto.
@@ -15,7 +14,7 @@ import com.qinweizhao.blog.model.dto.base.OutputConverter;
 @Data
 @EqualsAndHashCode
 @ToString
-public class MenuDTO implements OutputConverter<MenuDTO, Menu> {
+public class MenuDTO {
 
     private Integer id;
 

@@ -1,8 +1,8 @@
 package com.qinweizhao.blog.security.util;
 
+import com.qinweizhao.blog.model.entity.User;
 import org.springframework.lang.NonNull;
 import org.springframework.util.Assert;
-import com.qinweizhao.blog.model.entity.User;
 
 /**
  * Security utilities.

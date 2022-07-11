@@ -1,5 +1,8 @@
 package com.qinweizhao.blog.mail;
 
+import com.qinweizhao.blog.exception.EmailException;
+import com.qinweizhao.blog.model.properties.EmailProperties;
+import com.qinweizhao.blog.service.OptionService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.lang.NonNull;
@@ -8,9 +11,6 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.util.Assert;
-import com.qinweizhao.blog.exception.EmailException;
-import com.qinweizhao.blog.model.properties.EmailProperties;
-import com.qinweizhao.blog.service.OptionService;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.InternetAddress;

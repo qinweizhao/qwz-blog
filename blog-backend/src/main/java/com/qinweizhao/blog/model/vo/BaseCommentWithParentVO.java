@@ -1,10 +1,10 @@
 package com.qinweizhao.blog.model.vo;
 
+import com.qinweizhao.blog.model.dto.BaseCommentDTO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
-import com.qinweizhao.blog.model.dto.BaseCommentDTO;
 
 /**
  * Base comment with parent comment vo.

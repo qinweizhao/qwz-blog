@@ -1,5 +1,6 @@
 package com.qinweizhao.blog.utils;
 
+import com.qinweizhao.blog.model.support.HaloConst;
 import com.vladsch.flexmark.ext.attributes.AttributesExtension;
 import com.vladsch.flexmark.ext.autolink.AutolinkExtension;
 import com.vladsch.flexmark.ext.emoji.EmojiExtension;
@@ -22,7 +23,6 @@ import com.vladsch.flexmark.util.ast.Node;
 import com.vladsch.flexmark.util.data.DataHolder;
 import com.vladsch.flexmark.util.data.MutableDataSet;
 import org.apache.commons.lang3.StringUtils;
-import com.qinweizhao.blog.model.support.HaloConst;
 
 import java.util.Arrays;
 import java.util.List;
@@ -39,18 +39,18 @@ import java.util.regex.Pattern;
 public class MarkdownUtils {
 
     private static final DataHolder OPTIONS = new MutableDataSet().set(Parser.EXTENSIONS, Arrays.asList(AttributesExtension.create(),
-            AutolinkExtension.create(),
-            EmojiExtension.create(),
-            EscapedCharacterExtension.create(),
-            StrikethroughExtension.create(),
-            TaskListExtension.create(),
-            InsExtension.create(),
-            MediaTagsExtension.create(),
-            TablesExtension.create(),
-            TocExtension.create(),
-            SuperscriptExtension.create(),
-            YamlFrontMatterExtension.create(),
-            GitLabExtension.create()))
+                    AutolinkExtension.create(),
+                    EmojiExtension.create(),
+                    EscapedCharacterExtension.create(),
+                    StrikethroughExtension.create(),
+                    TaskListExtension.create(),
+                    InsExtension.create(),
+                    MediaTagsExtension.create(),
+                    TablesExtension.create(),
+                    TocExtension.create(),
+                    SuperscriptExtension.create(),
+                    YamlFrontMatterExtension.create(),
+                    GitLabExtension.create()))
             .set(TocExtension.LEVELS, 255)
             .set(TablesExtension.WITH_CAPTION, false)
             .set(TablesExtension.COLUMN_SPANS, false)

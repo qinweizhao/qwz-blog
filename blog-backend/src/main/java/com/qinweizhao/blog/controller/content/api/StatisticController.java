@@ -1,12 +1,12 @@
 package com.qinweizhao.blog.controller.content.api;
 
+import com.qinweizhao.blog.model.dto.StatisticDTO;
+import com.qinweizhao.blog.model.dto.StatisticWithUserDTO;
+import com.qinweizhao.blog.service.StatisticService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.qinweizhao.blog.model.dto.StatisticDTO;
-import com.qinweizhao.blog.model.dto.StatisticWithUserDTO;
-import com.qinweizhao.blog.service.StatisticService;
 
 /**
  * Content statistic controller.

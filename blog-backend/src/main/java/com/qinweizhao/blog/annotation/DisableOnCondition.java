@@ -1,7 +1,7 @@
 package com.qinweizhao.blog.annotation;
 
-import org.springframework.core.annotation.AliasFor;
 import com.qinweizhao.blog.model.enums.Mode;
+import org.springframework.core.annotation.AliasFor;
 
 import java.lang.annotation.*;
 

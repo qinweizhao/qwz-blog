@@ -1,10 +1,7 @@
 package com.qinweizhao.blog.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.qinweizhao.blog.model.dto.CategoryDTO;
 import com.qinweizhao.blog.model.entity.Category;
-import com.qinweizhao.blog.model.vo.CategoryVO;
-import org.springframework.data.domain.Sort;
 import org.springframework.lang.Nullable;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,19 +20,20 @@ public interface CategoryService extends IService<Category> {
 
     /**
      * 列表
+     *
      * @return List
      */
     @Override
     List<Category> list();
 
-
-    /**
-     * Lists as category tree.
-     *
-     * @param sort sort info must not be null
-     * @return a category tree
-     */
-    List<CategoryVO> listAsTree(Sort sort);
+//
+//    /**
+//     * Lists as category tree.
+//     *
+//     * @param sort sort info must not be null
+//     * @return a category tree
+//     */
+//    List<CategoryVO> listAsTree(Sort sort);
 
     /**
      * Get category by slug
@@ -73,6 +71,7 @@ public interface CategoryService extends IService<Category> {
 
     /**
      * 保存分类
+     *
      * @param category category
      * @return boolean
      */

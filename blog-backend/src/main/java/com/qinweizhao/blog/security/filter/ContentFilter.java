@@ -1,13 +1,13 @@
 package com.qinweizhao.blog.security.filter;
 
-import org.springframework.core.annotation.Order;
-import org.springframework.stereotype.Component;
 import com.qinweizhao.blog.cache.AbstractStringCacheStore;
 import com.qinweizhao.blog.config.properties.HaloProperties;
 import com.qinweizhao.blog.security.handler.ContentAuthenticationFailureHandler;
 import com.qinweizhao.blog.security.service.OneTimeTokenService;
 import com.qinweizhao.blog.service.OptionService;
 import com.qinweizhao.blog.utils.HaloUtils;
+import org.springframework.core.annotation.Order;
+import org.springframework.stereotype.Component;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -26,9 +26,9 @@ import java.io.IOException;
 public class ContentFilter extends AbstractAuthenticationFilter {
 
     public ContentFilter(HaloProperties haloProperties,
-            OptionService optionService,
-            AbstractStringCacheStore cacheStore,
-            OneTimeTokenService oneTimeTokenService) {
+                         OptionService optionService,
+                         AbstractStringCacheStore cacheStore,
+                         OneTimeTokenService oneTimeTokenService) {
         super(haloProperties, optionService, cacheStore, oneTimeTokenService);
 
         addUrlPatterns("/**");

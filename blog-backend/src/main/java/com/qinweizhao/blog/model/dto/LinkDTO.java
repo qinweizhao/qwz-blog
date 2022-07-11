@@ -1,7 +1,6 @@
 package com.qinweizhao.blog.model.dto;
 
 import lombok.Data;
-import com.qinweizhao.blog.model.dto.base.OutputConverter;
 
 /**
  * Link output dto.
@@ -10,7 +9,7 @@ import com.qinweizhao.blog.model.dto.base.OutputConverter;
  * @date 2019/3/21
  */
 @Data
-public class LinkDTO implements OutputConverter<LinkDTO, Link> {
+public class LinkDTO {
 
     private Integer id;
 

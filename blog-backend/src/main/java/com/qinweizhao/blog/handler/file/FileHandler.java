@@ -1,14 +1,14 @@
 package com.qinweizhao.blog.handler.file;
 
+import com.qinweizhao.blog.exception.FileOperationException;
+import com.qinweizhao.blog.model.enums.AttachmentType;
+import com.qinweizhao.blog.model.support.UploadResult;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.MediaType;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 import org.springframework.web.multipart.MultipartFile;
-import com.qinweizhao.blog.exception.FileOperationException;
-import com.qinweizhao.blog.model.enums.AttachmentType;
-import com.qinweizhao.blog.model.support.UploadResult;
 
 import static com.qinweizhao.blog.model.support.HaloConst.FILE_SEPARATOR;
 

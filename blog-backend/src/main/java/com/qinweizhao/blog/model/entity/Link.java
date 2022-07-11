@@ -7,8 +7,6 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 /**
-
- *
  * @author qinweizhao
  * @since 2022-07-08
  */

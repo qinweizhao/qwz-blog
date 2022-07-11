@@ -15,7 +15,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
 import javax.validation.Valid;
 
 /**
@@ -36,6 +35,7 @@ public class AdminController {
 
     /**
      * 登陆
+     *
      * @param loginParam loginParam
      * @return AuthToken
      */
@@ -57,6 +57,7 @@ public class AdminController {
 
     /**
      * 重置密码
+     *
      * @param param param
      */
     @PostMapping("password/code")
@@ -68,6 +69,7 @@ public class AdminController {
 
     /**
      * 重置密码（通过验证码重置密码）
+     *
      * @param param param
      */
     @PutMapping("password/reset")
@@ -79,6 +81,7 @@ public class AdminController {
 
     /**
      * 刷新令牌
+     *
      * @param refreshToken refreshToken
      * @return AuthToken
      */
@@ -88,20 +91,22 @@ public class AdminController {
         return adminService.refreshToken(refreshToken);
     }
 
-    /**
-     * 获取计数信息
-     * @return StatisticDTO
-     */
-    @GetMapping("counts")
-    @ApiOperation("")
-    @Deprecated
-    public StatisticDTO getCount() {
-        return adminService.getCount();
-    }
+//    /**
+//     * 获取计数信息
+//     *
+//     * @return StatisticDTO
+//     */
+//    @GetMapping("counts")
+//    @ApiOperation("")
+//    @Deprecated
+//    public StatisticDTO getCount() {
+//        return adminService.getCount();
+//    }
 
 
     /**
      * 获取环境信息
+     *
      * @return EnvironmentDTO
      */
     @GetMapping("environments")
@@ -121,6 +126,7 @@ public class AdminController {
 
     /**
      * 获取日志文件内容
+     *
      * @param lines lines
      * @return BaseResponse
      */
