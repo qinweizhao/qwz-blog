@@ -187,10 +187,10 @@ CREATE TABLE `meta` (
 ) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 -- ----------------------------
--- Table structure for option
+-- Table structure for config
 -- ----------------------------
-DROP TABLE IF EXISTS `option`;
-CREATE TABLE `option` (
+DROP TABLE IF EXISTS `config`;
+CREATE TABLE `config` (
   `id` int NOT NULL AUTO_INCREMENT,
   `create_time` datetime(6) DEFAULT NULL,
   `update_time` datetime(6) DEFAULT NULL,
