@@ -3,7 +3,9 @@ package com.qinweizhao.blog.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.qinweizhao.blog.exception.ForbiddenException;
 import com.qinweizhao.blog.exception.NotFoundException;
+import com.qinweizhao.blog.model.dto.UserDTO;
 import com.qinweizhao.blog.model.entity.User;
+import com.qinweizhao.blog.model.param.UserUpdateParam;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 
@@ -125,4 +127,10 @@ public interface UserService extends IService<User> {
     boolean verifyUser(@NonNull String username, @NonNull String password);
 
 
+    /**
+     * 更新用户资料
+     * @param userParam userParam
+     * @return UserDTO
+     */
+    UserDTO updateProfile(UserUpdateParam userParam);
 }

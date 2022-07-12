@@ -2,6 +2,7 @@ package com.qinweizhao.blog.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.qinweizhao.blog.model.entity.Post;
+import com.qinweizhao.blog.model.enums.PostStatus;
 
 /**
  * Post service interface.
@@ -12,6 +13,28 @@ import com.qinweizhao.blog.model.entity.Post;
  * @date 2019-03-14
  */
 public interface PostService extends IService<Post> {
+
+
+    /**
+     * 统计文章个数
+     * @param published published
+     * @return Long
+     */
+    long countByStatus(PostStatus published);
+
+    /**
+     * 阅读次数
+     * @return long
+     */
+    long countVisit();
+
+
+    /**
+     * 阅读次数
+     * @return long
+     */
+    long countLike();
+
 //
 //    /**
 //     * Pages posts.

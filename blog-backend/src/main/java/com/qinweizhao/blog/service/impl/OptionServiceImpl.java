@@ -14,10 +14,12 @@ import com.qinweizhao.blog.model.enums.PostPermalinkType;
 import com.qinweizhao.blog.model.enums.ValueEnum;
 import com.qinweizhao.blog.model.properties.*;
 import com.qinweizhao.blog.service.OptionService;
+import com.qinweizhao.blog.utils.DateUtils;
 import com.qinweizhao.blog.utils.ServiceUtils;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
@@ -139,8 +141,7 @@ public class OptionServiceImpl extends ServiceImpl<OptionMapper, Option> impleme
 //    }
 
     @Override
-    @SuppressWarnings("unchecked")
-    public Map<String, Object> listOptions() {
+    public @NotNull Map<String, Object> listOptions() {
         // Get options from cache
         return cacheStore.getAny(OPTIONS_KEY, Map.class).orElseGet(() -> {
             List<Option> options = list();
@@ -533,6 +534,68 @@ public class OptionServiceImpl extends ServiceImpl<OptionMapper, Option> impleme
     @Override
     public Boolean isEnabledAbsolutePath() {
         return getByPropertyOrDefault(OtherProperties.GLOBAL_ABSOLUTE_PATH_ENABLED, Boolean.class, true);
+    }
+
+    @Override
+    public long getBirthday() {
+        return getByProperty(PrimaryProperties.BIRTHDAY, Long.class).orElseGet(() -> {
+            long currentTime = DateUtils.now().getTime();
+            this.saveProperty(PrimaryProperties.BIRTHDAY, String.valueOf(currentTime));
+            return currentTime;
+        });
+    }
+
+    @Override
+    public void saveProperty(PropertyEnum property, String value) {
+        this.save(property.getValue(), value);
+    }
+
+    private void save(String key, String value) {
+        this.save(Collections.singletonMap(key, value));
+    }
+
+
+    @Override
+    public void save(Map<String, Object> optionMap) {
+        if (CollectionUtils.isEmpty(optionMap)) {
+            return;
+        }
+
+        Map<String, Option> optionKeyMap = ServiceUtils.convertToMap(this.list(), Option::getOptionKey);
+
+        List<Option> optionsToCreate = new LinkedList<>();
+        List<Option> optionsToUpdate = new LinkedList<>();
+
+        optionMap.forEach((key, value) -> {
+            Option oldOption = optionKeyMap.get(key);
+            if (oldOption == null || !StringUtils.equals(oldOption.getOptionValue(), value.toString())) {
+
+                Option option = new Option();
+                option.setOptionKey(key);
+                option.setOptionValue(String.valueOf(value));
+
+                if (oldOption == null) {
+                    // Create it
+                    optionsToCreate.add(option);
+                } else if (!StringUtils.equals(oldOption.getOptionValue(), value.toString())) {
+                    // Update it
+                    option.setId(oldOption.getId());
+                    optionsToUpdate.add(option);
+                }
+            }
+        });
+
+        // Update
+        this.updateBatchById(optionsToUpdate);
+
+        // Create
+        this.saveBatch(optionsToCreate);
+
+        if (!CollectionUtils.isEmpty(optionsToUpdate) || !CollectionUtils.isEmpty(optionsToCreate)) {
+            // If there is something changed
+            publishOptionUpdatedEvent();
+        }
+
     }
 
 //    @Override

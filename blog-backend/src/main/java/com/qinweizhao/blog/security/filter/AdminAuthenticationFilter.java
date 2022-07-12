@@ -11,7 +11,7 @@ import com.qinweizhao.blog.security.context.SecurityContextImpl;
 import com.qinweizhao.blog.security.handler.DefaultAuthenticationFailureHandler;
 import com.qinweizhao.blog.security.service.OneTimeTokenService;
 import com.qinweizhao.blog.security.support.UserDetail;
-import com.qinweizhao.blog.security.util.SecurityUtils;
+import com.qinweizhao.blog.security.util.AuthUtils;
 import com.qinweizhao.blog.service.OptionService;
 import com.qinweizhao.blog.service.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -98,7 +98,7 @@ public class AdminAuthenticationFilter extends AbstractAuthenticationFilter {
         }
 
         // Get user id from cache
-        Optional<Integer> optionalUserId = cacheStore.getAny(SecurityUtils.buildTokenAccessKey(token), Integer.class);
+        Optional<Integer> optionalUserId = cacheStore.getAny(AuthUtils.buildTokenAccessKey(token), Integer.class);
 
         if (!optionalUserId.isPresent()) {
             throw new AuthenticationException("Token 已过期或不存在").setErrorData(token);

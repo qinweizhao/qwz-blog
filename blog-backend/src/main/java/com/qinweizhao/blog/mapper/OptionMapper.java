@@ -31,4 +31,5 @@ public interface OptionMapper extends BaseMapper<Option> {
         return delete(new LambdaQueryWrapper<Option>()
                 .eq(Option::getOptionKey, key));
     }
+
 }

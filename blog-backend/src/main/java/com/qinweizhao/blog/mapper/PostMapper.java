@@ -1,5 +1,7 @@
 package com.qinweizhao.blog.mapper;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.qinweizhao.blog.model.entity.Post;
 import com.qinweizhao.blog.model.enums.PostStatus;
@@ -12,19 +14,7 @@ import org.apache.ibatis.annotations.Param;
  */
 public interface PostMapper extends BaseMapper<Post> {
 
-    /**
-     * 计算所有帖子访问次数
-     *
-     * @return Long
-     */
-    Long countVisit();
 
-    /**
-     * 计算所有帖子喜欢
-     *
-     * @return Long
-     */
-    Long countLike();
 
     /**
      * 按条件查询
@@ -35,12 +25,6 @@ public interface PostMapper extends BaseMapper<Post> {
      * @return Post
      */
     Post selectByTimeAndSlug(@Param("year") Integer year, @Param("month") Integer month, @Param("slug") String slug);
-//    default Post findBy(@Param("year") Integer year, @Param("month") Integer month, @Param("slug") String slug) {
-//        return selectOne(new LambdaQueryWrapper<Post>()
-//                .eq(Post::getCreateTime, year)
-//                .eq(Post::getCreateTime, month)
-//                .eq(Post::getSlug, slug));
-//    }
 
     /**
      * 按条件查询
@@ -87,4 +71,30 @@ public interface PostMapper extends BaseMapper<Post> {
     Post selectByTimeAndSlug(@Param("year") Integer year, @Param("month") Integer month, @Param("day") Integer day, @Param("slug") String slug, @Param("status") PostStatus status);
 
 
+    /**
+     * 统计文章个数
+     *
+     * @param published published
+     * @return Long
+     */
+    default long selectCountByStatus(PostStatus published) {
+        return this.selectCount(new LambdaQueryWrapper<Post>()
+                .eq(Post::getStatus, published.getValue())
+        );
+    }
+
+    /**
+     * 统计所有文章的阅读次数
+     *
+     * @return long
+     */
+    long selectCountVisit();
+
+
+    /**
+     * 计算所有文章喜欢
+     *
+     * @return Long
+     */
+    long selectCountLike();
 }

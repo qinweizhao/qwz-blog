@@ -2,7 +2,6 @@ package com.qinweizhao.blog.service.impl;
 
 import cn.hutool.core.lang.Validator;
 import cn.hutool.core.util.RandomUtil;
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.qinweizhao.blog.cache.AbstractStringCacheStore;
 import com.qinweizhao.blog.config.properties.HaloProperties;
 import com.qinweizhao.blog.event.logger.LogEvent;
@@ -10,14 +9,9 @@ import com.qinweizhao.blog.exception.BadRequestException;
 import com.qinweizhao.blog.exception.NotFoundException;
 import com.qinweizhao.blog.exception.ServiceException;
 import com.qinweizhao.blog.mail.MailService;
-import com.qinweizhao.blog.model.base.BaseEntity;
 import com.qinweizhao.blog.model.dto.EnvironmentDTO;
-import com.qinweizhao.blog.model.dto.StatisticDTO;
-import com.qinweizhao.blog.model.entity.Comment;
 import com.qinweizhao.blog.model.entity.User;
-import com.qinweizhao.blog.model.enums.CommentStatus;
 import com.qinweizhao.blog.model.enums.LogType;
-import com.qinweizhao.blog.model.enums.PostStatus;
 import com.qinweizhao.blog.model.params.LoginParam;
 import com.qinweizhao.blog.model.params.ResetPasswordParam;
 import com.qinweizhao.blog.model.properties.EmailProperties;
@@ -25,7 +19,7 @@ import com.qinweizhao.blog.model.support.HaloConst;
 import com.qinweizhao.blog.security.authentication.Authentication;
 import com.qinweizhao.blog.security.context.SecurityContextHolder;
 import com.qinweizhao.blog.security.token.AuthToken;
-import com.qinweizhao.blog.security.util.SecurityUtils;
+import com.qinweizhao.blog.security.util.AuthUtils;
 import com.qinweizhao.blog.service.*;
 import com.qinweizhao.blog.utils.FileUtils;
 import com.qinweizhao.blog.utils.HaloUtils;
@@ -160,16 +154,16 @@ public class AdminServiceImpl implements AdminService {
         User user = authentication.getDetail().getUser();
 
         // Clear access token
-        cacheStore.getAny(SecurityUtils.buildAccessTokenKey(user), String.class).ifPresent(accessToken -> {
+        cacheStore.getAny(AuthUtils.buildAccessTokenKey(user), String.class).ifPresent(accessToken -> {
             // Delete token
-            cacheStore.delete(SecurityUtils.buildTokenAccessKey(accessToken));
-            cacheStore.delete(SecurityUtils.buildAccessTokenKey(user));
+            cacheStore.delete(AuthUtils.buildTokenAccessKey(accessToken));
+            cacheStore.delete(AuthUtils.buildAccessTokenKey(user));
         });
 
         // Clear refresh token
-        cacheStore.getAny(SecurityUtils.buildRefreshTokenKey(user), String.class).ifPresent(refreshToken -> {
-            cacheStore.delete(SecurityUtils.buildTokenRefreshKey(refreshToken));
-            cacheStore.delete(SecurityUtils.buildRefreshTokenKey(user));
+        cacheStore.getAny(AuthUtils.buildRefreshTokenKey(user), String.class).ifPresent(refreshToken -> {
+            cacheStore.delete(AuthUtils.buildTokenRefreshKey(refreshToken));
+            cacheStore.delete(AuthUtils.buildRefreshTokenKey(user));
         });
 
         eventPublisher.publishEvent(new LogEvent(this, user.getUsername(), LogType.LOGGED_OUT, user.getNickname()));
@@ -286,18 +280,18 @@ public class AdminServiceImpl implements AdminService {
     public AuthToken refreshToken(@NonNull String refreshToken) {
         Assert.hasText(refreshToken, "Refresh token must not be blank");
 
-        Integer userId = cacheStore.getAny(SecurityUtils.buildTokenRefreshKey(refreshToken), Integer.class)
+        Integer userId = cacheStore.getAny(AuthUtils.buildTokenRefreshKey(refreshToken), Integer.class)
                 .orElseThrow(() -> new BadRequestException("登录状态已失效，请重新登录").setErrorData(refreshToken));
 
         // Get user info
         User user = userService.getById(userId);
 
         // Remove all token
-        cacheStore.getAny(SecurityUtils.buildAccessTokenKey(user), String.class)
-                .ifPresent(accessToken -> cacheStore.delete(SecurityUtils.buildTokenAccessKey(accessToken)));
-        cacheStore.delete(SecurityUtils.buildTokenRefreshKey(refreshToken));
-        cacheStore.delete(SecurityUtils.buildAccessTokenKey(user));
-        cacheStore.delete(SecurityUtils.buildRefreshTokenKey(user));
+        cacheStore.getAny(AuthUtils.buildAccessTokenKey(user), String.class)
+                .ifPresent(accessToken -> cacheStore.delete(AuthUtils.buildTokenAccessKey(accessToken)));
+        cacheStore.delete(AuthUtils.buildTokenRefreshKey(refreshToken));
+        cacheStore.delete(AuthUtils.buildAccessTokenKey(user));
+        cacheStore.delete(AuthUtils.buildRefreshTokenKey(user));
 
         return buildAuthToken(user);
     }
@@ -414,12 +408,12 @@ public class AdminServiceImpl implements AdminService {
         token.setRefreshToken(HaloUtils.randomUUIDWithoutDash());
 
         // 缓存这些令牌，仅用于清除
-        cacheStore.putAny(SecurityUtils.buildAccessTokenKey(user), token.getAccessToken(), ACCESS_TOKEN_EXPIRED_SECONDS, TimeUnit.SECONDS);
-        cacheStore.putAny(SecurityUtils.buildRefreshTokenKey(user), token.getRefreshToken(), REFRESH_TOKEN_EXPIRED_DAYS, TimeUnit.DAYS);
+        cacheStore.putAny(AuthUtils.buildAccessTokenKey(user), token.getAccessToken(), ACCESS_TOKEN_EXPIRED_SECONDS, TimeUnit.SECONDS);
+        cacheStore.putAny(AuthUtils.buildRefreshTokenKey(user), token.getRefreshToken(), REFRESH_TOKEN_EXPIRED_DAYS, TimeUnit.DAYS);
 
         // 使用用户 ID 缓存这些令牌
-        cacheStore.putAny(SecurityUtils.buildTokenAccessKey(token.getAccessToken()), user.getId(), ACCESS_TOKEN_EXPIRED_SECONDS, TimeUnit.SECONDS);
-        cacheStore.putAny(SecurityUtils.buildTokenRefreshKey(token.getRefreshToken()), user.getId(), REFRESH_TOKEN_EXPIRED_DAYS, TimeUnit.DAYS);
+        cacheStore.putAny(AuthUtils.buildTokenAccessKey(token.getAccessToken()), user.getId(), ACCESS_TOKEN_EXPIRED_SECONDS, TimeUnit.SECONDS);
+        cacheStore.putAny(AuthUtils.buildTokenRefreshKey(token.getRefreshToken()), user.getId(), REFRESH_TOKEN_EXPIRED_DAYS, TimeUnit.DAYS);
 
         return token;
     }

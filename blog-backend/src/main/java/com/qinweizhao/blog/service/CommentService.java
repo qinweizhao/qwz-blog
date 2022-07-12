@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.qinweizhao.blog.model.base.BaseEntity;
 import com.qinweizhao.blog.model.entity.Comment;
+import com.qinweizhao.blog.model.enums.CommentStatus;
 
 /**
  * Post comment service interface.
@@ -12,7 +13,14 @@ import com.qinweizhao.blog.model.entity.Comment;
  * @author ryanwang
  * @date 2019-03-14
  */
-public interface CommentService<C1 extends BaseMapper<Comment>, C extends BaseEntity> extends IService<Comment> {
+public interface CommentService extends IService<Comment> {
+
+    /**
+     * 统计文章个数
+     * @param published published
+     * @return Long
+     */
+    long countByStatus(CommentStatus published);
 
 //
 //    /**

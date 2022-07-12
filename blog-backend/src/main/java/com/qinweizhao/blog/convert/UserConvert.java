@@ -3,6 +3,7 @@ package com.qinweizhao.blog.convert;
 
 import com.qinweizhao.blog.model.dto.UserDTO;
 import com.qinweizhao.blog.model.entity.User;
+import com.qinweizhao.blog.model.param.UserUpdateParam;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
@@ -19,8 +20,18 @@ public interface UserConvert {
      * convert
      *
      * @param user user
-     * @return Post
+     * @return UserDTO
      */
     UserDTO convert(User user);
+
+
+    /**
+     * convert
+     *
+     * @param userParam userParam
+     * @return User
+     */
+    User convert(UserUpdateParam userParam);
+
 
 }

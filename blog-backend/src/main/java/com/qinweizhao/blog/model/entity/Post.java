@@ -29,7 +29,7 @@ public class Post extends BaseEntity {
 
     private String formatContent;
 
-    private Long likes;
+    private Long like;
 
     private String metaDescription;
 
@@ -55,7 +55,7 @@ public class Post extends BaseEntity {
 
     private String url;
 
-    private Long visits;
+    private Long visit;
 
     private Long wordCount;
 

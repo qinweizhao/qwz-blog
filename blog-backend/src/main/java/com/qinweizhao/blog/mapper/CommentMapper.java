@@ -60,7 +60,7 @@ public interface CommentMapper extends BaseMapper<Comment> {
      */
     default long selectCountByStatus(CommentStatus published) {
         return selectCount(new LambdaQueryWrapper<Comment>()
-                .eq(Comment::getStatus, published)
+                .eq(Comment::getStatus, published.getValue())
         );
     }
 }

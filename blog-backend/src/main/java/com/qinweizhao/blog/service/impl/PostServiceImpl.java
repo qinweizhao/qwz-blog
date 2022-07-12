@@ -6,6 +6,7 @@ import com.qinweizhao.blog.mapper.PostMapper;
 import com.qinweizhao.blog.model.base.BaseEntity;
 import com.qinweizhao.blog.model.entity.Comment;
 import com.qinweizhao.blog.model.entity.Post;
+import com.qinweizhao.blog.model.enums.PostStatus;
 import com.qinweizhao.blog.service.*;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,6 +27,23 @@ import org.springframework.stereotype.Service;
 @Service
 @AllArgsConstructor
 public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements PostService {
+
+
+
+    @Override
+    public long countByStatus(PostStatus published) {
+        return this.baseMapper.selectCountByStatus(published);
+    }
+
+    @Override
+    public long countVisit() {
+        return this.baseMapper.selectCountVisit();
+    }
+
+    @Override
+    public long countLike() {
+        return this.baseMapper.selectCountLike();
+    }
 
 
 //    private final TagService tagService;

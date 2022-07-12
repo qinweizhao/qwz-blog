@@ -1,45 +1,25 @@
-//package com.qinweizhao.blog.service.impl;
-//
-//import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-//import com.google.common.base.Objects;
-//import com.qinweizhao.blog.convert.CategoryConvert;
-//import com.qinweizhao.blog.exception.AlreadyExistsException;
-//import com.qinweizhao.blog.exception.NotFoundException;
-//import com.qinweizhao.blog.mapper.CategoryMapper;
-//import com.qinweizhao.blog.model.entity.Category;
-//import com.qinweizhao.blog.model.vo.CategoryVO;
-//import com.qinweizhao.blog.service.CategoryService;
-//import com.qinweizhao.blog.service.OptionService;
-//import com.qinweizhao.blog.service.PostCategoryService;
-//import com.qinweizhao.blog.utils.ServiceUtils;
-//import lombok.AllArgsConstructor;
-//import lombok.extern.slf4j.Slf4j;
-//import org.springframework.data.domain.Sort;
-//import org.springframework.lang.NonNull;
-//import org.springframework.stereotype.Service;
-//import org.springframework.transaction.annotation.Transactional;
-//import org.springframework.util.Assert;
-//import org.springframework.util.CollectionUtils;
-//
-//import java.util.Collections;
-//import java.util.LinkedList;
-//import java.util.List;
-//import java.util.stream.Collectors;
-//
-//import static com.qinweizhao.blog.model.support.HaloConst.URL_SEPARATOR;
-//
-///**
-// * CategoryService implementation class.
-// *
-// * @author ryanwang
-// * @author johnniang
-// * @date 2019-03-14
-// */
-//@Slf4j
-//@Service
-//@AllArgsConstructor
-//public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> implements CategoryService {
-//
+package com.qinweizhao.blog.service.impl;
+
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.qinweizhao.blog.mapper.CategoryMapper;
+import com.qinweizhao.blog.model.entity.Category;
+import com.qinweizhao.blog.service.CategoryService;
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+
+/**
+ * CategoryService implementation class.
+ *
+ * @author ryanwang
+ * @author johnniang
+ * @date 2019-03-14
+ */
+@Slf4j
+@Service
+@AllArgsConstructor
+public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> implements CategoryService {
+
 //    private final PostCategoryService postCategoryService;
 //
 //    private final OptionService optionService;
@@ -199,5 +179,5 @@
 //        Assert.notNull(parentId, "Parent id must not be null");
 //        return this.baseMapper.selectListByParentId(parentId);
 //    }
-//
-//}
+
+}

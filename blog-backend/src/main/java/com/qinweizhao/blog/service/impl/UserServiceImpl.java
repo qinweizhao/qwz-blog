@@ -3,6 +3,7 @@ package com.qinweizhao.blog.service.impl;
 import cn.hutool.crypto.digest.BCrypt;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.qinweizhao.blog.cache.AbstractStringCacheStore;
+import com.qinweizhao.blog.convert.UserConvert;
 import com.qinweizhao.blog.event.logger.LogEvent;
 import com.qinweizhao.blog.event.user.UserUpdatedEvent;
 import com.qinweizhao.blog.exception.BadRequestException;
@@ -10,8 +11,11 @@ import com.qinweizhao.blog.exception.ForbiddenException;
 import com.qinweizhao.blog.exception.NotFoundException;
 import com.qinweizhao.blog.exception.ServiceException;
 import com.qinweizhao.blog.mapper.UserMapper;
+import com.qinweizhao.blog.model.dto.UserDTO;
 import com.qinweizhao.blog.model.entity.User;
 import com.qinweizhao.blog.model.enums.LogType;
+import com.qinweizhao.blog.model.param.UserUpdateParam;
+import com.qinweizhao.blog.security.util.SecurityUtils;
 import com.qinweizhao.blog.service.UserService;
 import com.qinweizhao.blog.utils.DateUtils;
 import com.qinweizhao.blog.utils.HaloUtils;
@@ -152,6 +156,14 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     public boolean verifyUser(String username, String password) {
         User user = getCurrentUser().orElseThrow(() -> new ServiceException("未查询到博主信息"));
         return user.getUsername().equals(username) && user.getEmail().equals(password);
+    }
+
+    @Override
+    public UserDTO updateProfile(UserUpdateParam userParam) {
+        User user = UserConvert.INSTANCE.convert(userParam);
+        user.setId(SecurityUtils.getUserId());
+        this.updateById(user);
+        return UserConvert.INSTANCE.convert(user);
     }
 
 }

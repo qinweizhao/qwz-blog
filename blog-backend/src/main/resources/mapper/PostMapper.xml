@@ -4,46 +4,37 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.qinweizhao.blog.model.entity.Post">
-        <id column="id" property="id" />
-        <result column="type" property="type" />
-        <result column="disallow_comment" property="disallowComment" />
-        <result column="edit_time" property="editTime" />
-        <result column="editor_type" property="editorType" />
-        <result column="format_content" property="formatContent" />
-        <result column="likes" property="likes" />
-        <result column="meta_description" property="metaDescription" />
-        <result column="meta_keywords" property="metaKeywords" />
-        <result column="original_content" property="originalContent" />
-        <result column="password" property="password" />
-        <result column="slug" property="slug" />
-        <result column="status" property="status" />
-        <result column="summary" property="summary" />
-        <result column="template" property="template" />
-        <result column="thumbnail" property="thumbnail" />
-        <result column="title" property="title" />
-        <result column="top_priority" property="topPriority" />
-        <result column="url" property="url" />
-        <result column="visits" property="visits" />
-        <result column="word_count" property="wordCount" />
-        <result column="create_time" property="createTime" />
-        <result column="update_time" property="updateTime" />
+        <id column="id" property="id"/>
+        <result column="type" property="type"/>
+        <result column="disallow_comment" property="disallowComment"/>
+        <result column="edit_time" property="editTime"/>
+        <result column="editor_type" property="editorType"/>
+        <result column="format_content" property="formatContent"/>
+        <result column="likes" property="like"/>
+        <result column="meta_description" property="metaDescription"/>
+        <result column="meta_keywords" property="metaKeywords"/>
+        <result column="original_content" property="originalContent"/>
+        <result column="password" property="password"/>
+        <result column="slug" property="slug"/>
+        <result column="status" property="status"/>
+        <result column="summary" property="summary"/>
+        <result column="template" property="template"/>
+        <result column="thumbnail" property="thumbnail"/>
+        <result column="title" property="title"/>
+        <result column="top_priority" property="topPriority"/>
+        <result column="url" property="url"/>
+        <result column="visits" property="visit"/>
+        <result column="word_count" property="wordCount"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        type, id, disallow_comment, edit_time, editor_type, format_content, likes, meta_description, meta_keywords, original_content, password, slug, status, summary, template, thumbnail, title, top_priority, url, visits, word_count, create_time, update_time
+        type
+        , id, disallow_comment, edit_time, editor_type, format_content, likes, meta_description, meta_keywords, original_content, password, slug, status, summary, template, thumbnail, title, top_priority, url, visits, word_count, create_time, update_time
     </sql>
 
-
-    <select id="countVisit" resultType="java.lang.Long">
-        select sum(p.visits)
-        from Post p
-    </select>
-
-    <select id="countLike" resultType="java.lang.Long">
-        select sum(p.likes)
-        from Post p
-    </select>
 
     <select id="selectByTimeAndSlug" resultType="com.qinweizhao.blog.model.entity.Post">
         select *
@@ -68,6 +59,17 @@
         <if test="status != null and status != ''">
             and p.status = #{status}
         </if>
+    </select>
+
+
+    <select id="selectCountVisit" resultType="java.lang.Long">
+        select sum(p.visit)
+        from post p
+    </select>
+
+    <select id="selectCountLike" resultType="java.lang.Long">
+        select sum(p.like)
+        from Post p
     </select>
 
 </mapper>

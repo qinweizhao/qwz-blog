@@ -37,13 +37,19 @@ public interface OptionService extends IService<Option> {
 
     String OPTIONS_KEY = "options";
 
-//    /**
-//     * Save multiple options
-//     *
-//     * @param options options
-//     */
-//    @Transactional
-//    void save(@Nullable Map<String, Object> options);
+    /**
+     * 保存属性
+     * @param property property
+     * @param value value
+     */
+    void saveProperty(PropertyEnum property, String value);
+
+    /**
+     * Save multiple options
+     *
+     * @param options options
+     */
+    void save(Map<String, Object> options);
 //
 //    /**
 //     * Save multiple options
@@ -68,14 +74,7 @@ public interface OptionService extends IService<Option> {
 //     */
 //    void update(@NonNull Integer optionId, @NonNull OptionParam optionParam);
 //
-//    /**
-//     * Saves a property.
-//     *
-//     * @param property must not be null
-//     * @param value    could be null
-//     */
-//    @Transactional
-//    void saveProperty(@NonNull PropertyEnum property, @Nullable String value);
+
 
     /**
      * Saves blog properties.
@@ -449,6 +448,13 @@ public interface OptionService extends IService<Option> {
      * @return true or false.
      */
     Boolean isEnabledAbsolutePath();
+
+
+    /**
+     * 博客注册时间
+     * @return long
+     */
+    long getBirthday();
 //
 //    /**
 //     * Replace option url in batch.

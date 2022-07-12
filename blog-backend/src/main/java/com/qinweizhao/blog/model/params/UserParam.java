@@ -1,7 +1,5 @@
 package com.qinweizhao.blog.model.params;
 
-import com.qinweizhao.blog.model.dto.base.InputConverter;
-import com.qinweizhao.blog.model.entity.User;
 import com.qinweizhao.blog.model.support.CreateCheck;
 import com.qinweizhao.blog.model.support.UpdateCheck;
 import lombok.Data;
@@ -18,7 +16,7 @@ import javax.validation.constraints.Size;
  * @date 3/19/19
  */
 @Data
-public class UserParam implements InputConverter<User> {
+public class UserParam {
 
     @NotBlank(message = "用户名不能为空", groups = {CreateCheck.class, UpdateCheck.class})
     @Size(max = 50, message = "用户名的字符长度不能超过 {max}", groups = {CreateCheck.class, UpdateCheck.class})

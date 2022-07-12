@@ -18,13 +18,13 @@ import java.util.List;
 public interface CategoryService extends IService<Category> {
 
 
-    /**
-     * 列表
-     *
-     * @return List
-     */
-    @Override
-    List<Category> list();
+//    /**
+//     * 列表
+//     *
+//     * @return List
+//     */
+//    @Override
+//    List<Category> list();
 
 //
 //    /**
@@ -34,46 +34,46 @@ public interface CategoryService extends IService<Category> {
 //     * @return a category tree
 //     */
 //    List<CategoryVO> listAsTree(Sort sort);
-
-    /**
-     * Get category by slug
-     *
-     * @param slug slug
-     * @return Category
-     */
-    Category getBySlug(String slug);
-
-
-    /**
-     * Get Category by name.
-     *
-     * @param name name
-     * @return Category
-     */
-    @Nullable
-    Category getByName(String name);
-
-    /**
-     * Removes category and post categories.
-     *
-     * @param categoryId category id must not be null
-     */
-    @Transactional
-    void removeCategoryAndPostCategoryBy(Integer categoryId);
-
-    /**
-     * List categories by parent id.
-     *
-     * @param id parent id.
-     * @return list of category.
-     */
-    List<Category> listByParentId(Integer id);
-
-    /**
-     * 保存分类
-     *
-     * @param category category
-     * @return boolean
-     */
-    boolean saveCategory(Category category);
+//
+//    /**
+//     * Get category by slug
+//     *
+//     * @param slug slug
+//     * @return Category
+//     */
+//    Category getBySlug(String slug);
+//
+//
+//    /**
+//     * Get Category by name.
+//     *
+//     * @param name name
+//     * @return Category
+//     */
+//    @Nullable
+//    Category getByName(String name);
+//
+//    /**
+//     * Removes category and post categories.
+//     *
+//     * @param categoryId category id must not be null
+//     */
+//    @Transactional
+//    void removeCategoryAndPostCategoryBy(Integer categoryId);
+//
+//    /**
+//     * List categories by parent id.
+//     *
+//     * @param id parent id.
+//     * @return list of category.
+//     */
+//    List<Category> listByParentId(Integer id);
+//
+//    /**
+//     * 保存分类
+//     *
+//     * @param category category
+//     * @return boolean
+//     */
+//    boolean saveCategory(Category category);
 }
