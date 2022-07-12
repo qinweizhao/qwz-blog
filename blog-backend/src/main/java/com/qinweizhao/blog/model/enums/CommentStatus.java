@@ -1,5 +1,8 @@
 package com.qinweizhao.blog.model.enums;
 
+import lombok.AllArgsConstructor;
+import org.checkerframework.checker.units.qual.A;
+
 /**
  * Comment status.
  *
@@ -13,7 +16,7 @@ public enum CommentStatus implements ValueEnum<Integer> {
     PUBLISHED(0),
 
     /**
-     * Auditing status.
+     * 待审核
      */
     AUDITING(1),
 

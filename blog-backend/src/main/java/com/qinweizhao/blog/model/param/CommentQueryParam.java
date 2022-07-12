@@ -9,6 +9,7 @@ import lombok.EqualsAndHashCode;
  * Comment query params.
  *
  * @author ryanwang
+ * @author qinweizhao
  * @date 2019/04/18
  */
 @Data
@@ -16,12 +17,12 @@ import lombok.EqualsAndHashCode;
 public class CommentQueryParam extends PageParam {
 
     /**
-     * Keyword.
+     * 关键字
      */
     private String keyword;
 
     /**
-     * Comment status.
+     * 评论状态
      */
     private CommentStatus status;
 }

@@ -1,8 +1,10 @@
 package com.qinweizhao.blog.service.impl;
 
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.qinweizhao.blog.convert.CommentConvert;
 import com.qinweizhao.blog.mapper.CommentMapper;
+import com.qinweizhao.blog.model.base.PageResult;
+import com.qinweizhao.blog.model.dto.CommentDTO;
 import com.qinweizhao.blog.model.entity.Comment;
 import com.qinweizhao.blog.model.enums.CommentStatus;
 import com.qinweizhao.blog.model.param.CommentQueryParam;
@@ -62,8 +64,9 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
     }
 
     @Override
-    public Page<Comment> pageComment(CommentQueryParam commentQueryParam) {
-        return this.baseMapper.selectPageComment(commentQueryParam);
+    public PageResult<CommentDTO>  pageComment(CommentQueryParam commentQueryParam) {
+        PageResult<Comment> result = this.baseMapper.selectPageComment(commentQueryParam);
+        return CommentConvert.INSTANCE.convertToDTO(result);
     }
 
 }

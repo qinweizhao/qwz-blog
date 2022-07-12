@@ -1,9 +1,8 @@
 package com.qinweizhao.blog.service;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.qinweizhao.blog.model.base.BaseEntity;
+import com.qinweizhao.blog.model.base.PageResult;
+import com.qinweizhao.blog.model.dto.CommentDTO;
 import com.qinweizhao.blog.model.entity.Comment;
 import com.qinweizhao.blog.model.enums.CommentStatus;
 import com.qinweizhao.blog.model.param.CommentQueryParam;
@@ -19,6 +18,7 @@ public interface CommentService extends IService<Comment> {
 
     /**
      * 统计文章个数
+     *
      * @param published published
      * @return Long
      */
@@ -26,10 +26,11 @@ public interface CommentService extends IService<Comment> {
 
     /**
      * 分页
+     *
      * @param commentQueryParam commentQueryParam
      * @return Page
      */
-    Page<Comment> pageComment(CommentQueryParam commentQueryParam);
+    PageResult<CommentDTO>  pageComment(CommentQueryParam commentQueryParam);
 
 //
 //    /**

@@ -1,8 +1,12 @@
 package com.qinweizhao.blog.controller.admin.api;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.qinweizhao.blog.convert.CommentConvert;
+import com.qinweizhao.blog.model.base.PageResult;
+import com.qinweizhao.blog.model.dto.CommentDTO;
 import com.qinweizhao.blog.model.entity.Comment;
 import com.qinweizhao.blog.model.param.CommentQueryParam;
+import com.qinweizhao.blog.model.vo.PostCommentWithPostVO;
 import com.qinweizhao.blog.service.CommentService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/api/admin/posts/comments")
-public class CommentController {
+public class PostCommentController {
 
     private final CommentService commentService;
 //
@@ -33,9 +37,9 @@ public class CommentController {
      */
     @GetMapping
 //    public Page<PostCommentWithPostVO> page(CommentQueryParam param) {
-    public Page<Comment> page(CommentQueryParam param) {
-        Page<Comment> commentPage = commentService.pageComment(param);
-        return commentPage;
+    public PageResult<PostCommentWithPostVO> page(CommentQueryParam param) {
+        PageResult<CommentDTO> result = commentService.pageComment(param);
+        return CommentConvert.INSTANCE.convertToVO(result);
     }
 //
 //    @GetMapping("latest")
