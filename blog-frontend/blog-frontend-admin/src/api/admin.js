@@ -11,36 +11,10 @@ adminApi.counts = () => {
   })
 }
 
-adminApi.isInstalled = () => {
-  return service({
-    url: `${baseUrl}/is_installed`,
-    method: 'get'
-  })
-}
-
 adminApi.environments = () => {
   return service({
     url: `${baseUrl}/environments`,
     method: 'get'
-  })
-}
-
-adminApi.install = data => {
-  return service({
-    url: `${baseUrl}/installations`,
-    data: data,
-    method: 'post'
-  })
-}
-
-adminApi.loginPreCheck = (username, password) => {
-  return service({
-    url: `${baseUrl}/login/precheck`,
-    data: {
-      username: username,
-      password: password
-    },
-    method: 'post'
   })
 }
 

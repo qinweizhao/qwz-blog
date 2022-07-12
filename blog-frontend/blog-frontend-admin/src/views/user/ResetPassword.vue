@@ -50,8 +50,7 @@
 </template>
 
 <script>
-import apiClient from '@/utils/api-client'
-
+import adminApi from '@/api/admin'
 export default {
   data() {
     const validateConfirmPassword = (rule, value, callback) => {
@@ -88,7 +87,7 @@ export default {
         if (valid) {
           const hideLoading = this.$message.loading('发送中...', 0)
           try {
-            await apiClient.sendResetPasswordCode(this.form.model)
+            await adminApi.sendResetPasswordCode(this.form.model)
             this.$message.success('邮件发送成功，五分钟内有效')
           } catch (e) {
             this.$log.error('Failed send code: ', e)
@@ -106,7 +105,7 @@ export default {
         this.$refs.passwordForm.validate(async valid => {
           if (valid) {
             try {
-              await apiClient.resetPassword(this.form.model)
+              await adminApi.resetPassword(this.form.model)
               await this.$router.push({ name: 'Login' })
               this.$message.success('密码重置成功！')
             } catch (e) {

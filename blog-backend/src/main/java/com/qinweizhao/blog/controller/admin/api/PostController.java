@@ -5,6 +5,7 @@
 //import com.qinweizhao.blog.model.dto.post.BasePostDetailDTO;
 //import com.qinweizhao.blog.model.dto.post.BasePostMinimalDTO;
 //import com.qinweizhao.blog.model.dto.post.BasePostSimpleDTO;
+//import com.qinweizhao.blog.model.entity.Post;
 //import com.qinweizhao.blog.model.enums.PostPermalinkType;
 //import com.qinweizhao.blog.model.enums.PostStatus;
 //import com.qinweizhao.blog.model.params.PostContentParam;
