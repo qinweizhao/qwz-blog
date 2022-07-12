@@ -3,6 +3,7 @@ package com.qinweizhao.blog.config;
 import com.qinweizhao.blog.config.properties.HaloProperties;
 import com.qinweizhao.blog.factory.StringToEnumConverterFactory;
 import com.qinweizhao.blog.model.support.HaloConst;
+import com.qinweizhao.blog.security.resolver.AuthenticationArgumentResolver;
 import freemarker.core.TemplateClassResolver;
 import freemarker.template.TemplateException;
 import freemarker.template.TemplateExceptionHandler;
@@ -14,6 +15,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.http.CacheControl;
+import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -26,6 +28,7 @@ import org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver;
 import javax.annotation.Resource;
 import javax.servlet.MultipartConfigElement;
 import java.io.IOException;
+import java.util.List;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
@@ -69,12 +72,11 @@ public class WebMvcAutoConfiguration implements WebMvcConfigurer {
 //                });
 //    }
 
-//    @Override
-//    public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
-//        resolvers.add(new AuthenticationArgumentResolver());
-//        resolvers.add(pageableResolver);
-//        resolvers.add(sortResolver);
-//    }
+
+    @Override
+    public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
+        resolvers.add(new AuthenticationArgumentResolver());
+    }
 
     /**
      * 配置静态资源路径
