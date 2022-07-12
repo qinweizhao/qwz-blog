@@ -5,7 +5,7 @@
       :model="form.model"
       :rules="form.rules"
       layout="vertical"
-      @keyup.enter.native="form.needAuthCode ? handleLogin() : handleLoginClick()"
+      @keyup.enter.native="handleLogin()"
     >
       <a-form-model-item v-if="!form.needAuthCode" prop="username">
         <a-input v-model="form.model.username" placeholder="用户名/邮箱">
@@ -17,18 +17,8 @@
           <a-icon slot="prefix" style="color: rgba(0, 0, 0, 0.25)" type="lock" />
         </a-input>
       </a-form-model-item>
-      <a-form-model-item v-if="form.needAuthCode" prop="authcode">
-        <a-input v-model="form.model.authcode" :maxLength="6" placeholder="两步验证码">
-          <a-icon slot="prefix" style="color: rgba(0, 0, 0, 0.25)" type="safety-certificate" />
-        </a-input>
-      </a-form-model-item>
       <a-form-model-item>
-        <a-button
-          :block="true"
-          :loading="form.logging"
-          type="primary"
-          @click="form.needAuthCode ? handleLogin() : handleLoginClick()"
-        >
+        <a-button :block="true" :loading="form.logging" type="primary" @click="handleLogin()">
           {{ buttonName }}
         </a-button>
       </a-form-model-item>
@@ -41,24 +31,15 @@ import { mapActions } from 'vuex'
 export default {
   name: 'LoginForm',
   data() {
-    const mfaValidate = (rule, value, callback) => {
-      if (!value && this.form.needAuthCode) {
-        callback(new Error('* 请输入两步验证码'))
-      } else {
-        callback()
-      }
-    }
     return {
       form: {
         model: {
-          authcode: null,
           password: null,
           username: null
         },
         rules: {
           username: [{ required: true, message: '* 用户名/邮箱不能为空', trigger: ['change'] }],
-          password: [{ required: true, message: '* 密码不能为空', trigger: ['change'] }],
-          authcode: [{ validator: mfaValidate, trigger: ['change'] }]
+          password: [{ required: true, message: '* 密码不能为空', trigger: ['change'] }]
         },
         needAuthCode: false,
         logging: false
@@ -72,15 +53,6 @@ export default {
   },
   methods: {
     ...mapActions(['login', 'refreshUserCache', 'refreshOptionsCache']),
-    handleLoginClick() {
-      const _this = this
-      _this.$refs.loginForm.validate(valid => {
-        if (valid) {
-          _this.form.logging = true
-          _this.handleLogin()
-        }
-      })
-    },
     handleLogin() {
       const _this = this
       _this.$refs.loginForm.validate(valid => {
