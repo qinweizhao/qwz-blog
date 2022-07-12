@@ -1,6 +1,6 @@
 package com.qinweizhao.blog.model.vo;
 
-import com.qinweizhao.blog.model.dto.BaseCommentDTO;
+import com.qinweizhao.blog.model.dto.CommentDTO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -16,17 +16,17 @@ import lombok.extern.slf4j.Slf4j;
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
 @Slf4j
-public class BaseCommentWithParentVO extends BaseCommentDTO implements Cloneable {
+public class CommentWithParentVO extends CommentDTO implements Cloneable {
 
     /**
      * Parent comment.
      */
-    private BaseCommentWithParentVO parent;
+    private CommentWithParentVO parent;
 
     @Override
-    public BaseCommentWithParentVO clone() {
+    public CommentWithParentVO clone() {
         try {
-            return (BaseCommentWithParentVO) super.clone();
+            return (CommentWithParentVO) super.clone();
         } catch (CloneNotSupportedException e) {
             log.error("Clone not support exception", e);
             return null;

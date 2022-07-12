@@ -1,62 +1,42 @@
-//package com.qinweizhao.blog.controller.admin.api;
-//
-//import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-//import com.qinweizhao.blog.convert.CommentConvert;
-//import com.qinweizhao.blog.model.base.BaseEntity;
-//import com.qinweizhao.blog.model.dto.BaseCommentDTO;
-//import com.qinweizhao.blog.model.entity.Comment;
-//import com.qinweizhao.blog.model.enums.CommentStatus;
-//import com.qinweizhao.blog.model.params.CommentQuery;
-//import com.qinweizhao.blog.model.params.PostCommentParam;
-//import com.qinweizhao.blog.model.vo.BaseCommentVO;
-//import com.qinweizhao.blog.model.vo.BaseCommentWithParentVO;
-//import com.qinweizhao.blog.model.vo.PostCommentWithPostVO;
-//import com.qinweizhao.blog.service.CommentService;
-//import com.qinweizhao.blog.service.OptionService;
-//import io.swagger.annotations.ApiOperation;
-//import lombok.AllArgsConstructor;
-//import org.springframework.data.domain.Page;
-//import org.springframework.data.domain.PageRequest;
-//import org.springframework.data.domain.Pageable;
-//import org.springframework.data.domain.Sort;
-//import org.springframework.data.web.PageableDefault;
-//import org.springframework.data.web.SortDefault;
-//import org.springframework.web.bind.annotation.*;
-//
-//import javax.validation.Valid;
-//import java.util.List;
-//
-//import static org.springframework.data.domain.Sort.Direction.DESC;
-//
-///**
-// * comment controller.
-// *
-// * @author johnniang
-// * @author ryanwang
-// * @date 2019-03-29
-// */
-//@RestController
-//@AllArgsConstructor
-//@RequestMapping("/api/admin/posts/comments")
-//public class CommentController {
-//
-//    private final CommentService<BaseMapper<Comment>, BaseEntity> commentService;
+package com.qinweizhao.blog.controller.admin.api;
+
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.qinweizhao.blog.model.entity.Comment;
+import com.qinweizhao.blog.model.param.CommentQueryParam;
+import com.qinweizhao.blog.service.CommentService;
+import lombok.AllArgsConstructor;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+/**
+ * comment controller.
+ *
+ * @author johnniang
+ * @author ryanwang
+ * @date 2019-03-29
+ */
+@RestController
+@AllArgsConstructor
+@RequestMapping("/api/admin/posts/comments")
+public class CommentController {
+
+    private final CommentService commentService;
 //
 //    private final OptionService optionService;
-//
-//    /**
-//     * Lists post comments
-//     *
-//     * @param pageable     pageable
-//     * @param commentQuery commentQuery
-//     * @return Page
-//     */
-//    @GetMapping
-//    public Page<PostCommentWithPostVO> page(@PageableDefault(sort = "createTime", direction = DESC) Pageable pageable,
-//                                            CommentQuery commentQuery) {
-//        Page<Comment> commentPage = commentService.page(pageable, commentQuery);
-//        return CommentConvert.INSTANCE.convertToWithPostVo(commentPage);
-//    }
+
+    /**
+     * 分页
+     *
+     * @param param param
+     * @return Page
+     */
+    @GetMapping
+//    public Page<PostCommentWithPostVO> page(CommentQueryParam param) {
+    public Page<Comment> page(CommentQueryParam param) {
+        Page<Comment> commentPage = commentService.pageComment(param);
+        return commentPage;
+    }
 //
 //    @GetMapping("latest")
 //    @ApiOperation("Pages post latest comments")
@@ -71,9 +51,10 @@
 //
 //    /**
 //     * 用树状视图列出帖子评论
+//     *
 //     * @param postId postId
-//     * @param page postId
-//     * @param sort sort
+//     * @param page   postId
+//     * @param sort   sort
 //     * @return Page
 //     */
 //    @GetMapping("{postId:\\d+}/tree_view")
@@ -145,4 +126,4 @@
 //
 //        return commentService.convertTo(commentService.update(commentToUpdate));
 //    }
-//}
+}

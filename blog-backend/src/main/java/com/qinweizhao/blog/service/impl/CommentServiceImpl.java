@@ -1,28 +1,16 @@
 package com.qinweizhao.blog.service.impl;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.qinweizhao.blog.exception.BadRequestException;
-import com.qinweizhao.blog.exception.ForbiddenException;
 import com.qinweizhao.blog.mapper.CommentMapper;
-import com.qinweizhao.blog.mapper.PostMapper;
-import com.qinweizhao.blog.model.base.BaseEntity;
 import com.qinweizhao.blog.model.entity.Comment;
-import com.qinweizhao.blog.model.entity.Post;
 import com.qinweizhao.blog.model.enums.CommentStatus;
-import com.qinweizhao.blog.model.enums.CommentViolationTypeEnum;
-import com.qinweizhao.blog.model.params.CommentQuery;
-import com.qinweizhao.blog.model.properties.CommentProperties;
-import com.qinweizhao.blog.service.CommentBlackListService;
+import com.qinweizhao.blog.model.param.CommentQueryParam;
 import com.qinweizhao.blog.service.CommentService;
-import com.qinweizhao.blog.service.OptionService;
-import com.qinweizhao.blog.utils.ServletUtils;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.stereotype.Service;
-import org.springframework.util.Assert;
 
 /**
  * PostCommentService implementation class
@@ -71,6 +59,11 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
     @Override
     public long countByStatus(CommentStatus published) {
         return this.baseMapper.selectCountByStatus(published);
+    }
+
+    @Override
+    public Page<Comment> pageComment(CommentQueryParam commentQueryParam) {
+        return this.baseMapper.selectPageComment(commentQueryParam);
     }
 
 }

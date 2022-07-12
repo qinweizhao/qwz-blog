@@ -1,12 +1,8 @@
 package com.qinweizhao.blog.model.dto.post;
 
-import com.qinweizhao.blog.model.dto.base.OutputConverter;
-import com.qinweizhao.blog.model.entity.Post;
 import com.qinweizhao.blog.model.enums.PostEditorType;
 import com.qinweizhao.blog.model.enums.PostStatus;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
 
 import java.util.Date;
 
@@ -18,9 +14,7 @@ import java.util.Date;
  * @date 2019-03-19
  */
 @Data
-@ToString
-@EqualsAndHashCode
-public class BasePostMinimalDTO implements OutputConverter<BasePostMinimalDTO, Post> {
+public class BasePostMinimalDTO {
 
     private Integer id;
 

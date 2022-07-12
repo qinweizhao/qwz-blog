@@ -1,10 +1,12 @@
 package com.qinweizhao.blog.service;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.qinweizhao.blog.model.base.BaseEntity;
 import com.qinweizhao.blog.model.entity.Comment;
 import com.qinweizhao.blog.model.enums.CommentStatus;
+import com.qinweizhao.blog.model.param.CommentQueryParam;
 
 /**
  * Post comment service interface.
@@ -21,6 +23,13 @@ public interface CommentService extends IService<Comment> {
      * @return Long
      */
     long countByStatus(CommentStatus published);
+
+    /**
+     * 分页
+     * @param commentQueryParam commentQueryParam
+     * @return Page
+     */
+    Page<Comment> pageComment(CommentQueryParam commentQueryParam);
 
 //
 //    /**

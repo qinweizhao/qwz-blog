@@ -2,8 +2,6 @@ package com.qinweizhao.blog.model.dto;
 
 import com.qinweizhao.blog.model.enums.CommentStatus;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
 
 import java.util.Date;
 
@@ -15,9 +13,7 @@ import java.util.Date;
  * @date 2019-03-20
  */
 @Data
-@ToString
-@EqualsAndHashCode
-public class BaseCommentDTO {
+public class CommentDTO {
 
     private Long id;
 

@@ -1,6 +1,6 @@
 package com.qinweizhao.blog.model.vo;
 
-import com.qinweizhao.blog.model.dto.BaseCommentDTO;
+import com.qinweizhao.blog.model.dto.CommentDTO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -16,7 +16,7 @@ import java.util.List;
 @Data
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
-public class BaseCommentVO extends BaseCommentDTO {
+public class CommentVO extends CommentDTO {
 
-    List<BaseCommentVO> children;
+    List<CommentVO> children;
 }

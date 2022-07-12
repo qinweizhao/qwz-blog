@@ -2,10 +2,13 @@ package com.qinweizhao.blog.mapper;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.qinweizhao.blog.model.entity.Comment;
 import com.qinweizhao.blog.model.enums.CommentStatus;
+import com.qinweizhao.blog.model.param.CommentQueryParam;
 import com.qinweizhao.blog.model.projection.CommentChildrenCountProjection;
 import com.qinweizhao.blog.model.projection.CommentCountProjection;
+import com.qinweizhao.blog.utils.MyBatisUtils;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.Collection;
@@ -61,6 +64,24 @@ public interface CommentMapper extends BaseMapper<Comment> {
     default long selectCountByStatus(CommentStatus published) {
         return selectCount(new LambdaQueryWrapper<Comment>()
                 .eq(Comment::getStatus, published.getValue())
+        );
+    }
+
+    /**
+     * 分页
+     *
+     * @param param param
+     * @return Page
+     */
+    default Page<Comment> selectPageComment(CommentQueryParam param) {
+        Page<Comment> page = MyBatisUtils.buildPage(param);
+        return this.selectPage(page, new LambdaQueryWrapper<Comment>()
+                .eq(Comment::getStatus, param.getStatus().getValue())
+                .like(Comment::getAuthor, param.getKeyword())
+                .or()
+                .like(Comment::getContent, param.getKeyword())
+                .or()
+                .like(Comment::getEmail, param.getKeyword())
         );
     }
 }

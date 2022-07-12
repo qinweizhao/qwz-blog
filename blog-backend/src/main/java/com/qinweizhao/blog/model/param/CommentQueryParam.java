@@ -1,7 +1,9 @@
-package com.qinweizhao.blog.model.params;
+package com.qinweizhao.blog.model.param;
 
+import com.qinweizhao.blog.model.base.PageParam;
 import com.qinweizhao.blog.model.enums.CommentStatus;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
  * Comment query params.
@@ -10,7 +12,8 @@ import lombok.Data;
  * @date 2019/04/18
  */
 @Data
-public class CommentQuery {
+@EqualsAndHashCode(callSuper = true)
+public class CommentQueryParam extends PageParam {
 
     /**
      * Keyword.

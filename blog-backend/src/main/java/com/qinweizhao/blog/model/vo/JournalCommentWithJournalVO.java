@@ -1,6 +1,6 @@
 package com.qinweizhao.blog.model.vo;
 
-import com.qinweizhao.blog.model.dto.BaseCommentDTO;
+import com.qinweizhao.blog.model.dto.CommentDTO;
 import com.qinweizhao.blog.model.dto.JournalDTO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -15,7 +15,7 @@ import lombok.ToString;
 @Data
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
-public class JournalCommentWithJournalVO extends BaseCommentDTO {
+public class JournalCommentWithJournalVO extends CommentDTO {
 
     private JournalDTO journal;
 }
