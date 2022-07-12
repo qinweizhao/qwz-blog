@@ -148,7 +148,8 @@
 </template>
 
 <script>
-import apiClient from '@/utils/api-client'
+import userApi from '@/api/user'
+import statisticsApi from '@/api/statistics'
 import { mapGetters, mapMutations } from 'vuex'
 
 export default {
@@ -266,7 +267,7 @@ export default {
     ...mapMutations({ setUser: 'SET_USER' }),
     handleLoadStatistics() {
       this.statistics.loading = true
-      apiClient.statistic
+      statisticsApi
         .statisticsWithUser()
         .then(response => {
           this.userForm.model = response.data.user
@@ -282,7 +283,7 @@ export default {
       _this.$refs.passwordForm.validate(valid => {
         if (valid) {
           this.passwordForm.saving = true
-          apiClient.user
+          userApi
             .updatePassword(this.passwordForm.model)
             .catch(() => {
               this.passwordForm.errored = true
@@ -309,7 +310,7 @@ export default {
       _this.$refs.userForm.validate(valid => {
         if (valid) {
           this.userForm.saving = true
-          apiClient.user
+          userApi
             .updateProfile(this.userForm.model)
             .then(response => {
               this.userForm.model = response.data
