@@ -6,6 +6,7 @@ import com.qinweizhao.blog.model.base.PageResult;
 import com.qinweizhao.blog.model.dto.CommentDTO;
 import com.qinweizhao.blog.model.dto.JournalDTO;
 import com.qinweizhao.blog.model.entity.Journal;
+import com.qinweizhao.blog.model.enums.CommentStatus;
 import com.qinweizhao.blog.model.enums.CommentType;
 import com.qinweizhao.blog.model.param.CommentQueryParam;
 import com.qinweizhao.blog.model.vo.JournalCommentWithJournalVO;
@@ -16,15 +17,17 @@ import lombok.AllArgsConstructor;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
- * Journal comment controller.
+ * 日志评论
  *
  * @author johnniang
  * @author qinweizhao
@@ -49,19 +52,50 @@ public class JournalCommentController {
     @GetMapping
     public PageResult<JournalCommentWithJournalVO> page(CommentQueryParam param) {
         param.setType(CommentType.JOURNAL.getValue());
+
         PageResult<CommentDTO> commentResult = commentService.pageComment(param);
 
         List<CommentDTO> contents = commentResult.getContent();
+
+        return new PageResult<>(this.buildResultVO(contents), commentResult.getTotal());
+    }
+
+    /**
+     * 列出最新的日志评论
+     *
+     * @param top    top
+     * @param status status
+     * @return List
+     */
+    @GetMapping("latest")
+    public List<JournalCommentWithJournalVO> listLatest(@RequestParam(name = "top", defaultValue = "10") int top,
+                                                        @RequestParam(name = "status", required = false) CommentStatus status) {
+        CommentQueryParam param = new CommentQueryParam();
+        param.setPage(top);
+        param.setStatus(status);
+
+        List<CommentDTO> commentResult = commentService.pageComment(param).getContent();
+
+        return this.buildResultVO(commentResult);
+    }
+
+    /**
+     * 构建返回的VO
+     *
+     * @param contents contents
+     * @return List
+     */
+    private List<JournalCommentWithJournalVO> buildResultVO(List<CommentDTO> contents) {
         // 获取 id
         Set<Integer> journalIds = ServiceUtils.fetchProperty(contents, CommentDTO::getPostId);
 
         if (ObjectUtils.isEmpty(journalIds)) {
-            return new PageResult<>();
+            return new ArrayList<>();
         }
 
         Map<Integer, Journal> journalMap = ServiceUtils.convertToMap(journalService.listByIds(journalIds), Journal::getId);
 
-        List<JournalCommentWithJournalVO> collect = contents.stream()
+        return contents.stream()
                 .filter(comment -> journalMap.containsKey(comment.getPostId()))
                 .map(comment -> {
 
@@ -74,16 +108,8 @@ public class JournalCommentController {
 
                     return journalCommentWithJournalVO;
                 }).collect(Collectors.toList());
-        return new PageResult<>(collect, commentResult.getTotal());
     }
 
-//    @GetMapping("latest")
-//    @ApiOperation("Lists latest journal comments")
-//    public List<JournalCommentWithJournalVO> listLatest(@RequestParam(name = "top", defaultValue = "10") int top,
-//                                                        @RequestParam(name = "status", required = false) CommentStatus status) {
-//        List<JournalComment> latestComments = journalCommentService.pageLatest(top, status).getContent();
-//        return journalCommentService.convertToWithJournalVo(latestComments);
-//    }
 //
 //    @GetMapping("{journalId:\\d+}/tree_view")
 //    @ApiOperation("Lists comments with tree view")

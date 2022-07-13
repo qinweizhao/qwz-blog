@@ -1,5 +1,6 @@
 package com.qinweizhao.blog.controller.admin.api;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.qinweizhao.blog.convert.CommentConvert;
 import com.qinweizhao.blog.convert.PostConvert;
 import com.qinweizhao.blog.model.base.PageResult;
@@ -9,16 +10,14 @@ import com.qinweizhao.blog.model.entity.Post;
 import com.qinweizhao.blog.model.enums.CommentStatus;
 import com.qinweizhao.blog.model.enums.CommentType;
 import com.qinweizhao.blog.model.param.CommentQueryParam;
+import com.qinweizhao.blog.model.vo.CommentVO;
 import com.qinweizhao.blog.model.vo.PostCommentWithPostVO;
 import com.qinweizhao.blog.service.CommentService;
 import com.qinweizhao.blog.service.PostService;
 import com.qinweizhao.blog.utils.ServiceUtils;
 import lombok.AllArgsConstructor;
 import org.springframework.util.ObjectUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -111,7 +110,7 @@ public class PostCommentController {
                 }).collect(Collectors.toList());
 
     }
-//
+
 //    /**
 //     * 用树状视图列出帖子评论
 //     *
@@ -121,9 +120,9 @@ public class PostCommentController {
 //     * @return Page
 //     */
 //    @GetMapping("{postId:\\d+}/tree_view")
-//    public Page<BaseCommentVO> listCommentTree(@PathVariable("postId") Integer postId,
-//                                               @RequestParam(name = "page", required = false, defaultValue = "0") int page,
-//                                               @SortDefault(sort = "createTime", direction = DESC) Sort sort) {
+//    public Page<CommentVO> listCommentTree(@PathVariable("postId") Integer postId,
+//                                           @RequestParam(name = "page", required = false, defaultValue = "0") int page,
+//                                           @SortDefault(sort = "createTime", direction = DESC) Sort sort) {
 //        return commentService.pageVosAllBy(postId, PageRequest.of(page, optionService.getCommentPageSize(), sort));
 //    }
 //
