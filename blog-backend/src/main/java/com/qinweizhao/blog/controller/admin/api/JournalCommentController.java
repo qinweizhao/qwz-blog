@@ -27,6 +27,7 @@ import java.util.stream.Collectors;
  * Journal comment controller.
  *
  * @author johnniang
+ * @author qinweizhao
  * @date 2019-04-25
  */
 @RestController
@@ -40,7 +41,7 @@ public class JournalCommentController {
 
 
     /**
-     * 列表
+     * 分页
      *
      * @param param param
      * @return PageResult

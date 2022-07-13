@@ -6,6 +6,7 @@ import com.qinweizhao.blog.model.base.PageResult;
 import com.qinweizhao.blog.model.dto.CommentDTO;
 import com.qinweizhao.blog.model.dto.post.BasePostMinimalDTO;
 import com.qinweizhao.blog.model.entity.Post;
+import com.qinweizhao.blog.model.enums.CommentStatus;
 import com.qinweizhao.blog.model.enums.CommentType;
 import com.qinweizhao.blog.model.param.CommentQueryParam;
 import com.qinweizhao.blog.model.vo.PostCommentWithPostVO;
@@ -16,8 +17,10 @@ import lombok.AllArgsConstructor;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -53,16 +56,47 @@ public class PostCommentController {
         param.setType(CommentType.POST.getValue());
         PageResult<CommentDTO> commentResult = commentService.pageComment(param);
         List<CommentDTO> contents = commentResult.getContent();
+        return new PageResult<>(this.buildResultVO(contents), commentResult.getTotal());
+    }
+
+    /**
+     * 页面发布最新评论
+     *
+     * @param top    top
+     * @param status status
+     * @return List
+     */
+    @GetMapping("latest")
+    public List<PostCommentWithPostVO> listLatest(@RequestParam(name = "top", defaultValue = "10") int top,
+                                                  @RequestParam(name = "status", required = false) CommentStatus status) {
+        // 构建请求参数，之所以用分页查询是因为不想再多写一个方法了。
+        CommentQueryParam param = new CommentQueryParam();
+        param.setPage(top);
+        param.setStatus(status);
+
+        List<CommentDTO> commentResult = commentService.pageComment(param).getContent();
+
+        // 构建返回的结果
+        return this.buildResultVO(commentResult);
+    }
+
+    /**
+     * 构建返回的 VO
+     *
+     * @param contents contents
+     * @return List
+     */
+    private List<PostCommentWithPostVO> buildResultVO(List<CommentDTO> contents) {
         // 获取 id
         Set<Integer> postIds = ServiceUtils.fetchProperty(contents, CommentDTO::getPostId);
 
         if (ObjectUtils.isEmpty(postIds)) {
-            return new PageResult<>();
+            return new ArrayList<>();
         }
 
         Map<Integer, Post> postMap = ServiceUtils.convertToMap(postService.listByIds(postIds), Post::getId);
 
-        List<PostCommentWithPostVO> collect = contents.stream()
+        return contents.stream()
                 .filter(comment -> postMap.containsKey(comment.getPostId()))
                 .map(comment -> {
 
@@ -75,19 +109,8 @@ public class PostCommentController {
 
                     return postCommentWithPostVO;
                 }).collect(Collectors.toList());
-        return new PageResult<>(collect, commentResult.getTotal());
+
     }
-//
-//    @GetMapping("latest")
-//    @ApiOperation("Pages post latest comments")
-//    public List<PostCommentWithPostVO> listLatest(@RequestParam(name = "top", defaultValue = "10") int top,
-//                                                  @RequestParam(name = "status", required = false) CommentStatus status) {
-//        // Get latest comment
-//        List<Comment> content = commentService.pageLatest(top, status).getContent();
-//
-//        // Convert and return
-//        return CommentConvert.INSTANCE.convertToWithPostVo(content);
-//    }
 //
 //    /**
 //     * 用树状视图列出帖子评论

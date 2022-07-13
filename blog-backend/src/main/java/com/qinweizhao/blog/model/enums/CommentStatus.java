@@ -1,12 +1,10 @@
 package com.qinweizhao.blog.model.enums;
 
-import lombok.AllArgsConstructor;
-import org.checkerframework.checker.units.qual.A;
-
 /**
- * Comment status.
+ * 评论状态
  *
  * @author johnniang
+ * @author qinweizhao
  */
 public enum CommentStatus implements ValueEnum<Integer> {
 

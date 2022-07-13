@@ -8,6 +8,8 @@ import com.qinweizhao.blog.model.enums.CommentStatus;
 import com.qinweizhao.blog.model.param.CommentQueryParam;
 import com.qinweizhao.blog.model.vo.PostCommentWithPostVO;
 
+import java.util.List;
+
 /**
  * Post comment service interface.
  *
@@ -32,6 +34,8 @@ public interface CommentService extends IService<Comment> {
      * @return Page
      */
     PageResult<CommentDTO>  pageComment(CommentQueryParam commentQueryParam);
+
+
 
 //
 //    /**
