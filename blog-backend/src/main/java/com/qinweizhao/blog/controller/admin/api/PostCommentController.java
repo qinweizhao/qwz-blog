@@ -76,7 +76,7 @@ public class PostCommentController {
 
         List<CommentDTO> commentResult = commentService.pageComment(param).getContent();
 
-        // 构建返回的结果
+        // 构建返回的结果，在 Controller 层构建纯属是强迫症，不想让 Service 参与 VO。
         return this.buildResultVO(commentResult);
     }
 
