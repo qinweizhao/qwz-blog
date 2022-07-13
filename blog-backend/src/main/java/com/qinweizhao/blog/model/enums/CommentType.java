@@ -1,26 +1,26 @@
 package com.qinweizhao.blog.model.enums;
 
 /**
- * 日志类型
+ * Comment type.
  *
- * @author ryanwnag
  * @author qinweizhao
+ * @since 2022-07-08
  */
-public enum JournalType implements ValueEnum<Integer> {
+public enum CommentType implements ValueEnum<Integer> {
 
     /**
-     * 公开
+     * 文章
      */
-    PUBLIC(1),
+    POST(0),
 
     /**
-     * 私密
+     * 日志
      */
-    INTIMATE(0);
+    JOURNAL(1);
 
-    private final int value;
+    private final Integer value;
 
-    JournalType(int value) {
+    CommentType(Integer value) {
         this.value = value;
     }
 

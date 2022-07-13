@@ -6,6 +6,7 @@ import com.qinweizhao.blog.model.dto.CommentDTO;
 import com.qinweizhao.blog.model.entity.Comment;
 import com.qinweizhao.blog.model.enums.CommentStatus;
 import com.qinweizhao.blog.model.param.CommentQueryParam;
+import com.qinweizhao.blog.model.vo.PostCommentWithPostVO;
 
 /**
  * Post comment service interface.

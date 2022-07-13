@@ -17,6 +17,8 @@ public class CommentDTO {
 
     private Long id;
 
+    private Integer postId;
+
     private String author;
 
     private String email;

@@ -7,6 +7,28 @@ module.exports = defineConfig({
   outputDir: 'target',
   publicPath: process.env.PUBLIC_PATH,
 
+  devServer: {
+    host: 'localhost',
+    port: 8080,
+    open: true,
+    proxy: {
+      // purchaseitem: https://cli.vuejs.org/config/#devserver-proxy
+      [process.env.PUBLIC_PATH]: {
+        ws: false,
+        target: `http://localhost:8090`,
+        changeOrigin: true,
+        pathRewrite: {
+          ['^']: ''
+        }
+      },
+      ['/ws']: {
+        ws: false,
+        target: 'ws://localhost:8090'
+      }
+    },
+    allowedHosts: 'all',
+    historyApiFallback: true
+  },
   chainWebpack: config => {
     config.plugin('html').tap(args => {
       args[0].version = pkg.version

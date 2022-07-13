@@ -23,7 +23,7 @@
       </div>
     </template>
     <span class="inline-block transition-all">
-      <a-badge v-if="comments.post.length || comments.sheet.length || comments.journal.length" dot>
+      <a-badge v-if="comments.post.length || comments.journal.length" dot>
         <a-icon type="bell" />
       </a-badge>
       <a-badge v-else>
@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import apiClient from '@/utils/api-client'
+import commentApi from '@/api/comment'
 import { commentStatuses } from '@/core/constant'
 
 const targets = [
@@ -42,11 +42,6 @@ const targets = [
     key: 'posts',
     dataKey: 'post',
     label: '文章'
-  },
-  {
-    key: 'sheets',
-    dataKey: 'sheet',
-    label: '页面'
   },
   {
     key: 'journals',
@@ -63,7 +58,6 @@ export default {
       activeKey: 'posts',
       comments: {
         post: [],
-        sheet: [],
         journal: [],
         loading: false
       }
@@ -81,13 +75,14 @@ export default {
 
         const responses = await Promise.all(
           targets.map(target => {
-            return apiClient.comment.list(target.key, params)
+            return commentApi.queryComment(target.key, params)
           })
         )
 
-        this.comments.post = responses[0].data.content
-        this.comments.sheet = responses[1].data.content
-        this.comments.journal = responses[2].data.content
+        console.log('content')
+        console.log(responses[0].data.data.content)
+        this.comments.post = responses[0].data.data.content
+        this.comments.journal = responses[1].data.data.content
       } catch (e) {
         this.$log.error('Failed to get auditing comments', e)
       } finally {

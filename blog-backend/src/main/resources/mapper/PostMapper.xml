@@ -10,7 +10,7 @@
         <result column="edit_time" property="editTime"/>
         <result column="editor_type" property="editorType"/>
         <result column="format_content" property="formatContent"/>
-        <result column="likes" property="like"/>
+        <result column="likes" property="likes"/>
         <result column="meta_description" property="metaDescription"/>
         <result column="meta_keywords" property="metaKeywords"/>
         <result column="original_content" property="originalContent"/>
@@ -23,7 +23,7 @@
         <result column="title" property="title"/>
         <result column="top_priority" property="topPriority"/>
         <result column="url" property="url"/>
-        <result column="visits" property="visit"/>
+        <result column="visits" property="likes"/>
         <result column="word_count" property="wordCount"/>
         <result column="create_time" property="createTime"/>
         <result column="update_time" property="updateTime"/>
@@ -37,7 +37,7 @@
 
 
     <select id="selectByTimeAndSlug" resultType="com.qinweizhao.blog.model.entity.Post">
-        select *
+        select <include refid="Base_Column_List"/>
         from Post p
         where
         <if test="year != null and year != ''">
@@ -63,12 +63,12 @@
 
 
     <select id="selectCountVisit" resultType="java.lang.Long">
-        select sum(p.visit)
+        select sum(p.visits)
         from post p
     </select>
 
     <select id="selectCountLike" resultType="java.lang.Long">
-        select sum(p.like)
+        select sum(p.likes)
         from Post p
     </select>
 

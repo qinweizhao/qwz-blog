@@ -25,4 +25,9 @@ public class CommentQueryParam extends PageParam {
      * 评论状态
      */
     private CommentStatus status;
+
+    /**
+     * 类型（前端不用传）
+     */
+    private Integer type;
 }

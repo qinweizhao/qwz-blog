@@ -3,12 +3,14 @@ package com.qinweizhao.blog.mapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.qinweizhao.blog.convert.CommentConvert;
 import com.qinweizhao.blog.model.base.PageResult;
 import com.qinweizhao.blog.model.entity.Comment;
 import com.qinweizhao.blog.model.enums.CommentStatus;
 import com.qinweizhao.blog.model.param.CommentQueryParam;
 import com.qinweizhao.blog.model.projection.CommentChildrenCountProjection;
 import com.qinweizhao.blog.model.projection.CommentCountProjection;
+import com.qinweizhao.blog.utils.LambdaQueryWrapperX;
 import com.qinweizhao.blog.utils.MyBatisUtils;
 import org.apache.ibatis.annotations.Param;
 
@@ -76,14 +78,13 @@ public interface CommentMapper extends BaseMapper<Comment> {
      */
     default PageResult<Comment> selectPageComment(CommentQueryParam param) {
         Page<Comment> page = MyBatisUtils.buildPage(param);
-        Page<Comment> commentPage = this.selectPage(page, new LambdaQueryWrapper<Comment>()
-                .eq(Comment::getStatus, param.getStatus().getValue())
-                // todo
-                .like(Comment::getAuthor, param.getKeyword())
-                .or()
-                .like(Comment::getContent, param.getKeyword())
-                .or()
-                .like(Comment::getEmail, param.getKeyword())
+        Integer status = CommentConvert.INSTANCE.statusToInteger(param.getStatus());
+        Page<Comment> commentPage = this.selectPage(page, new LambdaQueryWrapperX<Comment>()
+                .eq(Comment::getType, param.getType())
+                .eqIfPresent(Comment::getStatus, status)
+                .likeIfPresent(Comment::getAuthor, param.getKeyword())
+                .likeIfPresent(Comment::getContent, param.getKeyword())
+                .likeIfPresent(Comment::getEmail, param.getKeyword())
         );
         return MyBatisUtils.buildPageResult(commentPage);
     }

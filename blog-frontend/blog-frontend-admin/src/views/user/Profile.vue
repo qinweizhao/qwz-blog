@@ -218,50 +218,14 @@ export default {
             { validator: validateConfirmPassword, trigger: ['change'] }
           ]
         }
-      },
-      mfaParam: {
-        mfaKey: null,
-        mfaType: 'NONE',
-        mfaUsed: false,
-        authcode: null,
-        qrImage: null,
-        modal: {
-          title: '确认开启两步验证？',
-          visible: false
-        },
-        switch: {
-          loading: false,
-          checked: false
-        },
-        rules: {
-          authcode: [{ required: true, message: '* 两步验证码不能为空', trigger: ['change'] }]
-        },
-        saving: false,
-        errored: false
       }
     }
   },
   computed: {
-    ...mapGetters(['options']),
-    mfaType() {
-      return this.mfaParam.mfaType
-    },
-    mfaUsed() {
-      return this.mfaParam.mfaUsed
-    }
+    ...mapGetters(['options'])
   },
   created() {
     this.handleLoadStatistics()
-  },
-  watch: {
-    mfaType(value) {
-      if (value) {
-        this.mfaParam.mfaUsed = value !== 'NONE'
-      }
-    },
-    mfaUsed(value) {
-      this.mfaParam.switch.checked = value
-    }
   },
   methods: {
     ...mapMutations({ setUser: 'SET_USER' }),
@@ -270,9 +234,8 @@ export default {
       statisticsApi
         .statisticsWithUser()
         .then(response => {
-          this.userForm.model = response.data.user
-          this.statistics.data = response.data
-          this.mfaParam.mfaType = this.userForm.model.mfaType && this.userForm.model.mfaType
+          this.userForm.model = response.data.data.user
+          this.statistics.data = response.data.data
         })
         .finally(() => {
           this.statistics.loading = false

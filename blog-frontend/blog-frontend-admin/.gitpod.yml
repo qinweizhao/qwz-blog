@@ -1,7 +1,7 @@
-ports:
-  - port: 8080
-    onOpen: open-browser
-
+#ports:
+#  - port: 8080
+#    onOpen: open-browser
+#
 tasks:
   - init: npm install -g pnpm && pnpm install
     command: pnpm serve

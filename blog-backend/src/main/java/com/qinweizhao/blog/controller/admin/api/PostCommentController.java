@@ -1,23 +1,34 @@
 package com.qinweizhao.blog.controller.admin.api;
 
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.qinweizhao.blog.convert.CommentConvert;
+import com.qinweizhao.blog.convert.PostConvert;
 import com.qinweizhao.blog.model.base.PageResult;
 import com.qinweizhao.blog.model.dto.CommentDTO;
-import com.qinweizhao.blog.model.entity.Comment;
+import com.qinweizhao.blog.model.dto.post.BasePostMinimalDTO;
+import com.qinweizhao.blog.model.entity.Post;
+import com.qinweizhao.blog.model.enums.CommentType;
 import com.qinweizhao.blog.model.param.CommentQueryParam;
 import com.qinweizhao.blog.model.vo.PostCommentWithPostVO;
 import com.qinweizhao.blog.service.CommentService;
+import com.qinweizhao.blog.service.PostService;
+import com.qinweizhao.blog.utils.ServiceUtils;
 import lombok.AllArgsConstructor;
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * comment controller.
  *
  * @author johnniang
  * @author ryanwang
+ * @author qinweizhao
  * @date 2019-03-29
  */
 @RestController
@@ -26,7 +37,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class PostCommentController {
 
     private final CommentService commentService;
-//
+
+    private final PostService postService;
+
 //    private final OptionService optionService;
 
     /**
@@ -36,10 +49,33 @@ public class PostCommentController {
      * @return Page
      */
     @GetMapping
-//    public Page<PostCommentWithPostVO> page(CommentQueryParam param) {
     public PageResult<PostCommentWithPostVO> page(CommentQueryParam param) {
-        PageResult<CommentDTO> result = commentService.pageComment(param);
-        return CommentConvert.INSTANCE.convertToVO(result);
+        param.setType(CommentType.POST.getValue());
+        PageResult<CommentDTO> commentResult = commentService.pageComment(param);
+        List<CommentDTO> contents = commentResult.getContent();
+        // 获取 id
+        Set<Integer> postIds = ServiceUtils.fetchProperty(contents, CommentDTO::getPostId);
+
+        if (ObjectUtils.isEmpty(postIds)) {
+            return new PageResult<>();
+        }
+
+        Map<Integer, Post> postMap = ServiceUtils.convertToMap(postService.listByIds(postIds), Post::getId);
+
+        List<PostCommentWithPostVO> collect = contents.stream()
+                .filter(comment -> postMap.containsKey(comment.getPostId()))
+                .map(comment -> {
+
+                    PostCommentWithPostVO postCommentWithPostVO = CommentConvert.INSTANCE.convertPostToVO(comment);
+
+                    Post post = postMap.get(comment.getPostId());
+                    BasePostMinimalDTO basePostMinimalDTO = PostConvert.INSTANCE.convert(post);
+
+                    postCommentWithPostVO.setPost(basePostMinimalDTO);
+
+                    return postCommentWithPostVO;
+                }).collect(Collectors.toList());
+        return new PageResult<>(collect, commentResult.getTotal());
     }
 //
 //    @GetMapping("latest")

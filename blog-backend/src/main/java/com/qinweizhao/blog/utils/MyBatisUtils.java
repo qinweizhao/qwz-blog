@@ -20,7 +20,7 @@ public class MyBatisUtils {
 
     public static <T> Page<T> buildPage(PageParam pageParam) {
         // 页码 + 数量
-        Page<T> page = new Page<>(pageParam.getPageNum(), pageParam.getPageSize());
+        Page<T> page = new Page<>(pageParam.getPage(), pageParam.getSize());
         // 排序字段
         List<PageParam.Sort> sorts = pageParam.getSorts();
         if (!CollectionUtil.isEmpty(sorts)) {

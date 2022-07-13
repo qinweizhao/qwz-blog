@@ -1,56 +1,81 @@
-//package com.qinweizhao.blog.controller.admin.api;
-//
-//import com.qinweizhao.blog.model.dto.BaseCommentDTO;
-//import com.qinweizhao.blog.model.enums.CommentStatus;
-//import com.qinweizhao.blog.model.params.CommentQuery;
-//import com.qinweizhao.blog.model.params.JournalCommentParam;
-//import com.qinweizhao.blog.model.vo.BaseCommentVO;
-//import com.qinweizhao.blog.model.vo.BaseCommentWithParentVO;
-//import com.qinweizhao.blog.model.vo.JournalCommentWithJournalVO;
-//import com.qinweizhao.blog.service.JournalCommentService;
-//import com.qinweizhao.blog.service.OptionService;
-//import io.swagger.annotations.ApiOperation;
-//import org.springframework.data.domain.Page;
-//import org.springframework.data.domain.PageRequest;
-//import org.springframework.data.domain.Pageable;
-//import org.springframework.data.domain.Sort;
-//import org.springframework.data.web.PageableDefault;
-//import org.springframework.data.web.SortDefault;
-//import org.springframework.web.bind.annotation.*;
-//
-//import java.util.List;
-//
-//import static org.springframework.data.domain.Sort.Direction.DESC;
-//
-///**
-// * Journal comment controller.
-// *
-// * @author johnniang
-// * @date 2019-04-25
-// */
-//@RestController
-//@RequestMapping("/api/admin/journals/comments")
-//public class JournalCommentController {
-//
-//    private final JournalCommentService journalCommentService;
-//
-//    private final OptionService optionService;
-//
-//    public JournalCommentController(JournalCommentService journalCommentService,
-//                                    OptionService optionService) {
-//        this.journalCommentService = journalCommentService;
-//        this.optionService = optionService;
-//    }
-//
-//    @GetMapping
-//    @ApiOperation("Lists journal comments")
-//    public Page<JournalCommentWithJournalVO> pageBy(@PageableDefault(sort = "createTime", direction = DESC) Pageable pageable,
-//                                                    CommentQuery commentQuery) {
-//        Page<JournalComment> journalCommentPage = journalCommentService.pageBy(commentQuery, pageable);
-//
-//        return journalCommentService.convertToWithJournalVo(journalCommentPage);
-//    }
-//
+package com.qinweizhao.blog.controller.admin.api;
+
+import com.qinweizhao.blog.convert.CommentConvert;
+import com.qinweizhao.blog.convert.JournalConvert;
+import com.qinweizhao.blog.model.base.PageResult;
+import com.qinweizhao.blog.model.dto.CommentDTO;
+import com.qinweizhao.blog.model.dto.JournalDTO;
+import com.qinweizhao.blog.model.entity.Journal;
+import com.qinweizhao.blog.model.enums.CommentType;
+import com.qinweizhao.blog.model.param.CommentQueryParam;
+import com.qinweizhao.blog.model.vo.JournalCommentWithJournalVO;
+import com.qinweizhao.blog.service.CommentService;
+import com.qinweizhao.blog.service.JournalService;
+import com.qinweizhao.blog.utils.ServiceUtils;
+import lombok.AllArgsConstructor;
+import org.springframework.util.ObjectUtils;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+/**
+ * Journal comment controller.
+ *
+ * @author johnniang
+ * @date 2019-04-25
+ */
+@RestController
+@AllArgsConstructor
+@RequestMapping("/api/admin/journals/comments")
+public class JournalCommentController {
+
+    private final CommentService commentService;
+
+    private final JournalService journalService;
+
+
+    /**
+     * 列表
+     *
+     * @param param param
+     * @return PageResult
+     */
+    @GetMapping
+    public PageResult<JournalCommentWithJournalVO> page(CommentQueryParam param) {
+        param.setType(CommentType.JOURNAL.getValue());
+        PageResult<CommentDTO> commentResult = commentService.pageComment(param);
+
+        List<CommentDTO> contents = commentResult.getContent();
+        // 获取 id
+        Set<Integer> journalIds = ServiceUtils.fetchProperty(contents, CommentDTO::getPostId);
+
+        if (ObjectUtils.isEmpty(journalIds)) {
+            return new PageResult<>();
+        }
+
+        Map<Integer, Journal> journalMap = ServiceUtils.convertToMap(journalService.listByIds(journalIds), Journal::getId);
+
+        List<JournalCommentWithJournalVO> collect = contents.stream()
+                .filter(comment -> journalMap.containsKey(comment.getPostId()))
+                .map(comment -> {
+
+                    JournalCommentWithJournalVO journalCommentWithJournalVO = CommentConvert.INSTANCE.convertJournalToVO(comment);
+
+                    Journal journal = journalMap.get(comment.getPostId());
+                    JournalDTO journalDTO = JournalConvert.INSTANCE.convert(journal);
+
+                    journalCommentWithJournalVO.setJournal(journalDTO);
+
+                    return journalCommentWithJournalVO;
+                }).collect(Collectors.toList());
+        return new PageResult<>(collect, commentResult.getTotal());
+    }
+
 //    @GetMapping("latest")
 //    @ApiOperation("Lists latest journal comments")
 //    public List<JournalCommentWithJournalVO> listLatest(@RequestParam(name = "top", defaultValue = "10") int top,
@@ -97,4 +122,4 @@
 //        JournalComment deletedJournalComment = journalCommentService.removeById(commentId);
 //        return journalCommentService.convertTo(deletedJournalComment);
 //    }
-//}
+}

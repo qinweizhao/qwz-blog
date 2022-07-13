@@ -12,8 +12,6 @@ import lombok.ToString;
  * @date 4/3/19
  */
 @Data
-@EqualsAndHashCode
-@ToString
 public class MenuDTO {
 
     private Integer id;
@@ -31,4 +29,5 @@ public class MenuDTO {
     private Integer parentId;
 
     private String team;
+
 }

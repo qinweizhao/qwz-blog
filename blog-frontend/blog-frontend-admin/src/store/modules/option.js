@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import { OPTIONS } from '@/store/mutation-types'
-import apiClient from '@/utils/api-client'
+import optionApi from '@/api/option'
 
 const keys = [
   'blog_url',
@@ -29,7 +29,7 @@ const option = {
   actions: {
     refreshOptionsCache({ commit }) {
       return new Promise((resolve, reject) => {
-        apiClient.option
+        optionApi
           .listAsMapViewByKeys(keys)
           .then(response => {
             commit('SET_OPTIONS', response.data)

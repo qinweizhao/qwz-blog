@@ -8,17 +8,17 @@ package com.qinweizhao.blog.model.enums;
 public enum PostStatus implements ValueEnum<Integer> {
 
     /**
-     * Published status.
+     * 发布
      */
     PUBLISHED(0),
 
     /**
-     * Draft status.
+     * 草稿
      */
     DRAFT(1),
 
     /**
-     * Recycle status.
+     * 回收
      */
     RECYCLE(2),
 

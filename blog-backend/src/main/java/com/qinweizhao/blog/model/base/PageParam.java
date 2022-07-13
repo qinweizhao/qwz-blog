@@ -19,9 +19,9 @@ public abstract class PageParam {
 
     private static final int DEFAULT_PAGE_SIZE = 10;
 
-    private int pageSize = DEFAULT_PAGE_SIZE;
+    private int size = DEFAULT_PAGE_SIZE;
 
-    private int pageNum = 1;
+    private int page = 1;
 
     private String orderDirection = DESC;
 
@@ -69,35 +69,35 @@ public abstract class PageParam {
         this.sorts = sorts;
     }
 
-    public int getPageNum() {
-        if (pageNum < 1) {
+    public int getPage() {
+        if (page < 1) {
             return 1;
         }
-        return pageNum;
+        return page;
     }
 
-    public PageParam setPageNum(int pageIndex) {
-        this.pageNum = pageIndex;
+    public PageParam setPage(int pageIndex) {
+        this.page = page;
         return this;
     }
 
-    public int getPageSize() {
-        if (pageSize < 1) {
-            pageSize = DEFAULT_PAGE_SIZE;
+    public int getSize() {
+        if (size < 1) {
+            size = DEFAULT_PAGE_SIZE;
         }
-        return pageSize;
+        return size;
     }
 
-    public PageParam setPageSize(int pageSize) {
+    public PageParam setSize(int pageSize) {
         if (pageSize < 1) {
             pageSize = DEFAULT_PAGE_SIZE;
         }
-        this.pageSize = pageSize;
+        this.size = pageSize;
         return this;
     }
 
     public int getOffset() {
-        return (getPageNum() - 1) * getPageSize();
+        return (getPage() - 1) * getSize();
     }
 
     public String getOrderDirection() {
