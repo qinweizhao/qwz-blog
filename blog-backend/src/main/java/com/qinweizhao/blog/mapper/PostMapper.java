@@ -1,11 +1,20 @@
 package com.qinweizhao.blog.mapper;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.qinweizhao.blog.convert.PostConvert;
+import com.qinweizhao.blog.model.base.PageResult;
 import com.qinweizhao.blog.model.entity.Post;
 import com.qinweizhao.blog.model.enums.PostStatus;
+import com.qinweizhao.blog.model.param.PostQueryParam;
+import com.qinweizhao.blog.utils.MyBatisUtils;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
+import java.util.Map;
 
 
 /**
@@ -13,7 +22,6 @@ import org.apache.ibatis.annotations.Param;
  * @since 2022/7/6
  */
 public interface PostMapper extends BaseMapper<Post> {
-
 
 
     /**
@@ -88,13 +96,43 @@ public interface PostMapper extends BaseMapper<Post> {
      *
      * @return long
      */
-    long selectCountVisit();
+    long selectCountVisits();
 
 
     /**
-     * 计算所有文章喜欢
+     * 统计 like
      *
      * @return Long
      */
-    long selectCountLike();
+    long selectCountLikes();
+
+
+    /**
+     * 分页
+     *
+     * @param param param
+     * @return PageResult
+     */
+    default PageResult<Post> selectPagePosts(PostQueryParam param) {
+        // 未来拓展下 MybatisPlus 直接使用关联查询，或者使用其他方案。
+        Page<Post> page = MyBatisUtils.buildPage(param);
+
+        Map<String, Object> paramMap = new LinkedHashMap<>();
+        paramMap.put("keyword",param.getKeyword());
+        paramMap.put("categoryId",param.getCategoryId());
+        paramMap.put("status",PostConvert.INSTANCE.statusToInteger(param.getStatus()));
+
+        Page<Post> postPage = this.selectPagePosts(page, paramMap);
+        return MyBatisUtils.buildPageResult(postPage);
+    }
+
+    /**
+     * 分页(关联查询)
+     *
+     * @param page page
+     * @param param param
+     * @return PageResult
+     */
+    Page<Post> selectPagePosts(Page<Post> page, @Param("param") Map<String, Object> param);
+
 }

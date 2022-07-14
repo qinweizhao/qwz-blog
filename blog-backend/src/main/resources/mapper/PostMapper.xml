@@ -37,7 +37,8 @@
 
 
     <select id="selectByTimeAndSlug" resultType="com.qinweizhao.blog.model.entity.Post">
-        select <include refid="Base_Column_List"/>
+        select
+        <include refid="Base_Column_List"/>
         from Post p
         where
         <if test="year != null and year != ''">
@@ -62,14 +63,37 @@
     </select>
 
 
-    <select id="selectCountVisit" resultType="java.lang.Long">
+    <select id="selectCountVisits" resultType="java.lang.Long">
         select sum(p.visits)
         from post p
     </select>
 
-    <select id="selectCountLike" resultType="java.lang.Long">
+    <select id="selectCountLikes" resultType="java.lang.Long">
         select sum(p.likes)
         from Post p
+    </select>
+
+
+    <select id="selectPagePosts" resultType="com.qinweizhao.blog.model.entity.Post">
+        select *
+        from post p
+        left join post_category pc ON p.id = pc.post_id
+        <where>
+            <if test="param.status != null and param.status != ''">
+                and p.status = #{param.status.value}
+            </if>
+        </where>
+        <where>
+            <if test="param.keyword != null and param.keyword != ''">
+                and p.title like concat('%', #{param.keyword}, '%')
+            </if>
+        </where>
+        <where>
+            <if test="param.categoryId != null and param.categoryId != ''">
+                and pc.category_id = #{param.categoryId}
+            </if>
+        </where>
+
     </select>
 
 </mapper>

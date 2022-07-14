@@ -1,75 +1,61 @@
-//package com.qinweizhao.blog.controller.admin.api;
-//
-//import cn.hutool.core.util.IdUtil;
-//import com.qinweizhao.blog.cache.AbstractStringCacheStore;
-//import com.qinweizhao.blog.model.dto.post.BasePostDetailDTO;
-//import com.qinweizhao.blog.model.dto.post.BasePostMinimalDTO;
-//import com.qinweizhao.blog.model.dto.post.BasePostSimpleDTO;
-//import com.qinweizhao.blog.model.entity.Post;
-//import com.qinweizhao.blog.model.enums.PostPermalinkType;
-//import com.qinweizhao.blog.model.enums.PostStatus;
-//import com.qinweizhao.blog.model.params.PostContentParam;
-//import com.qinweizhao.blog.model.params.PostParam;
-//import com.qinweizhao.blog.model.params.PostQuery;
-//import com.qinweizhao.blog.model.vo.PostDetailVO;
-//import com.qinweizhao.blog.service.OptionService;
-//import com.qinweizhao.blog.service.PostService;
-//import io.swagger.annotations.ApiOperation;
-//import lombok.AllArgsConstructor;
-//import org.springframework.data.domain.Page;
-//import org.springframework.data.domain.Pageable;
-//import org.springframework.data.web.PageableDefault;
-//import org.springframework.web.bind.annotation.*;
-//
-//import javax.validation.Valid;
-//import java.io.UnsupportedEncodingException;
-//import java.net.URLEncoder;
-//import java.nio.charset.StandardCharsets;
-//import java.util.List;
-//import java.util.concurrent.TimeUnit;
-//
-//import static org.springframework.data.domain.Sort.Direction.DESC;
-//
-///**
-// * Post controller.
-// *
-// * @author johnniang
-// * @author ryanwang
-// * @author guqing
-// * @author qinweizhao
-// * @date 2019-03-19
-// */
-//@RestController
-//@AllArgsConstructor
-//@RequestMapping("/api/admin/posts")
-//public class PostController {
-//
-//    private final PostService postService;
-//
-//    private final AbstractStringCacheStore cacheStore;
-//
-//    private final OptionService optionService;
-//
-//
-//    @GetMapping
-//    @ApiOperation("Lists posts")
-//    public Page<? extends BasePostSimpleDTO> pageBy(@PageableDefault(sort = {"topPriority", "createTime"}, direction = DESC) Pageable pageable,
-//                                                    PostQuery postQuery,
-//                                                    @RequestParam(value = "more", defaultValue = "true") Boolean more) {
-//        Page<Post> postPage = postService.pageBy(postQuery, pageable);
+package com.qinweizhao.blog.controller.admin.api;
+
+import com.qinweizhao.blog.cache.AbstractStringCacheStore;
+import com.qinweizhao.blog.model.base.PageResult;
+import com.qinweizhao.blog.model.dto.post.BasePostSimpleDTO;
+import com.qinweizhao.blog.model.param.PostQueryParam;
+import com.qinweizhao.blog.service.OptionService;
+import com.qinweizhao.blog.service.PostService;
+import lombok.AllArgsConstructor;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+/**
+ * Post controller.
+ *
+ * @author johnniang
+ * @author ryanwang
+ * @author guqing
+ * @author qinweizhao
+ * @date 2019-03-19
+ */
+@RestController
+@AllArgsConstructor
+@RequestMapping("/api/admin/posts")
+public class PostController {
+
+    private final PostService postService;
+
+    private final AbstractStringCacheStore cacheStore;
+
+    private final OptionService optionService;
+
+
+    /**
+     * 分页
+     *
+     * @param postQueryParam postQueryParam
+     * @param more           more
+     * @return PageResult
+     */
+    @GetMapping
+    public PageResult<? extends BasePostSimpleDTO> pageBy(PostQueryParam postQueryParam, @RequestParam(value = "more", defaultValue = "true") Boolean more) {
+        PageResult<BasePostSimpleDTO> postPage = postService.pagePosts(postQueryParam);
 //        if (more) {
-//            return postService.convertToListVo(postPage);
+        return postPage;
 //        }
 //
 //        return postService.convertToSimple(postPage);
-//    }
-//
+    }
+
 //    @GetMapping("latest")
 //    @ApiOperation("Pages latest post")
 //    public List<BasePostMinimalDTO> pageLatest(@RequestParam(name = "top", defaultValue = "10") int top) {
 //        return postService.convertToMinimal(postService.pageLatest(top).getContent());
 //    }
-//
+
 //    @GetMapping("status/{status}")
 //    @ApiOperation("Gets a page of post by post status")
 //    public Page<? extends BasePostSimpleDTO> pageByStatus(@PathVariable(name = "status") PostStatus status,
@@ -191,4 +177,4 @@
 //        // build preview post url and return
 //        return previewUrl.toString();
 //    }
-//}
+}

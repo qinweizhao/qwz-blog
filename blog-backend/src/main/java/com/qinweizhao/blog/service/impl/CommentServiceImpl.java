@@ -2,29 +2,18 @@ package com.qinweizhao.blog.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.qinweizhao.blog.convert.CommentConvert;
-import com.qinweizhao.blog.convert.PostConvert;
 import com.qinweizhao.blog.mapper.CommentMapper;
 import com.qinweizhao.blog.mapper.PostMapper;
 import com.qinweizhao.blog.model.base.PageResult;
 import com.qinweizhao.blog.model.dto.CommentDTO;
-import com.qinweizhao.blog.model.dto.post.BasePostMinimalDTO;
 import com.qinweizhao.blog.model.entity.Comment;
-import com.qinweizhao.blog.model.entity.Post;
 import com.qinweizhao.blog.model.enums.CommentStatus;
-import com.qinweizhao.blog.model.enums.CommentType;
 import com.qinweizhao.blog.model.param.CommentQueryParam;
-import com.qinweizhao.blog.model.vo.PostCommentWithPostVO;
 import com.qinweizhao.blog.service.CommentService;
 import com.qinweizhao.blog.service.PostService;
-import com.qinweizhao.blog.utils.ServiceUtils;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * PostCommentService implementation class
@@ -79,7 +68,7 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
 
     @Override
     public PageResult<CommentDTO> pageComment(CommentQueryParam commentQueryParam) {
-        PageResult<Comment> commentResult = this.baseMapper.selectPageComment(commentQueryParam);
+        PageResult<Comment> commentResult = this.baseMapper.selectPageComments(commentQueryParam);
         return CommentConvert.INSTANCE.convertToDTO(commentResult);
 
     }

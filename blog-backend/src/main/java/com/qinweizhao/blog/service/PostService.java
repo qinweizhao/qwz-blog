@@ -1,8 +1,11 @@
 package com.qinweizhao.blog.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.qinweizhao.blog.model.base.PageResult;
+import com.qinweizhao.blog.model.dto.post.BasePostSimpleDTO;
 import com.qinweizhao.blog.model.entity.Post;
 import com.qinweizhao.blog.model.enums.PostStatus;
+import com.qinweizhao.blog.model.param.PostQueryParam;
 
 /**
  * Post service interface.
@@ -34,6 +37,14 @@ public interface PostService extends IService<Post> {
      * @return long
      */
     long countLike();
+
+    /**
+     * 分页
+     * @param postQueryParam postQueryParam
+     * @return PageResult
+     */
+    PageResult<BasePostSimpleDTO> pagePosts(PostQueryParam postQueryParam);
+
 
 //
 //    /**

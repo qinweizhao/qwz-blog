@@ -442,6 +442,8 @@ import TargetCommentListModal from '@/components/Comment/TargetCommentListModal'
 import { mixinDevice } from '@/mixins/mixin.js'
 import { normalPostStatuses, postStatuses } from '@/core/constant'
 import apiClient from '@/utils/api-client'
+import postApi from '@/api/post'
+import categoryApi from '@/api/category'
 
 export default {
   name: 'PostListView',
@@ -472,7 +474,6 @@ export default {
     return {
       postStatuses,
       normalPostStatuses,
-
       list: {
         data: [],
         loading: false,
@@ -480,11 +481,10 @@ export default {
         hasPrevious: false,
         hasNext: false,
         params: {
-          page: 0,
+          page: 1,
           size: 10,
           keyword: undefined,
-          categoryId: undefined,
-          statuses: []
+          categoryId: undefined
         },
         selected: {}
       },
@@ -518,7 +518,7 @@ export default {
     }
   },
   created() {
-    this.list.params.statuses = this.defaultStatuses
+    // this.list.params.statuses = this.defaultStatuses
     this.list.params.size = this.defaultPageSize
     this.handleListCategories()
   },
@@ -542,12 +542,12 @@ export default {
         if (enableLoading) {
           this.list.loading = true
         }
-        const response = await apiClient.post.list(this.list.params)
+        const response = await postApi.query(this.list.params)
 
-        this.list.data = response.data.content
-        this.list.total = response.data.total
-        this.list.hasPrevious = response.data.hasPrevious
-        this.list.hasNext = response.data.hasNext
+        this.list.data = response.data.data.content
+        this.list.total = response.data.data.total
+        this.list.hasPrevious = response.data.data.hasPrevious
+        this.list.hasNext = response.data.data.hasNext
       } catch (error) {
         this.$log.error(error)
       } finally {
@@ -605,7 +605,7 @@ export default {
     handleResetParam() {
       this.list.params.keyword = undefined
       this.list.params.categoryId = undefined
-      this.list.params.statuses = this.defaultStatuses
+      // this.list.params.statuses = this.defaultStatuses
       this.list.params.status = undefined
       this.selectedRowKeys = []
       this.handlePageChange(1)
@@ -619,10 +619,10 @@ export default {
 
     handleChangeQueryStatus(status) {
       if (status) {
-        this.list.params.statuses = [status]
+        // this.list.params.statuses = [status]
         this.list.params.status = status
       } else {
-        this.list.params.statuses = this.defaultStatuses
+        // this.list.params.statuses = this.defaultStatuses
         this.list.params.status = undefined
       }
       this.handleQuery()

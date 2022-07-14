@@ -1,7 +1,9 @@
 package com.qinweizhao.blog.convert;
 
 
+import com.qinweizhao.blog.model.base.PageResult;
 import com.qinweizhao.blog.model.dto.post.BasePostMinimalDTO;
+import com.qinweizhao.blog.model.dto.post.BasePostSimpleDTO;
 import com.qinweizhao.blog.model.entity.Post;
 import com.qinweizhao.blog.model.enums.PostEditorType;
 import com.qinweizhao.blog.model.enums.PostStatus;
@@ -74,6 +76,45 @@ public interface PostConvert {
                 break;
             case 3:
                 postStatus = PostStatus.INTIMATE;
+                break;
+            default:
+                postStatus = null;
+        }
+        return postStatus;
+    }
+
+
+    /**
+     * convertToSimleDTO
+     *
+     * @param pageResult pageResult
+     * @return PageResult
+     */
+    PageResult<BasePostSimpleDTO> convertToSimpleDTO(PageResult<Post> pageResult);
+
+    /**
+     * statusToInteger
+     *
+     * @param status status
+     * @return Integer
+     */
+    default Integer statusToInteger(PostStatus status) {
+        if (status == null) {
+            return null;
+        }
+        Integer postStatus;
+        switch (status) {
+            case PUBLISHED:
+                postStatus = 0;
+                break;
+            case DRAFT:
+                postStatus = 1;
+                break;
+            case RECYCLE:
+                postStatus = 2;
+                break;
+            case INTIMATE:
+                postStatus = 3;
                 break;
             default:
                 postStatus = null;

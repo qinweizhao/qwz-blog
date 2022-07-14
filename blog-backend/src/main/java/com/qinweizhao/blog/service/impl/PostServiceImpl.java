@@ -1,16 +1,18 @@
 package com.qinweizhao.blog.service.impl;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.qinweizhao.blog.convert.PostConvert;
 import com.qinweizhao.blog.mapper.PostMapper;
-import com.qinweizhao.blog.model.base.BaseEntity;
-import com.qinweizhao.blog.model.entity.Comment;
+import com.qinweizhao.blog.model.base.PageResult;
+import com.qinweizhao.blog.model.dto.post.BasePostSimpleDTO;
 import com.qinweizhao.blog.model.entity.Post;
 import com.qinweizhao.blog.model.enums.PostStatus;
-import com.qinweizhao.blog.service.*;
+import com.qinweizhao.blog.model.param.PostQueryParam;
+import com.qinweizhao.blog.service.PostService;
+import com.qinweizhao.blog.utils.MyBatisUtils;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
 /**
@@ -29,7 +31,6 @@ import org.springframework.stereotype.Service;
 public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements PostService {
 
 
-
     @Override
     public long countByStatus(PostStatus published) {
         return this.baseMapper.selectCountByStatus(published);
@@ -37,12 +38,18 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
 
     @Override
     public long countVisit() {
-        return this.baseMapper.selectCountVisit();
+        return this.baseMapper.selectCountVisits();
     }
 
     @Override
     public long countLike() {
-        return this.baseMapper.selectCountLike();
+        return this.baseMapper.selectCountLikes();
+    }
+
+    @Override
+    public PageResult<BasePostSimpleDTO> pagePosts(PostQueryParam postQueryParam) {
+        PageResult<Post> pageResult = this.baseMapper.selectPagePosts(postQueryParam);
+        return PostConvert.INSTANCE.convertToSimpleDTO(pageResult);
     }
 
 

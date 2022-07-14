@@ -30,7 +30,7 @@ const option = {
     refreshOptionsCache({ commit }) {
       return new Promise((resolve, reject) => {
         optionApi
-          .listAsMapViewByKeys(keys)
+          .listAllByKeys(keys)
           .then(response => {
             commit('SET_OPTIONS', response.data)
             resolve(response)
