@@ -1,16 +1,31 @@
 package com.qinweizhao.blog.controller.admin.api;
 
+import cn.hutool.core.date.DateUtil;
 import com.qinweizhao.blog.cache.AbstractStringCacheStore;
+import com.qinweizhao.blog.convert.CategoryConvert;
+import com.qinweizhao.blog.convert.MetaConvert;
+import com.qinweizhao.blog.convert.PostConvert;
+import com.qinweizhao.blog.convert.TagConvert;
 import com.qinweizhao.blog.model.base.PageResult;
 import com.qinweizhao.blog.model.dto.post.BasePostSimpleDTO;
+import com.qinweizhao.blog.model.entity.Category;
+import com.qinweizhao.blog.model.entity.Meta;
+import com.qinweizhao.blog.model.entity.Tag;
+import com.qinweizhao.blog.model.enums.PostPermalinkType;
 import com.qinweizhao.blog.model.param.PostQueryParam;
-import com.qinweizhao.blog.service.OptionService;
-import com.qinweizhao.blog.service.PostService;
+import com.qinweizhao.blog.model.vo.PostListVO;
+import com.qinweizhao.blog.service.*;
+import com.qinweizhao.blog.utils.ServiceUtils;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.*;
+import java.util.stream.Collectors;
+
+import static com.qinweizhao.blog.model.support.HaloConst.URL_SEPARATOR;
 
 /**
  * Post controller.
@@ -28,6 +43,14 @@ public class PostController {
 
     private final PostService postService;
 
+    private final PostTagService postTagService;
+
+    private final PostCategoryService postCategoryService;
+
+    private final CommentService commentService;
+
+    private final MetaService metaService;
+
     private final AbstractStringCacheStore cacheStore;
 
     private final OptionService optionService;
@@ -43,11 +66,132 @@ public class PostController {
     @GetMapping
     public PageResult<? extends BasePostSimpleDTO> pageBy(PostQueryParam postQueryParam, @RequestParam(value = "more", defaultValue = "true") Boolean more) {
         PageResult<BasePostSimpleDTO> postPage = postService.pagePosts(postQueryParam);
-//        if (more) {
+        if (more) {
+            return this.buildPostListVO(postPage);
+        }
+
         return postPage;
-//        }
-//
-//        return postService.convertToSimple(postPage);
+    }
+
+    private PageResult<PostListVO> buildPostListVO(PageResult<BasePostSimpleDTO> postPage) {
+
+        List<BasePostSimpleDTO> posts = postPage.getContent();
+
+        Set<Integer> postIds = ServiceUtils.fetchProperty(posts, BasePostSimpleDTO::getId);
+
+        // Get tag list map
+        Map<Integer, List<Tag>> tagListMap = postTagService.listTagListMapBy(postIds);
+
+        // Get category list map
+        Map<Integer, List<Category>> categoryListMap = postCategoryService
+                .listCategoryListMap(postIds);
+
+        // Get comment count
+        Map<Integer, Long> commentCountMap = commentService.countByPostIds(postIds);
+
+        // Get post meta list map
+        Map<Integer, List<Meta>> postMetaListMap = metaService.getListMetaAsMapByPostIds(postIds);
+
+
+        List<PostListVO> collect = posts.stream().map(post -> {
+
+            PostListVO postListVO = PostConvert.INSTANCE.convertToListVO(post);
+
+
+//            if (StringUtils.isBlank(postListVO.getSummary())) {
+//                postListVO.setSummary(generateSummary(post.getFormatContent()));
+//            }
+
+            Optional.ofNullable(tagListMap.get(post.getId())).orElseGet(LinkedList::new);
+
+            // Set tags
+            postListVO.setTags(Optional.ofNullable(tagListMap.get(post.getId()))
+                    .orElseGet(LinkedList::new)
+                    .stream()
+                    .filter(Objects::nonNull)
+                    .map(TagConvert.INSTANCE::convert)
+                    .collect(Collectors.toList()));
+
+            // Set categories
+            postListVO.setCategories(Optional.ofNullable(categoryListMap.get(post.getId()))
+                    .orElseGet(LinkedList::new)
+                    .stream()
+                    .filter(Objects::nonNull)
+                    .map(CategoryConvert.INSTANCE::convertVO)
+//                    .map(categoryService::convertTo)
+                    .collect(Collectors.toList()));
+
+            // Set post metas
+            List<Meta> metas = Optional.ofNullable(postMetaListMap.get(post.getId()))
+                    .orElseGet(LinkedList::new);
+            postListVO.setMetas(MetaConvert.INSTANCE.convertToMap(metas));
+
+            // Set comment count
+            postListVO.setCommentCount(commentCountMap.getOrDefault(post.getId(), 0L));
+
+            postListVO.setFullPath(buildFullPath(post));
+
+            return postListVO;
+        }).collect(Collectors.toList());
+        return new PageResult<>(collect, collect.size());
+    }
+
+
+    private String buildFullPath(BasePostSimpleDTO post) {
+
+        PostPermalinkType permalinkType = optionService.getPostPermalinkType();
+
+        String pathSuffix = optionService.getPathSuffix();
+
+        String archivesPrefix = optionService.getArchivesPrefix();
+
+        int month = DateUtil.month(post.getCreateTime()) + 1;
+
+        String monthString = month < 10 ? "0" + month : String.valueOf(month);
+
+        int day = DateUtil.dayOfMonth(post.getCreateTime());
+
+        String dayString = day < 10 ? "0" + day : String.valueOf(day);
+
+        StringBuilder fullPath = new StringBuilder();
+
+        if (optionService.isEnabledAbsolutePath()) {
+            fullPath.append(optionService.getBlogBaseUrl());
+        }
+
+        fullPath.append(URL_SEPARATOR);
+
+        if (permalinkType.equals(PostPermalinkType.DEFAULT)) {
+            fullPath.append(archivesPrefix)
+                    .append(URL_SEPARATOR)
+                    .append(post.getSlug())
+                    .append(pathSuffix);
+        } else if (permalinkType.equals(PostPermalinkType.ID)) {
+            fullPath.append("?p=")
+                    .append(post.getId());
+        } else if (permalinkType.equals(PostPermalinkType.DATE)) {
+            fullPath.append(DateUtil.year(post.getCreateTime()))
+                    .append(URL_SEPARATOR)
+                    .append(monthString)
+                    .append(URL_SEPARATOR)
+                    .append(post.getSlug())
+                    .append(pathSuffix);
+        } else if (permalinkType.equals(PostPermalinkType.DAY)) {
+            fullPath.append(DateUtil.year(post.getCreateTime()))
+                    .append(URL_SEPARATOR)
+                    .append(monthString)
+                    .append(URL_SEPARATOR)
+                    .append(dayString)
+                    .append(URL_SEPARATOR)
+                    .append(post.getSlug())
+                    .append(pathSuffix);
+        } else if (permalinkType.equals(PostPermalinkType.YEAR)) {
+            fullPath.append(DateUtil.year(post.getCreateTime()))
+                    .append(URL_SEPARATOR)
+                    .append(post.getSlug())
+                    .append(pathSuffix);
+        }
+        return fullPath.toString();
     }
 
 //    @GetMapping("latest")

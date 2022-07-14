@@ -37,4 +37,8 @@ public class BasePostMinimalDTO {
     private String metaDescription;
 
     private String fullPath;
+
+
+
+    private String formatContent;
 }

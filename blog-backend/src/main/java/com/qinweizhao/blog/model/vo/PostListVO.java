@@ -15,10 +15,11 @@ import java.util.Map;
  * @author johnniang
  * @author guqing
  * @author ryanwang
+ * @author qinweizhao
  * @date 2019-03-19
  */
-@EqualsAndHashCode(callSuper = true)
 @Data
+@EqualsAndHashCode(callSuper = true)
 public class PostListVO extends BasePostSimpleDTO {
 
     private Long commentCount;

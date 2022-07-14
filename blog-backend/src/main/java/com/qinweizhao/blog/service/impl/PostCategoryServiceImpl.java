@@ -2,9 +2,16 @@ package com.qinweizhao.blog.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.qinweizhao.blog.mapper.PostCategoryMapper;
+import com.qinweizhao.blog.model.entity.Category;
 import com.qinweizhao.blog.model.entity.PostCategory;
+import com.qinweizhao.blog.service.CategoryService;
 import com.qinweizhao.blog.service.PostCategoryService;
+import com.qinweizhao.blog.utils.ServiceUtils;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
+
+import java.util.*;
 
 /**
  * Post category service implementation.
@@ -12,29 +19,22 @@ import org.springframework.stereotype.Service;
  * @author johnniang
  * @author ryanwang
  * @author guqing
+ * @author qinweizhao
  * @date 2019-03-19
  */
 @Service
+@AllArgsConstructor
 public class PostCategoryServiceImpl extends ServiceImpl<PostCategoryMapper, PostCategory> implements PostCategoryService {
 
-//    private final PostCategoryRepository postCategoryRepository;
-//
+
+    private final CategoryService categoryService;
+
+    //
 //    private final PostRepository postRepository;
 //
 //    private final CategoryRepository categoryRepository;
 //
 //    private final OptionService optionService;
-//
-//    public PostCategoryServiceImpl(PostCategoryRepository postCategoryRepository,
-//            PostRepository postRepository,
-//            CategoryRepository categoryRepository,
-//            OptionService optionService) {
-//        super(postCategoryRepository);
-//        this.postCategoryRepository = postCategoryRepository;
-//        this.postRepository = postRepository;
-//        this.categoryRepository = categoryRepository;
-//        this.optionService = optionService;
-//    }
 //
 //    @Override
 //    public List<Category> listCategoriesBy(Integer postId) {
@@ -46,33 +46,33 @@ public class PostCategoryServiceImpl extends ServiceImpl<PostCategoryMapper, Pos
 //        return categoryRepository.findAllById(categoryIds);
 //    }
 //
-//    @Override
-//    public Map<Integer, List<Category>> listCategoryListMap(Collection<Integer> postIds) {
-//        if (CollectionUtils.isEmpty(postIds)) {
-//            return Collections.emptyMap();
-//        }
-//
-//        // Find all post categories
-//        List<PostCategory> postCategories = postCategoryRepository.findAllByPostIdIn(postIds);
-//
-//        // Fetch category ids
-//        Set<Integer> categoryIds = ServiceUtils.fetchProperty(postCategories, PostCategory::getCategoryId);
-//
-//        // Find all categories
-//        List<Category> categories = categoryRepository.findAllById(categoryIds);
-//
-//        // Convert to category map
-//        Map<Integer, Category> categoryMap = ServiceUtils.convertToMap(categories, Category::getId);
-//
-//        // Create category list map
-//        Map<Integer, List<Category>> categoryListMap = new HashMap<>();
-//
-//        // Foreach and collect
-//        postCategories.forEach(postCategory -> categoryListMap.computeIfAbsent(postCategory.getPostId(), postId -> new LinkedList<>())
-//                .add(categoryMap.get(postCategory.getCategoryId())));
-//
-//        return categoryListMap;
-//    }
+    @Override
+    public Map<Integer, List<Category>> listCategoryListMap(Collection<Integer> postIds) {
+        if (CollectionUtils.isEmpty(postIds)) {
+            return Collections.emptyMap();
+        }
+
+        // 查询所有关联关系
+        List<PostCategory> postCategories = this.baseMapper.selectListByPostIds(postIds);
+
+        // 获取分类 id
+        Set<Integer> categoryIds = ServiceUtils.fetchProperty(postCategories, PostCategory::getCategoryId);
+
+        // 查询所有分类
+        List<Category> categories = categoryService.listByIds(categoryIds);
+
+        // 转换为 map
+        Map<Integer, Category> categoryMap = ServiceUtils.convertToMap(categories, Category::getId);
+
+        // 创建新的结构
+        Map<Integer, List<Category>> categoryListMap = new HashMap<>();
+
+        // 查找并收集
+        postCategories.forEach(postCategory -> categoryListMap.computeIfAbsent(postCategory.getPostId(), postId -> new LinkedList<>())
+                .add(categoryMap.get(postCategory.getCategoryId())));
+
+        return categoryListMap;
+    }
 //
 //    @Override
 //    public List<Post> listPostBy(Integer categoryId) {

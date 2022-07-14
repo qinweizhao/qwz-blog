@@ -5,6 +5,7 @@ import com.qinweizhao.blog.model.base.PageResult;
 import com.qinweizhao.blog.model.dto.CommentDTO;
 import com.qinweizhao.blog.model.entity.Comment;
 import com.qinweizhao.blog.model.enums.CommentStatus;
+import com.qinweizhao.blog.model.enums.ValueEnum;
 import com.qinweizhao.blog.model.vo.JournalCommentWithJournalVO;
 import com.qinweizhao.blog.model.vo.PostCommentWithPostVO;
 import org.mapstruct.Mapper;
@@ -44,24 +45,7 @@ public interface CommentConvert {
      * @return CommentStatus
      */
     default CommentStatus statusToEnum(Integer status) {
-        if (status == null) {
-            return null;
-        }
-        CommentStatus commentStatus;
-        switch (status) {
-            case 0:
-                commentStatus = CommentStatus.PUBLISHED;
-                break;
-            case 1:
-                commentStatus = CommentStatus.AUDITING;
-                break;
-            case 2:
-                commentStatus = CommentStatus.RECYCLE;
-                break;
-            default:
-                commentStatus = null;
-        }
-        return commentStatus;
+        return ValueEnum.valueToEnum(CommentStatus.class, status);
     }
 
     /**

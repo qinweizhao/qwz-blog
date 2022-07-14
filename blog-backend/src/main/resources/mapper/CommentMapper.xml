@@ -4,50 +4,53 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.qinweizhao.blog.model.entity.Comment">
-        <id column="id" property="id" />
-        <result column="type" property="type" />
-        <result column="create_time" property="createTime" />
-        <result column="update_time" property="updateTime" />
-        <result column="allow_notification" property="allowNotification" />
-        <result column="author" property="author" />
-        <result column="author_url" property="authorUrl" />
-        <result column="content" property="content" />
-        <result column="email" property="email" />
-        <result column="gravatar_md5" property="gravatarMd5" />
-        <result column="ip_address" property="ipAddress" />
-        <result column="is_admin" property="isAdmin" />
-        <result column="parent_id" property="parentId" />
-        <result column="post_id" property="postId" />
-        <result column="status" property="status" />
-        <result column="top_priority" property="topPriority" />
-        <result column="user_agent" property="userAgent" />
+        <id column="id" property="id"/>
+        <result column="type" property="type"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="allow_notification" property="allowNotification"/>
+        <result column="author" property="author"/>
+        <result column="author_url" property="authorUrl"/>
+        <result column="content" property="content"/>
+        <result column="email" property="email"/>
+        <result column="gravatar_md5" property="gravatarMd5"/>
+        <result column="ip_address" property="ipAddress"/>
+        <result column="is_admin" property="isAdmin"/>
+        <result column="parent_id" property="parentId"/>
+        <result column="post_id" property="postId"/>
+        <result column="status" property="status"/>
+        <result column="top_priority" property="topPriority"/>
+        <result column="user_agent" property="userAgent"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        type, id, create_time, update_time, allow_notification, author, author_url, content, email, gravatar_md5, ip_address, is_admin, parent_id, post_id, status, top_priority, user_agent
+        type
+        , id, create_time, update_time, allow_notification, author, author_url, content, email, gravatar_md5, ip_address, is_admin, parent_id, post_id, status, top_priority, user_agent
     </sql>
 
 
     <select id="selectCountByPostIds" resultType="com.qinweizhao.blog.model.projection.CommentCountProjection">
-        select count(comment.id) as count, comment.postId
-        from PostComment comment
-        where comment.postId in
-        <foreach collection="postIds" item="id" open="(" close=")" separator=",">
-            #{id}
-        </foreach>
-        group by comment.postId
+        select count(id) as count, post_id
+        from comment
+        <where>
+            post_id in
+            <foreach collection="postIds" item="id" open="(" close=")" separator=",">
+                #{id}
+            </foreach>
+            group by post_id
+        </where>
     </select>
 
     <select id="selectCountDirectChildren"
             resultType="com.qinweizhao.blog.model.projection.CommentChildrenCountProjection">
-        select count(comment.id) as count, comment.postId
-        from PostComment comment
-        where comment.parentId in
+        select count(id) as count, post_id
+        from comment
+        where parent_id in
         <foreach collection="commentIds" item="id" open="(" close=")" separator=",">
             #{id}
         </foreach>
-        group by comment.parentId
+        group by parent_id
     </select>
 
 </mapper>

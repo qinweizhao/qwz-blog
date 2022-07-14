@@ -1,7 +1,12 @@
 package com.qinweizhao.blog.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.qinweizhao.blog.model.entity.Category;
 import com.qinweizhao.blog.model.entity.PostCategory;
+
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Post category service interface.
@@ -20,15 +25,15 @@ public interface PostCategoryService extends IService<PostCategory> {
 //     */
 //    @NonNull
 //    List<Category> listCategoriesBy(@NonNull Integer postId);
-//
-//    /**
-//     * List category list map by post id collection.
-//     *
-//     * @param postIds post id collection
-//     * @return a category list map (key: postId, value: a list of category)
-//     */
-//    @NonNull
-//    Map<Integer, List<Category>> listCategoryListMap(@Nullable Collection<Integer> postIds);
+
+    /**
+     * 按 id 集合列出类别列表图
+     * @param postIds postIds
+     * @return Map
+     */
+    Map<Integer, List<Category>> listCategoryListMap(Collection<Integer> postIds);
+
+
 //
 //    /**
 //     * Lists post by category id.

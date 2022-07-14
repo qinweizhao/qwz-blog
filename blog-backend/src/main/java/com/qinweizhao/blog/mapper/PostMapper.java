@@ -11,9 +11,7 @@ import com.qinweizhao.blog.model.param.PostQueryParam;
 import com.qinweizhao.blog.utils.MyBatisUtils;
 import org.apache.ibatis.annotations.Param;
 
-import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
 import java.util.Map;
 
 
@@ -118,9 +116,9 @@ public interface PostMapper extends BaseMapper<Post> {
         Page<Post> page = MyBatisUtils.buildPage(param);
 
         Map<String, Object> paramMap = new LinkedHashMap<>();
-        paramMap.put("keyword",param.getKeyword());
-        paramMap.put("categoryId",param.getCategoryId());
-        paramMap.put("status",PostConvert.INSTANCE.statusToInteger(param.getStatus()));
+        paramMap.put("keyword", param.getKeyword());
+        paramMap.put("categoryId", param.getCategoryId());
+        paramMap.put("status", PostConvert.INSTANCE.statusToInteger(param.getStatus()));
 
         Page<Post> postPage = this.selectPagePosts(page, paramMap);
         return MyBatisUtils.buildPageResult(postPage);
@@ -129,7 +127,7 @@ public interface PostMapper extends BaseMapper<Post> {
     /**
      * 分页(关联查询)
      *
-     * @param page page
+     * @param page  page
      * @param param param
      * @return PageResult
      */

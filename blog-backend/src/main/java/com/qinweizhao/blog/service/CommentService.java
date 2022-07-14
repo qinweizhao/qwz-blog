@@ -9,6 +9,8 @@ import com.qinweizhao.blog.model.param.CommentQueryParam;
 import com.qinweizhao.blog.model.vo.PostCommentWithPostVO;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Post comment service interface.
@@ -35,6 +37,13 @@ public interface CommentService extends IService<Comment> {
      */
     PageResult<CommentDTO>  pageComment(CommentQueryParam commentQueryParam);
 
+
+    /**
+     * 统计评论个数
+     * @param postIds postIds
+     * @return Map
+     */
+    Map<Integer, Long> countByPostIds(Set<Integer> postIds);
 
 
 //

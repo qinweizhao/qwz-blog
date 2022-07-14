@@ -7,6 +7,7 @@ import com.qinweizhao.blog.model.dto.post.BasePostSimpleDTO;
 import com.qinweizhao.blog.model.entity.Post;
 import com.qinweizhao.blog.model.enums.PostEditorType;
 import com.qinweizhao.blog.model.enums.PostStatus;
+import com.qinweizhao.blog.model.vo.PostListVO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
@@ -121,6 +122,14 @@ public interface PostConvert {
         }
         return postStatus;
     }
+
+
+    /**
+     *  convertToListVO
+     * @param post post
+     * @return PostListVO
+     */
+    PostListVO convertToListVO(BasePostSimpleDTO post);
 
 
 //    /**

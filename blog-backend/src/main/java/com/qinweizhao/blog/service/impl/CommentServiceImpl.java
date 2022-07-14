@@ -9,11 +9,17 @@ import com.qinweizhao.blog.model.dto.CommentDTO;
 import com.qinweizhao.blog.model.entity.Comment;
 import com.qinweizhao.blog.model.enums.CommentStatus;
 import com.qinweizhao.blog.model.param.CommentQueryParam;
+import com.qinweizhao.blog.model.projection.CommentCountProjection;
 import com.qinweizhao.blog.service.CommentService;
 import com.qinweizhao.blog.service.PostService;
+import com.qinweizhao.blog.utils.ServiceUtils;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * PostCommentService implementation class
@@ -72,5 +78,12 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
         return CommentConvert.INSTANCE.convertToDTO(commentResult);
 
     }
+
+    @Override
+    public Map<Integer, Long> countByPostIds(Set<Integer> postIds) {
+        List<CommentCountProjection> commentCountProjections = this.baseMapper.selectCountByPostIds(postIds);
+        return ServiceUtils.convertToMap(commentCountProjections, CommentCountProjection::getPostId, CommentCountProjection::getCount);
+    }
+
 
 }

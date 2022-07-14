@@ -2,9 +2,17 @@ package com.qinweizhao.blog.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.qinweizhao.blog.mapper.PostTagMapper;
+import com.qinweizhao.blog.mapper.TagMapper;
 import com.qinweizhao.blog.model.entity.PostTag;
+import com.qinweizhao.blog.model.entity.Tag;
 import com.qinweizhao.blog.service.PostTagService;
+import com.qinweizhao.blog.service.TagService;
+import com.qinweizhao.blog.utils.ServiceUtils;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
+
+import java.util.*;
 
 /**
  * Post tag service implementation.
@@ -14,27 +22,16 @@ import org.springframework.stereotype.Service;
  * @date 2019-03-19
  */
 @Service
+@AllArgsConstructor
 public class PostTagServiceImpl extends ServiceImpl<PostTagMapper, PostTag> implements PostTagService {
 
-//    private final PostTagRepository postTagRepository;
 //
 //    private final PostRepository postRepository;
-//
-//    private final TagRepository tagRepository;
+
+    private final TagService tagService;
 //
 //    private final OptionService optionService;
-//
-//    public PostTagServiceImpl(PostTagRepository postTagRepository,
-//            PostRepository postRepository,
-//            TagRepository tagRepository,
-//            OptionService optionService) {
-//        super(postTagRepository);
-//        this.postTagRepository = postTagRepository;
-//        this.postRepository = postRepository;
-//        this.tagRepository = tagRepository;
-//        this.optionService = optionService;
-//    }
-//
+
 //    @Override
 //    public List<Tag> listTagsBy(Integer postId) {
 //        Assert.notNull(postId, "Post id must not be null");
@@ -80,32 +77,32 @@ public class PostTagServiceImpl extends ServiceImpl<PostTagMapper, PostTag> impl
 //        ).collect(Collectors.toList());
 //    }
 //
-//    @Override
-//    public Map<Integer, List<Tag>> listTagListMapBy(Collection<Integer> postIds) {
-//        if (CollectionUtils.isEmpty(postIds)) {
-//            return Collections.emptyMap();
-//        }
-//
-//        // Find all post tags
-//        List<PostTag> postTags = postTagRepository.findAllByPostIdIn(postIds);
-//
-//        // Fetch tag ids
-//        Set<Integer> tagIds = ServiceUtils.fetchProperty(postTags, PostTag::getTagId);
-//
-//        // Find all tags
-//        List<Tag> tags = tagRepository.findAllById(tagIds);
-//
-//        // Convert to tag map
-//        Map<Integer, Tag> tagMap = ServiceUtils.convertToMap(tags, Tag::getId);
-//
-//        // Create tag list map
-//        Map<Integer, List<Tag>> tagListMap = new HashMap<>();
-//
-//        // Foreach and collect
-//        postTags.forEach(postTag -> tagListMap.computeIfAbsent(postTag.getPostId(), postId -> new LinkedList<>()).add(tagMap.get(postTag.getTagId())));
-//
-//        return tagListMap;
-//    }
+    @Override
+    public Map<Integer, List<Tag>> listTagListMapBy(Collection<Integer> postIds) {
+        if (CollectionUtils.isEmpty(postIds)) {
+            return Collections.emptyMap();
+        }
+
+        // 查找所有帖子标签
+        List<PostTag> postTags = this.baseMapper.listByPostId(postIds);
+
+        // Fetch tag ids
+        Set<Integer> tagIds = ServiceUtils.fetchProperty(postTags, PostTag::getTagId);
+
+        // Find all tags
+        List<Tag> tags = tagService.listByIds(tagIds);
+
+        // Convert to tag map
+        Map<Integer, Tag> tagMap = ServiceUtils.convertToMap(tags, Tag::getId);
+
+        // Create tag list map
+        Map<Integer, List<Tag>> tagListMap = new HashMap<>();
+
+        // Foreach and collect
+        postTags.forEach(postTag -> tagListMap.computeIfAbsent(postTag.getPostId(), postId -> new LinkedList<>()).add(tagMap.get(postTag.getTagId())));
+
+        return tagListMap;
+    }
 //
 //
 //    @Override

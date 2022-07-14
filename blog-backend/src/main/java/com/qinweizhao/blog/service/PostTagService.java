@@ -2,12 +2,18 @@ package com.qinweizhao.blog.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.qinweizhao.blog.model.entity.PostTag;
+import com.qinweizhao.blog.model.entity.Tag;
+
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Post tag service interface.
  *
  * @author johnniang
  * @author ryanwang
+ * @author qinweizhao
  * @date 2019-03-19
  */
 public interface PostTagService extends IService<PostTag> {
@@ -29,14 +35,13 @@ public interface PostTagService extends IService<PostTag> {
 //    @NonNull
 //    List<TagWithPostCountDTO> listTagWithCountDtos(@NonNull Sort sort);
 //
-//    /**
-//     * Lists tags list map by post id.
-//     *
-//     * @param postIds post id collection
-//     * @return tag map (key: postId, value: a list of tags)
-//     */
-//    @NonNull
-//    Map<Integer, List<Tag>> listTagListMapBy(@Nullable Collection<Integer> postIds);
+    /**
+     * 按帖子 ID 列出标签列表映射
+     *
+     * @param postIds post id collection
+     * @return tag map (key: postId, value: a list of tags)
+     */
+    Map<Integer, List<Tag>> listTagListMapBy(Collection<Integer> postIds);
 //
 //    /**
 //     * Lists posts by tag id.

@@ -13,7 +13,7 @@ import java.util.stream.Stream;
 public interface ValueEnum<T> {
 
     /**
-     * Converts value to corresponding enum.
+     * 将值转换为相应的枚举
      *
      * @param enumType enum type
      * @param value    database value
@@ -22,9 +22,9 @@ public interface ValueEnum<T> {
      * @return corresponding enum
      */
     static <V, E extends ValueEnum<V>> E valueToEnum(Class<E> enumType, V value) {
-        Assert.notNull(enumType, "enum type must not be null");
-        Assert.notNull(value, "value must not be null");
-        Assert.isTrue(enumType.isEnum(), "type must be an enum type");
+        Assert.notNull(enumType, "枚举类型不能为空");
+        Assert.notNull(value, "值不能为空");
+        Assert.isTrue(enumType.isEnum(), "类型必须是枚举类型");
 
         return Stream.of(enumType.getEnumConstants())
                 .filter(item -> item.getValue().equals(value))
@@ -33,7 +33,7 @@ public interface ValueEnum<T> {
     }
 
     /**
-     * Gets enum value.
+     * 获取枚举值
      *
      * @return enum value
      */

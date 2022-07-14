@@ -1,8 +1,6 @@
 package com.qinweizhao.blog.model.dto;
 
 import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
 
 import java.util.Date;
 
@@ -14,8 +12,6 @@ import java.util.Date;
  * @date 2019-03-19
  */
 @Data
-@ToString
-@EqualsAndHashCode
 public class CategoryDTO {
 
     private Integer id;
