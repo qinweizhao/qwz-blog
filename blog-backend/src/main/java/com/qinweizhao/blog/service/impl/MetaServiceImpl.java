@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.qinweizhao.blog.mapper.MetaMapper;
 import com.qinweizhao.blog.model.entity.Meta;
 import com.qinweizhao.blog.service.MetaService;
-import com.qinweizhao.blog.utils.ServiceUtils;
+import com.qinweizhao.blog.util.ServiceUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.*;

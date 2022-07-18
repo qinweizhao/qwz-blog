@@ -7,7 +7,7 @@ import com.qinweizhao.blog.exception.FileOperationException;
 import com.qinweizhao.blog.exception.ServiceException;
 import com.qinweizhao.blog.model.support.StaticFile;
 import com.qinweizhao.blog.service.StaticStorageService;
-import com.qinweizhao.blog.utils.FileUtils;
+import com.qinweizhao.blog.util.FileUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.boot.context.event.ApplicationStartedEvent;

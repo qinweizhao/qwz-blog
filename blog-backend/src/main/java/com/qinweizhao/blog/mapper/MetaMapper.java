@@ -2,7 +2,7 @@ package com.qinweizhao.blog.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.qinweizhao.blog.model.entity.Meta;
-import com.qinweizhao.blog.utils.LambdaQueryWrapperX;
+import com.qinweizhao.blog.util.LambdaQueryWrapperX;
 
 import java.util.List;
 import java.util.Set;

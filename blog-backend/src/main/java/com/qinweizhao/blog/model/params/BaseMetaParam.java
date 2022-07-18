@@ -1,6 +1,6 @@
 package com.qinweizhao.blog.model.params;
 
-import com.qinweizhao.blog.utils.ReflectionUtils;
+import com.qinweizhao.blog.util.ReflectionUtils;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;

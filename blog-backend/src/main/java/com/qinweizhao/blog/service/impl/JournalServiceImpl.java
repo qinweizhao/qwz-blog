@@ -1,32 +1,13 @@
 package com.qinweizhao.blog.service.impl;
 
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.qinweizhao.blog.mapper.JournalMapper;
-import com.qinweizhao.blog.model.dto.JournalDTO;
-import com.qinweizhao.blog.model.dto.JournalWithCmtCountDTO;
 import com.qinweizhao.blog.model.entity.Journal;
-import com.qinweizhao.blog.model.enums.JournalType;
-import com.qinweizhao.blog.model.params.JournalParam;
-import com.qinweizhao.blog.model.params.JournalQuery;
-import com.qinweizhao.blog.service.JournalCommentService;
 import com.qinweizhao.blog.service.JournalService;
-import com.qinweizhao.blog.utils.MarkdownUtils;
-import com.qinweizhao.blog.utils.ResultUtils;
-import com.qinweizhao.blog.utils.ServiceUtils;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.BeanUtils;
 
 import org.springframework.stereotype.Service;
-import org.springframework.util.Assert;
-import org.springframework.util.CollectionUtils;
-
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * Journal service implementation.

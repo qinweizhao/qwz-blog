@@ -10,8 +10,8 @@ import com.qinweizhao.blog.model.enums.CommentStatus;
 import com.qinweizhao.blog.model.param.CommentQueryParam;
 import com.qinweizhao.blog.model.projection.CommentChildrenCountProjection;
 import com.qinweizhao.blog.model.projection.CommentCountProjection;
-import com.qinweizhao.blog.utils.LambdaQueryWrapperX;
-import com.qinweizhao.blog.utils.MyBatisUtils;
+import com.qinweizhao.blog.util.LambdaQueryWrapperX;
+import com.qinweizhao.blog.util.MyBatisUtils;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.Collection;

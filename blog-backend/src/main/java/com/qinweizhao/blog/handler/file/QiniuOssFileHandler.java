@@ -14,9 +14,9 @@ import com.qinweizhao.blog.model.enums.AttachmentType;
 import com.qinweizhao.blog.model.properties.QiniuOssProperties;
 import com.qinweizhao.blog.model.support.UploadResult;
 import com.qinweizhao.blog.service.OptionService;
-import com.qinweizhao.blog.utils.FilenameUtils;
-import com.qinweizhao.blog.utils.ImageUtils;
-import com.qinweizhao.blog.utils.JsonUtils;
+import com.qinweizhao.blog.util.FilenameUtils;
+import com.qinweizhao.blog.util.ImageUtils;
+import com.qinweizhao.blog.util.JsonUtils;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -33,7 +33,7 @@ import java.util.Objects;
 
 import static com.qinweizhao.blog.handler.file.FileHandler.isImageType;
 import static com.qinweizhao.blog.model.support.HaloConst.*;
-import static com.qinweizhao.blog.utils.HaloUtils.ensureSuffix;
+import static com.qinweizhao.blog.util.HaloUtils.ensureSuffix;
 
 /**
  * Qiniu oss file handler.

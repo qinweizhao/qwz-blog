@@ -17,8 +17,8 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Stream;
 
-import static com.qinweizhao.blog.utils.HaloUtils.URL_SEPARATOR;
-import static com.qinweizhao.blog.utils.HaloUtils.ensureBoth;
+import static com.qinweizhao.blog.util.HaloUtils.URL_SEPARATOR;
+import static com.qinweizhao.blog.util.HaloUtils.ensureBoth;
 
 /**
  * @author ryanwang

@@ -2,23 +2,16 @@ package com.qinweizhao.blog.other;
 
 import com.qinweizhao.blog.config.properties.HaloProperties;
 import com.qinweizhao.blog.listener.StartedListener;
-import com.qinweizhao.blog.service.ThemeService;
-import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.util.ResourceUtils;
 
-import java.io.FileNotFoundException;
 import java.net.URI;
-import java.net.URISyntaxException;
-import java.nio.file.FileSystem;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 import static com.qinweizhao.blog.model.support.HaloConst.FILE_SEPARATOR;
 import static com.qinweizhao.blog.model.support.HaloConst.USER_HOME;
-import static com.qinweizhao.blog.utils.HaloUtils.ensureSuffix;
+import static com.qinweizhao.blog.util.HaloUtils.ensureSuffix;
 
 @SpringBootTest
 public class OutputTest {

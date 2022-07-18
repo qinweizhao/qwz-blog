@@ -8,7 +8,7 @@ import com.qinweizhao.blog.model.base.PageResult;
 import com.qinweizhao.blog.model.entity.Post;
 import com.qinweizhao.blog.model.enums.PostStatus;
 import com.qinweizhao.blog.model.param.PostQueryParam;
-import com.qinweizhao.blog.utils.MyBatisUtils;
+import com.qinweizhao.blog.util.MyBatisUtils;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.LinkedHashMap;

@@ -1,10 +1,8 @@
 package com.qinweizhao.blog.convert;
 
 
-import com.qinweizhao.blog.model.dto.TagDTO;
 import com.qinweizhao.blog.model.entity.Meta;
-import com.qinweizhao.blog.model.entity.Tag;
-import com.qinweizhao.blog.utils.ServiceUtils;
+import com.qinweizhao.blog.util.ServiceUtils;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 

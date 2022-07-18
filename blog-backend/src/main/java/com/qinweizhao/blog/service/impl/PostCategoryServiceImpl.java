@@ -6,7 +6,7 @@ import com.qinweizhao.blog.model.entity.Category;
 import com.qinweizhao.blog.model.entity.PostCategory;
 import com.qinweizhao.blog.service.CategoryService;
 import com.qinweizhao.blog.service.PostCategoryService;
-import com.qinweizhao.blog.utils.ServiceUtils;
+import com.qinweizhao.blog.util.ServiceUtils;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;

@@ -1,6 +1,6 @@
 package com.qinweizhao.blog.event.post;
 
-import com.qinweizhao.blog.utils.ServiceUtils;
+import com.qinweizhao.blog.util.ServiceUtils;
 import org.springframework.lang.NonNull;
 import org.springframework.util.Assert;
 

@@ -2,7 +2,7 @@ package com.qinweizhao.blog.cache;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.qinweizhao.blog.config.properties.HaloProperties;
-import com.qinweizhao.blog.utils.JsonUtils;
+import com.qinweizhao.blog.util.JsonUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.iq80.leveldb.*;
 import org.iq80.leveldb.impl.Iq80DBFactory;

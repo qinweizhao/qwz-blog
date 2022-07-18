@@ -3,7 +3,7 @@ package com.qinweizhao.blog.theme;
 import com.qinweizhao.blog.handler.theme.config.ThemePropertyResolver;
 import com.qinweizhao.blog.handler.theme.config.impl.YamlThemePropertyResolver;
 import com.qinweizhao.blog.handler.theme.config.support.ThemeProperty;
-import com.qinweizhao.blog.utils.FilenameUtils;
+import com.qinweizhao.blog.util.FilenameUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.lang.NonNull;

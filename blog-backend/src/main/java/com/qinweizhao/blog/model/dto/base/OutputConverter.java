@@ -2,7 +2,7 @@ package com.qinweizhao.blog.model.dto.base;
 
 import org.springframework.lang.NonNull;
 
-import static com.qinweizhao.blog.utils.BeanUtils.updateProperties;
+import static com.qinweizhao.blog.util.BeanUtils.updateProperties;
 
 /**
  * Converter interface for output DTO.

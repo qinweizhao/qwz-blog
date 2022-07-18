@@ -8,7 +8,7 @@ import java.time.Duration;
 
 import static com.qinweizhao.blog.model.support.HaloConst.FILE_SEPARATOR;
 import static com.qinweizhao.blog.model.support.HaloConst.USER_HOME;
-import static com.qinweizhao.blog.utils.HaloUtils.ensureSuffix;
+import static com.qinweizhao.blog.util.HaloUtils.ensureSuffix;
 
 
 /**

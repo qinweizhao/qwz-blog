@@ -1,11 +1,9 @@
 package com.qinweizhao.blog.controller.core;
 
-import cn.hutool.extra.servlet.ServletUtil;
 import com.qinweizhao.blog.exception.AbstractHaloException;
 import com.qinweizhao.blog.exception.NotFoundException;
 import com.qinweizhao.blog.service.OptionService;
 import com.qinweizhao.blog.service.ThemeService;
-import com.qinweizhao.blog.utils.FilenameUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.web.ErrorProperties;
 import org.springframework.boot.autoconfigure.web.ServerProperties;
@@ -15,19 +13,12 @@ import org.springframework.boot.web.servlet.error.ErrorAttributes;
 import org.springframework.http.HttpStatus;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.util.NestedServletException;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.util.Collections;
-import java.util.Map;
-
-import static com.qinweizhao.blog.model.support.HaloConst.DEFAULT_ERROR_PATH;
 
 /**
  * Error page Controller

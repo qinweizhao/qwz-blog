@@ -33,7 +33,7 @@ import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
 import static com.qinweizhao.blog.model.support.HaloConst.FILE_SEPARATOR;
-import static com.qinweizhao.blog.utils.HaloUtils.*;
+import static com.qinweizhao.blog.util.HaloUtils.*;
 
 /**
  * @author ryanwang

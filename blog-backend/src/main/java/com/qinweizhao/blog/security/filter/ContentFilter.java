@@ -5,7 +5,7 @@ import com.qinweizhao.blog.config.properties.HaloProperties;
 import com.qinweizhao.blog.security.handler.ContentAuthenticationFailureHandler;
 import com.qinweizhao.blog.security.service.OneTimeTokenService;
 import com.qinweizhao.blog.service.OptionService;
-import com.qinweizhao.blog.utils.HaloUtils;
+import com.qinweizhao.blog.util.HaloUtils;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 

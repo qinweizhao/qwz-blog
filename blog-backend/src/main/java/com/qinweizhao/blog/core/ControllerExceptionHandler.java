@@ -2,8 +2,8 @@ package com.qinweizhao.blog.core;
 
 import com.qinweizhao.blog.exception.AbstractHaloException;
 import com.qinweizhao.blog.model.support.BaseResponse;
-import com.qinweizhao.blog.utils.ExceptionUtils;
-import com.qinweizhao.blog.utils.ValidationUtils;
+import com.qinweizhao.blog.util.ExceptionUtils;
+import com.qinweizhao.blog.util.ValidationUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;

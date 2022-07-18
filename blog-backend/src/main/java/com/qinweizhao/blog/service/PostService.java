@@ -6,6 +6,7 @@ import com.qinweizhao.blog.model.dto.post.BasePostSimpleDTO;
 import com.qinweizhao.blog.model.entity.Post;
 import com.qinweizhao.blog.model.enums.PostStatus;
 import com.qinweizhao.blog.model.param.PostQueryParam;
+import com.qinweizhao.blog.model.vo.PostListVO;
 
 /**
  * Post service interface.
@@ -45,6 +46,13 @@ public interface PostService extends IService<Post> {
      */
     PageResult<BasePostSimpleDTO> pagePosts(PostQueryParam postQueryParam);
 
+
+    /**
+     *
+     * @param postPage
+     * @return
+     */
+    PageResult<PostListVO> buildPostListVO(PageResult<BasePostSimpleDTO> postPage);
 
 //
 //    /**

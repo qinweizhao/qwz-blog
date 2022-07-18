@@ -7,7 +7,7 @@ import com.qinweizhao.blog.model.properties.BlogProperties;
 import com.qinweizhao.blog.model.support.HaloConst;
 import com.qinweizhao.blog.service.OptionService;
 import com.qinweizhao.blog.service.UserService;
-import com.qinweizhao.blog.utils.HaloUtils;
+import com.qinweizhao.blog.util.HaloUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

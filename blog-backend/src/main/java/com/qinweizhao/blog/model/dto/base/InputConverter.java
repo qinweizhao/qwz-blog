@@ -1,7 +1,7 @@
 package com.qinweizhao.blog.model.dto.base;
 
-import com.qinweizhao.blog.utils.BeanUtils;
-import com.qinweizhao.blog.utils.ReflectionUtils;
+import com.qinweizhao.blog.util.BeanUtils;
+import com.qinweizhao.blog.util.ReflectionUtils;
 import org.springframework.lang.Nullable;
 
 import java.lang.reflect.ParameterizedType;
