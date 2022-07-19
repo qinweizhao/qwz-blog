@@ -1,6 +1,6 @@
 package com.qinweizhao.blog.security.filter;
 
-import com.qinweizhao.blog.cache.AbstractStringCacheStore;
+import com.qinweizhao.blog.framework.cache.AbstractStringCacheStore;
 import com.qinweizhao.blog.config.properties.HaloProperties;
 import com.qinweizhao.blog.security.handler.ContentAuthenticationFailureHandler;
 import com.qinweizhao.blog.security.service.OneTimeTokenService;

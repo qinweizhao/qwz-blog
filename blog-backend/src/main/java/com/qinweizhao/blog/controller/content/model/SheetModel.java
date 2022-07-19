@@ -1,6 +1,6 @@
 package com.qinweizhao.blog.controller.content.model;
 
-import com.qinweizhao.blog.cache.AbstractStringCacheStore;
+import com.qinweizhao.blog.framework.cache.AbstractStringCacheStore;
 import com.qinweizhao.blog.service.OptionService;
 import com.qinweizhao.blog.service.SheetMetaService;
 import com.qinweizhao.blog.service.SheetService;

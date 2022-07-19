@@ -2,6 +2,7 @@ package com.qinweizhao.blog.mapper;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.qinweizhao.blog.framework.mybatis.mapper.BaseMapperX;
 import com.qinweizhao.blog.model.entity.Category;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.lang.NonNull;
@@ -13,7 +14,7 @@ import java.util.List;
  * @since 2022/7/5
  */
 @Mapper
-public interface CategoryMapper extends BaseMapper<Category> {
+public interface CategoryMapper extends BaseMapper<Category>, BaseMapperX<Category> {
 
     /**
      * 列表

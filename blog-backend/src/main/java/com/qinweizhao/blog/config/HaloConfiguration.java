@@ -1,9 +1,9 @@
 package com.qinweizhao.blog.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.qinweizhao.blog.cache.AbstractStringCacheStore;
-import com.qinweizhao.blog.cache.InMemoryCacheStore;
-import com.qinweizhao.blog.cache.LevelCacheStore;
+import com.qinweizhao.blog.framework.cache.AbstractStringCacheStore;
+import com.qinweizhao.blog.framework.cache.InMemoryCacheStore;
+import com.qinweizhao.blog.framework.cache.LevelCacheStore;
 import com.qinweizhao.blog.config.properties.HaloProperties;
 import com.qinweizhao.blog.util.HttpClientUtils;
 import lombok.extern.slf4j.Slf4j;

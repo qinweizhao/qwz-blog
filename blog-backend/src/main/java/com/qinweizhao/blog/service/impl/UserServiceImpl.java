@@ -2,10 +2,10 @@ package com.qinweizhao.blog.service.impl;
 
 import cn.hutool.crypto.digest.BCrypt;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.qinweizhao.blog.cache.AbstractStringCacheStore;
+import com.qinweizhao.blog.framework.cache.AbstractStringCacheStore;
 import com.qinweizhao.blog.convert.UserConvert;
-import com.qinweizhao.blog.event.logger.LogEvent;
-import com.qinweizhao.blog.event.user.UserUpdatedEvent;
+import com.qinweizhao.blog.framework.event.logger.LogEvent;
+import com.qinweizhao.blog.framework.event.user.UserUpdatedEvent;
 import com.qinweizhao.blog.exception.BadRequestException;
 import com.qinweizhao.blog.exception.ForbiddenException;
 import com.qinweizhao.blog.exception.NotFoundException;

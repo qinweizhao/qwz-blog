@@ -1,17 +1,5 @@
 package com.qinweizhao.blog.service;
 
-import com.qinweizhao.blog.handler.theme.config.support.Group;
-import com.qinweizhao.blog.handler.theme.config.support.ThemeProperty;
-import com.qinweizhao.blog.model.support.ThemeFile;
-import org.springframework.lang.NonNull;
-import org.springframework.lang.Nullable;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.io.IOException;
-import java.nio.file.Path;
-import java.util.List;
-import java.util.Optional;
-
 /**
  * Theme service interface.
  *

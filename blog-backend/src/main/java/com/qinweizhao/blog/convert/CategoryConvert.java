@@ -2,6 +2,7 @@ package com.qinweizhao.blog.convert;
 
 
 import com.qinweizhao.blog.model.dto.CategoryDTO;
+import com.qinweizhao.blog.model.dto.CategoryWithPostCountDTO;
 import com.qinweizhao.blog.model.entity.Category;
 import com.qinweizhao.blog.model.params.CategoryParam;
 import com.qinweizhao.blog.model.vo.CategoryVO;
@@ -31,10 +32,18 @@ public interface CategoryConvert {
     /**
      * convert
      *
-     * @param param param
+     * @param categoryDTOList categoryDTOList
      * @return Category
      */
-    Category convert(CategoryParam param);
+    List<CategoryWithPostCountDTO> convert(List<CategoryDTO> categoryDTOList);
+
+    /**
+     * convert
+     *
+     * @param category category
+     * @return CategoryDTO
+     */
+    CategoryDTO convert(Category category);
 
     /**
      * convert
@@ -44,4 +53,19 @@ public interface CategoryConvert {
      */
     CategoryVO convertVO(Category category);
 
+    /**
+     * convert
+     *
+     * @param category category
+     * @return Category
+     */
+    CategoryWithPostCountDTO convertPostCountDTO(Category category);
+
+    /**
+     * convert
+     *
+     * @param param param
+     * @return Category
+     */
+    Category convert(CategoryParam param);
 }

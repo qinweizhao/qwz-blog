@@ -2,6 +2,7 @@ package com.qinweizhao.blog.controller.admin;
 
 import com.qinweizhao.blog.convert.CategoryConvert;
 import com.qinweizhao.blog.model.dto.CategoryDTO;
+import com.qinweizhao.blog.model.dto.CategoryWithPostCountDTO;
 import com.qinweizhao.blog.model.entity.Category;
 import com.qinweizhao.blog.model.params.CategoryParam;
 import com.qinweizhao.blog.model.vo.CategoryVO;
@@ -27,58 +28,67 @@ import java.util.List;
 public class CategoryController {
 
     private final CategoryService categoryService;
-//
-//
-//    /**
-//     * 获取分类详细信息
-//     *
-//     * @param categoryId categoryId
-//     * @return CategoryDTO
-//     */
-//    @GetMapping("{categoryId:\\d+}")
-//    public CategoryDTO get(@PathVariable("categoryId") Integer categoryId) {
-//        return CategoryConvert.INSTANCE.convert(categoryService.getById(categoryId));
-//    }
-//
-//    /**
-//     * 分类列表
-//     *
-//     * @return List
-//     */
-//    @GetMapping
-//    public List<? extends CategoryDTO> listAll() {
-//        return CategoryConvert.INSTANCE.convertToDTO(categoryService.list());
-//    }
-//
-//    @GetMapping("tree_view")
-//    @ApiOperation("将所有分类列为树")
-//    public List<CategoryVO> listAsTree(@SortDefault(sort = "name", direction = ASC) Sort sort) {
-//        return categoryService.listAsTree(sort);
-//    }
-//
-//    @PostMapping
-//    @ApiOperation("新增分类")
-//    public CategoryDTO createBy(@RequestBody @Valid CategoryParam categoryParam) {
-//
-//        Category category = CategoryConvert.INSTANCE.convert(categoryParam);
-//        boolean b = categoryService.saveCategory(category);
-//        return ResultUtils.judge(b, new CategoryDTO());
-//    }
-//
-//    @PutMapping("{categoryId:\\d+}")
-//    @ApiOperation("更新分类")
-//    public CategoryDTO updateBy(@PathVariable("categoryId") Integer categoryId,
-//                                @RequestBody @Valid CategoryParam categoryParam) {
-//        Category category = CategoryConvert.INSTANCE.convert(categoryParam);
-//        category.setId(categoryId);
-//        boolean b = categoryService.updateById(category);
-//        CategoryDTO resultCategory = CategoryConvert.INSTANCE.convert(category);
-//        return ResultUtils.judge(b, resultCategory);
-//    }
-//
-//    @DeleteMapping("{categoryId:\\d+}")
-//    @ApiOperation("删除分类")
-//    public void deletePermanently(@PathVariable("categoryId") Integer categoryId) {
-//        categoryService.removeCategoryAndPostCategoryBy(categoryId);
-//    }
+
+    /**
+     * 获取分类详细信息
+     *
+     * @param categoryId categoryId
+     * @return CategoryDTO
+     */
+    @GetMapping("{categoryId:\\d+}")
+    public CategoryDTO get(@PathVariable("categoryId") Integer categoryId) {
+        return categoryService.getById(categoryId);
+    }
+
+    /**
+     * 分类列表
+     *
+     * @return List
+     */
+    @GetMapping
+    public List<CategoryWithPostCountDTO> listAll() {
+        return categoryService.listCategoryWithPostCountDto();
+    }
+
+    /**
+     * 将所有分类列为树
+     * @return List
+     */
+    @GetMapping("tree_view")
+    public List<CategoryVO> listAsTree() {
+        return categoryService.listAsTree();
+    }
+
+    /**
+     * 新增分类
+     * @param categoryParam categoryParam
+     * @return
+     */
+    @PostMapping
+    public CategoryDTO createBy(@RequestBody @Valid CategoryParam categoryParam) {
+        boolean b = categoryService.saveCategory(categoryParam);
+        return ResultUtils.judge(b, new CategoryDTO());
+    }
+
+    /**
+     * 更新分类
+     * @param categoryId category Id
+     * @param categoryParam categoryId
+     * @return CategoryDTO
+     */
+    @PutMapping("{categoryId:\\d+}")
+    public Boolean updateBy(@PathVariable("categoryId") Integer categoryId,
+                                @RequestBody @Valid CategoryParam categoryParam) {
+
+       return categoryService.updateById(categoryId,categoryParam);
+    }
+
+    /**
+     * 删除分类
+     * @param categoryId categoryId
+     */
+    @DeleteMapping("{categoryId:\\d+}")
+    public void deletePermanently(@PathVariable("categoryId") Integer categoryId) {
+        categoryService.removeCategoryAndPostCategoryById(categoryId);
+    }
 }

@@ -1,30 +1,15 @@
-//package com.qinweizhao.blog.task;
-//
-//import cn.hutool.core.date.DateUtil;
-//import com.qinweizhao.blog.model.entity.Post;
-//import com.qinweizhao.blog.model.enums.PostStatus;
-//import com.qinweizhao.blog.model.enums.TimeUnit;
-//import com.qinweizhao.blog.model.properties.PostProperties;
-//import com.qinweizhao.blog.service.OptionService;
-//import com.qinweizhao.blog.service.PostService;
-//import lombok.extern.slf4j.Slf4j;
-//import org.springframework.scheduling.annotation.Scheduled;
-//import org.springframework.stereotype.Component;
-//import org.springframework.util.CollectionUtils;
-//
-//import java.time.LocalDateTime;
-//import java.time.temporal.ChronoUnit;
-//import java.util.List;
-//import java.util.Objects;
-//import java.util.stream.Collectors;
-//
-///**
-// * @author Wh1te
-// * @date 2020-10-19
-// */
-//@Slf4j
-//@Component
-//public class RecycledPostCleaningTask {
+package com.qinweizhao.blog.task;
+
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
+
+/**
+ * @author Wh1te
+ * @date 2020-10-19
+ */
+@Slf4j
+@Component
+public class RecycledPostCleaningTask {
 //
 //    private final OptionService optionService;
 //
@@ -77,5 +62,5 @@
 //        List<Post> posts = postService.removeByIds(ids);
 //        log.info("Recycled posts cleaning has been completed, {} posts has been permanently deleted", posts.size());
 //    }
-//
-//}
+
+}

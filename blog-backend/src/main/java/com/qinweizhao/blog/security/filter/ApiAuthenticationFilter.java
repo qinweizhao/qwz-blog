@@ -1,7 +1,7 @@
 package com.qinweizhao.blog.security.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.qinweizhao.blog.cache.AbstractStringCacheStore;
+import com.qinweizhao.blog.framework.cache.AbstractStringCacheStore;
 import com.qinweizhao.blog.config.properties.HaloProperties;
 import com.qinweizhao.blog.exception.AuthenticationException;
 import com.qinweizhao.blog.exception.ForbiddenException;

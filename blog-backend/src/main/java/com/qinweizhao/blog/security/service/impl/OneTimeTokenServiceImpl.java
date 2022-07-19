@@ -1,6 +1,6 @@
 package com.qinweizhao.blog.security.service.impl;
 
-import com.qinweizhao.blog.cache.AbstractStringCacheStore;
+import com.qinweizhao.blog.framework.cache.AbstractStringCacheStore;
 import com.qinweizhao.blog.security.service.OneTimeTokenService;
 import com.qinweizhao.blog.util.HaloUtils;
 import org.springframework.stereotype.Service;

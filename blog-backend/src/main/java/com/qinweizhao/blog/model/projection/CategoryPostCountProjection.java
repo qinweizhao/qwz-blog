@@ -11,8 +11,6 @@ import lombok.NoArgsConstructor;
  * @date 19-4-23
  */
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 public class CategoryPostCountProjection {
 
     private Long postCount;

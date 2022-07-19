@@ -1,7 +1,9 @@
 package com.qinweizhao.blog.mapper;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.qinweizhao.blog.model.entity.PostCategory;
+import com.qinweizhao.blog.model.projection.CategoryPostCountProjection;
 import com.qinweizhao.blog.util.LambdaQueryWrapperX;
 
 import java.util.Collection;
@@ -28,4 +30,23 @@ public interface PostCategoryMapper extends BaseMapper<PostCategory> {
                 .in(PostCategory::getPostId, postIds)
         );
     }
+
+    /**
+     * 每个分类包含多少文章数量
+     * @return List
+     */
+    List<CategoryPostCountProjection> selectPostCount();
+
+
+    /**
+     * 通过分类 Id 删除关联
+     * @param categoryId categoryId
+     * @return int
+     */
+    default int deleteByCategoryId(Integer categoryId){
+        return this.delete(new LambdaQueryWrapper<PostCategory>()
+                .eq(PostCategory::getCategoryId,categoryId)
+        );
+    }
+
 }

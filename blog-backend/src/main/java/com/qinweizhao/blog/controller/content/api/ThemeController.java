@@ -1,14 +1,7 @@
 package com.qinweizhao.blog.controller.content.api;
 
-import com.qinweizhao.blog.handler.theme.config.support.ThemeProperty;
-import com.qinweizhao.blog.service.ThemeService;
-import com.qinweizhao.blog.service.ThemeSettingService;
-import io.swagger.annotations.ApiOperation;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.Map;
 
 /**
  * Content theme controller.

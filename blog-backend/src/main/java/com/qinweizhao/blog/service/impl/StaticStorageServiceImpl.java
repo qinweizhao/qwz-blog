@@ -2,7 +2,7 @@ package com.qinweizhao.blog.service.impl;
 
 import cn.hutool.core.util.IdUtil;
 import com.qinweizhao.blog.config.properties.HaloProperties;
-import com.qinweizhao.blog.event.StaticStorageChangedEvent;
+import com.qinweizhao.blog.framework.event.StaticStorageChangedEvent;
 import com.qinweizhao.blog.exception.FileOperationException;
 import com.qinweizhao.blog.exception.ServiceException;
 import com.qinweizhao.blog.model.support.StaticFile;

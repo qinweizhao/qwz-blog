@@ -1,7 +1,7 @@
 package com.qinweizhao.blog.other;
 
 import com.qinweizhao.blog.config.properties.HaloProperties;
-import com.qinweizhao.blog.listener.StartedListener;
+import com.qinweizhao.blog.framework.listener.StartedListener;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

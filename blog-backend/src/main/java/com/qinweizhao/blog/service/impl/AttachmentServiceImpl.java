@@ -2,7 +2,7 @@ package com.qinweizhao.blog.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.qinweizhao.blog.exception.AlreadyExistsException;
-import com.qinweizhao.blog.handler.file.FileHandlers;
+import com.qinweizhao.blog.framework.handler.file.FileHandlers;
 import com.qinweizhao.blog.mapper.AttachmentMapper;
 import com.qinweizhao.blog.model.entity.Attachment;
 import com.qinweizhao.blog.model.enums.AttachmentType;

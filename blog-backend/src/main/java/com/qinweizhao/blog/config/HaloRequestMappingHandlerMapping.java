@@ -1,7 +1,7 @@
 package com.qinweizhao.blog.config;
 
 import com.qinweizhao.blog.config.properties.HaloProperties;
-import com.qinweizhao.blog.event.StaticStorageChangedEvent;
+import com.qinweizhao.blog.framework.event.StaticStorageChangedEvent;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationListener;
 import org.springframework.util.AntPathMatcher;

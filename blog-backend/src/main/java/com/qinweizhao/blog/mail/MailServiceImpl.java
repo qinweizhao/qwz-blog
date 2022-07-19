@@ -1,6 +1,6 @@
 package com.qinweizhao.blog.mail;
 
-import com.qinweizhao.blog.event.options.OptionUpdatedEvent;
+import com.qinweizhao.blog.framework.event.options.OptionUpdatedEvent;
 import com.qinweizhao.blog.service.OptionService;
 import freemarker.template.Template;
 import lombok.extern.slf4j.Slf4j;

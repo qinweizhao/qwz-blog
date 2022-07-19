@@ -11,7 +11,6 @@ import lombok.ToString;
  * @date 19-4-23
  */
 @Data
-@ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
 public class CategoryWithPostCountDTO extends CategoryDTO {
 
