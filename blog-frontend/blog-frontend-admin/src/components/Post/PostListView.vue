@@ -562,9 +562,9 @@ export default {
       try {
         this.categories.loading = true
 
-        const response = await apiClient.category.list({ sort: [], more: true })
+        const response = await categoryApi.list()
 
-        this.categories.data = response.data
+        this.categories.data = response.data.data
       } catch (error) {
         this.$log.error(error)
       } finally {

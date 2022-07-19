@@ -42,7 +42,7 @@ public class CategoryController {
      * @return List
      */
     @GetMapping
-    public List<CategoryWithPostCountDTO> listAll() {
+    public List<CategoryWithPostCountDTO> list() {
         return categoryService.listCategoryWithPostCountDto();
     }
 

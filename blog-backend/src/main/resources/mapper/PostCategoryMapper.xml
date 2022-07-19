@@ -19,7 +19,7 @@
 
     <select id="selectPostCount" resultType="com.qinweizhao.blog.model.projection.CategoryPostCountProjection">
         select category_id, count(post_id) as post_count
-        from PostCategory pc
+        from post_category pc
         group by pc.category_id
     </select>
 
