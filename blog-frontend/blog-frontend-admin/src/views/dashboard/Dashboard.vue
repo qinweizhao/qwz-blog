@@ -78,9 +78,6 @@
                     <a-tab-pane key="posts" tab="文章">
                       <recent-comment-tab type="posts" />
                     </a-tab-pane>
-                    <a-tab-pane key="sheets" tab="页面">
-                      <recent-comment-tab type="sheets" />
-                    </a-tab-pane>
                     <a-tab-pane key="journals" tab="日志">
                       <recent-comment-tab type="journals" />
                     </a-tab-pane>

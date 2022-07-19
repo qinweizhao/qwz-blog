@@ -8,7 +8,7 @@ import com.qinweizhao.blog.convert.PostConvert;
 import com.qinweizhao.blog.convert.TagConvert;
 import com.qinweizhao.blog.mapper.PostMapper;
 import com.qinweizhao.blog.model.base.PageResult;
-import com.qinweizhao.blog.model.dto.post.BasePostSimpleDTO;
+import com.qinweizhao.blog.model.dto.post.PostSimpleDTO;
 import com.qinweizhao.blog.model.entity.Category;
 import com.qinweizhao.blog.model.entity.Meta;
 import com.qinweizhao.blog.model.entity.Post;
@@ -71,16 +71,16 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
     }
 
     @Override
-    public PageResult<BasePostSimpleDTO> pagePosts(PostQueryParam postQueryParam) {
+    public PageResult<PostSimpleDTO> pagePosts(PostQueryParam postQueryParam) {
         PageResult<Post> pageResult = this.baseMapper.selectPagePosts(postQueryParam);
         return PostConvert.INSTANCE.convertToSimpleDTO(pageResult);
     }
 
     @Override
-    public PageResult<PostListVO> buildPostListVO(PageResult<BasePostSimpleDTO> postPage) {
-        List<BasePostSimpleDTO> posts = postPage.getContent();
+    public PageResult<PostListVO> buildPostListVO(PageResult<PostSimpleDTO> postPage) {
+        List<PostSimpleDTO> posts = postPage.getContent();
 
-        Set<Integer> postIds = ServiceUtils.fetchProperty(posts, BasePostSimpleDTO::getId);
+        Set<Integer> postIds = ServiceUtils.fetchProperty(posts, PostSimpleDTO::getId);
 
         // Get tag list map
         Map<Integer, List<Tag>> tagListMap = postTagService.listTagListMapBy(postIds);
@@ -140,7 +140,7 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
     }
 
 
-    private String buildFullPath(BasePostSimpleDTO post) {
+    private String buildFullPath(PostSimpleDTO post) {
 
         PostPermalinkType permalinkType = optionService.getPostPermalinkType();
 

@@ -34,10 +34,10 @@ import java.util.Set;
 @AllArgsConstructor
 public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> implements CommentService {
 
+//
+//    private final PostService postService;
 
-    private final PostService postService;
-
-    private final PostMapper postMapper;
+//    private final PostMapper postMapper;
 //
 //    private final OptionService optionService;
 //

@@ -1,7 +1,10 @@
 package com.qinweizhao.blog.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.qinweizhao.blog.model.base.PageResult;
+import com.qinweizhao.blog.model.dto.LogDTO;
 import com.qinweizhao.blog.model.entity.Log;
+import com.qinweizhao.blog.model.param.LogQueryParam;
 
 /**
  * Log service interface.
@@ -11,11 +14,12 @@ import com.qinweizhao.blog.model.entity.Log;
  */
 public interface LogService extends IService<Log> {
 
-//    /**
-//     * Lists latest logs.
-//     *
-//     * @param top top number must not be less than 0
-//     * @return a page of latest logs
-//     */
-//    Page<LogDTO> pageLatest(int top);
+    /**
+     * 分页
+     * @param param param
+     * @return Page
+     */
+    PageResult<LogDTO> pageLogs(LogQueryParam param);
+
+
 }

@@ -2,7 +2,7 @@ package com.qinweizhao.blog.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.qinweizhao.blog.model.base.PageResult;
-import com.qinweizhao.blog.model.dto.post.BasePostSimpleDTO;
+import com.qinweizhao.blog.model.dto.post.PostSimpleDTO;
 import com.qinweizhao.blog.model.entity.Post;
 import com.qinweizhao.blog.model.enums.PostStatus;
 import com.qinweizhao.blog.model.param.PostQueryParam;
@@ -44,7 +44,7 @@ public interface PostService extends IService<Post> {
      * @param postQueryParam postQueryParam
      * @return PageResult
      */
-    PageResult<BasePostSimpleDTO> pagePosts(PostQueryParam postQueryParam);
+    PageResult<PostSimpleDTO> pagePosts(PostQueryParam postQueryParam);
 
 
     /**
@@ -52,7 +52,7 @@ public interface PostService extends IService<Post> {
      * @param postPage
      * @return
      */
-    PageResult<PostListVO> buildPostListVO(PageResult<BasePostSimpleDTO> postPage);
+    PageResult<PostListVO> buildPostListVO(PageResult<PostSimpleDTO> postPage);
 
 //
 //    /**

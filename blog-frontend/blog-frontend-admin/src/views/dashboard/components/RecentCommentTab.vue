@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import apiClient from '@/utils/api-client'
+import commentApi from '@/api/comment'
 
 export default {
   name: 'RecentCommentTab',
@@ -13,7 +13,7 @@ export default {
       required: false,
       default: 'posts',
       validator: function (value) {
-        return ['posts', 'sheets', 'journals'].indexOf(value) !== -1
+        return ['posts', 'journals'].indexOf(value) !== -1
       }
     }
   },
@@ -30,7 +30,7 @@ export default {
     async handleListTargetComments() {
       try {
         this.loading = true
-        const { data } = await apiClient.comment.latest(this.type, 5, 'PUBLISHED')
+        const { data } = await commentApi.latestComment(this.type, 5, 'PUBLISHED')
         this.comments = data
       } catch (e) {
         this.$log.error('Failed to load comments', e)

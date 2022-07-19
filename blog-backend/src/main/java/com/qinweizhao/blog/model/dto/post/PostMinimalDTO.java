@@ -14,7 +14,7 @@ import java.util.Date;
  * @date 2019-03-19
  */
 @Data
-public class BasePostMinimalDTO {
+public class PostMinimalDTO {
 
     private Integer id;
 
@@ -38,7 +38,4 @@ public class BasePostMinimalDTO {
 
     private String fullPath;
 
-
-
-    private String formatContent;
 }

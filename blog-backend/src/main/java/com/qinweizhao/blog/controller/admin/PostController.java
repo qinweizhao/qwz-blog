@@ -1,14 +1,19 @@
 package com.qinweizhao.blog.controller.admin;
 
+import com.qinweizhao.blog.convert.PostConvert;
 import com.qinweizhao.blog.model.base.PageResult;
-import com.qinweizhao.blog.model.dto.post.BasePostSimpleDTO;
+import com.qinweizhao.blog.model.dto.post.PostMinimalDTO;
+import com.qinweizhao.blog.model.dto.post.PostSimpleDTO;
 import com.qinweizhao.blog.model.param.PostQueryParam;
+import com.qinweizhao.blog.model.vo.PostListVO;
 import com.qinweizhao.blog.service.PostService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 /**
  * Post controller.
@@ -31,29 +36,27 @@ public class PostController {
      * 分页
      *
      * @param postQueryParam postQueryParam
-     * @param more           more
      * @return PageResult
      */
     @GetMapping
-    public PageResult<? extends BasePostSimpleDTO> pageBy(PostQueryParam postQueryParam, @RequestParam(value = "more", defaultValue = "true") Boolean more) {
-        PageResult<BasePostSimpleDTO> postPage = postService.pagePosts(postQueryParam);
-        if (more) {
-            return postService.buildPostListVO(postPage);
-        }
-
-        return postPage;
+    public PageResult<PostListVO> pageBy(PostQueryParam postQueryParam) {
+        PageResult<PostSimpleDTO> postPage = postService.pagePosts(postQueryParam);
+        return postService.buildPostListVO(postPage);
     }
-
 
     /**
      * 最新发布
+     *
      * @param top top
-     * @return
+     * @return List
      */
-//    @GetMapping("latest")
-//    public List<BasePostMinimalDTO> pageLatest(@RequestParam(name = "top", defaultValue = "10") int top) {
-//        return postService.convertToMinimal(postService.pageLatest(top).getContent());
-//    }
+    @GetMapping("latest")
+    public List<PostMinimalDTO> pageLatest(@RequestParam(name = "top", defaultValue = "10") int top) {
+        PostQueryParam postQueryParam = new PostQueryParam();
+        postQueryParam.setSize(top);
+        PageResult<PostSimpleDTO> postPage = postService.pagePosts(postQueryParam);
+        return PostConvert.INSTANCE.convertToMinimal(postPage.getContent());
+    }
 
 //    @GetMapping("status/{status}")
 //    @ApiOperation("Gets a page of post by post status")

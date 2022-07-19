@@ -2,14 +2,16 @@ package com.qinweizhao.blog.convert;
 
 
 import com.qinweizhao.blog.model.base.PageResult;
-import com.qinweizhao.blog.model.dto.post.BasePostMinimalDTO;
-import com.qinweizhao.blog.model.dto.post.BasePostSimpleDTO;
+import com.qinweizhao.blog.model.dto.post.PostMinimalDTO;
+import com.qinweizhao.blog.model.dto.post.PostSimpleDTO;
 import com.qinweizhao.blog.model.entity.Post;
 import com.qinweizhao.blog.model.enums.PostEditorType;
 import com.qinweizhao.blog.model.enums.PostStatus;
 import com.qinweizhao.blog.model.vo.PostListVO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
+
+import java.util.List;
 
 /**
  * @author qinweizhao
@@ -27,7 +29,7 @@ public interface PostConvert {
      * @param post post
      * @return Post
      */
-    BasePostMinimalDTO convert(Post post);
+    PostMinimalDTO convert(Post post);
 
     /**
      * 编辑器类型转换
@@ -91,7 +93,7 @@ public interface PostConvert {
      * @param pageResult pageResult
      * @return PageResult
      */
-    PageResult<BasePostSimpleDTO> convertToSimpleDTO(PageResult<Post> pageResult);
+    PageResult<PostSimpleDTO> convertToSimpleDTO(PageResult<Post> pageResult);
 
     /**
      * statusToInteger
@@ -129,23 +131,14 @@ public interface PostConvert {
      * @param post post
      * @return PostListVO
      */
-    PostListVO convertToListVO(BasePostSimpleDTO post);
+    PostListVO convertToListVO(PostSimpleDTO post);
+
+    /**
+     * convertToMinimal
+     * @param content content
+     * @return List
+     */
+    List<PostMinimalDTO> convertToMinimal(List<PostSimpleDTO> content);
 
 
-//    /**
-//     * convertToVO
-//     *
-//     * @param postPage postPage
-//     * @return Post
-//     */
-//    Page<PostListVO> convertToVO(Page<Post> postPage);
-//
-//
-//    /**
-//     * convertToDTO
-//     *
-//     * @param postPage postPage
-//     * @return Post
-//     */
-//    Page<BasePostSimpleDTO> convertToDTO(Page<Post> postPage);
 }

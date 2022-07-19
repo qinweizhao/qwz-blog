@@ -2,6 +2,7 @@ package com.qinweizhao.blog.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.qinweizhao.blog.mapper.PostTagMapper;
+import com.qinweizhao.blog.mapper.TagMapper;
 import com.qinweizhao.blog.model.entity.PostTag;
 import com.qinweizhao.blog.model.entity.Tag;
 import com.qinweizhao.blog.service.PostTagService;
@@ -28,6 +29,7 @@ public class PostTagServiceImpl extends ServiceImpl<PostTagMapper, PostTag> impl
 //    private final PostRepository postRepository;
 
     private final TagService tagService;
+    private final TagMapper tagMapper;
 //
 //    private final OptionService optionService;
 
@@ -89,7 +91,7 @@ public class PostTagServiceImpl extends ServiceImpl<PostTagMapper, PostTag> impl
         Set<Integer> tagIds = ServiceUtils.fetchProperty(postTags, PostTag::getTagId);
 
         // Find all tags
-        List<Tag> tags = tagService.listByIds(tagIds);
+        List<Tag> tags = tagMapper.selectBatchIds(tagIds);
 
         // Convert to tag map
         Map<Integer, Tag> tagMap = ServiceUtils.convertToMap(tags, Tag::getId);

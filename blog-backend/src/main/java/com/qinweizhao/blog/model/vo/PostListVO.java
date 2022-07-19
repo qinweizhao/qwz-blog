@@ -2,7 +2,7 @@ package com.qinweizhao.blog.model.vo;
 
 import com.qinweizhao.blog.model.dto.CategoryDTO;
 import com.qinweizhao.blog.model.dto.TagDTO;
-import com.qinweizhao.blog.model.dto.post.BasePostSimpleDTO;
+import com.qinweizhao.blog.model.dto.post.PostSimpleDTO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -20,7 +20,7 @@ import java.util.Map;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class PostListVO extends BasePostSimpleDTO {
+public class PostListVO extends PostSimpleDTO {
 
     private Long commentCount;
 

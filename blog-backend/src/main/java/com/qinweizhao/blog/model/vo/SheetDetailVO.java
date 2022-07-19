@@ -1,7 +1,7 @@
 package com.qinweizhao.blog.model.vo;
 
 import com.qinweizhao.blog.model.dto.BaseMetaDTO;
-import com.qinweizhao.blog.model.dto.post.BasePostDetailDTO;
+import com.qinweizhao.blog.model.dto.post.PostDetailDTO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -18,7 +18,7 @@ import java.util.Set;
 @Data
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
-public class SheetDetailVO extends BasePostDetailDTO {
+public class SheetDetailVO extends PostDetailDTO {
 
     private Set<Long> metaIds;
 

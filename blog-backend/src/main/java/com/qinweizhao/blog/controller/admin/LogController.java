@@ -1,14 +1,23 @@
 package com.qinweizhao.blog.controller.admin;
 
+import com.qinweizhao.blog.model.base.PageResult;
+import com.qinweizhao.blog.model.dto.LogDTO;
+import com.qinweizhao.blog.model.param.LogQueryParam;
 import com.qinweizhao.blog.service.LogService;
+import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 /**
  * Log controller.
  *
  * @author johnniang
+ * @author qinweizhao
  * @date 2019-03-19
  */
 @RestController
@@ -19,22 +28,38 @@ public class LogController {
     private final LogService logService;
 
 
-//    @GetMapping("latest")
-//    @ApiOperation("Pages latest logs")
-//    public List<LogDTO> pageLatest(@RequestParam(name = "top", defaultValue = "10") int top) {
-//        return logService.pageLatest(top).getContent();
-//    }
-//
-//    @GetMapping
-//    @ApiOperation("Lists logs")
-//    public Page<LogDTO> pageBy(@PageableDefault(sort = "createTime", direction = DESC) Pageable pageable) {
-//        Page<Log> logPage = logService.listAll(pageable);
-//        return logPage.map(log -> new LogDTO().convertFrom(log));
-//    }
-//
-//    @GetMapping("clear")
-//    @ApiOperation("Clears all logs")
-//    public void clear() {
-//        logService.removeAll();
-//    }
+    /**
+     * 分页
+     *
+     * @param param param
+     * @return PageResult
+     */
+    @GetMapping
+    public PageResult<LogDTO> page(LogQueryParam param) {
+        return logService.pageLogs(param);
+    }
+
+
+    /**
+     * 最新数据
+     *
+     * @param top top
+     * @return List
+     */
+    @GetMapping("latest")
+    public List<LogDTO> pageLatest(@RequestParam(name = "top", defaultValue = "10") int top) {
+        LogQueryParam param = new LogQueryParam();
+        param.setSize(top);
+        PageResult<LogDTO> result = logService.pageLogs(param);
+        return result.getContent();
+    }
+
+
+    /**
+     * 清除所有日志
+     */
+    @GetMapping("clear")
+    public Boolean clear() {
+        return logService.remove(null);
+    }
 }

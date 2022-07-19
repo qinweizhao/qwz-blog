@@ -3,7 +3,7 @@ package com.qinweizhao.blog.model.vo;
 import com.qinweizhao.blog.model.dto.BaseMetaDTO;
 import com.qinweizhao.blog.model.dto.CategoryDTO;
 import com.qinweizhao.blog.model.dto.TagDTO;
-import com.qinweizhao.blog.model.dto.post.BasePostDetailDTO;
+import com.qinweizhao.blog.model.dto.post.PostDetailDTO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -21,7 +21,7 @@ import java.util.Set;
 @Data
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
-public class PostDetailVO extends BasePostDetailDTO {
+public class PostDetailVO extends PostDetailDTO {
 
     private Set<Integer> tagIds;
 
