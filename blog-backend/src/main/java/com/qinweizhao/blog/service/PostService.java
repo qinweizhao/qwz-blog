@@ -49,10 +49,19 @@ public interface PostService extends IService<Post> {
 
     /**
      *
-     * @param postPage
-     * @return
+     * @param postPage postPage
+     * @return PageResult
      */
     PageResult<PostListVO> buildPostListVO(PageResult<PostSimpleDTO> postPage);
+
+
+    /**
+     * 更新状态
+     * @param status status
+     * @param postId postId
+     * @return boolean
+     */
+    boolean updateStatus(PostStatus status, Integer postId);
 
 //
 //    /**

@@ -133,4 +133,29 @@ public interface PostMapper extends BaseMapper<Post> {
      */
     Page<Post> selectPagePosts(Page<Post> page, @Param("param") Map<String, Object> param);
 
+    /**
+     * 更新帖子状态
+     * @param status status
+     * @param postId postId
+     * @return int
+     */
+     default int updateStatusById(int status, Integer postId){
+         Post post = new Post();
+         post.setId(postId);
+         post.setStatus(status);
+         return this.updateById(post);
+     }
+
+    /**
+     * 更新内容
+     * @param formatContent formatContent
+     * @param postId postId
+     * @return int
+     */
+    default int updateFormatContent(String formatContent, Integer postId){
+        Post post = new Post();
+        post.setId(postId);
+        post.setFormatContent(formatContent);
+        return this.updateById(post);
+    }
 }

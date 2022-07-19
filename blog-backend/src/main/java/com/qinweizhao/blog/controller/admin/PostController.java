@@ -4,14 +4,14 @@ import com.qinweizhao.blog.convert.PostConvert;
 import com.qinweizhao.blog.model.base.PageResult;
 import com.qinweizhao.blog.model.dto.post.PostMinimalDTO;
 import com.qinweizhao.blog.model.dto.post.PostSimpleDTO;
+import com.qinweizhao.blog.model.entity.Post;
+import com.qinweizhao.blog.model.enums.PostStatus;
 import com.qinweizhao.blog.model.param.PostQueryParam;
 import com.qinweizhao.blog.model.vo.PostListVO;
 import com.qinweizhao.blog.service.PostService;
+import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -105,16 +105,17 @@ public class PostController {
 //        postParam.update(postToUpdate);
 //        return postService.updateBy(postToUpdate, postParam.getTagIds(), postParam.getCategoryIds(), postParam.getPostMetas(), autoSave);
 //    }
-//
-//    @PutMapping("{postId:\\d+}/status/{status}")
-//    @ApiOperation("Updates post status")
-//    public BasePostMinimalDTO updateStatusBy(
-//            @PathVariable("postId") Integer postId,
-//            @PathVariable("status") PostStatus status) {
-//        Post post = postService.updateStatus(status, postId);
-//
-//        return new BasePostMinimalDTO().convertFrom(post);
-//    }
+
+    /**
+     * updateStatus
+     * @param postId postId
+     * @param status status
+     * @return Boolean
+     */
+    @PutMapping("{postId:\\d+}/status/{status}")
+    public Boolean updateStatusBy(@PathVariable("postId") Integer postId,@PathVariable("status") PostStatus status) {
+        return postService.updateStatus(status, postId);
+    }
 //
 //    @PutMapping("status/{status}")
 //    @ApiOperation("Updates post status in batch")

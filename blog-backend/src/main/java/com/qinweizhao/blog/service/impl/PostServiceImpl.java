@@ -6,6 +6,7 @@ import com.qinweizhao.blog.convert.CategoryConvert;
 import com.qinweizhao.blog.convert.MetaConvert;
 import com.qinweizhao.blog.convert.PostConvert;
 import com.qinweizhao.blog.convert.TagConvert;
+import com.qinweizhao.blog.exception.ServiceException;
 import com.qinweizhao.blog.mapper.PostMapper;
 import com.qinweizhao.blog.model.base.PageResult;
 import com.qinweizhao.blog.model.dto.post.PostSimpleDTO;
@@ -18,10 +19,12 @@ import com.qinweizhao.blog.model.enums.PostStatus;
 import com.qinweizhao.blog.model.param.PostQueryParam;
 import com.qinweizhao.blog.model.vo.PostListVO;
 import com.qinweizhao.blog.service.*;
+import com.qinweizhao.blog.util.MarkdownUtils;
 import com.qinweizhao.blog.util.ServiceUtils;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -43,6 +46,8 @@ import static com.qinweizhao.blog.model.support.HaloConst.URL_SEPARATOR;
 @AllArgsConstructor
 public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements PostService {
 
+
+    private final PostMapper postMapper;
 
     private final OptionService optionService;
 
@@ -137,6 +142,33 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
             return postListVO;
         }).collect(Collectors.toList());
         return new PageResult<>(collect, collect.size());
+    }
+
+    @Override
+    public boolean updateStatus(PostStatus status, Integer postId) {
+        // Get post
+        Post post = postMapper.selectById(postId);
+
+        if (!(status.getValue().equals(post.getStatus()))) {
+
+            int updatedRows = postMapper.updateStatusById(status.getValue(), postId);
+            if (updatedRows != 1) {
+                throw new ServiceException("无法更新状态,id ： " + postId);
+            }
+        }
+
+        // 同步内容
+        if (PostStatus.PUBLISHED.equals(status)) {
+            // 如果发布此帖子，则转换格式化内容
+            String formatContent = MarkdownUtils.renderHtml(post.getOriginalContent());
+            int updatedRows = postMapper.updateFormatContent(formatContent, postId);
+
+            if (updatedRows != 1) {
+                throw new ServiceException("无法更新帖子格式内容，id: " + postId);
+            }
+        }
+
+        return true;
     }
 
 

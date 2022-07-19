@@ -630,7 +630,7 @@ export default {
 
     async handleChangeStatus(postId, status) {
       try {
-        await apiClient.post.updateStatusById(postId, status)
+        await postApi.updateStatus(postId, status)
         this.$message.success('操作成功！')
       } catch (e) {
         this.$log.error('Failed to change post status', e)
