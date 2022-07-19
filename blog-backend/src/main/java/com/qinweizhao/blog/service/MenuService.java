@@ -1,7 +1,8 @@
 package com.qinweizhao.blog.service;
 
-import com.baomidou.mybatisplus.extension.service.IService;
-import com.qinweizhao.blog.model.entity.Menu;
+import com.qinweizhao.blog.model.dto.MenuDTO;
+import com.qinweizhao.blog.model.params.MenuParam;
+import com.qinweizhao.blog.model.vo.MenuVO;
 
 import java.util.List;
 
@@ -13,7 +14,70 @@ import java.util.List;
  * @author qinweizhao
  * @date 2019-03-14
  */
-public interface MenuService extends IService<Menu> {
+public interface MenuService {
+
+    /**
+     * 列表
+     *
+     * @return List
+     */
+    List<MenuDTO> list();
+
+    /**
+     * 树
+     *
+     * @return List
+     */
+    List<MenuVO> listAsTree();
+
+    /**
+     * 详情
+     *
+     * @param menuId menuId
+     * @return MenuDTO
+     */
+    MenuDTO getById(Integer menuId);
+
+    /**
+     * 新增菜单
+     *
+     * @param menuParam menuParam
+     * @return boolean
+     */
+    boolean save(MenuParam menuParam);
+
+    /**
+     * 批量保存
+     *
+     * @param params params
+     * @return boolean
+     */
+    boolean saveBatch(List<MenuParam> params);
+
+    /**
+     * 删除菜单(包含子菜单)
+     * @param menuId menuId
+     * @return boolean
+     */
+    boolean removeById(Integer menuId);
+
+    /**
+     * 批量删除菜单
+     *
+     * @param menuIds menuIds
+     * @return boolean
+     */
+    boolean removeByIds(List<Integer> menuIds);
+
+    /**
+     * 更新菜单
+     * @param menuId
+     * @param param
+     * @return
+     */
+    boolean updateById(Integer menuId, MenuParam param);
+
+
 //
 //    /**
 //     * Lists all menu dtos.

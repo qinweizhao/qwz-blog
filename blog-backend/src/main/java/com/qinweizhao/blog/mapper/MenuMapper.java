@@ -68,6 +68,18 @@ public interface MenuMapper extends BaseMapper<Menu> {
      * @return List
      */
     List<String> selectListTeam();
+
+    /**
+     * 通过父菜单 id 查找菜单
+     *
+     * @param parentIdId parentIdId
+     * @return List
+     */
+    default List<Menu> selectListByParentId(Integer parentIdId) {
+        return this.selectList(new LambdaQueryWrapper<Menu>()
+                .eq(Menu::getParentId, parentIdId)
+        );
+    }
 //
 //    /**
 //     * 查询列表
