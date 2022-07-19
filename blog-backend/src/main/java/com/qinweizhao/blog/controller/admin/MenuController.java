@@ -2,7 +2,6 @@ package com.qinweizhao.blog.controller.admin;
 
 import com.qinweizhao.blog.model.dto.MenuDTO;
 import com.qinweizhao.blog.model.params.MenuParam;
-import com.qinweizhao.blog.model.vo.MenuVO;
 import com.qinweizhao.blog.service.MenuService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -43,7 +42,7 @@ public class MenuController {
      * @return List
      */
     @GetMapping("tree_view")
-    public List<MenuVO> listAsTree() {
+    public List<MenuDTO> listAsTree() {
         return menuService.listAsTree();
     }
 

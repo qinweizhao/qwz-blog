@@ -120,7 +120,7 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
                     .orElseGet(LinkedList::new)
                     .stream()
                     .filter(Objects::nonNull)
-                    .map(CategoryConvert.INSTANCE::convertVO)
+                    .map(CategoryConvert.INSTANCE::convert)
 //                    .map(categoryService::convertTo)
                     .collect(Collectors.toList()));
 

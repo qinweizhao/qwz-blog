@@ -11,7 +11,6 @@ import com.qinweizhao.blog.model.dto.CategoryWithPostCountDTO;
 import com.qinweizhao.blog.model.entity.Category;
 import com.qinweizhao.blog.model.params.CategoryParam;
 import com.qinweizhao.blog.model.projection.CategoryPostCountProjection;
-import com.qinweizhao.blog.model.vo.CategoryVO;
 import com.qinweizhao.blog.service.CategoryService;
 import com.qinweizhao.blog.service.OptionService;
 import com.qinweizhao.blog.util.ServiceUtils;
@@ -96,7 +95,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public List<CategoryVO> listAsTree() {
+    public List<CategoryDTO> listAsTree() {
 
         List<Category> categories = categoryMapper.selectList();
 
@@ -105,7 +104,7 @@ public class CategoryServiceImpl implements CategoryService {
         }
 
         // Create top category
-        CategoryVO topLevelCategory = createTopLevelCategory();
+        CategoryDTO topLevelCategory = createTopLevelCategory();
 
         // Concrete the tree
         concreteTree(topLevelCategory, categories);
@@ -163,6 +162,11 @@ public class CategoryServiceImpl implements CategoryService {
         return true;
     }
 
+    @Override
+    public Long count() {
+        return categoryMapper.selectCount();
+    }
+
 
     private List<Category> listByParentId(Integer parentId) {
         Assert.notNull(parentId, "Parent id must not be null");
@@ -174,12 +178,12 @@ public class CategoryServiceImpl implements CategoryService {
      *
      * @return top level category with id 0
      */
-    private CategoryVO createTopLevelCategory() {
-        CategoryVO topCategory = new CategoryVO();
+    private CategoryDTO createTopLevelCategory() {
+        CategoryDTO topCategory = new CategoryDTO();
         // Set default value
         topCategory.setId(0);
         topCategory.setChildren(new LinkedList<>());
-        topCategory.setParentId(-1);
+        topCategory.setParentId(-1L);
 
         return topCategory;
     }
@@ -191,7 +195,7 @@ public class CategoryServiceImpl implements CategoryService {
      * @param parentCategory parentCategory
      * @param categories     categories
      */
-    private void concreteTree(CategoryVO parentCategory, List<Category> categories) {
+    private void concreteTree(CategoryDTO parentCategory, List<Category> categories) {
         Assert.notNull(parentCategory, "父分类不能为空");
 
         if (CollectionUtils.isEmpty(categories)) {
@@ -205,7 +209,7 @@ public class CategoryServiceImpl implements CategoryService {
 
         children.forEach(category -> {
             // Convert to child category vo
-            CategoryVO child = CategoryConvert.INSTANCE.convertVO(category);
+            CategoryDTO child = CategoryConvert.INSTANCE.convert(category);
             // Init children if absent
             if (parentCategory.getChildren() == null) {
                 parentCategory.setChildren(new LinkedList<>());

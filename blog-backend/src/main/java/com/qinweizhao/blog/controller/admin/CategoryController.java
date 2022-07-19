@@ -1,14 +1,10 @@
 package com.qinweizhao.blog.controller.admin;
 
-import com.qinweizhao.blog.convert.CategoryConvert;
 import com.qinweizhao.blog.model.dto.CategoryDTO;
 import com.qinweizhao.blog.model.dto.CategoryWithPostCountDTO;
-import com.qinweizhao.blog.model.entity.Category;
 import com.qinweizhao.blog.model.params.CategoryParam;
-import com.qinweizhao.blog.model.vo.CategoryVO;
 import com.qinweizhao.blog.service.CategoryService;
 import com.qinweizhao.blog.util.ResultUtils;
-import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -52,17 +48,19 @@ public class CategoryController {
 
     /**
      * 将所有分类列为树
+     *
      * @return List
      */
     @GetMapping("tree_view")
-    public List<CategoryVO> listAsTree() {
+    public List<CategoryDTO> listAsTree() {
         return categoryService.listAsTree();
     }
 
     /**
      * 新增分类
+     *
      * @param categoryParam categoryParam
-     * @return
+     * @return CategoryDTO
      */
     @PostMapping
     public CategoryDTO createBy(@RequestBody @Valid CategoryParam categoryParam) {
@@ -72,19 +70,21 @@ public class CategoryController {
 
     /**
      * 更新分类
-     * @param categoryId category Id
+     *
+     * @param categoryId    category Id
      * @param categoryParam categoryId
      * @return CategoryDTO
      */
     @PutMapping("{categoryId:\\d+}")
     public Boolean updateBy(@PathVariable("categoryId") Integer categoryId,
-                                @RequestBody @Valid CategoryParam categoryParam) {
+                            @RequestBody @Valid CategoryParam categoryParam) {
 
-       return categoryService.updateById(categoryId,categoryParam);
+        return categoryService.updateById(categoryId, categoryParam);
     }
 
     /**
      * 删除分类
+     *
      * @param categoryId categoryId
      */
     @DeleteMapping("{categoryId:\\d+}")

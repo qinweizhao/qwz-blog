@@ -3,7 +3,6 @@ package com.qinweizhao.blog.service;
 import com.qinweizhao.blog.model.dto.CategoryDTO;
 import com.qinweizhao.blog.model.dto.CategoryWithPostCountDTO;
 import com.qinweizhao.blog.model.params.CategoryParam;
-import com.qinweizhao.blog.model.vo.CategoryVO;
 
 import java.util.List;
 
@@ -44,7 +43,7 @@ public interface CategoryService {
      *
      * @return List
      */
-    List<CategoryVO> listAsTree();
+    List<CategoryDTO> listAsTree();
 
     /**
      * 新增分类
@@ -70,5 +69,11 @@ public interface CategoryService {
      */
     boolean removeCategoryAndPostCategoryById(Integer categoryId);
 
+
+    /**
+     * 统计分类个数
+     * @return Long
+     */
+    Long count();
 
 }

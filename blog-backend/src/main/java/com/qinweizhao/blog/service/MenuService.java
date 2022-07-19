@@ -2,7 +2,6 @@ package com.qinweizhao.blog.service;
 
 import com.qinweizhao.blog.model.dto.MenuDTO;
 import com.qinweizhao.blog.model.params.MenuParam;
-import com.qinweizhao.blog.model.vo.MenuVO;
 
 import java.util.List;
 
@@ -28,7 +27,7 @@ public interface MenuService {
      *
      * @return List
      */
-    List<MenuVO> listAsTree();
+    List<MenuDTO> listAsTree();
 
     /**
      * 详情

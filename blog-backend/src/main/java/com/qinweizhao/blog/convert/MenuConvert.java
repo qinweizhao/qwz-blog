@@ -4,7 +4,6 @@ package com.qinweizhao.blog.convert;
 import com.qinweizhao.blog.model.dto.MenuDTO;
 import com.qinweizhao.blog.model.entity.Menu;
 import com.qinweizhao.blog.model.params.MenuParam;
-import com.qinweizhao.blog.model.vo.MenuVO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
@@ -53,18 +52,4 @@ public interface MenuConvert {
     Menu convert(MenuParam menuParam);
 
 
-    /**
-     * convertToVO
-     *
-     * @param list list
-     * @return List
-     */
-    List<MenuVO> convertToVO(List<Menu> list);
-
-    /**
-     * convertVO
-     * @param menu menu
-     * @return MenuVO
-     */
-    MenuVO convertVO(Menu menu);
 }

@@ -5,7 +5,6 @@ import com.qinweizhao.blog.model.dto.CategoryDTO;
 import com.qinweizhao.blog.model.dto.CategoryWithPostCountDTO;
 import com.qinweizhao.blog.model.entity.Category;
 import com.qinweizhao.blog.model.params.CategoryParam;
-import com.qinweizhao.blog.model.vo.CategoryVO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
@@ -32,26 +31,10 @@ public interface CategoryConvert {
     /**
      * convert
      *
-     * @param categoryDTOList categoryDTOList
-     * @return Category
-     */
-    List<CategoryWithPostCountDTO> convert(List<CategoryDTO> categoryDTOList);
-
-    /**
-     * convert
-     *
      * @param category category
      * @return CategoryDTO
      */
     CategoryDTO convert(Category category);
-
-    /**
-     * convert
-     *
-     * @param category category
-     * @return CategoryVO
-     */
-    CategoryVO convertVO(Category category);
 
     /**
      * convert

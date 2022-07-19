@@ -1,8 +1,8 @@
 package com.qinweizhao.blog.model.dto;
 
+import com.qinweizhao.blog.model.base.BaseTree;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.ToString;
 
 /**
  * Menu output dto.
@@ -12,7 +12,8 @@ import lombok.ToString;
  * @date 4/3/19
  */
 @Data
-public class MenuDTO {
+@EqualsAndHashCode(callSuper = true)
+public class MenuDTO extends BaseTree<MenuDTO> {
 
     private Integer id;
 
@@ -25,8 +26,6 @@ public class MenuDTO {
     private String target;
 
     private String icon;
-
-    private Integer parentId;
 
     private String team;
 

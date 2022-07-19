@@ -1,6 +1,7 @@
 package com.qinweizhao.blog.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.qinweizhao.blog.mapper.CategoryMapper;
 import com.qinweizhao.blog.mapper.PostCategoryMapper;
 import com.qinweizhao.blog.model.entity.Category;
 import com.qinweizhao.blog.model.entity.PostCategory;
@@ -27,7 +28,7 @@ import java.util.*;
 public class PostCategoryServiceImpl extends ServiceImpl<PostCategoryMapper, PostCategory> implements PostCategoryService {
 
 
-    private final CategoryService categoryService;
+    private final CategoryMapper categoryMapper;
 
     //
 //    private final PostRepository postRepository;
@@ -59,7 +60,7 @@ public class PostCategoryServiceImpl extends ServiceImpl<PostCategoryMapper, Pos
         Set<Integer> categoryIds = ServiceUtils.fetchProperty(postCategories, PostCategory::getCategoryId);
 
         // 查询所有分类
-        List<Category> categories = categoryService.listByIds(categoryIds);
+        List<Category> categories = categoryMapper.selectBatchIds(categoryIds);
 
         // 转换为 map
         Map<Integer, Category> categoryMap = ServiceUtils.convertToMap(categories, Category::getId);

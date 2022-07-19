@@ -5,7 +5,6 @@ import com.qinweizhao.blog.mapper.MenuMapper;
 import com.qinweizhao.blog.model.dto.MenuDTO;
 import com.qinweizhao.blog.model.entity.Menu;
 import com.qinweizhao.blog.model.params.MenuParam;
-import com.qinweizhao.blog.model.vo.MenuVO;
 import com.qinweizhao.blog.service.MenuService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -35,7 +34,7 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
-    public List<MenuVO> listAsTree() {
+    public List<MenuDTO> listAsTree() {
 
         List<Menu> menus = menuMapper.selectList(null);
 
@@ -43,7 +42,7 @@ public class MenuServiceImpl implements MenuService {
             return Collections.emptyList();
         }
 
-        MenuVO topLevelMenu = createTopLevelMenu();
+        MenuDTO topLevelMenu = createTopLevelMenu();
 
         // Concrete the tree
         concreteTree(topLevelMenu, menus);
@@ -102,12 +101,12 @@ public class MenuServiceImpl implements MenuService {
      *
      * @return MenuVO
      */
-    private MenuVO createTopLevelMenu() {
-        MenuVO topMenu = new MenuVO();
+    private MenuDTO createTopLevelMenu() {
+        MenuDTO topMenu = new MenuDTO();
 
         topMenu.setId(0);
         topMenu.setChildren(new LinkedList<>());
-        topMenu.setParentId(-1);
+        topMenu.setParentId(-1L);
         return topMenu;
     }
 
@@ -118,7 +117,7 @@ public class MenuServiceImpl implements MenuService {
      * @param parentMenu parentMenu
      * @param menus      menus
      */
-    private void concreteTree(MenuVO parentMenu, List<Menu> menus) {
+    private void concreteTree(MenuDTO parentMenu, List<Menu> menus) {
         Assert.notNull(parentMenu, "父菜单不能为空");
 
         if (CollectionUtils.isEmpty(menus)) {
@@ -134,7 +133,7 @@ public class MenuServiceImpl implements MenuService {
                 children.add(menu);
 
                 // Convert to child menu vo
-                MenuVO child = MenuConvert.INSTANCE.convertVO(menu);
+                MenuDTO child = MenuConvert.INSTANCE.convert(menu);
                 // Init children if absent
                 if (parentMenu.getChildren() == null) {
                     parentMenu.setChildren(new LinkedList<>());

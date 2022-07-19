@@ -1,8 +1,8 @@
 package com.qinweizhao.blog.model.dto;
 
 import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
+
+import java.util.Date;
 
 /**
  * Category with post count dto.
@@ -11,8 +11,23 @@ import lombok.ToString;
  * @date 19-4-23
  */
 @Data
-@EqualsAndHashCode(callSuper = true)
-public class CategoryWithPostCountDTO extends CategoryDTO {
+public class CategoryWithPostCountDTO {
+
+    private Integer id;
+
+    private String name;
+
+    private String slug;
+
+    private String description;
+
+    private String thumbnail;
+
+    private Integer parentId;
+
+    private Date createTime;
+
+    private String fullPath;
 
     private Long postCount;
 }
