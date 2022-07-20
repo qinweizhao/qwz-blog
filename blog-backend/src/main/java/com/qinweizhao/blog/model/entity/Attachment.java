@@ -3,7 +3,6 @@ package com.qinweizhao.blog.model.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.qinweizhao.blog.model.base.BaseEntity;
-import com.qinweizhao.blog.model.enums.AttachmentType;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -68,6 +67,6 @@ public class Attachment extends BaseEntity {
     /**
      * 上传类型（本地，云）
      */
-    private AttachmentType type;
+    private Integer type;
 
 }

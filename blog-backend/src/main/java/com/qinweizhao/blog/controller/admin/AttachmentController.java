@@ -1,56 +1,42 @@
-//package com.qinweizhao.blog.controller.admin.api;
-//
-//import com.qinweizhao.blog.convert.AttachmentConvert;
-//import com.qinweizhao.blog.model.dto.AttachmentDTO;
-//import com.qinweizhao.blog.model.entity.Attachment;
-//import com.qinweizhao.blog.model.enums.AttachmentType;
-//import com.qinweizhao.blog.model.params.AttachmentParam;
-//import com.qinweizhao.blog.model.params.AttachmentQuery;
-//import com.qinweizhao.blog.service.AttachmentService;
-//import com.qinweizhao.blog.utils.ResultUtils;
-//import lombok.AllArgsConstructor;
-//import org.springframework.data.domain.Page;
-//import org.springframework.data.domain.Pageable;
-//import org.springframework.data.web.PageableDefault;
-//import org.springframework.http.MediaType;
-//import org.springframework.web.bind.annotation.*;
-//import org.springframework.web.multipart.MultipartFile;
-//
-//import javax.validation.Valid;
-//import java.util.ArrayList;
-//import java.util.LinkedList;
-//import java.util.List;
-//
-//import static org.springframework.data.domain.Sort.Direction.DESC;
-//
-///**
-// * 附件
-// *
-// * @author johnniang
-// * @author qinweizhao
-// * @date 2019-03-21
-// */
-//@RestController
-//@AllArgsConstructor
-//@RequestMapping("/api/admin/attachments")
-//public class AttachmentController {
-//
-//    private final AttachmentService attachmentService;
-//
-//    /**
-//     * 分页
-//     *
-//     * @param pageable        pageable
-//     * @param attachmentQuery attachmentQuery
-//     * @return Page
-//     */
-//    @GetMapping
-//    public Page<Attachment> page(@PageableDefault(sort = "createTime", direction = DESC) Pageable pageable,
-//                                    AttachmentQuery attachmentQuery) {
-//        Page<Attachment> page = attachmentService.page(pageable, attachmentQuery);
-//        return page;
-//    }
-//
+package com.qinweizhao.blog.controller.admin;
+
+import com.qinweizhao.blog.model.base.PageResult;
+import com.qinweizhao.blog.model.dto.AttachmentDTO;
+import com.qinweizhao.blog.model.param.AttachmentQueryParam;
+import com.qinweizhao.blog.service.AttachmentService;
+import lombok.AllArgsConstructor;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
+
+/**
+ * 附件
+ *
+ * @author johnniang
+ * @author qinweizhao
+ * @date 2019-03-21
+ */
+@RestController
+@AllArgsConstructor
+@RequestMapping("/api/admin/attachments")
+public class AttachmentController {
+
+    private final AttachmentService attachmentService;
+
+    /**
+     * 分页
+     *
+     * @param param param
+     * @return Page
+     */
+    @GetMapping
+    public PageResult<AttachmentDTO> page(AttachmentQueryParam param) {
+        PageResult<AttachmentDTO> page = attachmentService.page(param);
+        return page;
+    }
+
 //    /**
 //     * 通过 id 获取附件详细信息
 //     *
@@ -138,15 +124,15 @@
 //        return result;
 //    }
 //
-//    /**
-//     * 列出所有媒体类型
-//     *
-//     * @return List
-//     */
-//    @GetMapping("media_types")
-//    public List<String> listMediaTypes() {
-//        return attachmentService.listAllMediaType();
-//    }
+    /**
+     * 列出所有媒体类型
+     *
+     * @return List
+     */
+    @GetMapping("media_types")
+    public List<String> listMediaTypes() {
+        return attachmentService.listMediaType();
+    }
 //
 //    /**
 //     * 列出所有类型
@@ -157,4 +143,4 @@
 //    public List<AttachmentType> listTypes() {
 //        return attachmentService.listAllType();
 //    }
-//}
+}

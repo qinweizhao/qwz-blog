@@ -2,8 +2,14 @@ package com.qinweizhao.blog.mapper;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.qinweizhao.blog.model.base.PageResult;
 import com.qinweizhao.blog.model.entity.Attachment;
 import com.qinweizhao.blog.model.enums.AttachmentType;
+import com.qinweizhao.blog.model.param.AttachmentQueryParam;
+import com.qinweizhao.blog.util.LambdaQueryWrapperX;
+import com.qinweizhao.blog.util.MyBatisUtils;
+import org.springframework.util.ObjectUtils;
 
 import java.util.List;
 
@@ -12,23 +18,6 @@ import java.util.List;
  * @since 2022/7/6
  */
 public interface AttachmentMapper extends BaseMapper<Attachment> {
-
-//
-//    /**
-//     * 查询分页
-//     *
-//     * @param pageable        pageable
-//     * @param attachmentQuery attachmentQuery
-//     * @return Page
-//     */
-//    default Page<Attachment> selectPage(Pageable pageable, AttachmentQuery attachmentQuery) {
-//        IPage<Attachment> page = MyBatisUtils.buildPage(pageable);
-//        selectPage(page, new LambdaQueryWrapper<Attachment>()
-//                .like(Attachment::getName, attachmentQuery.getKeyword())
-//                .eq(Attachment::getType, attachmentQuery.getAttachmentType())
-//                .eq(Attachment::getMediaType, attachmentQuery.getMediaType()));
-//        return new PageImpl<>(page.getRecords(), pageable, page.getTotal());
-//    }
 
 
     /**
@@ -55,5 +44,29 @@ public interface AttachmentMapper extends BaseMapper<Attachment> {
         return selectCount(new LambdaQueryWrapper<Attachment>()
                 .eq(Attachment::getPath, path)
         );
+    }
+
+    /**
+     * 分页查询
+     *
+     * @param param param
+     * @return PageResult
+     */
+    default PageResult<Attachment> selectPageAttachments(AttachmentQueryParam param) {
+        Page<Attachment> page = MyBatisUtils.buildPage(param);
+
+        AttachmentType attachmentType = param.getAttachmentType();
+        Integer typeValue = null;
+        if (!ObjectUtils.isEmpty(attachmentType)) {
+            typeValue = attachmentType.getValue();
+        }
+
+        Page<Attachment> attachmentPage = selectPage(page, new LambdaQueryWrapperX<Attachment>()
+                .eqIfPresent(Attachment::getMediaType, param.getMediaType())
+                .likeIfPresent(Attachment::getName, param.getKeyword())
+                .eqIfPresent(Attachment::getType, typeValue)
+                .orderByDesc(Attachment::getCreateTime)
+        );
+        return MyBatisUtils.buildPageResult(attachmentPage);
     }
 }

@@ -4,6 +4,7 @@ import com.qinweizhao.blog.exception.FileOperationException;
 import com.qinweizhao.blog.exception.RepeatTypeException;
 import com.qinweizhao.blog.model.entity.Attachment;
 import com.qinweizhao.blog.model.enums.AttachmentType;
+import com.qinweizhao.blog.model.enums.ValueEnum;
 import com.qinweizhao.blog.model.support.UploadResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationContext;
@@ -60,7 +61,8 @@ public class FileHandlers {
      */
     public void delete(@NonNull Attachment attachment) {
         Assert.notNull(attachment, "Attachment must not be null");
-        getSupportedType(attachment.getType())
+        AttachmentType attachmentType = ValueEnum.valueToEnum(AttachmentType.class, attachment.getType());
+        getSupportedType(attachmentType)
                 .delete(attachment.getFileKey());
     }
 
