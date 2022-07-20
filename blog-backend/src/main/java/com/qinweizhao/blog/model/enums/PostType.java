@@ -5,7 +5,6 @@ package com.qinweizhao.blog.model.enums;
  *
  * @author johnniang
  */
-@Deprecated
 public enum PostType implements ValueEnum<Integer> {
 
     /**

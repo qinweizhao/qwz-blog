@@ -92,8 +92,9 @@
             <if test="param.categoryId != null and param.categoryId != ''">
                 and pc.category_id = #{param.categoryId}
             </if>
+            and p.type=#{param.type}
         </where>
-
+        order by p.create_time desc
     </select>
 
 </mapper>

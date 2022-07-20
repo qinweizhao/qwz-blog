@@ -7,6 +7,7 @@ import com.qinweizhao.blog.convert.PostConvert;
 import com.qinweizhao.blog.model.base.PageResult;
 import com.qinweizhao.blog.model.entity.Post;
 import com.qinweizhao.blog.model.enums.PostStatus;
+import com.qinweizhao.blog.model.enums.PostType;
 import com.qinweizhao.blog.model.param.PostQueryParam;
 import com.qinweizhao.blog.util.MyBatisUtils;
 import org.apache.ibatis.annotations.Param;
@@ -118,6 +119,7 @@ public interface PostMapper extends BaseMapper<Post> {
         Map<String, Object> paramMap = new LinkedHashMap<>();
         paramMap.put("keyword", param.getKeyword());
         paramMap.put("categoryId", param.getCategoryId());
+        paramMap.put("type", PostType.POST.getValue());
         paramMap.put("status", PostConvert.INSTANCE.statusToInteger(param.getStatus()));
 
         Page<Post> postPage = this.selectPagePosts(page, paramMap);
