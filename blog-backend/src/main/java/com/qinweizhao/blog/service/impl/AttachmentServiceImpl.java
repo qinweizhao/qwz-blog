@@ -6,6 +6,7 @@ import com.qinweizhao.blog.mapper.AttachmentMapper;
 import com.qinweizhao.blog.model.base.PageResult;
 import com.qinweizhao.blog.model.dto.AttachmentDTO;
 import com.qinweizhao.blog.model.entity.Attachment;
+import com.qinweizhao.blog.model.enums.AttachmentType;
 import com.qinweizhao.blog.model.param.AttachmentQueryParam;
 import com.qinweizhao.blog.service.AttachmentService;
 import com.qinweizhao.blog.service.OptionService;
@@ -43,6 +44,11 @@ public class AttachmentServiceImpl implements AttachmentService {
     @Override
     public List<String> listMediaType() {
         return attachmentMapper.selectListMediaType();
+    }
+
+    @Override
+    public List<AttachmentType> listAllType() {
+      return attachmentMapper.selectListType();
     }
 
 //    @Override
@@ -110,7 +116,7 @@ public class AttachmentServiceImpl implements AttachmentService {
 //
 //    @Override
 //    public List<AttachmentType> listAllType() {
-//        return this.baseMapper.selectListType();
+
 //    }
 //
 //    @Override

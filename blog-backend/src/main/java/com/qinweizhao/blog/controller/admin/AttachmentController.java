@@ -2,6 +2,7 @@ package com.qinweizhao.blog.controller.admin;
 
 import com.qinweizhao.blog.model.base.PageResult;
 import com.qinweizhao.blog.model.dto.AttachmentDTO;
+import com.qinweizhao.blog.model.enums.AttachmentType;
 import com.qinweizhao.blog.model.param.AttachmentQueryParam;
 import com.qinweizhao.blog.service.AttachmentService;
 import lombok.AllArgsConstructor;
@@ -33,8 +34,7 @@ public class AttachmentController {
      */
     @GetMapping
     public PageResult<AttachmentDTO> page(AttachmentQueryParam param) {
-        PageResult<AttachmentDTO> page = attachmentService.page(param);
-        return page;
+        return attachmentService.page(param);
     }
 
 //    /**
@@ -133,14 +133,14 @@ public class AttachmentController {
     public List<String> listMediaTypes() {
         return attachmentService.listMediaType();
     }
-//
-//    /**
-//     * 列出所有类型
-//     *
-//     * @return List
-//     */
-//    @GetMapping("types")
-//    public List<AttachmentType> listTypes() {
-//        return attachmentService.listAllType();
-//    }
+
+    /**
+     * 列出所有类型
+     *
+     * @return List
+     */
+    @GetMapping("types")
+    public List<AttachmentType> listTypes() {
+        return attachmentService.listAllType();
+    }
 }

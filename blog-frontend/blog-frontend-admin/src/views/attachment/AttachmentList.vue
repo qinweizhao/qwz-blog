@@ -160,7 +160,7 @@
 <script>
 import { mixin, mixinDevice } from '@/mixins/mixin.js'
 import { PageView } from '@/layouts'
-import apiClient from '@/utils/api-client'
+import attachmentApi from '@/api/attachment'
 import { attachmentTypes } from '@/core/constant'
 
 export default {
@@ -252,12 +252,12 @@ export default {
       try {
         this.list.loading = true
 
-        const response = await apiClient.attachment.list(this.list.params)
+        const response = await attachmentApi.query(this.list.params)
 
-        this.list.data = response.data.content
-        this.list.total = response.data.total
-        this.list.hasNext = response.data.hasNext
-        this.list.hasPrevious = response.data.hasPrevious
+        this.list.data = response.data.data.content
+        this.list.total = response.data.data.total
+        this.list.hasNext = response.data.data.hasNext
+        this.list.hasPrevious = response.data.data.hasPrevious
       } catch (error) {
         this.$log.error(error)
       } finally {
@@ -272,7 +272,7 @@ export default {
       try {
         this.mediaTypes.loading = true
 
-        const response = await apiClient.attachment.listMediaTypes()
+        const response = await attachmentApi.listMediaTypes()
 
         this.mediaTypes.data = response.data
       } catch (error) {
@@ -289,7 +289,7 @@ export default {
       try {
         this.types.loading = true
 
-        const response = await apiClient.attachment.listTypes()
+        const response = await attachmentApi.listTypes()
 
         this.types.data = response.data
       } catch (error) {
@@ -375,7 +375,7 @@ export default {
                 okText: '确定',
                 cancelText: '取消',
                 onOk: async () => {
-                  await apiClient.attachment.delete(item.id)
+                  await attachmentApi.delete(item.id)
                   await this.handleListAttachments()
                   this.handleUnselect(item)
                 }
@@ -447,7 +447,7 @@ export default {
         async onOk() {
           try {
             const attachmentIds = _this.list.selected.map(attachment => attachment.id)
-            await apiClient.attachment.deleteInBatch(attachmentIds)
+            await attachmentApi.deleteInBatch(attachmentIds)
             _this.list.selected = []
             _this.$message.success('删除成功')
           } catch (e) {

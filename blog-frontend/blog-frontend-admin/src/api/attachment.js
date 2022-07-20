@@ -46,14 +46,14 @@ attachmentApi.update = (attachmentId, attachment) => {
   })
 }
 
-attachmentApi.getMediaTypes = () => {
+attachmentApi.listMediaTypes = () => {
   return service({
     url: `${baseUrl}/media_types`,
     method: 'get'
   })
 }
 
-attachmentApi.getTypes = () => {
+attachmentApi.listTypes = () => {
   return service({
     url: `${baseUrl}/types`,
     method: 'get'

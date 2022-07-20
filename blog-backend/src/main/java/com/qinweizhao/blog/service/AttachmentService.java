@@ -2,6 +2,7 @@ package com.qinweizhao.blog.service;
 
 import com.qinweizhao.blog.model.base.PageResult;
 import com.qinweizhao.blog.model.dto.AttachmentDTO;
+import com.qinweizhao.blog.model.enums.AttachmentType;
 import com.qinweizhao.blog.model.param.AttachmentQueryParam;
 
 import java.util.List;
@@ -28,6 +29,13 @@ public interface AttachmentService {
      * @return List
      */
     List<String> listMediaType();
+
+    /**
+     * 附件存储位置
+     * @return List
+     */
+    List<AttachmentType> listAllType();
+
 
 
 
