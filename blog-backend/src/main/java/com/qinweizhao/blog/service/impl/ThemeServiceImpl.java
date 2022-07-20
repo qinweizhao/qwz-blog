@@ -38,7 +38,7 @@ import static com.qinweizhao.blog.model.support.HaloConst.DEFAULT_THEME_ID;
 @AllArgsConstructor
 public class ThemeServiceImpl implements ThemeService {
 
-//
+
 //    /**
 //     * Activated theme id.
 //     */
