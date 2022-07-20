@@ -1,7 +1,11 @@
 package com.qinweizhao.blog.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.qinweizhao.blog.model.dto.TagDTO;
 import com.qinweizhao.blog.model.entity.Tag;
+import com.qinweizhao.blog.model.params.TagParam;
+
+import java.util.List;
 
 /**
  * Tag service interface.
@@ -10,7 +14,45 @@ import com.qinweizhao.blog.model.entity.Tag;
  * @author ryanwang
  * @date 2019-03-14
  */
-public interface TagService extends IService<Tag> {
+public interface TagService  {
+
+    /**
+     * 列表
+     * @return List
+     */
+    List<TagDTO> list();
+
+    /**
+     * 新增标签
+     * @param tagParam tagParam
+     * @return boolean
+     */
+    boolean save(TagParam tagParam);
+
+    /**
+     * 详情
+     * @param tagId tagId
+     * @return TagDTO
+     */
+    TagDTO getById(Integer tagId);
+
+    /**
+     * 更新
+     * @param tagId tagId
+     * @param tagParam tagParam
+     * @return boolean
+     */
+    boolean updateById(Integer tagId, TagParam tagParam);
+
+    /**
+     * 移除
+     * @param tagId tagId
+     * @return boolean
+     */
+    boolean removeById(Integer tagId);
+
+
+
 //
 //    /**
 //     * Get tag by slug

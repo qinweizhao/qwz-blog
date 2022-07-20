@@ -71,14 +71,6 @@
                 @ok="onCreateTimeSelect"
               />
             </a-form-item>
-            <a-form-item label="自定义模板：">
-              <a-select v-model="form.model.template">
-                <a-select-option key="" value="">无</a-select-option>
-                <a-select-option v-for="template in templates" :key="template" :value="template">
-                  {{ template }}
-                </a-select-option>
-              </a-select>
-            </a-form-item>
             <a-form-item label="访问密码：">
               <a-input-password v-model="form.model.password" autocomplete="new-password" />
             </a-form-item>
@@ -223,9 +215,6 @@ export default {
         publishing: false,
         publishErrored: false
       },
-
-      templates: [],
-
       attachmentSelectVisible: false,
       categoryCreateModalVisible: false
     }
@@ -307,9 +296,6 @@ export default {
         this.form.model = Object.assign({}, value)
       }
     }
-  },
-  created() {
-    this.handleListCustomTemplates()
   },
   methods: {
     /**
@@ -402,20 +388,6 @@ export default {
         this.savedCallback && this.savedCallback()
       }
     },
-
-    /**
-     * Handle list custom templates
-     */
-    async handleListCustomTemplates() {
-      try {
-        const response = await apiClient.theme.listCustomPostTemplates()
-
-        this.templates = response.data
-      } catch (error) {
-        this.$log.error(error)
-      }
-    },
-
     /**
      * Handle create time selected event
      */

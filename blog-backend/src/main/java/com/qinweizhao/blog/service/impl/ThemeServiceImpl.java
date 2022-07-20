@@ -1,101 +1,139 @@
 package com.qinweizhao.blog.service.impl;
 
+import com.qinweizhao.blog.config.properties.HaloProperties;
+import com.qinweizhao.blog.exception.NotFoundException;
+import com.qinweizhao.blog.framework.cache.AbstractStringCacheStore;
+import com.qinweizhao.blog.framework.handler.theme.config.ThemeConfigResolver;
+import com.qinweizhao.blog.framework.handler.theme.config.support.ThemeProperty;
+import com.qinweizhao.blog.mapper.ThemeSettingMapper;
+import com.qinweizhao.blog.model.properties.PrimaryProperties;
+import com.qinweizhao.blog.service.OptionService;
 import com.qinweizhao.blog.service.ThemeService;
+import com.qinweizhao.blog.theme.ThemePropertyScanner;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+
+import javax.annotation.PostConstruct;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+
+import static com.qinweizhao.blog.model.support.HaloConst.DEFAULT_ERROR_PATH;
+import static com.qinweizhao.blog.model.support.HaloConst.DEFAULT_THEME_ID;
 
 /**
  * Theme service implementation.
  *
  * @author ryanwang
+ * @author qinweizhao
  * @date 2019-03-26
  */
 @Slf4j
 @Service
+@AllArgsConstructor
 public class ThemeServiceImpl implements ThemeService {
+
+
+    /**
+     * Activated theme id.
+     */
+    private volatile String activatedThemeId;
+
+    /**
+     * Activated theme property.
+     */
+    private volatile ThemeProperty activatedTheme;
+
+
+    /**
+     * 主题工作目录
+     */
+    private Path themeWorkDir;
+
+    private final OptionService optionService;
+
+    private final HaloProperties haloProperties;
+
+    private final ThemeConfigResolver themeConfigResolver;
+
+    private final AbstractStringCacheStore cacheStore;
+
+    private final RestTemplate restTemplate;
+
+    private final ApplicationEventPublisher eventPublisher;
+
+    private final ThemeSettingMapper themeSettingMapper;
+
+
+    @PostConstruct
+    private void init() {
+        if (haloProperties.isProductionEnv()) {
+            themeWorkDir = Paths.get(haloProperties.getWorkDir(), "theme");
+        } else {
+            themeWorkDir = Paths.get(haloProperties.getWorkDir(), "blog-frontend");
+        }
+    }
+
+
+    @Override
+    public ThemeProperty getThemeOfNonNullBy(String themeId) {
+        return fetchThemePropertyBy(themeId).orElseThrow(() -> new NotFoundException(themeId + " 主题不存在或已删除！").setErrorData(themeId));
+    }
+
+    public Optional<ThemeProperty> fetchThemePropertyBy(String themeId) {
+        if (StringUtils.isBlank(themeId)) {
+            return Optional.empty();
+        }
+
+        // Get all themes
+        List<ThemeProperty> themes = getThemes();
+
+        // filter and find first
+        return themes.stream()
+                .filter(themeProperty -> StringUtils.equals(themeProperty.getId(), themeId))
+                .findFirst();
+    }
+
+
+    public List<ThemeProperty> getThemes() {
+        ThemeProperty[] themeProperties = cacheStore.getAny(THEMES_CACHE_KEY, ThemeProperty[].class).orElseGet(() -> {
+            List<ThemeProperty> properties = ThemePropertyScanner.INSTANCE.scan(getBasePath(), getActivatedThemeId());
+            // Cache the themes
+            cacheStore.putAny(THEMES_CACHE_KEY, properties);
+            return properties.toArray(new ThemeProperty[0]);
+        });
+        return Arrays.asList(themeProperties);
+    }
+
+
+    public Path getBasePath() {
+        return themeWorkDir;
+    }
+
+
+
+    public String getActivatedThemeId() {
+        if (activatedThemeId == null) {
+            synchronized (this) {
+                if (activatedThemeId == null) {
+                    activatedThemeId = optionService.getByPropertyOrDefault(PrimaryProperties.THEME, String.class, DEFAULT_THEME_ID);
+                }
+            }
+        }
+        String activatedThemeId = this.activatedThemeId;
+        assert activatedThemeId != null;
+        return activatedThemeId;
+    }
+
 //
-//    /**
-//     * Theme work directory.
-//     */
-//    private final Path themeWorkDir;
-//
-//    private final OptionService optionService;
-//
-//    private final AbstractStringCacheStore cacheStore;
-//
-//    private final ThemeConfigResolver themeConfigResolver;
-//
-//    private final RestTemplate restTemplate;
-//
-//    private final ApplicationEventPublisher eventPublisher;
-//
-//    private final ThemeSettingRepository themeSettingRepository;
-//
-//    /**
-//     * Activated theme id.
-//     */
-//    @Nullable
-//    private volatile String activatedThemeId;
-//
-//    /**
-//     * Activated theme property.
-//     */
-//    private volatile ThemeProperty activatedTheme;
-//
-//    public ThemeServiceImpl(HaloProperties haloProperties,
-//                            OptionService optionService,
-//                            AbstractStringCacheStore cacheStore,
-//                            ThemeConfigResolver themeConfigResolver,
-//                            RestTemplate restTemplate,
-//                            ApplicationEventPublisher eventPublisher,
-//                            ThemeSettingRepository themeSettingRepository) {
-//        this.optionService = optionService;
-//        this.cacheStore = cacheStore;
-//        this.themeConfigResolver = themeConfigResolver;
-//        this.restTemplate = restTemplate;
-//        if (haloProperties.isProductionEnv()) {
-//            themeWorkDir = Paths.get(haloProperties.getWorkDir(), "theme");
-//        } else {
-//            themeWorkDir = Paths.get(haloProperties.getWorkDir(), "blog-frontend");
-//        }
-//        this.eventPublisher = eventPublisher;
-//        this.themeSettingRepository = themeSettingRepository;
-//    }
-//
-//    @Override
-//    @NonNull
-//    public ThemeProperty getThemeOfNonNullBy(@NonNull String themeId) {
-//        return fetchThemePropertyBy(themeId).orElseThrow(() -> new NotFoundException(themeId + " 主题不存在或已删除！").setErrorData(themeId));
-//    }
-//
-//    @Override
-//    @NonNull
-//    public Optional<ThemeProperty> fetchThemePropertyBy(String themeId) {
-//        if (StringUtils.isBlank(themeId)) {
-//            return Optional.empty();
-//        }
-//
-//        // Get all themes
-//        List<ThemeProperty> themes = getThemes();
-//
-//        // filter and find first
-//        return themes.stream()
-//                .filter(themeProperty -> StringUtils.equals(themeProperty.getId(), themeId))
-//                .findFirst();
-//    }
-//
-//    @Override
-//    @NonNull
-//    public List<ThemeProperty> getThemes() {
-//        ThemeProperty[] themeProperties = cacheStore.getAny(THEMES_CACHE_KEY, ThemeProperty[].class).orElseGet(() -> {
-//            List<ThemeProperty> properties = ThemePropertyScanner.INSTANCE.scan(getBasePath(), getActivatedThemeId());
-//            // Cache the themes
-//            cacheStore.putAny(THEMES_CACHE_KEY, properties);
-//            return properties.toArray(new ThemeProperty[0]);
-//        });
-//        return Arrays.asList(themeProperties);
-//    }
-//
+
+
 //    @Override
 //    @NonNull
 //    public List<ThemeFile> listThemeFolderBy(@NonNull String themeId) {
@@ -153,10 +191,7 @@ public class ThemeServiceImpl implements ThemeService {
 //        return fetchThemePropertyBy(themeId).isPresent();
 //    }
 //
-//    @Override
-//    public Path getBasePath() {
-//        return themeWorkDir;
-//    }
+
 //
 //    @Override
 //    public String getTemplateContent(@NonNull String absolutePath) {
@@ -294,18 +329,7 @@ public class ThemeServiceImpl implements ThemeService {
 //
 //    @Override
 //    @NonNull
-//    public String getActivatedThemeId() {
-//        if (activatedThemeId == null) {
-//            synchronized (this) {
-//                if (activatedThemeId == null) {
-//                    activatedThemeId = optionService.getByPropertyOrDefault(PrimaryProperties.THEME, String.class, DEFAULT_THEME_ID);
-//                }
-//            }
-//        }
-//        String activatedThemeId = this.activatedThemeId;
-//        assert activatedThemeId != null;
-//        return activatedThemeId;
-//    }
+
 //
 //    @Override
 //    @NonNull

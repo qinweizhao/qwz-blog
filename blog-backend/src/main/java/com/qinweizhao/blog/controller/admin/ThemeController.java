@@ -1,48 +1,44 @@
-//package com.qinweizhao.blog.controller.admin.api;
-//
-//import com.qinweizhao.blog.annotation.DisableOnCondition;
-//import com.qinweizhao.blog.cache.lock.CacheLock;
-//import com.qinweizhao.blog.handler.theme.config.support.Group;
-//import com.qinweizhao.blog.handler.theme.config.support.ThemeProperty;
-//import com.qinweizhao.blog.model.params.ThemeContentParam;
-//import com.qinweizhao.blog.model.support.BaseResponse;
-//import com.qinweizhao.blog.model.support.ThemeFile;
-//import com.qinweizhao.blog.service.ThemeService;
-//import com.qinweizhao.blog.service.ThemeSettingService;
-//import io.swagger.annotations.ApiOperation;
-//import org.springframework.http.HttpStatus;
-//import org.springframework.web.bind.annotation.*;
-//import org.springframework.web.multipart.MultipartFile;
-//
-//import java.util.List;
-//import java.util.Map;
-//
-///**
-// * Theme controller.
-// *
-// * @author ryanwang
-// * @date 2019-03-20
-// */
-//@RestController
-//@RequestMapping("/api/admin/themes")
-//public class ThemeController {
-//
-//    private final ThemeService themeService;
-//
-//    private final ThemeSettingService themeSettingService;
-//
-//    public ThemeController(ThemeService themeService,
-//                           ThemeSettingService themeSettingService) {
-//        this.themeService = themeService;
-//        this.themeSettingService = themeSettingService;
-//    }
-//
-//    @GetMapping("{themeId}")
-//    @ApiOperation("Gets theme property by theme id")
-//    public ThemeProperty getBy(@PathVariable("themeId") String themeId) {
-//        return themeService.getThemeOfNonNullBy(themeId);
-//    }
-//
+package com.qinweizhao.blog.controller.admin;
+
+import com.qinweizhao.blog.framework.handler.theme.config.support.ThemeProperty;
+import com.qinweizhao.blog.service.ThemeService;
+import com.qinweizhao.blog.service.ThemeSettingService;
+import io.swagger.annotations.ApiOperation;
+import lombok.AllArgsConstructor;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
+
+/**
+ * Theme controller.
+ *
+ * @author ryanwang
+ * @author qinweizhao
+ * @date 2019-03-20
+ */
+@RestController
+@AllArgsConstructor
+@RequestMapping("/api/admin/themes")
+public class ThemeController {
+
+    private final ThemeService themeService;
+
+    private final ThemeSettingService themeSettingService;
+
+    /**
+     * 通过主题 id 获取主题属性
+     *
+     * @param themeId themeId
+     * @return ThemeProperty
+     */
+    @GetMapping("{themeId}")
+    public ThemeProperty getBy(@PathVariable("themeId") String themeId) {
+        return themeService.getThemeOfNonNullBy(themeId);
+    }
+
 //    @GetMapping
 //    @ApiOperation("Lists all themes")
 //    public List<ThemeProperty> listAll() {
@@ -95,11 +91,7 @@
 //        return themeService.listCustomTemplates(themeService.getActivatedThemeId(), ThemeService.CUSTOM_SHEET_PREFIX);
 //    }
 //
-//    @GetMapping("activation/template/custom/post")
-//    @ApiOperation("Gets custom post templates")
-//    public List<String> customPostTemplate() {
-//        return themeService.listCustomTemplates(themeService.getActivatedThemeId(), ThemeService.CUSTOM_POST_PREFIX);
-//    }
+
 //
 //    @PostMapping("{themeId}/activation")
 //    @ApiOperation("Activates a theme")
@@ -201,4 +193,4 @@
 //    public BaseResponse<Boolean> exists(@RequestParam(value = "template") String template) {
 //        return BaseResponse.ok(themeService.templateExists(template));
 //    }
-//}
+}

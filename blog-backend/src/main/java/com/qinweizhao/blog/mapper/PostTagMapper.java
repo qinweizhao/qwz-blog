@@ -1,7 +1,9 @@
 package com.qinweizhao.blog.mapper;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.qinweizhao.blog.model.entity.PostTag;
+import com.qinweizhao.blog.model.projection.TagPostPostCountProjection;
 import com.qinweizhao.blog.util.LambdaQueryWrapperX;
 
 import java.util.Collection;
@@ -29,4 +31,20 @@ public interface PostTagMapper extends BaseMapper<PostTag> {
         );
     }
 
+    /**
+     * 标签附加文章个数
+     * @return List
+     */
+    List<TagPostPostCountProjection> selectPostCount();
+
+    /**
+     * 通过标签 id 删除关联
+     * @param tagId tagId
+     * @return boolean
+     */
+    default int deleteByTagId(Integer tagId){
+        return this.delete(new LambdaQueryWrapper<PostTag>()
+                .eq(PostTag::getTagId,tagId)
+        );
+    }
 }

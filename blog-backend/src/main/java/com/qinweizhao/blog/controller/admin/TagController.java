@@ -1,92 +1,88 @@
-//package com.qinweizhao.blog.controller.admin.api;
-//
-//import com.qinweizhao.blog.model.dto.TagDTO;
-//import com.qinweizhao.blog.model.entity.Tag;
-//import com.qinweizhao.blog.model.params.TagParam;
-//import com.qinweizhao.blog.service.PostTagService;
-//import com.qinweizhao.blog.service.TagService;
-//import io.swagger.annotations.ApiOperation;
-//import io.swagger.annotations.ApiParam;
-//import lombok.extern.slf4j.Slf4j;
-//import org.springframework.data.domain.Sort;
-//import org.springframework.data.web.SortDefault;
-//import org.springframework.web.bind.annotation.*;
-//
-//import javax.validation.Valid;
-//import java.util.List;
-//
-///**
-// * Tag controller.
-// *
-// * @author johnniang
-// * @date 3/20/19
-// */
-//@Slf4j
-//@RestController
-//@RequestMapping("/api/admin/tags")
-//public class TagController {
-//
-//    private final TagService tagService;
-//
-//    private final PostTagService postTagService;
-//
-//    public TagController(TagService tagService,
-//                         PostTagService postTagService) {
-//        this.tagService = tagService;
-//        this.postTagService = postTagService;
-//    }
-//
-//    @GetMapping
-//    @ApiOperation("Lists tags")
-//    public List<? extends TagDTO> listTags(@SortDefault(sort = "createTime", direction = Sort.Direction.DESC) Sort sort,
-//                                           @ApiParam("Return more information(post count) if it is set")
-//                                           @RequestParam(name = "more", required = false, defaultValue = "false") Boolean more) {
-//        if (more) {
-//            return postTagService.listTagWithCountDtos(sort);
-//        }
-//        return tagService.convertTo(tagService.listAll(sort));
-//    }
-//
-//    @PostMapping
-//    @ApiOperation("Creates a tag")
-//    public TagDTO createTag(@Valid @RequestBody TagParam tagParam) {
-//        // Convert to tag
-//        Tag tag = tagParam.convertTo();
-//
-//        log.debug("Tag to be created: [{}]", tag);
-//
-//        // Create and convert
-//        return tagService.convertTo(tagService.create(tag));
-//    }
-//
-//    @GetMapping("{tagId:\\d+}")
-//    @ApiOperation("Gets tag detail by id")
-//    public TagDTO getBy(@PathVariable("tagId") Integer tagId) {
-//        return tagService.convertTo(tagService.getById(tagId));
-//    }
-//
-//    @PutMapping("{tagId:\\d+}")
-//    @ApiOperation("Updates a tag")
-//    public TagDTO updateBy(@PathVariable("tagId") Integer tagId,
-//                           @Valid @RequestBody TagParam tagParam) {
-//        // Get old tag
-//        Tag tag = tagService.getById(tagId);
-//
-//        // Update tag
-//        tagParam.update(tag);
-//
-//        // Update tag
-//        return tagService.convertTo(tagService.update(tag));
-//    }
-//
-//    @DeleteMapping("{tagId:\\d+}")
-//    @ApiOperation("Deletes a tag")
-//    public TagDTO deletePermanently(@PathVariable("tagId") Integer tagId) {
-//        // Remove the tag
-//        Tag deletedTag = tagService.removeById(tagId);
-//        // Remove the post tag relationship
-//        postTagService.removeByTagId(tagId);
-//
-//        return tagService.convertTo(deletedTag);
-//    }
-//}
+package com.qinweizhao.blog.controller.admin;
+
+import com.qinweizhao.blog.model.dto.TagDTO;
+import com.qinweizhao.blog.model.entity.Tag;
+import com.qinweizhao.blog.model.params.TagParam;
+import com.qinweizhao.blog.service.PostTagService;
+import com.qinweizhao.blog.service.TagService;
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+import java.util.List;
+
+/**
+ * Tag controller.
+ *
+ * @author johnniang
+ * @date 3/20/19
+ */
+@Slf4j
+@RestController
+@AllArgsConstructor
+@RequestMapping("/api/admin/tags")
+public class TagController {
+
+    private final TagService tagService;
+
+    private final PostTagService postTagService;
+
+
+    /**
+     * 列表
+     *
+     * @return List
+     */
+    @GetMapping
+    public List<TagDTO> listTags() {
+        return tagService.list();
+    }
+
+    /**
+     * 新增
+     *
+     * @param tagParam tagParam
+     * @return Boolean
+     */
+    @PostMapping
+    public Boolean createTag(@Valid @RequestBody TagParam tagParam) {
+        return tagService.save(tagParam);
+    }
+
+    /**
+     * 详情
+     *
+     * @param tagId tagId
+     * @return TagDTO
+     */
+    @GetMapping("{tagId:\\d+}")
+    public TagDTO getBy(@PathVariable("tagId") Integer tagId) {
+        return tagService.getById(tagId);
+    }
+
+    /**
+     * 更新
+     *
+     * @param tagId    tagId
+     * @param tagParam tagParam
+     * @return TagDTO
+     */
+    @PutMapping("{tagId:\\d+}")
+    public Boolean updateBy(@PathVariable("tagId") Integer tagId, @Valid @RequestBody TagParam tagParam) {
+        return tagService.updateById(tagId, tagParam);
+    }
+
+    /**
+     * 删除标签
+     *
+     * @param tagId tagId
+     * @return Boolean
+     */
+    @DeleteMapping("{tagId:\\d+}")
+    public Boolean deletePermanently(@PathVariable("tagId") Integer tagId) {
+
+
+        return tagService.removeById(tagId);
+    }
+}

@@ -1,7 +1,6 @@
 package com.qinweizhao.blog.service;
 
-import com.baomidou.mybatisplus.extension.service.IService;
-import com.qinweizhao.blog.model.entity.PostTag;
+import com.qinweizhao.blog.model.dto.TagWithPostCountDTO;
 import com.qinweizhao.blog.model.entity.Tag;
 
 import java.util.Collection;
@@ -16,7 +15,7 @@ import java.util.Map;
  * @author qinweizhao
  * @date 2019-03-19
  */
-public interface PostTagService extends IService<PostTag> {
+public interface PostTagService {
 
 //    /**
 //     * Lists tags by post id.
@@ -26,15 +25,15 @@ public interface PostTagService extends IService<PostTag> {
 //     */
 //    List<Tag> listTagsBy(@NonNull Integer postId);
 //
-//    /**
-//     * List tag with post count output dtos.
-//     *
-//     * @param sort sort info
-//     * @return a list of tag with post count output dto
-//     */
-//    @NonNull
-//    List<TagWithPostCountDTO> listTagWithCountDtos(@NonNull Sort sort);
+
+    /**
+     * 列表（附加文章个数）
+     *
+     * @return List
+     */
+    List<TagWithPostCountDTO> listTagWithPostCount();
 //
+
     /**
      * 按帖子 ID 列出标签列表映射
      *
@@ -42,6 +41,16 @@ public interface PostTagService extends IService<PostTag> {
      * @return tag map (key: postId, value: a list of tags)
      */
     Map<Integer, List<Tag>> listTagListMapBy(Collection<Integer> postIds);
+
+    /**
+     * 删除关联
+     *
+     * @param tagId tagId
+     * @return boolean
+     */
+    boolean removeByTagId(Integer tagId);
+
+
 //
 //    /**
 //     * Lists posts by tag id.
@@ -137,14 +146,5 @@ public interface PostTagService extends IService<PostTag> {
 //    @NonNull
 //    @Transactional
 //    List<PostTag> removeByPostId(@NonNull Integer postId);
-//
-//    /**
-//     * Removes post tags by tag id.
-//     *
-//     * @param tagId tag id must not be null
-//     * @return a list of post tag
-//     */
-//    @NonNull
-//    @Transactional
-//    List<PostTag> removeByTagId(@NonNull Integer tagId);
+
 }

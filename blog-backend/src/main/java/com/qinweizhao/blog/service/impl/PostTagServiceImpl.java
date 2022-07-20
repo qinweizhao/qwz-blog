@@ -1,10 +1,14 @@
 package com.qinweizhao.blog.service.impl;
 
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.qinweizhao.blog.convert.TagConvert;
+import com.qinweizhao.blog.mapper.PostMapper;
 import com.qinweizhao.blog.mapper.PostTagMapper;
 import com.qinweizhao.blog.mapper.TagMapper;
+import com.qinweizhao.blog.model.dto.TagWithPostCountDTO;
 import com.qinweizhao.blog.model.entity.PostTag;
 import com.qinweizhao.blog.model.entity.Tag;
+import com.qinweizhao.blog.model.projection.TagPostPostCountProjection;
+import com.qinweizhao.blog.service.OptionService;
 import com.qinweizhao.blog.service.PostTagService;
 import com.qinweizhao.blog.service.TagService;
 import com.qinweizhao.blog.util.ServiceUtils;
@@ -13,6 +17,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import java.util.*;
+import java.util.stream.Collectors;
+
+import static com.qinweizhao.blog.model.support.HaloConst.URL_SEPARATOR;
 
 /**
  * Post tag service implementation.
@@ -23,15 +30,19 @@ import java.util.*;
  */
 @Service
 @AllArgsConstructor
-public class PostTagServiceImpl extends ServiceImpl<PostTagMapper, PostTag> implements PostTagService {
+public class PostTagServiceImpl implements PostTagService {
 
-//
-//    private final PostRepository postRepository;
 
     private final TagService tagService;
+
+    private final OptionService optionService;
+
     private final TagMapper tagMapper;
-//
-//    private final OptionService optionService;
+
+    private final PostMapper postMapper;
+
+    private final PostTagMapper postTagMapper;
+
 
 //    @Override
 //    public List<Tag> listTagsBy(Integer postId) {
@@ -42,42 +53,41 @@ public class PostTagServiceImpl extends ServiceImpl<PostTagMapper, PostTag> impl
 //
 //        return tagRepository.findAllById(tagIds);
 //    }
-//
-//    @Override
-//    public List<TagWithPostCountDTO> listTagWithCountDtos(Sort sort) {
-//        Assert.notNull(sort, "Sort info must not be null");
-//
-//        // Find all tags
-//        List<Tag> tags = tagRepository.findAll(sort);
-//
-//        // Find all post count
-//        Map<Integer, Long> tagPostCountMap = ServiceUtils.convertToMap(postTagRepository.findPostCount(), TagPostPostCountProjection::getTagId, TagPostPostCountProjection::getPostCount);
-//
-//        // Find post count
-//        return tags.stream().map(
-//                tag -> {
-//                    TagWithPostCountDTO tagWithCountOutputDTO = new TagWithPostCountDTO().convertFrom(tag);
-//                    tagWithCountOutputDTO.setPostCount(tagPostCountMap.getOrDefault(tag.getId(), 0L));
-//
-//                    StringBuilder fullPath = new StringBuilder();
-//
-//                    if (optionService.isEnabledAbsolutePath()) {
-//                        fullPath.append(optionService.getBlogBaseUrl());
-//                    }
-//
-//                    fullPath.append(URL_SEPARATOR)
-//                            .append(optionService.getTagsPrefix())
-//                            .append(URL_SEPARATOR)
-//                            .append(tag.getSlug())
-//                            .append(optionService.getPathSuffix());
-//
-//                    tagWithCountOutputDTO.setFullPath(fullPath.toString());
-//
-//                    return tagWithCountOutputDTO;
-//                }
-//        ).collect(Collectors.toList());
-//    }
-//
+
+    @Override
+    public List<TagWithPostCountDTO> listTagWithPostCount() {
+
+        // 查找所有标签
+        List<Tag> tags = tagMapper.selectList(null);
+
+        // 查找所有帖子计数
+        Map<Integer, Long> tagPostCountMap = ServiceUtils.convertToMap(postTagMapper.selectPostCount(), TagPostPostCountProjection::getTagId, TagPostPostCountProjection::getPostCount);
+
+
+        return tags.stream().map(
+                tag -> {
+                    TagWithPostCountDTO tagWithCountOutputDTO = TagConvert.INSTANCE.convertWithPostCountDTO(tag);
+                    tagWithCountOutputDTO.setPostCount(tagPostCountMap.getOrDefault(tag.getId(), 0L));
+
+                    StringBuilder fullPath = new StringBuilder();
+
+                    if (optionService.isEnabledAbsolutePath()) {
+                        fullPath.append(optionService.getBlogBaseUrl());
+                    }
+
+                    fullPath.append(URL_SEPARATOR)
+                            .append(optionService.getTagsPrefix())
+                            .append(URL_SEPARATOR)
+                            .append(tag.getSlug())
+                            .append(optionService.getPathSuffix());
+
+                    tagWithCountOutputDTO.setFullPath(fullPath.toString());
+
+                    return tagWithCountOutputDTO;
+                }
+        ).collect(Collectors.toList());
+    }
+
     @Override
     public Map<Integer, List<Tag>> listTagListMapBy(Collection<Integer> postIds) {
         if (CollectionUtils.isEmpty(postIds)) {
@@ -85,7 +95,7 @@ public class PostTagServiceImpl extends ServiceImpl<PostTagMapper, PostTag> impl
         }
 
         // 查找所有帖子标签
-        List<PostTag> postTags = this.baseMapper.listByPostId(postIds);
+        List<PostTag> postTags = postTagMapper.listByPostId(postIds);
 
         // Fetch tag ids
         Set<Integer> tagIds = ServiceUtils.fetchProperty(postTags, PostTag::getTagId);
@@ -103,6 +113,11 @@ public class PostTagServiceImpl extends ServiceImpl<PostTagMapper, PostTag> impl
         postTags.forEach(postTag -> tagListMap.computeIfAbsent(postTag.getPostId(), postId -> new LinkedList<>()).add(tagMap.get(postTag.getTagId())));
 
         return tagListMap;
+    }
+
+    @Override
+    public boolean removeByTagId(Integer tagId) {
+        return postTagMapper.deleteByTagId(tagId) > 0;
     }
 //
 //

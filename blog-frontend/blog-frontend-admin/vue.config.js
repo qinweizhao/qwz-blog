@@ -10,7 +10,7 @@ module.exports = defineConfig({
   devServer: {
     host: 'localhost',
     port: 8080,
-    open: true,
+    open: false,
     proxy: {
       // purchaseitem: https://cli.vuejs.org/config/#devserver-proxy
       [process.env.PUBLIC_PATH]: {

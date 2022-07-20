@@ -1,5 +1,7 @@
 package com.qinweizhao.blog.service;
 
+import com.qinweizhao.blog.framework.handler.theme.config.support.ThemeProperty;
+
 /**
  * Theme service interface.
  *
@@ -10,51 +12,48 @@ package com.qinweizhao.blog.service;
 public interface ThemeService {
 
     /**
-     * Theme property file name.
+     * 主题属性文件名
      */
-    @Deprecated
     String THEME_PROPERTY_FILE_NAME = "theme.yaml";
 
     /**
-     * Theme property file name.
+     * 主题属性文件名
      */
-    @Deprecated
     String[] THEME_PROPERTY_FILE_NAMES = {"theme.yaml", "theme.yml"};
 
 
     /**
-     * Configuration file name.
+     * 配置文件名
      */
     String[] SETTINGS_NAMES = {"settings.yaml", "settings.yml"};
 
     /**
-     * The type of file that can be modified.
+     * 可以修改的文件类型
      */
     String[] CAN_EDIT_SUFFIX = {".ftl", ".css", ".js", ".yaml", ".yml", ".properties"};
 
     /**
-     * Theme screenshots name.
+     * 主题截图名称
      */
-    @Deprecated
     String THEME_SCREENSHOTS_NAME = "screenshot";
 
     /**
-     * Render template.
+     * 渲染模板
      */
     String RENDER_TEMPLATE = "%s/%s";
 
     /**
-     * Render template with suffix.
+     * 渲染模板和后缀
      */
     String RENDER_TEMPLATE_SUFFIX = "%s/%s.ftl";
 
     /**
-     * Theme cache key.
+     * 主题缓存 key
      */
     String THEMES_CACHE_KEY = "themes";
 
     /**
-     * Custom sheet template prefix.
+     * 自定义工作表模板前缀
      */
     String CUSTOM_SHEET_PREFIX = "sheet_";
 
@@ -84,15 +83,14 @@ public interface ThemeService {
     String TAG_KEY = "tag_name";
 
     /**
-     * Get theme property by theme id.
-     *
-     * @param themeId must not be blank
-     * @return theme property
+     * 通过主题 id 获取主题属性
+     * @param themeId themeId
+     * @return ThemeProperty
      */
-//    @NonNull
-//    @Deprecated
-//    ThemeProperty getThemeOfNonNullBy(@NonNull String themeId);
-//
+    ThemeProperty getThemeOfNonNullBy(String themeId);
+
+
+
 //    /**
 //     * Get theme property by theme id.
 //     *

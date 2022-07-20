@@ -55,7 +55,7 @@
       </a-layout-footer>
     </a-layout>
 
-    <setting-drawer ref="drawer"></setting-drawer>
+    <!-- <setting-drawer ref="drawer"></setting-drawer> -->
 
     <LoginModal @success="onLoginSucceed" />
   </a-layout>

@@ -605,7 +605,6 @@ export default {
     handleResetParam() {
       this.list.params.keyword = undefined
       this.list.params.categoryId = undefined
-      // this.list.params.statuses = this.defaultStatuses
       this.list.params.status = undefined
       this.selectedRowKeys = []
       this.handlePageChange(1)
@@ -760,7 +759,7 @@ export default {
     },
 
     /**
-     * Select previous post
+     * 选择上一篇文章
      */
     async handleSelectPrevious() {
       const index = this.list.data.findIndex(post => post.id === this.list.selected.id)
