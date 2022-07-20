@@ -17,7 +17,7 @@
 
 ![Alt](https://repobeats.axiom.co/api/embed/407d1af8c2e1faff46c37b1336137e2d0d7e27c4.svg "Analytics image")
 
-## 注意
+## * 注意
 
 如需源码，请下载 v2.0.3 版本，master 分支的代码正在开发中。
 
