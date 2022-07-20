@@ -182,7 +182,7 @@ export default {
         hasNext: false,
         hasPrevious: false,
         params: {
-          page: 0,
+          page: 1,
           size: 18,
           keyword: undefined,
           mediaType: undefined,
@@ -274,7 +274,7 @@ export default {
 
         const response = await attachmentApi.listMediaTypes()
 
-        this.mediaTypes.data = response.data
+        this.mediaTypes.data = response.data.data
       } catch (error) {
         this.$log.error(error)
       } finally {

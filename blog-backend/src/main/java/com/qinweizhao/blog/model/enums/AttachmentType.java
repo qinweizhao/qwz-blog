@@ -1,9 +1,12 @@
 package com.qinweizhao.blog.model.enums;
 
+import com.baomidou.mybatisplus.annotation.EnumValue;
+
 /**
  * Attach origin.
  *
  * @author ryanwang
+ * @author qinweizhao
  * @date 2019-03-12
  */
 public enum AttachmentType implements ValueEnum<Integer> {
@@ -53,6 +56,7 @@ public enum AttachmentType implements ValueEnum<Integer> {
      */
     MINIO(8);
 
+    @EnumValue
     private final Integer value;
 
     AttachmentType(Integer value) {

@@ -37,6 +37,28 @@ public class AttachmentController {
         return attachmentService.page(param);
     }
 
+    /**
+     * 列出所有媒体类型
+     *
+     * @return List
+     */
+    @GetMapping("media_types")
+    public List<String> listMediaTypes() {
+        System.out.println("请求已经收到");
+        return attachmentService.listMediaType();
+    }
+
+    /**
+     * 列出所有类型
+     *
+     * @return List
+     */
+    @GetMapping("types")
+    public List<AttachmentType> listTypes() {
+        return attachmentService.listAllType();
+    }
+
+
 //    /**
 //     * 通过 id 获取附件详细信息
 //     *
@@ -124,23 +146,5 @@ public class AttachmentController {
 //        return result;
 //    }
 //
-    /**
-     * 列出所有媒体类型
-     *
-     * @return List
-     */
-    @GetMapping("media_types")
-    public List<String> listMediaTypes() {
-        return attachmentService.listMediaType();
-    }
 
-    /**
-     * 列出所有类型
-     *
-     * @return List
-     */
-    @GetMapping("types")
-    public List<AttachmentType> listTypes() {
-        return attachmentService.listAllType();
-    }
 }
