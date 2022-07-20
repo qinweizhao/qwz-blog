@@ -101,5 +101,10 @@ public class TagServiceImpl implements TagService {
         return i > 0;
     }
 
+    @Override
+    public Long count() {
+        return tagMapper.selectCount(null);
+    }
+
 
 }

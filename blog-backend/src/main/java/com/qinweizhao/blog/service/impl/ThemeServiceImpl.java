@@ -24,7 +24,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-import static com.qinweizhao.blog.model.support.HaloConst.DEFAULT_ERROR_PATH;
 import static com.qinweizhao.blog.model.support.HaloConst.DEFAULT_THEME_ID;
 
 /**
@@ -39,22 +38,17 @@ import static com.qinweizhao.blog.model.support.HaloConst.DEFAULT_THEME_ID;
 @AllArgsConstructor
 public class ThemeServiceImpl implements ThemeService {
 
+//
+//    /**
+//     * Activated theme id.
+//     */
+//    private volatile String activatedThemeId;
 
-    /**
-     * Activated theme id.
-     */
-    private volatile String activatedThemeId;
+//    /**
+//     * Activated theme property.
+//     */
+//    private volatile ThemeProperty activatedTheme;
 
-    /**
-     * Activated theme property.
-     */
-    private volatile ThemeProperty activatedTheme;
-
-
-    /**
-     * 主题工作目录
-     */
-    private Path themeWorkDir;
 
     private final OptionService optionService;
 
@@ -71,14 +65,7 @@ public class ThemeServiceImpl implements ThemeService {
     private final ThemeSettingMapper themeSettingMapper;
 
 
-    @PostConstruct
-    private void init() {
-        if (haloProperties.isProductionEnv()) {
-            themeWorkDir = Paths.get(haloProperties.getWorkDir(), "theme");
-        } else {
-            themeWorkDir = Paths.get(haloProperties.getWorkDir(), "blog-frontend");
-        }
-    }
+
 
 
     @Override
@@ -112,23 +99,31 @@ public class ThemeServiceImpl implements ThemeService {
     }
 
 
+    /**
+     * todo
+     * @return Path
+     */
     public Path getBasePath() {
-        return themeWorkDir;
+        if (haloProperties.isProductionEnv()) {
+            return Paths.get(haloProperties.getWorkDir(), "theme");
+        } else {
+            return Paths.get(haloProperties.getWorkDir(), "blog-frontend");
+        }
     }
 
 
-
     public String getActivatedThemeId() {
-        if (activatedThemeId == null) {
-            synchronized (this) {
-                if (activatedThemeId == null) {
-                    activatedThemeId = optionService.getByPropertyOrDefault(PrimaryProperties.THEME, String.class, DEFAULT_THEME_ID);
-                }
-            }
-        }
-        String activatedThemeId = this.activatedThemeId;
-        assert activatedThemeId != null;
-        return activatedThemeId;
+//        if (activatedThemeId == null) {
+//            synchronized (this) {
+//                if (activatedThemeId == null) {
+//                    activatedThemeId = optionService.getByPropertyOrDefault(PrimaryProperties.THEME, String.class, DEFAULT_THEME_ID);
+//                }
+//            }
+//        }
+//        String activatedThemeId = this.activatedThemeId;
+//        assert activatedThemeId != null;
+//        return activatedThemeId;
+        return null;
     }
 
 //

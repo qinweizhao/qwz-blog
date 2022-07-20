@@ -1,50 +1,31 @@
-//package com.qinweizhao.blog.service.impl;
-//
-//import com.qinweizhao.blog.model.entity.ThemeSetting;
-//import freemarker.template.Configuration;
-//import freemarker.template.TemplateModelException;
-//import lombok.extern.slf4j.Slf4j;
-//import org.apache.commons.lang3.StringUtils;
-//import org.springframework.data.domain.Example;
-//import org.springframework.lang.NonNull;
-//import org.springframework.stereotype.Service;
-//import org.springframework.transaction.annotation.Transactional;
-//import org.springframework.util.Assert;
-//import org.springframework.util.CollectionUtils;
-//import com.qinweizhao.blog.exception.ServiceException;
-//import com.qinweizhao.blog.handler.theme.config.support.Group;
-//import com.qinweizhao.blog.handler.theme.config.support.Item;
-//import com.qinweizhao.blog.repository.ThemeSettingRepository;
-//import com.qinweizhao.blog.service.ThemeService;
-//import com.qinweizhao.blog.service.ThemeSettingService;
-//import com.qinweizhao.blog.utils.ServiceUtils;
-//
-//import java.util.*;
-//
-///**
-// * Theme setting service implementation.
-// *
-// * @author johnniang
-// * @date 2019-04-08
-// */
-//@Slf4j
-//@Service
-//public class ThemeSettingServiceImpl extends AbstractCrudService<ThemeSetting, Integer> implements ThemeSettingService {
-//
-//    private final ThemeSettingRepository themeSettingRepository;
-//
-//    private final ThemeService themeService;
-//
-//    private final Configuration configuration;
-//
-//    public ThemeSettingServiceImpl(ThemeSettingRepository themeSettingRepository,
-//            ThemeService themeService,
-//            Configuration configuration) {
-//        super(themeSettingRepository);
-//        this.themeSettingRepository = themeSettingRepository;
-//        this.themeService = themeService;
-//        this.configuration = configuration;
-//    }
+package com.qinweizhao.blog.service.impl;
+
+import com.qinweizhao.blog.mapper.ThemeSettingMapper;
+import com.qinweizhao.blog.service.ThemeService;
+import com.qinweizhao.blog.service.ThemeSettingService;
+import freemarker.template.Configuration;
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+
+/**
+ * Theme setting service implementation.
+ *
+ * @author johnniang
+ * @date 2019-04-08
+ */
+@Slf4j
+@Service
+@AllArgsConstructor
+public class ThemeSettingServiceImpl implements ThemeSettingService {
+
+    private final ThemeSettingMapper themeSettingMapper;
+
+    private final ThemeService themeService;
+
+    private final Configuration configuration;
+
+
 //
 //    @Override
 //    public ThemeSetting save(String key, String value, String themeId) {
@@ -209,5 +190,5 @@
 //    private void assertThemeIdHasText(String themeId) {
 //        Assert.hasText(themeId, "Theme id must not be null");
 //    }
-//
-//}
+
+}

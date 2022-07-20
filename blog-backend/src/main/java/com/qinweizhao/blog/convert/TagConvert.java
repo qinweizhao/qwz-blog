@@ -27,13 +27,13 @@ public interface TagConvert {
      */
     TagDTO convert(Tag tag);
 
-    /**
-     * convertWithPostCountDTO
-     *
-     * @param tag tag
-     * @return TagWithPostCountDTO
-     */
-    TagWithPostCountDTO convertWithPostCountDTO(Tag tag);
+//    /**
+//     * convertWithPostCountDTO
+//     *
+//     * @param tag tag
+//     * @return TagWithPostCountDTO
+//     */
+//    TagWithPostCountDTO convertWithPostCountDTO(Tag tag);
 
     /**
      * convertToDTO

@@ -51,6 +51,12 @@ public interface TagService  {
      */
     boolean removeById(Integer tagId);
 
+    /**
+     * 统计标签个数
+     * @return Long
+     */
+    Long count();
+
 
 
 //

@@ -32,9 +32,6 @@ import static com.qinweizhao.blog.model.support.HaloConst.URL_SEPARATOR;
 @AllArgsConstructor
 public class PostTagServiceImpl implements PostTagService {
 
-
-    private final TagService tagService;
-
     private final OptionService optionService;
 
     private final TagMapper tagMapper;
@@ -66,7 +63,7 @@ public class PostTagServiceImpl implements PostTagService {
 
         return tags.stream().map(
                 tag -> {
-                    TagWithPostCountDTO tagWithCountOutputDTO = TagConvert.INSTANCE.convertWithPostCountDTO(tag);
+                    TagWithPostCountDTO tagWithCountOutputDTO = (TagWithPostCountDTO) TagConvert.INSTANCE.convert(tag);
                     tagWithCountOutputDTO.setPostCount(tagPostCountMap.getOrDefault(tag.getId(), 0L));
 
                     StringBuilder fullPath = new StringBuilder();
