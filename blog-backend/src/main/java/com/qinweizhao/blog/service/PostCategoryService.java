@@ -1,6 +1,7 @@
 package com.qinweizhao.blog.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.qinweizhao.blog.model.dto.CategoryDTO;
 import com.qinweizhao.blog.model.entity.Category;
 import com.qinweizhao.blog.model.entity.PostCategory;
 
@@ -16,15 +17,6 @@ import java.util.Map;
  * @date 2019-03-19
  */
 public interface PostCategoryService extends IService<PostCategory> {
-//
-//    /**
-//     * Lists category by post id.
-//     *
-//     * @param postId post id must not be null
-//     * @return a list of category
-//     */
-//    @NonNull
-//    List<Category> listCategoriesBy(@NonNull Integer postId);
 
     /**
      * 按 id 集合列出类别列表图
@@ -32,6 +24,13 @@ public interface PostCategoryService extends IService<PostCategory> {
      * @return Map
      */
     Map<Integer, List<Category>> listCategoryListMap(Collection<Integer> postIds);
+
+    /**
+     * 分类集合
+     * @param postId postId
+     * @return List
+     */
+    List<CategoryDTO> listCategoriesByPostId(Integer postId);
 
 
 //

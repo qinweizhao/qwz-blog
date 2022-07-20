@@ -2,19 +2,21 @@ package com.qinweizhao.blog.mapper;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.qinweizhao.blog.framework.mybatis.mapper.BaseMapperX;
+import com.baomidou.mybatisplus.core.toolkit.ObjectUtils;
 import com.qinweizhao.blog.model.entity.Category;
+import com.qinweizhao.blog.util.LambdaQueryWrapperX;
 import org.apache.ibatis.annotations.Mapper;
-import org.springframework.lang.NonNull;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author qinweizhao
  * @since 2022/7/5
  */
 @Mapper
-public interface CategoryMapper extends BaseMapper<Category>, BaseMapperX<Category> {
+public interface CategoryMapper extends BaseMapper<Category> {
 
     /**
      * 列表
@@ -75,9 +77,23 @@ public interface CategoryMapper extends BaseMapper<Category>, BaseMapperX<Catego
      * @param parentId parentId
      * @return List
      */
-    default List<Category> selectListByParentId(@NonNull Integer parentId) {
+    default List<Category> selectListByParentId(Integer parentId) {
         return selectList(new LambdaQueryWrapper<Category>()
                 .eq(Category::getParentId, parentId));
     }
 
+    /**
+     * 分类集合
+     *
+     * @param categoryIds categoryIds
+     * @return List
+     */
+    default List<Category> selectListByIds(Set<Integer> categoryIds) {
+        if (ObjectUtils.isEmpty(categoryIds)) {
+            return new ArrayList<>();
+        }
+        return this.selectList(new LambdaQueryWrapperX<Category>()
+                .inIfPresent(Category::getId, categoryIds)
+        );
+    }
 }

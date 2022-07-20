@@ -1,11 +1,12 @@
 package com.qinweizhao.blog.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.qinweizhao.blog.convert.CategoryConvert;
 import com.qinweizhao.blog.mapper.CategoryMapper;
 import com.qinweizhao.blog.mapper.PostCategoryMapper;
+import com.qinweizhao.blog.model.dto.CategoryDTO;
 import com.qinweizhao.blog.model.entity.Category;
 import com.qinweizhao.blog.model.entity.PostCategory;
-import com.qinweizhao.blog.service.CategoryService;
 import com.qinweizhao.blog.service.PostCategoryService;
 import com.qinweizhao.blog.util.ServiceUtils;
 import lombok.AllArgsConstructor;
@@ -30,23 +31,8 @@ public class PostCategoryServiceImpl extends ServiceImpl<PostCategoryMapper, Pos
 
     private final CategoryMapper categoryMapper;
 
-    //
-//    private final PostRepository postRepository;
-//
-//    private final CategoryRepository categoryRepository;
-//
-//    private final OptionService optionService;
-//
-//    @Override
-//    public List<Category> listCategoriesBy(Integer postId) {
-//        Assert.notNull(postId, "Post id must not be null");
-//
-//        // Find all category ids
-//        Set<Integer> categoryIds = postCategoryRepository.findAllCategoryIdsByPostId(postId);
-//
-//        return categoryRepository.findAllById(categoryIds);
-//    }
-//
+    private final PostCategoryMapper postCategoryMapper;
+
     @Override
     public Map<Integer, List<Category>> listCategoryListMap(Collection<Integer> postIds) {
         if (CollectionUtils.isEmpty(postIds)) {
@@ -66,7 +52,7 @@ public class PostCategoryServiceImpl extends ServiceImpl<PostCategoryMapper, Pos
         Map<Integer, Category> categoryMap = ServiceUtils.convertToMap(categories, Category::getId);
 
         // 创建新的结构
-        Map<Integer, List<Category>> categoryListMap = new HashMap<>();
+        Map<Integer, List<Category>> categoryListMap = new LinkedHashMap<>();
 
         // 查找并收集
         postCategories.forEach(postCategory -> categoryListMap.computeIfAbsent(postCategory.getPostId(), postId -> new LinkedList<>())
@@ -74,6 +60,14 @@ public class PostCategoryServiceImpl extends ServiceImpl<PostCategoryMapper, Pos
 
         return categoryListMap;
     }
+
+    @Override
+    public List<CategoryDTO> listCategoriesByPostId(Integer postId) {
+        Set<Integer> categoryIds = postCategoryMapper.selectSetCategoryIdsByPostId(postId);
+        List<Category> categories = categoryMapper.selectListByIds(categoryIds);
+        return CategoryConvert.INSTANCE.convertToDTO(categories);
+    }
+
 //
 //    @Override
 //    public List<Post> listPostBy(Integer categoryId) {

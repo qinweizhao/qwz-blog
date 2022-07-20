@@ -23,4 +23,10 @@
         group by pc.category_id
     </select>
 
+    <select id="selectSetCategoryIdsByPostId" resultType="java.lang.Integer">
+        select pc.category_id
+        from post_category pc
+        where pc.post_id = #{postId}
+    </select>
+
 </mapper>

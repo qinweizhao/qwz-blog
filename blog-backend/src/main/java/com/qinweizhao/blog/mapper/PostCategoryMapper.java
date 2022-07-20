@@ -8,6 +8,7 @@ import com.qinweizhao.blog.util.LambdaQueryWrapperX;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 /**
  * <p>
@@ -49,4 +50,10 @@ public interface PostCategoryMapper extends BaseMapper<PostCategory> {
         );
     }
 
+    /**
+     * 查询分类 id 集合
+     * @param postId postId
+     * @return Set
+     */
+    Set<Integer> selectSetCategoryIdsByPostId(Integer postId);
 }

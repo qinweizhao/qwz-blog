@@ -4,6 +4,7 @@ import com.qinweizhao.blog.convert.TagConvert;
 import com.qinweizhao.blog.mapper.PostMapper;
 import com.qinweizhao.blog.mapper.PostTagMapper;
 import com.qinweizhao.blog.mapper.TagMapper;
+import com.qinweizhao.blog.model.dto.TagDTO;
 import com.qinweizhao.blog.model.dto.TagWithPostCountDTO;
 import com.qinweizhao.blog.model.entity.PostTag;
 import com.qinweizhao.blog.model.entity.Tag;
@@ -115,6 +116,14 @@ public class PostTagServiceImpl implements PostTagService {
     @Override
     public boolean removeByTagId(Integer tagId) {
         return postTagMapper.deleteByTagId(tagId) > 0;
+    }
+
+    @Override
+    public List<TagDTO> listTagsByPostId(Integer postId) {
+        // Find all tag ids
+        Set<Integer> tagIds = postTagMapper.selectTagIdsByPostId(postId);
+        List<Tag> tags = tagMapper.selectListByIds(tagIds);
+        return TagConvert.INSTANCE.convertToDTO(tags);
     }
 //
 //

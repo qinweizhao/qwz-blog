@@ -8,6 +8,7 @@ import com.qinweizhao.blog.util.LambdaQueryWrapperX;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 /**
  * <p>
@@ -47,4 +48,11 @@ public interface PostTagMapper extends BaseMapper<PostTag> {
                 .eq(PostTag::getTagId,tagId)
         );
     }
+
+    /**
+     * 通过 postId 查询 tagId 集合
+     * @param postId postId
+     * @return Set
+     */
+    Set<Integer> selectTagIdsByPostId(Integer postId);
 }

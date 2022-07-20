@@ -23,4 +23,10 @@
         group by pt.tag_id
     </select>
 
+    <select id="selectTagIdsByPostId" resultType="java.lang.Integer">
+        select pt.tag_id
+        from post_tag pt
+        where pt.post_id = #{postId}
+    </select>
+
 </mapper>

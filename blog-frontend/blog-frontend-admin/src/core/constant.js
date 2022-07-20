@@ -192,11 +192,13 @@ export const postColumns = [
   {
     title: '分类',
     dataIndex: 'categories',
+    width: '70px',
     scopedSlots: { customRender: 'categories' }
   },
   {
     title: '标签',
     dataIndex: 'tags',
+    width: '90px',
     scopedSlots: { customRender: 'tags' }
   },
   {

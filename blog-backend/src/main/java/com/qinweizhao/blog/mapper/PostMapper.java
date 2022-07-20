@@ -9,11 +9,14 @@ import com.qinweizhao.blog.model.entity.Post;
 import com.qinweizhao.blog.model.enums.PostStatus;
 import com.qinweizhao.blog.model.enums.PostType;
 import com.qinweizhao.blog.model.param.PostQueryParam;
+import com.qinweizhao.blog.util.LambdaQueryWrapperX;
 import com.qinweizhao.blog.util.MyBatisUtils;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 
 /**
@@ -137,27 +140,41 @@ public interface PostMapper extends BaseMapper<Post> {
 
     /**
      * 更新帖子状态
+     *
      * @param status status
      * @param postId postId
      * @return int
      */
-     default int updateStatusById(int status, Integer postId){
-         Post post = new Post();
-         post.setId(postId);
-         post.setStatus(status);
-         return this.updateById(post);
-     }
+    default int updateStatusById(int status, Integer postId) {
+        Post post = new Post();
+        post.setId(postId);
+        post.setStatus(status);
+        return this.updateById(post);
+    }
 
     /**
      * 更新内容
+     *
      * @param formatContent formatContent
-     * @param postId postId
+     * @param postId        postId
      * @return int
      */
-    default int updateFormatContent(String formatContent, Integer postId){
+    default int updateFormatContent(String formatContent, Integer postId) {
         Post post = new Post();
         post.setId(postId);
         post.setFormatContent(formatContent);
         return this.updateById(post);
     }
+
+    /**
+     * selectListByIds
+     * @param postIds postIds
+     * @return List
+     */
+    default List<Post> selectListByIds(Set<Integer> postIds) {
+        return selectList(new LambdaQueryWrapperX<Post>()
+                .inIfPresent(Post::getId, postIds)
+        );
+    }
+
 }

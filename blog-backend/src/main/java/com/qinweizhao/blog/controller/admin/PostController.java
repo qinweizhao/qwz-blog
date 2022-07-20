@@ -2,11 +2,13 @@ package com.qinweizhao.blog.controller.admin;
 
 import com.qinweizhao.blog.convert.PostConvert;
 import com.qinweizhao.blog.model.base.PageResult;
+import com.qinweizhao.blog.model.dto.post.PostDetailDTO;
 import com.qinweizhao.blog.model.dto.post.PostMinimalDTO;
 import com.qinweizhao.blog.model.dto.post.PostSimpleDTO;
 import com.qinweizhao.blog.model.entity.Post;
 import com.qinweizhao.blog.model.enums.PostStatus;
 import com.qinweizhao.blog.model.param.PostQueryParam;
+import com.qinweizhao.blog.model.vo.PostDetailVO;
 import com.qinweizhao.blog.model.vo.PostListVO;
 import com.qinweizhao.blog.service.PostService;
 import io.swagger.annotations.ApiOperation;
@@ -71,14 +73,18 @@ public class PostController {
 //
 //        return postService.convertToSimple(posts);
 //    }
-//
-//    @GetMapping("{postId:\\d+}")
-//    @ApiOperation("Gets a post")
-//    public PostDetailVO getBy(@PathVariable("postId") Integer postId) {
-//        Post post = postService.getById(postId);
-//        return postService.convertToDetailVo(post);
-//    }
-//
+
+    /**
+     * 详情
+     * @param postId postId
+     * @return PostDetailVO
+     */
+    @GetMapping("{postId:\\d+}")
+    public PostDetailVO getBy(@PathVariable("postId") Integer postId) {
+        PostDetailDTO postDetail = postService.getById(postId);
+        return postService.convertToDetailVo(postDetail);
+    }
+
 //    @PutMapping("{postId:\\d+}/likes")
 //    @ApiOperation("Likes a post")
 //    public void likes(@PathVariable("postId") Integer postId) {

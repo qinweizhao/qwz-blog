@@ -1,5 +1,6 @@
 package com.qinweizhao.blog.service.impl;
 
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.google.common.base.Objects;
 import com.qinweizhao.blog.convert.CategoryConvert;
 import com.qinweizhao.blog.exception.AlreadyExistsException;
@@ -164,7 +165,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public Long count() {
-        return categoryMapper.selectCount();
+        return categoryMapper.selectCount(Wrappers.emptyWrapper());
     }
 
 

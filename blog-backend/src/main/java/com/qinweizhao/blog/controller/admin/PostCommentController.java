@@ -2,6 +2,7 @@ package com.qinweizhao.blog.controller.admin;
 
 import com.qinweizhao.blog.convert.CommentConvert;
 import com.qinweizhao.blog.convert.PostConvert;
+import com.qinweizhao.blog.mapper.PostMapper;
 import com.qinweizhao.blog.model.base.PageResult;
 import com.qinweizhao.blog.model.dto.CommentDTO;
 import com.qinweizhao.blog.model.dto.post.PostMinimalDTO;
@@ -38,7 +39,7 @@ public class PostCommentController {
 
     private final CommentService commentService;
 
-    private final PostService postService;
+    private final PostMapper postMapper;
 
 //    private final OptionService optionService;
 
@@ -91,7 +92,7 @@ public class PostCommentController {
             return new ArrayList<>();
         }
 
-        Map<Integer, Post> postMap = ServiceUtils.convertToMap(postService.listByIds(postIds), Post::getId);
+        Map<Integer, Post> postMap = ServiceUtils.convertToMap(postMapper.selectListByIds(postIds), Post::getId);
 
         return contents.stream()
                 .filter(comment -> postMap.containsKey(comment.getPostId()))

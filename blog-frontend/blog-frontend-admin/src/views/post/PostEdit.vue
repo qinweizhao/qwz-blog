@@ -43,7 +43,7 @@ import { PageView } from '@/layouts'
 // libs
 import { mixin, mixinDevice, mixinPostEdit } from '@/mixins/mixin.js'
 import { datetimeFormat } from '@/utils/datetime'
-import apiClient from '@/utils/api-client'
+import postApi from '@/api/post'
 import debounce from 'lodash.debounce'
 
 export default {
@@ -66,8 +66,8 @@ export default {
     const postId = to.query.postId
     next(async vm => {
       if (postId) {
-        const { data } = await apiClient.post.get(Number(postId))
-        vm.postToStage = data
+        const { data } = await postApi.get(Number(postId))
+        vm.postToStage = data.data
       }
     })
   },
@@ -120,7 +120,7 @@ export default {
       if (this.postToStage.id) {
         // Update the post content
         try {
-          const { data } = await apiClient.post.updateDraftById(
+          const { data } = await postApi.updateDraft(
             this.postToStage.id,
             this.postToStage.originalContent,
             this.postToStage.content,
@@ -148,7 +148,7 @@ export default {
       try {
         this.postToStage.keepRaw = true
 
-        const { data } = await apiClient.post.create(this.postToStage)
+        const { data } = await postApi.create(this.postToStage)
         this.postToStage = data
         this.handleRestoreSavedStatus()
 
@@ -169,7 +169,7 @@ export default {
       this.previewSaving = true
       if (this.postToStage.id) {
         // Update the post content
-        const { data } = await apiClient.post.updateDraftById(
+        const { data } = await postApi.updateDraft(
           this.postToStage.id,
           this.postToStage.originalContent,
           this.postToStage.content,
@@ -184,7 +184,7 @@ export default {
 
     async handleOpenPreview() {
       try {
-        const response = await apiClient.post.getPreviewLinkById(this.postToStage.id)
+        const response = await postApi.preview(this.postToStage.id)
         window.open(response, '_blank')
         this.handleRestoreSavedStatus()
       } catch (e) {

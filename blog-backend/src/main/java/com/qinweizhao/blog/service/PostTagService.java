@@ -1,5 +1,6 @@
 package com.qinweizhao.blog.service;
 
+import com.qinweizhao.blog.model.dto.TagDTO;
 import com.qinweizhao.blog.model.dto.TagWithPostCountDTO;
 import com.qinweizhao.blog.model.entity.Tag;
 
@@ -49,6 +50,13 @@ public interface PostTagService {
      * @return boolean
      */
     boolean removeByTagId(Integer tagId);
+
+    /**
+     * 查询标签集合
+     * @param postId postId
+     * @return List
+     */
+    List<TagDTO> listTagsByPostId(Integer postId);
 
 
 //

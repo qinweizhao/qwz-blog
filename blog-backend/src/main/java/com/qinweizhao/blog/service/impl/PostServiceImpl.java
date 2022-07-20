@@ -1,7 +1,6 @@
 package com.qinweizhao.blog.service.impl;
 
 import cn.hutool.core.date.DateUtil;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.qinweizhao.blog.convert.CategoryConvert;
 import com.qinweizhao.blog.convert.MetaConvert;
 import com.qinweizhao.blog.convert.PostConvert;
@@ -9,6 +8,9 @@ import com.qinweizhao.blog.convert.TagConvert;
 import com.qinweizhao.blog.exception.ServiceException;
 import com.qinweizhao.blog.mapper.PostMapper;
 import com.qinweizhao.blog.model.base.PageResult;
+import com.qinweizhao.blog.model.dto.CategoryDTO;
+import com.qinweizhao.blog.model.dto.TagDTO;
+import com.qinweizhao.blog.model.dto.post.PostDetailDTO;
 import com.qinweizhao.blog.model.dto.post.PostSimpleDTO;
 import com.qinweizhao.blog.model.entity.Category;
 import com.qinweizhao.blog.model.entity.Meta;
@@ -17,15 +19,23 @@ import com.qinweizhao.blog.model.entity.Tag;
 import com.qinweizhao.blog.model.enums.PostPermalinkType;
 import com.qinweizhao.blog.model.enums.PostStatus;
 import com.qinweizhao.blog.model.param.PostQueryParam;
+import com.qinweizhao.blog.model.properties.PostProperties;
+import com.qinweizhao.blog.model.vo.PostDetailVO;
 import com.qinweizhao.blog.model.vo.PostListVO;
 import com.qinweizhao.blog.service.*;
+import com.qinweizhao.blog.util.HaloUtils;
 import com.qinweizhao.blog.util.MarkdownUtils;
 import com.qinweizhao.blog.util.ServiceUtils;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import static com.qinweizhao.blog.model.support.HaloConst.URL_SEPARATOR;
@@ -43,8 +53,10 @@ import static com.qinweizhao.blog.model.support.HaloConst.URL_SEPARATOR;
 @Slf4j
 @Service
 @AllArgsConstructor
-public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements PostService {
+public class PostServiceImpl implements PostService {
 
+
+    private final Pattern summaryPattern = Pattern.compile("\t|\r|\n");
 
     private final PostMapper postMapper;
 
@@ -61,22 +73,22 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
 
     @Override
     public long countByStatus(PostStatus published) {
-        return this.baseMapper.selectCountByStatus(published);
+        return postMapper.selectCountByStatus(published);
     }
 
     @Override
     public long countVisit() {
-        return this.baseMapper.selectCountVisits();
+        return postMapper.selectCountVisits();
     }
 
     @Override
     public long countLike() {
-        return this.baseMapper.selectCountLikes();
+        return postMapper.selectCountLikes();
     }
 
     @Override
     public PageResult<PostSimpleDTO> pagePosts(PostQueryParam postQueryParam) {
-        PageResult<Post> pageResult = this.baseMapper.selectPagePosts(postQueryParam);
+        PageResult<Post> pageResult = postMapper.selectPagePosts(postQueryParam);
         return PostConvert.INSTANCE.convertToSimpleDTO(pageResult);
     }
 
@@ -170,6 +182,63 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
         return true;
     }
 
+    @Override
+    public PostDetailDTO getById(Integer postId) {
+        Post post = postMapper.selectById(postId);
+        return PostConvert.INSTANCE.convertDTO(post);
+    }
+
+    @Override
+    public PostDetailVO convertToDetailVo(PostDetailDTO post) {
+        // List tags
+        List<TagDTO> tags = postTagService.listTagsByPostId(post.getId());
+        // List categories
+        List<CategoryDTO> categories = postCategoryService.listCategoriesByPostId(post.getId());
+        // Convert to detail vo
+        return convertTo(post, tags, categories);
+    }
+
+    private PostDetailVO convertTo(PostDetailDTO post, List<TagDTO> tags, List<CategoryDTO> categories) {
+
+        PostDetailVO postDetailVO = PostConvert.INSTANCE.convertVO(post);
+
+        if (StringUtils.isBlank(postDetailVO.getSummary())) {
+            postDetailVO.setSummary(generateSummary(post.getFormatContent()));
+        }
+
+        // Extract ids
+        Set<Integer> tagIds = ServiceUtils.fetchProperty(tags, TagDTO::getId);
+
+        Set<Integer> categoryIds = ServiceUtils.fetchProperty(categories, CategoryDTO::getId);
+
+        // Get post tag ids
+        postDetailVO.setTagIds(tagIds);
+        postDetailVO.setTags(tags);
+
+        // Get post category ids
+        postDetailVO.setCategoryIds(categoryIds);
+        postDetailVO.setCategories(categories);
+
+//        postDetailVO.setCommentCount(postCommentService.countByPostId(post.getId()));
+
+        postDetailVO.setFullPath(buildFullPath(post));
+
+        return postDetailVO;
+    }
+
+    protected String generateSummary(@NonNull String htmlContent) {
+        Assert.notNull(htmlContent, "html content must not be null");
+
+        String text = HaloUtils.cleanHtmlTag(htmlContent);
+
+        Matcher matcher = summaryPattern.matcher(text);
+        text = matcher.replaceAll("");
+
+        // Get summary length
+        Integer summaryLength = optionService.getByPropertyOrDefault(PostProperties.SUMMARY_LENGTH, Integer.class, 150);
+
+        return StringUtils.substring(text, 0, summaryLength);
+    }
 
     private String buildFullPath(PostSimpleDTO post) {
 
@@ -389,7 +458,7 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
 //
 //    @Override
 //    public Post getBySlug(String slug) {
-//        return this.baseMapper.selectBySlug(slug);
+//        return postMapper.selectBySlug(slug);
 //    }
 //
 //    @Override
