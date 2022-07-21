@@ -1,7 +1,9 @@
 package com.qinweizhao.blog.model.dto;
 
+import com.qinweizhao.blog.model.base.BaseTree;
 import com.qinweizhao.blog.model.enums.CommentStatus;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.util.Date;
 
@@ -10,10 +12,12 @@ import java.util.Date;
  *
  * @author johnniang
  * @author ryanwang
+ * @author qinweizhao
  * @date 2019-03-20
  */
 @Data
-public class CommentDTO {
+@EqualsAndHashCode(callSuper = true)
+public class CommentDTO extends BaseTree<CommentDTO> {
 
     private Long id;
 

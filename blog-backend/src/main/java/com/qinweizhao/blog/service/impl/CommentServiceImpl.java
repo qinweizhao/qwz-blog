@@ -1,9 +1,8 @@
 package com.qinweizhao.blog.service.impl;
 
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.qinweizhao.blog.convert.CommentConvert;
 import com.qinweizhao.blog.mapper.CommentMapper;
-import com.qinweizhao.blog.mapper.PostMapper;
+import com.qinweizhao.blog.model.base.PageParam;
 import com.qinweizhao.blog.model.base.PageResult;
 import com.qinweizhao.blog.model.dto.CommentDTO;
 import com.qinweizhao.blog.model.entity.Comment;
@@ -11,15 +10,15 @@ import com.qinweizhao.blog.model.enums.CommentStatus;
 import com.qinweizhao.blog.model.param.CommentQueryParam;
 import com.qinweizhao.blog.model.projection.CommentCountProjection;
 import com.qinweizhao.blog.service.CommentService;
-import com.qinweizhao.blog.service.PostService;
 import com.qinweizhao.blog.util.ServiceUtils;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
+import org.springframework.util.CollectionUtils;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * PostCommentService implementation class
@@ -32,8 +31,10 @@ import java.util.Set;
 @Slf4j
 @Service
 @AllArgsConstructor
-public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> implements CommentService {
+public class CommentServiceImpl implements CommentService {
 
+
+    private final CommentMapper commentMapper;
 //
 //    private final PostService postService;
 
@@ -69,20 +70,108 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
 
     @Override
     public long countByStatus(CommentStatus published) {
-        return this.baseMapper.selectCountByStatus(published);
+        return commentMapper.selectCountByStatus(published);
     }
 
     @Override
     public PageResult<CommentDTO> pageComment(CommentQueryParam commentQueryParam) {
-        PageResult<Comment> commentResult = this.baseMapper.selectPageComments(commentQueryParam);
+        PageResult<Comment> commentResult = commentMapper.selectPageComments(commentQueryParam);
         return CommentConvert.INSTANCE.convertToDTO(commentResult);
 
     }
 
     @Override
     public Map<Integer, Long> countByPostIds(Set<Integer> postIds) {
-        List<CommentCountProjection> commentCountProjections = this.baseMapper.selectCountByPostIds(postIds);
+        List<CommentCountProjection> commentCountProjections = commentMapper.selectCountByPostIds(postIds);
         return ServiceUtils.convertToMap(commentCountProjections, CommentCountProjection::getPostId, CommentCountProjection::getCount);
+    }
+
+    @Override
+    public PageResult<CommentDTO> pageTree(Integer postId, PageParam param) {
+
+        List<Comment> comments = commentMapper.selectListByPostId(postId);
+
+        return this.buildPageTree(comments, param);
+    }
+
+    /**
+     * 构建分页树
+     *
+     * @param comments comments
+     * @param param    param
+     * @return PageResult
+     */
+    private PageResult<CommentDTO> buildPageTree(List<Comment> comments, PageParam param) {
+
+        // Init the top virtual comment
+        CommentDTO topVirtualComment = new CommentDTO();
+        topVirtualComment.setId(0L);
+        topVirtualComment.setChildren(new LinkedList<>());
+
+        // 构建树
+        this.concreteTree(topVirtualComment, comments);
+        List<CommentDTO> topComments = topVirtualComment.getChildren();
+        List<CommentDTO> pageContent;
+
+        // Calc the shear index
+        int startIndex = param.getPage() * param.getSize();
+        if (startIndex >= topComments.size() || startIndex < 0) {
+            pageContent = Collections.emptyList();
+        } else {
+            int endIndex = startIndex + param.getSize();
+            if (endIndex > topComments.size()) {
+                endIndex = topComments.size();
+            }
+
+            log.debug("Top comments size: [{}]", topComments.size());
+            log.debug("Start index: [{}]", startIndex);
+            log.debug("End index: [{}]", endIndex);
+
+            pageContent = topComments.subList(startIndex, endIndex);
+        }
+
+        return new PageResult<>(pageContent, topComments.size());
+    }
+
+
+    /**
+     * 构建具体的树
+     *
+     * @param parentComment parentComment
+     * @param comments      comments
+     */
+    private void concreteTree(CommentDTO parentComment, List<Comment> comments) {
+        Assert.notNull(parentComment, "Parent comment must not be null");
+
+        if (CollectionUtils.isEmpty(comments)) {
+            return;
+        }
+
+        // Get children
+        List<Comment> children = comments.stream()
+                .filter(comment -> Objects.equals(parentComment.getId(), comment.getParentId()))
+                .collect(Collectors.toList());
+
+        // Add children
+        children.forEach(comment -> {
+            // Convert to comment vo
+            CommentDTO commentVO = CommentConvert.INSTANCE.convert(comment);
+
+            if (parentComment.getChildren() == null) {
+                parentComment.setChildren(new LinkedList<>());
+            }
+
+            parentComment.getChildren().add(commentVO);
+        });
+
+        // Remove children
+        comments.removeAll(children);
+
+        if (!CollectionUtils.isEmpty(parentComment.getChildren())) {
+            // Recursively concrete the children
+            parentComment.getChildren().forEach(childComment -> concreteTree(childComment, comments));
+
+        }
     }
 
 

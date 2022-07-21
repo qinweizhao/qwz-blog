@@ -3,6 +3,7 @@ package com.qinweizhao.blog.controller.admin;
 import com.qinweizhao.blog.convert.CommentConvert;
 import com.qinweizhao.blog.convert.PostConvert;
 import com.qinweizhao.blog.mapper.PostMapper;
+import com.qinweizhao.blog.model.base.PageParam;
 import com.qinweizhao.blog.model.base.PageResult;
 import com.qinweizhao.blog.model.dto.CommentDTO;
 import com.qinweizhao.blog.model.dto.post.PostMinimalDTO;
@@ -12,7 +13,6 @@ import com.qinweizhao.blog.model.enums.CommentType;
 import com.qinweizhao.blog.model.param.CommentQueryParam;
 import com.qinweizhao.blog.model.vo.PostCommentWithPostVO;
 import com.qinweizhao.blog.service.CommentService;
-import com.qinweizhao.blog.service.PostService;
 import com.qinweizhao.blog.util.ServiceUtils;
 import lombok.AllArgsConstructor;
 import org.springframework.util.ObjectUtils;
@@ -110,20 +110,17 @@ public class PostCommentController {
 
     }
 
-//    /**
-//     * 用树状视图列出帖子评论
-//     *
-//     * @param postId postId
-//     * @param page   postId
-//     * @param sort   sort
-//     * @return Page
-//     */
-//    @GetMapping("{postId:\\d+}/tree_view")
-//    public Page<CommentVO> listCommentTree(@PathVariable("postId") Integer postId,
-//                                           @RequestParam(name = "page", required = false, defaultValue = "0") int page,
-//                                           @SortDefault(sort = "createTime", direction = DESC) Sort sort) {
-//        return commentService.pageVosAllBy(postId, PageRequest.of(page, optionService.getCommentPageSize(), sort));
-//    }
+    /**
+     * 用树状视图列出帖子评论
+     *
+     * @param postId postId
+     * @param param   param
+     * @return Page
+     */
+    @GetMapping("{postId:\\d+}/tree_view")
+    public PageResult<CommentDTO> pageTree(@PathVariable("postId") Integer postId, PageParam param) {
+        return commentService.pageTree(postId, param);
+    }
 //
 //    @GetMapping("{postId:\\d+}/list_view")
 //    @ApiOperation("Lists post comment with list view")

@@ -88,4 +88,16 @@ public interface CommentMapper extends BaseMapper<Comment> {
         );
         return MyBatisUtils.buildPageResult(commentPage);
     }
+
+    /**
+     * 通过 postId 获取所有评论
+     * @param postId postId
+     * @return List
+     */
+    default List<Comment> selectListByPostId(Integer postId){
+        return this.selectList(new LambdaQueryWrapperX<Comment>()
+                        .eq(Comment::getPostId,postId)
+                );
+    }
+
 }

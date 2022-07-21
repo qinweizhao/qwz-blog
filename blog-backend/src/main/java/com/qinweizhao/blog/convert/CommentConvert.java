@@ -77,8 +77,17 @@ public interface CommentConvert {
 
     /**
      * convertJournalToVO
+     *
      * @param comment comment
      * @return JournalCommentWithJournalVO
      */
     JournalCommentWithJournalVO convertJournalToVO(CommentDTO comment);
+
+    /**
+     * convert
+     *
+     * @param comment comment
+     * @return CommentDTO
+     */
+    CommentDTO convert(Comment comment);
 }

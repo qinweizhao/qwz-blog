@@ -1,11 +1,14 @@
 package com.qinweizhao.blog.service;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.qinweizhao.blog.model.base.PageParam;
 import com.qinweizhao.blog.model.base.PageResult;
 import com.qinweizhao.blog.model.dto.CommentDTO;
 import com.qinweizhao.blog.model.entity.Comment;
 import com.qinweizhao.blog.model.enums.CommentStatus;
 import com.qinweizhao.blog.model.param.CommentQueryParam;
+import com.qinweizhao.blog.model.vo.CommentVO;
 import com.qinweizhao.blog.model.vo.PostCommentWithPostVO;
 
 import java.util.List;
@@ -19,7 +22,7 @@ import java.util.Set;
  * @author ryanwang
  * @date 2019-03-14
  */
-public interface CommentService extends IService<Comment> {
+public interface CommentService {
 
     /**
      * 统计文章个数
@@ -44,6 +47,14 @@ public interface CommentService extends IService<Comment> {
      * @return Map
      */
     Map<Integer, Long> countByPostIds(Set<Integer> postIds);
+
+    /**
+     * 分页（树）
+     * @param postId postId
+     * @param param param
+     * @return PageResult
+     */
+    PageResult<CommentDTO> pageTree(Integer postId, PageParam param);
 
 
 //
