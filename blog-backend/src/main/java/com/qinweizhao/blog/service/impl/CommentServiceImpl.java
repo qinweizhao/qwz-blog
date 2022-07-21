@@ -103,7 +103,7 @@ public class CommentServiceImpl implements CommentService {
      */
     private PageResult<CommentDTO> buildPageTree(List<Comment> comments, PageParam param) {
 
-        // Init the top virtual comment
+        // 初始化置顶虚拟评论
         CommentDTO topVirtualComment = new CommentDTO();
         topVirtualComment.setId(0L);
         topVirtualComment.setChildren(new LinkedList<>());
@@ -113,7 +113,7 @@ public class CommentServiceImpl implements CommentService {
         List<CommentDTO> topComments = topVirtualComment.getChildren();
         List<CommentDTO> pageContent;
 
-        // Calc the shear index
+        // 构建分页
         int startIndex = param.getPage() * param.getSize();
         if (startIndex >= topComments.size() || startIndex < 0) {
             pageContent = Collections.emptyList();
