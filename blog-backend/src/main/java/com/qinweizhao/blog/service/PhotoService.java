@@ -1,18 +1,76 @@
 package com.qinweizhao.blog.service;
 
-import com.baomidou.mybatisplus.extension.service.IService;
-import com.qinweizhao.blog.model.entity.Photo;
+import com.qinweizhao.blog.model.base.PageResult;
+import com.qinweizhao.blog.model.dto.PhotoDTO;
+import com.qinweizhao.blog.model.param.PhotoQueryParam;
+import com.qinweizhao.blog.model.params.PhotoParam;
 
 import java.util.List;
 
 /**
  * Photo service interface.
  *
- * @author johnniang
- * @author ryanwang
+ * @author qinweizhao
  * @date 2019-03-14
  */
-public interface PhotoService extends IService<Photo> {
+public interface PhotoService {
+
+
+    /**
+     * 列表
+     *
+     * @return List
+     */
+    List<PhotoDTO> list();
+
+    /**
+     * 分页
+     *
+     * @param param param
+     * @return PageResult
+     */
+    PageResult<PhotoDTO> page(PhotoQueryParam param);
+
+    /**
+     * 详情
+     *
+     * @param photoId photoId
+     * @return PhotoDTO
+     */
+    PhotoDTO getById(Integer photoId);
+
+    /**
+     * 移除
+     *
+     * @param photoId photoId
+     * @return boolean
+     */
+    boolean removeById(Integer photoId);
+
+    /**
+     * 新增
+     *
+     * @param photoParam photoParam
+     * @return boolean
+     */
+    boolean save(PhotoParam photoParam);
+
+    /**
+     * 更新
+     *
+     * @param photoId    photoId
+     * @param photoParam photoParam
+     * @return boolean
+     */
+    boolean updateById(Integer photoId, PhotoParam photoParam);
+
+    /**
+     * listTeams
+     * @return List
+     */
+    List<String> listTeams();
+
+
 
 //    /**
 //     * List photo dtos.

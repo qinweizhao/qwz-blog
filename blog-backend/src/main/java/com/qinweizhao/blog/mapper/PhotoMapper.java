@@ -1,8 +1,12 @@
 package com.qinweizhao.blog.mapper;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.qinweizhao.blog.model.base.PageResult;
 import com.qinweizhao.blog.model.entity.Photo;
+import com.qinweizhao.blog.model.param.PhotoQueryParam;
+import com.qinweizhao.blog.util.LambdaQueryWrapperX;
+import com.qinweizhao.blog.util.MyBatisUtils;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -33,4 +37,18 @@ public interface PhotoMapper extends BaseMapper<Photo> {
      */
     List<String> selectListTeam();
 
+    /**
+     * 分页
+     *
+     * @param param param
+     * @return PageResult
+     */
+    default PageResult<Photo> selectPagePhotos(PhotoQueryParam param) {
+        Page<Photo> page = MyBatisUtils.buildPage(param);
+        Page<Photo> photoPage = this.selectPage(page, new LambdaQueryWrapperX<Photo>()
+                .likeIfPresent(Photo::getName, param.getKeyword())
+                .eqIfPresent(Photo::getTeam, param.getTeam())
+        );
+        return MyBatisUtils.buildPageResult(photoPage);
+    }
 }

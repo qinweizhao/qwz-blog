@@ -1,27 +1,73 @@
 package com.qinweizhao.blog.service.impl;
 
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.qinweizhao.blog.convert.PhotoConvert;
 import com.qinweizhao.blog.mapper.PhotoMapper;
+import com.qinweizhao.blog.model.base.PageResult;
+import com.qinweizhao.blog.model.dto.PhotoDTO;
 import com.qinweizhao.blog.model.entity.Photo;
+import com.qinweizhao.blog.model.param.PhotoQueryParam;
+import com.qinweizhao.blog.model.params.PhotoParam;
 import com.qinweizhao.blog.service.PhotoService;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * PhotoService implementation class
  *
- * @author ryanwang
+ * @author qinweizhao
  * @date 2019-03-14
  */
 @Service
-public class PhotoServiceImpl extends ServiceImpl<PhotoMapper, Photo> implements PhotoService {
+@AllArgsConstructor
+public class PhotoServiceImpl implements PhotoService {
 
-    //
-//    @Override
-//    public List<PhotoDTO> listDtos(Sort sort) {
-//        Assert.notNull(sort, "Sort info must not be null");
-//
-//        return listAll(sort).stream().map(photo -> (PhotoDTO) new PhotoDTO().convertFrom(photo)).collect(Collectors.toList());
-//    }
+    private final PhotoMapper photoMapper;
+
+    @Override
+    public List<PhotoDTO> list() {
+        List<Photo> photos = photoMapper.selectList(Wrappers.emptyWrapper());
+        return PhotoConvert.INSTANCE.convertToDTO(photos);
+    }
+
+    @Override
+    public PageResult<PhotoDTO> page(PhotoQueryParam param) {
+        PageResult<Photo> result = photoMapper.selectPagePhotos(param);
+        return PhotoConvert.INSTANCE.convert(result);
+    }
+
+    @Override
+    public PhotoDTO getById(Integer photoId) {
+        Photo photo = photoMapper.selectById(photoId);
+        return PhotoConvert.INSTANCE.convert(photo);
+    }
+
+    @Override
+    public boolean removeById(Integer photoId) {
+        return photoMapper.deleteById(photoId) > 0;
+    }
+
+    @Override
+    public boolean save(PhotoParam photoParam) {
+        Photo photo = PhotoConvert.INSTANCE.convert(photoParam);
+        return photoMapper.insert(photo) > 0;
+    }
+
+    @Override
+    public boolean updateById(Integer photoId, PhotoParam photoParam) {
+        Photo photo = PhotoConvert.INSTANCE.convert(photoParam);
+        photo.setId(photoId);
+        return photoMapper.updateById(photo) > 0;
+    }
+
+    @Override
+    public List<String> listTeams() {
+        return photoMapper.selectListTeam();
+    }
+
+
 //
 //    @Override
 //    public List<PhotoTeamVO> listTeamVos(Sort sort) {
@@ -69,12 +115,6 @@ public class PhotoServiceImpl extends ServiceImpl<PhotoMapper, Photo> implements
 //        return photoPage.map(photo -> new PhotoDTO().convertFrom(photo));
 //    }
 //
-//    @Override
-//    public Photo createBy(PhotoParam photoParam) {
-//        Assert.notNull(photoParam, "Photo param must not be null");
-//
-//        return create(photoParam.convertTo());
-//    }
 //
 //    @Override
 //    public List<String> listAllTeams() {
