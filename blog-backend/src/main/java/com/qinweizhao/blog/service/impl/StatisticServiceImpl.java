@@ -30,8 +30,6 @@ public class StatisticServiceImpl implements StatisticService {
 
     private final OptionService optionService;
 
-    private final LinkService linkService;
-
     private final CategoryService categoryService;
 
     private final TagService tagService;
@@ -55,8 +53,6 @@ public class StatisticServiceImpl implements StatisticService {
         long days = (System.currentTimeMillis() - birthday) / (1000 * 24 * 3600);
         statisticDTO.setEstablishDays(days);
         statisticDTO.setBirthday(birthday);
-
-        statisticDTO.setLinkCount(linkService.count());
         statisticDTO.setVisitCount(postService.countVisit());
         statisticDTO.setLikeCount(postService.countLike());
         return statisticDTO;
