@@ -291,7 +291,7 @@ export default {
 
         const response = await attachmentApi.listTypes()
 
-        this.types.data = response.data
+        this.types.data = response.data.data
       } catch (error) {
         this.$log.error(error)
       } finally {
