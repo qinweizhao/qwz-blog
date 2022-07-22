@@ -97,7 +97,7 @@ export default {
         total: 0,
         loading: false,
         params: {
-          page: 0,
+          page: 1,
           size: 50
         }
       }

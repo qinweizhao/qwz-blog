@@ -21,6 +21,17 @@ public class PageResult<T> {
      */
     protected Long total = 0L;
 
+    /**
+     * 是否有上一页
+     */
+    protected Boolean hasPrevious = false;
+
+    /**
+     * 是否有下一页
+     */
+    protected Boolean hasNext = false;
+
+
     public PageResult() {
     }
 
@@ -28,9 +39,11 @@ public class PageResult<T> {
         this.total = total;
     }
 
-    public PageResult(List<T> content, long total) {
+    public PageResult(List<T> content, long total,boolean hasPrevious,boolean hasNext) {
         this.content = content;
         this.total = total;
+        this.hasPrevious = hasPrevious;
+        this.hasNext = hasNext;
     }
 
     public List<T> getContent() {
@@ -48,4 +61,16 @@ public class PageResult<T> {
     public void setTotal(Long total) {
         this.total = total;
     }
+
+    public Boolean hasPrevious() {
+        return hasPrevious;
+    }
+
+
+
+    public Boolean hasNext() {
+        return hasNext;
+    }
+
+
 }

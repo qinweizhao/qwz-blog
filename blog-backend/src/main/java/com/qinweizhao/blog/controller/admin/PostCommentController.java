@@ -54,7 +54,7 @@ public class PostCommentController {
         param.setType(CommentType.POST.getValue());
         PageResult<CommentDTO> commentResult = commentService.pageComment(param);
         List<CommentDTO> contents = commentResult.getContent();
-        return new PageResult<>(this.buildResultVO(contents), commentResult.getTotal());
+        return new PageResult<>(this.buildResultVO(contents), commentResult.getTotal(),commentResult.hasPrevious(),commentResult.hasNext());
     }
 
     /**

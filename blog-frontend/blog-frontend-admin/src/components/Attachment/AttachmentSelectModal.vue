@@ -190,7 +190,7 @@ export default {
         hasPrevious: false,
         loading: false,
         params: {
-          page: 0,
+          page: 1,
           size: 12,
           keyword: undefined,
           mediaType: undefined,
@@ -355,7 +355,7 @@ export default {
      */
     handleResetParam() {
       this.list.params = {
-        page: 0,
+        page: 1,
         size: 12,
         keyword: undefined,
         mediaType: undefined,

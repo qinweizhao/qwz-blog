@@ -202,7 +202,7 @@ export default {
         data: [],
         loading: false,
         params: {
-          page: 0,
+          page: 1,
           size: 18,
           sort: ['createTime,desc', 'id,asc'],
           keyword: null,

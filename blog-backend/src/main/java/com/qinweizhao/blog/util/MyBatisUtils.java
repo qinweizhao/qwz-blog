@@ -32,6 +32,6 @@ public class MyBatisUtils {
 
 
     public static <T> PageResult<T> buildPageResult(Page<T> page) {
-        return new PageResult<T>(page.getRecords(),page.getTotal());
+        return new PageResult<T>(page.getRecords(),page.getTotal(),page.hasPrevious(),page.hasNext());
     }
 }

@@ -128,8 +128,15 @@ public class CommentServiceImpl implements CommentService {
             log.debug("End index: [{}]", endIndex);
 
             pageContent = topComments.subList(startIndex, endIndex);
+
         }
-        return new PageResult<>(pageContent, topComments.size());
+        int total = comments.size();
+        int pageNum = param.getPage();
+        int pageSize = param.getSize();
+        boolean hasPrevious = param.getPage() > 1;
+        boolean hasNext = (total - (pageNum * pageSize)) > pageSize;
+
+        return new PageResult<>(pageContent, topComments.size(), hasPrevious, hasNext);
     }
 
 

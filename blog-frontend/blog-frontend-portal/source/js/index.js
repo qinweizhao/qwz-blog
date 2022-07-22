@@ -105,7 +105,7 @@ const homeContext = {
 		const $domLoading = $el.find(".joe_list__loading");
 		$navLine.attr("style", `width:${$navItems.eq(0).width()}px;`);
 		let queryData = {
-			page: 0,
+			page: 1,
 			size: pageSize,
 			keyword: "",
 			sort: "topPriority,createTime,desc", // 默认为置顶优先+创建时间+倒序
@@ -245,7 +245,7 @@ const homeContext = {
 			const typeName = MapTypes[typeId];
 			if (queryData.sort.includes(typeName)) return;
 			queryData = {
-				page: 0,
+				page: 1,
 				size: pageSize,
 				sort: `topPriority,${typeName},desc`,
 			};

@@ -196,7 +196,7 @@ export default {
         loading: false,
         total: 0,
         params: {
-          page: 0,
+          page: 1,
           size: 10,
           keyword: undefined,
           type: undefined

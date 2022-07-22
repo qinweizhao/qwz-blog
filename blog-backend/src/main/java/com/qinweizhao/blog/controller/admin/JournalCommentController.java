@@ -57,7 +57,7 @@ public class JournalCommentController {
 
         List<CommentDTO> contents = commentResult.getContent();
 
-        return new PageResult<>(this.buildResultVO(contents), commentResult.getTotal());
+        return new PageResult<>(this.buildResultVO(contents), commentResult.getTotal(),commentResult.hasPrevious(),commentResult.hasNext());
     }
 
     /**

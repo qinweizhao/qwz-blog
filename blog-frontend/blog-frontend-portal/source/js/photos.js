@@ -17,7 +17,7 @@ const photosContext = {
 		const $domEmpty = $(".joe_empty");
 		const $domLoading = $(".joe_loading");
 		const queryData = {
-			page: 0,
+			page: 1,
 			size: ThemeConfig.photos_page_size,
 			sort: "createTime,desc",
 		};

@@ -11,7 +11,7 @@ const leavingContext = {
 			url: `/api/content/sheets/${sheetId}/comments/top_view`,
 			method: "GET",
 			data: {
-				page: 0,
+				page: 1,
 				// size: ThemeConfig.leaving_card_max,
 				sort: "createTime,desc",
 			},

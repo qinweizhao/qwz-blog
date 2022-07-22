@@ -317,6 +317,7 @@ import CommentReplyModal from '@/components/Comment/CommentReplyModal'
 
 import { mixin, mixinDevice } from '@/mixins/mixin.js'
 import apiClient from '@/utils/api-client'
+import commentApi from '@/api/comment'
 import { commentStatuses } from '@/core/constant'
 
 const postColumns = [
@@ -330,6 +331,7 @@ const postColumns = [
   {
     title: '内容',
     dataIndex: 'content',
+    width: '200px',
     scopedSlots: { customRender: 'content' }
   },
   {
@@ -467,7 +469,7 @@ export default {
         hasPrevious: false,
         hasNext: false,
         params: {
-          page: 0,
+          page: 1,
           size: 10,
           keyword: null,
           status: undefined
@@ -532,12 +534,12 @@ export default {
       try {
         this.list.loading = true
 
-        const response = await apiClient.comment.list(this.targetName, this.list.params)
+        const response = await commentApi.queryComment(this.targetName, this.list.params)
 
-        this.list.data = response.data.content
-        this.list.total = response.data.total
-        this.list.hasPrevious = response.data.hasPrevious
-        this.list.hasNext = response.data.hasNext
+        this.list.data = response.data.data.content
+        this.list.total = response.data.data.total
+        this.list.hasPrevious = response.data.data.hasPrevious
+        this.list.hasNext = response.data.data.hasNext
       } catch (e) {
         this.$log.error(e)
       } finally {

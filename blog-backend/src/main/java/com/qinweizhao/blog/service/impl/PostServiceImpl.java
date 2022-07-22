@@ -152,7 +152,7 @@ public class PostServiceImpl implements PostService {
 
             return postListVO;
         }).collect(Collectors.toList());
-        return new PageResult<>(collect, collect.size());
+        return new PageResult<>(collect, collect.size(),postPage.hasPrevious(),postPage.hasNext());
     }
 
     @Override
