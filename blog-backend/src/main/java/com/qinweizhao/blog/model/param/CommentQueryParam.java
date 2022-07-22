@@ -1,6 +1,7 @@
 package com.qinweizhao.blog.model.param;
 
 import com.qinweizhao.blog.model.base.PageParam;
+import com.qinweizhao.blog.model.entity.Comment;
 import com.qinweizhao.blog.model.enums.CommentStatus;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -30,4 +31,5 @@ public class CommentQueryParam extends PageParam {
      * 类型（前端不用传）
      */
     private Integer type;
+
 }

@@ -51,6 +51,7 @@ public class PostCommentController {
      */
     @GetMapping
     public PageResult<PostCommentWithPostVO> page(CommentQueryParam param) {
+        System.out.println("sssssssssssß");
         param.setType(CommentType.POST.getValue());
         PageResult<CommentDTO> commentResult = commentService.pageComment(param);
         List<CommentDTO> contents = commentResult.getContent();

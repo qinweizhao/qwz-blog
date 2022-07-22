@@ -147,9 +147,6 @@
                   <a v-if="targetName === 'posts'" :href="item.post.fullPath" target="_blank">
                     《{{ item.post.title }}》
                   </a>
-                  <a v-if="targetName === 'sheets'" :href="item.sheet.fullPath" target="_blank">
-                    《{{ item.sheet.title }}》
-                  </a>
                   <a v-if="targetName === 'journals'" href="javascript:void(0);">
                     《{{ item.journal.createTime | moment }}》
                   </a>
@@ -210,13 +207,6 @@
               {{ post.title }}
             </a>
           </template>
-
-          <template v-if="targetName === 'sheets'" #sheet="sheet">
-            <a :href="sheet.fullPath" target="_blank">
-              {{ sheet.title }}
-            </a>
-          </template>
-
           <template v-if="targetName === 'journals'" #journal="journal">
             <p class="comment-content-wrapper" v-html="journal.content"></p>
           </template>
@@ -360,45 +350,6 @@ const postColumns = [
     scopedSlots: { customRender: 'action' }
   }
 ]
-const sheetColumns = [
-  {
-    title: '昵称',
-    dataIndex: 'author',
-    width: '150px',
-    ellipsis: true,
-    scopedSlots: { customRender: 'author' }
-  },
-  {
-    title: '内容',
-    dataIndex: 'content',
-    scopedSlots: { customRender: 'content' }
-  },
-  {
-    title: '状态',
-    dataIndex: 'status',
-    width: '100px',
-    scopedSlots: { customRender: 'status' }
-  },
-  {
-    title: '评论页面',
-    dataIndex: 'sheet',
-    width: '200px',
-    ellipsis: true,
-    scopedSlots: { customRender: 'sheet' }
-  },
-  {
-    title: '日期',
-    dataIndex: 'createTime',
-    width: '170px',
-    scopedSlots: { customRender: 'createTime' }
-  },
-  {
-    title: '操作',
-    dataIndex: 'action',
-    width: '180px',
-    scopedSlots: { customRender: 'action' }
-  }
-]
 
 const journalColumns = [
   {
@@ -492,7 +443,6 @@ export default {
     },
     columns() {
       if (this.targetName === 'posts') return postColumns
-      if (this.targetName === 'sheets') return sheetColumns
       if (this.targetName === 'journals') return journalColumns
       return {}
     },
@@ -505,9 +455,6 @@ export default {
       }
       if (this.targetName === 'posts') {
         return this.selectedComment.post.id
-      }
-      if (this.targetName === 'sheets') {
-        return this.selectedComment.sheet.id
       }
       if (this.targetName === 'journals') {
         return this.selectedComment.journal.id

@@ -78,10 +78,9 @@ public interface CommentMapper extends BaseMapper<Comment> {
      */
     default PageResult<Comment> selectPageComments(CommentQueryParam param) {
         Page<Comment> page = MyBatisUtils.buildPage(param);
-        Integer status = CommentConvert.INSTANCE.statusToInteger(param.getStatus());
         Page<Comment> commentPage = this.selectPage(page, new LambdaQueryWrapperX<Comment>()
                 .eq(Comment::getType, param.getType())
-                .eqIfPresent(Comment::getStatus, status)
+                .eqIfPresent(Comment::getStatus, param.getStatus())
                 .likeIfPresent(Comment::getAuthor, param.getKeyword())
                 .likeIfPresent(Comment::getContent, param.getKeyword())
                 .likeIfPresent(Comment::getEmail, param.getKeyword())

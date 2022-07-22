@@ -22,7 +22,6 @@ export default {
   data() {
     const panes = [
       { title: '文章', key: 'post' },
-      { title: '页面', key: 'sheet' },
       { title: '日志', key: 'journal' }
     ]
     return {
