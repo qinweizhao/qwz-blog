@@ -118,7 +118,8 @@ public class PostCommentController {
      * @return Page
      */
     @GetMapping("{postId:\\d+}/tree_view")
-    public PageResult<CommentDTO> pageTree(@PathVariable("postId") Integer postId, PageParam param) {
+    public PageResult<CommentDTO> pageTree(@PathVariable("postId") Integer postId, CommentQueryParam param) {
+        PageResult<CommentDTO> result = commentService.pageTree(postId, param);
         return commentService.pageTree(postId, param);
     }
 //

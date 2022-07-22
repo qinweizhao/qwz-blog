@@ -114,7 +114,7 @@ public class CommentServiceImpl implements CommentService {
         List<CommentDTO> pageContent;
 
         // 构建分页
-        int startIndex = param.getPage() * param.getSize();
+        int startIndex = (param.getPage() - 1) * param.getSize();
         if (startIndex >= topComments.size() || startIndex < 0) {
             pageContent = Collections.emptyList();
         } else {
@@ -129,7 +129,6 @@ public class CommentServiceImpl implements CommentService {
 
             pageContent = topComments.subList(startIndex, endIndex);
         }
-
         return new PageResult<>(pageContent, topComments.size());
     }
 

@@ -45,6 +45,7 @@ import TargetCommentTreeNode from './TargetCommentTreeNode'
 import CommentReplyModal from './CommentReplyModal'
 
 import apiClient from '@/utils/api-client'
+import commentApi from '@/api/comment'
 
 export default {
   name: 'TargetCommentListModal',
@@ -80,7 +81,7 @@ export default {
         data: [],
         loading: false,
         params: {
-          page: 0,
+          page: 1,
           size: 10
         },
         total: 0
@@ -120,9 +121,9 @@ export default {
       try {
         this.list.loading = true
 
-        const response = await apiClient.comment.listAsTreeView(`${this.target}s`, this.targetId, this.list.params)
-        this.list.data = response.data.content
-        this.list.total = response.data.total
+        const response = await commentApi.commentTree(`${this.target}s`, this.targetId, this.list.params)
+        this.list.data = response.data.data.content
+        this.list.total = response.data.data.total
       } catch (e) {
         this.$log.error('Failed to get target comments', e)
       } finally {
