@@ -1,56 +1,48 @@
-//package com.qinweizhao.blog.controller.admin.api;
-//
-//import cn.hutool.core.util.IdUtil;
-//import com.qinweizhao.blog.cache.AbstractStringCacheStore;
-//import com.qinweizhao.blog.model.dto.IndependentSheetDTO;
-//import com.qinweizhao.blog.model.dto.post.BasePostDetailDTO;
-//import com.qinweizhao.blog.model.dto.post.BasePostMinimalDTO;
-//import com.qinweizhao.blog.model.enums.PostStatus;
-//import com.qinweizhao.blog.model.params.PostContentParam;
-//import com.qinweizhao.blog.model.params.SheetParam;
-//import com.qinweizhao.blog.model.vo.SheetDetailVO;
-//import com.qinweizhao.blog.model.vo.SheetListVO;
-//import com.qinweizhao.blog.service.OptionService;
-//import com.qinweizhao.blog.service.SheetService;
-//import io.swagger.annotations.ApiOperation;
-//import org.springframework.data.domain.Page;
-//import org.springframework.data.domain.Pageable;
-//import org.springframework.data.web.PageableDefault;
-//import org.springframework.web.bind.annotation.*;
-//
-//import javax.validation.Valid;
-//import java.io.UnsupportedEncodingException;
-//import java.net.URLEncoder;
-//import java.nio.charset.StandardCharsets;
-//import java.util.List;
-//import java.util.concurrent.TimeUnit;
-//
-//import static org.springframework.data.domain.Sort.Direction.DESC;
-//
-///**
-// * Sheet controller.
-// *
-// * @author johnniang
-// * @author ryanwang
-// * @date 19-4-24
-// */
-//@RestController
-//@RequestMapping("/api/admin/sheets")
-//public class SheetController {
-//
-//    private final SheetService sheetService;
-//
-//    private final AbstractStringCacheStore cacheStore;
-//
-//    private final OptionService optionService;
-//
-//    public SheetController(SheetService sheetService,
-//                           AbstractStringCacheStore cacheStore,
-//                           OptionService optionService) {
-//        this.sheetService = sheetService;
-//        this.cacheStore = cacheStore;
-//        this.optionService = optionService;
-//    }
+package com.qinweizhao.blog.controller.admin;
+
+import cn.hutool.core.util.IdUtil;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.qinweizhao.blog.framework.cache.AbstractStringCacheStore;
+import com.qinweizhao.blog.model.dto.IndependentSheetDTO;
+import com.qinweizhao.blog.model.enums.PostStatus;
+import com.qinweizhao.blog.model.params.PostContentParam;
+import com.qinweizhao.blog.model.params.SheetParam;
+import com.qinweizhao.blog.model.vo.SheetDetailVO;
+import com.qinweizhao.blog.model.vo.SheetListVO;
+import com.qinweizhao.blog.service.OptionService;
+import com.qinweizhao.blog.service.SheetService;
+import io.swagger.annotations.ApiOperation;
+
+import lombok.AllArgsConstructor;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+
+
+/**
+ * Sheet controller.
+ *
+ * @author johnniang
+ * @author ryanwang
+ * @date 19-4-24
+ */
+@RestController
+@AllArgsConstructor
+@RequestMapping("/api/admin/sheets")
+public class SheetController {
+
+    private final SheetService sheetService;
+
+    private final AbstractStringCacheStore cacheStore;
+
+    private final OptionService optionService;
+
+
 //
 //    @GetMapping("{sheetId:\\d+}")
 //    @ApiOperation("Gets a sheet")
@@ -154,4 +146,4 @@
 //        // build preview post url and return
 //        return previewUrl.toString();
 //    }
-//}
+}

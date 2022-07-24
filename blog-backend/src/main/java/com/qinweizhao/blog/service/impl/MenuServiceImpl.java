@@ -18,7 +18,7 @@ import java.util.List;
 /**
  * MenuService implementation class.
  *
- * @author ryanwang
+ * @author qinweizhao
  * @date 2019-03-14
  */
 @Service
@@ -95,6 +95,11 @@ public class MenuServiceImpl implements MenuService {
         return menuMapper.updateById(menu) > 0;
     }
 
+    @Override
+    public List<String> listTeams() {
+        return menuMapper.selectListTeam();
+    }
+
 
     /**
      * 创建顶级菜单(id 为0)
@@ -145,7 +150,7 @@ public class MenuServiceImpl implements MenuService {
         // 删除所有子菜单
         menus.removeAll(children);
 
-        // 遍历子 VO
+        // 遍历子
         if (!CollectionUtils.isEmpty(parentMenu.getChildren())) {
             parentMenu.getChildren().forEach(childMenu -> concreteTree(childMenu, menus));
         }

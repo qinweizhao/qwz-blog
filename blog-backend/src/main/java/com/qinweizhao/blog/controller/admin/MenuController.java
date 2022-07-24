@@ -128,9 +128,13 @@ public class MenuController {
     public Boolean deleteBatchBy(@RequestBody List<Integer> menuIds) {
         return menuService.removeByIds(menuIds);
     }
-//
-//    @GetMapping("teams")
-//    public List<String> teams() {
-//        return menuService.listAllTeams();
-//    }
+
+    /**
+     * 分组
+     * @return List
+     */
+    @GetMapping("teams")
+    public List<String> teams() {
+        return menuService.listTeams();
+    }
 }
