@@ -10,7 +10,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 /**
- * Menu controller.
+ * 菜单
  *
  * @author johnniang
  * @author ryanwang

@@ -43,9 +43,12 @@ public class SheetController {
     private final OptionService optionService;
 
 
-//
+//    /**
+//     * 详情
+//     * @param sheetId sheetId
+//     * @return
+//     */
 //    @GetMapping("{sheetId:\\d+}")
-//    @ApiOperation("Gets a sheet")
 //    public SheetDetailVO getBy(@PathVariable("sheetId") Integer sheetId) {
 //        Sheet sheet = sheetService.getById(sheetId);
 //        return sheetService.convertToDetailVo(sheet);
