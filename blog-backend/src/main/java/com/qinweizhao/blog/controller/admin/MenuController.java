@@ -46,11 +46,17 @@ public class MenuController {
         return menuService.listAsTree();
     }
 
-//    @GetMapping("team/tree_view")
-//    public List<MenuVO> listDefaultsAsTreeByTeam(@SortDefault(sort = "priority", direction = ASC) Sort sort, @RequestParam(name = "team") String team) {
-//        return menuService.listByTeamAsTree(team, sort);
-//    }
-//
+    /**
+     * 分组树
+     *
+     * @param team team
+     * @return List
+     */
+    @GetMapping("team/tree_view")
+    public List<MenuDTO> listDefaultsAsTreeByTeam(@RequestParam(name = "team") String team) {
+        return menuService.listByTeamAsTree(team);
+    }
+
 
     /**
      * 详情
@@ -75,6 +81,7 @@ public class MenuController {
         return menuService.save(menuParam);
     }
 
+
     /**
      * 批量新增
      *
@@ -85,6 +92,7 @@ public class MenuController {
     public Boolean createBatchBy(@RequestBody @Valid List<MenuParam> params) {
         return menuService.saveBatch(params);
     }
+
 
     /**
      * 更新菜单
@@ -97,15 +105,13 @@ public class MenuController {
     public Boolean updateBy(@PathVariable("menuId") Integer menuId, @RequestBody @Valid MenuParam param) {
         return menuService.updateById(menuId, param);
     }
-//
-//    @PutMapping("/batch")
-//    public List<MenuDTO> updateBatchBy(@RequestBody @Valid List<MenuParam> menuParams) {
-//
-//        List<Menu> list = MenuConvert.INSTANCE.convertToDO(menuParams);
-//        boolean b = menuService.updateBatchById(list);
-//        return new ArrayList<>();
-//    }
-//
+
+
+    @PutMapping("/batch")
+    public Boolean updateBatchBy(@RequestBody @Valid List<MenuParam> menuParams) {
+        return menuService.updateBatchById(menuParams);
+    }
+
 
     /**
      * 删除菜单
@@ -119,6 +125,7 @@ public class MenuController {
 
     }
 
+
     /**
      * 批量删除
      *
@@ -129,8 +136,10 @@ public class MenuController {
         return menuService.removeByIds(menuIds);
     }
 
+
     /**
      * 分组
+     *
      * @return List
      */
     @GetMapping("teams")

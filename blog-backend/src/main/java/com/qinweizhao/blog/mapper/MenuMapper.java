@@ -3,6 +3,7 @@ package com.qinweizhao.blog.mapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.qinweizhao.blog.model.entity.Menu;
+import com.qinweizhao.blog.util.LambdaQueryWrapperX;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -49,19 +50,6 @@ public interface MenuMapper extends BaseMapper<Menu> {
                 .eq(Menu::getParentId, parentId));
     }
 
-//    /**
-//     * 由菜单 team 查找。
-//     *
-//     * @param team team
-//     * @param sort sort
-//     * @return List
-//     */
-//    default List<Menu> selectByTeam(@NonNull String team, Sort sort) {
-//        return selectList(new LambdaQueryWrapper<Menu>()
-//                .eq(Menu::getTeam, team)
-//        );
-//    }
-
     /**
      * 查找所有菜单 team
      *
@@ -80,20 +68,18 @@ public interface MenuMapper extends BaseMapper<Menu> {
                 .eq(Menu::getParentId, parentIdId)
         );
     }
-//
-//    /**
-//     * 查询列表
-//     *
-//     * @param sort sort
-//     * @return List
-//     */
-//    default List<Menu> selectListMenu(Sort sort) {
-//        QueryWrapper<Menu> queryWrapper = new QueryWrapper<>();
-//        Stream<Sort.Order> orderStream = sort.get();
-//        orderStream.peek(item -> {
-//            queryWrapper.orderBy(sort.isSorted(), item.isAscending(), item.getProperty());
-//        });
-//        return selectList(queryWrapper);
-//    }
+
+    /**
+     * 列表通过分组
+     *
+     * @param team team
+     * @return List
+     */
+    default List<Menu> selectListByTeam(String team) {
+        return this.selectList(new LambdaQueryWrapperX<Menu>()
+                .eq(Menu::getTeam, team)
+        );
+    }
+
 
 }

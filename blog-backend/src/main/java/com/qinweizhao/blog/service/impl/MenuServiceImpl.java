@@ -100,6 +100,30 @@ public class MenuServiceImpl implements MenuService {
         return menuMapper.selectListTeam();
     }
 
+    @Override
+    public boolean updateBatchById(List<MenuParam> menuParams) {
+        List<Menu> menus = MenuConvert.INSTANCE.convertToDO(menuParams);
+        menus.forEach(menuMapper::updateById);
+        return true;
+    }
+
+    @Override
+    public List<MenuDTO> listByTeamAsTree(String team) {
+        Assert.notNull(team, "Team must not be null");
+
+        List<Menu> menus = menuMapper.selectListByTeam(team);
+
+        if (CollectionUtils.isEmpty(menus)) {
+            return Collections.emptyList();
+        }
+
+        MenuDTO topLevelMenu = createTopLevelMenu();
+
+        concreteTree(topLevelMenu, menus);
+
+        return topLevelMenu.getChildren();
+    }
+
 
     /**
      * 创建顶级菜单(id 为0)
@@ -156,112 +180,4 @@ public class MenuServiceImpl implements MenuService {
         }
     }
 
-//
-////
-////    @Override
-////    public List<MenuDTO> list( Sort sort) {
-////        Assert.notNull(sort, "Sort info must not be null");
-////        this.baseMapper
-////        return convertTo(listAll(sort));
-////    }
-////
-////    @Override
-////    public @NotNull List<MenuTeamVO> listTeamVos(@NotNull Sort sort) {
-////        Assert.notNull(sort, "Sort info must not be null");
-////
-////        // List all menus
-////        List<MenuDTO> menus = listDtos(sort);
-////
-////        // Get teams
-////        Set<String> teams = ServiceUtils.fetchProperty(menus, MenuDTO::getTeam);
-////
-////        // Convert to team menu list map (Key: team, value: menu list)
-////        Map<String, List<MenuDTO>> teamMenuListMap = ServiceUtils.convertToListMap(teams, menus, MenuDTO::getTeam);
-////
-////        List<MenuTeamVO> result = new LinkedList<>();
-////
-////        // Wrap menu team vo list
-////        teamMenuListMap.forEach((team, menuList) -> {
-////            // Build menu team vo
-////            MenuTeamVO menuTeamVO = new MenuTeamVO();
-////            menuTeamVO.setTeam(team);
-////            menuTeamVO.setMenus(menuList);
-////
-////            // Add it to result
-////            result.add(menuTeamVO);
-////        });
-////
-////        return result;
-////    }
-//
-////    @Override
-////    public List<MenuDTO> listByTeam(@NotNull String team, Sort sort) {
-////        List<Menu> menus = menuRepository.findByTeam(team, sort);
-////        return menus.stream().map(menu -> (MenuDTO) new MenuDTO().convertFrom(menu)).collect(Collectors.toList());
-////    }
-////
-////    @Override
-////    public List<MenuVO> listByTeamAsTree(@NotNull String team, Sort sort) {
-////        Assert.notNull(team, "Team must not be null");
-////
-////        List<Menu> menus = menuRepository.findByTeam(team, sort);
-////
-////        if (CollectionUtils.isEmpty(menus)) {
-////            return Collections.emptyList();
-////        }
-////
-////        MenuVO topLevelMenu = createTopLevelMenu();
-////
-//////        concreteTree(topLevelMenu, menus);
-////
-////        return topLevelMenu.getChildren();
-////    }
-//
-//
-////    @Override
-////    public List<MenuVO> listAsTree(@NotNull Sort sort) {
-
-////    }
-//
-////    @Override
-////    public List<Menu> listByParentId(@NotNull Integer id) {
-////        Assert.notNull(id, "Menu parent id must not be null");
-////
-////        return this.baseMapper.selectByParentId(id);
-////    }
-//
-//    @Override
-//    public List<String> listAllTeams() {
-//        return this.baseMapper.selectListTeam();
-//    }
-//
-//    @Override
-//    public List<MenuDTO> listMenu(Sort sort) {
-//        List<Menu> list = this.baseMapper.selectListMenu(sort);
-//        return MenuConvert.INSTANCE.convertToDTO(list);
-//    }
-//
-//
-
-
-//
-//
-//    @Deprecated
-//    private void nameMustNotExist(@NonNull Menu menu) {
-//        Assert.notNull(menu, "Menu must not be null");
-//
-//        boolean exist = false;
-//
-//        if (ServiceUtils.isEmptyId(menu.getId())) {
-//            // Create action
-//            exist = this.baseMapper.existsByName(menu.getName());
-//        } else {
-//            // Update action
-//            exist = this.baseMapper.existsByIdNotAndName(menu.getId(), menu.getName());
-//        }
-//
-//        if (exist) {
-//            throw new AlreadyExistsException("菜单 " + menu.getName() + " 已存在");
-//        }
-//    }
 }

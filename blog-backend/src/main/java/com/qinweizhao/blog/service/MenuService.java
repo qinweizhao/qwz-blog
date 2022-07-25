@@ -55,6 +55,7 @@ public interface MenuService {
 
     /**
      * 删除菜单(包含子菜单)
+     *
      * @param menuId menuId
      * @return boolean
      */
@@ -70,16 +71,33 @@ public interface MenuService {
 
     /**
      * 更新菜单
+     *
      * @param menuId menuId
-     * @param param param
+     * @param param  param
      * @return boolean
      */
     boolean updateById(Integer menuId, MenuParam param);
 
     /**
      * 所有分组
+     *
      * @return List
      */
     List<String> listTeams();
 
+    /**
+     * 批量更新
+     *
+     * @param menuParams menuParams
+     * @return boolean¬
+     */
+    boolean updateBatchById(List<MenuParam> menuParams);
+
+    /**
+     * 分组树
+     *
+     * @param team team
+     * @return List
+     */
+    List<MenuDTO> listByTeamAsTree(String team);
 }
