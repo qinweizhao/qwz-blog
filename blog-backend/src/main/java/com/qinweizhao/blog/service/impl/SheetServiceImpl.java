@@ -1,9 +1,14 @@
 package com.qinweizhao.blog.service.impl;
 
 
+import com.qinweizhao.blog.model.dto.IndependentSheetDTO;
 import com.qinweizhao.blog.service.*;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Sheet service implementation.
@@ -15,6 +20,7 @@ import org.springframework.stereotype.Service;
  */
 @Slf4j
 @Service
+@AllArgsConstructor
 public class SheetServiceImpl implements SheetService {
 
 //    private final SheetRepository sheetRepository;
@@ -25,24 +31,10 @@ public class SheetServiceImpl implements SheetService {
 //
 //    private final SheetMetaService sheetMetaService;
 //
-//    private final ThemeService themeService;
-//
-//    private final OptionService optionService;
-//
-//    public SheetServiceImpl(SheetRepository sheetRepository,
-//            ApplicationEventPublisher eventPublisher,
-//            SheetCommentService sheetCommentService,
-//            SheetMetaService sheetMetaService,
-//            ThemeService themeService,
-//            OptionService optionService) {
-//        super(sheetRepository, optionService);
-//        this.sheetRepository = sheetRepository;
-//        this.eventPublisher = eventPublisher;
-//        this.sheetCommentService = sheetCommentService;
-//        this.sheetMetaService = sheetMetaService;
-//        this.themeService = themeService;
-//        this.optionService = optionService;
-//    }
+    private final ThemeService themeService;
+
+    private final OptionService optionService;
+
 //
 //    @Override
 //    public Sheet createBy(Sheet sheet, boolean autoSave) {
@@ -162,40 +154,40 @@ public class SheetServiceImpl implements SheetService {
 //        content.append(sheet.getOriginalContent());
 //        return content.toString();
 //    }
-//
-//    @Override
-//    public List<IndependentSheetDTO> listIndependentSheets() {
-//
-//        String context = (optionService.isEnabledAbsolutePath() ? optionService.getBlogBaseUrl() : "") + "/";
-//
-//        // TODO 日后将重构该部分，提供接口用于拓展独立页面，以供插件系统使用。
-//
-//        // links sheet
-//        IndependentSheetDTO linkSheet = new IndependentSheetDTO();
-//        linkSheet.setId(1);
-//        linkSheet.setTitle("友情链接");
-//        linkSheet.setFullPath(context + optionService.getLinksPrefix());
-//        linkSheet.setRouteName("LinkList");
-//        linkSheet.setAvailable(themeService.templateExists("links.ftl"));
-//
-//        // photos sheet
-//        IndependentSheetDTO photoSheet = new IndependentSheetDTO();
-//        photoSheet.setId(2);
-//        photoSheet.setTitle("图库页面");
-//        photoSheet.setFullPath(context + optionService.getPhotosPrefix());
-//        photoSheet.setRouteName("PhotoList");
-//        photoSheet.setAvailable(themeService.templateExists("photos.ftl"));
-//
-//        // journals sheet
-//        IndependentSheetDTO journalSheet = new IndependentSheetDTO();
-//        journalSheet.setId(3);
-//        journalSheet.setTitle("日志页面");
-//        journalSheet.setFullPath(context + optionService.getJournalsPrefix());
-//        journalSheet.setRouteName("JournalList");
-//        journalSheet.setAvailable(themeService.templateExists("journals.ftl"));
-//
-//        return Arrays.asList(linkSheet, photoSheet, journalSheet);
-//    }
+
+    @Override
+    public List<IndependentSheetDTO> listIndependentSheets() {
+
+        String context = (optionService.isEnabledAbsolutePath() ? optionService.getBlogBaseUrl() : "") + "/";
+
+        // TODO 日后将重构该部分，提供接口用于拓展独立页面，以供插件系统使用。
+
+        // links sheet
+        IndependentSheetDTO linkSheet = new IndependentSheetDTO();
+        linkSheet.setId(1);
+        linkSheet.setTitle("友情链接");
+        linkSheet.setFullPath(context + optionService.getLinksPrefix());
+        linkSheet.setRouteName("LinkList");
+        linkSheet.setAvailable(themeService.templateExists("links.ftl"));
+
+        // photos sheet
+        IndependentSheetDTO photoSheet = new IndependentSheetDTO();
+        photoSheet.setId(2);
+        photoSheet.setTitle("图库页面");
+        photoSheet.setFullPath(context + optionService.getPhotosPrefix());
+        photoSheet.setRouteName("PhotoList");
+        photoSheet.setAvailable(themeService.templateExists("photos.ftl"));
+
+        // journals sheet
+        IndependentSheetDTO journalSheet = new IndependentSheetDTO();
+        journalSheet.setId(3);
+        journalSheet.setTitle("日志页面");
+        journalSheet.setFullPath(context + optionService.getJournalsPrefix());
+        journalSheet.setRouteName("JournalList");
+        journalSheet.setAvailable(themeService.templateExists("journals.ftl"));
+
+        return Arrays.asList(linkSheet, photoSheet, journalSheet);
+    }
 //
 //    @Override
 //    public Sheet removeById(Integer id) {

@@ -2,6 +2,8 @@ package com.qinweizhao.blog.service;
 
 import com.qinweizhao.blog.framework.handler.theme.config.support.ThemeProperty;
 
+import java.util.Optional;
+
 /**
  * Theme service interface.
  *
@@ -137,13 +139,13 @@ public interface ThemeService {
 //    @NonNull
 //    List<String> listCustomTemplates(@NonNull String themeId, @NonNull String prefix);
 //
-//    /**
-//     * Judging whether template exists under the specified theme
-//     *
-//     * @param template template must not be blank
-//     * @return boolean
-//     */
-//    boolean templateExists(@Nullable String template);
+    /**
+     * 判断指定主题下是否存在模板
+     *
+     * @param template template
+     * @return boolean
+     */
+    boolean templateExists(String template);
 //
 //    /**
 //     * Checks whether theme exists under template path
@@ -245,13 +247,12 @@ public interface ThemeService {
 //    @NonNull
 //    ThemeProperty getActivatedTheme();
 //
-//    /**
-//     * Fetch activated theme property.
-//     *
-//     * @return activated theme property
-//     */
-//    @NonNull
-//    Optional<ThemeProperty> fetchActivatedTheme();
+    /**
+     * Fetch activated theme property.
+     *
+     * @return activated theme property
+     */
+    Optional<ThemeProperty> fetchActivatedTheme();
 //
 //    /**
 //     * Actives a theme.

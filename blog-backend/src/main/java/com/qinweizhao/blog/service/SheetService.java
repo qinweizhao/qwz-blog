@@ -1,5 +1,9 @@
 package com.qinweizhao.blog.service;
 
+import com.qinweizhao.blog.model.dto.IndependentSheetDTO;
+
+import java.util.List;
+
 /**
  * Sheet service interface.
  *
@@ -85,14 +89,13 @@ public interface SheetService {
 //     */
 //    @NonNull
 //    String exportMarkdown(@NonNull Sheet sheet);
-//
-//    /**
-//     * List independent sheets.
-//     *
-//     * @return list of independent sheets
-//     */
-//    @NonNull
-//    List<IndependentSheetDTO> listIndependentSheets();
+
+    /**
+     * 独立页面
+     *
+     * @return List
+     */
+    List<IndependentSheetDTO> listIndependentSheets();
 //
 //    /**
 //     * Converts to list dto page.

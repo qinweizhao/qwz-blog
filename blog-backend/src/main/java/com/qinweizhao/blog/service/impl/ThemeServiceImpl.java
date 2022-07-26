@@ -6,10 +6,10 @@ import com.qinweizhao.blog.framework.cache.AbstractStringCacheStore;
 import com.qinweizhao.blog.framework.handler.theme.config.ThemeConfigResolver;
 import com.qinweizhao.blog.framework.handler.theme.config.support.ThemeProperty;
 import com.qinweizhao.blog.mapper.ThemeSettingMapper;
-import com.qinweizhao.blog.model.properties.PrimaryProperties;
 import com.qinweizhao.blog.service.OptionService;
 import com.qinweizhao.blog.service.ThemeService;
 import com.qinweizhao.blog.theme.ThemePropertyScanner;
+import com.qinweizhao.blog.util.FileUtils;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -17,14 +17,12 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import javax.annotation.PostConstruct;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-
-import static com.qinweizhao.blog.model.support.HaloConst.DEFAULT_THEME_ID;
 
 /**
  * Theme service implementation.
@@ -65,9 +63,6 @@ public class ThemeServiceImpl implements ThemeService {
     private final ThemeSettingMapper themeSettingMapper;
 
 
-
-
-
     @Override
     public ThemeProperty getThemeOfNonNullBy(String themeId) {
         return fetchThemePropertyBy(themeId).orElseThrow(() -> new NotFoundException(themeId + " 主题不存在或已删除！").setErrorData(themeId));
@@ -101,6 +96,7 @@ public class ThemeServiceImpl implements ThemeService {
 
     /**
      * todo
+     *
      * @return Path
      */
     public Path getBasePath() {
@@ -129,7 +125,7 @@ public class ThemeServiceImpl implements ThemeService {
 //
 
 
-//    @Override
+    //    @Override
 //    @NonNull
 //    public List<ThemeFile> listThemeFolderBy(@NonNull String themeId) {
 //        return fetchThemePropertyBy(themeId)
@@ -165,22 +161,22 @@ public class ThemeServiceImpl implements ThemeService {
 //        }).orElse(Collections.emptyList());
 //    }
 //
-//    @Override
-//    public boolean templateExists(String template) {
-//        if (StringUtils.isBlank(template)) {
-//            return false;
-//        }
-//
-//        return fetchActivatedTheme().map(themeProperty -> {
-//            // Resolve template path
-//            Path templatePath = Paths.get(themeProperty.getThemePath(), template);
-//            // Check the directory
-//            checkDirectory(templatePath.toString());
-//            // Check existence
-//            return Files.exists(templatePath);
-//        }).orElse(false);
-//    }
-//
+    @Override
+    public boolean templateExists(String template) {
+        if (StringUtils.isBlank(template)) {
+            return false;
+        }
+
+        return fetchActivatedTheme().map(themeProperty -> {
+            // Resolve template path
+            Path templatePath = Paths.get(themeProperty.getThemePath(), template);
+            // Check the directory
+            checkDirectory(templatePath.toString());
+            // Check existence
+            return Files.exists(templatePath);
+        }).orElse(false);
+    }
+
 //    @Override
 //    public boolean themeExists(String themeId) {
 //        return fetchThemePropertyBy(themeId).isPresent();
@@ -350,16 +346,16 @@ public class ThemeServiceImpl implements ThemeService {
 //        this.activatedThemeId = Optional.ofNullable(activatedTheme).map(ThemeProperty::getId).orElse(null);
 //    }
 //
-//    /**
-//     * 获取激活的主题
-//     *
-//     * @return
-//     */
-//    @Override
-//    @NonNull
-//    public Optional<ThemeProperty> fetchActivatedTheme() {
-//        return fetchThemePropertyBy(getActivatedThemeId());
-//    }
+
+    /**
+     * 获取激活的主题
+     *
+     * @return
+     */
+    @Override
+    public Optional<ThemeProperty> fetchActivatedTheme() {
+        return fetchThemePropertyBy(getActivatedThemeId());
+    }
 //
 //    @Override
 //    @NonNull
@@ -586,18 +582,17 @@ public class ThemeServiceImpl implements ThemeService {
 //        // Unzip it
 //        FileUtils.unzip(downloadResponse.getBody(), targetPath);
 //    }
-//
-//    /**
-//     * Check if directory is valid or not.
-//     *
-//     * @param absoluteName must not be blank
-//     * @throws ForbiddenException throws when the given absolute directory name is invalid
-//     */
-//    private void checkDirectory(@NonNull String absoluteName) {
-//        ThemeProperty activeThemeProperty = getThemeOfNonNullBy(getActivatedThemeId());
-//        FileUtils.checkDirectoryTraversal(activeThemeProperty.getThemePath(), absoluteName);
-//    }
-//
+
+    /**
+     * 检查目录是否有效
+     *
+     * @param absoluteName must not be blank
+     */
+    private void checkDirectory(String absoluteName) {
+        ThemeProperty activeThemeProperty = getThemeOfNonNullBy(getActivatedThemeId());
+        FileUtils.checkDirectoryTraversal(activeThemeProperty.getThemePath(), absoluteName);
+    }
+
 //    /**
 //     * Check if directory is valid or not.
 //     *

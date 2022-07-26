@@ -43,6 +43,16 @@ public class SheetController {
     private final OptionService optionService;
 
 
+    /**
+     * 独立页面
+     * @return List
+     */
+    @GetMapping("independent")
+    public List<IndependentSheetDTO> independentSheets() {
+        return sheetService.listIndependentSheets();
+    }
+
+
 //    /**
 //     * 详情
 //     * @param sheetId sheetId
@@ -61,11 +71,7 @@ public class SheetController {
 //        return sheetService.convertToListVo(sheetPage);
 //    }
 //
-//    @GetMapping("independent")
-//    @ApiOperation("Lists independent sheets")
-//    public List<IndependentSheetDTO> independentSheets() {
-//        return sheetService.listIndependentSheets();
-//    }
+
 //
 //    @PostMapping
 //    @ApiOperation("Creates a sheet")

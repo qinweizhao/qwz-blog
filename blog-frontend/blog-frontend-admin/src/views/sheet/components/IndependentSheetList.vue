@@ -70,6 +70,7 @@
 <script>
 import { mixin, mixinDevice } from '@/mixins/mixin.js'
 import apiClient from '@/utils/api-client'
+import sheetApi from '@/api/sheet'
 
 const independentColumns = [
   {
@@ -108,9 +109,9 @@ export default {
   methods: {
     async handleListIndependentSheets() {
       try {
-        const { data } = await apiClient.sheet.listIndependents()
+        const { data } = await sheetApi.listIndependent()
 
-        this.independentSheets = data
+        this.independentSheets = data.data
       } catch (e) {
         this.$log.error(e)
       } finally {
