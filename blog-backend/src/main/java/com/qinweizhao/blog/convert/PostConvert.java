@@ -3,7 +3,6 @@ package com.qinweizhao.blog.convert;
 
 import com.qinweizhao.blog.model.base.PageResult;
 import com.qinweizhao.blog.model.dto.post.PostDetailDTO;
-import com.qinweizhao.blog.model.dto.post.PostMinimalDTO;
 import com.qinweizhao.blog.model.dto.post.PostSimpleDTO;
 import com.qinweizhao.blog.model.entity.Post;
 import com.qinweizhao.blog.model.enums.PostEditorType;
@@ -31,71 +30,39 @@ public interface PostConvert {
      * @param post post
      * @return Post
      */
-    PostMinimalDTO convert(Post post);
+    PostSimpleDTO convert(Post post);
 
     /**
-     * 编辑器类型转换
-     *
-     * @param editorType editorType
-     * @return PostEditorType
-     */
-    default PostEditorType editorTypeToEnum(Integer editorType) {
-        if (editorType == null) {
-            return null;
-        }
-        PostEditorType postEditorType;
-        switch (editorType) {
-            case 0:
-                postEditorType = PostEditorType.MARKDOWN;
-                break;
-            case 1:
-                postEditorType = PostEditorType.RICHTEXT;
-                break;
-            default:
-                postEditorType = null;
-        }
-        return postEditorType;
-    }
-
-
-    /**
-     * 状态转换
-     *
-     * @param status status
-     * @return PostStatus
-     */
-    default PostStatus statusToEnum(Integer status) {
-        if (status == null) {
-            return null;
-        }
-        PostStatus postStatus;
-        switch (status) {
-            case 0:
-                postStatus = PostStatus.PUBLISHED;
-                break;
-            case 1:
-                postStatus = PostStatus.DRAFT;
-                break;
-            case 2:
-                postStatus = PostStatus.RECYCLE;
-                break;
-            case 3:
-                postStatus = PostStatus.INTIMATE;
-                break;
-            default:
-                postStatus = null;
-        }
-        return postStatus;
-    }
-
-
-    /**
-     * convertToSimleDTO
+     * convertToSimpleDTO
      *
      * @param pageResult pageResult
      * @return PageResult
      */
     PageResult<PostSimpleDTO> convertToSimpleDTO(PageResult<Post> pageResult);
+
+
+    /**
+     * convertToListVO
+     *
+     * @param post post
+     * @return PostListVO
+     */
+    PostListVO convertToListVO(PostSimpleDTO post);
+
+    /**
+     * convertVO
+     *
+     * @param post post
+     * @return PostDetailVO
+     */
+    PostDetailVO convertVO(PostDetailDTO post);
+
+    /**
+     * convertToSimpleDTO
+     * @param posts posts
+     * @return List
+     */
+    List<PostSimpleDTO> convertToSimpleDTO(List<Post> posts);
 
     /**
      * statusToInteger
@@ -129,57 +96,56 @@ public interface PostConvert {
 
 
     /**
-     * convertToListVO
+     * 状态转换
      *
-     * @param post post
-     * @return PostListVO
+     * @param status status
+     * @return PostStatus
      */
-    PostListVO convertToListVO(PostSimpleDTO post);
+    default PostStatus statusToEnum(Integer status) {
+        if (status == null) {
+            return null;
+        }
+        PostStatus postStatus;
+        switch (status) {
+            case 0:
+                postStatus = PostStatus.PUBLISHED;
+                break;
+            case 1:
+                postStatus = PostStatus.DRAFT;
+                break;
+            case 2:
+                postStatus = PostStatus.RECYCLE;
+                break;
+            case 3:
+                postStatus = PostStatus.INTIMATE;
+                break;
+            default:
+                postStatus = null;
+        }
+        return postStatus;
+    }
 
     /**
-     * convertToMinimal
+     * 编辑器类型转换
      *
-     * @param content content
-     * @return List
+     * @param editorType editorType
+     * @return PostEditorType
      */
-    List<PostMinimalDTO> convertToMinimal(List<PostSimpleDTO> content);
-
-
-    /**
-     * convertDTO
-     *
-     * @param post post
-     * @return PostDetailDTO
-     */
-    PostDetailDTO convertDTO(Post post);
-
-    /**
-     * convertVO
-     *
-     * @param post post
-     * @return PostDetailVO
-     */
-    PostDetailVO convertVO(PostDetailDTO post);
-
-    /**
-     * convertVO
-     *
-     * @param post post
-     * @return PostDetailVO
-     */
-    PostDetailVO convertVO(PostMinimalDTO post);
-
-    /**
-     * convertSimpleDTO
-     * @param post post
-     * @return PostSimpleDTO
-     */
-    PostSimpleDTO convertSimpleDTO(Post post);
-
-    /**
-     * convertToSimpleDTO
-     * @param posts posts
-     * @return List
-     */
-    List<PostSimpleDTO> convertToSimpleDTO(List<Post> posts);
+    default PostEditorType editorTypeToEnum(Integer editorType) {
+        if (editorType == null) {
+            return null;
+        }
+        PostEditorType postEditorType;
+        switch (editorType) {
+            case 0:
+                postEditorType = PostEditorType.MARKDOWN;
+                break;
+            case 1:
+                postEditorType = PostEditorType.RICHTEXT;
+                break;
+            default:
+                postEditorType = null;
+        }
+        return postEditorType;
+    }
 }

@@ -14,9 +14,7 @@ import java.util.Date;
  * @author johnniang
  */
 @Data
-@ToString
-@EqualsAndHashCode(callSuper = true)
-public class PostSimpleDTO extends PostMinimalDTO {
+public class PostSimpleDTO{
 
 
     /**

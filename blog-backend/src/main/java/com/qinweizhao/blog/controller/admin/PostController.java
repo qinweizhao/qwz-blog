@@ -3,7 +3,6 @@ package com.qinweizhao.blog.controller.admin;
 import com.qinweizhao.blog.convert.PostConvert;
 import com.qinweizhao.blog.model.base.PageResult;
 import com.qinweizhao.blog.model.dto.post.PostDetailDTO;
-import com.qinweizhao.blog.model.dto.post.PostMinimalDTO;
 import com.qinweizhao.blog.model.dto.post.PostSimpleDTO;
 import com.qinweizhao.blog.model.enums.PostStatus;
 import com.qinweizhao.blog.model.param.PostQueryParam;
@@ -51,11 +50,11 @@ public class PostController {
      * @return List
      */
     @GetMapping("latest")
-    public List<PostMinimalDTO> pageLatest(@RequestParam(name = "top", defaultValue = "10") int top) {
+    public List<PostSimpleDTO> pageLatest(@RequestParam(name = "top", defaultValue = "10") int top) {
         PostQueryParam postQueryParam = new PostQueryParam();
         postQueryParam.setSize(top);
         PageResult<PostSimpleDTO> postPage = postService.pagePosts(postQueryParam);
-        return PostConvert.INSTANCE.convertToMinimal(postPage.getContent());
+        return postPage.getContent();
     }
 
 //    @GetMapping("status/{status}")

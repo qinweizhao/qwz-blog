@@ -3,10 +3,9 @@ package com.qinweizhao.blog.controller.admin;
 import com.qinweizhao.blog.convert.CommentConvert;
 import com.qinweizhao.blog.convert.PostConvert;
 import com.qinweizhao.blog.mapper.PostMapper;
-import com.qinweizhao.blog.model.base.PageParam;
 import com.qinweizhao.blog.model.base.PageResult;
 import com.qinweizhao.blog.model.dto.CommentDTO;
-import com.qinweizhao.blog.model.dto.post.PostMinimalDTO;
+import com.qinweizhao.blog.model.dto.post.PostSimpleDTO;
 import com.qinweizhao.blog.model.entity.Post;
 import com.qinweizhao.blog.model.enums.CommentStatus;
 import com.qinweizhao.blog.model.enums.CommentType;
@@ -101,9 +100,9 @@ public class PostCommentController {
                     PostCommentWithPostVO postCommentWithPostVO = CommentConvert.INSTANCE.convertPostToVO(comment);
 
                     Post post = postMap.get(comment.getPostId());
-                    PostMinimalDTO postMinimalDTO = PostConvert.INSTANCE.convert(post);
+                    PostSimpleDTO postSimpleDTO = PostConvert.INSTANCE.convert(post);
 
-                    postCommentWithPostVO.setPost(postMinimalDTO);
+                    postCommentWithPostVO.setPost(postSimpleDTO);
 
                     return postCommentWithPostVO;
                 }).collect(Collectors.toList());

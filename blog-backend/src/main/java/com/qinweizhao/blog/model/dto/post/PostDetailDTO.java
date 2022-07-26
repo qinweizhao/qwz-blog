@@ -10,7 +10,6 @@ import lombok.ToString;
  * @author johnniang
  */
 @Data
-@ToString
 @EqualsAndHashCode(callSuper = true)
 public class PostDetailDTO extends PostSimpleDTO {
 

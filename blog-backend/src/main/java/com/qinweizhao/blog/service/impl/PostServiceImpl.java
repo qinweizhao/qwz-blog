@@ -188,7 +188,7 @@ public class PostServiceImpl implements PostService {
     @Override
     public PostDetailDTO getById(Integer postId) {
         Post post = postMapper.selectById(postId);
-        return PostConvert.INSTANCE.convertDTO(post);
+        return (PostDetailDTO) PostConvert.INSTANCE.convert(post);
     }
 
     @Override
@@ -204,7 +204,7 @@ public class PostServiceImpl implements PostService {
     @Override
     public PostDetailDTO getBySlugAndStatus(PostStatus published, String slug) {
         Post post = postMapper.selectBySlugAndStatus(slug, published);
-        return PostConvert.INSTANCE.convertDTO(post);
+        return (PostDetailDTO) PostConvert.INSTANCE.convert(post);
     }
 
     @Override
@@ -294,7 +294,7 @@ public class PostServiceImpl implements PostService {
         posts.forEach(post -> {
             LocalDateTime createTime = post.getCreateTime();
             yearPostMap.computeIfAbsent(createTime.getYear(), year -> new LinkedList<>())
-                    .add(PostConvert.INSTANCE.convertSimpleDTO(post));
+                    .add(PostConvert.INSTANCE.convert(post));
         });
 
         List<ArchiveYearVO> archives = new LinkedList<>();
@@ -335,7 +335,7 @@ public class PostServiceImpl implements PostService {
             yearMonthPostMap.computeIfAbsent(createTime.getYear(), year -> new HashMap<>())
                     .computeIfAbsent(createTime.getMonthValue() + 1,
                             month -> new LinkedList<>())
-                    .add(PostConvert.INSTANCE.convertSimpleDTO(post));
+                    .add(PostConvert.INSTANCE.convert(post));
         });
 
         List<ArchiveMonthVO> archives = new LinkedList<>();
