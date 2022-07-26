@@ -54,31 +54,6 @@
                   </a-list-item>
                 </a-list>
               </a-tab-pane>
-              <a-tab-pane key="4" tab="自定义页面">
-                <a-list item-layout="horizontal">
-                  <a-list-item v-for="(item, index) in sheet.customs.data" :key="index">
-                    <a-list-item-meta :description="item.fullPath" :title="item.title" />
-                    <template slot="actions">
-                      <a-button class="!p-0" type="link" @click="handleInsertPre(item.name, item.fullPath)">
-                        <a-icon type="plus-circle" />
-                      </a-button>
-                    </template>
-                  </a-list-item>
-                </a-list>
-                <div class="page-wrapper">
-                  <a-pagination
-                    :current="sheet.customs.pagination.page"
-                    :defaultPageSize="sheet.customs.pagination.size"
-                    :pageSizeOptions="['10', '20', '50', '100']"
-                    :total="sheet.customs.pagination.total"
-                    class="pagination"
-                    showLessItems
-                    showSizeChanger
-                    @change="handleSheetPaginationChange"
-                    @showSizeChange="handleSheetPaginationChange"
-                  />
-                </div>
-              </a-tab-pane>
               <a-tab-pane key="5" tab="其他">
                 <a-list item-layout="horizontal">
                   <a-list-item v-for="(item, index) in otherInternalLinks" :key="index">

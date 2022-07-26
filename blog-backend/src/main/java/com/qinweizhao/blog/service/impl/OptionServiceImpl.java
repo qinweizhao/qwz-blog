@@ -512,6 +512,11 @@ public class OptionServiceImpl extends ServiceImpl<OptionMapper, Option> impleme
     }
 
     @Override
+    public String getAboutPrefix() {
+        return getByPropertyOrDefault(PermalinkProperties.ABOUT_PREFIX, String.class, PermalinkProperties.ABOUT_PREFIX.defaultValue());
+    }
+
+    @Override
     public String getArchivesPrefix() {
         return getByPropertyOrDefault(PermalinkProperties.ARCHIVES_PREFIX, String.class, PermalinkProperties.ARCHIVES_PREFIX.defaultValue());
     }

@@ -54,10 +54,10 @@ public class FileHandlers {
 
 
     /**
-     * Deletes attachment.
+     * 删除附件
      *
-     * @param attachment attachment detail must not be null
-     * @throws FileOperationException throws when fail to delete attachment or no available file handler to delete it
+     * @param attachment attachment
+     * @throws FileOperationException 当无法删除附件或没有可用的文件处理程序删除它时抛出
      */
     public void delete(@NonNull Attachment attachment) {
         Assert.notNull(attachment, "Attachment must not be null");

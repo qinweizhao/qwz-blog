@@ -2,7 +2,9 @@ package com.qinweizhao.blog.service.impl;
 
 
 import com.qinweizhao.blog.model.dto.IndependentSheetDTO;
-import com.qinweizhao.blog.service.*;
+import com.qinweizhao.blog.service.OptionService;
+import com.qinweizhao.blog.service.SheetService;
+import com.qinweizhao.blog.service.ThemeService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -23,7 +25,7 @@ import java.util.List;
 @AllArgsConstructor
 public class SheetServiceImpl implements SheetService {
 
-//    private final SheetRepository sheetRepository;
+    //    private final SheetRepository sheetRepository;
 //
 //    private final ApplicationEventPublisher eventPublisher;
 //
@@ -159,8 +161,6 @@ public class SheetServiceImpl implements SheetService {
     public List<IndependentSheetDTO> listIndependentSheets() {
 
         String context = (optionService.isEnabledAbsolutePath() ? optionService.getBlogBaseUrl() : "") + "/";
-
-        // TODO 日后将重构该部分，提供接口用于拓展独立页面，以供插件系统使用。
 
         // links sheet
         IndependentSheetDTO linkSheet = new IndependentSheetDTO();

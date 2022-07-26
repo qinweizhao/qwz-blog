@@ -48,7 +48,14 @@ public class AttachmentServiceImpl implements AttachmentService {
 
     @Override
     public List<AttachmentType> listAllType() {
-      return attachmentMapper.selectListType();
+        return attachmentMapper.selectListType();
+    }
+
+    @Override
+    public boolean removeById(Integer id) {
+        Attachment deletedAttachment = attachmentMapper.selectById(id);
+        fileHandlers.delete(deletedAttachment);
+        return attachmentMapper.deleteById(id) > 0;
     }
 
 //    @Override

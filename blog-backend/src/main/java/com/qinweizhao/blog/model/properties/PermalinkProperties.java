@@ -58,6 +58,12 @@ public enum PermalinkProperties implements PropertyEnum {
     JOURNALS_PREFIX("journals_prefix", String.class, "journals"),
 
     /**
+     * about page prefix
+     * default is journals
+     */
+    ABOUT_PREFIX("about_prefix", String.class, "about"),
+
+    /**
      * Path suffix
      * such as: .html or .jsp
      */

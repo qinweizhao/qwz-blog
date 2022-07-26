@@ -69,7 +69,6 @@
 </template>
 <script>
 import { mixin, mixinDevice } from '@/mixins/mixin.js'
-import apiClient from '@/utils/api-client'
 import sheetApi from '@/api/sheet'
 
 const independentColumns = [

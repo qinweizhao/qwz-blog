@@ -415,6 +415,13 @@ public interface OptionService extends IService<Option> {
     String getJournalsPrefix();
 
     /**
+     * Get journals page custom prefix.
+     *
+     * @return journals page prefix.
+     */
+    String getAboutPrefix();
+
+    /**
      * Get archives custom prefix.
      *
      * @return archives prefix.

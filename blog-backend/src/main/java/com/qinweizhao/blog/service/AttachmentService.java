@@ -36,7 +36,12 @@ public interface AttachmentService {
      */
     List<AttachmentType> listAllType();
 
-
+    /**
+     * 删除附件
+     * @param id id
+     * @return boolean
+     */
+    boolean removeById(Integer id);
 
 
 //    /**

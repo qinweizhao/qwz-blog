@@ -18,19 +18,14 @@
 <script>
 import { PageView } from '@/layouts'
 import IndependentSheetList from './components/IndependentSheetList'
-import CustomSheetList from './components/CustomSheetList'
 
 export default {
   components: {
     PageView,
-    IndependentSheetList,
-    CustomSheetList
+    IndependentSheetList
   },
   data() {
-    const panes = [
-      { title: '独立页面', icon: 'paper-clip', component: 'IndependentSheetList', key: 'independent' },
-      { title: '自定义页面', icon: 'fork', component: 'CustomSheetList', key: 'custom' }
-    ]
+    const panes = [{ title: '独立页面', icon: 'paper-clip', component: 'IndependentSheetList', key: 'independent' }]
     return {
       activeKey: panes[0].key,
       panes

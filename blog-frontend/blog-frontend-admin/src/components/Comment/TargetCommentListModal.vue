@@ -44,7 +44,6 @@
 import TargetCommentTreeNode from './TargetCommentTreeNode'
 import CommentReplyModal from './CommentReplyModal'
 
-import apiClient from '@/utils/api-client'
 import commentApi from '@/api/comment'
 
 export default {

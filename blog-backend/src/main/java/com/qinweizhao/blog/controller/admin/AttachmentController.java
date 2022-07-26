@@ -5,10 +5,9 @@ import com.qinweizhao.blog.model.dto.AttachmentDTO;
 import com.qinweizhao.blog.model.enums.AttachmentType;
 import com.qinweizhao.blog.model.param.AttachmentQueryParam;
 import com.qinweizhao.blog.service.AttachmentService;
+import com.qinweizhao.blog.util.ResultUtils;
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -89,17 +88,16 @@ public class AttachmentController {
 //    }
 //
 //
-//    /**
-//     * 删除附件
-//     *
-//     * @param id id
-//     * @return AttachmentDTO
-//     */
-//    @DeleteMapping("{id:\\d+}")
-//    public AttachmentDTO deletePermanently(@PathVariable("id") Integer id) {
-//        boolean b = attachmentService.removeById(id);
-//        return ResultUtils.judge(b, new AttachmentDTO());
-//    }
+    /**
+     * 删除附件
+     *
+     * @param id id
+     * @return AttachmentDTO
+     */
+    @DeleteMapping("{id:\\d+}")
+    public Boolean deletePermanently(@PathVariable("id") Integer id) {
+        return attachmentService.removeById(id);
+    }
 //
 //
 //    /**
