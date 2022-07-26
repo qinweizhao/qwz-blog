@@ -162,14 +162,6 @@ public class SheetServiceImpl implements SheetService {
 
         String context = (optionService.isEnabledAbsolutePath() ? optionService.getBlogBaseUrl() : "") + "/";
 
-        // links sheet
-        IndependentSheetDTO linkSheet = new IndependentSheetDTO();
-        linkSheet.setId(1);
-        linkSheet.setTitle("友情链接");
-        linkSheet.setFullPath(context + optionService.getLinksPrefix());
-        linkSheet.setRouteName("LinkList");
-        linkSheet.setAvailable(themeService.templateExists("links.ftl"));
-
         // photos sheet
         IndependentSheetDTO photoSheet = new IndependentSheetDTO();
         photoSheet.setId(2);
@@ -186,7 +178,7 @@ public class SheetServiceImpl implements SheetService {
         journalSheet.setRouteName("JournalList");
         journalSheet.setAvailable(themeService.templateExists("journals.ftl"));
 
-        return Arrays.asList(linkSheet, photoSheet, journalSheet);
+        return Arrays.asList(photoSheet, journalSheet);
     }
 //
 //    @Override

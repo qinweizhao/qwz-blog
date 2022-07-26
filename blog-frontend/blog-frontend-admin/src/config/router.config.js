@@ -86,13 +86,6 @@ export const asyncRouterMap = [
         meta: { title: '隐藏页面', icon: 'read' },
         children: [
           {
-            path: '/sheets/links',
-            name: 'LinkList',
-            hidden: true,
-            component: () => import('@/views/sheet/independent/LinkList'),
-            meta: { title: '友情链接', hiddenHeaderContent: false }
-          },
-          {
             path: '/sheets/photos',
             name: 'PhotoList',
             hidden: true,
