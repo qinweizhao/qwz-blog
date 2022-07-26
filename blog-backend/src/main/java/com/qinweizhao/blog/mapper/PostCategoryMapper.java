@@ -2,7 +2,9 @@ package com.qinweizhao.blog.mapper;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.qinweizhao.blog.model.entity.Post;
 import com.qinweizhao.blog.model.entity.PostCategory;
+import com.qinweizhao.blog.model.enums.PostStatus;
 import com.qinweizhao.blog.model.projection.CategoryPostCountProjection;
 import com.qinweizhao.blog.util.LambdaQueryWrapperX;
 
@@ -56,4 +58,14 @@ public interface PostCategoryMapper extends BaseMapper<PostCategory> {
      * @return Set
      */
     Set<Integer> selectSetCategoryIdsByPostId(Integer postId);
+
+
+    /**
+     * 查询 id 集合
+     * @param categoryId categoryId
+     * @param status status
+     * @return Set
+     */
+    Set<Integer> selectSetPostIdByCategoryIdAndPostStatus(Integer categoryId, PostStatus status);
+
 }

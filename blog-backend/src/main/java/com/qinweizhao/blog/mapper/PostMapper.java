@@ -191,4 +191,17 @@ public interface PostMapper extends BaseMapper<Post> {
                 .eq(Post::getSlug, status)
         );
     }
+
+    /**
+     * 通过状态查询发布
+     *
+     * @param status status
+     * @return List
+     */
+    default List<Post> selectListByStatus(PostStatus status) {
+        return this.selectList(new LambdaQueryWrapperX<Post>()
+                .eq(Post::getStatus, status)
+                .orderByDesc(Post::getCreateTime)
+        );
+    }
 }

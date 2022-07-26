@@ -5,13 +5,11 @@ import com.qinweizhao.blog.model.base.PageResult;
 import com.qinweizhao.blog.model.dto.post.PostDetailDTO;
 import com.qinweizhao.blog.model.dto.post.PostMinimalDTO;
 import com.qinweizhao.blog.model.dto.post.PostSimpleDTO;
-import com.qinweizhao.blog.model.entity.Post;
 import com.qinweizhao.blog.model.enums.PostStatus;
 import com.qinweizhao.blog.model.param.PostQueryParam;
 import com.qinweizhao.blog.model.vo.PostDetailVO;
 import com.qinweizhao.blog.model.vo.PostListVO;
 import com.qinweizhao.blog.service.PostService;
-import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -41,7 +39,7 @@ public class PostController {
      * @return PageResult
      */
     @GetMapping
-    public PageResult<PostListVO> pageBy(PostQueryParam postQueryParam) {
+    public PageResult<PostListVO> page(PostQueryParam postQueryParam) {
         PageResult<PostSimpleDTO> postPage = postService.pagePosts(postQueryParam);
         return postService.buildPostListVO(postPage);
     }
@@ -76,6 +74,7 @@ public class PostController {
 
     /**
      * 详情
+     *
      * @param postId postId
      * @return PostDetailVO
      */
@@ -114,12 +113,13 @@ public class PostController {
 
     /**
      * updateStatus
+     *
      * @param postId postId
      * @param status status
      * @return Boolean
      */
     @PutMapping("{postId:\\d+}/status/{status}")
-    public Boolean updateStatusBy(@PathVariable("postId") Integer postId,@PathVariable("status") PostStatus status) {
+    public Boolean updateStatusBy(@PathVariable("postId") Integer postId, @PathVariable("status") PostStatus status) {
         return postService.updateStatus(status, postId);
     }
 //

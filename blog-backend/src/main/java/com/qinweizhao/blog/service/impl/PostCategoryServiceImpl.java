@@ -2,11 +2,16 @@ package com.qinweizhao.blog.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.qinweizhao.blog.convert.CategoryConvert;
+import com.qinweizhao.blog.convert.PostConvert;
 import com.qinweizhao.blog.mapper.CategoryMapper;
 import com.qinweizhao.blog.mapper.PostCategoryMapper;
+import com.qinweizhao.blog.mapper.PostMapper;
 import com.qinweizhao.blog.model.dto.CategoryDTO;
+import com.qinweizhao.blog.model.dto.post.PostSimpleDTO;
 import com.qinweizhao.blog.model.entity.Category;
+import com.qinweizhao.blog.model.entity.Post;
 import com.qinweizhao.blog.model.entity.PostCategory;
+import com.qinweizhao.blog.model.enums.PostStatus;
 import com.qinweizhao.blog.service.PostCategoryService;
 import com.qinweizhao.blog.util.ServiceUtils;
 import lombok.AllArgsConstructor;
@@ -28,6 +33,8 @@ import java.util.*;
 @AllArgsConstructor
 public class PostCategoryServiceImpl extends ServiceImpl<PostCategoryMapper, PostCategory> implements PostCategoryService {
 
+
+    private final PostMapper postMapper;
 
     private final CategoryMapper categoryMapper;
 
@@ -66,6 +73,21 @@ public class PostCategoryServiceImpl extends ServiceImpl<PostCategoryMapper, Pos
         Set<Integer> categoryIds = postCategoryMapper.selectSetCategoryIdsByPostId(postId);
         List<Category> categories = categoryMapper.selectListByIds(categoryIds);
         return CategoryConvert.INSTANCE.convertToDTO(categories);
+    }
+
+    @Override
+    public List<PostSimpleDTO> listPostByCategoryIdAndPostStatus(Integer categoryId, PostStatus status) {
+        Set<Integer> postIds = postCategoryMapper.selectSetPostIdByCategoryIdAndPostStatus(categoryId, status);
+        List<Post> posts = postMapper.selectListByIds(postIds);
+        return PostConvert.INSTANCE.convertToSimpleDTO(posts);
+    }
+
+    @Override
+    public List<PostSimpleDTO> listPostByCategorySlugAndPostStatus(String categorySlug, PostStatus status) {
+        Category category = categoryMapper.selectBySlug(categorySlug);
+        Set<Integer> postIds = postCategoryMapper.selectSetPostIdByCategoryIdAndPostStatus(category.getId(), status);
+        List<Post> posts = postMapper.selectListByIds(postIds);
+        return PostConvert.INSTANCE.convertToSimpleDTO(posts);
     }
 
 //

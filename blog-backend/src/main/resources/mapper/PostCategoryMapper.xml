@@ -29,4 +29,16 @@
         where pc.post_id = #{postId}
     </select>
 
+    <select id="selectSetPostIdByCategoryIdAndPostStatus" resultType="java.lang.Integer">
+        select pc.post_id
+        from post_category pc
+                 left join
+             post p
+             on pc.post_id = p.id
+        where pc.category_id = #{categoryId}
+          and p.status = #{status}
+    </select>
+
+
+
 </mapper>

@@ -3,6 +3,7 @@ package com.qinweizhao.blog.mapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.qinweizhao.blog.model.entity.PostTag;
+import com.qinweizhao.blog.model.enums.PostStatus;
 import com.qinweizhao.blog.model.projection.TagPostPostCountProjection;
 import com.qinweizhao.blog.util.LambdaQueryWrapperX;
 
@@ -55,4 +56,12 @@ public interface PostTagMapper extends BaseMapper<PostTag> {
      * @return Set
      */
     Set<Integer> selectTagIdsByPostId(Integer postId);
+
+    /**
+     * 查询 id 集合
+     * @param tagId tagId
+     * @param status status
+     * @return Set
+     */
+    Set<Integer> selectSetPostIdByTagIdAndPostStatus(Integer tagId, PostStatus status);
 }

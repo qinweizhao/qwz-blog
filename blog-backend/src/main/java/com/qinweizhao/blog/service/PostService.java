@@ -8,6 +8,8 @@ import com.qinweizhao.blog.model.dto.post.PostSimpleDTO;
 import com.qinweizhao.blog.model.entity.Post;
 import com.qinweizhao.blog.model.enums.PostStatus;
 import com.qinweizhao.blog.model.param.PostQueryParam;
+import com.qinweizhao.blog.model.vo.ArchiveMonthVO;
+import com.qinweizhao.blog.model.vo.ArchiveYearVO;
 import com.qinweizhao.blog.model.vo.PostDetailVO;
 import com.qinweizhao.blog.model.vo.PostListVO;
 
@@ -94,7 +96,11 @@ public interface PostService {
      */
     String generateDescription(String content);
 
+    List<PostListVO> convertToListVo(List<PostSimpleDTO> simpleDTOList);
 
+    List<ArchiveYearVO> listYearArchives();
+
+    List<ArchiveMonthVO> listMonthArchives();
 
 
 //

@@ -29,4 +29,14 @@
         where pt.post_id = #{postId}
     </select>
 
+    <select id="selectSetPostIdByTagIdAndPostStatus" resultType="java.lang.Integer">
+        select pc.post_id
+        from post_tag pt
+                 left join
+             post p
+             on pt.post_id = p.id
+        where pt.tag_id = #{tagId}
+          and p.status = #{status}
+    </select>
+
 </mapper>

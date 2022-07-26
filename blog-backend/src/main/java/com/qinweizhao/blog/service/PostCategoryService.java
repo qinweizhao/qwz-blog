@@ -2,8 +2,11 @@ package com.qinweizhao.blog.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.qinweizhao.blog.model.dto.CategoryDTO;
+import com.qinweizhao.blog.model.dto.post.PostSimpleDTO;
 import com.qinweizhao.blog.model.entity.Category;
+import com.qinweizhao.blog.model.entity.Post;
 import com.qinweizhao.blog.model.entity.PostCategory;
+import com.qinweizhao.blog.model.enums.PostStatus;
 
 import java.util.Collection;
 import java.util.List;
@@ -31,6 +34,22 @@ public interface PostCategoryService extends IService<PostCategory> {
      * @return List
      */
     List<CategoryDTO> listCategoriesByPostId(Integer postId);
+
+    /**
+     * 列表
+     * @param categoryId categoryId
+     * @param published published
+     * @return List
+     */
+    List<PostSimpleDTO> listPostByCategoryIdAndPostStatus(Integer categoryId, PostStatus published);
+
+    /**
+     * 列表
+     * @param categorySlug categorySlug
+     * @param status status
+     * @return List
+     */
+    List<PostSimpleDTO> listPostByCategorySlugAndPostStatus(String categorySlug, PostStatus status);
 
 
 //

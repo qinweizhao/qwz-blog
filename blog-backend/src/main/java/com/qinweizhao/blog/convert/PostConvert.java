@@ -155,10 +155,31 @@ public interface PostConvert {
 
     /**
      * convertVO
+     *
      * @param post post
      * @return PostDetailVO
      */
     PostDetailVO convertVO(PostDetailDTO post);
 
+    /**
+     * convertVO
+     *
+     * @param post post
+     * @return PostDetailVO
+     */
     PostDetailVO convertVO(PostMinimalDTO post);
+
+    /**
+     * convertSimpleDTO
+     * @param post post
+     * @return PostSimpleDTO
+     */
+    PostSimpleDTO convertSimpleDTO(Post post);
+
+    /**
+     * convertToSimpleDTO
+     * @param posts posts
+     * @return List
+     */
+    List<PostSimpleDTO> convertToSimpleDTO(List<Post> posts);
 }

@@ -2,7 +2,9 @@ package com.qinweizhao.blog.service;
 
 import com.qinweizhao.blog.model.dto.TagDTO;
 import com.qinweizhao.blog.model.dto.TagWithPostCountDTO;
+import com.qinweizhao.blog.model.dto.post.PostSimpleDTO;
 import com.qinweizhao.blog.model.entity.Tag;
+import com.qinweizhao.blog.model.enums.PostStatus;
 
 import java.util.Collection;
 import java.util.List;
@@ -57,6 +59,22 @@ public interface PostTagService {
      * @return List
      */
     List<TagDTO> listTagsByPostId(Integer postId);
+
+    /**
+     * 列表
+     * @param tagId tagId
+     * @param status published
+     * @return List
+     */
+    List<PostSimpleDTO> listPostsByTagIdAndPostStatus(Integer tagId, PostStatus status);
+
+    /**
+     * 列表
+     * @param tagSlug tagSlug
+     * @param status published
+     * @return List
+     */
+    List<PostSimpleDTO> listPostsByTagSlugAndPostStatus(String tagSlug, PostStatus status);
 
 
 //
