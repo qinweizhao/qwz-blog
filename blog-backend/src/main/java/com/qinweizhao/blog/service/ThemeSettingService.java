@@ -15,6 +15,13 @@ import java.util.Map;
  */
 public interface ThemeSettingService {
 
+    /**
+     * 按主题 ID 列出主题设置
+     * @param themeId themeId
+     * @return Map
+     */
+    Map<String, Object> listMap(String themeId);
+
 //
 //    /**
 //     * Saves theme setting.

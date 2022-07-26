@@ -1,16 +1,15 @@
 package com.qinweizhao.blog.controller.admin;
 
+import com.qinweizhao.blog.framework.handler.theme.config.support.Group;
 import com.qinweizhao.blog.framework.handler.theme.config.support.ThemeProperty;
 import com.qinweizhao.blog.service.ThemeService;
 import com.qinweizhao.blog.service.ThemeSettingService;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Theme controller.
@@ -35,7 +34,7 @@ public class ThemeController {
      * @return ThemeProperty
      */
     @GetMapping("{themeId}")
-    public ThemeProperty getBy(@PathVariable("themeId") String themeId) {
+    public ThemeProperty get(@PathVariable("themeId") String themeId) {
         return themeService.getThemeOfNonNullBy(themeId);
     }
 
@@ -92,18 +91,21 @@ public class ThemeController {
 //    }
 //
 
-//
 //    @PostMapping("{themeId}/activation")
 //    @ApiOperation("Activates a theme")
 //    public ThemeProperty active(@PathVariable("themeId") String themeId) {
 //        return themeService.activateTheme(themeId);
 //    }
-//
-//    @GetMapping("activation")
-//    @ApiOperation("Gets activate theme")
-//    public ThemeProperty getActivateTheme() {
-//        return themeService.getThemeOfNonNullBy(themeService.getActivatedThemeId());
-//    }
+
+
+    /**
+     * 获取激活主题
+     * @return ThemeProperty
+     */
+    @GetMapping("activation")
+    public ThemeProperty getActivateTheme() {
+        return themeService.getThemeOfNonNullBy(themeService.getActivatedThemeId());
+    }
 //
 //    @GetMapping("activation/configurations")
 //    @ApiOperation("Fetches activated theme configuration")
@@ -111,11 +113,16 @@ public class ThemeController {
 //        return BaseResponse.ok(themeService.fetchConfig(themeService.getActivatedThemeId()));
 //    }
 //
-//    @GetMapping("{themeId}/configurations")
-//    @ApiOperation("Fetches theme configuration by theme id")
-//    public List<Group> fetchConfig(@PathVariable("themeId") String themeId) {
-//        return themeService.fetchConfig(themeId);
-//    }
+
+    /**
+     * 主题配置
+     * @param themeId themeId
+     * @return List
+     */
+    @GetMapping("{themeId}/configurations")
+    public List<Group> fetchConfig(@PathVariable("themeId") String themeId) {
+        return themeService.fetchConfig(themeId);
+    }
 //
 //    @GetMapping("activation/settings")
 //    @ApiOperation("Lists activated theme settings")
@@ -123,11 +130,16 @@ public class ThemeController {
 //        return themeSettingService.listAsMapBy(themeService.getActivatedThemeId());
 //    }
 //
-//    @GetMapping("{themeId}/settings")
-//    @ApiOperation("Lists theme settings by theme id")
-//    public Map<String, Object> listSettingsBy(@PathVariable("themeId") String themeId) {
-//        return themeSettingService.listAsMapBy(themeId);
-//    }
+
+    /**
+     * 按主题 ID 列出主题设置
+     * @param themeId themeId
+     * @return Map
+     */
+    @GetMapping("{themeId}/settings")
+    public Map<String, Object> listSetting(@PathVariable("themeId") String themeId) {
+        return themeSettingService.listMap(themeId);
+    }
 //
 //    @PostMapping("activation/settings")
 //    @ApiOperation("Saves theme settings")

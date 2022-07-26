@@ -159,4 +159,6 @@ public interface PostConvert {
      * @return PostDetailVO
      */
     PostDetailVO convertVO(PostDetailDTO post);
+
+    PostDetailVO convertVO(PostMinimalDTO post);
 }

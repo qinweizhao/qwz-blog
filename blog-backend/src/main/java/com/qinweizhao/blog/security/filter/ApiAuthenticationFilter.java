@@ -43,7 +43,7 @@ public class ApiAuthenticationFilter extends AbstractAuthenticationFilter {
                                    AbstractStringCacheStore cacheStore,
                                    OneTimeTokenService oneTimeTokenService,
                                    ObjectMapper objectMapper) {
-        super(haloProperties, optionService, cacheStore, oneTimeTokenService);
+        super(haloProperties, cacheStore, oneTimeTokenService);
         this.optionService = optionService;
 
         addUrlPatterns("/api/content/**");

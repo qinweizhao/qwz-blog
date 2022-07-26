@@ -167,7 +167,8 @@ public interface PostMapper extends BaseMapper<Post> {
     }
 
     /**
-     * selectListByIds
+     * 查询列表
+     *
      * @param postIds postIds
      * @return List
      */
@@ -177,4 +178,17 @@ public interface PostMapper extends BaseMapper<Post> {
         );
     }
 
+    /**
+     * 通过别名和状态查询
+     *
+     * @param slug   slug
+     * @param status published
+     * @return Post
+     */
+    default Post selectBySlugAndStatus(String slug, PostStatus status) {
+        return this.selectOne(new LambdaQueryWrapperX<Post>()
+                .eq(Post::getSlug, slug)
+                .eq(Post::getSlug, status)
+        );
+    }
 }

@@ -1,7 +1,9 @@
 package com.qinweizhao.blog.service;
 
+import com.qinweizhao.blog.framework.handler.theme.config.support.Group;
 import com.qinweizhao.blog.framework.handler.theme.config.support.ThemeProperty;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -86,11 +88,11 @@ public interface ThemeService {
 
     /**
      * 通过主题 id 获取主题属性
+     *
      * @param themeId themeId
      * @return ThemeProperty
      */
     ThemeProperty getThemeOfNonNullBy(String themeId);
-
 
 
 //    /**
@@ -139,6 +141,7 @@ public interface ThemeService {
 //    @NonNull
 //    List<String> listCustomTemplates(@NonNull String themeId, @NonNull String prefix);
 //
+
     /**
      * 判断指定主题下是否存在模板
      *
@@ -231,13 +234,13 @@ public interface ThemeService {
 //    @NonNull
 //    String renderWithSuffix(@NonNull String pageName);
 //
-//    /**
-//     * Gets current theme id.
-//     *
-//     * @return current theme id
-//     */
-//    @NonNull
-//    String getActivatedThemeId();
+
+    /**
+     * 获取当前主题 ID
+     *
+     * @return String
+     */
+    String getActivatedThemeId();
 //
 //    /**
 //     * Gets activated theme property.
@@ -247,12 +250,31 @@ public interface ThemeService {
 //    @NonNull
 //    ThemeProperty getActivatedTheme();
 //
+
     /**
      * Fetch activated theme property.
      *
      * @return activated theme property
      */
     Optional<ThemeProperty> fetchActivatedTheme();
+
+    /**
+     * 获取配置
+     *
+     * @param themeId themeId
+     * @return List
+     */
+    List<Group> fetchConfig(String themeId);
+
+
+    /**
+     * render
+     *
+     * @param pageName pageName
+     * @return String
+     */
+    String render(String pageName);
+
 //
 //    /**
 //     * Actives a theme.

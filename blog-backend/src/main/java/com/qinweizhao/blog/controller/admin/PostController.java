@@ -80,7 +80,7 @@ public class PostController {
      * @return PostDetailVO
      */
     @GetMapping("{postId:\\d+}")
-    public PostDetailVO getBy(@PathVariable("postId") Integer postId) {
+    public PostDetailVO get(@PathVariable("postId") Integer postId) {
         PostDetailDTO postDetail = postService.getById(postId);
         return postService.convertToDetailVo(postDetail);
     }

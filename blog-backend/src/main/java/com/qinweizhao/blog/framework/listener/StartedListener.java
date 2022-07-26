@@ -47,9 +47,6 @@ public class StartedListener implements ApplicationListener<ApplicationStartedEv
         String blogUrl = optionService.getBlogBaseUrl();
         log.info(AnsiOutput.toString(AnsiColor.BRIGHT_BLUE, "Blog started at         ", blogUrl));
         log.info(AnsiOutput.toString(AnsiColor.BRIGHT_BLUE, "Blog admin started at   ", blogUrl, "/", haloProperties.getAdminPath()));
-        if (!haloProperties.isDocDisabled()) {
-            log.debug(AnsiOutput.toString(AnsiColor.BRIGHT_BLUE, "Blog api doc was enabled at  ", blogUrl, "/swagger-ui.html"));
-        }
         log.info(AnsiOutput.toString(AnsiColor.BRIGHT_YELLOW, "Blog has started successfully!"));
     }
 

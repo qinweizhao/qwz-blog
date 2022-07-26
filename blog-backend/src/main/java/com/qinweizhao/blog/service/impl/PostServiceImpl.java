@@ -11,6 +11,7 @@ import com.qinweizhao.blog.model.base.PageResult;
 import com.qinweizhao.blog.model.dto.CategoryDTO;
 import com.qinweizhao.blog.model.dto.TagDTO;
 import com.qinweizhao.blog.model.dto.post.PostDetailDTO;
+import com.qinweizhao.blog.model.dto.post.PostMinimalDTO;
 import com.qinweizhao.blog.model.dto.post.PostSimpleDTO;
 import com.qinweizhao.blog.model.entity.Category;
 import com.qinweizhao.blog.model.entity.Meta;
@@ -64,9 +65,9 @@ public class PostServiceImpl implements PostService {
 
     private final PostTagService postTagService;
 
-    private final PostCategoryService postCategoryService;
-
     private final CommentService commentService;
+
+    private final PostCategoryService postCategoryService;
 
     private final MetaService metaService;
 
@@ -152,7 +153,7 @@ public class PostServiceImpl implements PostService {
 
             return postListVO;
         }).collect(Collectors.toList());
-        return new PageResult<>(collect, collect.size(),postPage.hasPrevious(),postPage.hasNext());
+        return new PageResult<>(collect, collect.size(), postPage.hasPrevious(), postPage.hasNext());
     }
 
     @Override
@@ -197,6 +198,30 @@ public class PostServiceImpl implements PostService {
         // Convert to detail vo
         return convertTo(post, tags, categories);
     }
+
+    @Override
+    public PostDetailDTO getBySlugAndStatus(PostStatus published, String slug) {
+        Post post = postMapper.selectBySlugAndStatus(slug, published);
+        return PostConvert.INSTANCE.convertDTO(post);
+    }
+
+    @Override
+    public String generateDescription(String content) {
+        Assert.notNull(content, "html content must not be null");
+
+        String text = HaloUtils.cleanHtmlTag(content);
+
+        Matcher matcher = summaryPattern.matcher(text);
+        text = matcher.replaceAll("");
+
+        // Get summary length
+        Integer summaryLength = optionService.getByPropertyOrDefault(PostProperties.SUMMARY_LENGTH, Integer.class, 150);
+
+        return StringUtils.substring(text, 0, summaryLength);
+    }
+
+
+
 
     private PostDetailVO convertTo(PostDetailDTO post, List<TagDTO> tags, List<CategoryDTO> categories) {
 

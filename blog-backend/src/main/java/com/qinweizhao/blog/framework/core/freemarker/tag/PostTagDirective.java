@@ -1,4 +1,4 @@
-//package com.qinweizhao.blog.core.freemarker.tag;
+//package com.qinweizhao.blog.framework.core.freemarker.tag;
 //
 //import com.qinweizhao.blog.model.entity.Post;
 //import com.qinweizhao.blog.model.enums.PostStatus;

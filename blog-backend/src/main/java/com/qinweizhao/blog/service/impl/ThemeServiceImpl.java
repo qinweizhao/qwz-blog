@@ -2,8 +2,10 @@ package com.qinweizhao.blog.service.impl;
 
 import com.qinweizhao.blog.config.properties.HaloProperties;
 import com.qinweizhao.blog.exception.NotFoundException;
+import com.qinweizhao.blog.exception.ServiceException;
 import com.qinweizhao.blog.framework.cache.AbstractStringCacheStore;
 import com.qinweizhao.blog.framework.handler.theme.config.ThemeConfigResolver;
+import com.qinweizhao.blog.framework.handler.theme.config.support.Group;
 import com.qinweizhao.blog.framework.handler.theme.config.support.ThemeProperty;
 import com.qinweizhao.blog.mapper.ThemeSettingMapper;
 import com.qinweizhao.blog.service.OptionService;
@@ -15,14 +17,21 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 import org.springframework.web.client.RestTemplate;
 
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+
+import static com.qinweizhao.blog.model.support.HaloConst.DEFAULT_ERROR_PATH;
+import static com.qinweizhao.blog.model.support.HaloConst.DEFAULT_THEME_ID;
 
 /**
  * Theme service implementation.
@@ -108,6 +117,7 @@ public class ThemeServiceImpl implements ThemeService {
     }
 
 
+    @Override
     public String getActivatedThemeId() {
 //        if (activatedThemeId == null) {
 //            synchronized (this) {
@@ -119,7 +129,7 @@ public class ThemeServiceImpl implements ThemeService {
 //        String activatedThemeId = this.activatedThemeId;
 //        assert activatedThemeId != null;
 //        return activatedThemeId;
-        return null;
+        return DEFAULT_THEME_ID;
     }
 
 //
@@ -268,39 +278,7 @@ public class ThemeServiceImpl implements ThemeService {
 //    @Override
 //    @NonNull
 //    public List<Group> fetchConfig(@NonNull String themeId) {
-//        Assert.hasText(themeId, "Theme id must not be blank");
-//
-//        // Get theme property
-//        ThemeProperty themeProperty = getThemeOfNonNullBy(themeId);
-//
-//        if (!themeProperty.isHasOptions()) {
-//            // If this theme dose not has an option, then return empty list
-//            return Collections.emptyList();
-//        }
-//
-//        try {
-//            for (String optionsName : SETTINGS_NAMES) {
-//                // Resolve the options path
-//                Path optionsPath = Paths.get(themeProperty.getThemePath(), optionsName);
-//
-//                log.debug("Finding options in: [{}]", optionsPath.toString());
-//
-//                // Check existence
-//                if (!Files.exists(optionsPath)) {
-//                    continue;
-//                }
-//
-//                // Read the yaml file
-//                String optionContent = new String(Files.readAllBytes(optionsPath), StandardCharsets.UTF_8);
-//
-//                // Resolve it
-//                return themeConfigResolver.resolve(optionContent);
-//            }
-//
-//            return Collections.emptyList();
-//        } catch (IOException e) {
-//            throw new ServiceException("读取主题配置文件失败", e);
-//        }
+
 //    }
 //
 //    @Override
@@ -347,14 +325,54 @@ public class ThemeServiceImpl implements ThemeService {
 //    }
 //
 
-    /**
-     * 获取激活的主题
-     *
-     * @return
-     */
+
     @Override
     public Optional<ThemeProperty> fetchActivatedTheme() {
         return fetchThemePropertyBy(getActivatedThemeId());
+    }
+
+    @Override
+    public List<Group> fetchConfig(String themeId) {
+        Assert.hasText(themeId, "主题 ID 不能为空");
+
+        // Get theme property
+        ThemeProperty themeProperty = getThemeOfNonNullBy(themeId);
+
+        if (!themeProperty.isHasOptions()) {
+            // If this theme dose not has an option, then return empty list
+            return Collections.emptyList();
+        }
+
+        try {
+            for (String optionsName : SETTINGS_NAMES) {
+                // Resolve the options path
+                Path optionsPath = Paths.get(themeProperty.getThemePath(), optionsName);
+
+                log.debug("Finding options in: [{}]", optionsPath.toString());
+
+                // Check existence
+                if (!Files.exists(optionsPath)) {
+                    continue;
+                }
+
+                // Read the yaml file
+                String optionContent = new String(Files.readAllBytes(optionsPath), StandardCharsets.UTF_8);
+
+                // Resolve it
+                return themeConfigResolver.resolve(optionContent);
+            }
+
+            return Collections.emptyList();
+        } catch (IOException e) {
+            throw new ServiceException("读取主题配置文件失败", e);
+        }
+    }
+
+    @Override
+    public String render(String pageName) {
+        return fetchActivatedTheme()
+                .map(themeProperty -> String.format(RENDER_TEMPLATE, themeProperty.getFolderName(), pageName))
+                .orElse(DEFAULT_ERROR_PATH);
     }
 //
 //    @Override

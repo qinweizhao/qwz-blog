@@ -1,19 +1,20 @@
 package com.qinweizhao.blog.service.impl;
 
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.qinweizhao.blog.convert.MenuConvert;
 import com.qinweizhao.blog.mapper.MenuMapper;
 import com.qinweizhao.blog.model.dto.MenuDTO;
 import com.qinweizhao.blog.model.entity.Menu;
 import com.qinweizhao.blog.model.params.MenuParam;
+import com.qinweizhao.blog.model.vo.MenuTeamVO;
 import com.qinweizhao.blog.service.MenuService;
+import com.qinweizhao.blog.util.ServiceUtils;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 /**
  * MenuService implementation class.
@@ -122,6 +123,43 @@ public class MenuServiceImpl implements MenuService {
         concreteTree(topLevelMenu, menus);
 
         return topLevelMenu.getChildren();
+    }
+
+    @Override
+    public List<MenuDTO> listByTeam(String team) {
+        List<Menu> menus = menuMapper.selectListByTeam(team);
+        return MenuConvert.INSTANCE.convertToDTO(menus);
+    }
+
+    @Override
+    public long count() {
+        return menuMapper.selectCount(Wrappers.emptyWrapper());
+    }
+
+    @Override
+    public List<MenuTeamVO> listTeamVO() {
+
+        List<MenuDTO> menus = this.list();
+
+        Set<String> teams = ServiceUtils.fetchProperty(menus, MenuDTO::getTeam);
+
+        // Convert to team menu list map (Key: team, value: menu list)
+        Map<String, List<MenuDTO>> teamMenuListMap = ServiceUtils.convertToListMap(teams, menus, MenuDTO::getTeam);
+
+        List<MenuTeamVO> result = new LinkedList<>();
+
+        // Wrap menu team vo list
+        teamMenuListMap.forEach((team, menuList) -> {
+            // Build menu team vo
+            MenuTeamVO menuTeamVO = new MenuTeamVO();
+            menuTeamVO.setTeam(team);
+            menuTeamVO.setMenus(menuList);
+
+            // Add it to result
+            result.add(menuTeamVO);
+        });
+
+        return result;
     }
 
 

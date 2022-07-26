@@ -3,10 +3,10 @@ package com.qinweizhao.blog.service.impl;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.qiniu.common.Zone;
 import com.qiniu.storage.Region;
-import com.qinweizhao.blog.framework.cache.AbstractStringCacheStore;
 import com.qinweizhao.blog.config.properties.HaloProperties;
-import com.qinweizhao.blog.framework.event.options.OptionUpdatedEvent;
 import com.qinweizhao.blog.exception.MissingPropertyException;
+import com.qinweizhao.blog.framework.cache.AbstractStringCacheStore;
+import com.qinweizhao.blog.framework.event.options.OptionUpdatedEvent;
 import com.qinweizhao.blog.mapper.OptionMapper;
 import com.qinweizhao.blog.model.dto.OptionDTO;
 import com.qinweizhao.blog.model.entity.Option;
@@ -26,6 +26,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 
+import javax.annotation.PostConstruct;
 import java.util.*;
 
 /**
@@ -44,12 +45,17 @@ public class OptionServiceImpl extends ServiceImpl<OptionMapper, Option> impleme
 
     private final AbstractStringCacheStore cacheStore;
 
-    private final Map<String, PropertyEnum> propertyEnumMap;
+    private Map<String, PropertyEnum> propertyEnumMap;
 
     private final ApplicationEventPublisher eventPublisher;
 
     private final HaloProperties haloProperties;
 
+
+    @PostConstruct
+    private void init() {
+        propertyEnumMap = Collections.unmodifiableMap(PropertyEnum.getValuePropertyEnumMap());
+    }
 //
 //    @Override
 //    @Transactional(rollbackFor = Exception.class)
@@ -509,11 +515,6 @@ public class OptionServiceImpl extends ServiceImpl<OptionMapper, Option> impleme
     @Override
     public String getJournalsPrefix() {
         return getByPropertyOrDefault(PermalinkProperties.JOURNALS_PREFIX, String.class, PermalinkProperties.JOURNALS_PREFIX.defaultValue());
-    }
-
-    @Override
-    public String getAboutPrefix() {
-        return getByPropertyOrDefault(PermalinkProperties.ABOUT_PREFIX, String.class, PermalinkProperties.ABOUT_PREFIX.defaultValue());
     }
 
     @Override

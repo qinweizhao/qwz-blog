@@ -1,9 +1,9 @@
 package com.qinweizhao.blog.security.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.qinweizhao.blog.framework.cache.AbstractStringCacheStore;
 import com.qinweizhao.blog.config.properties.HaloProperties;
 import com.qinweizhao.blog.exception.AuthenticationException;
+import com.qinweizhao.blog.framework.cache.AbstractStringCacheStore;
 import com.qinweizhao.blog.model.entity.User;
 import com.qinweizhao.blog.security.authentication.AuthenticationImpl;
 import com.qinweizhao.blog.security.context.SecurityContextHolder;
@@ -50,7 +50,7 @@ public class AdminAuthenticationFilter extends AbstractAuthenticationFilter {
                                      OptionService optionService,
                                      OneTimeTokenService oneTimeTokenService,
                                      ObjectMapper objectMapper) {
-        super(haloProperties, optionService, cacheStore, oneTimeTokenService);
+        super(haloProperties, cacheStore, oneTimeTokenService);
         this.userService = userService;
         this.haloProperties = haloProperties;
 

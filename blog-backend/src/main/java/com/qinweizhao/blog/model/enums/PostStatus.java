@@ -1,5 +1,7 @@
 package com.qinweizhao.blog.model.enums;
 
+import com.baomidou.mybatisplus.annotation.EnumValue;
+
 /**
  * Post status.
  *
@@ -27,6 +29,7 @@ public enum PostStatus implements ValueEnum<Integer> {
      */
     INTIMATE(3);
 
+    @EnumValue
     private final int value;
 
     PostStatus(int value) {

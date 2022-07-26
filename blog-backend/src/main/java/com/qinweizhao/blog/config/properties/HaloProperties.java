@@ -23,10 +23,7 @@ import static com.qinweizhao.blog.util.HaloUtils.ensureSuffix;
 @ConfigurationProperties("halo")
 public class HaloProperties {
 
-    /**
-     * 是否开启文档
-     */
-    private boolean docDisabled = true;
+
 
     /**
      * 生产环境（默认为真）

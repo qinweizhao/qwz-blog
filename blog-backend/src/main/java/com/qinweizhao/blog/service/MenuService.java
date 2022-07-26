@@ -2,6 +2,7 @@ package com.qinweizhao.blog.service;
 
 import com.qinweizhao.blog.model.dto.MenuDTO;
 import com.qinweizhao.blog.model.params.MenuParam;
+import com.qinweizhao.blog.model.vo.MenuTeamVO;
 
 import java.util.List;
 
@@ -100,4 +101,29 @@ public interface MenuService {
      * @return List
      */
     List<MenuDTO> listByTeamAsTree(String team);
+
+
+    /**
+     * 列表按照分组
+     *
+     * @param team team
+     * @return list of menus
+     */
+    List<MenuDTO> listByTeam(String team);
+
+    /**
+     * 个数
+     * @return long
+     */
+    long count();
+
+
+    /**
+     * 分组+菜单 列表
+     * @return List
+     */
+    List<MenuTeamVO> listTeamVO();
+
+
+
 }

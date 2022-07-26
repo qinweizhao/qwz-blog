@@ -1,7 +1,7 @@
 package com.qinweizhao.blog.security.filter;
 
-import com.qinweizhao.blog.framework.cache.AbstractStringCacheStore;
 import com.qinweizhao.blog.config.properties.HaloProperties;
+import com.qinweizhao.blog.framework.cache.AbstractStringCacheStore;
 import com.qinweizhao.blog.security.handler.ContentAuthenticationFailureHandler;
 import com.qinweizhao.blog.security.service.OneTimeTokenService;
 import com.qinweizhao.blog.service.OptionService;
@@ -26,10 +26,9 @@ import java.io.IOException;
 public class ContentFilter extends AbstractAuthenticationFilter {
 
     public ContentFilter(HaloProperties haloProperties,
-                         OptionService optionService,
                          AbstractStringCacheStore cacheStore,
                          OneTimeTokenService oneTimeTokenService) {
-        super(haloProperties, optionService, cacheStore, oneTimeTokenService);
+        super(haloProperties, cacheStore, oneTimeTokenService);
 
         addUrlPatterns("/**");
 

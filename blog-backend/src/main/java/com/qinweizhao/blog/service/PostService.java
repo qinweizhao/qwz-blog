@@ -3,12 +3,15 @@ package com.qinweizhao.blog.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.qinweizhao.blog.model.base.PageResult;
 import com.qinweizhao.blog.model.dto.post.PostDetailDTO;
+import com.qinweizhao.blog.model.dto.post.PostMinimalDTO;
 import com.qinweizhao.blog.model.dto.post.PostSimpleDTO;
 import com.qinweizhao.blog.model.entity.Post;
 import com.qinweizhao.blog.model.enums.PostStatus;
 import com.qinweizhao.blog.model.param.PostQueryParam;
 import com.qinweizhao.blog.model.vo.PostDetailVO;
 import com.qinweizhao.blog.model.vo.PostListVO;
+
+import java.util.List;
 
 /**
  * Post service interface.
@@ -74,6 +77,25 @@ public interface PostService {
 
 
     PostDetailVO convertToDetailVo(PostDetailDTO postDetail);
+
+
+    /**
+     * 获取详情
+     * @param published published
+     * @param slug slug
+     * @return PostDetailDTO
+     */
+    PostDetailDTO getBySlugAndStatus(PostStatus published, String slug);
+
+    /**
+     * 生成描述
+     * @param content content
+     * @return
+     */
+    String generateDescription(String content);
+
+
+
 
 //
 //    /**

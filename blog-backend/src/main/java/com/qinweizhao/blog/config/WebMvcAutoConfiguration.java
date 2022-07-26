@@ -117,13 +117,6 @@ public class WebMvcAutoConfiguration implements WebMvcConfigurer {
         }
         registry.addResourceHandler(adminPathPattern)
                 .addResourceLocations("classpath:/admin/");
-
-        if (!haloProperties.isDocDisabled()) {
-            registry.addResourceHandler("swagger-ui.html")
-                    .addResourceLocations("classpath:/META-INF/resources/");
-            registry.addResourceHandler("/webjars/**")
-                    .addResourceLocations("classpath:/META-INF/resources/webjars/");
-        }
     }
 
 
