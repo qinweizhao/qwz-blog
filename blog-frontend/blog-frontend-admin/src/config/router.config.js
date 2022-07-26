@@ -82,6 +82,7 @@ export const asyncRouterMap = [
       {
         path: '/hiddenSheets',
         component: BlankLayout,
+        hidden: true,
         meta: { title: '隐藏页面', icon: 'read' },
         children: [
           {
