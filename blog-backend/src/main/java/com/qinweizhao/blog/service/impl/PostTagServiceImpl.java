@@ -2,6 +2,7 @@ package com.qinweizhao.blog.service.impl;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.qinweizhao.blog.convert.PostConvert;
+import com.qinweizhao.blog.convert.PostTagConvert;
 import com.qinweizhao.blog.convert.TagConvert;
 import com.qinweizhao.blog.mapper.PostMapper;
 import com.qinweizhao.blog.mapper.PostTagMapper;
@@ -68,7 +69,7 @@ public class PostTagServiceImpl implements PostTagService {
 
         return tags.stream().map(
                 tag -> {
-                    TagWithPostCountDTO tagWithCountOutputDTO = (TagWithPostCountDTO) TagConvert.INSTANCE.convert(tag);
+                    TagWithPostCountDTO tagWithCountOutputDTO =  PostTagConvert.INSTANCE.convert(tag);
                     tagWithCountOutputDTO.setPostCount(tagPostCountMap.getOrDefault(tag.getId(), 0L));
 
                     StringBuilder fullPath = new StringBuilder();
