@@ -8,11 +8,16 @@ import com.qinweizhao.blog.model.dto.PhotoDTO;
 import com.qinweizhao.blog.model.entity.Photo;
 import com.qinweizhao.blog.model.param.PhotoQueryParam;
 import com.qinweizhao.blog.model.params.PhotoParam;
+import com.qinweizhao.blog.model.vo.PhotoTeamVO;
 import com.qinweizhao.blog.service.PhotoService;
+import com.qinweizhao.blog.util.ServiceUtils;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * PhotoService implementation class
@@ -67,35 +72,42 @@ public class PhotoServiceImpl implements PhotoService {
         return photoMapper.selectListTeam();
     }
 
+    @Override
+    public Long count() {
+        return photoMapper.selectCount(Wrappers.emptyWrapper());
+    }
 
-//
-//    @Override
-//    public List<PhotoTeamVO> listTeamVos(Sort sort) {
-//        Assert.notNull(sort, "Sort info must not be null");
-//
-//        // List all photos
-//        List<PhotoDTO> photos = listDtos(sort);
-//
-//        // Get teams
-//        Set<String> teams = ServiceUtils.fetchProperty(photos, PhotoDTO::getTeam);
-//
-//        Map<String, List<PhotoDTO>> teamPhotoListMap = ServiceUtils.convertToListMap(teams, photos, PhotoDTO::getTeam);
-//
-//        List<PhotoTeamVO> result = new LinkedList<>();
-//
-//        // Wrap photo team vo list
-//        teamPhotoListMap.forEach((team, photoList) -> {
-//            // Build photo team vo
-//            PhotoTeamVO photoTeamVO = new PhotoTeamVO();
-//            photoTeamVO.setTeam(team);
-//            photoTeamVO.setPhotos(photoList);
-//
-//            // Add it to result
-//            result.add(photoTeamVO);
-//        });
-//
-//        return result;
-//    }
+    @Override
+    public List<PhotoDTO> listByTeam(String team) {
+        List<Photo> photos = photoMapper.selectListByTeam(team);
+        return PhotoConvert.INSTANCE.convertToDTO(photos);
+    }
+
+    @Override
+    public List<PhotoTeamVO> listPhotoTeam() {
+
+        List<PhotoDTO> photos = this.list();
+
+        Set<String> teams = ServiceUtils.fetchProperty(photos, PhotoDTO::getTeam);
+
+        Map<String, List<PhotoDTO>> teamPhotoListMap = ServiceUtils.convertToListMap(teams, photos, PhotoDTO::getTeam);
+
+        List<PhotoTeamVO> result = new LinkedList<>();
+
+        teamPhotoListMap.forEach((team, photoList) -> {
+
+            PhotoTeamVO photoTeamVO = new PhotoTeamVO();
+            photoTeamVO.setTeam(team);
+            photoTeamVO.setPhotos(photoList);
+
+            result.add(photoTeamVO);
+        });
+
+        return result;
+    }
+
+
+
 //
 //    @Override
 //    public List<PhotoDTO> listByTeam(String team, Sort sort) {

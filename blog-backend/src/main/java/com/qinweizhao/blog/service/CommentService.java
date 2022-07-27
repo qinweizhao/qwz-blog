@@ -1,14 +1,10 @@
 package com.qinweizhao.blog.service;
 
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.baomidou.mybatisplus.extension.service.IService;
 import com.qinweizhao.blog.model.base.PageParam;
 import com.qinweizhao.blog.model.base.PageResult;
 import com.qinweizhao.blog.model.dto.CommentDTO;
-import com.qinweizhao.blog.model.entity.Comment;
 import com.qinweizhao.blog.model.enums.CommentStatus;
 import com.qinweizhao.blog.model.param.CommentQueryParam;
-import com.qinweizhao.blog.model.vo.CommentVO;
 import com.qinweizhao.blog.model.vo.PostCommentWithPostVO;
 
 import java.util.List;
@@ -38,11 +34,12 @@ public interface CommentService {
      * @param commentQueryParam commentQueryParam
      * @return Page
      */
-    PageResult<CommentDTO>  pageComment(CommentQueryParam commentQueryParam);
+    PageResult<CommentDTO> pageComment(CommentQueryParam commentQueryParam);
 
 
     /**
      * 统计评论个数
+     *
      * @param postIds postIds
      * @return Map
      */
@@ -50,11 +47,33 @@ public interface CommentService {
 
     /**
      * 分页（树）
+     *
      * @param postId postId
-     * @param param param
+     * @param param  param
      * @return PageResult
      */
     PageResult<CommentDTO> pageTree(Integer postId, PageParam param);
+
+    /**
+     * 统计个数
+     * @return Long
+     */
+    Long count();
+
+    /**
+     * 构建返回的 VO
+     *
+     * @param contents contents
+     * @return List
+     */
+    List<PostCommentWithPostVO> buildResultVO(List<CommentDTO> contents);
+
+    /**
+     * 构建返回结果
+     * @param commentResult commentResult
+     * @return PageResult
+     */
+    PageResult<PostCommentWithPostVO> buildPageResultVO(PageResult<CommentDTO> commentResult);
 
 
 //

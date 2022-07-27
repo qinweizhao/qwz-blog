@@ -7,11 +7,14 @@ import com.qinweizhao.blog.mapper.CategoryMapper;
 import com.qinweizhao.blog.mapper.PostCategoryMapper;
 import com.qinweizhao.blog.mapper.PostMapper;
 import com.qinweizhao.blog.model.dto.CategoryDTO;
+import com.qinweizhao.blog.model.dto.CategoryWithPostCountDTO;
 import com.qinweizhao.blog.model.dto.post.PostSimpleDTO;
 import com.qinweizhao.blog.model.entity.Category;
 import com.qinweizhao.blog.model.entity.Post;
 import com.qinweizhao.blog.model.entity.PostCategory;
 import com.qinweizhao.blog.model.enums.PostStatus;
+import com.qinweizhao.blog.model.projection.CategoryPostCountProjection;
+import com.qinweizhao.blog.service.OptionService;
 import com.qinweizhao.blog.service.PostCategoryService;
 import com.qinweizhao.blog.util.ServiceUtils;
 import lombok.AllArgsConstructor;
@@ -19,6 +22,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import java.util.*;
+import java.util.stream.Collectors;
+
+import static com.qinweizhao.blog.model.support.HaloConst.URL_SEPARATOR;
 
 /**
  * Post category service implementation.
@@ -39,6 +45,9 @@ public class PostCategoryServiceImpl extends ServiceImpl<PostCategoryMapper, Pos
     private final CategoryMapper categoryMapper;
 
     private final PostCategoryMapper postCategoryMapper;
+
+    private final OptionService optionService;
+
 
     @Override
     public Map<Integer, List<Category>> listCategoryListMap(Collection<Integer> postIds) {
@@ -88,6 +97,41 @@ public class PostCategoryServiceImpl extends ServiceImpl<PostCategoryMapper, Pos
         Set<Integer> postIds = postCategoryMapper.selectSetPostIdByCategoryIdAndPostStatus(category.getId(), status);
         List<Post> posts = postMapper.selectListByIds(postIds);
         return PostConvert.INSTANCE.convertToSimpleDTO(posts);
+    }
+
+    @Override
+    public List<CategoryWithPostCountDTO> listCategoryWithPostCountDto() {
+
+        List<Category> categories = categoryMapper.selectList();
+
+        // 查询分类发帖数
+        Map<Integer, Long> categoryPostCountMap = ServiceUtils.convertToMap(postCategoryMapper.selectPostCount(), CategoryPostCountProjection::getCategoryId, CategoryPostCountProjection::getPostCount);
+
+        // 转换并返回
+        return categories.stream()
+                .map(category -> {
+                    // 创建类别帖子计数 dto
+                    CategoryWithPostCountDTO categoryWithPostCountDTO = CategoryConvert.INSTANCE.convertPostCountDTO(category);
+
+                    categoryWithPostCountDTO.setPostCount(categoryPostCountMap.getOrDefault(category.getId(), 0L));
+
+                    StringBuilder fullPath = new StringBuilder();
+
+                    if (optionService.isEnabledAbsolutePath()) {
+                        fullPath.append(optionService.getBlogBaseUrl());
+                    }
+
+                    fullPath.append(URL_SEPARATOR)
+                            .append(optionService.getCategoriesPrefix())
+                            .append(URL_SEPARATOR)
+                            .append(category.getSlug())
+                            .append(optionService.getPathSuffix());
+
+                    categoryWithPostCountDTO.setFullPath(fullPath.toString());
+
+                    return categoryWithPostCountDTO;
+                })
+                .collect(Collectors.toList());
     }
 
 //

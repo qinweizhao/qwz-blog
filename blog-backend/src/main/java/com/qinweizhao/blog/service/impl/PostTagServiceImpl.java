@@ -1,5 +1,6 @@
 package com.qinweizhao.blog.service.impl;
 
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.qinweizhao.blog.convert.PostConvert;
 import com.qinweizhao.blog.convert.TagConvert;
 import com.qinweizhao.blog.mapper.PostMapper;
@@ -59,7 +60,7 @@ public class PostTagServiceImpl implements PostTagService {
     public List<TagWithPostCountDTO> listTagWithPostCount() {
 
         // 查找所有标签
-        List<Tag> tags = tagMapper.selectList(null);
+        List<Tag> tags = tagMapper.selectList(Wrappers.emptyWrapper());
 
         // 查找所有帖子计数
         Map<Integer, Long> tagPostCountMap = ServiceUtils.convertToMap(postTagMapper.selectPostCount(), TagPostPostCountProjection::getTagId, TagPostPostCountProjection::getPostCount);

@@ -31,12 +31,7 @@ public interface CategoryService {
      */
     List<CategoryDTO> list();
 
-    /**
-     * 列表(文章个数)
-     *
-     * @return List
-     */
-    List<CategoryWithPostCountDTO> listCategoryWithPostCountDto();
+
 
     /**
      * 将所有分类列为树

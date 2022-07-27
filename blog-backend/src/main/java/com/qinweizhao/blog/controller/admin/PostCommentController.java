@@ -52,8 +52,8 @@ public class PostCommentController {
     public PageResult<PostCommentWithPostVO> page(CommentQueryParam param) {
         param.setType(CommentType.POST.getValue());
         PageResult<CommentDTO> commentResult = commentService.pageComment(param);
-        List<CommentDTO> contents = commentResult.getContent();
-        return new PageResult<>(this.buildResultVO(contents), commentResult.getTotal(),commentResult.hasPrevious(),commentResult.hasNext());
+        return commentService.buildPageResultVO(commentResult);
+
     }
 
     /**
@@ -73,41 +73,11 @@ public class PostCommentController {
 
         List<CommentDTO> commentResult = commentService.pageComment(param).getContent();
 
-        // 构建返回的结果，在 Controller 层构建纯属是强迫症，不想让 Service 参与 VO。
-        return this.buildResultVO(commentResult);
+        return commentService.buildResultVO(commentResult);
     }
 
-    /**
-     * 构建返回的 VO
-     *
-     * @param contents contents
-     * @return List
-     */
-    private List<PostCommentWithPostVO> buildResultVO(List<CommentDTO> contents) {
-        // 获取 id
-        Set<Integer> postIds = ServiceUtils.fetchProperty(contents, CommentDTO::getPostId);
 
-        if (ObjectUtils.isEmpty(postIds)) {
-            return new ArrayList<>();
-        }
 
-        Map<Integer, Post> postMap = ServiceUtils.convertToMap(postMapper.selectListByIds(postIds), Post::getId);
-
-        return contents.stream()
-                .filter(comment -> postMap.containsKey(comment.getPostId()))
-                .map(comment -> {
-
-                    PostCommentWithPostVO postCommentWithPostVO = CommentConvert.INSTANCE.convertPostToVO(comment);
-
-                    Post post = postMap.get(comment.getPostId());
-                    PostSimpleDTO postSimpleDTO = PostConvert.INSTANCE.convert(post);
-
-                    postCommentWithPostVO.setPost(postSimpleDTO);
-
-                    return postCommentWithPostVO;
-                }).collect(Collectors.toList());
-
-    }
 
     /**
      * 用树状视图列出帖子评论

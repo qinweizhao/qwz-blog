@@ -2,8 +2,10 @@ package com.qinweizhao.blog.controller.admin;
 
 import com.qinweizhao.blog.model.dto.CategoryDTO;
 import com.qinweizhao.blog.model.dto.CategoryWithPostCountDTO;
+import com.qinweizhao.blog.model.entity.Post;
 import com.qinweizhao.blog.model.params.CategoryParam;
 import com.qinweizhao.blog.service.CategoryService;
+import com.qinweizhao.blog.service.PostCategoryService;
 import com.qinweizhao.blog.util.ResultUtils;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -25,6 +27,8 @@ public class CategoryController {
 
     private final CategoryService categoryService;
 
+    private final PostCategoryService postCategoryService;
+
     /**
      * 获取分类详细信息
      *
@@ -43,7 +47,7 @@ public class CategoryController {
      */
     @GetMapping
     public List<CategoryWithPostCountDTO> list() {
-        return categoryService.listCategoryWithPostCountDto();
+        return postCategoryService.listCategoryWithPostCountDto();
     }
 
     /**

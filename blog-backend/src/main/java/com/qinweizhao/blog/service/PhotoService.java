@@ -4,6 +4,7 @@ import com.qinweizhao.blog.model.base.PageResult;
 import com.qinweizhao.blog.model.dto.PhotoDTO;
 import com.qinweizhao.blog.model.param.PhotoQueryParam;
 import com.qinweizhao.blog.model.params.PhotoParam;
+import com.qinweizhao.blog.model.vo.PhotoTeamVO;
 
 import java.util.List;
 
@@ -69,6 +70,27 @@ public interface PhotoService {
      * @return List
      */
     List<String> listTeams();
+
+    /**
+     * 统计个数
+     * @return Long
+     */
+    Long count();
+
+    /**
+     * 列表
+     * @param team team
+     * @return List
+     */
+    List<PhotoDTO> listByTeam(String team);
+
+    /**
+     * 列表
+     * @return List
+     */
+    List<PhotoTeamVO> listPhotoTeam();
+
+
 
 
 

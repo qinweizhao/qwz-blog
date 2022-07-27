@@ -51,4 +51,17 @@ public interface PhotoMapper extends BaseMapper<Photo> {
         );
         return MyBatisUtils.buildPageResult(photoPage);
     }
+
+    /**
+     * 列表
+     *
+     * @param team team
+     * @return List
+     */
+    default List<Photo> selectListByTeam(String team) {
+        return this.selectList(new LambdaQueryWrapperX<Photo>()
+                .eq(Photo::getTeam, team)
+        );
+    }
+
 }

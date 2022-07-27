@@ -11,7 +11,6 @@ import lombok.ToString;
  * @date 3/20/19
  */
 @Data
-@ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
 public class TagWithPostCountDTO extends TagDTO {
 

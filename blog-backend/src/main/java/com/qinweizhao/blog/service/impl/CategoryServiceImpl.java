@@ -8,10 +8,8 @@ import com.qinweizhao.blog.exception.NotFoundException;
 import com.qinweizhao.blog.mapper.CategoryMapper;
 import com.qinweizhao.blog.mapper.PostCategoryMapper;
 import com.qinweizhao.blog.model.dto.CategoryDTO;
-import com.qinweizhao.blog.model.dto.CategoryWithPostCountDTO;
 import com.qinweizhao.blog.model.entity.Category;
 import com.qinweizhao.blog.model.params.CategoryParam;
-import com.qinweizhao.blog.model.projection.CategoryPostCountProjection;
 import com.qinweizhao.blog.service.CategoryService;
 import com.qinweizhao.blog.service.OptionService;
 import com.qinweizhao.blog.util.ServiceUtils;
@@ -25,7 +23,6 @@ import org.springframework.util.CollectionUtils;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 import static com.qinweizhao.blog.model.support.HaloConst.URL_SEPARATOR;
@@ -60,40 +57,6 @@ public class CategoryServiceImpl implements CategoryService {
         return CategoryConvert.INSTANCE.convertToDTO(categoryMapper.selectList());
     }
 
-    @Override
-    public List<CategoryWithPostCountDTO> listCategoryWithPostCountDto() {
-
-        List<Category> categories = categoryMapper.selectList();
-
-        // 查询分类发帖数
-        Map<Integer, Long> categoryPostCountMap = ServiceUtils.convertToMap(postCategoryMapper.selectPostCount(), CategoryPostCountProjection::getCategoryId, CategoryPostCountProjection::getPostCount);
-
-        // 转换并返回
-        return categories.stream()
-                .map(category -> {
-                    // 创建类别帖子计数 dto
-                    CategoryWithPostCountDTO categoryWithPostCountDTO = CategoryConvert.INSTANCE.convertPostCountDTO(category);
-
-                    categoryWithPostCountDTO.setPostCount(categoryPostCountMap.getOrDefault(category.getId(), 0L));
-
-                    StringBuilder fullPath = new StringBuilder();
-
-                    if (optionService.isEnabledAbsolutePath()) {
-                        fullPath.append(optionService.getBlogBaseUrl());
-                    }
-
-                    fullPath.append(URL_SEPARATOR)
-                            .append(optionService.getCategoriesPrefix())
-                            .append(URL_SEPARATOR)
-                            .append(category.getSlug())
-                            .append(optionService.getPathSuffix());
-
-                    categoryWithPostCountDTO.setFullPath(fullPath.toString());
-
-                    return categoryWithPostCountDTO;
-                })
-                .collect(Collectors.toList());
-    }
 
     @Override
     public List<CategoryDTO> listAsTree() {
@@ -170,7 +133,7 @@ public class CategoryServiceImpl implements CategoryService {
 
 
     private List<Category> listByParentId(Integer parentId) {
-        Assert.notNull(parentId, "Parent id must not be null");
+        Assert.notNull(parentId, "父分类 id 不能为空");
         return categoryMapper.selectListByParentId(parentId);
     }
 

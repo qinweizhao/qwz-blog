@@ -1,14 +1,20 @@
 package com.qinweizhao.blog.service.impl;
 
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.qinweizhao.blog.convert.CommentConvert;
+import com.qinweizhao.blog.convert.PostConvert;
 import com.qinweizhao.blog.mapper.CommentMapper;
+import com.qinweizhao.blog.mapper.PostMapper;
 import com.qinweizhao.blog.model.base.PageParam;
 import com.qinweizhao.blog.model.base.PageResult;
 import com.qinweizhao.blog.model.dto.CommentDTO;
+import com.qinweizhao.blog.model.dto.post.PostSimpleDTO;
 import com.qinweizhao.blog.model.entity.Comment;
+import com.qinweizhao.blog.model.entity.Post;
 import com.qinweizhao.blog.model.enums.CommentStatus;
 import com.qinweizhao.blog.model.param.CommentQueryParam;
 import com.qinweizhao.blog.model.projection.CommentCountProjection;
+import com.qinweizhao.blog.model.vo.PostCommentWithPostVO;
 import com.qinweizhao.blog.service.CommentService;
 import com.qinweizhao.blog.util.ServiceUtils;
 import lombok.AllArgsConstructor;
@@ -16,6 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.ObjectUtils;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -35,6 +42,8 @@ public class CommentServiceImpl implements CommentService {
 
 
     private final CommentMapper commentMapper;
+
+    private final PostMapper postMapper;
 //
 //    private final PostService postService;
 
@@ -81,6 +90,39 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
+    public List<PostCommentWithPostVO> buildResultVO(List<CommentDTO> contents) {
+        // 获取 id
+        Set<Integer> postIds = ServiceUtils.fetchProperty(contents, CommentDTO::getPostId);
+
+        if (ObjectUtils.isEmpty(postIds)) {
+            return new ArrayList<>();
+        }
+
+        Map<Integer, Post> postMap = ServiceUtils.convertToMap(postMapper.selectListByIds(postIds), Post::getId);
+
+        return contents.stream()
+                .filter(comment -> postMap.containsKey(comment.getPostId()))
+                .map(comment -> {
+
+                    PostCommentWithPostVO postCommentWithPostVO = CommentConvert.INSTANCE.convertPostToVO(comment);
+
+                    Post post = postMap.get(comment.getPostId());
+                    PostSimpleDTO postSimpleDTO = PostConvert.INSTANCE.convert(post);
+
+                    postCommentWithPostVO.setPost(postSimpleDTO);
+
+                    return postCommentWithPostVO;
+                }).collect(Collectors.toList());
+
+    }
+
+    @Override
+    public PageResult<PostCommentWithPostVO> buildPageResultVO(PageResult<CommentDTO> commentResult) {
+        List<CommentDTO> contents = commentResult.getContent();
+        return new PageResult<>(this.buildResultVO(contents), commentResult.getTotal(),commentResult.hasPrevious(),commentResult.hasNext());
+    }
+
+    @Override
     public Map<Integer, Long> countByPostIds(Set<Integer> postIds) {
         List<CommentCountProjection> commentCountProjections = commentMapper.selectCountByPostIds(postIds);
         return ServiceUtils.convertToMap(commentCountProjections, CommentCountProjection::getPostId, CommentCountProjection::getCount);
@@ -92,6 +134,11 @@ public class CommentServiceImpl implements CommentService {
         List<Comment> comments = commentMapper.selectListByPostId(postId);
 
         return this.buildPageTree(comments, param);
+    }
+
+    @Override
+    public Long count() {
+        return commentMapper.selectCount(Wrappers.emptyWrapper());
     }
 
     /**
