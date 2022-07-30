@@ -32,6 +32,7 @@ import static com.qinweizhao.blog.model.support.HaloConst.URL_SEPARATOR;
  *
  * @author johnniang
  * @author ryanwang
+ * @author qinweizhao
  * @date 2019-03-19
  */
 @Service
@@ -47,16 +48,6 @@ public class PostTagServiceImpl implements PostTagService {
     private final PostTagMapper postTagMapper;
 
 
-//    @Override
-//    public List<Tag> listTagsBy(Integer postId) {
-//        Assert.notNull(postId, "Post id must not be null");
-//
-//        // Find all tag ids
-//        Set<Integer> tagIds = postTagRepository.findAllTagIdsByPostId(postId);
-//
-//        return tagRepository.findAllById(tagIds);
-//    }
-
     @Override
     public List<TagWithPostCountDTO> listTagWithPostCount() {
 
@@ -69,7 +60,7 @@ public class PostTagServiceImpl implements PostTagService {
 
         return tags.stream().map(
                 tag -> {
-                    TagWithPostCountDTO tagWithCountOutputDTO =  PostTagConvert.INSTANCE.convert(tag);
+                    TagWithPostCountDTO tagWithCountOutputDTO = PostTagConvert.INSTANCE.convert(tag);
                     tagWithCountOutputDTO.setPostCount(tagPostCountMap.getOrDefault(tag.getId(), 0L));
 
                     StringBuilder fullPath = new StringBuilder();
