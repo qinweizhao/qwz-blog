@@ -119,10 +119,10 @@ public class PostServiceImpl implements PostService {
 
             PostListVO postListVO = PostConvert.INSTANCE.convertToListVO(post);
 
-
-//            if (StringUtils.isBlank(postListVO.getSummary())) {
-//                postListVO.setSummary(generateSummary(post.getFormatContent()));
-//            }
+            // 摘要
+            if (StringUtils.isBlank(postListVO.getSummary())) {
+                postListVO.setSummary(generateSummary(post.getFormatContent()));
+            }
 
             Optional.ofNullable(tagListMap.get(post.getId())).orElseGet(LinkedList::new);
 
