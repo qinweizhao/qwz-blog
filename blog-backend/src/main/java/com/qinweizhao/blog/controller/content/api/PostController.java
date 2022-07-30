@@ -33,7 +33,6 @@ public class PostController {
 
 
     @GetMapping
-    @ApiOperation("Lists posts")
     public PageResult<PostListVO> pageBy(PostQueryParam param) {
         PageResult<PostSimpleDTO> result = postService.pagePosts(param);
         return postService.buildPostListVO(result);
