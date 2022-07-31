@@ -1,4 +1,4 @@
-package com.qinweizhao.blog.controller.admin;
+package com.qinweizhao.blog.controller.admin.api;
 
 import com.qinweizhao.blog.service.OptionService;
 import io.swagger.annotations.ApiOperation;

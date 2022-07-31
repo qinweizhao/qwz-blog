@@ -1,4 +1,4 @@
-package com.qinweizhao.blog.controller.admin;
+package com.qinweizhao.blog.controller.admin.api;
 
 import com.qinweizhao.blog.annotation.DisableOnCondition;
 import com.qinweizhao.blog.mail.MailService;

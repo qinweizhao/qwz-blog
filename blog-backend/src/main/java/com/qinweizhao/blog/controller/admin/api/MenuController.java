@@ -1,4 +1,4 @@
-package com.qinweizhao.blog.controller.admin;
+package com.qinweizhao.blog.controller.admin.api;
 
 import com.qinweizhao.blog.model.dto.MenuDTO;
 import com.qinweizhao.blog.model.params.MenuParam;
