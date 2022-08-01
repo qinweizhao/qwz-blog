@@ -12,10 +12,10 @@ import java.util.Date;
  * Base page simple output dto.
  *
  * @author johnniang
+ * @author qinweizhao
  */
 @Data
 public class PostSimpleDTO{
-
 
     /**
      * MinimalDTO

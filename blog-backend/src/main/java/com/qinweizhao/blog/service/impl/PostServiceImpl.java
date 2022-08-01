@@ -188,7 +188,7 @@ public class PostServiceImpl implements PostService {
     @Override
     public PostDetailDTO getById(Integer postId) {
         Post post = postMapper.selectById(postId);
-        return (PostDetailDTO) PostConvert.INSTANCE.convert(post);
+        return PostConvert.INSTANCE.convertDetail(post);
     }
 
     @Override
@@ -204,7 +204,7 @@ public class PostServiceImpl implements PostService {
     @Override
     public PostDetailDTO getBySlugAndStatus(PostStatus published, String slug) {
         Post post = postMapper.selectBySlugAndStatus(slug, published);
-        return (PostDetailDTO) PostConvert.INSTANCE.convert(post);
+        return PostConvert.INSTANCE.convertDetail(post);
     }
 
     @Override
@@ -380,7 +380,8 @@ public class PostServiceImpl implements PostService {
 
 //        postDetailVO.setCommentCount(postCommentService.countByPostId(post.getId()));
 
-        postDetailVO.setFullPath(buildFullPath(post));
+        PostSimpleDTO postSimpleDTO = PostConvert.INSTANCE.convert(post);
+        postDetailVO.setFullPath(buildFullPath(postSimpleDTO));
 
         return postDetailVO;
     }

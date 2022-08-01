@@ -30,7 +30,23 @@ public interface PostConvert {
      * @param post post
      * @return Post
      */
+    PostSimpleDTO convert(PostDetailDTO post);
+
+    /**
+     * convert
+     *
+     * @param post post
+     * @return Post
+     */
     PostSimpleDTO convert(Post post);
+
+    /**
+     * convert
+     *
+     * @param post post
+     * @return Post
+     */
+    PostDetailDTO convertDetail(Post post);
 
     /**
      * convertToSimpleDTO
@@ -59,6 +75,7 @@ public interface PostConvert {
 
     /**
      * convertToSimpleDTO
+     *
      * @param posts posts
      * @return List
      */
