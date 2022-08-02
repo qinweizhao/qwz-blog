@@ -1,27 +1,18 @@
 package com.qinweizhao.blog.controller.admin.api;
 
-import com.qinweizhao.blog.convert.CommentConvert;
-import com.qinweizhao.blog.convert.PostConvert;
 import com.qinweizhao.blog.mapper.PostMapper;
 import com.qinweizhao.blog.model.base.PageResult;
 import com.qinweizhao.blog.model.dto.CommentDTO;
-import com.qinweizhao.blog.model.dto.post.PostSimpleDTO;
-import com.qinweizhao.blog.model.entity.Post;
 import com.qinweizhao.blog.model.enums.CommentStatus;
 import com.qinweizhao.blog.model.enums.CommentType;
 import com.qinweizhao.blog.model.param.CommentQueryParam;
+import com.qinweizhao.blog.model.params.PostCommentParam;
 import com.qinweizhao.blog.model.vo.PostCommentWithPostVO;
 import com.qinweizhao.blog.service.CommentService;
-import com.qinweizhao.blog.util.ServiceUtils;
 import lombok.AllArgsConstructor;
-import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * comment controller.
@@ -77,13 +68,11 @@ public class PostCommentController {
     }
 
 
-
-
     /**
      * 用树状视图列出帖子评论
      *
      * @param postId postId
-     * @param param   param
+     * @param param  param
      * @return Page
      */
     @GetMapping("{postId:\\d+}/tree_view")
@@ -100,21 +89,32 @@ public class PostCommentController {
 //        return commentService.pageWithParentVoBy(postId, PageRequest.of(page, optionService.getCommentPageSize(), sort));
 //    }
 //
-//    @PostMapping
-//    @ApiOperation("Creates a post comment (new or reply)")
-//    public BaseCommentDTO createBy(@RequestBody PostCommentParam postCommentParam) {
-//        PostComment createdPostComment = commentService.createBy(postCommentParam);
-//        return commentService.convertTo(createdPostComment);
-//    }
-//
-//    @PutMapping("{commentId:\\d+}/status/{status}")
-//    @ApiOperation("Updates post comment status")
-//    public BaseCommentDTO updateStatusBy(@PathVariable("commentId") Long commentId,
-//                                         @PathVariable("status") CommentStatus status) {
-//        // Update comment status
-//        PostComment updatedPostComment = commentService.updateStatus(commentId, status);
-//        return commentService.convertTo(updatedPostComment);
-//    }
+
+
+    /**
+     * 新增
+     *
+     * @param postCommentParam postCommentParam
+     * @return Boolean
+     */
+    @PostMapping
+    public Boolean createBy(@RequestBody PostCommentParam postCommentParam) {
+        return commentService.save(postCommentParam);
+    }
+
+
+    /**
+     * 更新评论状态
+     *
+     * @param commentId commentId
+     * @param status    status
+     * @return Boolean
+     */
+    @PutMapping("{commentId:\\d+}/status/{status}")
+    public Boolean updateStatusBy(@PathVariable("commentId") Long commentId,
+                                  @PathVariable("status") CommentStatus status) {
+        return commentService.updateStatus(commentId, status);
+    }
 //
 //    @PutMapping("status/{status}")
 //    @ApiOperation("Updates post comment status in batch")
@@ -123,14 +123,19 @@ public class PostCommentController {
 //        List<PostComment> comments = commentService.updateStatusByIds(ids, status);
 //        return commentService.convertTo(comments);
 //    }
-//
-//    @DeleteMapping("{commentId:\\d+}")
-//    @ApiOperation("Deletes post comment permanently and recursively")
-//    public BaseCommentDTO deletePermanently(@PathVariable("commentId") Long commentId) {
-//        PostComment deletedPostComment = commentService.removeById(commentId);
-//        return commentService.convertTo(deletedPostComment);
-//    }
-//
+
+
+    /**
+     * 以递归方式永久删除帖子评论
+     *
+     * @param commentId commentId
+     * @return Boolean
+     */
+    @DeleteMapping("{commentId:\\d+}")
+    public Boolean deletePermanently(@PathVariable("commentId") Long commentId) {
+        return commentService.removeById(commentId);
+    }
+
 //    @DeleteMapping
 //    @ApiOperation("Delete post comments permanently in batch by id array")
 //    public List<PostComment> deletePermanentlyInBatch(@RequestBody List<Long> ids) {

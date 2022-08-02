@@ -20,7 +20,7 @@
   </a-modal>
 </template>
 <script>
-import apiClient from '@/utils/api-client'
+import commentApi from '@/api/comment'
 
 export default {
   name: 'CommentReplyModal',
@@ -41,7 +41,7 @@ export default {
       type: String,
       required: true,
       validator: value => {
-        return ['post', 'sheet', 'journal'].indexOf(value) !== -1
+        return ['post', 'journal'].indexOf(value) !== -1
       }
     }
   },
@@ -88,7 +88,7 @@ export default {
               _this.model.parentId = _this.comment.id
             }
 
-            await apiClient.comment.create(`${_this.target}s`, _this.model)
+            await commentApi.create(`${_this.target}s`, _this.model)
           } catch (e) {
             _this.submitErrored = true
           } finally {

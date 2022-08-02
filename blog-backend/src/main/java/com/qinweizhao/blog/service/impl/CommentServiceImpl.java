@@ -3,6 +3,7 @@ package com.qinweizhao.blog.service.impl;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.qinweizhao.blog.convert.CommentConvert;
 import com.qinweizhao.blog.convert.PostConvert;
+import com.qinweizhao.blog.exception.BadRequestException;
 import com.qinweizhao.blog.mapper.CommentMapper;
 import com.qinweizhao.blog.mapper.PostMapper;
 import com.qinweizhao.blog.model.base.PageParam;
@@ -11,14 +12,23 @@ import com.qinweizhao.blog.model.dto.CommentDTO;
 import com.qinweizhao.blog.model.dto.post.PostSimpleDTO;
 import com.qinweizhao.blog.model.entity.Comment;
 import com.qinweizhao.blog.model.entity.Post;
+import com.qinweizhao.blog.model.entity.User;
 import com.qinweizhao.blog.model.enums.CommentStatus;
 import com.qinweizhao.blog.model.param.CommentQueryParam;
+import com.qinweizhao.blog.model.params.PostCommentParam;
 import com.qinweizhao.blog.model.projection.CommentCountProjection;
+import com.qinweizhao.blog.model.properties.BlogProperties;
 import com.qinweizhao.blog.model.vo.PostCommentWithPostVO;
+import com.qinweizhao.blog.security.authentication.Authentication;
+import com.qinweizhao.blog.security.context.SecurityContextHolder;
 import com.qinweizhao.blog.service.CommentService;
+import com.qinweizhao.blog.service.OptionService;
+import com.qinweizhao.blog.service.UserService;
 import com.qinweizhao.blog.util.ServiceUtils;
+import com.qinweizhao.blog.util.ValidationUtils;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
@@ -44,14 +54,10 @@ public class CommentServiceImpl implements CommentService {
     private final CommentMapper commentMapper;
 
     private final PostMapper postMapper;
-//
-//    private final PostService postService;
 
-//    private final PostMapper postMapper;
-//
-//    private final OptionService optionService;
-//
-//    private final CommentBlackListService commentBlackListService;
+    private final OptionService optionService;
+
+    private final UserService userService;
 
 
 //    @Override
@@ -62,11 +68,7 @@ public class CommentServiceImpl implements CommentService {
 //            throw new BadRequestException("该文章已经被禁止评论").setErrorData(postId);
 //        }
 //    }
-//
-//    @Override
-//    public Page<Comment> page(Pageable pageable, CommentQuery commentQuery) {
-//        return null;
-//    }
+
 //
 //    @Override
 //    public void validateCommentBlackListStatus() {
@@ -119,7 +121,95 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public PageResult<PostCommentWithPostVO> buildPageResultVO(PageResult<CommentDTO> commentResult) {
         List<CommentDTO> contents = commentResult.getContent();
-        return new PageResult<>(this.buildResultVO(contents), commentResult.getTotal(),commentResult.hasPrevious(),commentResult.hasNext());
+        return new PageResult<>(this.buildResultVO(contents), commentResult.getTotal(), commentResult.hasPrevious(), commentResult.hasNext());
+    }
+
+    @Override
+    public boolean updateStatus(Long commentId, CommentStatus status) {
+        return commentMapper.updateStatusById(commentId, status);
+    }
+
+    @Override
+    public boolean save(PostCommentParam commentParam) {
+
+        // 检查用户登录状态并设置此字段
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication != null) {
+            // Blogger comment
+            User user = authentication.getDetail().getUser();
+            commentParam.setAuthor(StringUtils.isBlank(user.getNickname()) ? user.getUsername() : user.getNickname());
+            commentParam.setEmail(user.getEmail());
+            commentParam.setAuthorUrl(optionService.getByPropertyOrDefault(BlogProperties.BLOG_URL, String.class, null));
+        }
+
+        // 手动验证评论参数
+        ValidationUtils.validate(commentParam);
+
+        if (authentication == null) {
+
+            if (userService.getByEmail(commentParam.getEmail()).isPresent()) {
+                throw new BadRequestException("不能使用博主的邮箱，如果您是博主，请登录管理端进行回复。");
+            }
+        }
+
+        int i = commentMapper.insert(CommentConvert.INSTANCE.convert(commentParam));
+        return i > 0;
+    }
+
+    @Override
+    public boolean removeById(Long commentId) {
+
+        Comment comment = commentMapper.selectById(commentId);
+
+        List<Comment> children = this.listChildren(comment.getPostId(), commentId);
+
+        if (children.size() > 0) {
+            children.forEach(child -> commentMapper.deleteById(child.getId()));
+        }
+
+        return commentMapper.deleteById(commentId) > 0;
+    }
+
+    /**
+     * 查找子评论
+     *
+     * @param targetId        postId
+     * @param commentParentId commentParentId
+     * @return List
+     */
+    private List<Comment> listChildren(Integer targetId, Long commentParentId) {
+
+        List<Comment> directChildren = commentMapper.selectListByPostIdAndParentId(targetId, commentParentId);
+
+        // 创建结果容器
+        Set<Comment> children = new HashSet<>();
+
+        this.getChildrenRecursively(directChildren, children);
+
+        List<Comment> childrenList = new ArrayList<>(children);
+        childrenList.sort(Comparator.comparing(Comment::getId));
+
+        return childrenList;
+
+    }
+
+    private void getChildrenRecursively(List<Comment> topComments, Set<Comment> children) {
+
+        if (CollectionUtils.isEmpty(topComments)) {
+            return;
+        }
+
+        Set<Long> commentIds = ServiceUtils.fetchProperty(topComments, Comment::getId);
+
+        // Get direct children
+        List<Comment> directChildren = commentMapper.selectListByParentIds(commentIds);
+
+        // Recursively invoke
+        getChildrenRecursively(directChildren, children);
+
+        // Add direct children to children result
+        children.addAll(topComments);
     }
 
     @Override

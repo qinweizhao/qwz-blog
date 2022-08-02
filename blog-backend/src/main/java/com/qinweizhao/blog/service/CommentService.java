@@ -5,6 +5,7 @@ import com.qinweizhao.blog.model.base.PageResult;
 import com.qinweizhao.blog.model.dto.CommentDTO;
 import com.qinweizhao.blog.model.enums.CommentStatus;
 import com.qinweizhao.blog.model.param.CommentQueryParam;
+import com.qinweizhao.blog.model.params.PostCommentParam;
 import com.qinweizhao.blog.model.vo.PostCommentWithPostVO;
 
 import java.util.List;
@@ -74,6 +75,30 @@ public interface CommentService {
      * @return PageResult
      */
     PageResult<PostCommentWithPostVO> buildPageResultVO(PageResult<CommentDTO> commentResult);
+
+    /**
+     * 更新评论状态
+     * @param commentId commentId
+     * @param status status
+     * @return boolean
+     */
+    boolean updateStatus(Long commentId, CommentStatus status);
+
+
+    /**
+     * 新增
+     * @param postCommentParam postCommentParam
+     * @return boolean
+     */
+    boolean save(PostCommentParam postCommentParam);
+
+
+    /**
+     *
+     * @param commentId commentId
+     * @return boolean
+     */
+    boolean removeById(Long commentId);
 
 
 //

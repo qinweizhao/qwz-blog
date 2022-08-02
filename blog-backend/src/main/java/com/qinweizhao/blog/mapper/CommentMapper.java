@@ -3,7 +3,6 @@ package com.qinweizhao.blog.mapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.qinweizhao.blog.convert.CommentConvert;
 import com.qinweizhao.blog.model.base.PageResult;
 import com.qinweizhao.blog.model.entity.Comment;
 import com.qinweizhao.blog.model.enums.CommentStatus;
@@ -17,6 +16,7 @@ import org.apache.ibatis.annotations.Param;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 /**
  * <p>
@@ -90,13 +90,49 @@ public interface CommentMapper extends BaseMapper<Comment> {
 
     /**
      * 通过 postId 获取所有评论
+     *
      * @param postId postId
      * @return List
      */
-    default List<Comment> selectListByPostId(Integer postId){
+    default List<Comment> selectListByPostId(Integer postId) {
         return this.selectList(new LambdaQueryWrapperX<Comment>()
-                        .eq(Comment::getPostId,postId)
-                );
+                .eq(Comment::getPostId, postId)
+        );
+    }
+
+    /**
+     * 更新评论状态
+     *
+     * @param commentId commentId
+     * @param status    status
+     * @return boolean
+     */
+    boolean updateStatusById(@Param("commentId") Long commentId, @Param("status") CommentStatus status);
+
+    /**
+     * 查询列表
+     *
+     * @param postId          postId
+     * @param commentParentId commentParentId
+     * @return List
+     */
+    default List<Comment> selectListByPostIdAndParentId(Integer postId, Long commentParentId) {
+        return this.selectList(new LambdaQueryWrapperX<Comment>()
+                .eq(Comment::getPostId, postId)
+                .eq(Comment::getParentId, commentParentId)
+        );
+    }
+
+    /**
+     * 查询列表
+     *
+     * @param commentIds commentIds
+     * @return List
+     */
+    default List<Comment> selectListByParentIds(Set<Long> commentIds) {
+        return this.selectList(new LambdaQueryWrapperX<Comment>()
+                .in(Comment::getParentId, commentIds)
+        );
     }
 
 }

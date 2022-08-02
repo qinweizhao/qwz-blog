@@ -1,5 +1,7 @@
 package com.qinweizhao.blog.model.enums;
 
+import com.baomidou.mybatisplus.annotation.EnumValue;
+
 /**
  * 评论状态
  *
@@ -23,6 +25,7 @@ public enum CommentStatus implements ValueEnum<Integer> {
      */
     RECYCLE(2);
 
+    @EnumValue
     private final Integer value;
 
     CommentStatus(Integer value) {
