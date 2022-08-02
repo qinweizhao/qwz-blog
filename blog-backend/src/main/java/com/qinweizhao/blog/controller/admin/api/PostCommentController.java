@@ -99,7 +99,7 @@ public class PostCommentController {
      * @return Boolean
      */
     @PostMapping
-    public Boolean createBy(@RequestBody PostCommentParam postCommentParam) {
+    public Boolean save(@RequestBody PostCommentParam postCommentParam) {
         return commentService.save(postCommentParam);
     }
 

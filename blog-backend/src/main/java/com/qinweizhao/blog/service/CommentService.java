@@ -109,28 +109,18 @@ public interface CommentService {
     boolean updateStatusByIds(List<Long> ids, CommentStatus status);
 
 
-//
-//    /**
-//     * 分页
-//     *
-//     * @param pageable     pageable
-//     * @param commentQuery commentQuery
-//     * @return Page
-//     */
-//    Page<Comment> page(Pageable pageable, CommentQuery commentQuery);
-//
-//    /**
-//     * 验证 CommentBlackList 状态
-//     */
-//    void validateCommentBlackListStatus();
-//
-//
-//    /**
-//     * 校验目标
-//     *
-//     * @param postId postId
-//     */
-//    void validateTarget(Integer postId);
+    /**
+     * 验证 CommentBlackList 状态
+     */
+    void validateCommentBlackListStatus();
+
+
+    /**
+     * 校验目标
+     *
+     * @param postId postId
+     */
+    void validateTarget(Integer postId);
 //
 //    /**
 //     * 通过状态统计

@@ -1,9 +1,14 @@
 package com.qinweizhao.blog.service.impl;
 
+import cn.hutool.core.util.URLUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.qinweizhao.blog.convert.CommentConvert;
 import com.qinweizhao.blog.convert.PostConvert;
 import com.qinweizhao.blog.exception.BadRequestException;
+import com.qinweizhao.blog.exception.ForbiddenException;
+import com.qinweizhao.blog.exception.NotFoundException;
+import com.qinweizhao.blog.framework.event.comment.CommentNewEvent;
+import com.qinweizhao.blog.framework.event.comment.CommentReplyEvent;
 import com.qinweizhao.blog.mapper.CommentMapper;
 import com.qinweizhao.blog.mapper.PostMapper;
 import com.qinweizhao.blog.model.base.PageParam;
@@ -11,24 +16,31 @@ import com.qinweizhao.blog.model.base.PageResult;
 import com.qinweizhao.blog.model.dto.CommentDTO;
 import com.qinweizhao.blog.model.dto.post.PostSimpleDTO;
 import com.qinweizhao.blog.model.entity.Comment;
+import com.qinweizhao.blog.model.entity.CommentBlackList;
 import com.qinweizhao.blog.model.entity.Post;
 import com.qinweizhao.blog.model.entity.User;
 import com.qinweizhao.blog.model.enums.CommentStatus;
+import com.qinweizhao.blog.model.enums.CommentViolationTypeEnum;
 import com.qinweizhao.blog.model.param.CommentQueryParam;
 import com.qinweizhao.blog.model.params.PostCommentParam;
 import com.qinweizhao.blog.model.projection.CommentCountProjection;
 import com.qinweizhao.blog.model.properties.BlogProperties;
+import com.qinweizhao.blog.model.properties.CommentProperties;
 import com.qinweizhao.blog.model.vo.PostCommentWithPostVO;
 import com.qinweizhao.blog.security.authentication.Authentication;
 import com.qinweizhao.blog.security.context.SecurityContextHolder;
+import com.qinweizhao.blog.service.CommentBlackListService;
 import com.qinweizhao.blog.service.CommentService;
 import com.qinweizhao.blog.service.OptionService;
 import com.qinweizhao.blog.service.UserService;
 import com.qinweizhao.blog.util.ServiceUtils;
+import com.qinweizhao.blog.util.ServletUtils;
 import com.qinweizhao.blog.util.ValidationUtils;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
@@ -59,25 +71,17 @@ public class CommentServiceImpl implements CommentService {
 
     private final UserService userService;
 
+    private final CommentBlackListService commentBlackListService;
 
-//    @Override
-//    public void validateTarget(Integer postId) {
-//        Post post = postMapper.selectById(postId);
-//        Assert.notNull(post, "查询不到该文章的信息");
-//        if (post.getDisallowComment()) {
-//            throw new BadRequestException("该文章已经被禁止评论").setErrorData(postId);
-//        }
-//    }
 
-//
-//    @Override
-//    public void validateCommentBlackListStatus() {
-//        CommentViolationTypeEnum banStatus = commentBlackListService.commentsBanStatus(ServletUtils.getRequestIp());
-//        Integer banTime = optionService.getByPropertyOrDefault(CommentProperties.COMMENT_BAN_TIME, Integer.class, 10);
-//        if (banStatus == CommentViolationTypeEnum.FREQUENTLY) {
-//            throw new ForbiddenException(String.format("您的评论过于频繁，请%s分钟之后再试。", banTime));
-//        }
-//    }
+    @Override
+    public void validateCommentBlackListStatus() {
+        CommentViolationTypeEnum banStatus = commentBlackListService.commentsBanStatus(ServletUtils.getRequestIp());
+        Integer banTime = optionService.getByPropertyOrDefault(CommentProperties.COMMENT_BAN_TIME, Integer.class, 10);
+        if (banStatus == CommentViolationTypeEnum.FREQUENTLY) {
+            throw new ForbiddenException(String.format("您的评论过于频繁，请%s分钟之后再试。", banTime));
+        }
+    }
 
     @Override
     public long countByStatus(CommentStatus published) {
@@ -153,8 +157,61 @@ public class CommentServiceImpl implements CommentService {
             }
         }
 
-        int i = commentMapper.insert(CommentConvert.INSTANCE.convert(commentParam));
+        Comment comment = CommentConvert.INSTANCE.convert(commentParam);
+
+        // Check post id
+        if (!ServiceUtils.isEmptyId(comment.getPostId())) {
+            this.validateTarget(comment.getPostId());
+        }
+
+        // Check parent id
+        if (!ServiceUtils.isEmptyId(comment.getParentId())) {
+            Comment flag = commentMapper.selectById(comment.getParentId());
+            // 不存在抛出异常
+            if (ObjectUtils.isEmpty(flag)){
+                throw new NotFoundException("父评论不存在");
+            }
+        }
+
+        // Set some default values
+        if (comment.getIpAddress() == null) {
+            comment.setIpAddress(ServletUtils.getRequestIp());
+        }
+
+        if (comment.getUserAgent() == null) {
+            comment.setUserAgent(ServletUtils.getHeaderIgnoreCase(HttpHeaders.USER_AGENT));
+        }
+
+        if (comment.getGravatarMd5() == null) {
+            comment.setGravatarMd5(DigestUtils.md5Hex(comment.getEmail()));
+        }
+
+        if (StringUtils.isNotEmpty(comment.getAuthorUrl())) {
+            comment.setAuthorUrl(URLUtil.normalize(comment.getAuthorUrl()));
+        }
+
+        if (authentication != null) {
+            // Comment of blogger
+            comment.setIsAdmin(true);
+            comment.setStatus(CommentStatus.PUBLISHED.getValue());
+        } else {
+            // Comment of guest
+            // Handle comment status
+            Boolean needAudit = optionService.getByPropertyOrDefault(CommentProperties.NEW_NEED_CHECK, Boolean.class, true);
+            comment.setStatus(needAudit ? CommentStatus.AUDITING.getValue() : CommentStatus.PUBLISHED.getValue());
+        }
+
+        int i = commentMapper.insert(comment);
         return i > 0;
+    }
+
+    @Override
+    public void validateTarget(Integer postId) {
+        Post post = postMapper.selectById(postId);
+        Assert.notNull(post, "查询不到该文章的信息");
+        if (post.getDisallowComment()) {
+            throw new BadRequestException("该文章已经被禁止评论").setErrorData(postId);
+        }
     }
 
     @Override

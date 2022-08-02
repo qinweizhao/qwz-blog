@@ -1,17 +1,19 @@
 package com.qinweizhao.blog.model.enums;
 
+import com.baomidou.mybatisplus.annotation.EnumValue;
 import lombok.Getter;
 
 /**
- * 评论违规类型枚举
+ * 评论违规类型
  *
  * @author Lei XinXin
  * @date 2020/1/4
  */
 @Getter
 public enum CommentViolationTypeEnum {
+
     /**
-     * 评论违规类型
+     * 普通
      */
     NORMAL(0),
     /**
@@ -19,6 +21,7 @@ public enum CommentViolationTypeEnum {
      */
     FREQUENTLY(1);
 
+    @EnumValue
     private final int type;
 
     CommentViolationTypeEnum(int type) {

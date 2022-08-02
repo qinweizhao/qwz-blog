@@ -10,7 +10,8 @@ import com.qinweizhao.blog.model.enums.CommentViolationTypeEnum;
  * @author Lei XinXin
  * @date 2020/1/3
  */
-public interface CommentBlackListService extends IService<CommentBlackList> {
+public interface CommentBlackListService {
+
     /**
      * 评论封禁状态
      *
