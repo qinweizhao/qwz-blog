@@ -188,17 +188,18 @@ public class CommentServiceImpl implements CommentService {
         }
 
         if (authentication != null) {
-            // Comment of blogger
+            // 博主的评论
             comment.setIsAdmin(true);
             comment.setStatus(CommentStatus.PUBLISHED.getValue());
         } else {
-            // Comment of guest
-            // Handle comment status
+            // 游客的评论
+            // 处理评论状态
             Boolean needAudit = optionService.getByPropertyOrDefault(CommentProperties.NEW_NEED_CHECK, Boolean.class, true);
             comment.setStatus(needAudit ? CommentStatus.AUDITING.getValue() : CommentStatus.PUBLISHED.getValue());
         }
 
-        // todo enev
+        // todo
+        // event
 
         int i = commentMapper.insert(comment);
         return i > 0;
