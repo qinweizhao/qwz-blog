@@ -171,6 +171,17 @@ public class CommentServiceImpl implements CommentService {
         return commentMapper.deleteById(commentId) > 0;
     }
 
+    @Override
+    public boolean updateStatusByIds(List<Long> ids, CommentStatus status) {
+        if (CollectionUtils.isEmpty(ids)) {
+            return false;
+        }
+
+        ids.forEach(id -> commentMapper.updateStatusById(id, status));
+
+        return true;
+    }
+
     /**
      * 查找子评论
      *

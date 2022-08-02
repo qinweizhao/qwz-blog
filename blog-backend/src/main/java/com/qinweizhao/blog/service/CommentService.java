@@ -94,11 +94,19 @@ public interface CommentService {
 
 
     /**
-     *
+     * 删除评论（+子）
      * @param commentId commentId
      * @return boolean
      */
     boolean removeById(Long commentId);
+
+    /**
+     * 批量修改状态
+     * @param ids ids
+     * @param status status
+     * @return boolean
+     */
+    boolean updateStatusByIds(List<Long> ids, CommentStatus status);
 
 
 //

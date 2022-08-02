@@ -9,6 +9,7 @@ import com.qinweizhao.blog.model.param.CommentQueryParam;
 import com.qinweizhao.blog.model.params.PostCommentParam;
 import com.qinweizhao.blog.model.vo.PostCommentWithPostVO;
 import com.qinweizhao.blog.service.CommentService;
+import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -115,14 +116,21 @@ public class PostCommentController {
                                   @PathVariable("status") CommentStatus status) {
         return commentService.updateStatus(commentId, status);
     }
-//
-//    @PutMapping("status/{status}")
-//    @ApiOperation("Updates post comment status in batch")
-//    public List<BaseCommentDTO> updateStatusInBatch(@PathVariable(name = "status") CommentStatus status,
-//                                                    @RequestBody List<Long> ids) {
-//        List<PostComment> comments = commentService.updateStatusByIds(ids, status);
-//        return commentService.convertTo(comments);
-//    }
+
+
+    /**
+     * 批量更新评论状态
+     *
+     * @param status status
+     * @param ids    ids
+     * @return Boolean
+     */
+    @PutMapping("status/{status}")
+    @ApiOperation("Updates post comment status in batch")
+    public Boolean updateStatusInBatch(@PathVariable(name = "status") CommentStatus status,
+                                       @RequestBody List<Long> ids) {
+        return commentService.updateStatusByIds(ids, status);
+    }
 
 
     /**
