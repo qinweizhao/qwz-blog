@@ -7,8 +7,6 @@ import com.qinweizhao.blog.convert.PostConvert;
 import com.qinweizhao.blog.exception.BadRequestException;
 import com.qinweizhao.blog.exception.ForbiddenException;
 import com.qinweizhao.blog.exception.NotFoundException;
-import com.qinweizhao.blog.framework.event.comment.CommentNewEvent;
-import com.qinweizhao.blog.framework.event.comment.CommentReplyEvent;
 import com.qinweizhao.blog.mapper.CommentMapper;
 import com.qinweizhao.blog.mapper.PostMapper;
 import com.qinweizhao.blog.model.base.PageParam;
@@ -16,7 +14,6 @@ import com.qinweizhao.blog.model.base.PageResult;
 import com.qinweizhao.blog.model.dto.CommentDTO;
 import com.qinweizhao.blog.model.dto.post.PostSimpleDTO;
 import com.qinweizhao.blog.model.entity.Comment;
-import com.qinweizhao.blog.model.entity.CommentBlackList;
 import com.qinweizhao.blog.model.entity.Post;
 import com.qinweizhao.blog.model.entity.User;
 import com.qinweizhao.blog.model.enums.CommentStatus;
@@ -168,7 +165,7 @@ public class CommentServiceImpl implements CommentService {
         if (!ServiceUtils.isEmptyId(comment.getParentId())) {
             Comment flag = commentMapper.selectById(comment.getParentId());
             // 不存在抛出异常
-            if (ObjectUtils.isEmpty(flag)){
+            if (ObjectUtils.isEmpty(flag)) {
                 throw new NotFoundException("父评论不存在");
             }
         }
@@ -200,6 +197,8 @@ public class CommentServiceImpl implements CommentService {
             Boolean needAudit = optionService.getByPropertyOrDefault(CommentProperties.NEW_NEED_CHECK, Boolean.class, true);
             comment.setStatus(needAudit ? CommentStatus.AUDITING.getValue() : CommentStatus.PUBLISHED.getValue());
         }
+
+        // todo enev
 
         int i = commentMapper.insert(comment);
         return i > 0;
