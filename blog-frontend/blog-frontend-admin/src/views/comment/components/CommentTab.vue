@@ -306,7 +306,6 @@
 import CommentReplyModal from '@/components/Comment/CommentReplyModal'
 
 import { mixin, mixinDevice } from '@/mixins/mixin.js'
-import apiClient from '@/utils/api-client'
 import commentApi from '@/api/comment'
 import { commentStatuses } from '@/core/constant'
 
@@ -501,7 +500,7 @@ export default {
 
     async handleChangeStatus(commentId, status) {
       try {
-        await apiClient.comment.updateStatusById(this.targetName, commentId, status)
+        await commentApi.updateStatus(this.targetName, commentId, status)
         this.$message.success('操作成功！')
       } catch (e) {
         this.$log.error('Failed to change comment status', e)
@@ -518,7 +517,7 @@ export default {
 
       try {
         this.$log.debug(`commentIds: ${this.selectedRowKeys}, status: ${status}`)
-        await apiClient.comment.updateStatusInBatch(this.targetName, this.selectedRowKeys, status)
+        await commentApi.updateStatusInBatch(this.targetName, this.selectedRowKeys, status)
         this.selectedRowKeys = []
       } catch (e) {
         this.$log.error('Failed to change comment status in batch', e)
@@ -529,7 +528,7 @@ export default {
 
     async handleDelete(commentId) {
       try {
-        await apiClient.comment.delete(this.targetName, commentId)
+        await commentApi.delete(this.targetName, commentId)
         this.$message.success('删除成功！')
       } catch (e) {
         this.$log.error('Failed to delete comment', e)
@@ -546,7 +545,7 @@ export default {
 
       try {
         this.$log.debug(`delete: ${this.selectedRowKeys}`)
-        await apiClient.comment.deleteInBatch(this.targetName, this.selectedRowKeys)
+        await commentApi.deleteInBatch(this.targetName, this.selectedRowKeys)
         this.selectedRowKeys = []
       } catch (e) {
         this.$log.error('Failed to delete comments in batch', e)
@@ -578,7 +577,7 @@ export default {
      */
     handlePageSizeChange(current, size) {
       this.$log.debug(`Current: ${current}, PageSize: ${size}`)
-      this.list.params.page = 0
+      this.list.params.page = 1
       this.list.params.size = size
       this.handleListComments()
     },

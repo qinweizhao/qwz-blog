@@ -9,7 +9,6 @@ import com.qinweizhao.blog.model.param.CommentQueryParam;
 import com.qinweizhao.blog.model.params.PostCommentParam;
 import com.qinweizhao.blog.model.vo.PostCommentWithPostVO;
 import com.qinweizhao.blog.service.CommentService;
-import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,7 +18,6 @@ import java.util.List;
  * comment controller.
  *
  * @author johnniang
- * @author ryanwang
  * @author qinweizhao
  * @date 2019-03-29
  */
@@ -29,10 +27,6 @@ import java.util.List;
 public class PostCommentController {
 
     private final CommentService commentService;
-
-    private final PostMapper postMapper;
-
-//    private final OptionService optionService;
 
     /**
      * 分页
@@ -78,7 +72,6 @@ public class PostCommentController {
      */
     @GetMapping("{postId:\\d+}/tree_view")
     public PageResult<CommentDTO> pageTree(@PathVariable("postId") Integer postId, CommentQueryParam param) {
-        PageResult<CommentDTO> result = commentService.pageTree(postId, param);
         return commentService.pageTree(postId, param);
     }
 //
@@ -90,7 +83,6 @@ public class PostCommentController {
 //        return commentService.pageWithParentVoBy(postId, PageRequest.of(page, optionService.getCommentPageSize(), sort));
 //    }
 //
-
 
     /**
      * 新增
@@ -126,7 +118,6 @@ public class PostCommentController {
      * @return Boolean
      */
     @PutMapping("status/{status}")
-    @ApiOperation("Updates post comment status in batch")
     public Boolean updateStatusInBatch(@PathVariable(name = "status") CommentStatus status,
                                        @RequestBody List<Long> ids) {
         return commentService.updateStatusByIds(ids, status);
@@ -144,11 +135,15 @@ public class PostCommentController {
         return commentService.removeById(commentId);
     }
 
-//    @DeleteMapping
-//    @ApiOperation("Delete post comments permanently in batch by id array")
-//    public List<PostComment> deletePermanentlyInBatch(@RequestBody List<Long> ids) {
-//        return commentService.removeByIds(ids);
-//    }
+    /**
+     * 通过id数组批量永久删除评论
+     * @param ids ids
+     * @return Boolean
+     */
+    @DeleteMapping
+    public Boolean deletePermanentlyInBatch(@RequestBody List<Long> ids) {
+        return commentService.removeByIds(ids);
+    }
 //
 //    @GetMapping("{commentId:\\d+}")
 //    @ApiOperation("Gets a post comment by comment id")

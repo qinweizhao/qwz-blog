@@ -9,16 +9,15 @@ import com.qinweizhao.blog.model.entity.Journal;
 import com.qinweizhao.blog.model.enums.CommentStatus;
 import com.qinweizhao.blog.model.enums.CommentType;
 import com.qinweizhao.blog.model.param.CommentQueryParam;
+import com.qinweizhao.blog.model.params.JournalCommentParam;
 import com.qinweizhao.blog.model.vo.JournalCommentWithJournalVO;
 import com.qinweizhao.blog.service.CommentService;
 import com.qinweizhao.blog.service.JournalService;
 import com.qinweizhao.blog.util.ServiceUtils;
+import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import org.springframework.util.ObjectUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,7 +56,7 @@ public class JournalCommentController {
 
         List<CommentDTO> contents = commentResult.getContent();
 
-        return new PageResult<>(this.buildResultVO(contents), commentResult.getTotal(),commentResult.hasPrevious(),commentResult.hasNext());
+        return new PageResult<>(this.buildResultVO(contents), commentResult.getTotal(), commentResult.hasPrevious(), commentResult.hasNext());
     }
 
     /**
@@ -110,15 +109,12 @@ public class JournalCommentController {
                 }).collect(Collectors.toList());
     }
 
-//
-//    @GetMapping("{journalId:\\d+}/tree_view")
-//    @ApiOperation("Lists comments with tree view")
-//    public Page<BaseCommentVO> listCommentTree(@PathVariable("journalId") Integer journalId,
-//                                               @RequestParam(name = "page", required = false, defaultValue = "0") int page,
-//                                               @SortDefault(sort = "createTime", direction = DESC) Sort sort) {
-//        return journalCommentService.pageVosAllBy(journalId, PageRequest.of(page, optionService.getCommentPageSize(), sort));
-//    }
-//
+
+    @GetMapping("{journalId:\\d+}/tree_view")
+    public PageResult<CommentDTO> pageTree(@PathVariable("journalId") Integer journalId, CommentQueryParam param) {
+        return commentService.pageTree(journalId, param);
+    }
+
 //    @GetMapping("{journalId:\\d+}/list_view")
 //    @ApiOperation("Lists comment with list view")
 //    public Page<BaseCommentWithParentVO> listComments(@PathVariable("journalId") Integer journalId,
@@ -126,17 +122,14 @@ public class JournalCommentController {
 //                                                      @SortDefault(sort = "createTime", direction = DESC) Sort sort) {
 //        return journalCommentService.pageWithParentVoBy(journalId, PageRequest.of(page, optionService.getCommentPageSize(), sort));
 //    }
-//
+
 //    @PostMapping
-//    @ApiOperation("Creates a journal comment")
-//    public BaseCommentDTO createCommentBy(@RequestBody JournalCommentParam journalCommentParam) {
-//        JournalComment journalComment = journalCommentService.createBy(journalCommentParam);
-//        return journalCommentService.convertTo(journalComment);
+//    public Boolean createCommentBy(@RequestBody JournalCommentParam journalCommentParam) {
+//        return commentService.save(journalCommentParam);
 //    }
 //
 //    @PutMapping("{commentId:\\d+}/status/{status}")
-//    @ApiOperation("Updates comment status")
-//    public BaseCommentDTO updateStatusBy(@PathVariable("commentId") Long commentId,
+//    public Boolean updateStatusBy(@PathVariable("commentId") Long commentId,
 //                                         @PathVariable("status") CommentStatus status) {
 //        // Update comment status
 //        JournalComment updatedJournalComment = journalCommentService.updateStatus(commentId, status);
@@ -144,8 +137,7 @@ public class JournalCommentController {
 //    }
 //
 //    @DeleteMapping("{commentId:\\d+}")
-//    @ApiOperation("Deletes comment permanently and recursively")
-//    public BaseCommentDTO deleteBy(@PathVariable("commentId") Long commentId) {
+//    public Boolean deleteBy(@PathVariable("commentId") Long commentId) {
 //        JournalComment deletedJournalComment = journalCommentService.removeById(commentId);
 //        return journalCommentService.convertTo(deletedJournalComment);
 //    }

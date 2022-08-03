@@ -44,5 +44,6 @@ public class CommentVO  {
     private Boolean allowNotification;
 
     private Date createTime;
+
     List<CommentVO> children;
 }

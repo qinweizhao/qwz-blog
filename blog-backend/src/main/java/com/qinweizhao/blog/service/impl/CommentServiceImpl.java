@@ -215,6 +215,16 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
+    public boolean removeByIds(List<Long> ids) {
+        if (CollectionUtils.isEmpty(ids)) {
+            return false;
+        }
+
+        ids.forEach(this::removeById);
+        return true;
+    }
+
+    @Override
     public boolean removeById(Long commentId) {
 
         Comment comment = commentMapper.selectById(commentId);

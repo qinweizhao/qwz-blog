@@ -121,6 +121,14 @@ public interface CommentService {
      * @param postId postId
      */
     void validateTarget(Integer postId);
+
+    /**
+     * 批量删除
+     * @param ids ids
+     * @return boolean
+     */
+    boolean removeByIds(List<Long> ids);
+
 //
 //    /**
 //     * 通过状态统计
