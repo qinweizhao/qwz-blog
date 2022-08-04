@@ -12,7 +12,7 @@ import com.qinweizhao.blog.mapper.PostMapper;
 import com.qinweizhao.blog.model.core.PageParam;
 import com.qinweizhao.blog.model.core.PageResult;
 import com.qinweizhao.blog.model.dto.CommentDTO;
-import com.qinweizhao.blog.model.dto.post.PostSimpleDTO;
+import com.qinweizhao.blog.model.dto.PostSimpleDTO;
 import com.qinweizhao.blog.model.entity.Comment;
 import com.qinweizhao.blog.model.entity.Post;
 import com.qinweizhao.blog.model.entity.User;

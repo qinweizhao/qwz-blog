@@ -3,9 +3,8 @@ package com.qinweizhao.blog.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.qinweizhao.blog.model.dto.CategoryDTO;
 import com.qinweizhao.blog.model.dto.CategoryWithPostCountDTO;
-import com.qinweizhao.blog.model.dto.post.PostSimpleDTO;
+import com.qinweizhao.blog.model.dto.PostSimpleDTO;
 import com.qinweizhao.blog.model.entity.Category;
-import com.qinweizhao.blog.model.entity.Post;
 import com.qinweizhao.blog.model.entity.PostCategory;
 import com.qinweizhao.blog.model.enums.PostStatus;
 

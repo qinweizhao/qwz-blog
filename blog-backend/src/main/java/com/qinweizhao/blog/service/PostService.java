@@ -1,8 +1,8 @@
 package com.qinweizhao.blog.service;
 
 import com.qinweizhao.blog.model.core.PageResult;
-import com.qinweizhao.blog.model.dto.post.PostDetailDTO;
-import com.qinweizhao.blog.model.dto.post.PostSimpleDTO;
+import com.qinweizhao.blog.model.dto.PostDetailDTO;
+import com.qinweizhao.blog.model.dto.PostSimpleDTO;
 import com.qinweizhao.blog.model.enums.PostStatus;
 import com.qinweizhao.blog.model.param.PostQueryParam;
 import com.qinweizhao.blog.model.vo.ArchiveMonthVO;

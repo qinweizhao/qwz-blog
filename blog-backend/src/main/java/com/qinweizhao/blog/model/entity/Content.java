@@ -1,0 +1,34 @@
+package com.qinweizhao.blog.model.entity;
+
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.qinweizhao.blog.model.core.BaseEntity;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
+/**
+ * @author qinweizhao
+ * @since 2022/8/4
+ */
+@Data
+@EqualsAndHashCode(callSuper = true)
+@TableName("content")
+public class Content extends BaseEntity {
+
+    /**
+     * 文章编号
+     */
+    private Integer postId;
+
+    /**
+     * 内容
+     */
+    private String content;
+
+    /**
+     * 原始内容
+     */
+    private String originalContent;
+
+
+
+}

@@ -2,8 +2,8 @@ package com.qinweizhao.blog.convert;
 
 
 import com.qinweizhao.blog.model.core.PageResult;
-import com.qinweizhao.blog.model.dto.post.PostDetailDTO;
-import com.qinweizhao.blog.model.dto.post.PostSimpleDTO;
+import com.qinweizhao.blog.model.dto.PostDetailDTO;
+import com.qinweizhao.blog.model.dto.PostSimpleDTO;
 import com.qinweizhao.blog.model.entity.Post;
 import com.qinweizhao.blog.model.enums.PostEditorType;
 import com.qinweizhao.blog.model.enums.PostStatus;

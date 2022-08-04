@@ -1,21 +1,18 @@
-package com.qinweizhao.blog.model.dto.post;
+package com.qinweizhao.blog.model.dto;
 
 import com.qinweizhao.blog.model.enums.PostEditorType;
 import com.qinweizhao.blog.model.enums.PostStatus;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
 
 import java.util.Date;
 
 /**
- * Base page simple output dto.
+ * Base post detail output dto.
  *
  * @author johnniang
- * @author qinweizhao
  */
 @Data
-public class PostSimpleDTO{
+public class PostDetailDTO {
 
     /**
      * MinimalDTO
@@ -41,8 +38,6 @@ public class PostSimpleDTO{
     private String metaDescription;
 
     private String fullPath;
-
-
 
     private String summary;
 
@@ -70,4 +65,9 @@ public class PostSimpleDTO{
     public boolean isTopped() {
         return this.topPriority != null && this.topPriority > 0;
     }
+
+    private String originalContent;
+
+
+    private Long commentCount;
 }

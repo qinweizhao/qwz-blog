@@ -2,7 +2,7 @@ package com.qinweizhao.blog.service;
 
 import com.qinweizhao.blog.model.dto.TagDTO;
 import com.qinweizhao.blog.model.dto.TagWithPostCountDTO;
-import com.qinweizhao.blog.model.dto.post.PostSimpleDTO;
+import com.qinweizhao.blog.model.dto.PostSimpleDTO;
 import com.qinweizhao.blog.model.entity.Tag;
 import com.qinweizhao.blog.model.enums.PostStatus;
 

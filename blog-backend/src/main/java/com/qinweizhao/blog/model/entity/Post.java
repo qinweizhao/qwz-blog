@@ -6,8 +6,6 @@ import com.qinweizhao.blog.model.core.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import java.time.LocalDateTime;
-
 /**
  * @author qinweizhao
  * @since 2022-07-08
@@ -19,44 +17,74 @@ public class Post extends BaseEntity {
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
-    private Integer type;
-
-    private Boolean disallowComment;
-
-    private LocalDateTime editTime;
-
-    private Integer editorType;
-
-    private String formatContent;
-
-    private Long likes;
-
-    private String metaDescription;
-
-    private String metaKeywords;
-
-    private String originalContent;
-
-    private String password;
-
-    private String slug;
-
-    private Integer status;
-
-    private String summary;
-
-    private String template;
-
-    private String thumbnail;
-
+    /**
+     * 标题
+     */
     private String title;
 
-    private Integer topPriority;
+    /**
+     * 别名
+     */
+    private String slug;
 
+    /**
+     * 摘要
+     */
+    private String summary;
+
+    /**
+     * 访问地址
+     */
     private String url;
 
+    /**
+     * seo 关键字
+     */
+    private String metaKeywords;
+
+    /**
+     * seo 描述
+     */
+    private String metaDescription;
+
+    /**
+     * 访问量
+     */
     private Long visits;
 
+    /**
+     * 字数
+     */
     private Long wordCount;
+
+    /**
+     * 点赞数
+     */
+    private Long likes;
+
+    /**
+     * 密码
+     */
+    private String password;
+
+    /**
+     * 状态
+     */
+    private Integer status;
+
+    /**
+     * 缩略图
+     */
+    private String thumbnail;
+
+    /**
+     * 是否允许评论
+     */
+    private Boolean disallowComment;
+
+    /**
+     * 是否置顶
+     */
+    private Integer topPriority;
 
 }

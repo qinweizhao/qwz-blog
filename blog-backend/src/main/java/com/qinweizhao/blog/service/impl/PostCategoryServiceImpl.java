@@ -8,7 +8,7 @@ import com.qinweizhao.blog.mapper.PostCategoryMapper;
 import com.qinweizhao.blog.mapper.PostMapper;
 import com.qinweizhao.blog.model.dto.CategoryDTO;
 import com.qinweizhao.blog.model.dto.CategoryWithPostCountDTO;
-import com.qinweizhao.blog.model.dto.post.PostSimpleDTO;
+import com.qinweizhao.blog.model.dto.PostSimpleDTO;
 import com.qinweizhao.blog.model.entity.Category;
 import com.qinweizhao.blog.model.entity.Post;
 import com.qinweizhao.blog.model.entity.PostCategory;

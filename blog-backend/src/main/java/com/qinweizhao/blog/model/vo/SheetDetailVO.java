@@ -1,7 +1,7 @@
 package com.qinweizhao.blog.model.vo;
 
 import com.qinweizhao.blog.model.dto.MetaDTO;
-import com.qinweizhao.blog.model.dto.post.PostDetailDTO;
+import com.qinweizhao.blog.model.dto.PostDetailDTO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
