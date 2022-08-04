@@ -129,12 +129,4 @@ public interface CommentService {
      */
     boolean removeByIds(List<Long> ids);
 
-//
-//    /**
-//     * 通过状态统计
-//     *
-//     * @param published published
-//     * @return long
-//     */
-//    long countByStatus(CommentStatus published);
 }

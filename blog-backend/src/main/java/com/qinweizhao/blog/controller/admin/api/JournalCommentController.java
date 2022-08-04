@@ -67,7 +67,7 @@ public class JournalCommentController {
      * @return List
      */
     @GetMapping("latest")
-    public List<JournalCommentWithJournalVO> listLatest(@RequestParam(name = "top", defaultValue = "10") int top,
+    public List<JournalCommentWithJournalVO> latest(@RequestParam(name = "top", defaultValue = "10") int top,
                                                         @RequestParam(name = "status", required = false) CommentStatus status) {
         CommentQueryParam param = new CommentQueryParam();
         param.setPage(top);

@@ -21,7 +21,7 @@ import java.util.List;
  */
 @RestController
 @AllArgsConstructor
-@RequestMapping("/api/admin/comments")
+@RequestMapping("/api/admin/posts/comments")
 public class PostCommentController {
 
 
@@ -33,9 +33,9 @@ public class PostCommentController {
      * @param param param
      * @return Page
      */
-    @GetMapping("{target}")
-    public PageResult<PostCommentWithPostVO> page(@PathVariable("target") CommentType target, CommentQueryParam param) {
-        param.setType(target);
+    @GetMapping
+    public PageResult<PostCommentWithPostVO> page(CommentQueryParam param) {
+        param.setType(CommentType.POST);
         PageResult<CommentDTO> commentResult = commentService.pageComment(param);
         return commentService.buildPageResultVO(commentResult);
 
@@ -73,15 +73,7 @@ public class PostCommentController {
     public PageResult<CommentDTO> pageTree(@PathVariable("postId") Integer postId, CommentQueryParam param) {
         return commentService.pageTree(postId, param);
     }
-//
-//    @GetMapping("{postId:\\d+}/list_view")
-//    @ApiOperation("Lists post comment with list view")
-//    public Page<BaseCommentWithParentVO> listComments(@PathVariable("postId") Integer postId,
-//                                                      @RequestParam(name = "page", required = false, defaultValue = "0") int page,
-//                                                      @SortDefault(sort = "createTime", direction = DESC) Sort sort) {
-//        return commentService.pageWithParentVoBy(postId, PageRequest.of(page, optionService.getCommentPageSize(), sort));
-//    }
-//
+
 
     /**
      * 新增
