@@ -8,7 +8,7 @@ import com.qinweizhao.blog.model.dto.JournalDTO;
 import com.qinweizhao.blog.model.entity.Journal;
 import com.qinweizhao.blog.model.enums.CommentStatus;
 import com.qinweizhao.blog.model.enums.CommentType;
-import com.qinweizhao.blog.model.params.CommentQueryParam;
+import com.qinweizhao.blog.model.param.CommentQueryParam;
 import com.qinweizhao.blog.model.vo.JournalCommentWithJournalVO;
 import com.qinweizhao.blog.service.CommentService;
 import com.qinweizhao.blog.service.JournalService;

@@ -14,7 +14,7 @@ import com.qinweizhao.blog.mapper.UserMapper;
 import com.qinweizhao.blog.model.dto.UserDTO;
 import com.qinweizhao.blog.model.entity.User;
 import com.qinweizhao.blog.model.enums.LogType;
-import com.qinweizhao.blog.model.params.UserUpdateParam;
+import com.qinweizhao.blog.model.param.UserUpdateParam;
 import com.qinweizhao.blog.security.util.SecurityUtils;
 import com.qinweizhao.blog.service.UserService;
 import com.qinweizhao.blog.util.DateUtils;

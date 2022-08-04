@@ -2,7 +2,7 @@ package com.qinweizhao.blog.framework.core.freemarker.tag;
 
 import com.qinweizhao.blog.model.dto.post.PostSimpleDTO;
 import com.qinweizhao.blog.model.enums.PostStatus;
-import com.qinweizhao.blog.model.params.PostQueryParam;
+import com.qinweizhao.blog.model.param.PostQueryParam;
 import com.qinweizhao.blog.model.support.HaloConst;
 import com.qinweizhao.blog.service.PostCategoryService;
 import com.qinweizhao.blog.service.PostService;

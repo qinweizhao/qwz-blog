@@ -1,8 +1,7 @@
 package com.qinweizhao.blog.controller.admin.api;
 
 import com.qinweizhao.blog.model.dto.TagDTO;
-import com.qinweizhao.blog.model.entity.Tag;
-import com.qinweizhao.blog.model.params.TagParam;
+import com.qinweizhao.blog.model.param.TagParam;
 import com.qinweizhao.blog.service.PostTagService;
 import com.qinweizhao.blog.service.TagService;
 import lombok.AllArgsConstructor;

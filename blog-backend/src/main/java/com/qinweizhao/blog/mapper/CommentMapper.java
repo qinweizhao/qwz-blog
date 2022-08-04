@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.qinweizhao.blog.model.core.PageResult;
 import com.qinweizhao.blog.model.entity.Comment;
 import com.qinweizhao.blog.model.enums.CommentStatus;
-import com.qinweizhao.blog.model.params.CommentQueryParam;
+import com.qinweizhao.blog.model.param.CommentQueryParam;
 import com.qinweizhao.blog.model.projection.CommentChildrenCountProjection;
 import com.qinweizhao.blog.model.projection.CommentCountProjection;
 import com.qinweizhao.blog.util.LambdaQueryWrapperX;

@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.qinweizhao.blog.model.core.PageResult;
 import com.qinweizhao.blog.model.entity.Photo;
-import com.qinweizhao.blog.model.params.PhotoQueryParam;
+import com.qinweizhao.blog.model.param.PhotoQueryParam;
 import com.qinweizhao.blog.util.LambdaQueryWrapperX;
 import com.qinweizhao.blog.util.MyBatisUtils;
 import org.apache.ibatis.annotations.Mapper;

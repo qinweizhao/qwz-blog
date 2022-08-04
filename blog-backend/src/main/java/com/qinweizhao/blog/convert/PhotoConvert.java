@@ -4,7 +4,7 @@ package com.qinweizhao.blog.convert;
 import com.qinweizhao.blog.model.core.PageResult;
 import com.qinweizhao.blog.model.dto.PhotoDTO;
 import com.qinweizhao.blog.model.entity.Photo;
-import com.qinweizhao.blog.model.params.PhotoParam;
+import com.qinweizhao.blog.model.param.PhotoParam;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 

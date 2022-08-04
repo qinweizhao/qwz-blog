@@ -4,7 +4,7 @@ package com.qinweizhao.blog.convert;
 import com.qinweizhao.blog.model.dto.CategoryDTO;
 import com.qinweizhao.blog.model.dto.CategoryWithPostCountDTO;
 import com.qinweizhao.blog.model.entity.Category;
-import com.qinweizhao.blog.model.params.CategoryParam;
+import com.qinweizhao.blog.model.param.CategoryParam;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 

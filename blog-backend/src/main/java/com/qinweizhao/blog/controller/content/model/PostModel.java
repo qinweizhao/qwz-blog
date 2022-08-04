@@ -9,7 +9,7 @@ import com.qinweizhao.blog.model.dto.post.PostDetailDTO;
 import com.qinweizhao.blog.model.dto.post.PostSimpleDTO;
 import com.qinweizhao.blog.model.enums.PostEditorType;
 import com.qinweizhao.blog.model.enums.PostStatus;
-import com.qinweizhao.blog.model.params.PostQueryParam;
+import com.qinweizhao.blog.model.param.PostQueryParam;
 import com.qinweizhao.blog.model.support.HaloConst;
 import com.qinweizhao.blog.model.vo.PostListVO;
 import com.qinweizhao.blog.service.*;

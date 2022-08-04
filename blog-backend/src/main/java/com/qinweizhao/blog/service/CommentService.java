@@ -4,8 +4,8 @@ import com.qinweizhao.blog.model.core.PageParam;
 import com.qinweizhao.blog.model.core.PageResult;
 import com.qinweizhao.blog.model.dto.CommentDTO;
 import com.qinweizhao.blog.model.enums.CommentStatus;
-import com.qinweizhao.blog.model.params.CommentQueryParam;
-import com.qinweizhao.blog.model.params.PostCommentParam;
+import com.qinweizhao.blog.model.param.CommentQueryParam;
+import com.qinweizhao.blog.model.param.PostCommentParam;
 import com.qinweizhao.blog.model.vo.PostCommentWithPostVO;
 
 import java.util.List;

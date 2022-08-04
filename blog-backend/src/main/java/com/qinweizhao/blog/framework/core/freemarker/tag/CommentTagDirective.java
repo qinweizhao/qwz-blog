@@ -3,7 +3,7 @@ package com.qinweizhao.blog.framework.core.freemarker.tag;
 import com.qinweizhao.blog.model.core.PageResult;
 import com.qinweizhao.blog.model.dto.CommentDTO;
 import com.qinweizhao.blog.model.enums.CommentType;
-import com.qinweizhao.blog.model.params.CommentQueryParam;
+import com.qinweizhao.blog.model.param.CommentQueryParam;
 import com.qinweizhao.blog.model.support.HaloConst;
 import com.qinweizhao.blog.service.CommentService;
 import freemarker.core.Environment;

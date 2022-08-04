@@ -2,7 +2,7 @@ package com.qinweizhao.blog.controller.content.api;
 
 import com.qinweizhao.blog.model.core.PageResult;
 import com.qinweizhao.blog.model.dto.post.PostSimpleDTO;
-import com.qinweizhao.blog.model.params.PostQueryParam;
+import com.qinweizhao.blog.model.param.PostQueryParam;
 import com.qinweizhao.blog.model.vo.PostListVO;
 import com.qinweizhao.blog.service.CommentService;
 import com.qinweizhao.blog.service.OptionService;

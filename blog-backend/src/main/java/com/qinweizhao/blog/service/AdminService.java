@@ -1,10 +1,9 @@
 package com.qinweizhao.blog.service;
 
 import com.qinweizhao.blog.model.dto.EnvironmentDTO;
-import com.qinweizhao.blog.model.dto.StatisticDTO;
 import com.qinweizhao.blog.model.entity.User;
-import com.qinweizhao.blog.model.params.LoginParam;
-import com.qinweizhao.blog.model.params.ResetPasswordParam;
+import com.qinweizhao.blog.model.param.LoginParam;
+import com.qinweizhao.blog.model.param.ResetPasswordParam;
 import com.qinweizhao.blog.security.token.AuthToken;
 
 /**

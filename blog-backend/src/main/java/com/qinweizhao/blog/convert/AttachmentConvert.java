@@ -6,7 +6,7 @@ import com.qinweizhao.blog.model.dto.AttachmentDTO;
 import com.qinweizhao.blog.model.entity.Attachment;
 import com.qinweizhao.blog.model.enums.AttachmentType;
 import com.qinweizhao.blog.model.enums.ValueEnum;
-import com.qinweizhao.blog.model.params.AttachmentParam;
+import com.qinweizhao.blog.model.param.AttachmentParam;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 

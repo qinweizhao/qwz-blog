@@ -1,9 +1,7 @@
 package com.qinweizhao.blog.service;
 
-import com.baomidou.mybatisplus.extension.service.IService;
 import com.qinweizhao.blog.model.dto.TagDTO;
-import com.qinweizhao.blog.model.entity.Tag;
-import com.qinweizhao.blog.model.params.TagParam;
+import com.qinweizhao.blog.model.param.TagParam;
 
 import java.util.List;
 

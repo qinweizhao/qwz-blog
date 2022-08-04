@@ -3,7 +3,7 @@ package com.qinweizhao.blog.convert;
 
 import com.qinweizhao.blog.model.dto.UserDTO;
 import com.qinweizhao.blog.model.entity.User;
-import com.qinweizhao.blog.model.params.UserUpdateParam;
+import com.qinweizhao.blog.model.param.UserUpdateParam;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 

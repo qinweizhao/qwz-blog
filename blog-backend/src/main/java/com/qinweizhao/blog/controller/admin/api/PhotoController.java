@@ -2,8 +2,8 @@ package com.qinweizhao.blog.controller.admin.api;
 
 import com.qinweizhao.blog.model.core.PageResult;
 import com.qinweizhao.blog.model.dto.PhotoDTO;
-import com.qinweizhao.blog.model.params.PhotoQueryParam;
-import com.qinweizhao.blog.model.params.PhotoParam;
+import com.qinweizhao.blog.model.param.PhotoQueryParam;
+import com.qinweizhao.blog.model.param.PhotoParam;
 import com.qinweizhao.blog.service.PhotoService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;

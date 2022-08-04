@@ -8,7 +8,7 @@ import com.qinweizhao.blog.model.core.PageResult;
 import com.qinweizhao.blog.model.entity.Post;
 import com.qinweizhao.blog.model.enums.PostStatus;
 import com.qinweizhao.blog.model.enums.PostType;
-import com.qinweizhao.blog.model.params.PostQueryParam;
+import com.qinweizhao.blog.model.param.PostQueryParam;
 import com.qinweizhao.blog.util.LambdaQueryWrapperX;
 import com.qinweizhao.blog.util.MyBatisUtils;
 import org.apache.ibatis.annotations.Param;

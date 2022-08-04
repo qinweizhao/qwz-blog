@@ -3,7 +3,7 @@ package com.qinweizhao.blog.convert;
 
 import com.qinweizhao.blog.model.dto.MenuDTO;
 import com.qinweizhao.blog.model.entity.Menu;
-import com.qinweizhao.blog.model.params.MenuParam;
+import com.qinweizhao.blog.model.param.MenuParam;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 

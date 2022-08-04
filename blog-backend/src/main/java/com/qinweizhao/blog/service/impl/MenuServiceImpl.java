@@ -5,7 +5,7 @@ import com.qinweizhao.blog.convert.MenuConvert;
 import com.qinweizhao.blog.mapper.MenuMapper;
 import com.qinweizhao.blog.model.dto.MenuDTO;
 import com.qinweizhao.blog.model.entity.Menu;
-import com.qinweizhao.blog.model.params.MenuParam;
+import com.qinweizhao.blog.model.param.MenuParam;
 import com.qinweizhao.blog.model.vo.MenuTeamVO;
 import com.qinweizhao.blog.service.MenuService;
 import com.qinweizhao.blog.util.ServiceUtils;

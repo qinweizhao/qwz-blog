@@ -9,7 +9,7 @@ import com.qinweizhao.blog.mapper.CategoryMapper;
 import com.qinweizhao.blog.mapper.PostCategoryMapper;
 import com.qinweizhao.blog.model.dto.CategoryDTO;
 import com.qinweizhao.blog.model.entity.Category;
-import com.qinweizhao.blog.model.params.CategoryParam;
+import com.qinweizhao.blog.model.param.CategoryParam;
 import com.qinweizhao.blog.service.CategoryService;
 import com.qinweizhao.blog.service.OptionService;
 import com.qinweizhao.blog.util.ServiceUtils;

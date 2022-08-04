@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.qinweizhao.blog.model.core.PageResult;
 import com.qinweizhao.blog.model.entity.Attachment;
 import com.qinweizhao.blog.model.enums.AttachmentType;
-import com.qinweizhao.blog.model.params.AttachmentQueryParam;
+import com.qinweizhao.blog.model.param.AttachmentQueryParam;
 import com.qinweizhao.blog.util.LambdaQueryWrapperX;
 import com.qinweizhao.blog.util.MyBatisUtils;
 import org.springframework.util.ObjectUtils;

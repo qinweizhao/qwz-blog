@@ -6,7 +6,7 @@ import com.qinweizhao.blog.model.dto.CommentDTO;
 import com.qinweizhao.blog.model.entity.Comment;
 import com.qinweizhao.blog.model.enums.CommentStatus;
 import com.qinweizhao.blog.model.enums.ValueEnum;
-import com.qinweizhao.blog.model.params.PostCommentParam;
+import com.qinweizhao.blog.model.param.PostCommentParam;
 import com.qinweizhao.blog.model.vo.JournalCommentWithJournalVO;
 import com.qinweizhao.blog.model.vo.PostCommentWithPostVO;
 import org.mapstruct.Mapper;

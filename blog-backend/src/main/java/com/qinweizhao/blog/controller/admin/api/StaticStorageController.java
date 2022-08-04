@@ -1,6 +1,6 @@
 package com.qinweizhao.blog.controller.admin.api;
 
-import com.qinweizhao.blog.model.params.StaticContentParam;
+import com.qinweizhao.blog.model.param.StaticContentParam;
 import com.qinweizhao.blog.model.support.StaticFile;
 import com.qinweizhao.blog.service.StaticStorageService;
 import io.swagger.annotations.ApiOperation;

@@ -1,7 +1,7 @@
 package com.qinweizhao.blog.service;
 
 import com.qinweizhao.blog.model.dto.MenuDTO;
-import com.qinweizhao.blog.model.params.MenuParam;
+import com.qinweizhao.blog.model.param.MenuParam;
 import com.qinweizhao.blog.model.vo.MenuTeamVO;
 
 import java.util.List;

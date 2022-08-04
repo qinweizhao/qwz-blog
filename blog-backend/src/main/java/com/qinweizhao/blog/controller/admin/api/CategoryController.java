@@ -2,8 +2,7 @@ package com.qinweizhao.blog.controller.admin.api;
 
 import com.qinweizhao.blog.model.dto.CategoryDTO;
 import com.qinweizhao.blog.model.dto.CategoryWithPostCountDTO;
-import com.qinweizhao.blog.model.entity.Post;
-import com.qinweizhao.blog.model.params.CategoryParam;
+import com.qinweizhao.blog.model.param.CategoryParam;
 import com.qinweizhao.blog.service.CategoryService;
 import com.qinweizhao.blog.service.PostCategoryService;
 import com.qinweizhao.blog.util.ResultUtils;

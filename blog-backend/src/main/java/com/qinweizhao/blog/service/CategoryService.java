@@ -1,8 +1,7 @@
 package com.qinweizhao.blog.service;
 
 import com.qinweizhao.blog.model.dto.CategoryDTO;
-import com.qinweizhao.blog.model.dto.CategoryWithPostCountDTO;
-import com.qinweizhao.blog.model.params.CategoryParam;
+import com.qinweizhao.blog.model.param.CategoryParam;
 
 import java.util.List;
 

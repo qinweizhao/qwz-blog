@@ -2,9 +2,8 @@ package com.qinweizhao.blog.convert;
 
 
 import com.qinweizhao.blog.model.dto.TagDTO;
-import com.qinweizhao.blog.model.dto.TagWithPostCountDTO;
 import com.qinweizhao.blog.model.entity.Tag;
-import com.qinweizhao.blog.model.params.TagParam;
+import com.qinweizhao.blog.model.param.TagParam;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 

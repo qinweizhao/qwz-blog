@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.qinweizhao.blog.model.core.PageResult;
 import com.qinweizhao.blog.model.dto.LogDTO;
 import com.qinweizhao.blog.model.entity.Log;
-import com.qinweizhao.blog.model.params.LogQueryParam;
+import com.qinweizhao.blog.model.param.LogQueryParam;
 
 /**
  * Log service interface.

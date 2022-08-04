@@ -1,7 +1,7 @@
 package com.qinweizhao.blog.controller.admin.api;
 
 import com.qinweizhao.blog.model.dto.MenuDTO;
-import com.qinweizhao.blog.model.params.MenuParam;
+import com.qinweizhao.blog.model.param.MenuParam;
 import com.qinweizhao.blog.service.MenuService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
