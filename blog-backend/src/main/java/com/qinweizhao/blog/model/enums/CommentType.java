@@ -1,5 +1,7 @@
 package com.qinweizhao.blog.model.enums;
 
+import com.baomidou.mybatisplus.annotation.EnumValue;
+
 /**
  * Comment type.
  *
@@ -18,6 +20,7 @@ public enum CommentType implements ValueEnum<Integer> {
      */
     JOURNAL(1);
 
+    @EnumValue
     private final Integer value;
 
     CommentType(Integer value) {

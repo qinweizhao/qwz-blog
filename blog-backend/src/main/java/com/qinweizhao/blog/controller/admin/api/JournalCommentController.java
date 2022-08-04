@@ -22,7 +22,7 @@ import java.util.List;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/api/admin/posts/comments")
-public class CommentController {
+public class JournalCommentController {
 
     private final CommentService commentService;
 
@@ -33,8 +33,8 @@ public class CommentController {
      * @return Page
      */
     @GetMapping
-    public PageResult<PostCommentWithPostVO> page(CommentQueryParam param) {
-        param.setType(CommentType.POST.getValue());
+    public PageResult<PostCommentWithPostVO> page(@PathVariable("target") CommentType target, CommentQueryParam param) {
+        param.setType(target);
         PageResult<CommentDTO> commentResult = commentService.pageComment(param);
         return commentService.buildPageResultVO(commentResult);
 

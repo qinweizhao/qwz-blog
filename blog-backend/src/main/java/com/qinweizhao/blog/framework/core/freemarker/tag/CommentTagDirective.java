@@ -41,7 +41,7 @@ public class CommentTagDirective implements TemplateDirectiveModel {
                 case "latest":
                     int top = Integer.parseInt(params.get("top").toString());
                     CommentQueryParam param = new CommentQueryParam();
-                    param.setType(CommentType.POST.getValue());
+                    param.setType(CommentType.POST);
                     param.setPage(top);
                     PageResult<CommentDTO> commentResult = commentService.pageComment(param);
                     env.setVariable("comments", builder.build().wrap(commentService.buildPageResultVO(commentResult)));

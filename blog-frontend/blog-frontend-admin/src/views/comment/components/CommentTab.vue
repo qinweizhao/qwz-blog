@@ -400,7 +400,7 @@ export default {
       required: false,
       default: 'post',
       validator: function (value) {
-        return ['post', 'sheet', 'journal'].indexOf(value) !== -1
+        return ['post', 'journal'].indexOf(value) !== -1
       }
     },
     defaultStatus: {
