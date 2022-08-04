@@ -1,6 +1,6 @@
 package com.qinweizhao.blog.model.vo;
 
-import com.qinweizhao.blog.model.dto.BaseMetaDTO;
+import com.qinweizhao.blog.model.dto.MetaDTO;
 import com.qinweizhao.blog.model.dto.CategoryDTO;
 import com.qinweizhao.blog.model.dto.TagDTO;
 import com.qinweizhao.blog.model.dto.post.PostDetailDTO;
@@ -33,6 +33,6 @@ public class PostDetailVO extends PostDetailDTO {
 
     private Set<Long> metaIds;
 
-    private List<BaseMetaDTO> metas;
+    private List<MetaDTO> metas;
 }
 

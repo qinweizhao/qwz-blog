@@ -1,6 +1,5 @@
 package com.qinweizhao.blog.controller.admin.api;
 
-import com.qinweizhao.blog.convert.PostConvert;
 import com.qinweizhao.blog.model.base.PageResult;
 import com.qinweizhao.blog.model.dto.post.PostDetailDTO;
 import com.qinweizhao.blog.model.dto.post.PostSimpleDTO;
@@ -8,10 +7,14 @@ import com.qinweizhao.blog.model.enums.PostStatus;
 import com.qinweizhao.blog.model.param.PostQueryParam;
 import com.qinweizhao.blog.model.vo.PostDetailVO;
 import com.qinweizhao.blog.model.vo.PostListVO;
+import com.qinweizhao.blog.service.OptionService;
 import com.qinweizhao.blog.service.PostService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 /**
@@ -29,6 +32,8 @@ import java.util.List;
 public class PostController {
 
     private final PostService postService;
+
+    private final OptionService optionService;
 
 
     /**
@@ -152,14 +157,22 @@ public class PostController {
 //        return postService.removeByIds(ids);
 //    }
 //
-//    @GetMapping(value = {"preview/{postId:\\d+}", "{postId:\\d+}/preview"})
-//    @ApiOperation("Gets a post preview link")
-//    public String preview(@PathVariable("postId") Integer postId) throws UnsupportedEncodingException {
-//        Post post = postService.getById(postId);
-//
-//        post.setSlug(URLEncoder.encode(post.getSlug(), StandardCharsets.UTF_8.name()));
-//
-//        BasePostMinimalDTO postMinimalDTO = postService.convertToMinimal(post);
+
+
+    /**
+     * 获取帖子预览链接
+     *
+     * @param postId postId
+     * @return String
+     * @throws UnsupportedEncodingException e
+     */
+    @GetMapping(value = {"preview/{postId:\\d+}", "{postId:\\d+}/preview"})
+    public String preview(@PathVariable("postId") Integer postId) throws UnsupportedEncodingException {
+        PostDetailDTO post = postService.getById(postId);
+
+        post.setSlug(URLEncoder.encode(post.getSlug(), StandardCharsets.UTF_8.name()));
+
+//        PostMinimalDTO postMinimalDTO = postService.convertToMinimal(post);
 //
 //        String token = IdUtil.simpleUUID();
 //
@@ -184,5 +197,6 @@ public class PostController {
 //
 //        // build preview post url and return
 //        return previewUrl.toString();
-//    }
+        return null;
+    }
 }

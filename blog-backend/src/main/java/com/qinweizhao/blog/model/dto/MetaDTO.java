@@ -1,8 +1,6 @@
 package com.qinweizhao.blog.model.dto;
 
 import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
 
 import java.util.Date;
 
@@ -10,12 +8,11 @@ import java.util.Date;
  * Base meta Dto.
  *
  * @author ryanwang
+ * @author qinweizhao
  * @date 2019-12-10
  */
 @Data
-@ToString
-@EqualsAndHashCode
-public class BaseMetaDTO {
+public class MetaDTO {
     private Long id;
 
     private Integer postId;

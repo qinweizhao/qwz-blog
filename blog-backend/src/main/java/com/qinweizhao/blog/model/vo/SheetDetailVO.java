@@ -1,6 +1,6 @@
 package com.qinweizhao.blog.model.vo;
 
-import com.qinweizhao.blog.model.dto.BaseMetaDTO;
+import com.qinweizhao.blog.model.dto.MetaDTO;
 import com.qinweizhao.blog.model.dto.post.PostDetailDTO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -22,5 +22,5 @@ public class SheetDetailVO extends PostDetailDTO {
 
     private Set<Long> metaIds;
 
-    private List<BaseMetaDTO> metas;
+    private List<MetaDTO> metas;
 }

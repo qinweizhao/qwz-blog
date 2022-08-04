@@ -118,6 +118,9 @@ import AnalysisCard from './components/AnalysisCard'
 import RecentCommentTab from './components/RecentCommentTab'
 
 import apiClient from '@/utils/api-client'
+import postApi from '@/api/post'
+import logApi from '@/api/log'
+import statisticsApi from '@/api/statistics'
 import { actionLogTypes } from '@/core/constant'
 
 export default {
@@ -164,10 +167,10 @@ export default {
   methods: {
     handleListLatestPosts() {
       this.activityLoading = true
-      apiClient.post
-        .latest(5)
+      postApi
+        .listLatest(5)
         .then(response => {
-          this.latestPosts = response.data
+          this.latestPosts = response.data.data
         })
         .finally(() => {
           this.activityLoading = false
@@ -175,20 +178,20 @@ export default {
     },
     handleListLatestLogs() {
       this.logLoading = true
-      apiClient.log
-        .latest(5)
+      logApi
+        .listLatest(5)
         .then(response => {
-          this.latestLogs = response.data
+          this.latestLogs = response.data.data
         })
         .finally(() => {
           this.logLoading = false
         })
     },
     handleLoadStatistics() {
-      apiClient.statistic
+      statisticsApi
         .statistics()
         .then(response => {
-          this.statisticsData = response.data
+          this.statisticsData = response.data.data
         })
         .catch(() => {
           clearInterval(this.interval)
@@ -198,8 +201,8 @@ export default {
         })
     },
     handlePostPreview(postId) {
-      apiClient.post.getPreviewLinkById(postId).then(response => {
-        window.open(response, '_blank')
+      postApi.preview(postId).then(response => {
+        window.open(response.data.data, '_blank')
       })
     }
   },
