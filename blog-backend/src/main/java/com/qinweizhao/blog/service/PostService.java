@@ -1,13 +1,13 @@
 package com.qinweizhao.blog.service;
 
 import com.qinweizhao.blog.model.core.PageResult;
-import com.qinweizhao.blog.model.dto.PostDetailDTO;
+import com.qinweizhao.blog.model.dto.PostDTO;
 import com.qinweizhao.blog.model.dto.PostSimpleDTO;
 import com.qinweizhao.blog.model.enums.PostStatus;
 import com.qinweizhao.blog.model.param.PostQueryParam;
 import com.qinweizhao.blog.model.vo.ArchiveMonthVO;
 import com.qinweizhao.blog.model.vo.ArchiveYearVO;
-import com.qinweizhao.blog.model.vo.PostDetailVO;
+import com.qinweizhao.blog.model.vo.PostVO;
 import com.qinweizhao.blog.model.vo.PostListVO;
 
 import java.util.List;
@@ -72,10 +72,10 @@ public interface PostService {
      * @param postId postId
      * @return PostDetailDTO
      */
-    PostDetailDTO getById(Integer postId);
+    PostDTO getById(Integer postId);
 
 
-    PostDetailVO convertToDetailVo(PostDetailDTO postDetail);
+    PostVO convertToDetailVo(PostDTO postDetail);
 
 
     /**
@@ -84,7 +84,7 @@ public interface PostService {
      * @param slug slug
      * @return PostDetailDTO
      */
-    PostDetailDTO getBySlugAndStatus(PostStatus published, String slug);
+    PostDTO getBySlugAndStatus(PostStatus published, String slug);
 
     /**
      * 生成描述

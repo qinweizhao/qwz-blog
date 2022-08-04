@@ -1,7 +1,7 @@
 package com.qinweizhao.blog.controller.content;
 
 import com.qinweizhao.blog.controller.content.model.PostModel;
-import com.qinweizhao.blog.model.dto.PostDetailDTO;
+import com.qinweizhao.blog.model.dto.PostDTO;
 import com.qinweizhao.blog.model.enums.PostPermalinkType;
 import com.qinweizhao.blog.service.OptionService;
 import com.qinweizhao.blog.service.PostService;
@@ -50,7 +50,7 @@ public class ContentIndexController {
         PostPermalinkType permalinkType = optionService.getPostPermalinkType();
 
         if (PostPermalinkType.ID.equals(permalinkType) && !Objects.isNull(p)) {
-            PostDetailDTO post = postService.getById(p);
+            PostDTO post = postService.getById(p);
             System.out.println("postModel.content(post, token, model) = " + postModel.content(post, token, model));
             return postModel.content(post, token, model);
         }

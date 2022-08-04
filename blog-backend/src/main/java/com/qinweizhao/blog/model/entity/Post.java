@@ -85,6 +85,6 @@ public class Post extends BaseEntity {
     /**
      * 是否置顶
      */
-    private Integer topPriority;
+    private Boolean topped;
 
 }

@@ -2,12 +2,12 @@ package com.qinweizhao.blog.convert;
 
 
 import com.qinweizhao.blog.model.core.PageResult;
-import com.qinweizhao.blog.model.dto.PostDetailDTO;
+import com.qinweizhao.blog.model.dto.PostDTO;
 import com.qinweizhao.blog.model.dto.PostSimpleDTO;
 import com.qinweizhao.blog.model.entity.Post;
 import com.qinweizhao.blog.model.enums.PostEditorType;
 import com.qinweizhao.blog.model.enums.PostStatus;
-import com.qinweizhao.blog.model.vo.PostDetailVO;
+import com.qinweizhao.blog.model.vo.PostVO;
 import com.qinweizhao.blog.model.vo.PostListVO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
@@ -30,7 +30,7 @@ public interface PostConvert {
      * @param post post
      * @return Post
      */
-    PostSimpleDTO convert(PostDetailDTO post);
+    PostSimpleDTO convert(PostDTO post);
 
     /**
      * convert
@@ -46,7 +46,7 @@ public interface PostConvert {
      * @param post post
      * @return Post
      */
-    PostDetailDTO convertDetail(Post post);
+    PostDTO convertDetail(Post post);
 
     /**
      * convertToSimpleDTO
@@ -71,7 +71,7 @@ public interface PostConvert {
      * @param post post
      * @return PostDetailVO
      */
-    PostDetailVO convertVO(PostDetailDTO post);
+    PostVO convertVO(PostDTO post);
 
     /**
      * convertToSimpleDTO

@@ -5,7 +5,7 @@ import com.qinweizhao.blog.framework.cache.AbstractStringCacheStore;
 import com.qinweizhao.blog.model.core.PageResult;
 import com.qinweizhao.blog.model.dto.CategoryDTO;
 import com.qinweizhao.blog.model.dto.TagDTO;
-import com.qinweizhao.blog.model.dto.PostDetailDTO;
+import com.qinweizhao.blog.model.dto.PostDTO;
 import com.qinweizhao.blog.model.dto.PostSimpleDTO;
 import com.qinweizhao.blog.model.enums.PostEditorType;
 import com.qinweizhao.blog.model.enums.PostStatus;
@@ -59,7 +59,7 @@ public class PostModel {
     private AbstractStringCacheStore cacheStore;
 
 
-    public String content(PostDetailDTO post, String token, Model model) {
+    public String content(PostDTO post, String token, Model model) {
 
         if (post.getStatus().equals(PostStatus.INTIMATE) && StringUtils.isEmpty(token)) {
             model.addAttribute("slug", post.getSlug());

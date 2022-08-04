@@ -10,7 +10,7 @@ import com.qinweizhao.blog.mapper.PostMapper;
 import com.qinweizhao.blog.model.core.PageResult;
 import com.qinweizhao.blog.model.dto.CategoryDTO;
 import com.qinweizhao.blog.model.dto.TagDTO;
-import com.qinweizhao.blog.model.dto.PostDetailDTO;
+import com.qinweizhao.blog.model.dto.PostDTO;
 import com.qinweizhao.blog.model.dto.PostSimpleDTO;
 import com.qinweizhao.blog.model.entity.Category;
 import com.qinweizhao.blog.model.entity.Meta;
@@ -22,7 +22,7 @@ import com.qinweizhao.blog.model.param.PostQueryParam;
 import com.qinweizhao.blog.model.properties.PostProperties;
 import com.qinweizhao.blog.model.vo.ArchiveMonthVO;
 import com.qinweizhao.blog.model.vo.ArchiveYearVO;
-import com.qinweizhao.blog.model.vo.PostDetailVO;
+import com.qinweizhao.blog.model.vo.PostVO;
 import com.qinweizhao.blog.model.vo.PostListVO;
 import com.qinweizhao.blog.service.*;
 import com.qinweizhao.blog.util.HaloUtils;
@@ -186,13 +186,13 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public PostDetailDTO getById(Integer postId) {
+    public PostDTO getById(Integer postId) {
         Post post = postMapper.selectById(postId);
         return PostConvert.INSTANCE.convertDetail(post);
     }
 
     @Override
-    public PostDetailVO convertToDetailVo(PostDetailDTO post) {
+    public PostVO convertToDetailVo(PostDTO post) {
         // List tags
         List<TagDTO> tags = postTagService.listTagsByPostId(post.getId());
         // List categories
@@ -202,7 +202,7 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public PostDetailDTO getBySlugAndStatus(PostStatus published, String slug) {
+    public PostDTO getBySlugAndStatus(PostStatus published, String slug) {
         Post post = postMapper.selectBySlugAndStatus(slug, published);
         return PostConvert.INSTANCE.convertDetail(post);
     }
@@ -357,9 +357,9 @@ public class PostServiceImpl implements PostService {
     }
 
 
-    private PostDetailVO convertTo(PostDetailDTO post, List<TagDTO> tags, List<CategoryDTO> categories) {
+    private PostVO convertTo(PostDTO post, List<TagDTO> tags, List<CategoryDTO> categories) {
 
-        PostDetailVO postDetailVO = PostConvert.INSTANCE.convertVO(post);
+        PostVO postDetailVO = PostConvert.INSTANCE.convertVO(post);
 
         if (StringUtils.isBlank(postDetailVO.getSummary())) {
             postDetailVO.setSummary(generateSummary(post.getFormatContent()));

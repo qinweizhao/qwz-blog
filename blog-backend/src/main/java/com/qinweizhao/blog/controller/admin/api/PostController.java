@@ -1,11 +1,11 @@
 package com.qinweizhao.blog.controller.admin.api;
 
 import com.qinweizhao.blog.model.core.PageResult;
-import com.qinweizhao.blog.model.dto.PostDetailDTO;
+import com.qinweizhao.blog.model.dto.PostDTO;
 import com.qinweizhao.blog.model.dto.PostSimpleDTO;
 import com.qinweizhao.blog.model.enums.PostStatus;
 import com.qinweizhao.blog.model.param.PostQueryParam;
-import com.qinweizhao.blog.model.vo.PostDetailVO;
+import com.qinweizhao.blog.model.vo.PostVO;
 import com.qinweizhao.blog.model.vo.PostListVO;
 import com.qinweizhao.blog.service.OptionService;
 import com.qinweizhao.blog.service.PostService;
@@ -83,8 +83,8 @@ public class PostController {
      * @return PostDetailVO
      */
     @GetMapping("{postId:\\d+}")
-    public PostDetailVO get(@PathVariable("postId") Integer postId) {
-        PostDetailDTO postDetail = postService.getById(postId);
+    public PostVO get(@PathVariable("postId") Integer postId) {
+        PostDTO postDetail = postService.getById(postId);
         return postService.convertToDetailVo(postDetail);
     }
 
@@ -168,7 +168,7 @@ public class PostController {
      */
     @GetMapping(value = {"preview/{postId:\\d+}", "{postId:\\d+}/preview"})
     public String preview(@PathVariable("postId") Integer postId) throws UnsupportedEncodingException {
-        PostDetailDTO post = postService.getById(postId);
+        PostDTO post = postService.getById(postId);
 
         post.setSlug(URLEncoder.encode(post.getSlug(), StandardCharsets.UTF_8.name()));
 
