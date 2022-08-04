@@ -1,6 +1,5 @@
 package com.qinweizhao.blog.controller.admin.api;
 
-import com.qinweizhao.blog.mapper.PostMapper;
 import com.qinweizhao.blog.model.base.PageResult;
 import com.qinweizhao.blog.model.dto.CommentDTO;
 import com.qinweizhao.blog.model.enums.CommentStatus;
@@ -17,14 +16,13 @@ import java.util.List;
 /**
  * comment controller.
  *
- * @author johnniang
  * @author qinweizhao
  * @date 2019-03-29
  */
 @RestController
 @AllArgsConstructor
 @RequestMapping("/api/admin/posts/comments")
-public class PostCommentController {
+public class CommentController {
 
     private final CommentService commentService;
 
@@ -137,6 +135,7 @@ public class PostCommentController {
 
     /**
      * 通过id数组批量永久删除评论
+     *
      * @param ids ids
      * @return Boolean
      */
