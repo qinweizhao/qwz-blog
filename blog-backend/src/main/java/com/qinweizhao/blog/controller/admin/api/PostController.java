@@ -2,10 +2,10 @@ package com.qinweizhao.blog.controller.admin.api;
 
 import com.qinweizhao.blog.model.core.PageResult;
 import com.qinweizhao.blog.model.dto.PostDTO;
+import com.qinweizhao.blog.model.dto.PostListDTO;
 import com.qinweizhao.blog.model.dto.PostSimpleDTO;
 import com.qinweizhao.blog.model.enums.PostStatus;
 import com.qinweizhao.blog.model.param.PostQueryParam;
-import com.qinweizhao.blog.model.dto.PostListDTO;
 import com.qinweizhao.blog.service.OptionService;
 import com.qinweizhao.blog.service.PostService;
 import lombok.AllArgsConstructor;
@@ -54,7 +54,7 @@ public class PostController {
      * @return List
      */
     @GetMapping("latest")
-    public List<PostSimpleDTO> pageLatest(@RequestParam(name = "top", defaultValue = "10") int top) {
+    public List<PostSimpleDTO> latest(@RequestParam(name = "top", defaultValue = "10") int top) {
         PostQueryParam postQueryParam = new PostQueryParam();
         postQueryParam.setSize(top);
         PageResult<PostSimpleDTO> postPage = postService.pagePosts(postQueryParam);

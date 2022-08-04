@@ -1,7 +1,6 @@
 package com.qinweizhao.blog.service.impl;
 
 import com.qinweizhao.blog.convert.CategoryConvert;
-import com.qinweizhao.blog.convert.MetaConvert;
 import com.qinweizhao.blog.convert.PostConvert;
 import com.qinweizhao.blog.convert.TagConvert;
 import com.qinweizhao.blog.exception.ServiceException;
@@ -27,7 +26,6 @@ import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
-import java.time.LocalDateTime;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -248,6 +246,8 @@ public class PostServiceImpl implements PostService {
         // Get post meta list map
 //        Map<Integer, List<PostMeta>> postMetaListMap = postMetaService.listPostMetaAsMap(postIds);
 
+        // todo
+        // is null
         return posts.stream().map(post -> {
             PostListDTO postListDTO = PostConvert.INSTANCE.convertToListVO(post);
             if (StringUtils.isBlank(postListDTO.getSummary())) {
