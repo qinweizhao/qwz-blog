@@ -4,8 +4,8 @@ package com.qinweizhao.blog.util;
 import cn.hutool.core.collection.CollectionUtil;
 import com.baomidou.mybatisplus.core.metadata.OrderItem;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.qinweizhao.blog.model.base.PageParam;
-import com.qinweizhao.blog.model.base.PageResult;
+import com.qinweizhao.blog.model.core.PageParam;
+import com.qinweizhao.blog.model.core.PageResult;
 
 import java.util.List;
 import java.util.stream.Collectors;

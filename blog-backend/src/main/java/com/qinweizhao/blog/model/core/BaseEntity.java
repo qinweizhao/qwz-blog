@@ -1,4 +1,4 @@
-package com.qinweizhao.blog.model.base;
+package com.qinweizhao.blog.model.core;
 
 import lombok.Data;
 
@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
  * @since 2022-07-08
  */
 @Data
-public class BaseEntity {
+public abstract class BaseEntity {
 
     /**
      * 创建时间

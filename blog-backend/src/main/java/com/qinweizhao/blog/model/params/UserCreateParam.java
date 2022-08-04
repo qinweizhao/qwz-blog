@@ -1,4 +1,4 @@
-package com.qinweizhao.blog.model.param;
+package com.qinweizhao.blog.model.params;
 
 import com.qinweizhao.blog.model.support.UpdateCheck;
 import lombok.Data;

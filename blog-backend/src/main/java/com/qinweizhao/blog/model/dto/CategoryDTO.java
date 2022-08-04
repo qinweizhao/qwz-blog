@@ -1,10 +1,8 @@
 package com.qinweizhao.blog.model.dto;
 
-import com.qinweizhao.blog.model.base.BaseTree;
+import com.qinweizhao.blog.model.core.BaseTree;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
 
 import java.util.Date;
 

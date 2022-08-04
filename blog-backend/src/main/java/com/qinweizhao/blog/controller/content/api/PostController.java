@@ -1,13 +1,12 @@
 package com.qinweizhao.blog.controller.content.api;
 
-import com.qinweizhao.blog.model.base.PageResult;
+import com.qinweizhao.blog.model.core.PageResult;
 import com.qinweizhao.blog.model.dto.post.PostSimpleDTO;
-import com.qinweizhao.blog.model.param.PostQueryParam;
+import com.qinweizhao.blog.model.params.PostQueryParam;
 import com.qinweizhao.blog.model.vo.PostListVO;
 import com.qinweizhao.blog.service.CommentService;
 import com.qinweizhao.blog.service.OptionService;
 import com.qinweizhao.blog.service.PostService;
-import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

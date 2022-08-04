@@ -1,7 +1,6 @@
-package com.qinweizhao.blog.model.param;
+package com.qinweizhao.blog.model.params;
 
-import com.qinweizhao.blog.model.base.PageParam;
-import com.qinweizhao.blog.model.entity.Comment;
+import com.qinweizhao.blog.model.core.PageParam;
 import com.qinweizhao.blog.model.enums.CommentStatus;
 import com.qinweizhao.blog.model.enums.CommentType;
 import lombok.Data;

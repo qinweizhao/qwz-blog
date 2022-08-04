@@ -1,6 +1,6 @@
 package com.qinweizhao.blog.model.dto;
 
-import com.qinweizhao.blog.model.base.BaseTree;
+import com.qinweizhao.blog.model.core.BaseTree;
 import com.qinweizhao.blog.model.enums.CommentStatus;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

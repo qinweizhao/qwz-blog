@@ -1,7 +1,7 @@
 package com.qinweizhao.blog.convert;
 
 
-import com.qinweizhao.blog.model.base.PageResult;
+import com.qinweizhao.blog.model.core.PageResult;
 import com.qinweizhao.blog.model.dto.AttachmentDTO;
 import com.qinweizhao.blog.model.entity.Attachment;
 import com.qinweizhao.blog.model.enums.AttachmentType;

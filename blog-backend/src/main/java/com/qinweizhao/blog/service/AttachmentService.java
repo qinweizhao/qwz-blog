@@ -1,9 +1,9 @@
 package com.qinweizhao.blog.service;
 
-import com.qinweizhao.blog.model.base.PageResult;
+import com.qinweizhao.blog.model.core.PageResult;
 import com.qinweizhao.blog.model.dto.AttachmentDTO;
 import com.qinweizhao.blog.model.enums.AttachmentType;
-import com.qinweizhao.blog.model.param.AttachmentQueryParam;
+import com.qinweizhao.blog.model.params.AttachmentQueryParam;
 
 import java.util.List;
 

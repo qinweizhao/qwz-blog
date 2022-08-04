@@ -1,4 +1,4 @@
-package com.qinweizhao.blog.model.base;
+package com.qinweizhao.blog.model.core;
 
 
 import java.util.Collections;

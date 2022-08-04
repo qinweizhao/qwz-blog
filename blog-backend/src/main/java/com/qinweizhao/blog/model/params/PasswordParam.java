@@ -1,4 +1,4 @@
-package com.qinweizhao.blog.model.param;
+package com.qinweizhao.blog.model.params;
 
 import lombok.Data;
 

@@ -3,10 +3,9 @@ package com.qinweizhao.blog.mapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.qinweizhao.blog.model.base.PageParam;
-import com.qinweizhao.blog.model.base.PageResult;
+import com.qinweizhao.blog.model.core.PageResult;
 import com.qinweizhao.blog.model.entity.Log;
-import com.qinweizhao.blog.model.param.LogQueryParam;
+import com.qinweizhao.blog.model.params.LogQueryParam;
 import com.qinweizhao.blog.util.MyBatisUtils;
 
 /**

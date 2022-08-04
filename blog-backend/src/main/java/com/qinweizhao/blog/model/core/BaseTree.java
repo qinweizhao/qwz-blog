@@ -1,4 +1,4 @@
-package com.qinweizhao.blog.model.base;
+package com.qinweizhao.blog.model.core;
 
 import java.io.Serializable;
 import java.util.List;

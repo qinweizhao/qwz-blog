@@ -1,10 +1,9 @@
 package com.qinweizhao.blog.controller.admin.api;
 
-import com.qinweizhao.blog.model.base.PageResult;
+import com.qinweizhao.blog.model.core.PageResult;
 import com.qinweizhao.blog.model.dto.LogDTO;
-import com.qinweizhao.blog.model.param.LogQueryParam;
+import com.qinweizhao.blog.model.params.LogQueryParam;
 import com.qinweizhao.blog.service.LogService;
-import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

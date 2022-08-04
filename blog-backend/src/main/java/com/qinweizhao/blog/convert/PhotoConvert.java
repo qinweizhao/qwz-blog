@@ -1,8 +1,7 @@
 package com.qinweizhao.blog.convert;
 
 
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.qinweizhao.blog.model.base.PageResult;
+import com.qinweizhao.blog.model.core.PageResult;
 import com.qinweizhao.blog.model.dto.PhotoDTO;
 import com.qinweizhao.blog.model.entity.Photo;
 import com.qinweizhao.blog.model.params.PhotoParam;

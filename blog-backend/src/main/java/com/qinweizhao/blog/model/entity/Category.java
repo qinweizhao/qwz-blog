@@ -2,7 +2,7 @@ package com.qinweizhao.blog.model.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
-import com.qinweizhao.blog.model.base.BaseEntity;
+import com.qinweizhao.blog.model.core.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 

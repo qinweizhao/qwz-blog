@@ -1,11 +1,10 @@
 package com.qinweizhao.blog.controller.admin.api;
 
-import com.qinweizhao.blog.model.base.PageResult;
+import com.qinweizhao.blog.model.core.PageResult;
 import com.qinweizhao.blog.model.dto.AttachmentDTO;
 import com.qinweizhao.blog.model.enums.AttachmentType;
-import com.qinweizhao.blog.model.param.AttachmentQueryParam;
+import com.qinweizhao.blog.model.params.AttachmentQueryParam;
 import com.qinweizhao.blog.service.AttachmentService;
-import com.qinweizhao.blog.util.ResultUtils;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
