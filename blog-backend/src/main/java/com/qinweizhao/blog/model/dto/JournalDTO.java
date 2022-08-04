@@ -3,7 +3,7 @@ package com.qinweizhao.blog.model.dto;
 import com.qinweizhao.blog.model.enums.JournalType;
 import lombok.Data;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * Journal dto.
@@ -23,7 +23,7 @@ public class JournalDTO {
 
     private Long likes;
 
-    private Date createTime;
+    private LocalDateTime createTime;
 
     private JournalType type;
 }

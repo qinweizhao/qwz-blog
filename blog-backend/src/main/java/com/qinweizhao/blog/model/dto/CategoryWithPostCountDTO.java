@@ -2,6 +2,7 @@ package com.qinweizhao.blog.model.dto;
 
 import lombok.Data;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
@@ -25,7 +26,7 @@ public class CategoryWithPostCountDTO {
 
     private Integer parentId;
 
-    private Date createTime;
+    private LocalDateTime createTime;
 
     private String fullPath;
 

@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
@@ -26,5 +27,5 @@ public class LogDTO {
 
     private String ipAddress;
 
-    private Date createTime;
+    private LocalDateTime createTime;
 }

@@ -159,10 +159,11 @@ public interface PostMapper extends BaseMapper<Post> {
      * @param postId        postId
      * @return int
      */
+    // todo
     default int updateFormatContent(String formatContent, Integer postId) {
         Post post = new Post();
         post.setId(postId);
-        post.setFormatContent(formatContent);
+//        post.setFormatContent(formatContent);
         return this.updateById(post);
     }
 

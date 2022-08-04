@@ -1,13 +1,12 @@
 package com.qinweizhao.blog.model.param;
 
-import com.qinweizhao.blog.model.enums.PostEditorType;
 import com.qinweizhao.blog.model.enums.PostStatus;
 import lombok.Data;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * Sheet param.
@@ -28,8 +27,6 @@ public class SheetParam {
     @Size(max = 255, message = "页面别名的字符长度不能超过 {max}")
     private String slug;
 
-    private PostEditorType editorType;
-
     private String originalContent;
 
     private String summary;
@@ -48,7 +45,7 @@ public class SheetParam {
     @Min(value = 0, message = "Post top priority must not be less than {value}")
     private Integer topPriority = 0;
 
-    private Date createTime;
+    private LocalDateTime createTime;
 
     private String metaKeywords;
 

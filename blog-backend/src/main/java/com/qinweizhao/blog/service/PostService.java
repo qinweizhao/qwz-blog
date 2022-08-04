@@ -7,8 +7,7 @@ import com.qinweizhao.blog.model.enums.PostStatus;
 import com.qinweizhao.blog.model.param.PostQueryParam;
 import com.qinweizhao.blog.model.vo.ArchiveMonthVO;
 import com.qinweizhao.blog.model.vo.ArchiveYearVO;
-import com.qinweizhao.blog.model.vo.PostVO;
-import com.qinweizhao.blog.model.vo.PostListVO;
+import com.qinweizhao.blog.model.dto.PostListDTO;
 
 import java.util.List;
 
@@ -56,7 +55,7 @@ public interface PostService {
      * @param postPage postPage
      * @return PageResult
      */
-    PageResult<PostListVO> buildPostListVO(PageResult<PostSimpleDTO> postPage);
+    PageResult<PostListDTO> buildPostListVO(PageResult<PostSimpleDTO> postPage);
 
 
     /**
@@ -75,9 +74,6 @@ public interface PostService {
     PostDTO getById(Integer postId);
 
 
-    PostVO convertToDetailVo(PostDTO postDetail);
-
-
     /**
      * 获取详情
      * @param published published
@@ -93,7 +89,7 @@ public interface PostService {
      */
     String generateDescription(String content);
 
-    List<PostListVO> convertToListVo(List<PostSimpleDTO> simpleDTOList);
+    List<PostListDTO> convertToListVo(List<PostSimpleDTO> simpleDTOList);
 
     List<ArchiveYearVO> listYearArchives();
 

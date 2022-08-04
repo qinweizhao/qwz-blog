@@ -5,8 +5,7 @@ import com.qinweizhao.blog.model.dto.PostDTO;
 import com.qinweizhao.blog.model.dto.PostSimpleDTO;
 import com.qinweizhao.blog.model.enums.PostStatus;
 import com.qinweizhao.blog.model.param.PostQueryParam;
-import com.qinweizhao.blog.model.vo.PostVO;
-import com.qinweizhao.blog.model.vo.PostListVO;
+import com.qinweizhao.blog.model.dto.PostListDTO;
 import com.qinweizhao.blog.service.OptionService;
 import com.qinweizhao.blog.service.PostService;
 import lombok.AllArgsConstructor;
@@ -43,7 +42,7 @@ public class PostController {
      * @return PageResult
      */
     @GetMapping
-    public PageResult<PostListVO> page(PostQueryParam postQueryParam) {
+    public PageResult<PostListDTO> page(PostQueryParam postQueryParam) {
         PageResult<PostSimpleDTO> postPage = postService.pagePosts(postQueryParam);
         return postService.buildPostListVO(postPage);
     }
@@ -83,9 +82,8 @@ public class PostController {
      * @return PostDetailVO
      */
     @GetMapping("{postId:\\d+}")
-    public PostVO get(@PathVariable("postId") Integer postId) {
-        PostDTO postDetail = postService.getById(postId);
-        return postService.convertToDetailVo(postDetail);
+    public PostDTO get(@PathVariable("postId") Integer postId) {
+        return postService.getById(postId);
     }
 
 //    @PutMapping("{postId:\\d+}/likes")

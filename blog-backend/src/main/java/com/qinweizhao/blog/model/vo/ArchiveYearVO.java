@@ -1,5 +1,6 @@
 package com.qinweizhao.blog.model.vo;
 
+import com.qinweizhao.blog.model.dto.PostListDTO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -20,7 +21,7 @@ public class ArchiveYearVO {
 
     private Integer year;
 
-    private List<PostListVO> posts;
+    private List<PostListDTO> posts;
 
     public static class ArchiveComparator implements Comparator<ArchiveYearVO> {
 

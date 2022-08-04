@@ -7,9 +7,9 @@ import com.qinweizhao.blog.convert.TagConvert;
 import com.qinweizhao.blog.mapper.PostMapper;
 import com.qinweizhao.blog.mapper.PostTagMapper;
 import com.qinweizhao.blog.mapper.TagMapper;
+import com.qinweizhao.blog.model.dto.PostSimpleDTO;
 import com.qinweizhao.blog.model.dto.TagDTO;
 import com.qinweizhao.blog.model.dto.TagWithPostCountDTO;
-import com.qinweizhao.blog.model.dto.PostSimpleDTO;
 import com.qinweizhao.blog.model.entity.Post;
 import com.qinweizhao.blog.model.entity.PostTag;
 import com.qinweizhao.blog.model.entity.Tag;
@@ -122,23 +122,23 @@ public class PostTagServiceImpl implements PostTagService {
         return TagConvert.INSTANCE.convertToDTO(tags);
     }
 
-    @Override
-    public List<PostSimpleDTO> listPostsByTagIdAndPostStatus(Integer tagId, PostStatus status) {
-
-        Set<Integer> postIds = postTagMapper.selectSetPostIdByTagIdAndPostStatus(tagId, status);
-
-        List<Post> posts = postMapper.selectListByIds(postIds);
-        return PostConvert.INSTANCE.convertToSimpleDTO(posts);
-    }
-
-    @Override
-    public List<PostSimpleDTO> listPostsByTagSlugAndPostStatus(String tagSlug, PostStatus status) {
-        Tag tag = tagMapper.selectBySlug(tagSlug);
-        Set<Integer> postIds = postTagMapper.selectSetPostIdByTagIdAndPostStatus(tag.getId(), status);
-
-        List<Post> posts = postMapper.selectListByIds(postIds);
-        return PostConvert.INSTANCE.convertToSimpleDTO(posts);
-    }
+//    @Override
+//    public List<PostSimpleDTO> listPostsByTagIdAndPostStatus(Integer tagId, PostStatus status) {
+//
+//        Set<Integer> postIds = postTagMapper.selectSetPostIdByTagIdAndPostStatus(tagId, status);
+//
+//        List<Post> posts = postMapper.selectListByIds(postIds);
+//        return PostConvert.INSTANCE.convertToSimpleDTO(posts);
+//    }
+//
+//    @Override
+//    public List<PostSimpleDTO> listPostsByTagSlugAndPostStatus(String tagSlug, PostStatus status) {
+//        Tag tag = tagMapper.selectBySlug(tagSlug);
+//        Set<Integer> postIds = postTagMapper.selectSetPostIdByTagIdAndPostStatus(tag.getId(), status);
+//
+//        List<Post> posts = postMapper.selectListByIds(postIds);
+//        return PostConvert.INSTANCE.convertToSimpleDTO(posts);
+//    }
 //
 //
 //    @Override

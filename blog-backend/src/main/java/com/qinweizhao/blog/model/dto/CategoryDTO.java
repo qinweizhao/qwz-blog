@@ -4,13 +4,14 @@ import com.qinweizhao.blog.model.core.BaseTree;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * Category output dto.
  *
  * @author johnniang
  * @author ryanwang
+ * @author qinweizhao
  * @date 2019-03-19
  */
 @Data
@@ -27,7 +28,7 @@ public class CategoryDTO extends BaseTree<CategoryDTO> {
 
     private String thumbnail;
 
-    private Date createTime;
+    private LocalDateTime createTime;
 
     private String fullPath;
 }

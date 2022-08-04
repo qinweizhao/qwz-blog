@@ -5,10 +5,8 @@ import com.qinweizhao.blog.model.core.PageResult;
 import com.qinweizhao.blog.model.dto.PostDTO;
 import com.qinweizhao.blog.model.dto.PostSimpleDTO;
 import com.qinweizhao.blog.model.entity.Post;
-import com.qinweizhao.blog.model.enums.PostEditorType;
 import com.qinweizhao.blog.model.enums.PostStatus;
-import com.qinweizhao.blog.model.vo.PostVO;
-import com.qinweizhao.blog.model.vo.PostListVO;
+import com.qinweizhao.blog.model.dto.PostListDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
@@ -38,7 +36,7 @@ public interface PostConvert {
      * @param post post
      * @return Post
      */
-    PostSimpleDTO convert(Post post);
+//    PostSimpleDTO convert(Post post);
 
     /**
      * convert
@@ -46,7 +44,7 @@ public interface PostConvert {
      * @param post post
      * @return Post
      */
-    PostDTO convertDetail(Post post);
+    PostDTO convert(Post post);
 
     /**
      * convertToSimpleDTO
@@ -63,15 +61,8 @@ public interface PostConvert {
      * @param post post
      * @return PostListVO
      */
-    PostListVO convertToListVO(PostSimpleDTO post);
+    PostListDTO convertToListVO(PostSimpleDTO post);
 
-    /**
-     * convertVO
-     *
-     * @param post post
-     * @return PostDetailVO
-     */
-    PostVO convertVO(PostDTO post);
 
     /**
      * convertToSimpleDTO
@@ -142,27 +133,4 @@ public interface PostConvert {
         return postStatus;
     }
 
-    /**
-     * 编辑器类型转换
-     *
-     * @param editorType editorType
-     * @return PostEditorType
-     */
-    default PostEditorType editorTypeToEnum(Integer editorType) {
-        if (editorType == null) {
-            return null;
-        }
-        PostEditorType postEditorType;
-        switch (editorType) {
-            case 0:
-                postEditorType = PostEditorType.MARKDOWN;
-                break;
-            case 1:
-                postEditorType = PostEditorType.RICHTEXT;
-                break;
-            default:
-                postEditorType = null;
-        }
-        return postEditorType;
-    }
 }

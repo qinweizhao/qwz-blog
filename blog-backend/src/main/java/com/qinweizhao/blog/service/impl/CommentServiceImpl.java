@@ -3,7 +3,6 @@ package com.qinweizhao.blog.service.impl;
 import cn.hutool.core.util.URLUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.qinweizhao.blog.convert.CommentConvert;
-import com.qinweizhao.blog.convert.PostConvert;
 import com.qinweizhao.blog.exception.BadRequestException;
 import com.qinweizhao.blog.exception.ForbiddenException;
 import com.qinweizhao.blog.exception.NotFoundException;
@@ -12,7 +11,6 @@ import com.qinweizhao.blog.mapper.PostMapper;
 import com.qinweizhao.blog.model.core.PageParam;
 import com.qinweizhao.blog.model.core.PageResult;
 import com.qinweizhao.blog.model.dto.CommentDTO;
-import com.qinweizhao.blog.model.dto.PostSimpleDTO;
 import com.qinweizhao.blog.model.entity.Comment;
 import com.qinweizhao.blog.model.entity.Post;
 import com.qinweizhao.blog.model.entity.User;
@@ -103,19 +101,20 @@ public class CommentServiceImpl implements CommentService {
 
         Map<Integer, Post> postMap = ServiceUtils.convertToMap(postMapper.selectListByIds(postIds), Post::getId);
 
-        return contents.stream()
-                .filter(comment -> postMap.containsKey(comment.getPostId()))
-                .map(comment -> {
-
-                    PostCommentWithPostVO postCommentWithPostVO = CommentConvert.INSTANCE.convertPostToVO(comment);
-
-                    Post post = postMap.get(comment.getPostId());
-                    PostSimpleDTO postSimpleDTO = PostConvert.INSTANCE.convert(post);
-
-                    postCommentWithPostVO.setPost(postSimpleDTO);
-
-                    return postCommentWithPostVO;
-                }).collect(Collectors.toList());
+        return null;
+//        return contents.stream()
+//                .filter(comment -> postMap.containsKey(comment.getPostId()))
+//                .map(comment -> {
+//
+//                    PostCommentWithPostVO postCommentWithPostVO = CommentConvert.INSTANCE.convertPostToVO(comment);
+//
+//                    Post post = postMap.get(comment.getPostId());
+//                    PostSimpleDTO postSimpleDTO = PostConvert.INSTANCE.convert(post);
+//
+//                    postCommentWithPostVO.setPost(postSimpleDTO);
+//
+//                    return postCommentWithPostVO;
+//                }).collect(Collectors.toList());
 
     }
 

@@ -1,25 +1,18 @@
 package com.qinweizhao.blog.model.dto;
 
-import com.qinweizhao.blog.model.enums.PostEditorType;
 import com.qinweizhao.blog.model.enums.PostStatus;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
- * Base page simple output dto.
- *
- * @author johnniang
  * @author qinweizhao
+ * @date 2022-08-07
  */
 @Data
-public class PostSimpleDTO{
+public class PostSimpleDTO {
 
-    /**
-     * MinimalDTO
-     */
     private Integer id;
 
     private String title;
@@ -28,21 +21,11 @@ public class PostSimpleDTO{
 
     private String slug;
 
-    private PostEditorType editorType;
-
-    private Date updateTime;
-
-    private Date createTime;
-
-    private Date editTime;
-
     private String metaKeywords;
 
     private String metaDescription;
 
     private String fullPath;
-
-
 
     private String summary;
 
@@ -56,18 +39,16 @@ public class PostSimpleDTO{
 
     private String template;
 
-    private Integer topPriority;
+    private Boolean topped;
 
     private Long likes;
 
     private Long wordCount;
 
-    /**
-     * ++
-     */
     private String formatContent;
 
-    public boolean isTopped() {
-        return this.topPriority != null && this.topPriority > 0;
-    }
+    private LocalDateTime updateTime;
+
+    private LocalDateTime createTime;
+
 }

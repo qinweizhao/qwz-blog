@@ -5,6 +5,7 @@ import com.qinweizhao.blog.model.enums.CommentStatus;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
@@ -45,6 +46,6 @@ public class CommentDTO extends BaseTree<CommentDTO> {
 
     private Boolean allowNotification;
 
-    private Date createTime;
+    private LocalDateTime createTime;
 
 }

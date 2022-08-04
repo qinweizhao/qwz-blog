@@ -4,7 +4,7 @@ import com.qinweizhao.blog.model.enums.OptionType;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * Option list output dto.
@@ -20,7 +20,7 @@ public class OptionSimpleDTO extends OptionDTO {
 
     private OptionType type;
 
-    private Date createTime;
+    private LocalDateTime createTime;
 
-    private Date updateTime;
+    private LocalDateTime updateTime;
 }

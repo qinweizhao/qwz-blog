@@ -3,7 +3,7 @@ package com.qinweizhao.blog.model.dto;
 import com.qinweizhao.blog.model.enums.AttachmentType;
 import lombok.Data;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * Attachment output dto.
@@ -36,5 +36,5 @@ public class AttachmentDTO {
 
     private AttachmentType type;
 
-    private Date createTime;
+    private LocalDateTime createTime;
 }

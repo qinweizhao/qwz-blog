@@ -4,6 +4,8 @@ import com.qinweizhao.blog.model.enums.PostStatus;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Set;
 
 /**
  * @author qinweizhao
@@ -47,4 +49,16 @@ public class PostDTO {
     private LocalDateTime updateTime;
 
     private LocalDateTime createTime;
+
+    private Set<Integer> tagIds;
+
+    private List<TagDTO> tags;
+
+    private Set<Integer> categoryIds;
+
+    private List<CategoryDTO> categories;
+
+    private Set<Long> metaIds;
+
+    private List<MetaDTO> metas;
 }

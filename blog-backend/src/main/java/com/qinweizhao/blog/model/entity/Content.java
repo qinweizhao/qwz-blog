@@ -29,6 +29,9 @@ public class Content extends BaseEntity {
      */
     private String originalContent;
 
-
+    /**
+     * 状态
+     */
+    private Integer status;
 
 }

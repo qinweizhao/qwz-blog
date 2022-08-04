@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -43,7 +44,7 @@ public class CommentVO  {
 
     private Boolean allowNotification;
 
-    private Date createTime;
+    private LocalDateTime createTime;
 
     List<CommentVO> children;
 }

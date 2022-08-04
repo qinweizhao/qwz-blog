@@ -84,20 +84,20 @@ public class PostCategoryServiceImpl extends ServiceImpl<PostCategoryMapper, Pos
         return CategoryConvert.INSTANCE.convertToDTO(categories);
     }
 
-    @Override
-    public List<PostSimpleDTO> listPostByCategoryIdAndPostStatus(Integer categoryId, PostStatus status) {
-        Set<Integer> postIds = postCategoryMapper.selectSetPostIdByCategoryIdAndPostStatus(categoryId, status);
-        List<Post> posts = postMapper.selectListByIds(postIds);
-        return PostConvert.INSTANCE.convertToSimpleDTO(posts);
-    }
-
-    @Override
-    public List<PostSimpleDTO> listPostByCategorySlugAndPostStatus(String categorySlug, PostStatus status) {
-        Category category = categoryMapper.selectBySlug(categorySlug);
-        Set<Integer> postIds = postCategoryMapper.selectSetPostIdByCategoryIdAndPostStatus(category.getId(), status);
-        List<Post> posts = postMapper.selectListByIds(postIds);
-        return PostConvert.INSTANCE.convertToSimpleDTO(posts);
-    }
+//    @Override
+//    public List<PostSimpleDTO> listPostByCategoryIdAndPostStatus(Integer categoryId, PostStatus status) {
+//        Set<Integer> postIds = postCategoryMapper.selectSetPostIdByCategoryIdAndPostStatus(categoryId, status);
+//        List<Post> posts = postMapper.selectListByIds(postIds);
+//        return PostConvert.INSTANCE.convertToSimpleDTO(posts);
+//    }
+//
+//    @Override
+//    public List<PostSimpleDTO> listPostByCategorySlugAndPostStatus(String categorySlug, PostStatus status) {
+//        Category category = categoryMapper.selectBySlug(categorySlug);
+//        Set<Integer> postIds = postCategoryMapper.selectSetPostIdByCategoryIdAndPostStatus(category.getId(), status);
+//        List<Post> posts = postMapper.selectListByIds(postIds);
+//        return PostConvert.INSTANCE.convertToSimpleDTO(posts);
+//    }
 
     @Override
     public List<CategoryWithPostCountDTO> listCategoryWithPostCountDto() {

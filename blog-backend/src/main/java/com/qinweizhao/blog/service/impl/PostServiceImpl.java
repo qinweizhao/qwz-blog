@@ -1,29 +1,21 @@
 package com.qinweizhao.blog.service.impl;
 
-import cn.hutool.core.date.DateUtil;
 import com.qinweizhao.blog.convert.CategoryConvert;
 import com.qinweizhao.blog.convert.MetaConvert;
 import com.qinweizhao.blog.convert.PostConvert;
 import com.qinweizhao.blog.convert.TagConvert;
 import com.qinweizhao.blog.exception.ServiceException;
+import com.qinweizhao.blog.mapper.ContentMapper;
 import com.qinweizhao.blog.mapper.PostMapper;
 import com.qinweizhao.blog.model.core.PageResult;
-import com.qinweizhao.blog.model.dto.CategoryDTO;
-import com.qinweizhao.blog.model.dto.TagDTO;
-import com.qinweizhao.blog.model.dto.PostDTO;
-import com.qinweizhao.blog.model.dto.PostSimpleDTO;
-import com.qinweizhao.blog.model.entity.Category;
-import com.qinweizhao.blog.model.entity.Meta;
-import com.qinweizhao.blog.model.entity.Post;
-import com.qinweizhao.blog.model.entity.Tag;
+import com.qinweizhao.blog.model.dto.*;
+import com.qinweizhao.blog.model.entity.*;
 import com.qinweizhao.blog.model.enums.PostPermalinkType;
 import com.qinweizhao.blog.model.enums.PostStatus;
 import com.qinweizhao.blog.model.param.PostQueryParam;
 import com.qinweizhao.blog.model.properties.PostProperties;
 import com.qinweizhao.blog.model.vo.ArchiveMonthVO;
 import com.qinweizhao.blog.model.vo.ArchiveYearVO;
-import com.qinweizhao.blog.model.vo.PostVO;
-import com.qinweizhao.blog.model.vo.PostListVO;
 import com.qinweizhao.blog.service.*;
 import com.qinweizhao.blog.util.HaloUtils;
 import com.qinweizhao.blog.util.MarkdownUtils;
@@ -58,6 +50,7 @@ import static com.qinweizhao.blog.model.support.HaloConst.URL_SEPARATOR;
 @AllArgsConstructor
 public class PostServiceImpl implements PostService {
 
+    private final ContentMapper contentMapper;
 
     private final Pattern summaryPattern = Pattern.compile("\t|\r|\n");
 
@@ -96,7 +89,7 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public PageResult<PostListVO> buildPostListVO(PageResult<PostSimpleDTO> postPage) {
+    public PageResult<PostListDTO> buildPostListVO(PageResult<PostSimpleDTO> postPage) {
         List<PostSimpleDTO> posts = postPage.getContent();
 
         Set<Integer> postIds = ServiceUtils.fetchProperty(posts, PostSimpleDTO::getId);
@@ -115,19 +108,19 @@ public class PostServiceImpl implements PostService {
         Map<Integer, List<Meta>> postMetaListMap = metaService.getListMetaAsMapByPostIds(postIds);
 
 
-        List<PostListVO> collect = posts.stream().map(post -> {
+        List<PostListDTO> collect = posts.stream().map(post -> {
 
-            PostListVO postListVO = PostConvert.INSTANCE.convertToListVO(post);
+            PostListDTO postListDTO = PostConvert.INSTANCE.convertToListVO(post);
 
             // 摘要
-            if (StringUtils.isBlank(postListVO.getSummary())) {
-                postListVO.setSummary(generateSummary(post.getFormatContent()));
+            if (StringUtils.isBlank(postListDTO.getSummary())) {
+                postListDTO.setSummary(generateSummary(post.getFormatContent()));
             }
 
             Optional.ofNullable(tagListMap.get(post.getId())).orElseGet(LinkedList::new);
 
             // Set tags
-            postListVO.setTags(Optional.ofNullable(tagListMap.get(post.getId()))
+            postListDTO.setTags(Optional.ofNullable(tagListMap.get(post.getId()))
                     .orElseGet(LinkedList::new)
                     .stream()
                     .filter(Objects::nonNull)
@@ -135,7 +128,7 @@ public class PostServiceImpl implements PostService {
                     .collect(Collectors.toList()));
 
             // Set categories
-            postListVO.setCategories(Optional.ofNullable(categoryListMap.get(post.getId()))
+            postListDTO.setCategories(Optional.ofNullable(categoryListMap.get(post.getId()))
                     .orElseGet(LinkedList::new)
                     .stream()
                     .filter(Objects::nonNull)
@@ -144,16 +137,16 @@ public class PostServiceImpl implements PostService {
                     .collect(Collectors.toList()));
 
             // Set post metas
-            List<Meta> metas = Optional.ofNullable(postMetaListMap.get(post.getId()))
-                    .orElseGet(LinkedList::new);
-            postListVO.setMetas(MetaConvert.INSTANCE.convertToMap(metas));
+//            List<Meta> metas = Optional.ofNullable(postMetaListMap.get(post.getId()))
+//                    .orElseGet(LinkedList::new);
+//            postListDTO.setMetas(MetaConvert.INSTANCE.convertToMap(metas));
 
             // Set comment count
-            postListVO.setCommentCount(commentCountMap.getOrDefault(post.getId(), 0L));
+            postListDTO.setCommentCount(commentCountMap.getOrDefault(post.getId(), 0L));
 
-            postListVO.setFullPath(buildFullPath(post));
+//            postListDTO.setFullPath(buildFullPath(post));
 
-            return postListVO;
+            return postListDTO;
         }).collect(Collectors.toList());
         return new PageResult<>(collect, collect.size(), postPage.hasPrevious(), postPage.hasNext());
     }
@@ -174,7 +167,8 @@ public class PostServiceImpl implements PostService {
         // 同步内容
         if (PostStatus.PUBLISHED.equals(status)) {
             // 如果发布此帖子，则转换格式化内容
-            String formatContent = MarkdownUtils.renderHtml(post.getOriginalContent());
+            Content content = contentMapper.selectById(postId);
+            String formatContent = MarkdownUtils.renderHtml(content.getContent());
             int updatedRows = postMapper.updateFormatContent(formatContent, postId);
 
             if (updatedRows != 1) {
@@ -187,29 +181,42 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public PostDTO getById(Integer postId) {
+
         Post post = postMapper.selectById(postId);
-        return PostConvert.INSTANCE.convertDetail(post);
+
+        PostDTO postDTO = PostConvert.INSTANCE.convert(post);
+
+        List<TagDTO> tags = postTagService.listTagsByPostId(post.getId());
+
+        List<CategoryDTO> categories = postCategoryService.listCategoriesByPostId(post.getId());
+
+        Content content = contentMapper.selectById(postId);
+        postDTO.setSummary(generateSummary(content.getContent()));
+
+        Set<Integer> tagIds = ServiceUtils.fetchProperty(tags, TagDTO::getId);
+
+        Set<Integer> categoryIds = ServiceUtils.fetchProperty(categories, CategoryDTO::getId);
+
+        postDTO.setTagIds(tagIds);
+        postDTO.setTags(tags);
+
+        postDTO.setCategoryIds(categoryIds);
+        postDTO.setCategories(categories);
+
+        postDTO.setFullPath(buildFullPath(post));
+
+        return postDTO;
     }
 
-    @Override
-    public PostVO convertToDetailVo(PostDTO post) {
-        // List tags
-        List<TagDTO> tags = postTagService.listTagsByPostId(post.getId());
-        // List categories
-        List<CategoryDTO> categories = postCategoryService.listCategoriesByPostId(post.getId());
-        // Convert to detail vo
-        return convertTo(post, tags, categories);
-    }
 
     @Override
     public PostDTO getBySlugAndStatus(PostStatus published, String slug) {
         Post post = postMapper.selectBySlugAndStatus(slug, published);
-        return PostConvert.INSTANCE.convertDetail(post);
+        return PostConvert.INSTANCE.convert(post);
     }
 
     @Override
     public String generateDescription(String content) {
-        Assert.notNull(content, "html content must not be null");
 
         String text = HaloUtils.cleanHtmlTag(content);
 
@@ -223,7 +230,7 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public List<PostListVO> convertToListVo(List<PostSimpleDTO> posts) {
+    public List<PostListDTO> convertToListVo(List<PostSimpleDTO> posts) {
         Assert.notNull(posts, "Post page must not be null");
 
         Set<Integer> postIds = ServiceUtils.fetchProperty(posts, PostSimpleDTO::getId);
@@ -242,15 +249,15 @@ public class PostServiceImpl implements PostService {
 //        Map<Integer, List<PostMeta>> postMetaListMap = postMetaService.listPostMetaAsMap(postIds);
 
         return posts.stream().map(post -> {
-            PostListVO postListVO = PostConvert.INSTANCE.convertToListVO(post);
-            if (StringUtils.isBlank(postListVO.getSummary())) {
-                postListVO.setSummary(generateSummary(post.getFormatContent()));
+            PostListDTO postListDTO = PostConvert.INSTANCE.convertToListVO(post);
+            if (StringUtils.isBlank(postListDTO.getSummary())) {
+                postListDTO.setSummary(generateSummary(post.getFormatContent()));
             }
 
             Optional.ofNullable(tagListMap.get(post.getId())).orElseGet(LinkedList::new);
 
             // Set tags
-            postListVO.setTags(Optional.ofNullable(tagListMap.get(post.getId()))
+            postListDTO.setTags(Optional.ofNullable(tagListMap.get(post.getId()))
                     .orElseGet(LinkedList::new)
                     .stream()
                     .filter(Objects::nonNull)
@@ -258,7 +265,7 @@ public class PostServiceImpl implements PostService {
                     .collect(Collectors.toList()));
 
             // Set categories
-            postListVO.setCategories(Optional.ofNullable(categoryListMap.get(post.getId()))
+            postListDTO.setCategories(Optional.ofNullable(categoryListMap.get(post.getId()))
                     .orElseGet(LinkedList::new)
                     .stream()
                     .filter(Objects::nonNull)
@@ -271,11 +278,11 @@ public class PostServiceImpl implements PostService {
 //            postListVO.setMetas(postMetaService.convertToMap(metas));
 
             // Set comment count
-            postListVO.setCommentCount(commentCountMap.getOrDefault(post.getId(), 0L));
+            postListDTO.setCommentCount(commentCountMap.getOrDefault(post.getId(), 0L));
 
-            postListVO.setFullPath(buildFullPath(post));
+//            postListDTO.setFullPath(buildFullPath(post));
 
-            return postListVO;
+            return postListDTO;
         }).collect(Collectors.toList());
     }
 
@@ -290,12 +297,12 @@ public class PostServiceImpl implements PostService {
 
     private List<ArchiveYearVO> convertToYearArchives(List<Post> posts) {
         Map<Integer, List<PostSimpleDTO>> yearPostMap = new HashMap<>(8);
-
-        posts.forEach(post -> {
-            LocalDateTime createTime = post.getCreateTime();
-            yearPostMap.computeIfAbsent(createTime.getYear(), year -> new LinkedList<>())
-                    .add(PostConvert.INSTANCE.convert(post));
-        });
+//
+//        posts.forEach(post -> {
+//            LocalDateTime createTime = post.getCreateTime();
+//            yearPostMap.computeIfAbsent(createTime.getYear(), year -> new LinkedList<>())
+////                    .add(PostConvert.INSTANCE.convert(post));
+//        });
 
         List<ArchiveYearVO> archives = new LinkedList<>();
 
@@ -330,13 +337,13 @@ public class PostServiceImpl implements PostService {
 
         Map<Integer, Map<Integer, List<PostSimpleDTO>>> yearMonthPostMap = new HashMap<>(8);
 
-        posts.forEach(post -> {
-            LocalDateTime createTime = post.getCreateTime();
-            yearMonthPostMap.computeIfAbsent(createTime.getYear(), year -> new HashMap<>())
-                    .computeIfAbsent(createTime.getMonthValue() + 1,
-                            month -> new LinkedList<>())
-                    .add(PostConvert.INSTANCE.convert(post));
-        });
+//        posts.forEach(post -> {
+//            LocalDateTime createTime = post.getCreateTime();
+//            yearMonthPostMap.computeIfAbsent(createTime.getYear(), year -> new HashMap<>())
+//                    .computeIfAbsent(createTime.getMonthValue() + 1,
+//                            month -> new LinkedList<>())
+////                    .add(PostConvert.INSTANCE.convert(post));
+//        });
 
         List<ArchiveMonthVO> archives = new LinkedList<>();
 
@@ -356,36 +363,6 @@ public class PostServiceImpl implements PostService {
         return archives;
     }
 
-
-    private PostVO convertTo(PostDTO post, List<TagDTO> tags, List<CategoryDTO> categories) {
-
-        PostVO postDetailVO = PostConvert.INSTANCE.convertVO(post);
-
-        if (StringUtils.isBlank(postDetailVO.getSummary())) {
-            postDetailVO.setSummary(generateSummary(post.getFormatContent()));
-        }
-
-        // Extract ids
-        Set<Integer> tagIds = ServiceUtils.fetchProperty(tags, TagDTO::getId);
-
-        Set<Integer> categoryIds = ServiceUtils.fetchProperty(categories, CategoryDTO::getId);
-
-        // Get post tag ids
-        postDetailVO.setTagIds(tagIds);
-        postDetailVO.setTags(tags);
-
-        // Get post category ids
-        postDetailVO.setCategoryIds(categoryIds);
-        postDetailVO.setCategories(categories);
-
-//        postDetailVO.setCommentCount(postCommentService.countByPostId(post.getId()));
-
-        PostSimpleDTO postSimpleDTO = PostConvert.INSTANCE.convert(post);
-        postDetailVO.setFullPath(buildFullPath(postSimpleDTO));
-
-        return postDetailVO;
-    }
-
     protected String generateSummary(@NonNull String htmlContent) {
         Assert.notNull(htmlContent, "html content must not be null");
 
@@ -400,7 +377,7 @@ public class PostServiceImpl implements PostService {
         return StringUtils.substring(text, 0, summaryLength);
     }
 
-    private String buildFullPath(PostSimpleDTO post) {
+    private String buildFullPath(Post post) {
 
         PostPermalinkType permalinkType = optionService.getPostPermalinkType();
 
@@ -408,11 +385,11 @@ public class PostServiceImpl implements PostService {
 
         String archivesPrefix = optionService.getArchivesPrefix();
 
-        int month = DateUtil.month(post.getCreateTime()) + 1;
+        int month = post.getCreateTime().getMonthValue();
 
         String monthString = month < 10 ? "0" + month : String.valueOf(month);
 
-        int day = DateUtil.dayOfMonth(post.getCreateTime());
+        int day = post.getCreateTime().getDayOfMonth();
 
         String dayString = day < 10 ? "0" + day : String.valueOf(day);
 
@@ -433,14 +410,14 @@ public class PostServiceImpl implements PostService {
             fullPath.append("?p=")
                     .append(post.getId());
         } else if (permalinkType.equals(PostPermalinkType.DATE)) {
-            fullPath.append(DateUtil.year(post.getCreateTime()))
+            fullPath.append(post.getCreateTime().getYear())
                     .append(URL_SEPARATOR)
                     .append(monthString)
                     .append(URL_SEPARATOR)
                     .append(post.getSlug())
                     .append(pathSuffix);
         } else if (permalinkType.equals(PostPermalinkType.DAY)) {
-            fullPath.append(DateUtil.year(post.getCreateTime()))
+            fullPath.append(post.getCreateTime().getYear())
                     .append(URL_SEPARATOR)
                     .append(monthString)
                     .append(URL_SEPARATOR)
@@ -449,7 +426,7 @@ public class PostServiceImpl implements PostService {
                     .append(post.getSlug())
                     .append(pathSuffix);
         } else if (permalinkType.equals(PostPermalinkType.YEAR)) {
-            fullPath.append(DateUtil.year(post.getCreateTime()))
+            fullPath.append(post.getCreateTime().getYear())
                     .append(URL_SEPARATOR)
                     .append(post.getSlug())
                     .append(pathSuffix);

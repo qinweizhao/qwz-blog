@@ -2,7 +2,7 @@ package com.qinweizhao.blog.model.dto;
 
 import lombok.Data;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * Tag output dto.
@@ -23,7 +23,7 @@ public class TagDTO {
 
     private String thumbnail;
 
-    private Date createTime;
+    private LocalDateTime createTime;
 
     private String fullPath;
 }
