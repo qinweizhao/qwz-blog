@@ -2,7 +2,6 @@ package com.qinweizhao.blog.mapper;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.qinweizhao.blog.model.entity.Post;
 import com.qinweizhao.blog.model.entity.PostCategory;
 import com.qinweizhao.blog.model.enums.PostStatus;
 import com.qinweizhao.blog.model.projection.CategoryPostCountProjection;
@@ -36,6 +35,7 @@ public interface PostCategoryMapper extends BaseMapper<PostCategory> {
 
     /**
      * 每个分类包含多少文章数量
+     *
      * @return List
      */
     List<CategoryPostCountProjection> selectPostCount();
@@ -43,17 +43,19 @@ public interface PostCategoryMapper extends BaseMapper<PostCategory> {
 
     /**
      * 通过分类 Id 删除关联
+     *
      * @param categoryId categoryId
      * @return int
      */
-    default int deleteByCategoryId(Integer categoryId){
+    default int deleteByCategoryId(Integer categoryId) {
         return this.delete(new LambdaQueryWrapper<PostCategory>()
-                .eq(PostCategory::getCategoryId,categoryId)
+                .eq(PostCategory::getCategoryId, categoryId)
         );
     }
 
     /**
      * 查询分类 id 集合
+     *
      * @param postId postId
      * @return Set
      */
@@ -62,10 +64,22 @@ public interface PostCategoryMapper extends BaseMapper<PostCategory> {
 
     /**
      * 查询 id 集合
+     *
      * @param categoryId categoryId
-     * @param status status
+     * @param status     status
      * @return Set
      */
     Set<Integer> selectSetPostIdByCategoryIdAndPostStatus(Integer categoryId, PostStatus status);
 
+    /**
+     * 通过文章 Id 删除关联
+     *
+     * @param postId postId
+     * @return int
+     */
+    default int deleteByPostId(Integer postId) {
+        return this.delete(new LambdaQueryWrapper<PostCategory>()
+                .eq(PostCategory::getPostId, postId)
+        );
+    }
 }

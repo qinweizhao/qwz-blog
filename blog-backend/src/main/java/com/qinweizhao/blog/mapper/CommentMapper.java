@@ -135,4 +135,15 @@ public interface CommentMapper extends BaseMapper<Comment> {
         );
     }
 
+    /**
+     * 通过文章 id 删除评论
+     *
+     * @param postId postId
+     * @return List
+     */
+    default int deleteByPostId(Integer postId) {
+        return this.delete(new LambdaQueryWrapperX<Comment>()
+                .eq(Comment::getPostId, postId)
+        );
+    }
 }

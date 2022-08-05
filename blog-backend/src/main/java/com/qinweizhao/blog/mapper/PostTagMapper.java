@@ -24,34 +24,38 @@ public interface PostTagMapper extends BaseMapper<PostTag> {
 
     /**
      * listByPostId
+     *
      * @param postIds postIds
      * @return List
      */
-    default List<PostTag> listByPostId(Collection<Integer> postIds){
+    default List<PostTag> listByPostId(Collection<Integer> postIds) {
         return this.selectList(new LambdaQueryWrapperX<PostTag>()
-                .in(PostTag::getPostId,postIds)
+                .in(PostTag::getPostId, postIds)
         );
     }
 
     /**
      * 标签附加文章个数
+     *
      * @return List
      */
     List<TagPostPostCountProjection> selectPostCount();
 
     /**
      * 通过标签 id 删除关联
+     *
      * @param tagId tagId
      * @return boolean
      */
-    default int deleteByTagId(Integer tagId){
+    default int deleteByTagId(Integer tagId) {
         return this.delete(new LambdaQueryWrapper<PostTag>()
-                .eq(PostTag::getTagId,tagId)
+                .eq(PostTag::getTagId, tagId)
         );
     }
 
     /**
      * 通过 postId 查询 tagId 集合
+     *
      * @param postId postId
      * @return Set
      */
@@ -59,9 +63,23 @@ public interface PostTagMapper extends BaseMapper<PostTag> {
 
     /**
      * 查询 id 集合
-     * @param tagId tagId
+     *
+     * @param tagId  tagId
      * @param status status
      * @return Set
      */
     Set<Integer> selectSetPostIdByTagIdAndPostStatus(Integer tagId, PostStatus status);
+
+    /**
+     * 通过文章 id 删除关联
+     *
+     * @param postId postId
+     * @return boolean
+     */
+    default int deleteByPostId(Integer postId) {
+        return this.delete(new LambdaQueryWrapper<PostTag>()
+                .eq(PostTag::getPostId, postId)
+        ) ;
+    }
+
 }

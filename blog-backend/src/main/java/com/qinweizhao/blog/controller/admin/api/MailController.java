@@ -4,7 +4,6 @@ import com.qinweizhao.blog.annotation.DisableOnCondition;
 import com.qinweizhao.blog.mail.MailService;
 import com.qinweizhao.blog.model.param.MailParam;
 import com.qinweizhao.blog.model.support.BaseResponse;
-import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,7 +28,6 @@ public class MailController {
     }
 
     @PostMapping("test")
-    @ApiOperation("Tests the SMTP service")
     @DisableOnCondition
     public BaseResponse<String> testMail(@Valid @RequestBody MailParam mailParam) {
         mailService.sendTextMail(mailParam.getTo(), mailParam.getSubject(), mailParam.getContent());
@@ -37,7 +35,6 @@ public class MailController {
     }
 
     @PostMapping("test/connection")
-    @ApiOperation("Test connection with email server")
     @DisableOnCondition
     public BaseResponse<String> testConnection() {
         mailService.testConnection();

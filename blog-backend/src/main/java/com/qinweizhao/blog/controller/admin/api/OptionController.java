@@ -1,7 +1,6 @@
 package com.qinweizhao.blog.controller.admin.api;
 
 import com.qinweizhao.blog.service.OptionService;
-import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,7 +35,6 @@ public class OptionController {
 //    }
 
     @GetMapping("map_view")
-    @ApiOperation("Lists all options with map view")
     public Map<String, Object> listAllWithMapView() {
         return optionService.listOptions();
     }

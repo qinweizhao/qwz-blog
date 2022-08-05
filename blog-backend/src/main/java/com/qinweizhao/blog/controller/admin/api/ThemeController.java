@@ -4,9 +4,11 @@ import com.qinweizhao.blog.framework.handler.theme.config.support.Group;
 import com.qinweizhao.blog.framework.handler.theme.config.support.ThemeProperty;
 import com.qinweizhao.blog.service.ThemeService;
 import com.qinweizhao.blog.service.ThemeSettingService;
-import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.Map;
@@ -100,6 +102,7 @@ public class ThemeController {
 
     /**
      * 获取激活主题
+     *
      * @return ThemeProperty
      */
     @GetMapping("activation")
@@ -116,6 +119,7 @@ public class ThemeController {
 
     /**
      * 主题配置
+     *
      * @param themeId themeId
      * @return List
      */
@@ -133,6 +137,7 @@ public class ThemeController {
 
     /**
      * 按主题 ID 列出主题设置
+     *
      * @param themeId themeId
      * @return Map
      */

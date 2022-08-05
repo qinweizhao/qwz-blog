@@ -117,4 +117,27 @@ public interface PostService {
      */
     long countLike();
 
+    /**
+     * 获取预览地址
+     *
+     * @param postId postId
+     * @return String
+     */
+    String getPreviewUrl(Integer postId);
+
+    /**
+     * 删除
+     *
+     * @param postId postId
+     * @return boolean
+     */
+    boolean removeById(Integer postId);
+
+    /**
+     * 批量删除
+     *
+     * @param postIds postIds
+     * @return boolean
+     */
+    boolean removeByIds(List<Integer> postIds);
 }

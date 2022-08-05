@@ -1,13 +1,12 @@
 package com.qinweizhao.blog.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.util.IdUtil;
 import com.qinweizhao.blog.convert.MetaConvert;
 import com.qinweizhao.blog.convert.PostConvert;
 import com.qinweizhao.blog.exception.ServiceException;
-import com.qinweizhao.blog.mapper.ContentMapper;
-import com.qinweizhao.blog.mapper.PostCategoryMapper;
-import com.qinweizhao.blog.mapper.PostMapper;
-import com.qinweizhao.blog.mapper.PostTagMapper;
+import com.qinweizhao.blog.framework.cache.AbstractStringCacheStore;
+import com.qinweizhao.blog.mapper.*;
 import com.qinweizhao.blog.model.core.PageResult;
 import com.qinweizhao.blog.model.dto.*;
 import com.qinweizhao.blog.model.entity.Content;
@@ -31,8 +30,10 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+import org.springframework.util.CollectionUtils;
 
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -64,14 +65,20 @@ public class PostServiceImpl implements PostService {
     private final OptionService optionService;
 
     private final PostTagMapper postTagMapper;
+
     private final PostTagService postTagService;
+
+    private final CommentMapper commentMapper;
 
     private final CommentService commentService;
 
     private final PostCategoryMapper postCategoryMapper;
+
     private final PostCategoryService postCategoryService;
 
     private final MetaService metaService;
+
+    private AbstractStringCacheStore cacheStore;
 
 
     @Override
@@ -205,6 +212,56 @@ public class PostServiceImpl implements PostService {
     @Override
     public long countLike() {
         return postMapper.selectCountLikes();
+    }
+
+    @Override
+    public String getPreviewUrl(Integer postId) {
+        Post post = postMapper.selectById(postId);
+        String token = IdUtil.simpleUUID();
+
+        // cache preview token
+        cacheStore.putAny(token, token, 10, TimeUnit.MINUTES);
+
+        StringBuilder previewUrl = new StringBuilder();
+
+        if (!optionService.isEnabledAbsolutePath()) {
+            previewUrl.append(optionService.getBlogBaseUrl());
+        }
+
+        previewUrl.append(this.buildFullPath(postId));
+
+        previewUrl.append("&token=")
+                .append(token);
+        // build preview post url and return
+        return previewUrl.toString();
+    }
+
+    @Override
+    public boolean removeById(Integer postId) {
+        Assert.notNull(postId, "Post id must not be null");
+
+        // 标签
+        postTagMapper.deleteByPostId(postId);
+        // 分类
+        postCategoryMapper.deleteByPostId(postId);
+        // 元数据
+        metaService.removeByPostId(postId);
+        // 评论
+        commentMapper.deleteByPostId(postId);
+
+        return postMapper.deleteById(postId) > 0;
+    }
+
+    @Override
+    public boolean removeByIds(List<Integer> postIds) {
+
+        if (CollectionUtils.isEmpty(postIds)) {
+            return false;
+        }
+
+        postIds.forEach(this::removeById);
+
+        return true;
     }
 
 

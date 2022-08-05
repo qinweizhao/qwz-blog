@@ -13,9 +13,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 /**
@@ -35,6 +32,7 @@ public class PostController {
     private final PostService postService;
 
     private final OptionService optionService;
+
 
     /**
      * 分页
@@ -127,18 +125,29 @@ public class PostController {
 //        return new BasePostDetailDTO().convertFrom(post);
 //    }
 //
-//    @DeleteMapping("{postId:\\d+}")
-//    @ApiOperation("Deletes a photo permanently")
-//    public void deletePermanently(@PathVariable("postId") Integer postId) {
-//        postService.removeById(postId);
-//    }
-//
-//    @DeleteMapping
-//    @ApiOperation("Deletes posts permanently in batch by id array")
-//    public List<Post> deletePermanentlyInBatch(@RequestBody List<Integer> ids) {
-//        return postService.removeByIds(ids);
-//    }
-//
+
+    /**
+     * 删除
+     *
+     * @param postId postId
+     * @return Boolean
+     */
+    @DeleteMapping("{postId:\\d+}")
+    public Boolean deletePermanently(@PathVariable("postId") Integer postId) {
+        return postService.removeById(postId);
+    }
+
+
+    /**
+     * 批量删除
+     *
+     * @param ids ids
+     * @return Boolean
+     */
+    @DeleteMapping
+    public Boolean deletePermanentlyInBatch(@RequestBody List<Integer> ids) {
+        return postService.removeByIds(ids);
+    }
 
 
     /**
@@ -146,39 +155,9 @@ public class PostController {
      *
      * @param postId postId
      * @return String
-     * @throws UnsupportedEncodingException e
      */
     @GetMapping(value = {"preview/{postId:\\d+}", "{postId:\\d+}/preview"})
-    public String preview(@PathVariable("postId") Integer postId) throws UnsupportedEncodingException {
-        PostDTO post = postService.getById(postId);
-
-        post.setSlug(URLEncoder.encode(post.getSlug(), StandardCharsets.UTF_8.name()));
-
-//        PostMinimalDTO postMinimalDTO = postService.convertToMinimal(post);
-//
-//        String token = IdUtil.simpleUUID();
-//
-//        // cache preview token
-//        cacheStore.putAny(token, token, 10, TimeUnit.MINUTES);
-//
-//        StringBuilder previewUrl = new StringBuilder();
-//
-//        if (!optionService.isEnabledAbsolutePath()) {
-//            previewUrl.append(optionService.getBlogBaseUrl());
-//        }
-//
-//        previewUrl.append(postMinimalDTO.getFullPath());
-//
-//        if (optionService.getPostPermalinkType().equals(PostPermalinkType.ID)) {
-//            previewUrl.append("&token=")
-//                    .append(token);
-//        } else {
-//            previewUrl.append("?token=")
-//                    .append(token);
-//        }
-//
-//        // build preview post url and return
-//        return previewUrl.toString();
-        return null;
+    public String preview(@PathVariable("postId") Integer postId) {
+        return postService.getPreviewUrl(postId);
     }
 }

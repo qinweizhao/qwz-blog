@@ -8,7 +8,6 @@ import com.qinweizhao.blog.model.param.ResetPasswordParam;
 import com.qinweizhao.blog.model.support.BaseResponse;
 import com.qinweizhao.blog.security.token.AuthToken;
 import com.qinweizhao.blog.service.AdminService;
-import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -109,7 +108,6 @@ public class AdminController {
      * @return EnvironmentDTO
      */
     @GetMapping("environments")
-    @ApiOperation("")
     public EnvironmentDTO getEnvironments() {
         return adminService.getEnvironments();
     }
