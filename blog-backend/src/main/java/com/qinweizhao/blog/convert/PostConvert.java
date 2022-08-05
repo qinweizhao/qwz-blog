@@ -64,12 +64,11 @@ public interface PostConvert {
      */
     PostListDTO convertToListVO(PostSimpleDTO post);
 
-
     /**
      * convertToSimpleDTO
      *
      * @param posts posts
-     * @return List
+     * @return ListHibernate
      */
     List<PostSimpleDTO> convertToSimpleDTO(List<Post> posts);
 

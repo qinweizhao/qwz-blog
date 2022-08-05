@@ -85,8 +85,8 @@ public class PostServiceImpl implements PostService {
     public PageResult<PostListDTO> page(PostQueryParam param) {
 
         PageResult<Post> pageResult = postMapper.selectPagePosts(param);
-        PageResult<PostSimpleDTO> postPage = PostConvert.INSTANCE.convertToSimpleDTO(pageResult);
-        List<PostSimpleDTO> posts = postPage.getContent();
+        List<Post> pageContent = pageResult.getContent();
+        List<PostSimpleDTO> posts = PostConvert.INSTANCE.convertToSimpleDTO(pageContent);
 
         Set<Integer> postIds = ServiceUtils.fetchProperty(posts, PostSimpleDTO::getId);
 
@@ -119,7 +119,7 @@ public class PostServiceImpl implements PostService {
             return postListDTO;
         }).collect(Collectors.toList());
 
-        return new PageResult<>(collect, collect.size(), postPage.hasPrevious(), postPage.hasNext());
+        return new PageResult<>(collect, collect.size(), pageResult.hasPrevious(), pageResult.hasNext());
     }
 
     @Override

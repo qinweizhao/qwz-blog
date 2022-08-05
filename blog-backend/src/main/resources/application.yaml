@@ -42,7 +42,3 @@ logging:
     org.eclipse.jetty.server.HttpChannel: ERROR
   file:
     path: ${halo.work-dir}/logs
-
-springfox:
-  documentation:
-    enabled: false

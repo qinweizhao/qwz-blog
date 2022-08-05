@@ -51,10 +51,6 @@ logging:
   file:
     path: ${halo.work-dir}/log
 
-springfox:
-  documentation:
-    enabled: true
-
 halo:
   auth-enabled: true
   mode: PRODUCTION
