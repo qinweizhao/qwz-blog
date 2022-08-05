@@ -1,7 +1,9 @@
 package com.qinweizhao.blog.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.qinweizhao.blog.convert.MetaConvert;
 import com.qinweizhao.blog.mapper.MetaMapper;
+import com.qinweizhao.blog.model.dto.MetaDTO;
 import com.qinweizhao.blog.model.entity.Meta;
 import com.qinweizhao.blog.service.MetaService;
 import com.qinweizhao.blog.util.ServiceUtils;
@@ -18,14 +20,13 @@ public class MetaServiceImpl extends ServiceImpl<MetaMapper, Meta> implements Me
 
 
     @Override
-    public Map<Integer, List<Meta>> getListMetaAsMapByPostIds(Set<Integer> postIds) {
-        List<Meta> metas = this.baseMapper.selectListByPostIds(postIds);
-
+    public Map<Integer, List<MetaDTO>> getListMetaAsMapByPostIds(Set<Integer> postIds) {
+        List<MetaDTO> metas = MetaConvert.INSTANCE.convertToDTO(this.baseMapper.selectListByPostIds(postIds));
         // 转换结构
-        Map<Long, Meta> postMetaMap = ServiceUtils.convertToMap(metas, Meta::getId);
+        Map<Long, MetaDTO> postMetaMap = ServiceUtils.convertToMap(metas, MetaDTO::getId);
 
         // 创建新的结构
-        Map<Integer, List<Meta>> postMetaListMap = new LinkedHashMap<>();
+        Map<Integer, List<MetaDTO>> postMetaListMap = new LinkedHashMap<>();
 
         // 寻找并收集
         metas.forEach(meta -> postMetaListMap.computeIfAbsent(meta.getPostId(), postId -> new LinkedList<>())

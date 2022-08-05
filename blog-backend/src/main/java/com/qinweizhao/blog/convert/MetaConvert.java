@@ -1,6 +1,7 @@
 package com.qinweizhao.blog.convert;
 
 
+import com.qinweizhao.blog.model.dto.MetaDTO;
 import com.qinweizhao.blog.model.entity.Meta;
 import com.qinweizhao.blog.util.ServiceUtils;
 import org.mapstruct.Mapper;
@@ -18,16 +19,10 @@ public interface MetaConvert {
 
     MetaConvert INSTANCE = Mappers.getMapper(MetaConvert.class);
 
-
     /**
-     * convert
-     *
+     * convertToDTO
      * @param metas metas
-     * @return convertToMap
+     * @return List
      */
-   default Map<String, Object> convertToMap(List<Meta> metas){
-       return ServiceUtils.convertToMap(metas, Meta::getMetaKey, Meta::getMetaValue);
-   }
-
-
+    List<MetaDTO> convertToDTO(List<Meta> metas);
 }

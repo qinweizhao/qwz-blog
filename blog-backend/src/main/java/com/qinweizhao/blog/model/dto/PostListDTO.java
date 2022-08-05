@@ -20,6 +20,6 @@ public class PostListDTO extends PostSimpleDTO {
 
     private List<CategoryDTO> categories;
 
-    private Map<String, Object> metas;
+    private List<MetaDTO> metas;
 
 }

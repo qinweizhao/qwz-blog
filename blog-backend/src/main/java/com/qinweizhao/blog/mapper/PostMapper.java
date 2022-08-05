@@ -209,7 +209,7 @@ public interface PostMapper extends BaseMapper<Post> {
      * @param top top
      * @return List
      */
-    default List<Post> selectListSimple(int top) {
+    default List<Post> selectListLatest(int top) {
         return this.selectList(new LambdaQueryWrapper<Post>()
                 .last("limit " + top)
         );

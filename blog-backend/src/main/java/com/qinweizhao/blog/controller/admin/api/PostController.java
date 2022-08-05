@@ -36,6 +36,8 @@ public class PostController {
 
     /**
      * 分页
+     * <p>
+     * PostListDTO extends PostSimpleDTO
      *
      * @param param param
      * @return PageResult

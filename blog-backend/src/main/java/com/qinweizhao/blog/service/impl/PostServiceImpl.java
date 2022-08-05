@@ -1,15 +1,13 @@
 package com.qinweizhao.blog.service.impl;
 
-import com.qinweizhao.blog.convert.CategoryConvert;
-import com.qinweizhao.blog.convert.MetaConvert;
 import com.qinweizhao.blog.convert.PostConvert;
-import com.qinweizhao.blog.convert.TagConvert;
 import com.qinweizhao.blog.exception.ServiceException;
 import com.qinweizhao.blog.mapper.ContentMapper;
 import com.qinweizhao.blog.mapper.PostMapper;
 import com.qinweizhao.blog.model.core.PageResult;
 import com.qinweizhao.blog.model.dto.*;
-import com.qinweizhao.blog.model.entity.*;
+import com.qinweizhao.blog.model.entity.Content;
+import com.qinweizhao.blog.model.entity.Post;
 import com.qinweizhao.blog.model.enums.PostStatus;
 import com.qinweizhao.blog.model.param.PostQueryParam;
 import com.qinweizhao.blog.model.properties.PostProperties;
@@ -64,6 +62,47 @@ public class PostServiceImpl implements PostService {
     private final PostCategoryService postCategoryService;
 
     private final MetaService metaService;
+
+    @Override
+    public PageResult<PostListDTO> page(PostQueryParam param) {
+
+        PageResult<Post> pageResult = postMapper.selectPagePosts(param);
+        PageResult<PostSimpleDTO> postPage = PostConvert.INSTANCE.convertToSimpleDTO(pageResult);
+        List<PostSimpleDTO> posts = postPage.getContent();
+
+        Set<Integer> postIds = ServiceUtils.fetchProperty(posts, PostSimpleDTO::getId);
+
+
+        Map<Integer, List<TagDTO>> tagListMap = postTagService.listTagListMapBy(postIds);
+        Map<Integer, List<CategoryDTO>> categoryListMap = postCategoryService.listCategoryListMap(postIds);
+        Map<Integer, List<MetaDTO>> postMetaListMap = metaService.getListMetaAsMapByPostIds(postIds);
+        Map<Integer, Long> commentCountMap = commentService.countByPostIds(postIds);
+
+
+        List<PostListDTO> collect = posts.stream().map(post -> {
+            PostListDTO postListDTO = PostConvert.INSTANCE.convertToListVO(post);
+
+            postListDTO.setTags(new ArrayList<>(
+                    Optional.ofNullable(tagListMap.get(post.getId()))
+                    .orElseGet(LinkedList::new)));
+
+            postListDTO.setCategories(new ArrayList<>(
+                    Optional.ofNullable(categoryListMap.get(post.getId()))
+                    .orElseGet(LinkedList::new)));
+
+            postListDTO.setMetas(
+                    Optional.ofNullable(postMetaListMap.get(post.getId()))
+                    .orElseGet(LinkedList::new));
+
+            postListDTO.setCommentCount(commentCountMap.getOrDefault(post.getId(), 0L));
+
+            postListDTO.setFullPath(buildFullPath(post.getId()));
+
+            return postListDTO;
+        }).collect(Collectors.toList());
+
+        return new PageResult<>(collect, collect.size(), postPage.hasPrevious(), postPage.hasNext());
+    }
 
 
     @Override
@@ -173,10 +212,10 @@ public class PostServiceImpl implements PostService {
         Set<Integer> postIds = ServiceUtils.fetchProperty(posts, PostSimpleDTO::getId);
 
         // Get tag list map
-        Map<Integer, List<Tag>> tagListMap = postTagService.listTagListMapBy(postIds);
+        Map<Integer, List<TagDTO>> tagListMap = postTagService.listTagListMapBy(postIds);
 
         // Get category list map
-        Map<Integer, List<Category>> categoryListMap = postCategoryService
+        Map<Integer, List<CategoryDTO>> categoryListMap = postCategoryService
                 .listCategoryListMap(postIds);
 
         // Get comment count
@@ -199,16 +238,13 @@ public class PostServiceImpl implements PostService {
             postListDTO.setTags(Optional.ofNullable(tagListMap.get(post.getId()))
                     .orElseGet(LinkedList::new)
                     .stream()
-                    .filter(Objects::nonNull)
-                    .map(TagConvert.INSTANCE::convert)
+
                     .collect(Collectors.toList()));
 
             // Set categories
             postListDTO.setCategories(Optional.ofNullable(categoryListMap.get(post.getId()))
                     .orElseGet(LinkedList::new)
                     .stream()
-                    .filter(Objects::nonNull)
-                    .map(CategoryConvert.INSTANCE::convert)
                     .collect(Collectors.toList()));
 
             // Set post metas
@@ -273,60 +309,8 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public List<PostSimpleDTO> listSimple(int top) {
-        List<Post> posts = postMapper.selectListSimple(top);
+        List<Post> posts = postMapper.selectListLatest(top);
         return PostConvert.INSTANCE.convertToSimpleDTO(posts);
-    }
-
-    @Override
-    public PageResult<PostListDTO> page(PostQueryParam param) {
-        PageResult<Post> pageResult = postMapper.selectPagePosts(param);
-
-        PageResult<PostSimpleDTO> postPage = PostConvert.INSTANCE.convertToSimpleDTO(pageResult);
-        List<PostSimpleDTO> posts = postPage.getContent();
-
-        Set<Integer> postIds = ServiceUtils.fetchProperty(posts, PostSimpleDTO::getId);
-
-        Map<Integer, List<Tag>> tagListMap = postTagService.listTagListMapBy(postIds);
-
-        Map<Integer, List<Category>> categoryListMap = postCategoryService
-                .listCategoryListMap(postIds);
-
-        Map<Integer, Long> commentCountMap = commentService.countByPostIds(postIds);
-
-        Map<Integer, List<Meta>> postMetaListMap = metaService.getListMetaAsMapByPostIds(postIds);
-
-
-        List<PostListDTO> collect = posts.stream().map(post -> {
-
-            PostListDTO postListDTO = PostConvert.INSTANCE.convertToListVO(post);
-
-            Optional.ofNullable(tagListMap.get(post.getId())).orElseGet(LinkedList::new);
-
-            postListDTO.setTags(Optional.ofNullable(tagListMap.get(post.getId()))
-                    .orElseGet(LinkedList::new)
-                    .stream()
-                    .filter(Objects::nonNull)
-                    .map(TagConvert.INSTANCE::convert)
-                    .collect(Collectors.toList()));
-
-            postListDTO.setCategories(Optional.ofNullable(categoryListMap.get(post.getId()))
-                    .orElseGet(LinkedList::new)
-                    .stream()
-                    .filter(Objects::nonNull)
-                    .map(CategoryConvert.INSTANCE::convert)
-                    .collect(Collectors.toList()));
-
-            List<Meta> metas = Optional.ofNullable(postMetaListMap.get(post.getId()))
-                    .orElseGet(LinkedList::new);
-            postListDTO.setMetas(MetaConvert.INSTANCE.convertToMap(metas));
-
-            postListDTO.setCommentCount(commentCountMap.getOrDefault(post.getId(), 0L));
-
-            postListDTO.setFullPath(buildFullPath(post.getId()));
-
-            return postListDTO;
-        }).collect(Collectors.toList());
-        return new PageResult<>(collect, collect.size(), postPage.hasPrevious(), postPage.hasNext());
     }
 
 

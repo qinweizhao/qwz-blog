@@ -43,7 +43,7 @@ public interface PostTagService {
      * @param postIds post id collection
      * @return tag map (key: postId, value: a list of tags)
      */
-    Map<Integer, List<Tag>> listTagListMapBy(Collection<Integer> postIds);
+    Map<Integer, List<TagDTO>> listTagListMapBy(Collection<Integer> postIds);
 
     /**
      * 删除关联

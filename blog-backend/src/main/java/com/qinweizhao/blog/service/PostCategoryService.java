@@ -26,7 +26,7 @@ public interface PostCategoryService extends IService<PostCategory> {
      * @param postIds postIds
      * @return Map
      */
-    Map<Integer, List<Category>> listCategoryListMap(Collection<Integer> postIds);
+    Map<Integer, List<CategoryDTO>> listCategoryListMap(Collection<Integer> postIds);
 
     /**
      * 分类集合

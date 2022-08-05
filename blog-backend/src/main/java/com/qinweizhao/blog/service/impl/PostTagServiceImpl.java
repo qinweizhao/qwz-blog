@@ -83,7 +83,7 @@ public class PostTagServiceImpl implements PostTagService {
     }
 
     @Override
-    public Map<Integer, List<Tag>> listTagListMapBy(Collection<Integer> postIds) {
+    public Map<Integer, List<TagDTO>> listTagListMapBy(Collection<Integer> postIds) {
         if (CollectionUtils.isEmpty(postIds)) {
             return Collections.emptyMap();
         }
@@ -95,13 +95,13 @@ public class PostTagServiceImpl implements PostTagService {
         Set<Integer> tagIds = ServiceUtils.fetchProperty(postTags, PostTag::getTagId);
 
         // Find all tags
-        List<Tag> tags = tagMapper.selectBatchIds(tagIds);
+        List<TagDTO> tags = TagConvert.INSTANCE.convertToDTO(tagMapper.selectBatchIds(tagIds));
 
         // Convert to tag map
-        Map<Integer, Tag> tagMap = ServiceUtils.convertToMap(tags, Tag::getId);
+        Map<Integer, TagDTO> tagMap = ServiceUtils.convertToMap(tags, TagDTO::getId);
 
         // Create tag list map
-        Map<Integer, List<Tag>> tagListMap = new HashMap<>();
+        Map<Integer, List<TagDTO>> tagListMap = new HashMap<>();
 
         // Foreach and collect
         postTags.forEach(postTag -> tagListMap.computeIfAbsent(postTag.getPostId(), postId -> new LinkedList<>()).add(tagMap.get(postTag.getTagId())));

@@ -2,6 +2,7 @@ package com.qinweizhao.blog.service;
 
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.qinweizhao.blog.model.dto.MetaDTO;
 import com.qinweizhao.blog.model.entity.Meta;
 
 import java.util.List;
@@ -21,6 +22,6 @@ public interface MetaService extends IService<Meta> {
      * @param postIds postIds
      * @return Map
      */
-    Map<Integer, List<Meta>> getListMetaAsMapByPostIds(Set<Integer> postIds);
+    Map<Integer, List<MetaDTO>> getListMetaAsMapByPostIds(Set<Integer> postIds);
 
 }
