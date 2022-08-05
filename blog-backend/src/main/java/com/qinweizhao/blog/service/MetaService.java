@@ -24,4 +24,12 @@ public interface MetaService extends IService<Meta> {
      */
     Map<Integer, List<MetaDTO>> getListMetaAsMapByPostIds(Set<Integer> postIds);
 
+    /**
+     * 通过文章 id 删除
+     * @param postId postId
+     * @return boolean
+     */
+    boolean removeByPostId(Integer postId);
+
+
 }

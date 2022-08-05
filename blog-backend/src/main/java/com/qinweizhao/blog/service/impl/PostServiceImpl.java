@@ -1,14 +1,22 @@
 package com.qinweizhao.blog.service.impl;
 
+import cn.hutool.core.collection.CollUtil;
+import com.qinweizhao.blog.convert.MetaConvert;
 import com.qinweizhao.blog.convert.PostConvert;
 import com.qinweizhao.blog.exception.ServiceException;
 import com.qinweizhao.blog.mapper.ContentMapper;
+import com.qinweizhao.blog.mapper.PostCategoryMapper;
 import com.qinweizhao.blog.mapper.PostMapper;
+import com.qinweizhao.blog.mapper.PostTagMapper;
 import com.qinweizhao.blog.model.core.PageResult;
 import com.qinweizhao.blog.model.dto.*;
 import com.qinweizhao.blog.model.entity.Content;
 import com.qinweizhao.blog.model.entity.Post;
+import com.qinweizhao.blog.model.entity.PostCategory;
+import com.qinweizhao.blog.model.entity.PostTag;
 import com.qinweizhao.blog.model.enums.PostStatus;
+import com.qinweizhao.blog.model.param.MetaParam;
+import com.qinweizhao.blog.model.param.PostParam;
 import com.qinweizhao.blog.model.param.PostQueryParam;
 import com.qinweizhao.blog.model.properties.PostProperties;
 import com.qinweizhao.blog.model.vo.ArchiveMonthVO;
@@ -55,13 +63,16 @@ public class PostServiceImpl implements PostService {
 
     private final OptionService optionService;
 
+    private final PostTagMapper postTagMapper;
     private final PostTagService postTagService;
 
     private final CommentService commentService;
 
+    private final PostCategoryMapper postCategoryMapper;
     private final PostCategoryService postCategoryService;
 
     private final MetaService metaService;
+
 
     @Override
     public PageResult<PostListDTO> page(PostQueryParam param) {
@@ -84,15 +95,15 @@ public class PostServiceImpl implements PostService {
 
             postListDTO.setTags(new ArrayList<>(
                     Optional.ofNullable(tagListMap.get(post.getId()))
-                    .orElseGet(LinkedList::new)));
+                            .orElseGet(LinkedList::new)));
 
             postListDTO.setCategories(new ArrayList<>(
                     Optional.ofNullable(categoryListMap.get(post.getId()))
-                    .orElseGet(LinkedList::new)));
+                            .orElseGet(LinkedList::new)));
 
             postListDTO.setMetas(
                     Optional.ofNullable(postMetaListMap.get(post.getId()))
-                    .orElseGet(LinkedList::new));
+                            .orElseGet(LinkedList::new));
 
             postListDTO.setCommentCount(commentCountMap.getOrDefault(post.getId(), 0L));
 
@@ -102,6 +113,82 @@ public class PostServiceImpl implements PostService {
         }).collect(Collectors.toList());
 
         return new PageResult<>(collect, collect.size(), postPage.hasPrevious(), postPage.hasNext());
+    }
+
+    @Override
+    public boolean save(PostParam param) {
+        Set<Integer> categoryIds = param.getCategoryIds();
+        Set<Integer> tagIds = param.getTagIds();
+        Set<MetaParam> metas = param.getMetas();
+        Post post = PostConvert.INSTANCE.convert(param);
+
+        postMapper.insert(post);
+
+        Integer postId = post.getId();
+        this.savePostRelation(categoryIds, tagIds, metas, postId);
+
+        return true;
+    }
+
+    /**
+     * 保存文章和分类/标签/元数据 关联关系
+     *
+     * @param categoryIds categoryIds
+     * @param tagIds      tagIds
+     * @param metas       metas
+     * @param postId      postId
+     */
+    private void savePostRelation(Collection<Integer> categoryIds, Collection<Integer> tagIds, Set<MetaParam> metas, Integer postId) {
+        // 保存 文章-分类 关联
+        List<PostCategory> postCategories = categoryIds.stream().map(categoryId -> {
+            PostCategory postCategory = new PostCategory();
+            postCategory.setPostId(postId);
+            postCategory.setCategoryId(categoryId);
+            return postCategory;
+        }).collect(Collectors.toList());
+        postCategoryService.saveBatch(postCategories);
+
+        // 保存 文章-标签 关联
+        List<PostTag> postTags = tagIds.stream().map(tagId -> {
+            PostTag postTag = new PostTag();
+            postTag.setPostId(postId);
+            postTag.setTagId(tagId);
+            return postTag;
+        }).collect(Collectors.toList());
+        postTagService.saveBatch(postTags);
+
+        // 保存 文章元数据 关联
+        metaService.saveBatch(MetaConvert.INSTANCE.convert(metas));
+    }
+
+    @Override
+    public boolean update(Integer postId, PostParam param) {
+        Post post = PostConvert.INSTANCE.convert(param);
+        post.setId(postId);
+        postMapper.updateById(post);
+
+        // 标签
+        Set<Integer> tagIds = param.getTagIds();
+        Set<Integer> dbTagIds = postTagMapper.selectTagIdsByPostId(postId);
+        Collection<Integer> addTagIds = CollUtil.subtract(tagIds, dbTagIds);
+        Collection<Integer> removeTagIds = CollUtil.subtract(dbTagIds, tagIds);
+        postTagService.removeBatchByIds(removeTagIds);
+
+
+        // 分类
+        Set<Integer> categoryIds = param.getCategoryIds();
+        Set<Integer> dbCategoryIds = postCategoryMapper.selectSetCategoryIdsByPostId(postId);
+        Collection<Integer> addCategoryIds = CollUtil.subtract(categoryIds, dbCategoryIds);
+        Collection<Integer> removeCategoryIds = CollUtil.subtract(dbCategoryIds, categoryIds);
+        postCategoryService.removeBatchByIds(removeCategoryIds);
+
+        // 元数据
+        Set<MetaParam> metas = param.getMetas();
+        // 删除所有元数据
+        metaService.removeByPostId(postId);
+
+        this.savePostRelation(addCategoryIds, addTagIds, metas, postId);
+        return false;
     }
 
 
@@ -118,12 +205,6 @@ public class PostServiceImpl implements PostService {
     @Override
     public long countLike() {
         return postMapper.selectCountLikes();
-    }
-
-    @Override
-    public PageResult<PostSimpleDTO> pagePosts(PostQueryParam postQueryParam) {
-        PageResult<Post> pageResult = postMapper.selectPagePosts(postQueryParam);
-        return PostConvert.INSTANCE.convertToSimpleDTO(pageResult);
     }
 
 
@@ -380,71 +461,7 @@ public class PostServiceImpl implements PostService {
         return fullPath.toString();
     }
 
-//    private final TagService tagService;
-//
-//    private final CategoryService categoryService;
-//
-//    private final PostTagService postTagService;
-//
-//    private final PostCategoryService postCategoryService;
-//
-//    private final CommentService<BaseMapper<Comment>, BaseEntity> commentService;
-//
-//    private final ApplicationEventPublisher eventPublisher;
-//
-//    private final PostMetaService postMetaService;
-//
-//    private final OptionService optionService;
 
-
-//    @Override
-//    @Transactional
-//    public PostDetailVO createBy(Post postToCreate, Set<Integer> tagIds, Set<Integer> categoryIds,
-//            Set<PostMeta> metas, boolean autoSave) {
-//        PostDetailVO createdPost = createOrUpdate(postToCreate, tagIds, categoryIds, metas);
-//        if (!autoSave) {
-//            // Log the creation
-//            LogEvent logEvent = new LogEvent(this, createdPost.getId().toString(),
-//                    LogType.POST_PUBLISHED, createdPost.getTitle());
-//            eventPublisher.publishEvent(logEvent);
-//        }
-//        return createdPost;
-//    }
-//
-//    @Override
-//    public PostDetailVO createBy(Post postToCreate, Set<Integer> tagIds, Set<Integer> categoryIds,
-//            boolean autoSave) {
-//        PostDetailVO createdPost = createOrUpdate(postToCreate, tagIds, categoryIds, null);
-//        if (!autoSave) {
-//            // Log the creation
-//            LogEvent logEvent = new LogEvent(this, createdPost.getId().toString(),
-//                    LogType.POST_PUBLISHED, createdPost.getTitle());
-//            eventPublisher.publishEvent(logEvent);
-//        }
-//        return createdPost;
-//    }
-//
-//    @Override
-//    @Transactional
-//    public PostDetailVO updateBy(Post postToUpdate, Set<Integer> tagIds, Set<Integer> categoryIds,
-//            Set<PostMeta> metas, boolean autoSave) {
-//        // Set edit time
-//        postToUpdate.setEditTime(DateUtils.now());
-//        PostDetailVO updatedPost = createOrUpdate(postToUpdate, tagIds, categoryIds, metas);
-//        if (!autoSave) {
-//            // Log the creation
-//            LogEvent logEvent = new LogEvent(this, updatedPost.getId().toString(),
-//                    LogType.POST_EDITED, updatedPost.getTitle());
-//            eventPublisher.publishEvent(logEvent);
-//        }
-//        return updatedPost;
-//    }
-//
-//    @Override
-//    public Post getBy(PostStatus status, String slug) {
-//        return super.getBy(status, slug);
-//    }
-//
 //    @Override
 //    public Post getBy(Integer year, Integer month, String slug) {
 //        Assert.notNull(year, "Post create year must not be null");

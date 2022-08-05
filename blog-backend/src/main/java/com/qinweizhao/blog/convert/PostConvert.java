@@ -3,10 +3,11 @@ package com.qinweizhao.blog.convert;
 
 import com.qinweizhao.blog.model.core.PageResult;
 import com.qinweizhao.blog.model.dto.PostDTO;
+import com.qinweizhao.blog.model.dto.PostListDTO;
 import com.qinweizhao.blog.model.dto.PostSimpleDTO;
 import com.qinweizhao.blog.model.entity.Post;
 import com.qinweizhao.blog.model.enums.PostStatus;
-import com.qinweizhao.blog.model.dto.PostListDTO;
+import com.qinweizhao.blog.model.param.PostParam;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
@@ -33,10 +34,10 @@ public interface PostConvert {
     /**
      * convert
      *
-     * @param post post
+     * @param param param
      * @return Post
      */
-//    PostSimpleDTO convert(Post post);
+    Post convert(PostParam param);
 
     /**
      * convert

@@ -1,8 +1,10 @@
 package com.qinweizhao.blog.service;
 
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.qinweizhao.blog.model.dto.PostSimpleDTO;
 import com.qinweizhao.blog.model.dto.TagDTO;
 import com.qinweizhao.blog.model.dto.TagWithPostCountDTO;
+import com.qinweizhao.blog.model.entity.PostTag;
 import com.qinweizhao.blog.model.entity.Tag;
 import com.qinweizhao.blog.model.enums.PostStatus;
 
@@ -18,7 +20,7 @@ import java.util.Map;
  * @author qinweizhao
  * @date 2019-03-19
  */
-public interface PostTagService {
+public interface PostTagService extends IService<PostTag> {
 
 //    /**
 //     * Lists tags by post id.

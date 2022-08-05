@@ -3,14 +3,12 @@ package com.qinweizhao.blog.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.qinweizhao.blog.model.dto.CategoryDTO;
 import com.qinweizhao.blog.model.dto.CategoryWithPostCountDTO;
-import com.qinweizhao.blog.model.dto.PostSimpleDTO;
-import com.qinweizhao.blog.model.entity.Category;
 import com.qinweizhao.blog.model.entity.PostCategory;
-import com.qinweizhao.blog.model.enums.PostStatus;
 
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Post category service interface.
@@ -23,6 +21,7 @@ public interface PostCategoryService extends IService<PostCategory> {
 
     /**
      * 按 id 集合列出类别列表图
+     *
      * @param postIds postIds
      * @return Map
      */
@@ -30,6 +29,7 @@ public interface PostCategoryService extends IService<PostCategory> {
 
     /**
      * 分类集合
+     *
      * @param postId postId
      * @return List
      */
@@ -57,7 +57,6 @@ public interface PostCategoryService extends IService<PostCategory> {
      * @return List
      */
     List<CategoryWithPostCountDTO> listCategoryWithPostCountDto();
-
 
 //
 //    /**

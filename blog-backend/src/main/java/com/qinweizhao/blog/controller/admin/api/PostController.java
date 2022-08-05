@@ -5,12 +5,14 @@ import com.qinweizhao.blog.model.dto.PostDTO;
 import com.qinweizhao.blog.model.dto.PostListDTO;
 import com.qinweizhao.blog.model.dto.PostSimpleDTO;
 import com.qinweizhao.blog.model.enums.PostStatus;
+import com.qinweizhao.blog.model.param.PostParam;
 import com.qinweizhao.blog.model.param.PostQueryParam;
 import com.qinweizhao.blog.service.OptionService;
 import com.qinweizhao.blog.service.PostService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
@@ -58,19 +60,6 @@ public class PostController {
         return postService.listSimple(top);
     }
 
-//    @GetMapping("status/{status}")
-//    @ApiOperation("Gets a page of post by post status")
-//    public Page<? extends BasePostSimpleDTO> pageByStatus(@PathVariable(name = "status") PostStatus status,
-//                                                          @RequestParam(value = "more", required = false, defaultValue = "false") Boolean more,
-//                                                          @PageableDefault(sort = "createTime", direction = DESC) Pageable pageable) {
-//        Page<Post> posts = postService.pageBy(status, pageable);
-//
-//        if (more) {
-//            return postService.convertToListVo(posts);
-//        }
-//
-//        return postService.convertToSimple(posts);
-//    }
 
     /**
      * 详情
@@ -83,32 +72,30 @@ public class PostController {
         return postService.getById(postId);
     }
 
-//    @PutMapping("{postId:\\d+}/likes")
-//    @ApiOperation("Likes a post")
-//    public void likes(@PathVariable("postId") Integer postId) {
-//        postService.increaseLike(postId);
-//    }
-//
-//    @PostMapping
-//    @ApiOperation("Creates a post")
-//    public PostDetailVO createBy(@Valid @RequestBody PostParam postParam,
-//                                 @RequestParam(value = "autoSave", required = false, defaultValue = "false") Boolean autoSave) {
-//        // Convert to
-//        Post post = postParam.convertTo();
-//        return postService.createBy(post, postParam.getTagIds(), postParam.getCategoryIds(), postParam.getPostMetas(), autoSave);
-//    }
-//
-//    @PutMapping("{postId:\\d+}")
-//    @ApiOperation("Updates a post")
-//    public PostDetailVO updateBy(@Valid @RequestBody PostParam postParam,
-//                                 @PathVariable("postId") Integer postId,
-//                                 @RequestParam(value = "autoSave", required = false, defaultValue = "false") Boolean autoSave) {
-//        // Get the post info
-//        Post postToUpdate = postService.getById(postId);
-//
-//        postParam.update(postToUpdate);
-//        return postService.updateBy(postToUpdate, postParam.getTagIds(), postParam.getCategoryIds(), postParam.getPostMetas(), autoSave);
-//    }
+
+    /**
+     * 新增
+     *
+     * @param param param
+     * @return Boolean
+     */
+    @PostMapping
+    public Boolean save(@Valid @RequestBody PostParam param) {
+        return postService.save(param);
+    }
+
+
+    /**
+     * 更新
+     *
+     * @param param  param
+     * @param postId postId
+     * @return Boolean
+     */
+    @PutMapping("{postId:\\d+}")
+    public Boolean update(@Valid @RequestBody PostParam param, @PathVariable("postId") Integer postId) {
+        return postService.update(postId, param);
+    }
 
     /**
      * updateStatus

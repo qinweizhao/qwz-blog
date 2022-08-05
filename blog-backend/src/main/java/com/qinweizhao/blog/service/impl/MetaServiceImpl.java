@@ -7,6 +7,7 @@ import com.qinweizhao.blog.model.dto.MetaDTO;
 import com.qinweizhao.blog.model.entity.Meta;
 import com.qinweizhao.blog.service.MetaService;
 import com.qinweizhao.blog.util.ServiceUtils;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -16,12 +17,14 @@ import java.util.*;
  * @since 2022/7/14
  */
 @Service
+@AllArgsConstructor
 public class MetaServiceImpl extends ServiceImpl<MetaMapper, Meta> implements MetaService {
 
+    private final MetaMapper metaMapper;
 
     @Override
     public Map<Integer, List<MetaDTO>> getListMetaAsMapByPostIds(Set<Integer> postIds) {
-        List<MetaDTO> metas = MetaConvert.INSTANCE.convertToDTO(this.baseMapper.selectListByPostIds(postIds));
+        List<MetaDTO> metas = MetaConvert.INSTANCE.convertToDTO(metaMapper.selectListByPostIds(postIds));
         // 转换结构
         Map<Long, MetaDTO> postMetaMap = ServiceUtils.convertToMap(metas, MetaDTO::getId);
 
@@ -33,5 +36,10 @@ public class MetaServiceImpl extends ServiceImpl<MetaMapper, Meta> implements Me
                 .add(postMetaMap.get(meta.getId())));
 
         return postMetaListMap;
+    }
+
+    @Override
+    public boolean removeByPostId(Integer postId) {
+        return metaMapper.deleteByPostId(postId);
     }
 }

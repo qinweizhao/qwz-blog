@@ -66,7 +66,7 @@ public class CategoryController {
      * @return CategoryDTO
      */
     @PostMapping
-    public CategoryDTO createBy(@RequestBody @Valid CategoryParam categoryParam) {
+    public CategoryDTO saveCategory(@RequestBody @Valid CategoryParam categoryParam) {
         boolean b = categoryService.saveCategory(categoryParam);
         return ResultUtils.judge(b, new CategoryDTO());
     }
@@ -79,7 +79,7 @@ public class CategoryController {
      * @return CategoryDTO
      */
     @PutMapping("{categoryId:\\d+}")
-    public Boolean updateBy(@PathVariable("categoryId") Integer categoryId,
+    public Boolean update(@PathVariable("categoryId") Integer categoryId,
                             @RequestBody @Valid CategoryParam categoryParam) {
 
         return categoryService.updateById(categoryId, categoryParam);

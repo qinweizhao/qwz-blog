@@ -1,6 +1,7 @@
 package com.qinweizhao.blog.service.impl;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.qinweizhao.blog.convert.PostConvert;
 import com.qinweizhao.blog.convert.PostTagConvert;
 import com.qinweizhao.blog.convert.TagConvert;
@@ -37,7 +38,7 @@ import static com.qinweizhao.blog.model.support.HaloConst.URL_SEPARATOR;
  */
 @Service
 @AllArgsConstructor
-public class PostTagServiceImpl implements PostTagService {
+public class PostTagServiceImpl extends ServiceImpl<PostTagMapper,PostTag> implements PostTagService {
 
     private final OptionService optionService;
 

@@ -57,6 +57,6 @@ public class PostParam {
 
     private Set<Integer> categoryIds;
 
-    private Set<PostMetaParam> metas;
+    private Set<MetaParam> metas;
 
 }
