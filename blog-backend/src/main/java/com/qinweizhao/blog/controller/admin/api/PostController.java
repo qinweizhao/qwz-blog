@@ -34,17 +34,15 @@ public class PostController {
 
     private final OptionService optionService;
 
-
     /**
      * 分页
      *
-     * @param postQueryParam postQueryParam
+     * @param param param
      * @return PageResult
      */
     @GetMapping
-    public PageResult<PostListDTO> page(PostQueryParam postQueryParam) {
-        PageResult<PostSimpleDTO> postPage = postService.pagePosts(postQueryParam);
-        return postService.buildPostListVO(postPage);
+    public PageResult<PostListDTO> page(PostQueryParam param) {
+        return postService.page(param);
     }
 
     /**
@@ -55,10 +53,7 @@ public class PostController {
      */
     @GetMapping("latest")
     public List<PostSimpleDTO> latest(@RequestParam(name = "top", defaultValue = "10") int top) {
-        PostQueryParam postQueryParam = new PostQueryParam();
-        postQueryParam.setSize(top);
-        PageResult<PostSimpleDTO> postPage = postService.pagePosts(postQueryParam);
-        return postPage.getContent();
+        return postService.listSimple(top);
     }
 
 //    @GetMapping("status/{status}")

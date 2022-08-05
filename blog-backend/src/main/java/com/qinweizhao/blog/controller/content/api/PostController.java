@@ -1,9 +1,8 @@
 package com.qinweizhao.blog.controller.content.api;
 
 import com.qinweizhao.blog.model.core.PageResult;
-import com.qinweizhao.blog.model.dto.PostSimpleDTO;
-import com.qinweizhao.blog.model.param.PostQueryParam;
 import com.qinweizhao.blog.model.dto.PostListDTO;
+import com.qinweizhao.blog.model.param.PostQueryParam;
 import com.qinweizhao.blog.service.CommentService;
 import com.qinweizhao.blog.service.OptionService;
 import com.qinweizhao.blog.service.PostService;
@@ -33,8 +32,7 @@ public class PostController {
 
     @GetMapping
     public PageResult<PostListDTO> page(PostQueryParam param) {
-        PageResult<PostSimpleDTO> result = postService.pagePosts(param);
-        return postService.buildPostListVO(result);
+        return postService.page(param);
     }
 
 //    @PostMapping(value = "search")

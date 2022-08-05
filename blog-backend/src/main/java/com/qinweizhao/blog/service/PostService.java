@@ -49,15 +49,6 @@ public interface PostService {
      */
     PageResult<PostSimpleDTO> pagePosts(PostQueryParam postQueryParam);
 
-
-    /**
-     *
-     * @param postPage postPage
-     * @return PageResult
-     */
-    PageResult<PostListDTO> buildPostListVO(PageResult<PostSimpleDTO> postPage);
-
-
     /**
      * 更新状态
      * @param status status
@@ -94,6 +85,21 @@ public interface PostService {
     List<ArchiveYearVO> listYearArchives();
 
     List<ArchiveMonthVO> listMonthArchives();
+
+    /**
+     * 列表（最新发布）
+     * @param top top
+     * @return List
+     */
+    List<PostSimpleDTO> listSimple(int top);
+
+    /**
+     * 分页
+     * @param param param
+     * @return PageResult
+     */
+    PageResult<PostListDTO> page(PostQueryParam param);
+
 
 
 //

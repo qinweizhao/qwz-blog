@@ -118,8 +118,7 @@ public class PostModel {
         PostQueryParam param = new PostQueryParam();
         param.setSize(pageSize);
         param.setPage(page);
-        PageResult<PostSimpleDTO> result = postService.pagePosts(param);
-        PageResult<PostListDTO> posts = postService.buildPostListVO(result);
+        PageResult<PostListDTO> posts = postService.page(param);
 
         model.addAttribute("is_index", true);
         model.addAttribute("posts", posts);

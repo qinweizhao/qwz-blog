@@ -2,7 +2,6 @@ package com.qinweizhao.blog.controller.content;
 
 import com.qinweizhao.blog.controller.content.model.PostModel;
 import com.qinweizhao.blog.model.dto.PostDTO;
-import com.qinweizhao.blog.model.enums.PostPermalinkType;
 import com.qinweizhao.blog.service.OptionService;
 import com.qinweizhao.blog.service.PostService;
 import lombok.extern.slf4j.Slf4j;
@@ -47,9 +46,7 @@ public class ContentIndexController {
     @GetMapping
     public String index(Integer p, String token, Model model) {
 
-        PostPermalinkType permalinkType = optionService.getPostPermalinkType();
-
-        if (PostPermalinkType.ID.equals(permalinkType) && !Objects.isNull(p)) {
+        if (!Objects.isNull(p)) {
             PostDTO post = postService.getById(p);
             System.out.println("postModel.content(post, token, model) = " + postModel.content(post, token, model));
             return postModel.content(post, token, model);

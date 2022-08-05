@@ -492,10 +492,7 @@ public class OptionServiceImpl extends ServiceImpl<OptionMapper, Option> impleme
 //        });
 //    }
 
-    @Override
-    public PostPermalinkType getPostPermalinkType() {
-        return getEnumByPropertyOrDefault(PermalinkProperties.POST_PERMALINK_TYPE, PostPermalinkType.class, PostPermalinkType.DEFAULT);
-    }
+
 
     @Override
     public String getSheetPrefix() {

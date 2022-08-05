@@ -1,6 +1,7 @@
 package com.qinweizhao.blog.service.impl;
 
 import com.qinweizhao.blog.convert.CategoryConvert;
+import com.qinweizhao.blog.convert.MetaConvert;
 import com.qinweizhao.blog.convert.PostConvert;
 import com.qinweizhao.blog.convert.TagConvert;
 import com.qinweizhao.blog.exception.ServiceException;
@@ -9,7 +10,6 @@ import com.qinweizhao.blog.mapper.PostMapper;
 import com.qinweizhao.blog.model.core.PageResult;
 import com.qinweizhao.blog.model.dto.*;
 import com.qinweizhao.blog.model.entity.*;
-import com.qinweizhao.blog.model.enums.PostPermalinkType;
 import com.qinweizhao.blog.model.enums.PostStatus;
 import com.qinweizhao.blog.model.param.PostQueryParam;
 import com.qinweizhao.blog.model.properties.PostProperties;
@@ -41,6 +41,7 @@ import static com.qinweizhao.blog.model.support.HaloConst.URL_SEPARATOR;
  * @author guqing
  * @author evanwang
  * @author coor.top
+ * @author qinweizhao
  * @date 2019-03-14
  */
 @Slf4j
@@ -86,68 +87,6 @@ public class PostServiceImpl implements PostService {
         return PostConvert.INSTANCE.convertToSimpleDTO(pageResult);
     }
 
-    @Override
-    public PageResult<PostListDTO> buildPostListVO(PageResult<PostSimpleDTO> postPage) {
-        List<PostSimpleDTO> posts = postPage.getContent();
-
-        Set<Integer> postIds = ServiceUtils.fetchProperty(posts, PostSimpleDTO::getId);
-
-        // Get tag list map
-        Map<Integer, List<Tag>> tagListMap = postTagService.listTagListMapBy(postIds);
-
-        // Get category list map
-        Map<Integer, List<Category>> categoryListMap = postCategoryService
-                .listCategoryListMap(postIds);
-
-        // Get comment count
-        Map<Integer, Long> commentCountMap = commentService.countByPostIds(postIds);
-
-        // Get post meta list map
-        Map<Integer, List<Meta>> postMetaListMap = metaService.getListMetaAsMapByPostIds(postIds);
-
-
-        List<PostListDTO> collect = posts.stream().map(post -> {
-
-            PostListDTO postListDTO = PostConvert.INSTANCE.convertToListVO(post);
-
-            // 摘要
-            if (StringUtils.isBlank(postListDTO.getSummary())) {
-                postListDTO.setSummary(generateSummary(post.getFormatContent()));
-            }
-
-            Optional.ofNullable(tagListMap.get(post.getId())).orElseGet(LinkedList::new);
-
-            // Set tags
-            postListDTO.setTags(Optional.ofNullable(tagListMap.get(post.getId()))
-                    .orElseGet(LinkedList::new)
-                    .stream()
-                    .filter(Objects::nonNull)
-                    .map(TagConvert.INSTANCE::convert)
-                    .collect(Collectors.toList()));
-
-            // Set categories
-            postListDTO.setCategories(Optional.ofNullable(categoryListMap.get(post.getId()))
-                    .orElseGet(LinkedList::new)
-                    .stream()
-                    .filter(Objects::nonNull)
-                    .map(CategoryConvert.INSTANCE::convert)
-//                    .map(categoryService::convertTo)
-                    .collect(Collectors.toList()));
-
-            // Set post metas
-//            List<Meta> metas = Optional.ofNullable(postMetaListMap.get(post.getId()))
-//                    .orElseGet(LinkedList::new);
-//            postListDTO.setMetas(MetaConvert.INSTANCE.convertToMap(metas));
-
-            // Set comment count
-            postListDTO.setCommentCount(commentCountMap.getOrDefault(post.getId(), 0L));
-
-//            postListDTO.setFullPath(buildFullPath(post));
-
-            return postListDTO;
-        }).collect(Collectors.toList());
-        return new PageResult<>(collect, collect.size(), postPage.hasPrevious(), postPage.hasNext());
-    }
 
     @Override
     public boolean updateStatus(PostStatus status, Integer postId) {
@@ -201,7 +140,7 @@ public class PostServiceImpl implements PostService {
         postDTO.setCategoryIds(categoryIds);
         postDTO.setCategories(categories);
 
-        postDTO.setFullPath(buildFullPath(post));
+        postDTO.setFullPath(buildFullPath(post.getId()));
 
         return postDTO;
     }
@@ -250,9 +189,9 @@ public class PostServiceImpl implements PostService {
         // is null
         return posts.stream().map(post -> {
             PostListDTO postListDTO = PostConvert.INSTANCE.convertToListVO(post);
-            if (StringUtils.isBlank(postListDTO.getSummary())) {
-                postListDTO.setSummary(generateSummary(post.getFormatContent()));
-            }
+//            if (StringUtils.isBlank(postListDTO.getSummary())) {
+//                postListDTO.setSummary(generateSummary(post.getFormatContent()));
+//            }
 
             Optional.ofNullable(tagListMap.get(post.getId())).orElseGet(LinkedList::new);
 
@@ -332,6 +271,65 @@ public class PostServiceImpl implements PostService {
         return convertToMonthArchives(posts);
     }
 
+    @Override
+    public List<PostSimpleDTO> listSimple(int top) {
+        List<Post> posts = postMapper.selectListSimple(top);
+        return PostConvert.INSTANCE.convertToSimpleDTO(posts);
+    }
+
+    @Override
+    public PageResult<PostListDTO> page(PostQueryParam param) {
+        PageResult<Post> pageResult = postMapper.selectPagePosts(param);
+
+        PageResult<PostSimpleDTO> postPage = PostConvert.INSTANCE.convertToSimpleDTO(pageResult);
+        List<PostSimpleDTO> posts = postPage.getContent();
+
+        Set<Integer> postIds = ServiceUtils.fetchProperty(posts, PostSimpleDTO::getId);
+
+        Map<Integer, List<Tag>> tagListMap = postTagService.listTagListMapBy(postIds);
+
+        Map<Integer, List<Category>> categoryListMap = postCategoryService
+                .listCategoryListMap(postIds);
+
+        Map<Integer, Long> commentCountMap = commentService.countByPostIds(postIds);
+
+        Map<Integer, List<Meta>> postMetaListMap = metaService.getListMetaAsMapByPostIds(postIds);
+
+
+        List<PostListDTO> collect = posts.stream().map(post -> {
+
+            PostListDTO postListDTO = PostConvert.INSTANCE.convertToListVO(post);
+
+            Optional.ofNullable(tagListMap.get(post.getId())).orElseGet(LinkedList::new);
+
+            postListDTO.setTags(Optional.ofNullable(tagListMap.get(post.getId()))
+                    .orElseGet(LinkedList::new)
+                    .stream()
+                    .filter(Objects::nonNull)
+                    .map(TagConvert.INSTANCE::convert)
+                    .collect(Collectors.toList()));
+
+            postListDTO.setCategories(Optional.ofNullable(categoryListMap.get(post.getId()))
+                    .orElseGet(LinkedList::new)
+                    .stream()
+                    .filter(Objects::nonNull)
+                    .map(CategoryConvert.INSTANCE::convert)
+                    .collect(Collectors.toList()));
+
+            List<Meta> metas = Optional.ofNullable(postMetaListMap.get(post.getId()))
+                    .orElseGet(LinkedList::new);
+            postListDTO.setMetas(MetaConvert.INSTANCE.convertToMap(metas));
+
+            postListDTO.setCommentCount(commentCountMap.getOrDefault(post.getId(), 0L));
+
+            postListDTO.setFullPath(buildFullPath(post.getId()));
+
+            return postListDTO;
+        }).collect(Collectors.toList());
+        return new PageResult<>(collect, collect.size(), postPage.hasPrevious(), postPage.hasNext());
+    }
+
+
     private List<ArchiveMonthVO> convertToMonthArchives(List<Post> posts) {
 
 
@@ -377,22 +375,13 @@ public class PostServiceImpl implements PostService {
         return StringUtils.substring(text, 0, summaryLength);
     }
 
-    private String buildFullPath(Post post) {
-
-        PostPermalinkType permalinkType = optionService.getPostPermalinkType();
-
-        String pathSuffix = optionService.getPathSuffix();
-
-        String archivesPrefix = optionService.getArchivesPrefix();
-
-        int month = post.getCreateTime().getMonthValue();
-
-        String monthString = month < 10 ? "0" + month : String.valueOf(month);
-
-        int day = post.getCreateTime().getDayOfMonth();
-
-        String dayString = day < 10 ? "0" + day : String.valueOf(day);
-
+    /**
+     * 构建完整路径
+     *
+     * @param postId postId
+     * @return String
+     */
+    private String buildFullPath(Integer postId) {
         StringBuilder fullPath = new StringBuilder();
 
         if (optionService.isEnabledAbsolutePath()) {
@@ -401,36 +390,9 @@ public class PostServiceImpl implements PostService {
 
         fullPath.append(URL_SEPARATOR);
 
-        if (permalinkType.equals(PostPermalinkType.DEFAULT)) {
-            fullPath.append(archivesPrefix)
-                    .append(URL_SEPARATOR)
-                    .append(post.getSlug())
-                    .append(pathSuffix);
-        } else if (permalinkType.equals(PostPermalinkType.ID)) {
-            fullPath.append("?p=")
-                    .append(post.getId());
-        } else if (permalinkType.equals(PostPermalinkType.DATE)) {
-            fullPath.append(post.getCreateTime().getYear())
-                    .append(URL_SEPARATOR)
-                    .append(monthString)
-                    .append(URL_SEPARATOR)
-                    .append(post.getSlug())
-                    .append(pathSuffix);
-        } else if (permalinkType.equals(PostPermalinkType.DAY)) {
-            fullPath.append(post.getCreateTime().getYear())
-                    .append(URL_SEPARATOR)
-                    .append(monthString)
-                    .append(URL_SEPARATOR)
-                    .append(dayString)
-                    .append(URL_SEPARATOR)
-                    .append(post.getSlug())
-                    .append(pathSuffix);
-        } else if (permalinkType.equals(PostPermalinkType.YEAR)) {
-            fullPath.append(post.getCreateTime().getYear())
-                    .append(URL_SEPARATOR)
-                    .append(post.getSlug())
-                    .append(pathSuffix);
-        }
+        fullPath.append("?p=")
+                .append(postId);
+
         return fullPath.toString();
     }
 
@@ -451,28 +413,6 @@ public class PostServiceImpl implements PostService {
 //    private final OptionService optionService;
 
 
-//    @Override
-//    public Page<Post> pageBy(PostQuery postQuery, Pageable pageable) {
-//        Assert.notNull(postQuery, "Post query must not be null");
-//        Assert.notNull(pageable, "Page info must not be null");
-//
-//        // Build specification and find all
-//        return postRepository.findAll(buildSpecByQuery(postQuery), pageable);
-//    }
-//
-//    @Override
-//    public Page<Post> pageBy(String keyword, Pageable pageable) {
-//        Assert.notNull(keyword, "keyword must not be null");
-//        Assert.notNull(pageable, "Page info must not be null");
-//
-//        PostQuery postQuery = new PostQuery();
-//        postQuery.setKeyword(keyword);
-//        postQuery.setStatus(PostStatus.PUBLISHED);
-//
-//        // Build specification and find all
-//        return postRepository.findAll(buildSpecByQuery(postQuery), pageable);
-//    }
-//
 //    @Override
 //    @Transactional
 //    public PostDetailVO createBy(Post postToCreate, Set<Integer> tagIds, Set<Integer> categoryIds,
@@ -867,124 +807,8 @@ public class PostServiceImpl implements PostService {
 //        return deletedPost;
 //    }
 //
-//    @Override
-//    public Page<PostListVO> convertToListVo(Page<Post> postPage) {
-//        Assert.notNull(postPage, "Post page must not be null");
-//
-//        List<Post> posts = postPage.getContent();
-//
-//        Set<Integer> postIds = ServiceUtils.fetchProperty(posts, Post::getId);
-//
-//        // Get tag list map
-//        Map<Integer, List<Tag>> tagListMap = postTagService.listTagListMapBy(postIds);
-//
-//        // Get category list map
-//        Map<Integer, List<Category>> categoryListMap = postCategoryService
-//                .listCategoryListMap(postIds);
-//
-//        // Get comment count
-//        Map<Integer, Long> commentCountMap = commentService.countByPostIds(postIds);
-//
-//        // Get post meta list map
-//        Map<Integer, List<PostMeta>> postMetaListMap = postMetaService.listPostMetaAsMap(postIds);
-//
-//        return postPage.map(post -> {
-//            PostListVO postListVO = new PostListVO().convertFrom(post);
-//
-//            if (StringUtils.isBlank(postListVO.getSummary())) {
-//                postListVO.setSummary(generateSummary(post.getFormatContent()));
-//            }
-//
-//            Optional.ofNullable(tagListMap.get(post.getId())).orElseGet(LinkedList::new);
-//
-//            // Set tags
-//            postListVO.setTags(Optional.ofNullable(tagListMap.get(post.getId()))
-//                    .orElseGet(LinkedList::new)
-//                    .stream()
-//                    .filter(Objects::nonNull)
-//                    .map(tagService::convertTo)
-//                    .collect(Collectors.toList()));
-//
-//            // Set categories
-//            postListVO.setCategories(Optional.ofNullable(categoryListMap.get(post.getId()))
-//                    .orElseGet(LinkedList::new)
-//                    .stream()
-//                    .filter(Objects::nonNull)
-//                    .map(categoryService::convertTo)
-//                    .collect(Collectors.toList()));
-//
-//            // Set post metas
-//            List<PostMeta> metas = Optional.ofNullable(postMetaListMap.get(post.getId()))
-//                    .orElseGet(LinkedList::new);
-//            postListVO.setMetas(postMetaService.convertToMap(metas));
-//
-//            // Set comment count
-//            postListVO.setCommentCount(commentCountMap.getOrDefault(post.getId(), 0L));
-//
-//            postListVO.setFullPath(buildFullPath(post));
-//
-//            return postListVO;
-//        });
-//    }
-//
-//    @Override
-//    public List<PostListVO> convertToListVo(List<Post> posts) {
-//        Assert.notNull(posts, "Post page must not be null");
-//
-//        Set<Integer> postIds = ServiceUtils.fetchProperty(posts, Post::getId);
-//
-//        // Get tag list map
-//        Map<Integer, List<Tag>> tagListMap = postTagService.listTagListMapBy(postIds);
-//
-//        // Get category list map
-//        Map<Integer, List<Category>> categoryListMap = postCategoryService
-//                .listCategoryListMap(postIds);
-//
-//        // Get comment count
-//        Map<Integer, Long> commentCountMap = commentService.countByPostIds(postIds);
-//
-//        // Get post meta list map
-//        Map<Integer, List<PostMeta>> postMetaListMap = postMetaService.listPostMetaAsMap(postIds);
-//
-//        return posts.stream().map(post -> {
-//            PostListVO postListVO = new PostListVO().convertFrom(post);
-//
-//            if (StringUtils.isBlank(postListVO.getSummary())) {
-//                postListVO.setSummary(generateSummary(post.getFormatContent()));
-//            }
-//
-//            Optional.ofNullable(tagListMap.get(post.getId())).orElseGet(LinkedList::new);
-//
-//            // Set tags
-//            postListVO.setTags(Optional.ofNullable(tagListMap.get(post.getId()))
-//                    .orElseGet(LinkedList::new)
-//                    .stream()
-//                    .filter(Objects::nonNull)
-//                    .map(tagService::convertTo)
-//                    .collect(Collectors.toList()));
-//
-//            // Set categories
-//            postListVO.setCategories(Optional.ofNullable(categoryListMap.get(post.getId()))
-//                    .orElseGet(LinkedList::new)
-//                    .stream()
-//                    .filter(Objects::nonNull)
-//                    .map(categoryService::convertTo)
-//                    .collect(Collectors.toList()));
-//
-//            // Set post metas
-//            List<PostMeta> metas = Optional.ofNullable(postMetaListMap.get(post.getId()))
-//                    .orElseGet(LinkedList::new);
-//            postListVO.setMetas(postMetaService.convertToMap(metas));
-//
-//            // Set comment count
-//            postListVO.setCommentCount(commentCountMap.getOrDefault(post.getId(), 0L));
-//
-//            postListVO.setFullPath(buildFullPath(post));
-//
-//            return postListVO;
-//        }).collect(Collectors.toList());
-//    }
-//
+
+
 //    @Override
 //    public Page<PostDetailVO> convertToDetailVo(Page<Post> postPage) {
 //        Assert.notNull(postPage, "Post page must not be null");

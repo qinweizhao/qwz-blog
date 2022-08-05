@@ -380,13 +380,6 @@ public interface OptionService extends IService<Option> {
 //    long getBirthday();
 
     /**
-     * Get post permalink type.
-     *
-     * @return PostPermalinkType
-     */
-    PostPermalinkType getPostPermalinkType();
-
-    /**
      * Get sheet custom prefix.
      *
      * @return sheet prefix.

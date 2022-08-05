@@ -1,7 +1,5 @@
 package com.qinweizhao.blog.model.properties;
 
-import com.qinweizhao.blog.model.enums.PostPermalinkType;
-
 /**
  * Permalink properties enum.
  *
@@ -10,10 +8,6 @@ import com.qinweizhao.blog.model.enums.PostPermalinkType;
  */
 public enum PermalinkProperties implements PropertyEnum {
 
-    /**
-     * Post Permalink type.
-     */
-    POST_PERMALINK_TYPE("post_permalink_type", PostPermalinkType.class, PostPermalinkType.DEFAULT.name()),
 
     /**
      * Categories prefix

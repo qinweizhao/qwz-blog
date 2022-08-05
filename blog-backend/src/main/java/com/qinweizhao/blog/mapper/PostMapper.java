@@ -203,4 +203,15 @@ public interface PostMapper extends BaseMapper<Post> {
                 .orderByDesc(Post::getCreateTime)
         );
     }
+
+    /**
+     * 查询列表
+     * @param top top
+     * @return List
+     */
+    default List<Post> selectListSimple(int top) {
+        return this.selectList(new LambdaQueryWrapper<Post>()
+                .last("limit" + top)
+        );
+    }
 }

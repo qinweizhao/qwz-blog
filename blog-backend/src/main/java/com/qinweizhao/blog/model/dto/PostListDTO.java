@@ -12,10 +12,14 @@ import java.util.Map;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class PostListDTO extends PostDTO {
+public class PostListDTO extends PostSimpleDTO {
+
+    private Long commentCount;
 
     private List<TagDTO> tags;
 
     private List<CategoryDTO> categories;
+
+    private Map<String, Object> metas;
 
 }
