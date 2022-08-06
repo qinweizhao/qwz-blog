@@ -4,7 +4,9 @@ import com.qinweizhao.blog.model.core.PageResult;
 import com.qinweizhao.blog.model.dto.PostDTO;
 import com.qinweizhao.blog.model.dto.PostListDTO;
 import com.qinweizhao.blog.model.dto.PostSimpleDTO;
+import com.qinweizhao.blog.model.entity.Post;
 import com.qinweizhao.blog.model.enums.PostStatus;
+import com.qinweizhao.blog.model.param.PostContentParam;
 import com.qinweizhao.blog.model.param.PostParam;
 import com.qinweizhao.blog.model.param.PostQueryParam;
 import com.qinweizhao.blog.service.OptionService;
@@ -105,25 +107,27 @@ public class PostController {
     public Boolean updateStatusBy(@PathVariable("postId") Integer postId, @PathVariable("status") PostStatus status) {
         return postService.updateStatus(status, postId);
     }
-//
+
 //    @PutMapping("status/{status}")
 //    @ApiOperation("Updates post status in batch")
 //    public List<Post> updateStatusInBatch(@PathVariable(name = "status") PostStatus status,
 //                                          @RequestBody List<Integer> ids) {
 //        return postService.updateStatusByIds(ids, status);
 //    }
-//
-//    @PutMapping("{postId:\\d+}/status/draft/content")
-//    @ApiOperation("Updates draft")
-//    public BasePostDetailDTO updateDraftBy(
-//            @PathVariable("postId") Integer postId,
-//            @RequestBody PostContentParam contentParam) {
-//        // Update draft content
-//        Post post = postService.updateDraftContent(contentParam.getContent(), postId);
-//
-//        return new BasePostDetailDTO().convertFrom(post);
-//    }
-//
+
+
+    /**
+     * 更新草稿
+     *
+     * @param postId       postId
+     * @param contentParam contentParam
+     * @return Boolean
+     */
+    @PutMapping("{postId:\\d+}/status/draft/content")
+    public Boolean updateDraftBy(@PathVariable("postId") Integer postId,@RequestBody PostContentParam contentParam) {
+        return postService.updateDraftContent(contentParam.getContent(), postId);
+    }
+
 
     /**
      * 删除

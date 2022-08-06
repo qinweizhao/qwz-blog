@@ -140,4 +140,12 @@ public interface PostService {
      * @return boolean
      */
     boolean removeByIds(List<Integer> postIds);
+
+    /**
+     *
+     * @param content
+     * @param postId
+     * @return
+     */
+    boolean updateDraftContent(String content, Integer postId);
 }

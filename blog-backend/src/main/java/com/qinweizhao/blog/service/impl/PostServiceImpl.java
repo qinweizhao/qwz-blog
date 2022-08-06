@@ -219,7 +219,6 @@ public class PostServiceImpl implements PostService {
     }
 
 
-
     private void slugMustNotExist(Post post) {
 
         boolean exist;
@@ -236,7 +235,6 @@ public class PostServiceImpl implements PostService {
             throw new AlreadyExistsException("文章别名 " + post.getSlug() + " 已存在");
         }
     }
-
 
 
     @Override
@@ -302,6 +300,24 @@ public class PostServiceImpl implements PostService {
         postIds.forEach(this::removeById);
 
         return true;
+    }
+
+    @Override
+    public boolean updateDraftContent(String newContent, Integer postId) {
+        if (newContent == null) {
+            newContent = "";
+        }
+
+        Content content = contentMapper.selectById(postId);
+
+
+        if (StringUtils.equals(newContent, content.getOriginalContent())) {
+            return true;
+        }
+        Content updateContent = new Content();
+        updateContent.setOriginalContent(newContent);
+        updateContent.setPostId(postId);
+        return contentMapper.updateById(updateContent) != 1;
     }
 
 
