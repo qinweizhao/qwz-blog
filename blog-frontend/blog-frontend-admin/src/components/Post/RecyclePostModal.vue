@@ -11,7 +11,7 @@
       ref="postListView"
       :columns="recyclePostColumns"
       :default-page-size="5"
-      :default-statuses="postStatuses.RECYCLE.value"
+      :default-statuses="[postStatuses.RECYCLE.value]"
       :searchWrapper="false"
     >
       <template #operator-after>

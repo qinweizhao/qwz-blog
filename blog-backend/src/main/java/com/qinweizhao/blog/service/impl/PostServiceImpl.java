@@ -181,6 +181,7 @@ public class PostServiceImpl implements PostService {
         }).collect(Collectors.toList());
         postTagService.saveBatch(postTags);
 
+        metas.forEach(item->item.setPostId(postId));
         // 保存 文章元数据 关联
         metaService.saveBatch(MetaConvert.INSTANCE.convert(metas));
     }

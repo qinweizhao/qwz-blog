@@ -454,7 +454,7 @@ export default {
   mixins: [mixinDevice],
   props: {
     defaultStatuses: {
-      type: String,
+      type: Array,
       default: () => []
     },
     defaultPageSize: {
@@ -518,7 +518,7 @@ export default {
     }
   },
   created() {
-    this.list.params.status = this.defaultStatuses
+    this.list.params.status = this.defaultStatuses[0]
     this.list.params.size = this.defaultPageSize
     this.handleListCategories()
   },
@@ -618,10 +618,8 @@ export default {
 
     handleChangeQueryStatus(status) {
       if (status) {
-        // this.list.params.statuses = [status]
         this.list.params.status = status
       } else {
-        // this.list.params.statuses = this.defaultStatuses
         this.list.params.status = undefined
       }
       this.handleQuery()
