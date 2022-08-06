@@ -165,27 +165,35 @@ public class PostServiceImpl implements PostService {
      * @param postId      postId
      */
     private void savePostRelation(Collection<Integer> categoryIds, Collection<Integer> tagIds, Set<MetaParam> metas, Integer postId) {
-        // 保存 文章-分类 关联
-        List<PostCategory> postCategories = categoryIds.stream().map(categoryId -> {
-            PostCategory postCategory = new PostCategory();
-            postCategory.setPostId(postId);
-            postCategory.setCategoryId(categoryId);
-            return postCategory;
-        }).collect(Collectors.toList());
-        postCategoryService.saveBatch(postCategories);
+        if (!CollectionUtils.isEmpty(categoryIds)) {
+            // 保存 文章-分类 关联
+            List<PostCategory> postCategories = categoryIds.stream().map(categoryId -> {
+                PostCategory postCategory = new PostCategory();
+                postCategory.setPostId(postId);
+                postCategory.setCategoryId(categoryId);
+                return postCategory;
+            }).collect(Collectors.toList());
+            postCategoryService.saveBatch(postCategories);
+        }
 
-        // 保存 文章-标签 关联
-        List<PostTag> postTags = tagIds.stream().map(tagId -> {
-            PostTag postTag = new PostTag();
-            postTag.setPostId(postId);
-            postTag.setTagId(tagId);
-            return postTag;
-        }).collect(Collectors.toList());
-        postTagService.saveBatch(postTags);
+        if (!CollectionUtils.isEmpty(tagIds)) {
+            // 保存 文章-标签 关联
+            List<PostTag> postTags = tagIds.stream().map(tagId -> {
+                PostTag postTag = new PostTag();
+                postTag.setPostId(postId);
+                postTag.setTagId(tagId);
+                return postTag;
+            }).collect(Collectors.toList());
+            postTagService.saveBatch(postTags);
+        }
 
-        metas.forEach(item -> item.setPostId(postId));
-        // 保存 文章元数据 关联
-        metaService.saveBatch(MetaConvert.INSTANCE.convert(metas));
+        if (!CollectionUtils.isEmpty(metas)) {
+            metas.forEach(item -> item.setPostId(postId));
+            // 保存 文章元数据 关联
+            metaService.saveBatch(MetaConvert.INSTANCE.convert(metas));
+        }
+
+
     }
 
     @Override
@@ -203,15 +211,18 @@ public class PostServiceImpl implements PostService {
         Set<Integer> dbTagIds = postTagMapper.selectTagIdsByPostId(postId);
         Collection<Integer> addTagIds = CollUtil.subtract(tagIds, dbTagIds);
         Collection<Integer> removeTagIds = CollUtil.subtract(dbTagIds, tagIds);
-        postTagService.removeBatchByIds(removeTagIds);
-
+        if (!CollectionUtils.isEmpty(removeTagIds)) {
+            postTagMapper.deleteBatchByPostIdAndTagIds(postId, removeTagIds);
+        }
 
         // 分类
         Set<Integer> categoryIds = param.getCategoryIds();
         Set<Integer> dbCategoryIds = postCategoryMapper.selectSetCategoryIdsByPostId(postId);
         Collection<Integer> addCategoryIds = CollUtil.subtract(categoryIds, dbCategoryIds);
         Collection<Integer> removeCategoryIds = CollUtil.subtract(dbCategoryIds, categoryIds);
-        postCategoryService.removeBatchByIds(removeCategoryIds);
+        if (!CollectionUtils.isEmpty(removeCategoryIds)) {
+            postCategoryMapper.deleteBatchByPostIdAndTagIds(postId, removeCategoryIds);
+        }
 
         // 元数据
         Set<MetaParam> metas = param.getMetas();
@@ -231,8 +242,8 @@ public class PostServiceImpl implements PostService {
 
             exist = postMapper.selectExistsBySlug(post.getSlug());
         } else {
-            // The sheet will be updated
-            exist = postMapper.selectExistsByIdNotAndSlug(post.getId(), post.getSlug());
+
+            exist = !postMapper.selectExistsByIdNotAndSlug(post.getId(), post.getSlug());
         }
 
         if (exist) {

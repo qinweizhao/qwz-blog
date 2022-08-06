@@ -79,7 +79,20 @@ public interface PostTagMapper extends BaseMapper<PostTag> {
     default int deleteByPostId(Integer postId) {
         return this.delete(new LambdaQueryWrapper<PostTag>()
                 .eq(PostTag::getPostId, postId)
-        ) ;
+        );
     }
 
+    /**
+     * 批量删除关联
+     *
+     * @param postId       postId
+     * @param removeTagIds removeTagIds
+     * @return int
+     */
+    default int deleteBatchByPostIdAndTagIds(Integer postId, Collection<Integer> removeTagIds) {
+        return this.delete(new LambdaQueryWrapperX<PostTag>()
+                .eq(PostTag::getPostId, postId)
+                .in(PostTag::getTagId, removeTagIds)
+        );
+    }
 }

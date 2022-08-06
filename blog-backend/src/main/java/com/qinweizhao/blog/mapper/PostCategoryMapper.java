@@ -3,6 +3,7 @@ package com.qinweizhao.blog.mapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.qinweizhao.blog.model.entity.PostCategory;
+import com.qinweizhao.blog.model.entity.PostTag;
 import com.qinweizhao.blog.model.enums.PostStatus;
 import com.qinweizhao.blog.model.projection.CategoryPostCountProjection;
 import com.qinweizhao.blog.util.LambdaQueryWrapperX;
@@ -80,6 +81,20 @@ public interface PostCategoryMapper extends BaseMapper<PostCategory> {
     default int deleteByPostId(Integer postId) {
         return this.delete(new LambdaQueryWrapper<PostCategory>()
                 .eq(PostCategory::getPostId, postId)
+        );
+    }
+
+    /**
+     * 批量删除关联
+     *
+     * @param postId       postId
+     * @param removeCategoryIds removeCategoryIds
+     * @return int
+     */
+    default int deleteBatchByPostIdAndTagIds(Integer postId, Collection<Integer> removeCategoryIds) {
+        return this.delete(new LambdaQueryWrapperX<PostCategory>()
+                .eq(PostCategory::getPostId, postId)
+                .in(PostCategory::getCategoryId, removeCategoryIds)
         );
     }
 }
