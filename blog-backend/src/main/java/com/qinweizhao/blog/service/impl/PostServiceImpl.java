@@ -4,6 +4,7 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.IdUtil;
 import com.qinweizhao.blog.convert.MetaConvert;
 import com.qinweizhao.blog.convert.PostConvert;
+import com.qinweizhao.blog.exception.AlreadyExistsException;
 import com.qinweizhao.blog.exception.ServiceException;
 import com.qinweizhao.blog.framework.cache.AbstractStringCacheStore;
 import com.qinweizhao.blog.mapper.*;
@@ -124,13 +125,14 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public boolean save(PostParam param) {
+        Post post = PostConvert.INSTANCE.convert(param);
+        this.slugMustNotExist(post);
+
         Set<Integer> categoryIds = param.getCategoryIds();
         Set<Integer> tagIds = param.getTagIds();
         Set<MetaParam> metas = param.getMetas();
 
         String originalContent = param.getOriginalContent();
-        Post post = PostConvert.INSTANCE.convert(param);
-
 
         if (StringUtils.isNotEmpty(post.getPassword()) && param.getStatus() != PostStatus.DRAFT) {
             post.setStatus(PostStatus.INTIMATE.getValue());
@@ -142,6 +144,7 @@ public class PostServiceImpl implements PostService {
         Integer postId = post.getId();
 
         Content content = new Content();
+        content.setOriginalContent(originalContent);
         content.setContent(MarkdownUtils.renderHtml(originalContent));
         content.setPostId(postId);
         contentMapper.insert(content);
@@ -186,6 +189,9 @@ public class PostServiceImpl implements PostService {
     public boolean update(Integer postId, PostParam param) {
         Post post = PostConvert.INSTANCE.convert(param);
         post.setId(postId);
+
+        this.slugMustNotExist(post);
+
         postMapper.updateById(post);
 
         // 标签
@@ -211,6 +217,26 @@ public class PostServiceImpl implements PostService {
         this.savePostRelation(addCategoryIds, addTagIds, metas, postId);
         return false;
     }
+
+
+
+    private void slugMustNotExist(Post post) {
+
+        boolean exist;
+
+        if (ServiceUtils.isEmptyId(post.getId())) {
+
+            exist = postMapper.selectExistsBySlug(post.getSlug());
+        } else {
+            // The sheet will be updated
+            exist = postMapper.selectExistsByIdNotAndSlug(post.getId(), post.getSlug());
+        }
+
+        if (exist) {
+            throw new AlreadyExistsException("文章别名 " + post.getSlug() + " 已存在");
+        }
+    }
+
 
 
     @Override

@@ -15,7 +15,7 @@
         <result column="summary" property="summary"/>
         <result column="thumbnail" property="thumbnail"/>
         <result column="title" property="title"/>
-        <result column="topped" property="topped"/>
+        <result column="top_priority" property="topPriority"/>
         <result column="url" property="url"/>
         <result column="visits" property="likes"/>
         <result column="word_count" property="wordCount"/>
@@ -26,7 +26,11 @@
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id
-        , disallow_comment, likes, meta_description, meta_keywords,  password, slug, status, summary, thumbnail, title, topped, url, visits, word_count, create_time, update_time
+        , disallow_comment, likes, meta_description, meta_keywords,  password, slug, status, summary, thumbnail, title, top_priority, url, visits, word_count, create_time, update_time
+    </sql>
+    <sql id="Base_Column_List_Plus">
+        p.id
+        , p.disallow_comment, p.likes, p.meta_description, p.meta_keywords,  p.password, p.slug, p.status, p.summary, p.thumbnail, p.title, p.top_priority, p.url, p.visits, p.word_count, p.create_time, p.update_time
     </sql>
 
 
@@ -69,7 +73,8 @@
 
 
     <select id="selectPagePosts" resultType="com.qinweizhao.blog.model.entity.Post">
-        select *
+        select
+        <include refid="Base_Column_List_Plus"/>
         from post p
         left join post_category pc ON p.id = pc.post_id
         <where>
@@ -88,6 +93,19 @@
             </if>
         </where>
         order by p.create_time desc
+    </select>
+
+    <select id="selectExistsBySlug" resultType="java.lang.Boolean">
+        select count(0)
+        from post
+        where slug = #{slug} limit 1
+    </select>
+
+    <select id="selectExistsByIdNotAndSlug" resultType="java.lang.Boolean">
+        select count(0)
+        from post
+        where slug = #{slug}
+          and id = #{id} limit 1
     </select>
 
 </mapper>
