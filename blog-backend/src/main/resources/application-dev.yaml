@@ -46,9 +46,6 @@ management:
 logging:
   level:
     com.qinweizhao.blog: DEBUG
-    org.hibernate: INFO
-    org.hibernate.type.descriptor.sql.BasicBinder: INFO
-    org.hibernate.type.descriptor.sql.BasicExtractor: INFO
   file:
     path: ${halo.work-dir}/blog-resource/logs
 
