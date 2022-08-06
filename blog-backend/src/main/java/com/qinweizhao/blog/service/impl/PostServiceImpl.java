@@ -21,7 +21,6 @@ import com.qinweizhao.blog.model.properties.PostProperties;
 import com.qinweizhao.blog.model.vo.ArchiveMonthVO;
 import com.qinweizhao.blog.model.vo.ArchiveYearVO;
 import com.qinweizhao.blog.service.*;
-import com.qinweizhao.blog.util.DateUtils;
 import com.qinweizhao.blog.util.HaloUtils;
 import com.qinweizhao.blog.util.MarkdownUtils;
 import com.qinweizhao.blog.util.ServiceUtils;
@@ -120,7 +119,7 @@ public class PostServiceImpl implements PostService {
             return postListDTO;
         }).collect(Collectors.toList());
 
-        return new PageResult<>(collect, collect.size(), pageResult.hasPrevious(), pageResult.hasNext());
+        return new PageResult<>(collect, pageResult.getTotal(), pageResult.hasPrevious(), pageResult.hasNext());
     }
 
     @Override
@@ -131,7 +130,6 @@ public class PostServiceImpl implements PostService {
 
         String originalContent = param.getOriginalContent();
         Post post = PostConvert.INSTANCE.convert(param);
-
 
 
         if (StringUtils.isNotEmpty(post.getPassword()) && param.getStatus() != PostStatus.DRAFT) {
