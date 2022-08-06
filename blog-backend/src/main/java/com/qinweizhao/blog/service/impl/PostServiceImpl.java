@@ -30,9 +30,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 
+import java.beans.Transient;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
@@ -124,6 +126,7 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public boolean save(PostParam param) {
         Post post = PostConvert.INSTANCE.convert(param);
         this.slugMustNotExist(post);
@@ -187,6 +190,7 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public boolean update(Integer postId, PostParam param) {
         Post post = PostConvert.INSTANCE.convert(param);
         post.setId(postId);
