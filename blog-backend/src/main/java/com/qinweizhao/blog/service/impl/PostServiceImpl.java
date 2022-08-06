@@ -339,7 +339,11 @@ public class PostServiceImpl implements PostService {
             // 如果发布此帖子，则转换格式化内容
             Content content = contentMapper.selectById(postId);
             String formatContent = MarkdownUtils.renderHtml(content.getContent());
-            int updatedRows = postMapper.updateFormatContent(formatContent, postId);
+
+            Content updateContent = new Content();
+            updateContent.setPostId(postId);
+            updateContent.setContent(formatContent);
+            int updatedRows = contentMapper.updateById(updateContent);
 
             if (updatedRows != 1) {
                 throw new ServiceException("无法更新帖子格式内容，id: " + postId);
@@ -474,11 +478,11 @@ public class PostServiceImpl implements PostService {
 
     private List<ArchiveYearVO> convertToYearArchives(List<Post> posts) {
         Map<Integer, List<PostSimpleDTO>> yearPostMap = new HashMap<>(8);
-//
+
 //        posts.forEach(post -> {
 //            LocalDateTime createTime = post.getCreateTime();
 //            yearPostMap.computeIfAbsent(createTime.getYear(), year -> new LinkedList<>())
-////                    .add(PostConvert.INSTANCE.convert(post));
+//                    .add(PostConvert.INSTANCE.convert(post));
 //        });
 
         List<ArchiveYearVO> archives = new LinkedList<>();

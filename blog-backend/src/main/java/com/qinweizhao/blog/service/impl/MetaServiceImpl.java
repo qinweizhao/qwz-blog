@@ -9,6 +9,8 @@ import com.qinweizhao.blog.service.MetaService;
 import com.qinweizhao.blog.util.ServiceUtils;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
+import org.springframework.util.ObjectUtils;
 
 import java.util.*;
 
@@ -24,6 +26,9 @@ public class MetaServiceImpl extends ServiceImpl<MetaMapper, Meta> implements Me
 
     @Override
     public Map<Integer, List<MetaDTO>> getListMetaAsMapByPostIds(Set<Integer> postIds) {
+        if (CollectionUtils.isEmpty(postIds)) {
+            return Collections.emptyMap();
+        }
         List<MetaDTO> metas = MetaConvert.INSTANCE.convertToDTO(metaMapper.selectListByPostIds(postIds));
         // 转换结构
         Map<Long, MetaDTO> postMetaMap = ServiceUtils.convertToMap(metas, MetaDTO::getId);

@@ -33,9 +33,6 @@ public class PostController {
 
     private final PostService postService;
 
-    private final OptionService optionService;
-
-
     /**
      * 分页
      * <p>

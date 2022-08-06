@@ -48,15 +48,6 @@ public interface PostConvert {
     PostDTO convert(Post post);
 
     /**
-     * convertToSimpleDTO
-     *
-     * @param pageResult pageResult
-     * @return PageResult
-     */
-    PageResult<PostSimpleDTO> convertToSimpleDTO(PageResult<Post> pageResult);
-
-
-    /**
      * convertToListVO
      *
      * @param post post

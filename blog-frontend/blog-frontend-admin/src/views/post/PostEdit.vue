@@ -185,7 +185,7 @@ export default {
     async handleOpenPreview() {
       try {
         const response = await postApi.preview(this.postToStage.id)
-        window.open(response, '_blank')
+        window.open(response.data, '_blank')
         this.handleRestoreSavedStatus()
       } catch (e) {
         this.$log.error('Failed to get preview link', e)

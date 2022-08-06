@@ -2,7 +2,6 @@ package com.qinweizhao.blog.model.vo;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.ToString;
 
 import java.util.Comparator;
 
@@ -10,10 +9,10 @@ import java.util.Comparator;
  * Month archive vo.
  *
  * @author johnniang
+ * @author qinweizhao
  * @date 4/2/19
  */
 @Data
-@ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
 public class ArchiveMonthVO extends ArchiveYearVO {
 

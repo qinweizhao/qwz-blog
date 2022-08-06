@@ -150,20 +150,6 @@ public interface PostMapper extends BaseMapper<Post> {
         return this.updateById(post);
     }
 
-    /**
-     * 更新内容
-     *
-     * @param formatContent formatContent
-     * @param postId        postId
-     * @return int
-     */
-    // todo
-    default int updateFormatContent(String formatContent, Integer postId) {
-        Post post = new Post();
-        post.setId(postId);
-//        post.setFormatContent(formatContent);
-        return this.updateById(post);
-    }
 
     /**
      * 查询列表

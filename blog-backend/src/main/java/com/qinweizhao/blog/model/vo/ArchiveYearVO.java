@@ -12,11 +12,10 @@ import java.util.List;
  * Year archive vo.
  *
  * @author johnniang
+ * @author qinweizhao
  * @date 4/2/19
  */
 @Data
-@ToString
-@EqualsAndHashCode
 public class ArchiveYearVO {
 
     private Integer year;
