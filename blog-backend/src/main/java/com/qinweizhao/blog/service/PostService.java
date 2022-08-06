@@ -39,14 +39,6 @@ public interface PostService {
      */
     PostDTO getBySlugAndStatus(PostStatus published, String slug);
 
-    /**
-     * 更新状态
-     *
-     * @param status status
-     * @param postId postId
-     * @return boolean
-     */
-    boolean updateStatus(PostStatus status, Integer postId);
 
     /**
      * 生成描述
@@ -142,10 +134,29 @@ public interface PostService {
     boolean removeByIds(List<Integer> postIds);
 
     /**
+     * 更新草稿
      *
-     * @param content
-     * @param postId
-     * @return
+     * @param content content
+     * @param postId  postId
+     * @return boolean
      */
     boolean updateDraftContent(String content, Integer postId);
+
+    /**
+     * 更新状态
+     *
+     * @param status status
+     * @param postId postId
+     * @return boolean
+     */
+    boolean updateStatus(PostStatus status, Integer postId);
+
+    /**
+     * 更新状态
+     *
+     * @param ids    ids
+     * @param status status
+     * @return boolean
+     */
+    boolean updateStatusByIds(List<Integer> ids, PostStatus status);
 }

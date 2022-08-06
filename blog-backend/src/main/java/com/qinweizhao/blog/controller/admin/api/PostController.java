@@ -108,12 +108,17 @@ public class PostController {
         return postService.updateStatus(status, postId);
     }
 
-//    @PutMapping("status/{status}")
-//    @ApiOperation("Updates post status in batch")
-//    public List<Post> updateStatusInBatch(@PathVariable(name = "status") PostStatus status,
-//                                          @RequestBody List<Integer> ids) {
-//        return postService.updateStatusByIds(ids, status);
-//    }
+    /**
+     * 批量更新文章状态
+     * @param status status
+     * @param ids ids
+     * @return Boolean
+     */
+    @PutMapping("status/{status}")
+    public Boolean updateStatusInBatch(@PathVariable(name = "status") PostStatus status,
+                                          @RequestBody List<Integer> ids) {
+        return postService.updateStatusByIds(ids, status);
+    }
 
 
     /**

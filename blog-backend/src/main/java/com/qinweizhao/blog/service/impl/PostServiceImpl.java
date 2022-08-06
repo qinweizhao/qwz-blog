@@ -350,6 +350,12 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
+    public boolean updateStatusByIds(List<Integer> ids, PostStatus status) {
+        ids.forEach(item -> this.updateStatus(status, item));
+        return true;
+    }
+
+    @Override
     public PostDTO getById(Integer postId) {
 
         Post post = postMapper.selectById(postId);
