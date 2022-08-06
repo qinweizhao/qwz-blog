@@ -83,8 +83,8 @@ public class Post extends BaseEntity {
     private Boolean disallowComment;
 
     /**
-     * 是否置顶
+     * 优先级
      */
-    private Boolean topped;
+    private Integer topPriority;
 
 }

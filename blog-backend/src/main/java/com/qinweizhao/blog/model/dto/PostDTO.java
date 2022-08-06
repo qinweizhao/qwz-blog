@@ -28,6 +28,10 @@ public class PostDTO {
 
     private String fullPath;
 
+    private String formatContent;
+
+    private String originalContent;
+
     private String summary;
 
     private String thumbnail;

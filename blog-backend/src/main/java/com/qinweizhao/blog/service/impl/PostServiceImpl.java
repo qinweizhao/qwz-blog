@@ -21,6 +21,7 @@ import com.qinweizhao.blog.model.properties.PostProperties;
 import com.qinweizhao.blog.model.vo.ArchiveMonthVO;
 import com.qinweizhao.blog.model.vo.ArchiveYearVO;
 import com.qinweizhao.blog.service.*;
+import com.qinweizhao.blog.util.DateUtils;
 import com.qinweizhao.blog.util.HaloUtils;
 import com.qinweizhao.blog.util.MarkdownUtils;
 import com.qinweizhao.blog.util.ServiceUtils;
@@ -127,11 +128,26 @@ public class PostServiceImpl implements PostService {
         Set<Integer> categoryIds = param.getCategoryIds();
         Set<Integer> tagIds = param.getTagIds();
         Set<MetaParam> metas = param.getMetas();
+
+        String originalContent = param.getOriginalContent();
         Post post = PostConvert.INSTANCE.convert(param);
 
-        postMapper.insert(post);
 
+
+        if (StringUtils.isNotEmpty(post.getPassword()) && param.getStatus() != PostStatus.DRAFT) {
+            post.setStatus(PostStatus.INTIMATE.getValue());
+        }
+
+        originalContent = HaloUtils.cleanHtmlTag(originalContent);
+        post.setWordCount((long) originalContent.length());
+        postMapper.insert(post);
         Integer postId = post.getId();
+
+        Content content = new Content();
+        content.setContent(MarkdownUtils.renderHtml(originalContent));
+        content.setPostId(postId);
+        contentMapper.insert(content);
+
         this.savePostRelation(categoryIds, tagIds, metas, postId);
 
         return true;
@@ -305,6 +321,8 @@ public class PostServiceImpl implements PostService {
         List<CategoryDTO> categories = postCategoryService.listCategoriesByPostId(post.getId());
 
         Content content = contentMapper.selectById(postId);
+        postDTO.setFormatContent(content.getContent());
+        postDTO.setOriginalContent(content.getOriginalContent());
         postDTO.setSummary(generateSummary(content.getContent()));
 
         Set<Integer> tagIds = ServiceUtils.fetchProperty(tags, TagDTO::getId);

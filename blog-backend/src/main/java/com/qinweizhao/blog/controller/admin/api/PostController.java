@@ -58,7 +58,6 @@ public class PostController {
         return postService.listSimple(top);
     }
 
-
     /**
      * 详情
      *

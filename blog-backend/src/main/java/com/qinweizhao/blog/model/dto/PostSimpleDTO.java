@@ -32,10 +32,14 @@ public class PostSimpleDTO {
 
     private String password;
 
-    private Boolean topped;
+    private Integer topPriority;
 
     private Long likes;
 
     private LocalDateTime createTime;
+
+    public boolean isTopped() {
+        return this.topPriority != null && this.topPriority > 0;
+    }
 
 }

@@ -1,5 +1,6 @@
 package com.qinweizhao.blog.model.entity;
 
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.qinweizhao.blog.model.core.BaseEntity;
 import lombok.Data;
@@ -17,6 +18,7 @@ public class Content extends BaseEntity {
     /**
      * 文章编号
      */
+    @TableId(value = "post_id")
     private Integer postId;
 
     /**
