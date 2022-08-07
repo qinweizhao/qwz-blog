@@ -16,7 +16,7 @@ import javax.validation.constraints.Size;
  * @date 3/22/19
  */
 @Data
-public class PostCommentParam {
+public class CommentParam {
     @NotBlank(message = "评论者昵称不能为空")
     @Size(max = 50, message = "评论者昵称的字符长度不能超过 {max}")
     private String author;

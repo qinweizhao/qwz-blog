@@ -1,7 +1,5 @@
 package com.qinweizhao.blog.framework.core.freemarker.tag;
 
-import com.qinweizhao.blog.model.core.PageResult;
-import com.qinweizhao.blog.model.dto.CommentDTO;
 import com.qinweizhao.blog.model.enums.CommentType;
 import com.qinweizhao.blog.model.param.CommentQueryParam;
 import com.qinweizhao.blog.model.support.HaloConst;
@@ -41,8 +39,8 @@ public class CommentTagDirective implements TemplateDirectiveModel {
                     CommentQueryParam param = new CommentQueryParam();
                     param.setType(CommentType.POST);
                     param.setPage(top);
-                    PageResult<CommentDTO> commentResult = commentService.pageComment(param);
-                    env.setVariable("comments", builder.build().wrap(commentService.buildPageResultVO(commentResult)));
+                    // todo 未知错误待解决
+                    env.setVariable("comments", builder.build().wrap(commentService.pageComment(param)));
                     break;
                 case "count":
                     env.setVariable("count", builder.build().wrap(commentService.count()));

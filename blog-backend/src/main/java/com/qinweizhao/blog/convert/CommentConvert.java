@@ -1,13 +1,11 @@
 package com.qinweizhao.blog.convert;
 
 
-import com.qinweizhao.blog.model.core.PageResult;
 import com.qinweizhao.blog.model.dto.CommentDTO;
 import com.qinweizhao.blog.model.entity.Comment;
 import com.qinweizhao.blog.model.enums.CommentStatus;
 import com.qinweizhao.blog.model.enums.ValueEnum;
-import com.qinweizhao.blog.model.param.PostCommentParam;
-import com.qinweizhao.blog.model.vo.JournalCommentWithJournalVO;
+import com.qinweizhao.blog.model.param.CommentParam;
 import com.qinweizhao.blog.model.vo.PostCommentWithPostVO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -52,16 +50,6 @@ public interface CommentConvert {
         return ValueEnum.valueToEnum(CommentStatus.class, status);
     }
 
-
-
-    /**
-     * convertJournalToVO
-     *
-     * @param comment comment
-     * @return JournalCommentWithJournalVO
-     */
-    JournalCommentWithJournalVO convertJournalToVO(CommentDTO comment);
-
     /**
      * convert
      *
@@ -70,7 +58,6 @@ public interface CommentConvert {
      */
     CommentDTO convert(Comment comment);
 
-
     /**
      * convert
      *
@@ -78,7 +65,7 @@ public interface CommentConvert {
      * @return Comment
      */
     @Mapping(target = "type", ignore = true)
-    Comment convert(PostCommentParam commentParam);
+    Comment convert(CommentParam commentParam);
 
 
     /**

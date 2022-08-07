@@ -5,7 +5,7 @@ import com.qinweizhao.blog.model.dto.CommentDTO;
 import com.qinweizhao.blog.model.enums.CommentStatus;
 import com.qinweizhao.blog.model.enums.CommentType;
 import com.qinweizhao.blog.model.param.CommentQueryParam;
-import com.qinweizhao.blog.model.param.PostCommentParam;
+import com.qinweizhao.blog.model.param.CommentParam;
 import com.qinweizhao.blog.service.CommentService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -75,7 +75,7 @@ public class JournalCommentController {
      * @return Boolean
      */
     @PostMapping
-    public Boolean save(@RequestBody PostCommentParam param) {
+    public Boolean save(@RequestBody CommentParam param) {
         param.setType(CommentType.JOURNAL);
         return commentService.save(param);
     }
@@ -94,6 +94,19 @@ public class JournalCommentController {
     }
 
     /**
+     * 批量更新评论状态
+     *
+     * @param status status
+     * @param ids    ids
+     * @return Boolean
+     */
+    @PutMapping("status/{status}")
+    public Boolean updateStatusInBatch(@PathVariable(name = "status") CommentStatus status,
+                                       @RequestBody List<Long> ids) {
+        return commentService.updateStatusByIds(ids, status);
+    }
+
+    /**
      * 删除评论
      *
      * @param commentId commentId
@@ -102,5 +115,16 @@ public class JournalCommentController {
     @DeleteMapping("{commentId:\\d+}")
     public Boolean delete(@PathVariable("commentId") Long commentId) {
         return commentService.removeById(commentId);
+    }
+
+    /**
+     * 通过 id 数组批量永久删除评论
+     *
+     * @param ids ids
+     * @return Boolean
+     */
+    @DeleteMapping
+    public Boolean deletePermanentlyInBatch(@RequestBody List<Long> ids) {
+        return commentService.removeByIds(ids);
     }
 }

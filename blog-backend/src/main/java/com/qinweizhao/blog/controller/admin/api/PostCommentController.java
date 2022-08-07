@@ -5,7 +5,7 @@ import com.qinweizhao.blog.model.dto.CommentDTO;
 import com.qinweizhao.blog.model.enums.CommentStatus;
 import com.qinweizhao.blog.model.enums.CommentType;
 import com.qinweizhao.blog.model.param.CommentQueryParam;
-import com.qinweizhao.blog.model.param.PostCommentParam;
+import com.qinweizhao.blog.model.param.CommentParam;
 import com.qinweizhao.blog.service.CommentService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -78,7 +78,7 @@ public class PostCommentController {
      * @return Boolean
      */
     @PostMapping
-    public Boolean save(@RequestBody PostCommentParam param) {
+    public Boolean save(@RequestBody CommentParam param) {
         param.setType(CommentType.POST);
         return commentService.save(param);
     }
@@ -124,7 +124,7 @@ public class PostCommentController {
     }
 
     /**
-     * 通过id数组批量永久删除评论
+     * 通过 id 数组批量永久删除评论
      *
      * @param ids ids
      * @return Boolean

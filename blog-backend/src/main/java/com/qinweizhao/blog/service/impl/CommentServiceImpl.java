@@ -17,12 +17,11 @@ import com.qinweizhao.blog.model.entity.Journal;
 import com.qinweizhao.blog.model.entity.Post;
 import com.qinweizhao.blog.model.entity.User;
 import com.qinweizhao.blog.model.enums.*;
+import com.qinweizhao.blog.model.param.CommentParam;
 import com.qinweizhao.blog.model.param.CommentQueryParam;
-import com.qinweizhao.blog.model.param.PostCommentParam;
 import com.qinweizhao.blog.model.projection.CommentCountProjection;
 import com.qinweizhao.blog.model.properties.BlogProperties;
 import com.qinweizhao.blog.model.properties.CommentProperties;
-import com.qinweizhao.blog.model.vo.PostCommentWithPostVO;
 import com.qinweizhao.blog.security.authentication.Authentication;
 import com.qinweizhao.blog.security.context.SecurityContextHolder;
 import com.qinweizhao.blog.service.CommentBlackListService;
@@ -150,35 +149,6 @@ public class CommentServiceImpl implements CommentService {
         return fullPath.toString();
     }
 
-    @Override
-    public List<PostCommentWithPostVO> buildResultVO(List<CommentDTO> contents) {
-        // 获取 id
-
-
-//        Map<Integer, Post> postMap = ServiceUtils.convertToMap(postMapper.selectListByIds(postIds), Post::getId);
-
-        return null;
-//        return contents.stream()
-//                .filter(comment -> postMap.containsKey(comment.getPostId()))
-//                .map(comment -> {
-//
-//                    PostCommentWithPostVO postCommentWithPostVO = CommentConvert.INSTANCE.convertPostToVO(comment);
-//
-//                    Post post = postMap.get(comment.getPostId());
-//                    PostSimpleDTO postSimpleDTO = PostConvert.INSTANCE.convert(post);
-//
-//                    postCommentWithPostVO.setPost(postSimpleDTO);
-//
-//                    return postCommentWithPostVO;
-//                }).collect(Collectors.toList());
-
-    }
-
-    @Override
-    public PageResult<PostCommentWithPostVO> buildPageResultVO(PageResult<CommentDTO> commentResult) {
-        List<CommentDTO> contents = commentResult.getContent();
-        return new PageResult<>(this.buildResultVO(contents), commentResult.getTotal(), commentResult.hasPrevious(), commentResult.hasNext());
-    }
 
     @Override
     public boolean updateStatus(Long commentId, CommentStatus status) {
@@ -186,7 +156,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public boolean save(PostCommentParam param) {
+    public boolean save(CommentParam param) {
         CommentType type = param.getType();
 
         // 检查用户登录状态并设置此字段
