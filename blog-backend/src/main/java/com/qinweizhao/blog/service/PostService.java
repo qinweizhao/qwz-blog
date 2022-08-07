@@ -48,6 +48,14 @@ public interface PostService {
      */
     String generateDescription(String content);
 
+    /**
+     * 构建完整路径
+     *
+     * @param postId postId
+     * @return String
+     */
+    String buildFullPath(Integer postId);
+
     List<PostListDTO> convertToListVo(List<PostSimpleDTO> simpleDTOList);
 
     List<ArchiveYearVO> listYearArchives();

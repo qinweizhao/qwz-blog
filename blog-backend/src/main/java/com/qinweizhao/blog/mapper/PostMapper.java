@@ -2,6 +2,7 @@ package com.qinweizhao.blog.mapper;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.qinweizhao.blog.convert.PostConvert;
 import com.qinweizhao.blog.model.core.PageResult;
@@ -114,9 +115,9 @@ public interface PostMapper extends BaseMapper<Post> {
      * @param param param
      * @return PageResult
      */
-    default PageResult<Post> selectPagePosts(PostQueryParam param) {
+    default PageResult<Post> selectPage(PostQueryParam param) {
         // 未来拓展下 MybatisPlus 直接使用关联查询，或者使用其他方案。
-        Page<Post> page = MyBatisUtils.buildPage(param);
+        IPage<Post> page = MyBatisUtils.buildPage(param);
 
         Map<String, Object> paramMap = new LinkedHashMap<>();
         paramMap.put("keyword", param.getKeyword());
@@ -134,7 +135,7 @@ public interface PostMapper extends BaseMapper<Post> {
      * @param param param
      * @return PageResult
      */
-    Page<Post> selectPagePosts(Page<Post> page, @Param("param") Map<String, Object> param);
+    Page<Post> selectPagePosts(IPage<Post> page, @Param("param") Map<String, Object> param);
 
     /**
      * 更新帖子状态

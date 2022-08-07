@@ -28,7 +28,9 @@
         , disallow_comment, likes, meta_description, meta_keywords,  password, slug, status, summary, thumbnail, title, top_priority, visits, word_count, create_time, update_time
     </sql>
     <sql id="Base_Column_List_Plus">
-        p.id
+        p
+        .
+        id
         , p.disallow_comment, p.likes, p.meta_description, p.meta_keywords,  p.password, p.slug, p.status, p.summary, p.thumbnail, p.title, p.top_priority, p.visits, p.word_count, p.create_time, p.update_time
     </sql>
 
@@ -80,13 +82,9 @@
             <if test="param.status != null and param.status != ''">
                 and p.status = #{param.status.value}
             </if>
-        </where>
-        <where>
             <if test="param.keyword != null and param.keyword != ''">
                 and p.title like concat('%', #{param.keyword}, '%')
             </if>
-        </where>
-        <where>
             <if test="param.categoryId != null and param.categoryId != ''">
                 and pc.category_id = #{param.categoryId}
             </if>

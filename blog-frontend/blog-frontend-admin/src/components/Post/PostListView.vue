@@ -585,7 +585,7 @@ export default {
      * Handle page change
      */
     handlePageChange(page = 1) {
-      this.list.params.page = page - 1
+      this.list.params.page = page
       this.handleListPosts()
     },
 
@@ -594,7 +594,7 @@ export default {
      */
     handlePageSizeChange(current, size) {
       this.$log.debug(`Current: ${current}, PageSize: ${size}`)
-      this.list.params.page = 0
+      this.list.params.page = 1
       this.list.params.size = size
       this.handleListPosts()
     },

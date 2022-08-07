@@ -11,17 +11,17 @@ import java.util.List;
  */
 public abstract class PageParam {
 
-    private static final long serialVersionUID = 1L;
-
     public static final String ASC = "ASC";
 
     public static final String DESC = "DESC";
+
+    private static final int DEFAULT_PAGE_NUM = 1;
 
     private static final int DEFAULT_PAGE_SIZE = 10;
 
     private int size = DEFAULT_PAGE_SIZE;
 
-    private int page = 1;
+    private int page = DEFAULT_PAGE_NUM;
 
     private String orderDirection = DESC;
 
@@ -70,13 +70,10 @@ public abstract class PageParam {
     }
 
     public int getPage() {
-        if (page < 1) {
-            return 1;
-        }
-        return page;
+        return Math.max(page, 1);
     }
 
-    public PageParam setPage(int pageIndex) {
+    public PageParam setPage(int page) {
         this.page = page;
         return this;
     }

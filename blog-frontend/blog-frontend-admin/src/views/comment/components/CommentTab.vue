@@ -144,11 +144,11 @@
               <a-list-item-meta>
                 <template #description>
                   发表在
-                  <a v-if="targetName === 'posts'" :href="item.post.fullPath" target="_blank">
-                    《{{ item.post.title }}》
+                  <a v-if="targetName === 'posts'" :href="item.target.fullPath" target="_blank">
+                    《{{ item.target.title }}》
                   </a>
                   <a v-if="targetName === 'journals'" href="javascript:void(0);">
-                    《{{ item.journal.createTime | moment }}》
+                    《{{ item.target.content | moment }}》
                   </a>
                 </template>
 
@@ -201,14 +201,13 @@
           <template #status="status">
             <a-badge :status="commentStatuses[status].status" :text="status | statusText" />
           </template>
-
-          <template v-if="targetName === 'posts'" #post="post">
-            <a :href="post.fullPath" target="_blank">
-              {{ post.title }}
+          <template v-if="targetName === 'posts'" #post="target">
+            <a :href="target.fullPath" target="_blank">
+              {{ target.title }}
             </a>
           </template>
-          <template v-if="targetName === 'journals'" #journal="journal">
-            <p class="comment-content-wrapper" v-html="journal.content"></p>
+          <template v-if="targetName === 'journals'" #journal="target">
+            <p class="comment-content-wrapper" v-html="target.content"></p>
           </template>
 
           <template #createTime="createTime">
@@ -331,7 +330,7 @@ const postColumns = [
   },
   {
     title: '评论文章',
-    dataIndex: 'post',
+    dataIndex: 'target',
     width: '200px',
     ellipsis: true,
     scopedSlots: { customRender: 'post' }
@@ -372,7 +371,7 @@ const journalColumns = [
   },
   {
     title: '评论日志',
-    dataIndex: 'journal',
+    dataIndex: 'target',
     width: '400px',
     ellipsis: true,
     scopedSlots: { customRender: 'journal' }

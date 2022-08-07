@@ -117,7 +117,6 @@ import { PageView } from '@/layouts'
 import AnalysisCard from './components/AnalysisCard'
 import RecentCommentTab from './components/RecentCommentTab'
 
-import apiClient from '@/utils/api-client'
 import postApi from '@/api/post'
 import logApi from '@/api/log'
 import statisticsApi from '@/api/statistics'

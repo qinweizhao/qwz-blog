@@ -1,6 +1,8 @@
 package com.qinweizhao.blog.model.core;
 
 
+import lombok.ToString;
+
 import java.util.Collections;
 import java.util.List;
 
@@ -63,14 +65,27 @@ public class PageResult<T> {
     }
 
     public Boolean hasPrevious() {
+        return this.hasPrevious;
+    }
+
+    public Boolean hasNext() {
+        return this.hasNext;
+    }
+    
+    public Boolean getHasPrevious() {
         return hasPrevious;
     }
 
+    public void setHasPrevious(Boolean hasPrevious) {
+        this.hasPrevious = hasPrevious;
+    }
 
-
-    public Boolean hasNext() {
+    public Boolean getHasNext() {
         return hasNext;
     }
 
+    public void setHasNext(Boolean hasNext) {
+        this.hasNext = hasNext;
+    }
 
 }

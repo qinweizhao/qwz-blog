@@ -54,22 +54,17 @@ export default {
   computed: {
     targetTitle() {
       return function (comment) {
-        if (comment.post) {
-          return comment.post.title
-        }
-        if (comment.journal) {
-          return datetimeFormat(comment.journal.createTime)
-        }
-        return ''
+        return comment.target.title || datetimeFormat(comment.target.createTime)
       }
     }
   },
   methods: {
     async handleOpenTarget(comment) {
-      const post = comment
-      if (post) {
-        const { status, fullPath, id } = post
+      const target = comment
+      if (target) {
+        const { status, fullPath, id } = target.target
         if (['PUBLISHED', 'INTIMATE'].includes(status)) {
+          console.log(fullPath)
           window.open(fullPath, '_blank')
           return
         }

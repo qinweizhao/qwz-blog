@@ -31,7 +31,7 @@ export default {
       try {
         this.loading = true
         const { data } = await commentApi.latestComment(this.type, 5, 'PUBLISHED')
-        this.comments = data
+        this.comments = data.data
       } catch (e) {
         this.$log.error('Failed to load comments', e)
       } finally {

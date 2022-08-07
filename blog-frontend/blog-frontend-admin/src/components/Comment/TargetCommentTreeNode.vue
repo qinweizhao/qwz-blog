@@ -99,7 +99,7 @@ export default {
       type: String,
       required: true,
       validator: value => {
-        return ['post', 'sheet', 'journal'].indexOf(value) !== -1
+        return ['post', 'journal'].indexOf(value) !== -1
       }
     },
     targetId: {

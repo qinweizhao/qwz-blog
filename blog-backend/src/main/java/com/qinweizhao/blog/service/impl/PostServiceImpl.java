@@ -82,11 +82,10 @@ public class PostServiceImpl implements PostService {
 
     private AbstractStringCacheStore cacheStore;
 
-
     @Override
     public PageResult<PostListDTO> page(PostQueryParam param) {
 
-        PageResult<Post> pageResult = postMapper.selectPagePosts(param);
+        PageResult<Post> pageResult = postMapper.selectPage(param);
         List<Post> pageContent = pageResult.getContent();
         List<PostSimpleDTO> posts = PostConvert.INSTANCE.convertToSimpleDTO(pageContent);
 
@@ -567,26 +566,21 @@ public class PostServiceImpl implements PostService {
     }
 
     protected String generateSummary(@NonNull String htmlContent) {
-        Assert.notNull(htmlContent, "html content must not be null");
+        Assert.notNull(htmlContent, "文章原始内容不能为空");
 
         String text = HaloUtils.cleanHtmlTag(htmlContent);
 
         Matcher matcher = summaryPattern.matcher(text);
         text = matcher.replaceAll("");
 
-        // Get summary length
         Integer summaryLength = optionService.getByPropertyOrDefault(PostProperties.SUMMARY_LENGTH, Integer.class, 150);
 
         return StringUtils.substring(text, 0, summaryLength);
     }
 
-    /**
-     * 构建完整路径
-     *
-     * @param postId postId
-     * @return String
-     */
-    private String buildFullPath(Integer postId) {
+
+    @Override
+    public String buildFullPath(Integer postId) {
         StringBuilder fullPath = new StringBuilder();
 
         if (optionService.isEnabledAbsolutePath()) {

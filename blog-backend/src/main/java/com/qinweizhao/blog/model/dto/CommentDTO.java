@@ -23,7 +23,7 @@ public class CommentDTO extends BaseTree<CommentDTO> {
 
     private Integer targetId;
 
-    private String targetContent;
+    private Object target;
 
     private String author;
 

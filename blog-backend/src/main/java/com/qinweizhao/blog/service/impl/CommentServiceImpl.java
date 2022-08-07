@@ -16,9 +16,7 @@ import com.qinweizhao.blog.model.entity.Comment;
 import com.qinweizhao.blog.model.entity.Journal;
 import com.qinweizhao.blog.model.entity.Post;
 import com.qinweizhao.blog.model.entity.User;
-import com.qinweizhao.blog.model.enums.CommentStatus;
-import com.qinweizhao.blog.model.enums.CommentType;
-import com.qinweizhao.blog.model.enums.CommentViolationTypeEnum;
+import com.qinweizhao.blog.model.enums.*;
 import com.qinweizhao.blog.model.param.CommentQueryParam;
 import com.qinweizhao.blog.model.param.PostCommentParam;
 import com.qinweizhao.blog.model.projection.CommentCountProjection;
@@ -46,6 +44,8 @@ import org.springframework.util.ObjectUtils;
 
 import java.util.*;
 import java.util.stream.Collectors;
+
+import static com.qinweizhao.blog.model.support.HaloConst.URL_SEPARATOR;
 
 /**
  * PostCommentService implementation class
@@ -103,26 +103,51 @@ public class CommentServiceImpl implements CommentService {
         CommentType type = param.getType();
         if (type.equals(CommentType.POST)) {
             Map<Integer, Post> postMap = ServiceUtils.convertToMap(postMapper.selectListByIds(targetIds), Post::getId);
-            collect = result.stream().filter(comment -> postMap.containsKey(comment.getTargetId())).peek(
-                    comment -> {
-                        Integer targetId = comment.getTargetId();
-                        Post post = postMap.get(targetId);
-                        comment.setTargetContent(post.getTitle());
-                    }
-            ).collect(Collectors.toList());
+            collect = result.stream()
+                    .filter(comment -> postMap.containsKey(comment.getTargetId()))
+                    .peek(
+                            comment -> {
+                                Integer targetId = comment.getTargetId();
+                                Post post = postMap.get(targetId);
+                                Map<String, Object> map = new HashMap<>(3);
+                                map.put("title", post.getTitle());
+                                map.put("status", ValueEnum.valueToEnum(PostStatus.class, post.getStatus()));
+                                map.put("fullPath", this.buildFullPath(post.getId()));
+                                comment.setTarget(map);
+                            }
+                    ).collect(Collectors.toList());
 
         } else {
             Map<Integer, Journal> journalMap = ServiceUtils.convertToMap(journalMapper.selectListByIds(targetIds), Journal::getId);
-            collect = result.stream().filter(comment -> journalMap.containsKey(comment.getTargetId())).peek(
-                    comment -> {
-                        Integer targetId = comment.getTargetId();
-                        Journal post = journalMap.get(targetId);
-                        comment.setTargetContent(post.getContent());
-                    }
-            ).collect(Collectors.toList());
+            collect = result.stream()
+                    .filter(comment -> journalMap.containsKey(comment.getTargetId())).peek(
+                            comment -> {
+                                Integer targetId = comment.getTargetId();
+                                Journal journal = journalMap.get(targetId);
+                                Map<String, Object> map = new HashMap<>(2);
+                                map.put("content", journal.getContent());
+                                map.put("createTime", journal.getCreateTime());
+                                comment.setTarget(map);
+                            }
+                    ).collect(Collectors.toList());
         }
 
         return new PageResult<>(collect, commentResult.getTotal(), commentResult.hasPrevious(), commentResult.hasNext());
+    }
+
+    public String buildFullPath(Integer postId) {
+        StringBuilder fullPath = new StringBuilder();
+
+        if (optionService.isEnabledAbsolutePath()) {
+            fullPath.append(optionService.getBlogBaseUrl());
+        }
+
+        fullPath.append(URL_SEPARATOR);
+
+        fullPath.append("?p=")
+                .append(postId);
+
+        return fullPath.toString();
     }
 
     @Override

@@ -36,9 +36,6 @@ public class ControllerExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public BaseResponse<?> handleDataIntegrityViolationException(DataIntegrityViolationException e) {
         BaseResponse<?> baseResponse = handleBaseException(e);
-//        if (e.getCause() instanceof org.hibernate.exception.ConstraintViolationException) {
-//            baseResponse = handleBaseException(e.getCause());
-//        }
         baseResponse.setMessage("字段验证错误，请完善后重试！");
         return baseResponse;
     }
