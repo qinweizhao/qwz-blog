@@ -33,11 +33,6 @@ public class Post extends BaseEntity {
     private String summary;
 
     /**
-     * 访问地址
-     */
-    private String url;
-
-    /**
      * seo 关键字
      */
     private String metaKeywords;
