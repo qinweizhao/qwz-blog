@@ -432,7 +432,7 @@ public class CommentServiceImpl implements CommentService {
      * @param comments      comments
      */
     private void concreteTree(CommentDTO parentComment, List<Comment> comments) {
-        Assert.notNull(parentComment, "Parent comment must not be null");
+        Assert.notNull(parentComment, "父评论不能为空");
 
         if (CollectionUtils.isEmpty(comments)) {
             return;

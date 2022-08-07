@@ -38,10 +38,10 @@ public interface CommentMapper extends BaseMapper<Comment> {
     List<CommentCountProjection> selectCountByPostIds(@Param("targetIds") Collection<Integer> targetIds);
 
     /**
-     * Finds direct children count by comment ids.
+     * 按评论 id 查找直接子评论。
      *
-     * @param commentIds comment ids must not be null.
-     * @return a list of CommentChildrenCountProjection
+     * @param commentIds commentIds
+     * @return List
      */
     List<CommentChildrenCountProjection> selectCountDirectChildren(@Param("commentIds") Collection<Long> commentIds);
 

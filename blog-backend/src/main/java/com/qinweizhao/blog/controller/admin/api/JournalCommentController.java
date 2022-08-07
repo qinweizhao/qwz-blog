@@ -60,7 +60,7 @@ public class JournalCommentController {
      * 用树状视图列出帖子评论
      *
      * @param journalId postId
-     * @param param  param
+     * @param param     param
      * @return Page
      */
     @GetMapping("{journalId:\\d+}/tree_view")
