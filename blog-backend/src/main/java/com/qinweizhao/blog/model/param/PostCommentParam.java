@@ -1,5 +1,6 @@
 package com.qinweizhao.blog.model.param;
 
+import com.qinweizhao.blog.model.enums.CommentType;
 import lombok.Data;
 import org.hibernate.validator.constraints.URL;
 
@@ -33,11 +34,16 @@ public class PostCommentParam {
     @Size(max = 1023, message = "评论内容的字符长度不能超过 {max}")
     private String content;
 
-    @Min(value = 1, message = "Post id must not be less than {value}")
-    private Integer postId;
+    @Min(value = 1, message = "文章编号不能小于 {value}")
+    private Integer targetId;
 
     @Min(value = 0, message = "PostComment parent id must not be less than {value}")
     private Long parentId = 0L;
 
     private Boolean allowNotification = true;
+
+    /**
+     * 类型（前端不用传）
+     */
+    private CommentType type;
 }

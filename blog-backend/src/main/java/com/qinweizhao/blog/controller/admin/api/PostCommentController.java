@@ -6,7 +6,6 @@ import com.qinweizhao.blog.model.enums.CommentStatus;
 import com.qinweizhao.blog.model.enums.CommentType;
 import com.qinweizhao.blog.model.param.CommentQueryParam;
 import com.qinweizhao.blog.model.param.PostCommentParam;
-import com.qinweizhao.blog.model.vo.PostCommentWithPostVO;
 import com.qinweizhao.blog.service.CommentService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -49,7 +48,7 @@ public class PostCommentController {
      */
     @GetMapping("latest")
     public List<CommentDTO> listLatest(@RequestParam(name = "top", defaultValue = "10") int top,
-                                                  @RequestParam(name = "status", required = false) CommentStatus status) {
+                                       @RequestParam(name = "status", required = false) CommentStatus status) {
         // 构建请求参数，之所以用分页查询是因为不想再多写一个方法了。
         CommentQueryParam param = new CommentQueryParam();
         param.setPage(top);
@@ -75,12 +74,13 @@ public class PostCommentController {
     /**
      * 新增
      *
-     * @param postCommentParam postCommentParam
+     * @param param param
      * @return Boolean
      */
     @PostMapping
-    public Boolean save(@RequestBody PostCommentParam postCommentParam) {
-        return commentService.save(postCommentParam);
+    public Boolean save(@RequestBody PostCommentParam param) {
+        param.setType(CommentType.POST);
+        return commentService.save(param);
     }
 
 

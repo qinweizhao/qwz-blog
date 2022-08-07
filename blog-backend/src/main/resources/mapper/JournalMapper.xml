@@ -4,18 +4,25 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.qinweizhao.blog.model.entity.Journal">
-        <id column="id" property="id" />
-        <result column="create_time" property="createTime" />
-        <result column="update_time" property="updateTime" />
-        <result column="content" property="content" />
-        <result column="likes" property="likes" />
-        <result column="source_content" property="sourceContent" />
-        <result column="type" property="type" />
+        <id column="id" property="id"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="content" property="content"/>
+        <result column="likes" property="likes"/>
+        <result column="source_content" property="sourceContent"/>
+        <result column="type" property="type"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, create_time, update_time, content, likes, source_content, type
+        id
+        , create_time, update_time, content, likes, source_content, type
     </sql>
+
+    <select id="selectExistsById" resultType="java.lang.Boolean">
+        select count(0)
+        from journal
+        where id = #{journalId} limit 1
+    </select>
 
 </mapper>

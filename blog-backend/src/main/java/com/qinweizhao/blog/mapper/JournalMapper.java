@@ -28,6 +28,13 @@ public interface JournalMapper extends BaseMapper<Journal> {
         );
     }
 
+    /**
+     * 通过 id 查询是否存在
+     * @param journalId journalId
+     * @return boolean
+     */
+    boolean selectExistsById(Integer journalId);
+
 
 //    /**
 //     * 通过分类查询所有日志

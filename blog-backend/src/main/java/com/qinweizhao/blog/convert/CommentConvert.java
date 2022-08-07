@@ -10,6 +10,7 @@ import com.qinweizhao.blog.model.param.PostCommentParam;
 import com.qinweizhao.blog.model.vo.JournalCommentWithJournalVO;
 import com.qinweizhao.blog.model.vo.PostCommentWithPostVO;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
 import java.util.List;
@@ -51,6 +52,35 @@ public interface CommentConvert {
         return ValueEnum.valueToEnum(CommentStatus.class, status);
     }
 
+
+
+    /**
+     * convertJournalToVO
+     *
+     * @param comment comment
+     * @return JournalCommentWithJournalVO
+     */
+    JournalCommentWithJournalVO convertJournalToVO(CommentDTO comment);
+
+    /**
+     * convert
+     *
+     * @param comment comment
+     * @return CommentDTO
+     */
+    CommentDTO convert(Comment comment);
+
+
+    /**
+     * convert
+     *
+     * @param commentParam commentParam
+     * @return Comment
+     */
+    @Mapping(target = "type", ignore = true)
+    Comment convert(PostCommentParam commentParam);
+
+
     /**
      * 状态转换
      *
@@ -77,29 +107,4 @@ public interface CommentConvert {
         }
         return commentStatus;
     }
-
-    /**
-     * convertJournalToVO
-     *
-     * @param comment comment
-     * @return JournalCommentWithJournalVO
-     */
-    JournalCommentWithJournalVO convertJournalToVO(CommentDTO comment);
-
-    /**
-     * convert
-     *
-     * @param comment comment
-     * @return CommentDTO
-     */
-    CommentDTO convert(Comment comment);
-
-
-    /**
-     * convert
-     *
-     * @param commentParam commentParam
-     * @return Comment
-     */
-    Comment convert(PostCommentParam commentParam);
 }

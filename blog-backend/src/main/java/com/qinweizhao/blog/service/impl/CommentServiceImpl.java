@@ -186,7 +186,8 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public boolean save(PostCommentParam commentParam) {
+    public boolean save(PostCommentParam param) {
+        CommentType type = param.getType();
 
         // 检查用户登录状态并设置此字段
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -194,26 +195,26 @@ public class CommentServiceImpl implements CommentService {
         if (authentication != null) {
             // Blogger comment
             User user = authentication.getDetail().getUser();
-            commentParam.setAuthor(StringUtils.isBlank(user.getNickname()) ? user.getUsername() : user.getNickname());
-            commentParam.setEmail(user.getEmail());
-            commentParam.setAuthorUrl(optionService.getByPropertyOrDefault(BlogProperties.BLOG_URL, String.class, null));
+            param.setAuthor(StringUtils.isBlank(user.getNickname()) ? user.getUsername() : user.getNickname());
+            param.setEmail(user.getEmail());
+            param.setAuthorUrl(optionService.getByPropertyOrDefault(BlogProperties.BLOG_URL, String.class, null));
         }
 
         // 手动验证评论参数
-        ValidationUtils.validate(commentParam);
+        ValidationUtils.validate(param);
 
         if (authentication == null) {
 
-            if (userService.getByEmail(commentParam.getEmail()).isPresent()) {
+            if (userService.getByEmail(param.getEmail()).isPresent()) {
                 throw new BadRequestException("不能使用博主的邮箱，如果您是博主，请登录管理端进行回复。");
             }
         }
 
-        Comment comment = CommentConvert.INSTANCE.convert(commentParam);
+        Comment comment = CommentConvert.INSTANCE.convert(param);
 
         // Check post id
         if (!ServiceUtils.isEmptyId(comment.getTargetId())) {
-            this.validateTarget(comment.getTargetId());
+            this.validateTarget(comment.getTargetId(), type);
         }
 
         // Check parent id
@@ -253,6 +254,9 @@ public class CommentServiceImpl implements CommentService {
             comment.setStatus(needAudit ? CommentStatus.AUDITING.getValue() : CommentStatus.PUBLISHED.getValue());
         }
 
+        // 设置类型
+        comment.setType(type.getValue());
+
         // todo
         // event
 
@@ -261,12 +265,20 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public void validateTarget(Integer postId) {
-        Post post = postMapper.selectById(postId);
-        Assert.notNull(post, "查询不到该文章的信息");
-        if (post.getDisallowComment()) {
-            throw new BadRequestException("该文章已经被禁止评论").setErrorData(postId);
+    public void validateTarget(Integer targetId, CommentType type) {
+
+        if (type.equals(CommentType.POST)) {
+            Post post = postMapper.selectById(targetId);
+            Assert.notNull(post, "查询不到该文章的信息");
+            if (post.getDisallowComment()) {
+                throw new BadRequestException("该文章已经被禁止评论").setErrorData(targetId);
+            }
+        } else {
+            if (!journalMapper.selectExistsById(targetId)) {
+                throw new NotFoundException("查询不到该日志信息").setErrorData(targetId);
+            }
         }
+
     }
 
     @Override

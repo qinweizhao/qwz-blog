@@ -82,7 +82,7 @@ export default {
           try {
             _this.submitting = true
 
-            _this.model.postId = _this.targetId
+            _this.model.targetId = _this.targetId
 
             if (_this.comment) {
               _this.model.parentId = _this.comment.id

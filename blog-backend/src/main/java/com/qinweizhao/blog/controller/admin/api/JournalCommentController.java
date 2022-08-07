@@ -9,6 +9,8 @@ import com.qinweizhao.blog.model.entity.Journal;
 import com.qinweizhao.blog.model.enums.CommentStatus;
 import com.qinweizhao.blog.model.enums.CommentType;
 import com.qinweizhao.blog.model.param.CommentQueryParam;
+import com.qinweizhao.blog.model.param.JournalCommentParam;
+import com.qinweizhao.blog.model.param.PostCommentParam;
 import com.qinweizhao.blog.model.vo.JournalCommentWithJournalVO;
 import com.qinweizhao.blog.service.CommentService;
 import com.qinweizhao.blog.service.JournalService;
@@ -36,9 +38,6 @@ import java.util.stream.Collectors;
 public class JournalCommentController {
 
     private final CommentService commentService;
-
-    private final JournalService journalService;
-
 
     /**
      * 分页
@@ -69,37 +68,6 @@ public class JournalCommentController {
         return commentService.pageComment(param).getContent();
     }
 
-    /**
-     * 构建返回的VO
-     *
-     * @param contents contents
-     * @return List
-     */
-    private List<JournalCommentWithJournalVO> buildResultVO(List<CommentDTO> contents) {
-        // 获取 id
-        Set<Integer> journalIds = ServiceUtils.fetchProperty(contents, CommentDTO::getTargetId);
-
-        if (ObjectUtils.isEmpty(journalIds)) {
-            return new ArrayList<>();
-        }
-
-        Map<Integer, Journal> journalMap = ServiceUtils.convertToMap(journalService.listByIds(journalIds), Journal::getId);
-
-        return contents.stream()
-                .filter(comment -> journalMap.containsKey(comment.getTargetId()))
-                .map(comment -> {
-
-                    JournalCommentWithJournalVO journalCommentWithJournalVO = CommentConvert.INSTANCE.convertJournalToVO(comment);
-
-                    Journal journal = journalMap.get(comment.getTargetId());
-                    JournalDTO journalDTO = JournalConvert.INSTANCE.convert(journal);
-
-                    journalCommentWithJournalVO.setJournal(journalDTO);
-
-                    return journalCommentWithJournalVO;
-                }).collect(Collectors.toList());
-    }
-
 
     @GetMapping("{journalId:\\d+}/tree_view")
     public PageResult<CommentDTO> pageTree(@PathVariable("journalId") Integer journalId, CommentQueryParam param) {
@@ -114,11 +82,18 @@ public class JournalCommentController {
 //        return journalCommentService.pageWithParentVoBy(journalId, PageRequest.of(page, optionService.getCommentPageSize(), sort));
 //    }
 
-//    @PostMapping
-//    public Boolean createCommentBy(@RequestBody JournalCommentParam journalCommentParam) {
-//        return commentService.save(journalCommentParam);
-//    }
-//
+    /**
+     * 新增
+     *
+     * @param param param
+     * @return Boolean
+     */
+    @PostMapping
+    public Boolean save(@RequestBody PostCommentParam param) {
+        param.setType(CommentType.JOURNAL);
+        return commentService.save(param);
+    }
+
 //    @PutMapping("{commentId:\\d+}/status/{status}")
 //    public Boolean updateStatusBy(@PathVariable("commentId") Long commentId,
 //                                         @PathVariable("status") CommentStatus status) {

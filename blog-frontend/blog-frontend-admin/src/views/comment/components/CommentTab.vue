@@ -452,13 +452,13 @@ export default {
       if (Object.keys(this.selectedComment).length === 0) {
         return 0
       }
-      if (this.targetName === 'posts') {
-        return this.selectedComment.post.id
-      }
-      if (this.targetName === 'journals') {
-        return this.selectedComment.journal.id
-      }
-      return 0
+      // if (this.targetName === 'posts') {
+      return this.selectedComment.targetId
+      // }
+      // if (this.targetName === 'journals') {
+      //   return this.selectedComment.target.id
+      // }
+      // return 0
     }
   },
   watch: {
