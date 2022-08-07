@@ -361,6 +361,7 @@ const journalColumns = [
   {
     title: '内容',
     dataIndex: 'content',
+    width: '200px',
     scopedSlots: { customRender: 'content' }
   },
   {

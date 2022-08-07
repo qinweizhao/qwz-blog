@@ -2,7 +2,12 @@ package com.qinweizhao.blog.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.qinweizhao.blog.model.entity.Journal;
+import com.qinweizhao.blog.model.entity.Post;
+import com.qinweizhao.blog.util.LambdaQueryWrapperX;
 import org.apache.ibatis.annotations.Mapper;
+
+import java.util.List;
+import java.util.Set;
 
 /**
  * @author qinweizhao
@@ -10,6 +15,19 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface JournalMapper extends BaseMapper<Journal> {
+
+    /**
+     * 查询列表
+     *
+     * @param journalIds journalIds
+     * @return List
+     */
+    default List<Journal> selectListByIds(Set<Integer> journalIds){
+        return selectList(new LambdaQueryWrapperX<Journal>()
+                .inIfPresent(Journal::getId, journalIds)
+        );
+    }
+
 
 //    /**
 //     * 通过分类查询所有日志

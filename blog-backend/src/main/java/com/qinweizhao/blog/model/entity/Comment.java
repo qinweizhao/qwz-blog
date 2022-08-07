@@ -37,7 +37,7 @@ public class Comment extends BaseEntity {
 
     private Long parentId;
 
-    private Integer postId;
+    private Integer targetId;
 
     private Integer status;
 

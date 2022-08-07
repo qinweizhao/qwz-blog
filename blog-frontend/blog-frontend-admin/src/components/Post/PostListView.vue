@@ -503,7 +503,7 @@ export default {
   computed: {
     pagination() {
       return {
-        page: this.list.params.page + 1,
+        page: this.list.params.page,
         size: this.list.params.size,
         total: this.list.total
       }

@@ -17,7 +17,7 @@
         <result column="ip_address" property="ipAddress"/>
         <result column="is_admin" property="isAdmin"/>
         <result column="parent_id" property="parentId"/>
-        <result column="post_id" property="postId"/>
+        <result column="target_id" property="targetId"/>
         <result column="status" property="status"/>
         <result column="top_priority" property="topPriority"/>
         <result column="user_agent" property="userAgent"/>
@@ -26,7 +26,7 @@
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         type
-        , id, create_time, update_time, allow_notification, author, author_url, content, email, gravatar_md5, ip_address, is_admin, parent_id, post_id, status, top_priority, user_agent
+        , id, create_time, update_time, allow_notification, author, author_url, content, email, gravatar_md5, ip_address, is_admin, parent_id, target_id, status, top_priority, user_agent
     </sql>
 
     <update id="updateStatusById">
@@ -37,20 +37,20 @@
 
 
     <select id="selectCountByPostIds" resultType="com.qinweizhao.blog.model.projection.CommentCountProjection">
-        select count(id) as count, post_id
+        select count(id) as count, target_id
         from comment
         <where>
-            post_id in
+            target_id in
             <foreach collection="postIds" item="id" open="(" close=")" separator=",">
                 #{id}
             </foreach>
-            group by post_id
+            group by target_id
         </where>
     </select>
 
     <select id="selectCountDirectChildren"
             resultType="com.qinweizhao.blog.model.projection.CommentChildrenCountProjection">
-        select count(id) as count, post_id
+        select count(id) as count, target_id
         from comment
         where parent_id in
         <foreach collection="commentIds" item="id" open="(" close=")" separator=",">

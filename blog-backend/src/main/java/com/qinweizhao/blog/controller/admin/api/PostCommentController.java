@@ -34,10 +34,9 @@ public class PostCommentController {
      * @return Page
      */
     @GetMapping
-    public PageResult<PostCommentWithPostVO> page(CommentQueryParam param) {
+    public PageResult<CommentDTO> page(CommentQueryParam param) {
         param.setType(CommentType.POST);
-        PageResult<CommentDTO> commentResult = commentService.pageComment(param);
-        return commentService.buildPageResultVO(commentResult);
+        return commentService.pageComment(param);
 
     }
 
@@ -49,16 +48,14 @@ public class PostCommentController {
      * @return List
      */
     @GetMapping("latest")
-    public List<PostCommentWithPostVO> listLatest(@RequestParam(name = "top", defaultValue = "10") int top,
+    public List<CommentDTO> listLatest(@RequestParam(name = "top", defaultValue = "10") int top,
                                                   @RequestParam(name = "status", required = false) CommentStatus status) {
         // 构建请求参数，之所以用分页查询是因为不想再多写一个方法了。
         CommentQueryParam param = new CommentQueryParam();
         param.setPage(top);
         param.setStatus(status);
-
-        List<CommentDTO> commentResult = commentService.pageComment(param).getContent();
-
-        return commentService.buildResultVO(commentResult);
+        param.setType(CommentType.POST);
+        return commentService.pageComment(param).getContent();
     }
 
 

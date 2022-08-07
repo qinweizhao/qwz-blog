@@ -12,6 +12,8 @@ import com.qinweizhao.blog.model.vo.PostCommentWithPostVO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
+import java.util.List;
+
 /**
  * @author qinweizhao
  * @since 2022/5/27
@@ -25,10 +27,10 @@ public interface CommentConvert {
     /**
      * convertToDTO
      *
-     * @param result result
-     * @return PageResult
+     * @param comments comments
+     * @return List
      */
-    PageResult<CommentDTO> convertToDTO(PageResult<Comment> result);
+    List<CommentDTO> convertToDTO(List<Comment> comments);
 
     /**
      * convertToVO

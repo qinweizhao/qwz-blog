@@ -7,14 +7,17 @@ import com.qinweizhao.blog.exception.BadRequestException;
 import com.qinweizhao.blog.exception.ForbiddenException;
 import com.qinweizhao.blog.exception.NotFoundException;
 import com.qinweizhao.blog.mapper.CommentMapper;
+import com.qinweizhao.blog.mapper.JournalMapper;
 import com.qinweizhao.blog.mapper.PostMapper;
 import com.qinweizhao.blog.model.core.PageParam;
 import com.qinweizhao.blog.model.core.PageResult;
 import com.qinweizhao.blog.model.dto.CommentDTO;
 import com.qinweizhao.blog.model.entity.Comment;
+import com.qinweizhao.blog.model.entity.Journal;
 import com.qinweizhao.blog.model.entity.Post;
 import com.qinweizhao.blog.model.entity.User;
 import com.qinweizhao.blog.model.enums.CommentStatus;
+import com.qinweizhao.blog.model.enums.CommentType;
 import com.qinweizhao.blog.model.enums.CommentViolationTypeEnum;
 import com.qinweizhao.blog.model.param.CommentQueryParam;
 import com.qinweizhao.blog.model.param.PostCommentParam;
@@ -62,6 +65,8 @@ public class CommentServiceImpl implements CommentService {
 
     private final PostMapper postMapper;
 
+    private final JournalMapper journalMapper;
+
     private final OptionService optionService;
 
     private final UserService userService;
@@ -84,22 +89,48 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public PageResult<CommentDTO> pageComment(CommentQueryParam commentQueryParam) {
-        PageResult<Comment> commentResult = commentMapper.selectPageComments(commentQueryParam);
-        return CommentConvert.INSTANCE.convertToDTO(commentResult);
+    public PageResult<CommentDTO> pageComment(CommentQueryParam param) {
+        PageResult<Comment> commentResult = commentMapper.selectPageComments(param);
+        List<Comment> contents = commentResult.getContent();
 
+        List<CommentDTO> result = CommentConvert.INSTANCE.convertToDTO(contents);
+
+        Set<Integer> targetIds = ServiceUtils.fetchProperty(contents, Comment::getTargetId);
+
+
+        List<CommentDTO> collect;
+
+        CommentType type = param.getType();
+        if (type.equals(CommentType.POST)) {
+            Map<Integer, Post> postMap = ServiceUtils.convertToMap(postMapper.selectListByIds(targetIds), Post::getId);
+            collect = result.stream().filter(comment -> postMap.containsKey(comment.getTargetId())).peek(
+                    comment -> {
+                        Integer targetId = comment.getTargetId();
+                        Post post = postMap.get(targetId);
+                        comment.setTargetContent(post.getTitle());
+                    }
+            ).collect(Collectors.toList());
+
+        } else {
+            Map<Integer, Journal> journalMap = ServiceUtils.convertToMap(journalMapper.selectListByIds(targetIds), Journal::getId);
+            collect = result.stream().filter(comment -> journalMap.containsKey(comment.getTargetId())).peek(
+                    comment -> {
+                        Integer targetId = comment.getTargetId();
+                        Journal post = journalMap.get(targetId);
+                        comment.setTargetContent(post.getContent());
+                    }
+            ).collect(Collectors.toList());
+        }
+
+        return new PageResult<>(collect, commentResult.getTotal(), commentResult.hasPrevious(), commentResult.hasNext());
     }
 
     @Override
     public List<PostCommentWithPostVO> buildResultVO(List<CommentDTO> contents) {
         // 获取 id
-        Set<Integer> postIds = ServiceUtils.fetchProperty(contents, CommentDTO::getPostId);
 
-        if (ObjectUtils.isEmpty(postIds)) {
-            return new ArrayList<>();
-        }
 
-        Map<Integer, Post> postMap = ServiceUtils.convertToMap(postMapper.selectListByIds(postIds), Post::getId);
+//        Map<Integer, Post> postMap = ServiceUtils.convertToMap(postMapper.selectListByIds(postIds), Post::getId);
 
         return null;
 //        return contents.stream()
@@ -156,8 +187,8 @@ public class CommentServiceImpl implements CommentService {
         Comment comment = CommentConvert.INSTANCE.convert(commentParam);
 
         // Check post id
-        if (!ServiceUtils.isEmptyId(comment.getPostId())) {
-            this.validateTarget(comment.getPostId());
+        if (!ServiceUtils.isEmptyId(comment.getTargetId())) {
+            this.validateTarget(comment.getTargetId());
         }
 
         // Check parent id
@@ -228,7 +259,7 @@ public class CommentServiceImpl implements CommentService {
 
         Comment comment = commentMapper.selectById(commentId);
 
-        List<Comment> children = this.listChildren(comment.getPostId(), commentId);
+        List<Comment> children = this.listChildren(comment.getTargetId(), commentId);
 
         if (children.size() > 0) {
             children.forEach(child -> commentMapper.deleteById(child.getId()));

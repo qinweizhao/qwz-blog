@@ -6,7 +6,6 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
 /**
  * Base comment output dto.
@@ -22,7 +21,9 @@ public class CommentDTO extends BaseTree<CommentDTO> {
 
     private Long id;
 
-    private Integer postId;
+    private Integer targetId;
+
+    private String targetContent;
 
     private String author;
 

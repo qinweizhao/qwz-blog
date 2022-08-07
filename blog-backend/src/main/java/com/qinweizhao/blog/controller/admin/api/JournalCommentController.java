@@ -47,14 +47,9 @@ public class JournalCommentController {
      * @return PageResult
      */
     @GetMapping
-    public PageResult<JournalCommentWithJournalVO> page(CommentQueryParam param) {
+    public PageResult<CommentDTO> page(CommentQueryParam param) {
         param.setType(CommentType.JOURNAL);
-
-        PageResult<CommentDTO> commentResult = commentService.pageComment(param);
-
-        List<CommentDTO> contents = commentResult.getContent();
-
-        return new PageResult<>(this.buildResultVO(contents), commentResult.getTotal(), commentResult.hasPrevious(), commentResult.hasNext());
+        return commentService.pageComment(param);
     }
 
     /**
@@ -65,15 +60,13 @@ public class JournalCommentController {
      * @return List
      */
     @GetMapping("latest")
-    public List<JournalCommentWithJournalVO> latest(@RequestParam(name = "top", defaultValue = "10") int top,
+    public List<CommentDTO> latest(@RequestParam(name = "top", defaultValue = "10") int top,
                                                         @RequestParam(name = "status", required = false) CommentStatus status) {
         CommentQueryParam param = new CommentQueryParam();
         param.setPage(top);
         param.setStatus(status);
-
-        List<CommentDTO> commentResult = commentService.pageComment(param).getContent();
-
-        return this.buildResultVO(commentResult);
+        param.setType(CommentType.JOURNAL);
+        return commentService.pageComment(param).getContent();
     }
 
     /**
@@ -84,7 +77,7 @@ public class JournalCommentController {
      */
     private List<JournalCommentWithJournalVO> buildResultVO(List<CommentDTO> contents) {
         // 获取 id
-        Set<Integer> journalIds = ServiceUtils.fetchProperty(contents, CommentDTO::getPostId);
+        Set<Integer> journalIds = ServiceUtils.fetchProperty(contents, CommentDTO::getTargetId);
 
         if (ObjectUtils.isEmpty(journalIds)) {
             return new ArrayList<>();
@@ -93,12 +86,12 @@ public class JournalCommentController {
         Map<Integer, Journal> journalMap = ServiceUtils.convertToMap(journalService.listByIds(journalIds), Journal::getId);
 
         return contents.stream()
-                .filter(comment -> journalMap.containsKey(comment.getPostId()))
+                .filter(comment -> journalMap.containsKey(comment.getTargetId()))
                 .map(comment -> {
 
                     JournalCommentWithJournalVO journalCommentWithJournalVO = CommentConvert.INSTANCE.convertJournalToVO(comment);
 
-                    Journal journal = journalMap.get(comment.getPostId());
+                    Journal journal = journalMap.get(comment.getTargetId());
                     JournalDTO journalDTO = JournalConvert.INSTANCE.convert(journal);
 
                     journalCommentWithJournalVO.setJournal(journalDTO);

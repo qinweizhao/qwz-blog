@@ -96,7 +96,7 @@ public interface CommentMapper extends BaseMapper<Comment> {
      */
     default List<Comment> selectListByPostId(Integer postId) {
         return this.selectList(new LambdaQueryWrapperX<Comment>()
-                .eq(Comment::getPostId, postId)
+                .eq(Comment::getTargetId, postId)
         );
     }
 
@@ -118,7 +118,7 @@ public interface CommentMapper extends BaseMapper<Comment> {
      */
     default List<Comment> selectListByPostIdAndParentId(Integer postId, Long commentParentId) {
         return this.selectList(new LambdaQueryWrapperX<Comment>()
-                .eq(Comment::getPostId, postId)
+                .eq(Comment::getTargetId, postId)
                 .eq(Comment::getParentId, commentParentId)
         );
     }
@@ -143,7 +143,7 @@ public interface CommentMapper extends BaseMapper<Comment> {
      */
     default int deleteByPostId(Integer postId) {
         return this.delete(new LambdaQueryWrapperX<Comment>()
-                .eq(Comment::getPostId, postId)
+                .eq(Comment::getTargetId, postId)
         );
     }
 }

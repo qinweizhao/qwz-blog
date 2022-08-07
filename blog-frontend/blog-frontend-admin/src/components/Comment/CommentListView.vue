@@ -33,7 +33,7 @@
 </template>
 <script>
 import { datetimeFormat } from '@/utils/datetime'
-import apiClient from '@/utils/api-client'
+import postApi from '@/api/post'
 
 export default {
   name: 'CommentListView',
@@ -57,9 +57,6 @@ export default {
         if (comment.post) {
           return comment.post.title
         }
-        if (comment.sheet) {
-          return comment.sheet.title
-        }
         if (comment.journal) {
           return datetimeFormat(comment.journal.createTime)
         }
@@ -69,16 +66,15 @@ export default {
   },
   methods: {
     async handleOpenTarget(comment) {
-      const { post, sheet } = comment
-      if (post || sheet) {
-        const { status, fullPath, id } = post || sheet
+      const post = comment
+      if (post) {
+        const { status, fullPath, id } = post
         if (['PUBLISHED', 'INTIMATE'].includes(status)) {
           window.open(fullPath, '_blank')
           return
         }
         if (status === 'DRAFT') {
-          const target = post ? 'post' : 'sheet'
-          const link = await apiClient[target].getPreviewLinkById(id)
+          const link = await postApi.preview(id)
           window.open(link, '_blank')
         }
       }
