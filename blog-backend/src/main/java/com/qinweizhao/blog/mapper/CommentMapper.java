@@ -30,12 +30,12 @@ public interface CommentMapper extends BaseMapper<Comment> {
 
 
     /**
-     * Count comments by post ids.
+     * 统计评论个数
      *
-     * @param postIds post id collection must not be null
-     * @return a list of CommentCountProjection
+     * @param targetIds targetIds
+     * @return List
      */
-    List<CommentCountProjection> selectCountByPostIds(@Param("postIds") Collection<Integer> postIds);
+    List<CommentCountProjection> selectCountByPostIds(@Param("targetIds") Collection<Integer> targetIds);
 
     /**
      * Finds direct children count by comment ids.
@@ -91,12 +91,12 @@ public interface CommentMapper extends BaseMapper<Comment> {
     /**
      * 通过 postId 获取所有评论
      *
-     * @param postId postId
+     * @param targetId targetId
      * @return List
      */
-    default List<Comment> selectListByPostId(Integer postId) {
+    default List<Comment> selectListByTargetId(Integer targetId) {
         return this.selectList(new LambdaQueryWrapperX<Comment>()
-                .eq(Comment::getTargetId, postId)
+                .eq(Comment::getTargetId, targetId)
         );
     }
 

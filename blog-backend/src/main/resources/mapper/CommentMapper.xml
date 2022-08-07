@@ -41,7 +41,7 @@
         from comment
         <where>
             target_id in
-            <foreach collection="postIds" item="id" open="(" close=")" separator=",">
+            <foreach collection="targetIds" item="id" open="(" close=")" separator=",">
                 #{id}
             </foreach>
             group by target_id

@@ -367,9 +367,9 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public PageResult<CommentDTO> pageTree(Integer postId, PageParam param) {
+    public PageResult<CommentDTO> pageTree(Integer targetId, PageParam param) {
 
-        List<Comment> comments = commentMapper.selectListByPostId(postId);
+        List<Comment> comments = commentMapper.selectListByTargetId(targetId);
 
         return this.buildPageTree(comments, param);
     }

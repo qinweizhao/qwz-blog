@@ -50,11 +50,11 @@ public interface CommentService {
     /**
      * 分页（树）
      *
-     * @param postId postId
+     * @param targetId postId/journalId
      * @param param  param
      * @return PageResult
      */
-    PageResult<CommentDTO> pageTree(Integer postId, PageParam param);
+    PageResult<CommentDTO> pageTree(Integer targetId, PageParam param);
 
     /**
      * 统计个数
