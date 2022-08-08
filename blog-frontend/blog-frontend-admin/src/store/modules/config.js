@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import { OPTIONS } from '@/store/mutation-types'
-import optionApi from '@/api/option'
+import configApi from '@/api/config'
 
 const keys = [
   'blog_url',
@@ -16,7 +16,7 @@ const keys = [
   'default_editor',
   'default_menu_team'
 ]
-const option = {
+const config = {
   state: {
     options: undefined
   },
@@ -29,7 +29,7 @@ const option = {
   actions: {
     refreshOptionsCache({ commit }) {
       return new Promise((resolve, reject) => {
-        optionApi
+        configApi
           .listAllByKeys(keys)
           .then(response => {
             commit('SET_OPTIONS', response.data)
@@ -43,4 +43,4 @@ const option = {
   }
 }
 
-export default option
+export default config

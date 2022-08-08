@@ -39,7 +39,7 @@
           :dataSource="formattedData"
           :loading="loading"
           :pagination="false"
-          :rowKey="option => option.id"
+          :rowKey="config => option.id"
           :scrollToFirstRowOnChange="true"
         >
           <span slot="type" slot-scope="typeProperty">
@@ -205,7 +205,7 @@ export default {
   },
   computed: {
     formattedData() {
-      return this.options.map(option => {
+      return this.options.map(config => {
         option.typeProperty = this.optionType[option.type]
         return option
       })
@@ -254,7 +254,7 @@ export default {
         this.$refs.keyInput.focus()
       })
     },
-    handleOpenEditFormModal(option) {
+    handleOpenEditFormModal(config) {
       this.form.model = option
       this.form.visible = true
       this.$nextTick(() => {

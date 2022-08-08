@@ -59,8 +59,8 @@
               v-model="form.settings[item.name]"
               :defaultValue="item.defaultValue"
             >
-              <a-radio v-for="(option, radioIndex) in item.options" :key="radioIndex" :value="option.value">
-                {{ option.label }}
+              <a-radio v-for="(config, radioIndex) in item.options" :key="radioIndex" :value="option.value">
+                {{ config.label }}
               </a-radio>
             </a-radio-group>
             <a-select
@@ -68,8 +68,8 @@
               v-model="form.settings[item.name]"
               :defaultValue="item.defaultValue"
             >
-              <a-select-option v-for="option in item.options" :key="option.value" :value="option.value">
-                {{ option.label }}
+              <a-select-option v-for="config in item.options" :key="option.value" :value="option.value">
+                {{ config.label }}
               </a-select-option>
             </a-select>
             <verte

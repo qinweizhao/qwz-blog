@@ -2,16 +2,16 @@ import service from '@/utils/service'
 
 const baseUrl = '/api/admin/options'
 
-const optionApi = {}
+const configApi = {}
 
-optionApi.listAll = () => {
+configApi.listAll = () => {
   return service({
     url: `${baseUrl}/map_view`,
     method: 'get'
   })
 }
 
-optionApi.listAllByKeys = keys => {
+configApi.listAllByKeys = keys => {
   return service({
     url: `${baseUrl}/map_view/keys`,
     data: keys,
@@ -19,7 +19,7 @@ optionApi.listAllByKeys = keys => {
   })
 }
 
-optionApi.query = params => {
+configApi.query = params => {
   return service({
     url: `${baseUrl}/list_view`,
     params: params,
@@ -27,7 +27,7 @@ optionApi.query = params => {
   })
 }
 
-optionApi.save = options => {
+configApi.save = options => {
   return service({
     url: `${baseUrl}/map_view/saving`,
     method: 'post',
@@ -35,7 +35,7 @@ optionApi.save = options => {
   })
 }
 
-optionApi.create = option => {
+configApi.create = option => {
   return service({
     url: baseUrl,
     data: option,
@@ -43,21 +43,21 @@ optionApi.create = option => {
   })
 }
 
-optionApi.delete = optionId => {
+configApi.delete = optionId => {
   return service({
     url: `${baseUrl}/${optionId}`,
     method: 'delete'
   })
 }
 
-optionApi.get = optionId => {
+configApi.get = optionId => {
   return service({
     url: `${baseUrl}/${optionId}`,
     method: 'get'
   })
 }
 
-optionApi.update = (optionId, option) => {
+configApi.update = (optionId, option) => {
   return service({
     url: `${baseUrl}/${optionId}`,
     data: option,
@@ -65,7 +65,7 @@ optionApi.update = (optionId, option) => {
   })
 }
 
-optionApi.type = {
+configApi.type = {
   INTERNAL: {
     value: 'INTERNAL',
     text: '系统'
@@ -76,4 +76,4 @@ optionApi.type = {
   }
 }
 
-export default optionApi
+export default configApi

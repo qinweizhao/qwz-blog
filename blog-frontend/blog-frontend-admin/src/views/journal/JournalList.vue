@@ -182,7 +182,8 @@ import { mixin, mixinDevice } from '@/mixins/mixin.js'
 import { mapActions, mapGetters } from 'vuex'
 import { simpleEditorToolbars } from '@/core/constant'
 import { deepClone } from '@/utils/util'
-import apiClient from '@/utils/api-client'
+import configApi from '@/api/config'
+import journalApi from '@/api/journal'
 import MarkdownEditor from '@/components/Editor/MarkdownEditor'
 
 export default {
@@ -264,12 +265,12 @@ export default {
       try {
         this.list.loading = true
 
-        const { data } = await apiClient.journal.list(this.list.params)
+        const { data } = await journalApi.list(this.list.params)
 
-        this.list.data = data.content
-        this.list.total = data.total
-        this.list.hasPrevious = data.hasPrevious
-        this.list.hasNext = data.hasNext
+        this.list.data = data.data.content
+        this.list.total = data.data.total
+        this.list.hasPrevious = data.data.hasPrevious
+        this.list.hasNext = data.data.hasNext
       } catch (e) {
         this.$log.error(e)
       } finally {
@@ -277,8 +278,8 @@ export default {
       }
     },
     handleListOptions() {
-      apiClient.option.list().then(response => {
-        this.optionModal.options = response.data
+      configApi.listAll().then(response => {
+        this.optionModal.options = response.data.data
       })
     },
     handleQuery() {
@@ -302,7 +303,7 @@ export default {
       this.form.visible = true
     },
     handleDelete(id) {
-      apiClient.journal.delete(id).finally(() => {
+      journalApi.delete(id).finally(() => {
         this.handleListJournals()
       })
     },
@@ -324,7 +325,7 @@ export default {
           _this.form.model.keepRaw = true
           _this.form.saving = true
           if (_this.form.model.id) {
-            apiClient.journal
+            journalApi
               .update(_this.form.model.id, _this.form.model)
               .catch(() => {
                 _this.form.saveErrored = true
@@ -335,7 +336,7 @@ export default {
                 }, 400)
               })
           } else {
-            apiClient.journal
+            journalApi
               .create(_this.form.model)
               .catch(() => {
                 _this.form.saveErrored = true
@@ -385,7 +386,7 @@ export default {
     },
 
     handleSaveOptions() {
-      apiClient.option
+      configApi
         .save(this.optionModal.options)
         .then(() => {
           this.$message.success('保存成功！')

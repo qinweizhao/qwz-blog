@@ -556,7 +556,7 @@ var Prism = (function (_self) {
 		 * @param {Element} element The element containing the code.
 		 * It must have a class of `language-xxxx` to be processed, where `xxxx` is a valid language identifier.
 		 * @param {boolean} [async=false] Whether the element is to be highlighted asynchronously using Web Workers
-		 * to improve performance and avoid blocking the UI when highlighting very large chunks of code. This option is
+		 * to improve performance and avoid blocking the UI when highlighting very large chunks of code. This config is
 		 * [disabled by default](https://prismjs.com/faq.html#why-is-asynchronous-highlighting-disabled-by-default).
 		 *
 		 * Note: All language definitions required to highlight the code must be included in the main `prism.js` file for
@@ -2925,7 +2925,7 @@ delete Prism.languages.c['boolean'];
 		.replace(/<SP_BS>/g, function () { return spaceAfterBackSlash; });
 
 	var string = /"(?:[^"\\\r\n]|\\(?:\r\n|[\s\S]))*"|'(?:[^'\\\r\n]|\\(?:\r\n|[\s\S]))*'/.source;
-	var option = /--[\w-]+=(?:<STR>|(?!["'])(?:[^\s\\]|\\.)+)/.source.replace(/<STR>/g, function () { return string; });
+	var config = /--[\w-]+=(?:<STR>|(?!["'])(?:[^\s\\]|\\.)+)/.source.replace(/<STR>/g, function () { return string; });
 
 	var stringRule = {
 		pattern: RegExp(string),
@@ -2944,7 +2944,7 @@ delete Prism.languages.c['boolean'];
 	 */
 	function re(source, flags) {
 		source = source
-			.replace(/<OPT>/g, function () { return option; })
+			.replace(/<OPT>/g, function () { return config; })
 			.replace(/<SP>/g, function () { return space; });
 
 		return RegExp(source, flags);
@@ -5542,7 +5542,7 @@ Prism.languages.python = {
 						pattern: /(:)[^:(){}]+(?=\}$)/,
 						lookbehind: true
 					},
-					'conversion-option': {
+					'conversion-config': {
 						pattern: /![sra](?=[:}]$)/,
 						alias: 'punctuation'
 					},

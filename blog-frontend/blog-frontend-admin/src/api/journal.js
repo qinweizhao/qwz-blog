@@ -4,7 +4,7 @@ const baseUrl = '/api/admin/journals'
 
 const journalApi = {}
 
-journalApi.query = params => {
+journalApi.list = params => {
   return service({
     url: baseUrl,
     params: params,
@@ -12,7 +12,7 @@ journalApi.query = params => {
   })
 }
 
-journalApi.create = (journal) => {
+journalApi.create = journal => {
   return service({
     url: baseUrl,
     data: journal,
