@@ -72,7 +72,6 @@ public class CommentServiceImpl implements CommentService {
 
     private final CommentBlackListService commentBlackListService;
 
-
     @Override
     public void validateCommentBlackListStatus() {
         CommentViolationTypeEnum banStatus = commentBlackListService.commentsBanStatus(ServletUtils.getRequestIp());
@@ -96,7 +95,6 @@ public class CommentServiceImpl implements CommentService {
 
         Set<Integer> targetIds = ServiceUtils.fetchProperty(contents, Comment::getTargetId);
 
-
         List<CommentDTO> collect;
 
         // 分页时有类型
@@ -117,7 +115,7 @@ public class CommentServiceImpl implements CommentService {
                             }
                     ).collect(Collectors.toList());
 
-        } else if (type.equals(CommentType.JOURNAL)) {
+        } else {
             Map<Integer, Journal> journalMap = ServiceUtils.convertToMap(journalMapper.selectListByIds(targetIds), Journal::getId);
             collect = result.stream()
                     .filter(comment -> journalMap.containsKey(comment.getTargetId())).peek(
@@ -130,9 +128,6 @@ public class CommentServiceImpl implements CommentService {
                                 comment.setTarget(map);
                             }
                     ).collect(Collectors.toList());
-        } else {
-            // 查询最新记录，不需要添加目标信息。
-            return new PageResult<>(result, commentResult.getTotal(), commentResult.hasPrevious(), commentResult.hasNext());
         }
 
         return new PageResult<>(collect, commentResult.getTotal(), commentResult.hasPrevious(), commentResult.hasNext());

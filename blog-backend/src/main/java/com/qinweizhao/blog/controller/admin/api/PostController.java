@@ -4,12 +4,10 @@ import com.qinweizhao.blog.model.core.PageResult;
 import com.qinweizhao.blog.model.dto.PostDTO;
 import com.qinweizhao.blog.model.dto.PostListDTO;
 import com.qinweizhao.blog.model.dto.PostSimpleDTO;
-import com.qinweizhao.blog.model.entity.Post;
 import com.qinweizhao.blog.model.enums.PostStatus;
 import com.qinweizhao.blog.model.param.PostContentParam;
 import com.qinweizhao.blog.model.param.PostParam;
 import com.qinweizhao.blog.model.param.PostQueryParam;
-import com.qinweizhao.blog.service.OptionService;
 import com.qinweizhao.blog.service.PostService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -68,7 +66,6 @@ public class PostController {
         return postService.getById(postId);
     }
 
-
     /**
      * 新增
      *
@@ -79,7 +76,6 @@ public class PostController {
     public Boolean save(@Valid @RequestBody PostParam param) {
         return postService.save(param);
     }
-
 
     /**
      * 更新
@@ -107,16 +103,16 @@ public class PostController {
 
     /**
      * 批量更新文章状态
+     *
      * @param status status
-     * @param ids ids
+     * @param ids    ids
      * @return Boolean
      */
     @PutMapping("status/{status}")
     public Boolean updateStatusInBatch(@PathVariable(name = "status") PostStatus status,
-                                          @RequestBody List<Integer> ids) {
+                                       @RequestBody List<Integer> ids) {
         return postService.updateStatusByIds(ids, status);
     }
-
 
     /**
      * 更新草稿
@@ -126,10 +122,9 @@ public class PostController {
      * @return Boolean
      */
     @PutMapping("{postId:\\d+}/status/draft/content")
-    public Boolean updateDraftBy(@PathVariable("postId") Integer postId,@RequestBody PostContentParam contentParam) {
+    public Boolean updateDraftBy(@PathVariable("postId") Integer postId, @RequestBody PostContentParam contentParam) {
         return postService.updateDraftContent(contentParam.getContent(), postId);
     }
-
 
     /**
      * 删除
@@ -142,7 +137,6 @@ public class PostController {
         return postService.removeById(postId);
     }
 
-
     /**
      * 批量删除
      *
@@ -154,7 +148,6 @@ public class PostController {
         return postService.removeByIds(ids);
     }
 
-
     /**
      * 获取帖子预览链接
      *
@@ -165,4 +158,5 @@ public class PostController {
     public String preview(@PathVariable("postId") Integer postId) {
         return postService.getPreviewUrl(postId);
     }
+
 }

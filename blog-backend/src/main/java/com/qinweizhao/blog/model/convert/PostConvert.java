@@ -104,4 +104,18 @@ public interface PostConvert {
         return ValueEnum.valueToEnum(PostStatus.class, status);
     }
 
+    /**
+     * convertListDTO
+     *
+     * @param post post
+     * @return PostListDTO
+     */
+    PostListDTO convertListDTO(Post post);
+
+    /**
+     * convertToListVO
+     * @param postList postList
+     * @return List
+     */
+    List<PostListDTO> convertToListVO(List<PostSimpleDTO> postList);
 }

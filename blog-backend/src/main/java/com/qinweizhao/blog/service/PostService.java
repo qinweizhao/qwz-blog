@@ -18,6 +18,7 @@ import java.util.List;
  * @author johnniang
  * @author ryanwang
  * @author guqing
+ * @author qinweizhao
  * @date 2019-03-14
  */
 public interface PostService {

@@ -92,7 +92,6 @@ public class PostCommentController {
         return commentService.updateStatus(commentId, status);
     }
 
-
     /**
      * 批量更新评论状态
      *
@@ -105,7 +104,6 @@ public class PostCommentController {
                                        @RequestBody List<Long> ids) {
         return commentService.updateStatusByIds(ids, status);
     }
-
 
     /**
      * 以递归方式永久删除帖子评论
@@ -128,22 +126,5 @@ public class PostCommentController {
     public Boolean deletePermanentlyInBatch(@RequestBody List<Long> ids) {
         return commentService.removeByIds(ids);
     }
-//
-//    @GetMapping("{commentId:\\d+}")
-//    @ApiOperation("Gets a post comment by comment id")
-//    public PostCommentWithPostVO getBy(@PathVariable("commentId") Long commentId) {
-//        PostComment comment = commentService.getById(commentId);
-//        return commentService.convertToWithPostVo(comment);
-//    }
-//
-//    @PutMapping("{commentId:\\d+}")
-//    @ApiOperation("Updates a post comment")
-//    public BaseCommentDTO updateBy(@Valid @RequestBody PostCommentParam commentParam,
-//                                   @PathVariable("commentId") Long commentId) {
-//        PostComment commentToUpdate = commentService.getById(commentId);
-//
-//        commentParam.update(commentToUpdate);
-//
-//        return commentService.convertTo(commentService.update(commentToUpdate));
-//    }
+
 }

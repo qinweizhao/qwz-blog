@@ -47,8 +47,7 @@ public class PostTagDirective implements TemplateDirectiveModel {
             switch (method) {
                 case "latest":
                     int top = Integer.parseInt(params.get("top").toString());
-                    List<PostSimpleDTO> simpleDTOList = postService.listSimple(top);
-                    env.setVariable("posts", builder.build().wrap(postService.convertToListVo(simpleDTOList)));
+                    env.setVariable("posts", builder.build().wrap(postService.listSimple(top)));
                     break;
                 case "count":
                     env.setVariable("count", builder.build().wrap(postService.countByStatus(PostStatus.PUBLISHED)));

@@ -2,12 +2,12 @@ package com.qinweizhao.blog.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.IdUtil;
-import com.qinweizhao.blog.model.convert.MetaConvert;
-import com.qinweizhao.blog.model.convert.PostConvert;
 import com.qinweizhao.blog.exception.AlreadyExistsException;
 import com.qinweizhao.blog.exception.ServiceException;
 import com.qinweizhao.blog.framework.cache.AbstractStringCacheStore;
 import com.qinweizhao.blog.mapper.*;
+import com.qinweizhao.blog.model.convert.MetaConvert;
+import com.qinweizhao.blog.model.convert.PostConvert;
 import com.qinweizhao.blog.model.core.PageResult;
 import com.qinweizhao.blog.model.dto.*;
 import com.qinweizhao.blog.model.entity.Content;
@@ -34,6 +34,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
@@ -268,7 +269,6 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public String getPreviewUrl(Integer postId) {
-        Post post = postMapper.selectById(postId);
         String token = IdUtil.simpleUUID();
 
         // cache preview token
@@ -483,9 +483,8 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public List<ArchiveYearVO> listYearArchives() {
-        // Get all posts
-        List<Post> posts = postMapper
-                .selectListByStatus(PostStatus.PUBLISHED);
+
+        List<Post> posts = postMapper.selectListByStatus(PostStatus.PUBLISHED);
 
         return convertToYearArchives(posts);
     }
@@ -493,11 +492,15 @@ public class PostServiceImpl implements PostService {
     private List<ArchiveYearVO> convertToYearArchives(List<Post> posts) {
         Map<Integer, List<PostSimpleDTO>> yearPostMap = new HashMap<>(8);
 
-//        posts.forEach(post -> {
-//            LocalDateTime createTime = post.getCreateTime();
-//            yearPostMap.computeIfAbsent(createTime.getYear(), year -> new LinkedList<>())
-//                    .add(PostConvert.INSTANCE.convert(post));
-//        });
+        List<PostSimpleDTO> postSimples = PostConvert.INSTANCE.convertToSimpleDTO(posts);
+
+
+
+        postSimples.forEach(post -> {
+            LocalDateTime createTime = post.getCreateTime();
+            yearPostMap.computeIfAbsent(createTime.getYear(), year -> new LinkedList<>())
+                    .add(post);
+        });
 
         List<ArchiveYearVO> archives = new LinkedList<>();
 
@@ -505,7 +508,7 @@ public class PostServiceImpl implements PostService {
             // Build archive
             ArchiveYearVO archive = new ArchiveYearVO();
             archive.setYear(year);
-            archive.setPosts(convertToListVo(postList));
+            archive.setPosts(PostConvert.INSTANCE.convertToListVO(postList));
 
             // Add archive
             archives.add(archive);
