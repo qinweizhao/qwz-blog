@@ -49,6 +49,7 @@ public interface JournalService {
 
     /**
      * 统计分类个数
+     *
      * @return Long
      */
     Long count();

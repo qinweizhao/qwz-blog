@@ -60,44 +60,10 @@ public class JournalServiceImpl implements JournalService {
         return journalMapper.deleteById(journalId) > 0;
     }
 
-
     @Override
     public Long count() {
         return journalMapper.selectCount(Wrappers.emptyWrapper());
     }
 
-//
-//    @Override
-//    public List<JournalWithCmtCountDTO> convertToCmtCountDto(List<Journal> journals) {
-//        if (CollectionUtils.isEmpty(journals)) {
-//            return Collections.emptyList();
-//        }
-//
-//        // Get journal ids
-//        Set<Integer> journalIds = ServiceUtils.fetchProperty(journals, Journal::getId);
-//
-//        // Get comment count map
-//        Map<Integer, Long> journalCommentCountMap = journalCommentService.countByPostIds(journalIds);
-//
-//        return journals.stream()
-//                .map(journal -> {
-//                    JournalWithCmtCountDTO journalWithCmtCountDTO = new JournalWithCmtCountDTO().convertFrom(journal);
-//                    // Set comment count
-//                    journalWithCmtCountDTO.setCommentCount(journalCommentCountMap.getOrDefault(journal.getId(), 0L));
-//                    return journalWithCmtCountDTO;
-//                })
-//                .collect(Collectors.toList());
-//    }
-//
-//    @Override
-//    public Page<JournalWithCmtCountDTO> convertToCmtCountDto(Page<Journal> journalPage) {
-//        Assert.notNull(journalPage, "Journal page must not be null");
-//
-//        // Convert
-//        List<JournalWithCmtCountDTO> journalWithCmtCountDTOS = convertToCmtCountDto(journalPage.getContent());
-//
-//        // Build and return
-//        return new PageImpl<>(journalWithCmtCountDTOS, journalPage.getPageable(), journalPage.getTotalElements());
-//    }
 
 }

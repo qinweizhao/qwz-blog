@@ -1,5 +1,6 @@
 package com.qinweizhao.blog.controller.admin.api;
 
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.qinweizhao.blog.model.core.PageResult;
 import com.qinweizhao.blog.model.dto.LogDTO;
 import com.qinweizhao.blog.model.param.LogQueryParam;
@@ -26,7 +27,6 @@ public class LogController {
 
     private final LogService logService;
 
-
     /**
      * 分页
      *
@@ -37,7 +37,6 @@ public class LogController {
     public PageResult<LogDTO> page(LogQueryParam param) {
         return logService.pageLogs(param);
     }
-
 
     /**
      * 最新数据
@@ -53,12 +52,11 @@ public class LogController {
         return result.getContent();
     }
 
-
     /**
      * 清除所有日志
      */
     @GetMapping("clear")
     public Boolean clear() {
-        return logService.remove(null);
+        return logService.remove(Wrappers.emptyWrapper());
     }
 }

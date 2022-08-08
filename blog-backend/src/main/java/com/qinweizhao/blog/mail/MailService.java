@@ -11,7 +11,7 @@ import java.util.Map;
 public interface MailService {
 
     /**
-     * Send a simple email
+     * 发送一封简单的电子邮件
      *
      * @param to      recipient
      * @param subject subject
@@ -20,7 +20,7 @@ public interface MailService {
     void sendTextMail(String to, String subject, String content);
 
     /**
-     * Send a email with html
+     * 使用 html 发送电子邮件
      *
      * @param to           recipient
      * @param subject      subject
@@ -30,7 +30,7 @@ public interface MailService {
     void sendTemplateMail(String to, String subject, Map<String, Object> content, String templateName);
 
     /**
-     * Send mail with attachments
+     * 发送带有附件的邮件
      *
      * @param to             recipient
      * @param subject        subject
@@ -41,7 +41,7 @@ public interface MailService {
     void sendAttachMail(String to, String subject, Map<String, Object> content, String templateName, String attachFilePath);
 
     /**
-     * Test email server connection.
+     * 测试电子邮件服务器连接
      */
     void testConnection();
 }

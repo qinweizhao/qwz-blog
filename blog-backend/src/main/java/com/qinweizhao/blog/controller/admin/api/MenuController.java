@@ -24,7 +24,6 @@ public class MenuController {
 
     private final MenuService menuService;
 
-
     /**
      * 列表
      *
@@ -34,7 +33,6 @@ public class MenuController {
     public List<MenuDTO> list() {
         return menuService.list();
     }
-
 
     /**
      * 树
@@ -57,7 +55,6 @@ public class MenuController {
         return menuService.listByTeamAsTree(team);
     }
 
-
     /**
      * 详情
      *
@@ -68,7 +65,6 @@ public class MenuController {
     public MenuDTO getBy(@PathVariable("menuId") Integer menuId) {
         return menuService.getById(menuId);
     }
-
 
     /**
      * 新增
@@ -81,7 +77,6 @@ public class MenuController {
         return menuService.save(menuParam);
     }
 
-
     /**
      * 批量新增
      *
@@ -92,7 +87,6 @@ public class MenuController {
     public Boolean createBatchBy(@RequestBody @Valid List<MenuParam> params) {
         return menuService.saveBatch(params);
     }
-
 
     /**
      * 更新菜单
@@ -106,12 +100,10 @@ public class MenuController {
         return menuService.updateById(menuId, param);
     }
 
-
     @PutMapping("/batch")
     public Boolean updateBatchBy(@RequestBody @Valid List<MenuParam> menuParams) {
         return menuService.updateBatchById(menuParams);
     }
-
 
     /**
      * 删除菜单
@@ -125,7 +117,6 @@ public class MenuController {
 
     }
 
-
     /**
      * 批量删除
      *
@@ -136,7 +127,6 @@ public class MenuController {
         return menuService.removeByIds(menuIds);
     }
 
-
     /**
      * 分组
      *
@@ -146,4 +136,5 @@ public class MenuController {
     public List<String> teams() {
         return menuService.listTeams();
     }
+
 }

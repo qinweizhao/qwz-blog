@@ -85,4 +85,5 @@ public class JournalController {
     public Boolean deleteBy(@PathVariable("journalId") Integer journalId) {
         return journalService.removeById(journalId);
     }
+
 }

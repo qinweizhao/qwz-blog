@@ -50,7 +50,6 @@ public class AdminController {
         adminService.clearToken();
     }
 
-
     /**
      * 重置密码
      *

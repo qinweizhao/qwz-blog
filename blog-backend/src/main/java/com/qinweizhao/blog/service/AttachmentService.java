@@ -21,10 +21,10 @@ public interface AttachmentService {
     /**
      * 分页
      *
-     * @param attachmentQueryParam attachmentQuery
+     * @param param param
      * @return Page
      */
-    PageResult<AttachmentDTO> page(AttachmentQueryParam attachmentQueryParam);
+    PageResult<AttachmentDTO> page(AttachmentQueryParam param);
 
     /**
      * 所有附件类型

@@ -93,4 +93,5 @@ public class CategoryController {
     public void deletePermanently(@PathVariable("categoryId") Integer categoryId) {
         categoryService.removeCategoryAndPostCategoryById(categoryId);
     }
+
 }

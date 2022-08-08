@@ -60,14 +60,6 @@ public interface AdminService {
      */
     void resetPasswordByCode(ResetPasswordParam param);
 
-//    /**
-//     * 获取系统计数
-//     *
-//     * @return StatisticDTO
-//     */
-//    @Deprecated
-//    StatisticDTO getCount();
-
     /**
      * 获取系统环境
      *

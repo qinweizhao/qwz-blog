@@ -110,7 +110,6 @@ public class AdminServiceImpl implements AdminService {
             throw new BadRequestException("您已登录，请不要重复登录");
         }
 
-        // todo 使用注解记录日志
         // 日志记录登录成功
         eventPublisher.publishEvent(new LogEvent(this, user.getUsername(), LogType.LOGGED_IN, user.getNickname()));
 

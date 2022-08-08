@@ -4,6 +4,7 @@ import com.qinweizhao.blog.framework.event.options.OptionUpdatedEvent;
 import com.qinweizhao.blog.service.OptionService;
 import freemarker.template.Template;
 import lombok.extern.slf4j.Slf4j;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
@@ -71,7 +72,7 @@ public class MailServiceImpl extends AbstractMailService implements ApplicationL
 
 
     @Override
-    public void onApplicationEvent(OptionUpdatedEvent event) {
+    public void onApplicationEvent(@NotNull OptionUpdatedEvent event) {
         // clear the cached java mail sender
         clearCache();
     }

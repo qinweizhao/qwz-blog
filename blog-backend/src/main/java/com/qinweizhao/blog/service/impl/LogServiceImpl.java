@@ -1,8 +1,8 @@
 package com.qinweizhao.blog.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.qinweizhao.blog.model.convert.LogConvert;
 import com.qinweizhao.blog.mapper.LogMapper;
+import com.qinweizhao.blog.model.convert.LogConvert;
 import com.qinweizhao.blog.model.core.PageResult;
 import com.qinweizhao.blog.model.dto.LogDTO;
 import com.qinweizhao.blog.model.entity.Log;
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 /**
  * LogService implementation class
  *
- * @author ryanwang
+ * @author qinweizhao
  * @date 2019-03-14
  */
 @Service

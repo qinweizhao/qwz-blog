@@ -52,7 +52,6 @@ public class JournalCommentController {
 
     }
 
-
     /**
      * 用树状视图列出帖子评论
      *

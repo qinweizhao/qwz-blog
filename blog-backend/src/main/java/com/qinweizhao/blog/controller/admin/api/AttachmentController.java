@@ -1,14 +1,11 @@
 package com.qinweizhao.blog.controller.admin.api;
 
-import com.qinweizhao.blog.model.convert.AttachmentConvert;
 import com.qinweizhao.blog.model.core.PageResult;
 import com.qinweizhao.blog.model.dto.AttachmentDTO;
-import com.qinweizhao.blog.model.entity.Attachment;
 import com.qinweizhao.blog.model.enums.AttachmentType;
 import com.qinweizhao.blog.model.param.AttachmentParam;
 import com.qinweizhao.blog.model.param.AttachmentQueryParam;
 import com.qinweizhao.blog.service.AttachmentService;
-import com.qinweizhao.blog.util.ResultUtils;
 import lombok.AllArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -63,8 +60,6 @@ public class AttachmentController {
         return attachmentService.listAllType();
     }
 
-
-
     /**
      * 更新附件
      *
@@ -73,13 +68,9 @@ public class AttachmentController {
      * @return AttachmentDTO
      */
     @PutMapping("{attachmentId:\\d+}")
-    public Boolean updateBy(@PathVariable("attachmentId") Integer id,
-                                  @RequestBody @Valid AttachmentParam param) {
-
-        return attachmentService.updateById(id,param);
+    public Boolean updateBy(@PathVariable("attachmentId") Integer id, @RequestBody @Valid AttachmentParam param) {
+        return attachmentService.updateById(id, param);
     }
-
-
 
     /**
      * 删除附件
@@ -91,7 +82,6 @@ public class AttachmentController {
     public Boolean deletePermanently(@PathVariable("id") Integer id) {
         return attachmentService.removeById(id);
     }
-
 
     /**
      * 批量永久删除附件
@@ -115,7 +105,6 @@ public class AttachmentController {
         return attachmentService.upload(file);
     }
 
-
     /**
      * 上传多个文件
      *
@@ -124,13 +113,10 @@ public class AttachmentController {
      */
     @PostMapping(value = "uploads", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public Boolean uploadAttachments(@RequestPart("files") MultipartFile[] files) {
-
         for (MultipartFile file : files) {
             attachmentService.upload(file);
         }
-
         return true;
     }
-
 
 }
