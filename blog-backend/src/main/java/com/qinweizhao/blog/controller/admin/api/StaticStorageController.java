@@ -51,8 +51,8 @@ public class StaticStorageController {
     }
 
     /**
-     * @param basePath
-     * @param file
+     * @param basePath basePath
+     * @param file     file
      */
     @PostMapping("upload")
     public void upload(String basePath,

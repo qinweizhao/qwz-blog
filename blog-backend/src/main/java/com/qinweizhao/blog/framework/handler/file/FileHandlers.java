@@ -8,7 +8,6 @@ import com.qinweizhao.blog.model.enums.ValueEnum;
 import com.qinweizhao.blog.model.support.UploadResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationContext;
-import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
@@ -47,8 +46,8 @@ public class FileHandlers {
      * @return upload result
      * @throws FileOperationException throws when fail to delete attachment or no available file handler to upload it
      */
-    @NonNull
-    public UploadResult upload(@NonNull MultipartFile file, @NonNull AttachmentType attachmentType) {
+
+    public UploadResult upload(MultipartFile file, AttachmentType attachmentType) {
         return getSupportedType(attachmentType).upload(file);
     }
 
@@ -59,7 +58,7 @@ public class FileHandlers {
      * @param attachment attachment
      * @throws FileOperationException 当无法删除附件或没有可用的文件处理程序删除它时抛出
      */
-    public void delete(@NonNull Attachment attachment) {
+    public void delete(Attachment attachment) {
         Assert.notNull(attachment, "Attachment must not be null");
         AttachmentType attachmentType = ValueEnum.valueToEnum(AttachmentType.class, attachment.getType());
         getSupportedType(attachmentType)
@@ -72,7 +71,7 @@ public class FileHandlers {
      * @param fileHandlers file handler collection
      * @return current file handlers
      */
-    @NonNull
+
     public FileHandlers addFileHandlers(@Nullable Collection<FileHandler> fileHandlers) {
         if (!CollectionUtils.isEmpty(fileHandlers)) {
             for (FileHandler handler : fileHandlers) {
@@ -88,7 +87,7 @@ public class FileHandlers {
     private FileHandler getSupportedType(AttachmentType type) {
         FileHandler handler = fileHandlers.getOrDefault(type, fileHandlers.get(AttachmentType.LOCAL));
         if (handler == null) {
-            throw new FileOperationException("No available file handlers to operate the file").setErrorData(type);
+            throw new FileOperationException("没有可用的文件处理器来处理文件").setErrorData(type);
         }
         return handler;
     }

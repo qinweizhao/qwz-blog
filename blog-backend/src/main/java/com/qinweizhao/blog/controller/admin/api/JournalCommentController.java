@@ -4,8 +4,8 @@ import com.qinweizhao.blog.model.core.PageResult;
 import com.qinweizhao.blog.model.dto.CommentDTO;
 import com.qinweizhao.blog.model.enums.CommentStatus;
 import com.qinweizhao.blog.model.enums.CommentType;
-import com.qinweizhao.blog.model.param.CommentQueryParam;
 import com.qinweizhao.blog.model.param.CommentParam;
+import com.qinweizhao.blog.model.param.CommentQueryParam;
 import com.qinweizhao.blog.service.CommentService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -48,11 +48,8 @@ public class JournalCommentController {
     @GetMapping("latest")
     public List<CommentDTO> latest(@RequestParam(name = "top", defaultValue = "10") int top,
                                    @RequestParam(name = "status", required = false) CommentStatus status) {
-        CommentQueryParam param = new CommentQueryParam();
-        param.setPage(top);
-        param.setStatus(status);
-        param.setType(CommentType.JOURNAL);
-        return commentService.pageComment(param).getContent();
+        return commentService.listLatest(top, status, CommentType.JOURNAL);
+
     }
 
 

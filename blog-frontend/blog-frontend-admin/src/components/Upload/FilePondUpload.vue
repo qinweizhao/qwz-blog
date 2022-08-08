@@ -70,7 +70,7 @@ export default {
     label: {
       type: String,
       required: false,
-      default: '点击选择文件或将文件拖拽到此处'
+      default: '点击选择文件或将文件拖拽到此处 '
     },
     uploadHandler: {
       type: Function,
@@ -80,20 +80,23 @@ export default {
   computed: {
     ...mapGetters(['options']),
     maxParallelUploads() {
-      if (this.options) {
-        return this.options.attachment_upload_max_parallel_uploads
+      const data = this.options.data
+      if (data) {
+        return data.attachment_upload_max_parallel_uploads
       }
       return 1
     },
     allowImagePreview() {
-      if (this.options) {
-        return this.options.attachment_upload_image_preview_enable
+      const data = this.options.data
+      if (data) {
+        return data.attachment_upload_image_preview_enable
       }
       return false
     },
     maxFiles() {
-      if (this.options) {
-        return this.options.attachment_upload_max_files
+      const data = this.options.data
+      if (data) {
+        return data.attachment_upload_max_files
       }
       return 1
     }
@@ -102,19 +105,31 @@ export default {
     return {
       server: {
         process: (fieldName, file, metadata, load, error, progress, abort) => {
+          const formData = new FormData()
+          formData.append(fieldName, file, file.name)
+
           const CancelToken = Axios.CancelToken
           const source = CancelToken.source()
           this.uploadHandler(
-            file,
-            {
-              onUploadProgress: progressEvent => {
-                if (progressEvent.total > 0) {
-                  progress(progressEvent.lengthComputable, progressEvent.loaded, progressEvent.total)
-                }
-              },
-              cancelToken: source.token
+            formData,
+            progressEvent => {
+              if (progressEvent.total > 0) {
+                progress(progressEvent.lengthComputable, progressEvent.loaded, progressEvent.total)
+              }
             },
-            this.field
+            source.token,
+            this.field,
+            file
+            // file,
+            // {
+            //   onUploadProgress: progressEvent => {
+            //     if (progressEvent.total > 0) {
+            //       progress(progressEvent.lengthComputable, progressEvent.loaded, progressEvent.total)
+            //     }
+            //   },
+            //   cancelToken: source.token
+            // },
+            // this.field
           )
             .then(response => {
               load(response)

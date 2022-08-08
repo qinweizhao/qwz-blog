@@ -4,8 +4,8 @@ import com.qinweizhao.blog.model.core.PageResult;
 import com.qinweizhao.blog.model.dto.CommentDTO;
 import com.qinweizhao.blog.model.enums.CommentStatus;
 import com.qinweizhao.blog.model.enums.CommentType;
-import com.qinweizhao.blog.model.param.CommentQueryParam;
 import com.qinweizhao.blog.model.param.CommentParam;
+import com.qinweizhao.blog.model.param.CommentQueryParam;
 import com.qinweizhao.blog.service.CommentService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -49,12 +49,7 @@ public class PostCommentController {
     @GetMapping("latest")
     public List<CommentDTO> listLatest(@RequestParam(name = "top", defaultValue = "10") int top,
                                        @RequestParam(name = "status", required = false) CommentStatus status) {
-        // 构建请求参数，之所以用分页查询是因为不想再多写一个方法了。
-        CommentQueryParam param = new CommentQueryParam();
-        param.setPage(top);
-        param.setStatus(status);
-        param.setType(CommentType.POST);
-        return commentService.pageComment(param).getContent();
+        return commentService.listLatest(top, status, CommentType.POST);
     }
 
 
@@ -92,8 +87,8 @@ public class PostCommentController {
      * @return Boolean
      */
     @PutMapping("{commentId:\\d+}/status/{status}")
-    public Boolean updateStatusBy(@PathVariable("commentId") Long commentId,
-                                  @PathVariable("status") CommentStatus status) {
+    public Boolean updateStatus(@PathVariable("commentId") Long commentId,
+                                @PathVariable("status") CommentStatus status) {
         return commentService.updateStatus(commentId, status);
     }
 

@@ -5,7 +5,6 @@ import com.qinweizhao.blog.model.enums.AttachmentType;
 import com.qinweizhao.blog.model.support.UploadResult;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.MediaType;
-import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 import org.springframework.web.multipart.MultipartFile;
@@ -48,8 +47,8 @@ public interface FileHandler {
      * @param dir directory full name must not be blank
      * @return normalized directory full name with end path separator
      */
-    @NonNull
-    static String normalizeDirectory(@NonNull String dir) {
+
+    static String normalizeDirectory(String dir) {
         Assert.hasText(dir, "Directory full name must not be blank");
 
         return StringUtils.appendIfMissing(dir, FILE_SEPARATOR);
@@ -62,8 +61,8 @@ public interface FileHandler {
      * @return upload result
      * @throws FileOperationException throws when fail to upload the file
      */
-    @NonNull
-    UploadResult upload(@NonNull MultipartFile file);
+
+    UploadResult upload(MultipartFile file);
 
     /**
      * Deletes file.
@@ -71,7 +70,7 @@ public interface FileHandler {
      * @param key file key must not be null
      * @throws FileOperationException throws when fail to delete the file
      */
-    void delete(@NonNull String key);
+    void delete(String key);
 
     /**
      * Get attachment type is supported.

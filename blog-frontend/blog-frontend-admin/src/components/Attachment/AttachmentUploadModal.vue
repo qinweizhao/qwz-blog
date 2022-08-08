@@ -4,7 +4,7 @@
   </a-modal>
 </template>
 <script>
-import apiClient from '@/utils/api-client'
+import attachmentApi from '@/api/attachment'
 
 export default {
   name: 'AttachmentUploadModal',
@@ -16,7 +16,7 @@ export default {
   },
   data() {
     return {
-      uploadHandler: (file, options) => apiClient.attachment.upload(file, options)
+      uploadHandler: attachmentApi.upload
     }
   },
   computed: {

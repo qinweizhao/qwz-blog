@@ -4,6 +4,7 @@ import com.qinweizhao.blog.model.core.PageResult;
 import com.qinweizhao.blog.model.dto.AttachmentDTO;
 import com.qinweizhao.blog.model.enums.AttachmentType;
 import com.qinweizhao.blog.model.param.AttachmentQueryParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -43,15 +44,21 @@ public interface AttachmentService {
      */
     boolean removeById(Integer id);
 
+    /**
+     * 批量删除附件
+     * @param ids ids
+     * @return boolean
+     */
+    boolean removeByIds(List<Integer> ids);
 
-//    /**
-//     * 上传文件
-//     *
-//     * @param file file
-//     * @return attachment attachment
-//     * @throws FileOperationException e
-//     */
-//    Attachment upload(MultipartFile file);
+
+    /**
+     * 上传文件
+     *
+     * @param file file
+     * @return boolean boolean
+     */
+    boolean upload(MultipartFile file);
 //
 //    /**
 //     * Removes attachment permanently.

@@ -17,6 +17,7 @@ import java.util.Set;
  *
  * @author johnniang
  * @author ryanwang
+ * @author qinweizhao
  * @date 2019-03-14
  */
 public interface CommentService {
@@ -32,10 +33,10 @@ public interface CommentService {
     /**
      * 分页
      *
-     * @param commentQueryParam commentQueryParam
+     * @param param param
      * @return Page
      */
-    PageResult<CommentDTO> pageComment(CommentQueryParam commentQueryParam);
+    PageResult<CommentDTO> pageComment(CommentQueryParam param);
 
 
     /**
@@ -114,5 +115,14 @@ public interface CommentService {
      * @return boolean
      */
     boolean removeByIds(List<Long> ids);
+
+    /**
+     * 最新的数据
+     * @param top top
+     * @param status status
+     * @param type type
+     * @return List
+     */
+    List<CommentDTO> listLatest(int top,CommentStatus status,CommentType type);
 
 }

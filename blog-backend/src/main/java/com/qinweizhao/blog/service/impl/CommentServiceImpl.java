@@ -2,13 +2,13 @@ package com.qinweizhao.blog.service.impl;
 
 import cn.hutool.core.util.URLUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.qinweizhao.blog.model.convert.CommentConvert;
 import com.qinweizhao.blog.exception.BadRequestException;
 import com.qinweizhao.blog.exception.ForbiddenException;
 import com.qinweizhao.blog.exception.NotFoundException;
 import com.qinweizhao.blog.mapper.CommentMapper;
 import com.qinweizhao.blog.mapper.JournalMapper;
 import com.qinweizhao.blog.mapper.PostMapper;
+import com.qinweizhao.blog.model.convert.CommentConvert;
 import com.qinweizhao.blog.model.core.PageParam;
 import com.qinweizhao.blog.model.core.PageResult;
 import com.qinweizhao.blog.model.dto.CommentDTO;
@@ -99,6 +99,7 @@ public class CommentServiceImpl implements CommentService {
 
         List<CommentDTO> collect;
 
+        // 分页时有类型
         CommentType type = param.getType();
         if (type.equals(CommentType.POST)) {
             Map<Integer, Post> postMap = ServiceUtils.convertToMap(postMapper.selectListByIds(targetIds), Post::getId);
@@ -116,7 +117,7 @@ public class CommentServiceImpl implements CommentService {
                             }
                     ).collect(Collectors.toList());
 
-        } else {
+        } else if (type.equals(CommentType.JOURNAL)) {
             Map<Integer, Journal> journalMap = ServiceUtils.convertToMap(journalMapper.selectListByIds(targetIds), Journal::getId);
             collect = result.stream()
                     .filter(comment -> journalMap.containsKey(comment.getTargetId())).peek(
@@ -129,6 +130,9 @@ public class CommentServiceImpl implements CommentService {
                                 comment.setTarget(map);
                             }
                     ).collect(Collectors.toList());
+        } else {
+            // 查询最新记录，不需要添加目标信息。
+            return new PageResult<>(result, commentResult.getTotal(), commentResult.hasPrevious(), commentResult.hasNext());
         }
 
         return new PageResult<>(collect, commentResult.getTotal(), commentResult.hasPrevious(), commentResult.hasNext());
@@ -259,6 +263,15 @@ public class CommentServiceImpl implements CommentService {
 
         ids.forEach(this::removeById);
         return true;
+    }
+
+    @Override
+    public List<CommentDTO> listLatest(int top, CommentStatus status,CommentType type) {
+        CommentQueryParam param = new CommentQueryParam();
+        param.setSize(top);
+        param.setStatus(status);
+        param.setType(type);
+        return this.pageComment(param).getContent();
     }
 
     @Override

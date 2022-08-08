@@ -6,7 +6,9 @@ import com.qinweizhao.blog.model.enums.AttachmentType;
 import com.qinweizhao.blog.model.param.AttachmentQueryParam;
 import com.qinweizhao.blog.service.AttachmentService;
 import lombok.AllArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -27,7 +29,7 @@ public class AttachmentController {
     /**
      * 分页
      *
-     * @param param param
+     * @param param parame
      * @return Page
      */
     @GetMapping
@@ -87,6 +89,7 @@ public class AttachmentController {
 //    }
 //
 //
+
     /**
      * 删除附件
      *
@@ -97,51 +100,46 @@ public class AttachmentController {
     public Boolean deletePermanently(@PathVariable("id") Integer id) {
         return attachmentService.removeById(id);
     }
-//
-//
-//    /**
-//     * 批量永久删除附件
-//     *
-//     * @param ids ids
-//     * @return List
-//     */
-//    @DeleteMapping
-//    public List<Attachment> deletePermanentlyInBatch(@RequestBody List<Integer> ids) {
-//        boolean b = attachmentService.removeByIds(ids);
-//        return ResultUtils.judge(b, new ArrayList<>());
-//    }
-//
-//    /**
-//     * 上传单个文件
-//     *
-//     * @param file file
-//     * @return AttachmentDTO
-//     */
-//    @PostMapping("upload")
-//    public AttachmentDTO uploadAttachment(@RequestPart("file") MultipartFile file) {
-//        return AttachmentConvert.INSTANCE.convert(attachmentService.upload(file));
-//    }
-//
-//
-//    /**
-//     * 上传多个文件
-//     *
-//     * @param files files
-//     * @return List<AttachmentDTO>
-//     */
-//    @PostMapping(value = "uploads", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-//    public List<AttachmentDTO> uploadAttachments(@RequestPart("files") MultipartFile[] files) {
-//        List<AttachmentDTO> result = new LinkedList<>();
-//
-//        for (MultipartFile file : files) {
-//            // Upload single file
-//            Attachment attachment = attachmentService.upload(file);
-//            // Convert and add
-//            result.add(AttachmentConvert.INSTANCE.convert(attachment));
-//        }
-//
-//        return result;
-//    }
-//
+
+
+    /**
+     * 批量永久删除附件
+     *
+     * @param ids ids
+     * @return Boolean
+     */
+    @DeleteMapping
+    public Boolean deletePermanentlyInBatch(@RequestBody List<Integer> ids) {
+        return attachmentService.removeByIds(ids);
+    }
+
+    /**
+     * 上传单个文件
+     *
+     * @param file file
+     * @return AttachmentDTO
+     */
+    @PostMapping("upload")
+    public Boolean uploadAttachment(@RequestPart("file") MultipartFile file) {
+        return attachmentService.upload(file);
+    }
+
+
+    /**
+     * 上传多个文件
+     *
+     * @param files files
+     * @return List<AttachmentDTO>
+     */
+    @PostMapping(value = "uploads", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public Boolean uploadAttachments(@RequestPart("files") MultipartFile[] files) {
+
+        for (MultipartFile file : files) {
+            attachmentService.upload(file);
+        }
+
+        return true;
+    }
+
 
 }
