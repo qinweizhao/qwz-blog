@@ -6,7 +6,6 @@ import com.qinweizhao.blog.model.entity.Comment;
 import com.qinweizhao.blog.model.enums.CommentStatus;
 import com.qinweizhao.blog.model.enums.ValueEnum;
 import com.qinweizhao.blog.model.param.CommentParam;
-import com.qinweizhao.blog.model.vo.PostCommentWithPostVO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
@@ -30,15 +29,6 @@ public interface CommentConvert {
      * @return List
      */
     List<CommentDTO> convertToDTO(List<Comment> comments);
-
-    /**
-     * convertToVO
-     *
-     * @param comment comment
-     * @return PageResult
-     */
-    PostCommentWithPostVO convertPostToVO(CommentDTO comment);
-
 
     /**
      * 状态转换

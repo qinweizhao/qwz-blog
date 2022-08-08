@@ -2,12 +2,12 @@ package com.qinweizhao.blog.service.impl;
 
 import cn.hutool.core.lang.Validator;
 import cn.hutool.core.util.RandomUtil;
-import com.qinweizhao.blog.framework.cache.AbstractStringCacheStore;
 import com.qinweizhao.blog.config.properties.HaloProperties;
-import com.qinweizhao.blog.framework.event.logger.LogEvent;
 import com.qinweizhao.blog.exception.BadRequestException;
 import com.qinweizhao.blog.exception.NotFoundException;
 import com.qinweizhao.blog.exception.ServiceException;
+import com.qinweizhao.blog.framework.cache.AbstractStringCacheStore;
+import com.qinweizhao.blog.framework.event.logger.LogEvent;
 import com.qinweizhao.blog.mail.MailService;
 import com.qinweizhao.blog.model.dto.EnvironmentDTO;
 import com.qinweizhao.blog.model.entity.User;
@@ -20,34 +20,28 @@ import com.qinweizhao.blog.security.authentication.Authentication;
 import com.qinweizhao.blog.security.context.SecurityContextHolder;
 import com.qinweizhao.blog.security.token.AuthToken;
 import com.qinweizhao.blog.security.util.AuthUtils;
-import com.qinweizhao.blog.service.*;
-import com.qinweizhao.blog.util.FileUtils;
+import com.qinweizhao.blog.service.AdminService;
+import com.qinweizhao.blog.service.OptionService;
+import com.qinweizhao.blog.service.UserService;
 import com.qinweizhao.blog.util.HaloUtils;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.http.ResponseEntity;
-import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
-import org.springframework.web.client.RestTemplate;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.lang.management.ManagementFactory;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.TimeUnit;
-import java.util.function.Predicate;
 
-import static com.qinweizhao.blog.model.support.HaloConst.*;
+import static com.qinweizhao.blog.model.support.HaloConst.DATABASE_PRODUCT_NAME;
 
 /**
  * Admin service implementation.
@@ -62,37 +56,20 @@ import static com.qinweizhao.blog.model.support.HaloConst.*;
 @AllArgsConstructor
 public class AdminServiceImpl implements AdminService {
 
-//    private final PostService postService;
-//
-//    private final SheetService sheetService;
-//
-//    private final AttachmentService attachmentService;
-//
-//    private final CommentService<BaseMapper<Comment>, BaseEntity> commentService;
-//
-//    private final SheetCommentService sheetCommentService;
-//
-//    private final JournalCommentService journalCommentService;
-
     private final OptionService optionService;
 
     private final UserService userService;
 
-//    private final LinkService linkService;
-
     private final MailService mailService;
 
     private final AbstractStringCacheStore cacheStore;
-
-    private final RestTemplate restTemplate;
 
     private final HaloProperties haloProperties;
 
     private final ApplicationEventPublisher eventPublisher;
 
     @Override
-    @NonNull
-    public User authenticate(@NonNull LoginParam loginParam) {
+    public User authenticate(LoginParam loginParam) {
         Assert.notNull(loginParam, "登录参数不能为空");
 
         String username = loginParam.getUsername();
@@ -125,7 +102,7 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public AuthToken attemptAuthentication(@NonNull final LoginParam loginParam) {
+    public AuthToken attemptAuthentication(final LoginParam loginParam) {
         // 认证
         final User user = this.authenticate(loginParam);
 
@@ -231,35 +208,9 @@ public class AdminServiceImpl implements AdminService {
         // clear code cache
         cacheStore.delete("code");
     }
-//
-//    @Override
-//    @NonNull
-//    public StatisticDTO getCount() {
-//        StatisticDTO statisticDTO = new StatisticDTO();
-//        statisticDTO.setPostCount(postService.countByStatus(PostStatus.PUBLISHED) + sheetService.countByStatus(PostStatus.PUBLISHED));
-//        statisticDTO.setAttachmentCount(attachmentService.count());
-//
-//        // Handle comment count
-//        long postCommentCount = commentService.countByStatus(CommentStatus.PUBLISHED);
-//        long sheetCommentCount = sheetCommentService.countByStatus(CommentStatus.PUBLISHED);
-//        long journalCommentCount = journalCommentService.countByStatus(CommentStatus.PUBLISHED);
-//
-//        statisticDTO.setCommentCount(postCommentCount + sheetCommentCount + journalCommentCount);
-//
-//        long birthday = optionService.getBirthday();
-//        long days = (System.currentTimeMillis() - birthday) / (1000 * 24 * 3600);
-//        statisticDTO.setEstablishDays(days);
-//        statisticDTO.setBirthday(birthday);
-//
-//        statisticDTO.setLinkCount(linkService.count());
-//
-//        statisticDTO.setVisitCount(postService.countVisit() + sheetService.countVisit());
-//        statisticDTO.setLikeCount(postService.countLike() + sheetService.countLike());
-//        return statisticDTO;
-//    }
+
 
     @Override
-    @NonNull
     public EnvironmentDTO getEnvironments() {
         EnvironmentDTO environmentDTO = new EnvironmentDTO();
 
@@ -276,9 +227,8 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    @NonNull
-    public AuthToken refreshToken(@NonNull String refreshToken) {
-        Assert.hasText(refreshToken, "Refresh token must not be blank");
+    public AuthToken refreshToken(String refreshToken) {
+        Assert.hasText(refreshToken, "刷新令牌不能为空");
 
         Integer userId = cacheStore.getAny(AuthUtils.buildTokenRefreshKey(refreshToken), Integer.class)
                 .orElseThrow(() -> new BadRequestException("登录状态已失效，请重新登录").setErrorData(refreshToken));
@@ -296,108 +246,13 @@ public class AdminServiceImpl implements AdminService {
         return buildAuthToken(user);
     }
 
-    @Override
-    @SuppressWarnings("unchecked")
-    public void updateAdminAssets() {
-        // Request github api
-        ResponseEntity<Map> responseEntity = restTemplate.getForEntity(HaloConst.HALO_ADMIN_RELEASES_LATEST, Map.class);
-
-        if (responseEntity.getStatusCode().isError() || responseEntity.getBody() == null) {
-            log.debug("Failed to request remote url: [{}]", HALO_ADMIN_RELEASES_LATEST);
-            throw new ServiceException("系统无法访问到 Github 的 API").setErrorData(HALO_ADMIN_RELEASES_LATEST);
-        }
-
-        Object assetsObject = responseEntity.getBody().get("assets");
-
-        if (!(assetsObject instanceof List)) {
-            throw new ServiceException("Github API 返回内容有误").setErrorData(assetsObject);
-        }
-
-        try {
-            List<?> assets = (List<?>) assetsObject;
-            Map assetMap = (Map) assets.stream()
-                    .filter(assetPredicate())
-                    .findFirst()
-                    .orElseThrow(() -> new ServiceException("Halo admin 最新版暂无资源文件，请稍后再试"));
-
-            Object browserDownloadUrl = assetMap.getOrDefault("browser_download_url", "");
-            // Download the assets
-            ResponseEntity<byte[]> downloadResponseEntity = restTemplate.getForEntity(browserDownloadUrl.toString(), byte[].class);
-
-            if (downloadResponseEntity.getStatusCode().isError() || downloadResponseEntity.getBody() == null) {
-                throw new ServiceException("Failed to request remote url: " + browserDownloadUrl.toString()).setErrorData(browserDownloadUrl.toString());
-            }
-
-            String adminTargetName = haloProperties.getWorkDir() + HALO_ADMIN_RELATIVE_PATH;
-
-            Path adminPath = Paths.get(adminTargetName);
-            Path adminBackupPath = Paths.get(haloProperties.getWorkDir(), HALO_ADMIN_RELATIVE_BACKUP_PATH);
-
-            backupAndClearAdminAssetsIfPresent(adminPath, adminBackupPath);
-
-            // Create temp folder
-            Path assetTempPath = FileUtils.createTempDirectory()
-                    .resolve(assetMap.getOrDefault("name", "halo-admin-latest.zip").toString());
-
-            // Unzip
-            FileUtils.unzip(downloadResponseEntity.getBody(), assetTempPath);
-
-            // find root folder
-            Path adminRootPath = FileUtils.findRootPath(assetTempPath,
-                            path -> StringUtils.equalsIgnoreCase("index.html", path.getFileName().toString()))
-                    .orElseThrow(() -> new BadRequestException("无法准确定位到压缩包的根路径，请确认包含 index.html 文件。"));
-
-            // Copy it to template/admin folder
-            FileUtils.copyFolder(adminRootPath, adminPath);
-        } catch (Throwable t) {
-            throw new ServiceException("更新 Halo admin 失败，" + t.getMessage(), t);
-        }
-    }
-
-    @NonNull
-    @SuppressWarnings("unchecked")
-    private Predicate<Object> assetPredicate() {
-        return asset -> {
-            if (!(asset instanceof Map)) {
-                return false;
-            }
-            Map aAssetMap = (Map) asset;
-            // Get content-type
-            String contentType = aAssetMap.getOrDefault("content_type", "").toString();
-
-            Object name = aAssetMap.getOrDefault("name", "");
-            return name.toString().matches(HALO_ADMIN_VERSION_REGEX) && "application/zip".equalsIgnoreCase(contentType);
-        };
-    }
-
-    private void backupAndClearAdminAssetsIfPresent(@NonNull Path sourcePath, @NonNull Path backupPath) throws IOException {
-        Assert.notNull(sourcePath, "Source path must not be null");
-        Assert.notNull(backupPath, "Backup path must not be null");
-
-        if (!FileUtils.isEmpty(sourcePath)) {
-            // Clone this assets
-            Path adminPathBackup = Paths.get(haloProperties.getWorkDir(), HALO_ADMIN_RELATIVE_BACKUP_PATH);
-
-            // Delete backup
-            FileUtils.deleteFolder(backupPath);
-
-            // Copy older assets into backup
-            FileUtils.copyFolder(sourcePath, backupPath);
-
-            // Delete older assets
-            FileUtils.deleteFolder(sourcePath);
-        } else {
-            FileUtils.createIfAbsent(sourcePath);
-        }
-    }
-
     /**
      * 构建身份验证令牌
      *
      * @param user 用户信息不能为空
      * @return 令牌
      */
-    private AuthToken buildAuthToken(@NonNull User user) {
+    private AuthToken buildAuthToken(User user) {
         Assert.notNull(user, "用户不能为空");
 
         // 生成新令牌
@@ -419,7 +274,7 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public String getLogFiles(@NonNull Long lines) {
+    public String getLogFiles(Long lines) {
         Assert.notNull(lines, "Lines must not be null");
 
         File file = new File(haloProperties.getWorkDir(), LOG_PATH);
@@ -472,10 +327,8 @@ public class AdminServiceImpl implements AdminService {
 
         Collections.reverse(linesArray);
 
-        linesArray.forEach(line -> {
-            result.append(line)
-                    .append(StringUtils.LF);
-        });
+        linesArray.forEach(line -> result.append(line)
+                .append(StringUtils.LF));
 
         return result.toString();
     }

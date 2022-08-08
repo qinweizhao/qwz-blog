@@ -84,11 +84,6 @@ public interface AdminService {
     AuthToken refreshToken(String refreshToken);
 
     /**
-     * 更新
-     */
-    void updateAdminAssets();
-
-    /**
      * 获取日志文件
      *
      * @param lines lines

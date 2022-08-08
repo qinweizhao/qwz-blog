@@ -5,12 +5,10 @@ import com.qinweizhao.blog.framework.cache.lock.CacheLock;
 import com.qinweizhao.blog.model.dto.EnvironmentDTO;
 import com.qinweizhao.blog.model.param.LoginParam;
 import com.qinweizhao.blog.model.param.ResetPasswordParam;
-import com.qinweizhao.blog.model.support.BaseResponse;
 import com.qinweizhao.blog.security.token.AuthToken;
 import com.qinweizhao.blog.service.AdminService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -89,19 +87,6 @@ public class AdminController {
         return adminService.refreshToken(refreshToken);
     }
 
-//    /**
-//     * 获取计数信息
-//     *
-//     * @return StatisticDTO
-//     */
-//    @GetMapping("counts")
-//    @ApiOperation("")
-//    @Deprecated
-//    public StatisticDTO getCount() {
-//        return adminService.getCount();
-//    }
-
-
     /**
      * 获取环境信息
      *
@@ -113,15 +98,6 @@ public class AdminController {
     }
 
     /**
-     * 手动更新
-     */
-    @PutMapping("halo-admin")
-    @Deprecated
-    public void updateAdmin() {
-        adminService.updateAdminAssets();
-    }
-
-    /**
      * 获取日志文件内容
      *
      * @param lines lines
@@ -129,7 +105,7 @@ public class AdminController {
      */
     @GetMapping(value = "halo/logfile")
     @DisableOnCondition
-    public BaseResponse<String> getLogFiles(@RequestParam("lines") Long lines) {
-        return BaseResponse.ok(HttpStatus.OK.getReasonPhrase(), adminService.getLogFiles(lines));
+    public String getLogFiles(@RequestParam("lines") Long lines) {
+        return adminService.getLogFiles(lines);
     }
 }

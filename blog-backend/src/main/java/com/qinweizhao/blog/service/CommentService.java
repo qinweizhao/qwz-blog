@@ -7,7 +7,6 @@ import com.qinweizhao.blog.model.enums.CommentStatus;
 import com.qinweizhao.blog.model.enums.CommentType;
 import com.qinweizhao.blog.model.param.CommentParam;
 import com.qinweizhao.blog.model.param.CommentQueryParam;
-import com.qinweizhao.blog.model.vo.PostCommentWithPostVO;
 
 import java.util.List;
 import java.util.Map;
