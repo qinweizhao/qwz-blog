@@ -51,6 +51,15 @@ export const asyncRouterMap = [
           }
         ]
       },
+
+      // journals
+      {
+        path: '/journals',
+        name: 'JournalList',
+        component: () => import('@/views/journal/JournalList'),
+        meta: { title: '日志', icon: 'read' }
+      },
+
       // comments
       {
         path: '/comments',
@@ -58,6 +67,7 @@ export const asyncRouterMap = [
         component: () => import('@/views/comment/CommentList'),
         meta: { title: '评论', icon: 'message', hiddenHeaderContent: false }
       },
+
       // attachments
       {
         path: '/attachments',
@@ -65,6 +75,7 @@ export const asyncRouterMap = [
         component: () => import('@/views/attachment/AttachmentList'),
         meta: { title: '附件', icon: 'picture', hiddenHeaderContent: false }
       },
+
       // menu
       {
         path: '/menus',
@@ -72,71 +83,6 @@ export const asyncRouterMap = [
         component: () => import('@/views/interface/MenuList'),
         meta: { title: '菜单', icon: 'menu', hiddenHeaderContent: false }
       },
-      // sheets
-      {
-        path: '/sheets',
-        name: 'Sheets',
-        component: () => import('@/views/sheet/SheetList'),
-        meta: { title: '页面', icon: 'read' }
-      },
-      {
-        path: '/hiddenSheets',
-        component: BlankLayout,
-        hidden: true,
-        meta: { title: '隐藏页面', icon: 'read' },
-        children: [
-          {
-            path: '/sheets/photos',
-            name: 'PhotoList',
-            hidden: true,
-            component: () => import('@/views/sheet/independent/PhotoList'),
-            meta: { title: '图库', hiddenHeaderContent: false }
-          },
-          {
-            path: '/sheets/journals',
-            name: 'JournalList',
-            hidden: true,
-            component: () => import('@/views/sheet/independent/JournalList'),
-            meta: { title: '日志', hiddenHeaderContent: false }
-          }
-        ]
-      },
-      // {
-      //   path: '/sheets',
-      //   name: 'Sheets',
-      //   component: BlankLayout,
-      //   redirect: '/sheets/list',
-      //   meta: { title: '页面', icon: 'read' },
-      //   children: [
-      //     {
-      //       path: '/sheets/list',
-      //       name: 'SheetList',
-      //       component: () => import('@/views/sheet/SheetList'),
-      //       meta: { title: '全部', hiddenHeaderContent: false }
-      //     },
-      //     {
-      //       path: '/sheets/links',
-      //       name: 'LinkList',
-      //       hidden: true,
-      //       component: () => import('@/views/sheet/independent/LinkList'),
-      //       meta: { title: '友情链接', hiddenHeaderContent: false }
-      //     },
-      //     {
-      //       path: '/sheets/photos',
-      //       name: 'PhotoList',
-      //       hidden: true,
-      //       component: () => import('@/views/sheet/independent/PhotoList'),
-      //       meta: { title: '图库', hiddenHeaderContent: false }
-      //     },
-      //     {
-      //       path: '/sheets/journals',
-      //       name: 'JournalList',
-      //       hidden: true,
-      //       component: () => import('@/views/sheet/independent/JournalList'),
-      //       meta: { title: '日志', hiddenHeaderContent: false }
-      //     }
-      //   ]
-      // },
 
       // interface
       {
