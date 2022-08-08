@@ -1,15 +1,20 @@
 package com.qinweizhao.blog.controller.admin.api;
 
+import com.qinweizhao.blog.model.convert.AttachmentConvert;
 import com.qinweizhao.blog.model.core.PageResult;
 import com.qinweizhao.blog.model.dto.AttachmentDTO;
+import com.qinweizhao.blog.model.entity.Attachment;
 import com.qinweizhao.blog.model.enums.AttachmentType;
+import com.qinweizhao.blog.model.param.AttachmentParam;
 import com.qinweizhao.blog.model.param.AttachmentQueryParam;
 import com.qinweizhao.blog.service.AttachmentService;
+import com.qinweizhao.blog.util.ResultUtils;
 import lombok.AllArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -59,36 +64,22 @@ public class AttachmentController {
     }
 
 
-//    /**
-//     * 通过 id 获取附件详细信息
-//     *
-//     * @param id id
-//     * @return AttachmentDTO
-//     */
-//    @GetMapping("{id:\\d+}")
-//    public AttachmentDTO getBy(@PathVariable("id") Integer id) {
-//        Attachment attachment = attachmentService.getById(id);
-//        return AttachmentConvert.INSTANCE.convert(attachment);
-//    }
-//
-//    /**
-//     * 更新附件
-//     *
-//     * @param attachmentId    attachmentId
-//     * @param attachmentParam attachmentParam
-//     * @return AttachmentDTO
-//     */
-//    @PutMapping("{attachmentId:\\d+}")
-//    public AttachmentDTO updateBy(@PathVariable("attachmentId") Integer attachmentId,
-//                                  @RequestBody @Valid AttachmentParam attachmentParam) {
-//        Attachment attachment = AttachmentConvert.INSTANCE.convert(attachmentParam);
-//        attachment.setId(attachmentId);
-//        boolean b = attachmentService.updateById(attachment);
-//        AttachmentDTO attachmentDTO = AttachmentConvert.INSTANCE.convert(attachment);
-//        return ResultUtils.judge(b, attachmentDTO);
-//    }
-//
-//
+
+    /**
+     * 更新附件
+     *
+     * @param id    id
+     * @param param param
+     * @return AttachmentDTO
+     */
+    @PutMapping("{attachmentId:\\d+}")
+    public Boolean updateBy(@PathVariable("attachmentId") Integer id,
+                                  @RequestBody @Valid AttachmentParam param) {
+
+        return attachmentService.updateById(id,param);
+    }
+
+
 
     /**
      * 删除附件

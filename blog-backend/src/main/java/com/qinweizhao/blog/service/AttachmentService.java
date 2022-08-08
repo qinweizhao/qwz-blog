@@ -3,6 +3,7 @@ package com.qinweizhao.blog.service;
 import com.qinweizhao.blog.model.core.PageResult;
 import com.qinweizhao.blog.model.dto.AttachmentDTO;
 import com.qinweizhao.blog.model.enums.AttachmentType;
+import com.qinweizhao.blog.model.param.AttachmentParam;
 import com.qinweizhao.blog.model.param.AttachmentQueryParam;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -27,18 +28,21 @@ public interface AttachmentService {
 
     /**
      * 所有附件类型
+     *
      * @return List
      */
     List<String> listMediaType();
 
     /**
      * 附件存储位置
+     *
      * @return List
      */
     List<AttachmentType> listAllType();
 
     /**
      * 删除附件
+     *
      * @param id id
      * @return boolean
      */
@@ -46,6 +50,7 @@ public interface AttachmentService {
 
     /**
      * 批量删除附件
+     *
      * @param ids ids
      * @return boolean
      */
@@ -56,46 +61,17 @@ public interface AttachmentService {
      * 上传文件
      *
      * @param file file
-     * @return boolean boolean
+     * @return boolean
      */
     boolean upload(MultipartFile file);
-//
-//    /**
-//     * Removes attachment permanently.
-//     *
-//     * @param id attachment id must not be null
-//     * @return attachment detail deleted
-//     */
-//    Attachment removePermanently(Integer id);
-//
-//    /**
-//     * Removes attachment permanently in batch.
-//     *
-//     * @param ids attachment ids must not be null
-//     * @return attachment detail list deleted
-//     */
-//    List<Attachment> removePermanently(Collection<Integer> ids);
-//
-//    /**
-//     * List all media type.
-//     *
-//     * @return list of media type
-//     */
-//    List<String> listAllMediaType();
-//
-//    /**
-//     * List all type.
-//     *
-//     * @return list of type.
-//     */
-//    List<AttachmentType> listAllType();
-//
-//    /**
-//     * Replace attachment url in batch.
-//     *
-//     * @param oldUrl old blog url.
-//     * @param newUrl new blog url.
-//     * @return replaced attachments.
-//     */
-//    List<Attachment> replaceUrl(String oldUrl, String newUrl);
+
+    /**
+     * 更新附件
+     *
+     * @param id    id
+     * @param param id
+     * @return boolean
+     */
+    boolean updateById(Integer id, AttachmentParam param);
+
 }

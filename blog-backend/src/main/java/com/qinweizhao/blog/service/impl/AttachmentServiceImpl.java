@@ -7,6 +7,7 @@ import com.qinweizhao.blog.model.core.PageResult;
 import com.qinweizhao.blog.model.dto.AttachmentDTO;
 import com.qinweizhao.blog.model.entity.Attachment;
 import com.qinweizhao.blog.model.enums.AttachmentType;
+import com.qinweizhao.blog.model.param.AttachmentParam;
 import com.qinweizhao.blog.model.param.AttachmentQueryParam;
 import com.qinweizhao.blog.model.properties.AttachmentProperties;
 import com.qinweizhao.blog.model.support.UploadResult;
@@ -27,6 +28,7 @@ import java.util.Objects;
  *
  * @author ryanwang
  * @author johnniang
+ * @author qinweizhao
  * @date 2019-03-14
  */
 @Slf4j
@@ -107,88 +109,16 @@ public class AttachmentServiceImpl implements AttachmentService {
         // 创建并返回
         return attachmentMapper.insert(attachment) != 1;
     }
-//
-//    @Override
-//    public Attachment removePermanently(Integer id) {
-//        Attachment deletedAttachment = this.baseMapper.selectById(id);
-//        // 从数据库中删除它
-//        this.baseMapper.deleteById(id);
-//
-//        // 删除文件
-//        fileHandlers.delete(deletedAttachment);
-//
-//        log.debug("已删除的附件: [{}]", deletedAttachment);
-//
-//        return deletedAttachment;
-//    }
-//
-//    @Override
-//    public List<Attachment> removePermanently(@Nullable Collection<Integer> ids) {
-//        if (CollectionUtils.isEmpty(ids)) {
-//            return Collections.emptyList();
-//        }
-//
-//        return ids.stream().map(this::removePermanently).collect(Collectors.toList());
-//    }
-//
-//
-//    @Override
-//    public List<String> listAllMediaType() {
-//        return this.baseMapper.selectListMediaType();
-//    }
-//
-//    @Override
-//    public List<AttachmentType> listAllType() {
 
-//    }
-//
-//    @Override
-//    public List<Attachment> replaceUrl(@NotNull String oldUrl, @NotNull String newUrl) {
-//        List<Attachment> attachments = this.list();
-//
-//        List<Attachment> replaced = new ArrayList<>();
-//        attachments.forEach(attachment -> {
-//            if (StringUtils.isNotEmpty(attachment.getPath())) {
-//                attachment.setPath(attachment.getPath().replaceAll(oldUrl, newUrl));
-//            }
-//            if (StringUtils.isNotEmpty(attachment.getThumbPath())) {
-//                attachment.setThumbPath(attachment.getThumbPath().replaceAll(oldUrl, newUrl));
-//            }
-//            replaced.add(attachment);
-//        });
-//
-//        boolean b = this.updateBatchById(replaced);
-//
-//        return ResultUtils.judge(b, replaced);
-//    }
-//
-//    public Attachment create(Attachment attachment) {
-//        Assert.notNull(attachment, "附件不能为空");
-//
-//        // 检查附件路径
-//        pathMustNotExist(attachment);
-//        boolean b = this.save(attachment);
-//
-//        return ResultUtils.judge(b, attachment);
-//    }
-//
-//    /**
-//     * Attachment path must not be exist.
-//     *
-//     * @param attachment attachment must not be null
-//     */
-//    private void pathMustNotExist(@NonNull Attachment attachment) {
-//        Assert.notNull(attachment, "Attachment must not be null");
-//
-//        long pathCount = this.baseMapper.countByPath(attachment.getPath());
-//
-//        if (pathCount > 0) {
-//            throw new AlreadyExistsException("附件路径为 " + attachment.getPath() + " 已经存在");
-//        }
-//    }
+    @Override
+    public boolean updateById(Integer id, AttachmentParam param) {
+        Attachment attachment = AttachmentConvert.INSTANCE.convert(param);
+        attachment.setId(id);
+        return attachmentMapper.updateById(attachment) != 1;
+    }
 
     /**
-     * Get attachment type from options.
+     * 从配置中获取附件类型
      *
      * @return attachment type
      */
