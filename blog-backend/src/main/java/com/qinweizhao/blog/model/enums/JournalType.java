@@ -1,5 +1,7 @@
 package com.qinweizhao.blog.model.enums;
 
+import com.baomidou.mybatisplus.annotation.EnumValue;
+
 /**
  * 日志类型
  *
@@ -18,6 +20,7 @@ public enum JournalType implements ValueEnum<Integer> {
      */
     INTIMATE(0);
 
+    @EnumValue
     private final int value;
 
     JournalType(int value) {

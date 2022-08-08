@@ -37,6 +37,15 @@ public interface OptionService extends IService<Option> {
 
     String OPTIONS_KEY = "options";
 
+
+    /**
+     * 构建完整路径
+     * @param postId postId
+     * @return String
+     */
+    String buildFullPath(Integer postId);
+
+
     /**
      * 保存属性
      * @param property property

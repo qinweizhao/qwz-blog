@@ -26,4 +26,6 @@ public class JournalDTO {
     private LocalDateTime createTime;
 
     private JournalType type;
+
+    private Long commentCount;
 }

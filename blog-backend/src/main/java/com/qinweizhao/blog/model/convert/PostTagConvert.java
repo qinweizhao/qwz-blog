@@ -1,7 +1,6 @@
 package com.qinweizhao.blog.model.convert;
 
 
-import com.qinweizhao.blog.model.dto.TagWithPostCountDTO;
 import com.qinweizhao.blog.model.entity.Tag;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
@@ -14,15 +13,5 @@ import org.mapstruct.factory.Mappers;
 public interface PostTagConvert {
 
     PostTagConvert INSTANCE = Mappers.getMapper(PostTagConvert.class);
-
-
-    /**
-     * convertWithPostCountDTO
-     *
-     * @param tag tag
-     * @return TagWithPostCountDTO
-     */
-    TagWithPostCountDTO convert(Tag tag);
-
 
 }

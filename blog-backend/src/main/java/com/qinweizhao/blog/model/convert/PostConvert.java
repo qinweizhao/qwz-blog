@@ -6,6 +6,7 @@ import com.qinweizhao.blog.model.dto.PostListDTO;
 import com.qinweizhao.blog.model.dto.PostSimpleDTO;
 import com.qinweizhao.blog.model.entity.Post;
 import com.qinweizhao.blog.model.enums.PostStatus;
+import com.qinweizhao.blog.model.enums.ValueEnum;
 import com.qinweizhao.blog.model.param.PostParam;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
@@ -100,27 +101,7 @@ public interface PostConvert {
      * @return PostStatus
      */
     default PostStatus statusToEnum(Integer status) {
-        if (status == null) {
-            return null;
-        }
-        PostStatus postStatus;
-        switch (status) {
-            case 0:
-                postStatus = PostStatus.PUBLISHED;
-                break;
-            case 1:
-                postStatus = PostStatus.DRAFT;
-                break;
-            case 2:
-                postStatus = PostStatus.RECYCLE;
-                break;
-            case 3:
-                postStatus = PostStatus.INTIMATE;
-                break;
-            default:
-                postStatus = null;
-        }
-        return postStatus;
+        return ValueEnum.valueToEnum(PostStatus.class, status);
     }
 
 }

@@ -2,19 +2,21 @@ package com.qinweizhao.blog.service.impl;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.google.common.base.Objects;
-import com.qinweizhao.blog.model.convert.CategoryConvert;
 import com.qinweizhao.blog.exception.AlreadyExistsException;
 import com.qinweizhao.blog.exception.NotFoundException;
 import com.qinweizhao.blog.mapper.CategoryMapper;
 import com.qinweizhao.blog.mapper.PostCategoryMapper;
+import com.qinweizhao.blog.model.convert.CategoryConvert;
 import com.qinweizhao.blog.model.dto.CategoryDTO;
 import com.qinweizhao.blog.model.entity.Category;
 import com.qinweizhao.blog.model.param.CategoryParam;
 import com.qinweizhao.blog.service.CategoryService;
 import com.qinweizhao.blog.service.OptionService;
 import com.qinweizhao.blog.util.ServiceUtils;
+import com.qinweizhao.blog.util.SlugUtils;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -82,8 +84,9 @@ public class CategoryServiceImpl implements CategoryService {
     public boolean saveCategory(CategoryParam param) {
         Category category = CategoryConvert.INSTANCE.convert(param);
 
+        String name = category.getName();
         // 检查分类名字
-        long count = categoryMapper.selectCountByName(category.getName());
+        long count = categoryMapper.selectCountByName(name);
 
         if (count > 0) {
             log.error("分类已存在: [{}]", category);
@@ -98,7 +101,10 @@ public class CategoryServiceImpl implements CategoryService {
                 throw new NotFoundException("没有分类 ID  = " + category.getParentId() + " 没有找到");
             }
         }
+        String slug = param.getSlug();
+        slug = StringUtils.isBlank(slug) ? SlugUtils.slug(name) : SlugUtils.slug(slug);
 
+        category.setSlug(slug);
         return categoryMapper.insert(category) > 0;
     }
 

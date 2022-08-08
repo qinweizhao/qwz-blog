@@ -7,8 +7,6 @@ import java.time.LocalDateTime;
 /**
  * Tag output dto.
  *
- * @author johnniang
- * @author ryanwang
  * @author qinweizhao
  * @date 2019-03-19
  */
@@ -26,4 +24,6 @@ public class TagDTO {
     private LocalDateTime createTime;
 
     private String fullPath;
+
+    private Long postCount;
 }

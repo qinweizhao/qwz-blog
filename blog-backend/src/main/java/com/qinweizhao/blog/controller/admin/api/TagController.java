@@ -25,9 +25,6 @@ public class TagController {
 
     private final TagService tagService;
 
-    private final PostTagService postTagService;
-
-
     /**
      * 列表
      *
@@ -45,7 +42,7 @@ public class TagController {
      * @return Boolean
      */
     @PostMapping
-    public Boolean createTag(@Valid @RequestBody TagParam tagParam) {
+    public Boolean create(@Valid @RequestBody TagParam tagParam) {
         return tagService.save(tagParam);
     }
 
@@ -80,8 +77,6 @@ public class TagController {
      */
     @DeleteMapping("{tagId:\\d+}")
     public Boolean deletePermanently(@PathVariable("tagId") Integer tagId) {
-
-
         return tagService.removeById(tagId);
     }
 }

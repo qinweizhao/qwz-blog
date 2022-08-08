@@ -1,18 +1,12 @@
 package com.qinweizhao.blog.service.impl;
 
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.qinweizhao.blog.model.convert.PostTagConvert;
-import com.qinweizhao.blog.model.convert.TagConvert;
-import com.qinweizhao.blog.mapper.PostMapper;
 import com.qinweizhao.blog.mapper.PostTagMapper;
 import com.qinweizhao.blog.mapper.TagMapper;
+import com.qinweizhao.blog.model.convert.TagConvert;
 import com.qinweizhao.blog.model.dto.TagDTO;
-import com.qinweizhao.blog.model.dto.TagWithPostCountDTO;
 import com.qinweizhao.blog.model.entity.PostTag;
 import com.qinweizhao.blog.model.entity.Tag;
-import com.qinweizhao.blog.model.projection.TagPostPostCountProjection;
-import com.qinweizhao.blog.service.OptionService;
 import com.qinweizhao.blog.service.PostTagService;
 import com.qinweizhao.blog.util.ServiceUtils;
 import lombok.AllArgsConstructor;
@@ -20,9 +14,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import java.util.*;
-import java.util.stream.Collectors;
-
-import static com.qinweizhao.blog.model.support.HaloConst.URL_SEPARATOR;
 
 /**
  * Post tag service implementation.
@@ -34,50 +25,13 @@ import static com.qinweizhao.blog.model.support.HaloConst.URL_SEPARATOR;
  */
 @Service
 @AllArgsConstructor
-public class PostTagServiceImpl extends ServiceImpl<PostTagMapper,PostTag> implements PostTagService {
+public class PostTagServiceImpl extends ServiceImpl<PostTagMapper, PostTag> implements PostTagService {
 
-    private final OptionService optionService;
 
     private final TagMapper tagMapper;
 
-    private final PostMapper postMapper;
-
     private final PostTagMapper postTagMapper;
 
-
-    @Override
-    public List<TagWithPostCountDTO> listTagWithPostCount() {
-
-        // 查找所有标签
-        List<Tag> tags = tagMapper.selectList(Wrappers.emptyWrapper());
-
-        // 查找所有帖子计数
-        Map<Integer, Long> tagPostCountMap = ServiceUtils.convertToMap(postTagMapper.selectPostCount(), TagPostPostCountProjection::getTagId, TagPostPostCountProjection::getPostCount);
-
-
-        return tags.stream().map(
-                tag -> {
-                    TagWithPostCountDTO tagWithCountOutputDTO = PostTagConvert.INSTANCE.convert(tag);
-                    tagWithCountOutputDTO.setPostCount(tagPostCountMap.getOrDefault(tag.getId(), 0L));
-
-                    StringBuilder fullPath = new StringBuilder();
-
-                    if (optionService.isEnabledAbsolutePath()) {
-                        fullPath.append(optionService.getBlogBaseUrl());
-                    }
-
-                    fullPath.append(URL_SEPARATOR)
-                            .append(optionService.getTagsPrefix())
-                            .append(URL_SEPARATOR)
-                            .append(tag.getSlug())
-                            .append(optionService.getPathSuffix());
-
-                    tagWithCountOutputDTO.setFullPath(fullPath.toString());
-
-                    return tagWithCountOutputDTO;
-                }
-        ).collect(Collectors.toList());
-    }
 
     @Override
     public Map<Integer, List<TagDTO>> listTagListMapBy(Collection<Integer> postIds) {
@@ -98,7 +52,7 @@ public class PostTagServiceImpl extends ServiceImpl<PostTagMapper,PostTag> imple
         Map<Integer, TagDTO> tagMap = ServiceUtils.convertToMap(tags, TagDTO::getId);
 
         // Create tag list map
-        Map<Integer, List<TagDTO>> tagListMap = new HashMap<>();
+        Map<Integer, List<TagDTO>> tagListMap = new LinkedHashMap<>();
 
         // Foreach and collect
         postTags.forEach(postTag -> tagListMap.computeIfAbsent(postTag.getPostId(), postId -> new LinkedList<>()).add(tagMap.get(postTag.getTagId())));

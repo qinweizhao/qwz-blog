@@ -1,9 +1,15 @@
 package com.qinweizhao.blog.controller.admin.api;
 
+import com.qinweizhao.blog.model.core.PageResult;
+import com.qinweizhao.blog.model.dto.JournalDTO;
+import com.qinweizhao.blog.model.param.JournalParam;
+import com.qinweizhao.blog.model.param.JournalQuery;
 import com.qinweizhao.blog.service.JournalService;
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+import java.util.List;
 
 /**
  * Journal controller.
@@ -17,51 +23,66 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/admin/journals")
 public class JournalController {
 
-//    private final JournalService journalService;
+    private final JournalService journalService;
 
-//    /**
-//     * 日志分页
-//     *
-//     * @param pageable     pageable
-//     * @param journalQuery journalQuery
-//     * @return Page
-//     */
-//    @GetMapping
-//    public Page<JournalWithCmtCountDTO> pageBy(@PageableDefault(sort = "createTime", direction = DESC) Pageable pageable,
-//                                               JournalQuery journalQuery) {
-//        Page<Journal> journalPage = journalService.pageBy(journalQuery, pageable);
-//        return journalService.convertToCmtCountDto(journalPage);
-//    }
-//
-//    @GetMapping("latest")
-//    @ApiOperation("Gets latest journals")
-//    public List<JournalWithCmtCountDTO> pageLatest(@RequestParam(name = "top", defaultValue = "10") int top) {
-//        List<Journal> journals = journalService.pageLatest(top).getContent();
-//        return journalService.convertToCmtCountDto(journals);
-//    }
-//
-//    @PostMapping
-//    @ApiOperation("Creates a journal")
-//    public JournalDTO createBy(@RequestBody @Valid JournalParam journalParam) {
-//        Journal createdJournal = journalService.createBy(journalParam);
-//        return journalService.convertTo(createdJournal);
-//    }
-//
-//    @PutMapping("{id:\\d+}")
-//    @ApiOperation("Updates a Journal")
-//    public JournalDTO updateBy(@PathVariable("id") Integer id,
-//                               @RequestBody @Valid JournalParam journalParam) {
-//        Journal journal = journalService.getById(id);
-//        journalParam.update(journal);
-//        Journal updatedJournal = journalService.updateBy(journal);
-//        return journalService.convertTo(updatedJournal);
-//    }
-//
-//    @DeleteMapping("{journalId:\\d+}")
-//    @ApiOperation("Delete journal")
-//    public JournalDTO deleteBy(@PathVariable("journalId") Integer journalId) {
-//        boolean b = journalService.removeById(journalId);
-//        Journal judge = ResultUtils.judge(b, journalService.getById(journalId));
-//        return journalService.convertTo(judge);
-//    }
+    /**
+     * 分页
+     *
+     * @param param param
+     * @return Page
+     */
+    @GetMapping
+    public PageResult<JournalDTO> pageBy(JournalQuery param) {
+        return journalService.page(param);
+    }
+
+    /**
+     * 最新记录
+     *
+     * @param top top
+     * @return List
+     */
+    @GetMapping("latest")
+    public List<JournalDTO> pageLatest(@RequestParam(name = "top", defaultValue = "10") int top) {
+        JournalQuery param = new JournalQuery();
+        param.setPage(top);
+
+        PageResult<JournalDTO> page = journalService.page(param);
+        return page.getContent();
+    }
+
+    /**
+     * 新增
+     *
+     * @param param param
+     * @return Boolean
+     */
+    @PostMapping
+    public Boolean create(@RequestBody @Valid JournalParam param) {
+        return journalService.save(param);
+    }
+
+    /**
+     * 更新
+     *
+     * @param id    id
+     * @param param param
+     * @return Boolean
+     */
+    @PutMapping("{id:\\d+}")
+    public Boolean updateBy(@PathVariable("id") Integer id,
+                            @RequestBody @Valid JournalParam param) {
+        return journalService.updateById(id, param);
+    }
+
+    /**
+     * 删除
+     *
+     * @param journalId journalId
+     * @return Boolean
+     */
+    @DeleteMapping("{journalId:\\d+}")
+    public Boolean deleteBy(@PathVariable("journalId") Integer journalId) {
+        return journalService.removeById(journalId);
+    }
 }

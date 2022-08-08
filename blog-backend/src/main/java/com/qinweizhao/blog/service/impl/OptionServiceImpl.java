@@ -29,6 +29,8 @@ import org.springframework.util.CollectionUtils;
 import javax.annotation.PostConstruct;
 import java.util.*;
 
+import static com.qinweizhao.blog.model.support.HaloConst.URL_SEPARATOR;
+
 /**
  * OptionService implementation class
  *
@@ -50,6 +52,26 @@ public class OptionServiceImpl extends ServiceImpl<OptionMapper, Option> impleme
     private final ApplicationEventPublisher eventPublisher;
 
     private final HaloProperties haloProperties;
+
+
+
+    @Override
+    public String buildFullPath(Integer postId) {
+        StringBuilder fullPath = new StringBuilder();
+
+        if (this.isEnabledAbsolutePath()) {
+            fullPath.append(this.getBlogBaseUrl());
+        }
+
+        fullPath.append(URL_SEPARATOR);
+
+        fullPath.append("?p=")
+                .append(postId);
+
+        return fullPath.toString();
+    }
+
+
 
 
     @PostConstruct

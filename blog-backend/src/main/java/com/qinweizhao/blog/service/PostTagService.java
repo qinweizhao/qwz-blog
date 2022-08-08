@@ -1,12 +1,8 @@
 package com.qinweizhao.blog.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.qinweizhao.blog.model.dto.PostSimpleDTO;
 import com.qinweizhao.blog.model.dto.TagDTO;
-import com.qinweizhao.blog.model.dto.TagWithPostCountDTO;
 import com.qinweizhao.blog.model.entity.PostTag;
-import com.qinweizhao.blog.model.entity.Tag;
-import com.qinweizhao.blog.model.enums.PostStatus;
 
 import java.util.Collection;
 import java.util.List;
@@ -29,14 +25,6 @@ public interface PostTagService extends IService<PostTag> {
 //     * @return a list of tag
 //     */
 //    List<Tag> listTagsBy(@NonNull Integer postId);
-//
-
-    /**
-     * 列表（附加文章个数）
-     *
-     * @return List
-     */
-    List<TagWithPostCountDTO> listTagWithPostCount();
 //
 
     /**

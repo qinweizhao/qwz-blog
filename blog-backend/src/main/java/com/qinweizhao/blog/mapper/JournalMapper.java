@@ -1,9 +1,14 @@
 package com.qinweizhao.blog.mapper;
 
+import cn.hutool.db.dialect.impl.MysqlDialect;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.qinweizhao.blog.model.core.PageResult;
 import com.qinweizhao.blog.model.entity.Journal;
 import com.qinweizhao.blog.model.entity.Post;
+import com.qinweizhao.blog.model.param.JournalQuery;
 import com.qinweizhao.blog.util.LambdaQueryWrapperX;
+import com.qinweizhao.blog.util.MyBatisUtils;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -34,6 +39,20 @@ public interface JournalMapper extends BaseMapper<Journal> {
      * @return boolean
      */
     boolean selectExistsById(Integer journalId);
+
+    /**
+     * 分页
+     * @param param param
+     * @return PageResult
+     */
+    default PageResult<Journal> selectPageJournals(JournalQuery param){
+        Page<Journal> page = MyBatisUtils.buildPage(param);
+        Page<Journal> result = this.selectPage(page, new LambdaQueryWrapperX<Journal>()
+                .eqIfPresent(Journal::getType, param.getType())
+                .likeIfPresent(Journal::getSourceContent, param.getKeyword())
+        );
+        return MyBatisUtils.buildPageResult(result);
+    }
 
 
 //    /**

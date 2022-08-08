@@ -63,12 +63,11 @@ public class CategoryController {
      * 新增分类
      *
      * @param categoryParam categoryParam
-     * @return CategoryDTO
+     * @return Boolean
      */
     @PostMapping
-    public CategoryDTO saveCategory(@RequestBody @Valid CategoryParam categoryParam) {
-        boolean b = categoryService.saveCategory(categoryParam);
-        return ResultUtils.judge(b, new CategoryDTO());
+    public Boolean saveCategory(@RequestBody @Valid CategoryParam categoryParam) {
+        return categoryService.saveCategory(categoryParam);
     }
 
     /**

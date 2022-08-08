@@ -1,19 +1,28 @@
 package com.qinweizhao.blog.service.impl;
 
-import com.qinweizhao.blog.model.convert.TagConvert;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.qinweizhao.blog.exception.AlreadyExistsException;
+import com.qinweizhao.blog.mapper.PostTagMapper;
 import com.qinweizhao.blog.mapper.TagMapper;
+import com.qinweizhao.blog.model.convert.PostTagConvert;
+import com.qinweizhao.blog.model.convert.TagConvert;
 import com.qinweizhao.blog.model.dto.TagDTO;
 import com.qinweizhao.blog.model.entity.Tag;
 import com.qinweizhao.blog.model.param.TagParam;
+import com.qinweizhao.blog.model.projection.TagPostPostCountProjection;
 import com.qinweizhao.blog.service.OptionService;
 import com.qinweizhao.blog.service.PostTagService;
 import com.qinweizhao.blog.service.TagService;
+import com.qinweizhao.blog.util.ServiceUtils;
+import com.qinweizhao.blog.util.SlugUtils;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import static com.qinweizhao.blog.model.support.HaloConst.URL_SEPARATOR;
 
@@ -32,6 +41,8 @@ public class TagServiceImpl implements TagService {
 
     private final OptionService optionService;
 
+    private final PostTagMapper postTagMapper;
+
     private final PostTagService postTagService;
 
     private final TagMapper tagMapper;
@@ -39,22 +50,55 @@ public class TagServiceImpl implements TagService {
 
     @Override
     public List<TagDTO> list() {
-        List<Tag> tags = tagMapper.selectList(null);
-        return TagConvert.INSTANCE.convertToDTO(tags);
+        List<Tag> tags = tagMapper.selectList(Wrappers.emptyWrapper());
+        List<TagDTO> result = TagConvert.INSTANCE.convertToDTO(tags);
+
+
+        // 查找所有帖子计数
+        Map<Integer, Long> tagPostCountMap = ServiceUtils.convertToMap(postTagMapper.selectPostCount(), TagPostPostCountProjection::getTagId, TagPostPostCountProjection::getPostCount);
+
+        result.forEach(item->{
+            item.setPostCount(tagPostCountMap.getOrDefault(item.getId(), 0L));
+
+            StringBuilder fullPath = new StringBuilder();
+
+            if (optionService.isEnabledAbsolutePath()) {
+                fullPath.append(optionService.getBlogBaseUrl());
+            }
+
+            fullPath.append(URL_SEPARATOR)
+                    .append(optionService.getTagsPrefix())
+                    .append(URL_SEPARATOR)
+                    .append(item.getSlug())
+                    .append(optionService.getPathSuffix());
+
+            item.setFullPath(fullPath.toString());
+
+
+        });
+
+        return result;
     }
 
     @Override
-    public boolean save(TagParam tagParam) {
+    public boolean save(TagParam param) {
+
+        String name = param.getName();
         // 检查标签是否存在
-        long count = tagMapper.countByNameOrSlug(tagParam.getName(), tagParam.getSlug());
+        long count = tagMapper.countByNameOrSlug(name, param.getSlug());
 
         log.debug("标签个数: [{}]", count);
 
         if (count > 0) {
-            throw new AlreadyExistsException("该标签已存在").setErrorData(tagParam);
+            throw new AlreadyExistsException("该标签已存在").setErrorData(param);
         }
 
-        Tag tag = TagConvert.INSTANCE.convert(tagParam);
+        Tag tag = TagConvert.INSTANCE.convert(param);
+
+        String slug = param.getSlug();
+        slug = StringUtils.isBlank(slug) ? SlugUtils.slug(name) : SlugUtils.slug(slug);
+
+        tag.setSlug(slug);
 
         return tagMapper.insert(tag) > 0;
     }
