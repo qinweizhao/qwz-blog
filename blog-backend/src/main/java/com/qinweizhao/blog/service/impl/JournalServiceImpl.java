@@ -50,6 +50,7 @@ public class JournalServiceImpl implements JournalService {
 
         Journal journal = JournalConvert.INSTANCE.convert(param);
         journal.setId(id);
+        journal.setContent(MarkdownUtils.renderHtml(journal.getSourceContent()));
 
         return journalMapper.updateById(journal) > 0;
     }
