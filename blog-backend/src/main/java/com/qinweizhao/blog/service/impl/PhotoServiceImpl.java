@@ -1,7 +1,7 @@
 package com.qinweizhao.blog.service.impl;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.qinweizhao.blog.convert.PhotoConvert;
+import com.qinweizhao.blog.model.convert.PhotoConvert;
 import com.qinweizhao.blog.mapper.PhotoMapper;
 import com.qinweizhao.blog.model.core.PageResult;
 import com.qinweizhao.blog.model.dto.PhotoDTO;

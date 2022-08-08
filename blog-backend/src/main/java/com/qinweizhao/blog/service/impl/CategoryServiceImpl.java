@@ -2,7 +2,7 @@ package com.qinweizhao.blog.service.impl;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.google.common.base.Objects;
-import com.qinweizhao.blog.convert.CategoryConvert;
+import com.qinweizhao.blog.model.convert.CategoryConvert;
 import com.qinweizhao.blog.exception.AlreadyExistsException;
 import com.qinweizhao.blog.exception.NotFoundException;
 import com.qinweizhao.blog.mapper.CategoryMapper;

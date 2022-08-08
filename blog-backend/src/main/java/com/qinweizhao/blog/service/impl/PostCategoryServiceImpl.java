@@ -1,7 +1,7 @@
 package com.qinweizhao.blog.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.qinweizhao.blog.convert.CategoryConvert;
+import com.qinweizhao.blog.model.convert.CategoryConvert;
 import com.qinweizhao.blog.mapper.CategoryMapper;
 import com.qinweizhao.blog.mapper.PostCategoryMapper;
 import com.qinweizhao.blog.mapper.PostMapper;

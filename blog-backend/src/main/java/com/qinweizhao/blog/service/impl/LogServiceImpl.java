@@ -1,7 +1,7 @@
 package com.qinweizhao.blog.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.qinweizhao.blog.convert.LogConvert;
+import com.qinweizhao.blog.model.convert.LogConvert;
 import com.qinweizhao.blog.mapper.LogMapper;
 import com.qinweizhao.blog.model.core.PageResult;
 import com.qinweizhao.blog.model.dto.LogDTO;

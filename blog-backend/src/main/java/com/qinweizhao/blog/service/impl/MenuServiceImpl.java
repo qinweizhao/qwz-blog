@@ -1,7 +1,7 @@
 package com.qinweizhao.blog.service.impl;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.qinweizhao.blog.convert.MenuConvert;
+import com.qinweizhao.blog.model.convert.MenuConvert;
 import com.qinweizhao.blog.mapper.MenuMapper;
 import com.qinweizhao.blog.model.dto.MenuDTO;
 import com.qinweizhao.blog.model.entity.Menu;

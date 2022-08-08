@@ -1,6 +1,6 @@
 package com.qinweizhao.blog.service.impl;
 
-import com.qinweizhao.blog.convert.AttachmentConvert;
+import com.qinweizhao.blog.model.convert.AttachmentConvert;
 import com.qinweizhao.blog.framework.handler.file.FileHandlers;
 import com.qinweizhao.blog.mapper.AttachmentMapper;
 import com.qinweizhao.blog.model.core.PageResult;

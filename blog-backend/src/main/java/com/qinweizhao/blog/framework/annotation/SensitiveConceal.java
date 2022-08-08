@@ -1,4 +1,4 @@
-package com.qinweizhao.blog.annotation;
+package com.qinweizhao.blog.framework.annotation;
 
 
 import java.lang.annotation.*;

@@ -1,6 +1,6 @@
 package com.qinweizhao.blog.service.impl;
 
-import com.qinweizhao.blog.convert.TagConvert;
+import com.qinweizhao.blog.model.convert.TagConvert;
 import com.qinweizhao.blog.exception.AlreadyExistsException;
 import com.qinweizhao.blog.mapper.TagMapper;
 import com.qinweizhao.blog.model.dto.TagDTO;

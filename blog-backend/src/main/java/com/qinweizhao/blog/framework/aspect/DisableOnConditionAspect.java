@@ -1,6 +1,6 @@
-package com.qinweizhao.blog.aspect;
+package com.qinweizhao.blog.framework.aspect;
 
-import com.qinweizhao.blog.annotation.DisableOnCondition;
+import com.qinweizhao.blog.framework.annotation.DisableOnCondition;
 import com.qinweizhao.blog.config.properties.HaloProperties;
 import com.qinweizhao.blog.exception.ForbiddenException;
 import com.qinweizhao.blog.model.enums.Mode;
@@ -28,7 +28,7 @@ public class DisableOnConditionAspect {
         this.haloProperties = haloProperties;
     }
 
-    @Pointcut("@annotation(com.qinweizhao.blog.annotation.DisableOnCondition)")
+    @Pointcut("@annotation(com.qinweizhao.blog.framework.annotation.DisableOnCondition)")
     public void pointcut() {
     }
 

@@ -1,4 +1,4 @@
-package com.qinweizhao.blog.aspect;
+package com.qinweizhao.blog.framework.aspect;
 
 import com.qinweizhao.blog.model.entity.Comment;
 import com.qinweizhao.blog.security.context.SecurityContextHolder;
@@ -19,7 +19,7 @@ import org.springframework.stereotype.Component;
 public class SensitiveConcealAspect {
 
 
-    @Pointcut("@annotation(com.qinweizhao.blog.annotation.SensitiveConceal)")
+    @Pointcut("@annotation(com.qinweizhao.blog.framework.annotation.SensitiveConceal)")
     public void pointCut() {
     }
 

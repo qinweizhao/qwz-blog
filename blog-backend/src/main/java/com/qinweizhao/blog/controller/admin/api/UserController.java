@@ -1,7 +1,7 @@
 package com.qinweizhao.blog.controller.admin.api;
 
-import com.qinweizhao.blog.annotation.DisableOnCondition;
-import com.qinweizhao.blog.convert.UserConvert;
+import com.qinweizhao.blog.framework.annotation.DisableOnCondition;
+import com.qinweizhao.blog.model.convert.UserConvert;
 import com.qinweizhao.blog.model.dto.UserDTO;
 import com.qinweizhao.blog.model.param.PasswordParam;
 import com.qinweizhao.blog.model.param.UserUpdateParam;

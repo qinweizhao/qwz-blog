@@ -1,4 +1,4 @@
-package com.qinweizhao.blog.convert;
+package com.qinweizhao.blog.model.convert;
 
 
 import com.qinweizhao.blog.model.dto.JournalDTO;

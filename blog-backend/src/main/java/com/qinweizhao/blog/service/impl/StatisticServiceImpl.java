@@ -1,7 +1,7 @@
 package com.qinweizhao.blog.service.impl;
 
-import com.qinweizhao.blog.convert.StatisticConvert;
-import com.qinweizhao.blog.convert.UserConvert;
+import com.qinweizhao.blog.model.convert.StatisticConvert;
+import com.qinweizhao.blog.model.convert.UserConvert;
 import com.qinweizhao.blog.model.dto.StatisticDTO;
 import com.qinweizhao.blog.model.dto.StatisticWithUserDTO;
 import com.qinweizhao.blog.model.entity.User;

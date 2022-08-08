@@ -1,6 +1,6 @@
 package com.qinweizhao.blog.controller.admin.api;
 
-import com.qinweizhao.blog.annotation.DisableOnCondition;
+import com.qinweizhao.blog.framework.annotation.DisableOnCondition;
 import com.qinweizhao.blog.mail.MailService;
 import com.qinweizhao.blog.model.param.MailParam;
 import com.qinweizhao.blog.model.support.BaseResponse;

@@ -2,7 +2,7 @@ package com.qinweizhao.blog.service.impl;
 
 import cn.hutool.core.util.URLUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.qinweizhao.blog.convert.CommentConvert;
+import com.qinweizhao.blog.model.convert.CommentConvert;
 import com.qinweizhao.blog.exception.BadRequestException;
 import com.qinweizhao.blog.exception.ForbiddenException;
 import com.qinweizhao.blog.exception.NotFoundException;

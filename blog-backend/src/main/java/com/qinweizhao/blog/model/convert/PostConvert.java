@@ -1,7 +1,6 @@
-package com.qinweizhao.blog.convert;
+package com.qinweizhao.blog.model.convert;
 
 
-import com.qinweizhao.blog.model.core.PageResult;
 import com.qinweizhao.blog.model.dto.PostDTO;
 import com.qinweizhao.blog.model.dto.PostListDTO;
 import com.qinweizhao.blog.model.dto.PostSimpleDTO;
