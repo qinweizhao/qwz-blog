@@ -24,6 +24,8 @@ public class CategoryDTO extends BaseTree<CategoryDTO> {
 
     private String slug;
 
+    private Integer priority;
+
     private String description;
 
     private String thumbnail;
@@ -31,4 +33,6 @@ public class CategoryDTO extends BaseTree<CategoryDTO> {
     private LocalDateTime createTime;
 
     private String fullPath;
+
+    private Long postCount;
 }

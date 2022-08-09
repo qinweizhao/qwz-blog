@@ -2,7 +2,6 @@ package com.qinweizhao.blog.model.convert;
 
 
 import com.qinweizhao.blog.model.dto.CategoryDTO;
-import com.qinweizhao.blog.model.dto.CategoryWithPostCountDTO;
 import com.qinweizhao.blog.model.entity.Category;
 import com.qinweizhao.blog.model.param.CategoryParam;
 import org.mapstruct.Mapper;
@@ -35,14 +34,6 @@ public interface CategoryConvert {
      * @return CategoryDTO
      */
     CategoryDTO convert(Category category);
-
-    /**
-     * convert
-     *
-     * @param category category
-     * @return Category
-     */
-    CategoryWithPostCountDTO convertPostCountDTO(Category category);
 
     /**
      * convert

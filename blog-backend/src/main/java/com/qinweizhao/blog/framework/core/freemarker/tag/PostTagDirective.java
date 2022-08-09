@@ -62,23 +62,23 @@ public class PostTagDirective implements TemplateDirectiveModel {
                     String type = params.get("type").toString();
                     env.setVariable("archives", builder.build().wrap("year".equals(type) ? postService.listYearArchives() : postService.listMonthArchives()));
                     break;
-//                case "listByCategoryId":
-//                    Integer categoryId = Integer.parseInt(params.get("categoryId").toString());
-//                    env.setVariable("posts", builder.build().wrap(postService.convertToListVo(postCategoryService.listPostByCategoryIdAndPostStatus(categoryId, PostStatus.PUBLISHED))));
-//                    break;
-//                case "listByCategorySlug":
-//                    String categorySlug = params.get("categorySlug").toString();
-//                    List<PostSimpleDTO> posts = postCategoryService.listPostByCategorySlugAndPostStatus(categorySlug, PostStatus.PUBLISHED);
-//                    env.setVariable("posts", builder.build().wrap(postService.convertToListVo(posts)));
-//                    break;
-//                case "listByTagId":
-//                    Integer tagId = Integer.parseInt(params.get("tagId").toString());
-//                    env.setVariable("posts", builder.build().wrap(postService.convertToListVo(postTagService.listPostsByTagIdAndPostStatus(tagId, PostStatus.PUBLISHED))));
-//                    break;
-//                case "listByTagSlug":
-//                    String tagSlug = params.get("tagSlug").toString();
-//                    env.setVariable("posts", builder.build().wrap(postService.convertToListVo(postTagService.listPostsByTagSlugAndPostStatus(tagSlug, PostStatus.PUBLISHED))));
-//                    break;
+                case "listByCategoryId":
+                    Integer categoryId = Integer.parseInt(params.get("categoryId").toString());
+                    env.setVariable("posts", builder.build().wrap(postService.convertToListVo(postCategoryService.listPostByCategoryIdAndPostStatus(categoryId, PostStatus.PUBLISHED))));
+                    break;
+                case "listByCategorySlug":
+                    String categorySlug = params.get("categorySlug").toString();
+                    List<PostSimpleDTO> posts = postCategoryService.listPostByCategorySlugAndPostStatus(categorySlug, PostStatus.PUBLISHED);
+                    env.setVariable("posts", builder.build().wrap(postService.convertToListVo(posts)));
+                    break;
+                case "listByTagId":
+                    Integer tagId = Integer.parseInt(params.get("tagId").toString());
+                    env.setVariable("posteditTimes", builder.build().wrap(postService.convertToListVo(postTagService.listPostsByTagIdAndPostStatus(tagId, PostStatus.PUBLISHED))));
+                    break;
+                case "listByTagSlug":
+                    String tagSlug = params.get("tagSlug").toString();
+                    env.setVariable("posts", builder.build().wrap(postService.convertToListVo(postTagService.listPostsByTagSlugAndPostStatus(tagSlug, PostStatus.PUBLISHED))));
+                    break;
                 default:
                     break;
             }

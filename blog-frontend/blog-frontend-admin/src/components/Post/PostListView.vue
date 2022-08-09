@@ -562,7 +562,7 @@ export default {
       try {
         this.categories.loading = true
 
-        const response = await categoryApi.list()
+        const response = await categoryApi.list(true)
 
         this.categories.data = response.data.data
       } catch (error) {

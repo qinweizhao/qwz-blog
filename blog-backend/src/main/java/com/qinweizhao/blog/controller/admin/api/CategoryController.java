@@ -1,16 +1,16 @@
 package com.qinweizhao.blog.controller.admin.api;
 
 import com.qinweizhao.blog.model.dto.CategoryDTO;
-import com.qinweizhao.blog.model.dto.CategoryWithPostCountDTO;
 import com.qinweizhao.blog.model.param.CategoryParam;
 import com.qinweizhao.blog.service.CategoryService;
 import com.qinweizhao.blog.service.PostCategoryService;
-import com.qinweizhao.blog.util.ResultUtils;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 
 /**
@@ -45,8 +45,8 @@ public class CategoryController {
      * @return List
      */
     @GetMapping
-    public List<CategoryWithPostCountDTO> list() {
-        return postCategoryService.listCategoryWithPostCountDto();
+    public List<CategoryDTO> list(@RequestParam(name = "more", required = false, defaultValue = "false") boolean more) {
+        return categoryService.list(more);
     }
 
     /**
@@ -85,6 +85,15 @@ public class CategoryController {
     }
 
     /**
+     * 批量更新分类
+     * @return Boolean
+     */
+    @PutMapping("/batch")
+    public Boolean updateBatchBy(@RequestBody List<@Valid CategoryParam> params) {
+        return categoryService.updateInBatch(params);
+    }
+
+    /**
      * 删除分类
      *
      * @param categoryId categoryId
@@ -93,5 +102,7 @@ public class CategoryController {
     public void deletePermanently(@PathVariable("categoryId") Integer categoryId) {
         categoryService.removeCategoryAndPostCategoryById(categoryId);
     }
+
+
 
 }

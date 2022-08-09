@@ -16,6 +16,8 @@ import javax.validation.constraints.Size;
 @Data
 public class CategoryParam {
 
+    private Integer id;
+
     @NotBlank(message = "分类名称不能为空")
     @Size(max = 255, message = "分类名称的字符长度不能超过 {max}")
     private String name;

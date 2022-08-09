@@ -2,13 +2,13 @@ package com.qinweizhao.blog.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.qinweizhao.blog.model.dto.CategoryDTO;
-import com.qinweizhao.blog.model.dto.CategoryWithPostCountDTO;
+import com.qinweizhao.blog.model.dto.PostSimpleDTO;
 import com.qinweizhao.blog.model.entity.PostCategory;
+import com.qinweizhao.blog.model.enums.PostStatus;
 
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * Post category service interface.
@@ -35,28 +35,7 @@ public interface PostCategoryService extends IService<PostCategory> {
      */
     List<CategoryDTO> listCategoriesByPostId(Integer postId);
 
-//    /**
-//     * 列表
-//     * @param categoryId categoryId
-//     * @param published published
-//     * @return List
-//     */
-//    List<PostSimpleDTO> listPostByCategoryIdAndPostStatus(Integer categoryId, PostStatus published);
-//
-//    /**
-//     * 列表
-//     * @param categorySlug categorySlug
-//     * @param status status
-//     * @return List
-//     */
-//    List<PostSimpleDTO> listPostByCategorySlugAndPostStatus(String categorySlug, PostStatus status);
 
-    /**
-     * 列表(文章个数)
-     *
-     * @return List
-     */
-    List<CategoryWithPostCountDTO> listCategoryWithPostCountDto();
 
 //
 //    /**
@@ -174,4 +153,26 @@ public interface PostCategoryService extends IService<PostCategory> {
 //     */
 //    @NonNull
 //    List<CategoryWithPostCountDTO> listCategoryWithPostCountDto(@NonNull Sort sort);
+
+
+    // frontend
+
+
+    /**
+     * 列表
+     * @param categoryId categoryId
+     * @param published published
+     * @return List
+     */
+    List<PostSimpleDTO> listPostByCategoryIdAndPostStatus(Integer categoryId, PostStatus published);
+
+    /**
+     * 列表
+     * @param categorySlug categorySlug
+     * @param status status
+     * @return List
+     */
+    List<PostSimpleDTO> listPostByCategorySlugAndPostStatus(String categorySlug, PostStatus status);
+
+
 }

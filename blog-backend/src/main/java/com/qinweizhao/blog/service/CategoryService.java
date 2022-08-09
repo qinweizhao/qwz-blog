@@ -27,9 +27,9 @@ public interface CategoryService {
      * 列表
      *
      * @return List
+     * @param more more
      */
-    List<CategoryDTO> list();
-
+    List<CategoryDTO> list(boolean more);
 
 
     /**
@@ -58,16 +58,24 @@ public interface CategoryService {
 
     /**
      * 移除分类
+     *
      * @param categoryId categoryId
      * @return boolean
      */
     boolean removeCategoryAndPostCategoryById(Integer categoryId);
 
-
     /**
      * 统计分类个数
+     *
      * @return Long
      */
     Long count();
 
+    /**
+     * 批量更新
+     *
+     * @param params params
+     * @return boolean
+     */
+    boolean updateInBatch(List<CategoryParam> params);
 }

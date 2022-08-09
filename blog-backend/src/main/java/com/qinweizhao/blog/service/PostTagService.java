@@ -1,8 +1,10 @@
 package com.qinweizhao.blog.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.qinweizhao.blog.model.dto.PostSimpleDTO;
 import com.qinweizhao.blog.model.dto.TagDTO;
 import com.qinweizhao.blog.model.entity.PostTag;
+import com.qinweizhao.blog.model.enums.PostStatus;
 
 import java.util.Collection;
 import java.util.List;
@@ -50,21 +52,7 @@ public interface PostTagService extends IService<PostTag> {
      */
     List<TagDTO> listTagsByPostId(Integer postId);
 
-//    /**
-//     * 列表
-//     * @param tagId tagId
-//     * @param status published
-//     * @return List
-//     */
-//    List<PostSimpleDTO> listPostsByTagIdAndPostStatus(Integer tagId, PostStatus status);
-//
-//    /**
-//     * 列表
-//     * @param tagSlug tagSlug
-//     * @param status published
-//     * @return List
-//     */
-//    List<PostSimpleDTO> listPostsByTagSlugAndPostStatus(String tagSlug, PostStatus status);
+
 
 
 //
@@ -162,5 +150,21 @@ public interface PostTagService extends IService<PostTag> {
 //    @NonNull
 //    @Transactional
 //    List<PostTag> removeByPostId(@NonNull Integer postId);
+
+    /**
+     * 列表
+     * @param tagId tagId
+     * @param status published
+     * @return List
+     */
+    List<PostSimpleDTO> listPostsByTagIdAndPostStatus(Integer tagId, PostStatus status);
+
+    /**
+     * 列表
+     * @param tagSlug tagSlug
+     * @param status published
+     * @return List
+     */
+    List<PostSimpleDTO> listPostsByTagSlugAndPostStatus(String tagSlug, PostStatus status);
 
 }

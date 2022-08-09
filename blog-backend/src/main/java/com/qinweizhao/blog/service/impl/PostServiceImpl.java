@@ -10,10 +10,7 @@ import com.qinweizhao.blog.model.convert.MetaConvert;
 import com.qinweizhao.blog.model.convert.PostConvert;
 import com.qinweizhao.blog.model.core.PageResult;
 import com.qinweizhao.blog.model.dto.*;
-import com.qinweizhao.blog.model.entity.Content;
-import com.qinweizhao.blog.model.entity.Post;
-import com.qinweizhao.blog.model.entity.PostCategory;
-import com.qinweizhao.blog.model.entity.PostTag;
+import com.qinweizhao.blog.model.entity.*;
 import com.qinweizhao.blog.model.enums.PostStatus;
 import com.qinweizhao.blog.model.param.MetaParam;
 import com.qinweizhao.blog.model.param.PostParam;
@@ -442,7 +439,7 @@ public class PostServiceImpl implements PostService {
         Map<Integer, Long> commentCountMap = commentService.countByPostIds(postIds);
 
         // Get post meta list map
-//        Map<Integer, List<PostMeta>> postMetaListMap = postMetaService.listPostMetaAsMap(postIds);
+//        Map<Integer, List<Meta>> postMetaListMap = metaService.listPostMetaAsMap(postIds);
 
         // todo
         // is null
