@@ -10,7 +10,10 @@ import com.qinweizhao.blog.model.convert.MetaConvert;
 import com.qinweizhao.blog.model.convert.PostConvert;
 import com.qinweizhao.blog.model.core.PageResult;
 import com.qinweizhao.blog.model.dto.*;
-import com.qinweizhao.blog.model.entity.*;
+import com.qinweizhao.blog.model.entity.Content;
+import com.qinweizhao.blog.model.entity.Post;
+import com.qinweizhao.blog.model.entity.PostCategory;
+import com.qinweizhao.blog.model.entity.PostTag;
 import com.qinweizhao.blog.model.enums.PostStatus;
 import com.qinweizhao.blog.model.param.MetaParam;
 import com.qinweizhao.blog.model.param.PostParam;
@@ -227,7 +230,7 @@ public class PostServiceImpl implements PostService {
         metaService.removeByPostId(postId);
 
         this.savePostRelation(addCategoryIds, addTagIds, metas, postId);
-        return false;
+        return true;
     }
 
 
@@ -492,7 +495,6 @@ public class PostServiceImpl implements PostService {
         List<PostSimpleDTO> postSimples = PostConvert.INSTANCE.convertToSimpleDTO(posts);
 
 
-
         postSimples.forEach(post -> {
             LocalDateTime createTime = post.getCreateTime();
             yearPostMap.computeIfAbsent(createTime.getYear(), year -> new LinkedList<>())
@@ -530,7 +532,9 @@ public class PostServiceImpl implements PostService {
     @Override
     public List<PostSimpleDTO> listSimple(int top) {
         List<Post> posts = postMapper.selectListLatest(top);
-        return PostConvert.INSTANCE.convertToSimpleDTO(posts);
+        List<PostSimpleDTO> result = PostConvert.INSTANCE.convertToSimpleDTO(posts);
+        result.forEach(item -> item.setFullPath(optionService.buildFullPath(item.getId())));
+        return result;
     }
 
 

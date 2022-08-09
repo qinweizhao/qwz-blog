@@ -1,6 +1,6 @@
 package com.qinweizhao.blog.other;
 
-import com.qinweizhao.blog.config.properties.HaloProperties;
+import com.qinweizhao.blog.config.properties.MyBlogProperties;
 import com.qinweizhao.blog.framework.listener.StartedListener;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +30,7 @@ public class OutputTest {
     }
 
     @Autowired
-    HaloProperties haloProperties;
+    MyBlogProperties myBlogProperties;
 
     @Test
     void test3(){
@@ -40,7 +40,7 @@ public class OutputTest {
         System.out.printf(ensureSuffix(USER_HOME, FILE_SEPARATOR) + ".halo" + FILE_SEPARATOR);
 
 
-        String workDir = "file:///" + ensureSuffix(haloProperties.getWorkDir(), FILE_SEPARATOR);
+        String workDir = "file:///" + ensureSuffix(myBlogProperties.getWorkDir(), FILE_SEPARATOR);
 
         System.out.println("=========");
         String FILE_PROTOCOL = "file:///";

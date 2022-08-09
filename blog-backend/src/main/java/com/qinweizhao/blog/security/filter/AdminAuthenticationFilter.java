@@ -1,7 +1,7 @@
 package com.qinweizhao.blog.security.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.qinweizhao.blog.config.properties.HaloProperties;
+import com.qinweizhao.blog.config.properties.MyBlogProperties;
 import com.qinweizhao.blog.exception.AuthenticationException;
 import com.qinweizhao.blog.framework.cache.AbstractStringCacheStore;
 import com.qinweizhao.blog.model.entity.User;
@@ -40,19 +40,19 @@ import static com.qinweizhao.blog.model.support.HaloConst.ADMIN_TOKEN_QUERY_NAME
 @Order(1)
 public class AdminAuthenticationFilter extends AbstractAuthenticationFilter {
 
-    private final HaloProperties haloProperties;
+    private final MyBlogProperties myBlogProperties;
 
     private final UserService userService;
 
     public AdminAuthenticationFilter(AbstractStringCacheStore cacheStore,
                                      UserService userService,
-                                     HaloProperties haloProperties,
+                                     MyBlogProperties myBlogProperties,
                                      OptionService optionService,
                                      OneTimeTokenService oneTimeTokenService,
                                      ObjectMapper objectMapper) {
-        super(haloProperties, cacheStore, oneTimeTokenService);
+        super(myBlogProperties, cacheStore, oneTimeTokenService);
         this.userService = userService;
-        this.haloProperties = haloProperties;
+        this.myBlogProperties = myBlogProperties;
 
         addUrlPatterns("/api/admin/**", "/api/content/comments");
 
@@ -70,7 +70,7 @@ public class AdminAuthenticationFilter extends AbstractAuthenticationFilter {
 
         // set failure handler
         DefaultAuthenticationFailureHandler failureHandler = new DefaultAuthenticationFailureHandler();
-        failureHandler.setProductionEnv(haloProperties.isProductionEnv());
+        failureHandler.setProductionEnv(myBlogProperties.isProductionEnv());
         failureHandler.setObjectMapper(objectMapper);
 
         setFailureHandler(failureHandler);
@@ -80,7 +80,7 @@ public class AdminAuthenticationFilter extends AbstractAuthenticationFilter {
     @Override
     protected void doAuthenticate(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
-        if (!haloProperties.isAuthEnabled()) {
+        if (!myBlogProperties.isAuthEnabled()) {
             // Set security
             userService.getCurrentUser().ifPresent(user ->
                     SecurityContextHolder.setContext(new SecurityContextImpl(new AuthenticationImpl(new UserDetail(user)))));

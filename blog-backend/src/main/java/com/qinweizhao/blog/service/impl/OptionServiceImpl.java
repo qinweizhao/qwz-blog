@@ -3,14 +3,13 @@ package com.qinweizhao.blog.service.impl;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.qiniu.common.Zone;
 import com.qiniu.storage.Region;
-import com.qinweizhao.blog.config.properties.HaloProperties;
+import com.qinweizhao.blog.config.properties.MyBlogProperties;
 import com.qinweizhao.blog.exception.MissingPropertyException;
 import com.qinweizhao.blog.framework.cache.AbstractStringCacheStore;
 import com.qinweizhao.blog.framework.event.options.OptionUpdatedEvent;
 import com.qinweizhao.blog.mapper.OptionMapper;
 import com.qinweizhao.blog.model.dto.OptionDTO;
 import com.qinweizhao.blog.model.entity.Option;
-import com.qinweizhao.blog.model.enums.PostPermalinkType;
 import com.qinweizhao.blog.model.enums.ValueEnum;
 import com.qinweizhao.blog.model.properties.*;
 import com.qinweizhao.blog.service.OptionService;
@@ -51,8 +50,7 @@ public class OptionServiceImpl extends ServiceImpl<OptionMapper, Option> impleme
 
     private final ApplicationEventPublisher eventPublisher;
 
-    private final HaloProperties haloProperties;
-
+    private final MyBlogProperties myBlogProperties;
 
 
     @Override
@@ -70,8 +68,6 @@ public class OptionServiceImpl extends ServiceImpl<OptionMapper, Option> impleme
 
         return fullPath.toString();
     }
-
-
 
 
     @PostConstruct
@@ -479,7 +475,7 @@ public class OptionServiceImpl extends ServiceImpl<OptionMapper, Option> impleme
         // Get server port
         String serverPort = applicationContext.getEnvironment().getProperty("server.port", "8080");
 
-        String blogUrl = getByProperty(BlogProperties.BLOG_URL).orElse("").toString();
+        String blogUrl = myBlogProperties.getBlogUrl();
 
         if (StringUtils.isNotBlank(blogUrl)) {
             blogUrl = StringUtils.removeEnd(blogUrl, "/");
@@ -513,7 +509,6 @@ public class OptionServiceImpl extends ServiceImpl<OptionMapper, Option> impleme
 //            return currentTime;
 //        });
 //    }
-
 
 
     @Override

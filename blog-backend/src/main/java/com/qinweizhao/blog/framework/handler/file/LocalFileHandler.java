@@ -1,6 +1,6 @@
 package com.qinweizhao.blog.framework.handler.file;
 
-import com.qinweizhao.blog.config.properties.HaloProperties;
+import com.qinweizhao.blog.config.properties.MyBlogProperties;
 import com.qinweizhao.blog.exception.FileOperationException;
 import com.qinweizhao.blog.model.enums.AttachmentType;
 import com.qinweizhao.blog.model.support.UploadResult;
@@ -59,14 +59,14 @@ public class LocalFileHandler implements FileHandler {
     private final String workDir;
     ReentrantLock lock = new ReentrantLock();
     @Resource
-    private HaloProperties haloProperties;
+    private MyBlogProperties myBlogProperties;
 
     public LocalFileHandler(OptionService optionService,
-                            HaloProperties haloProperties) {
+                            MyBlogProperties myBlogProperties) {
         this.optionService = optionService;
 
         // Get work dir TODO
-        workDir = FileHandler.normalizeDirectory(haloProperties.getWorkDir());
+        workDir = FileHandler.normalizeDirectory(myBlogProperties.getWorkDir());
 
         // Check work directory
         checkWorkDir();
@@ -103,7 +103,7 @@ public class LocalFileHandler implements FileHandler {
 
         // Build directory
         String subDir;
-        if (haloProperties.isProductionEnv()) {
+        if (myBlogProperties.isProductionEnv()) {
             subDir = UPLOAD_SUB_DIR + year + FILE_SEPARATOR + monthString + FILE_SEPARATOR;
         } else {
             String uploadSubDir = "blog-resource/image/";

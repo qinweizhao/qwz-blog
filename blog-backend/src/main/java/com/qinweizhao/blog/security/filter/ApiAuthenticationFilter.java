@@ -2,7 +2,7 @@ package com.qinweizhao.blog.security.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.qinweizhao.blog.framework.cache.AbstractStringCacheStore;
-import com.qinweizhao.blog.config.properties.HaloProperties;
+import com.qinweizhao.blog.config.properties.MyBlogProperties;
 import com.qinweizhao.blog.exception.AuthenticationException;
 import com.qinweizhao.blog.exception.ForbiddenException;
 import com.qinweizhao.blog.model.properties.ApiProperties;
@@ -38,12 +38,12 @@ public class ApiAuthenticationFilter extends AbstractAuthenticationFilter {
 
     private final OptionService optionService;
 
-    public ApiAuthenticationFilter(HaloProperties haloProperties,
+    public ApiAuthenticationFilter(MyBlogProperties myBlogProperties,
                                    OptionService optionService,
                                    AbstractStringCacheStore cacheStore,
                                    OneTimeTokenService oneTimeTokenService,
                                    ObjectMapper objectMapper) {
-        super(haloProperties, cacheStore, oneTimeTokenService);
+        super(myBlogProperties, cacheStore, oneTimeTokenService);
         this.optionService = optionService;
 
         addUrlPatterns("/api/content/**");
@@ -56,14 +56,14 @@ public class ApiAuthenticationFilter extends AbstractAuthenticationFilter {
 
         // set failure handler
         DefaultAuthenticationFailureHandler failureHandler = new DefaultAuthenticationFailureHandler();
-        failureHandler.setProductionEnv(haloProperties.isProductionEnv());
+        failureHandler.setProductionEnv(myBlogProperties.isProductionEnv());
         failureHandler.setObjectMapper(objectMapper);
         setFailureHandler(failureHandler);
     }
 
     @Override
     protected void doAuthenticate(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        if (!haloProperties.isAuthEnabled()) {
+        if (!myBlogProperties.isAuthEnabled()) {
             filterChain.doFilter(request, response);
             return;
         }

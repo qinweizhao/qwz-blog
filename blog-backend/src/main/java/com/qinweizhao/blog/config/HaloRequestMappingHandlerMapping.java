@@ -1,6 +1,6 @@
 package com.qinweizhao.blog.config;
 
-import com.qinweizhao.blog.config.properties.HaloProperties;
+import com.qinweizhao.blog.config.properties.MyBlogProperties;
 import com.qinweizhao.blog.framework.event.StaticStorageChangedEvent;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationListener;
@@ -31,10 +31,10 @@ public class HaloRequestMappingHandlerMapping extends RequestMappingHandlerMappi
 
     private final PathMatcher pathMatcher;
 
-    private final HaloProperties haloProperties;
+    private final MyBlogProperties myBlogProperties;
 
-    public HaloRequestMappingHandlerMapping(HaloProperties haloProperties) {
-        this.haloProperties = haloProperties;
+    public HaloRequestMappingHandlerMapping(MyBlogProperties myBlogProperties) {
+        this.myBlogProperties = myBlogProperties;
         this.initBlackPatterns();
         pathMatcher = new AntPathMatcher();
     }
@@ -52,8 +52,8 @@ public class HaloRequestMappingHandlerMapping extends RequestMappingHandlerMappi
     }
 
     private void initBlackPatterns() {
-        String uploadUrlPattern = ensureBoth(haloProperties.getUploadUrlPrefix(), URL_SEPARATOR) + "**";
-        String adminPathPattern = ensureBoth(haloProperties.getAdminPath(), URL_SEPARATOR) + "?*/**";
+        String uploadUrlPattern = ensureBoth(myBlogProperties.getUploadUrlPrefix(), URL_SEPARATOR) + "**";
+        String adminPathPattern = ensureBoth(myBlogProperties.getAdminPath(), URL_SEPARATOR) + "?*/**";
 
         blackPatterns.add("/themes/**");
         blackPatterns.add("/js/**");

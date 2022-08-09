@@ -22,6 +22,8 @@ public class PostSimpleDTO {
 
     private String metaDescription;
 
+    private String summary;
+
     private String fullPath;
 
     private String thumbnail;

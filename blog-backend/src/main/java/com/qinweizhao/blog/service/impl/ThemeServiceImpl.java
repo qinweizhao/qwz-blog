@@ -1,6 +1,6 @@
 package com.qinweizhao.blog.service.impl;
 
-import com.qinweizhao.blog.config.properties.HaloProperties;
+import com.qinweizhao.blog.config.properties.MyBlogProperties;
 import com.qinweizhao.blog.exception.NotFoundException;
 import com.qinweizhao.blog.exception.ServiceException;
 import com.qinweizhao.blog.framework.cache.AbstractStringCacheStore;
@@ -59,7 +59,7 @@ public class ThemeServiceImpl implements ThemeService {
 
     private final OptionService optionService;
 
-    private final HaloProperties haloProperties;
+    private final MyBlogProperties myBlogProperties;
 
     private final ThemeConfigResolver themeConfigResolver;
 
@@ -109,10 +109,10 @@ public class ThemeServiceImpl implements ThemeService {
      * @return Path
      */
     public Path getBasePath() {
-        if (haloProperties.isProductionEnv()) {
-            return Paths.get(haloProperties.getWorkDir(), "theme");
+        if (myBlogProperties.isProductionEnv()) {
+            return Paths.get(myBlogProperties.getWorkDir(), "theme");
         } else {
-            return Paths.get(haloProperties.getWorkDir(), "blog-frontend");
+            return Paths.get(myBlogProperties.getWorkDir(), "blog-frontend");
         }
     }
 

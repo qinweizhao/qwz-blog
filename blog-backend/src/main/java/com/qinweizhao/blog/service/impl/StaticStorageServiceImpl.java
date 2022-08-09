@@ -1,7 +1,7 @@
 package com.qinweizhao.blog.service.impl;
 
 import cn.hutool.core.util.IdUtil;
-import com.qinweizhao.blog.config.properties.HaloProperties;
+import com.qinweizhao.blog.config.properties.MyBlogProperties;
 import com.qinweizhao.blog.framework.event.StaticStorageChangedEvent;
 import com.qinweizhao.blog.exception.FileOperationException;
 import com.qinweizhao.blog.exception.ServiceException;
@@ -44,12 +44,12 @@ public class StaticStorageServiceImpl implements StaticStorageService, Applicati
 
     private final ApplicationEventPublisher eventPublisher;
 
-    public StaticStorageServiceImpl(HaloProperties haloProperties,
+    public StaticStorageServiceImpl(MyBlogProperties myBlogProperties,
                                     ApplicationEventPublisher eventPublisher) throws IOException {
-        if (haloProperties.isProductionEnv()) {
-            staticDir = Paths.get(haloProperties.getWorkDir(), "static");
+        if (myBlogProperties.isProductionEnv()) {
+            staticDir = Paths.get(myBlogProperties.getWorkDir(), "static");
         } else {
-            staticDir = Paths.get(haloProperties.getWorkDir(), "blog-resource/static");
+            staticDir = Paths.get(myBlogProperties.getWorkDir(), "blog-resource/static");
         }
 
         this.eventPublisher = eventPublisher;

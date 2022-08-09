@@ -1,6 +1,6 @@
 package com.qinweizhao.blog.config;
 
-import com.qinweizhao.blog.config.properties.HaloProperties;
+import com.qinweizhao.blog.config.properties.MyBlogProperties;
 import com.qinweizhao.blog.framework.factory.StringToEnumConverterFactory;
 import com.qinweizhao.blog.model.support.HaloConst;
 import com.qinweizhao.blog.security.resolver.AuthenticationArgumentResolver;
@@ -54,7 +54,7 @@ public class WebMvcAutoConfiguration implements WebMvcConfigurer {
 //    private SortHandlerMethodArgumentResolver sortResolver;
 
     @Resource
-    private HaloProperties haloProperties;
+    private MyBlogProperties myBlogProperties;
 
 
 //    @Override
@@ -85,11 +85,11 @@ public class WebMvcAutoConfiguration implements WebMvcConfigurer {
      */
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        String workDir = FILE_PROTOCOL + ensureSuffix(haloProperties.getWorkDir(), FILE_SEPARATOR);
-        String uploadUrlPattern = ensureBoth(haloProperties.getUploadUrlPrefix(), URL_SEPARATOR) + "**";
-        String adminPathPattern = ensureSuffix(haloProperties.getAdminPath(), URL_SEPARATOR) + "**";
+        String workDir = FILE_PROTOCOL + ensureSuffix(myBlogProperties.getWorkDir(), FILE_SEPARATOR);
+        String uploadUrlPattern = ensureBoth(myBlogProperties.getUploadUrlPrefix(), URL_SEPARATOR) + "**";
+        String adminPathPattern = ensureSuffix(myBlogProperties.getAdminPath(), URL_SEPARATOR) + "**";
 
-        if (haloProperties.isProductionEnv()) {
+        if (myBlogProperties.isProductionEnv()) {
             registry.addResourceHandler("/**")
                     .addResourceLocations("classpath:/admin/")
                     .addResourceLocations(workDir + "static/");
@@ -107,7 +107,7 @@ public class WebMvcAutoConfiguration implements WebMvcConfigurer {
                     .addResourceLocations(workDir + "blog-resource/static/");
 
             registry.addResourceHandler("/themes/**")
-                    .addResourceLocations(FILE_PROTOCOL + haloProperties.getWorkDir() + "blog-frontend/");
+                    .addResourceLocations(FILE_PROTOCOL + myBlogProperties.getWorkDir() + "blog-frontend/");
 
             String imageUrlPattern = ensureBoth("blog-resource/image/", URL_SEPARATOR) + "**";
             registry.addResourceHandler(imageUrlPattern)
@@ -131,12 +131,12 @@ public class WebMvcAutoConfiguration implements WebMvcConfigurer {
      * @return new FreeMarkerConfigurer
      */
     @Bean
-    public FreeMarkerConfigurer freemarkerConfig(HaloProperties haloProperties) throws IOException, TemplateException {
+    public FreeMarkerConfigurer freemarkerConfig(MyBlogProperties myBlogProperties) throws IOException, TemplateException {
         FreeMarkerConfigurer configurer = new FreeMarkerConfigurer();
-        if (haloProperties.isProductionEnv()) {
-            configurer.setTemplateLoaderPaths(FILE_PROTOCOL + haloProperties.getWorkDir() + "theme/", "classpath:/templates/");
+        if (myBlogProperties.isProductionEnv()) {
+            configurer.setTemplateLoaderPaths(FILE_PROTOCOL + myBlogProperties.getWorkDir() + "theme/", "classpath:/templates/");
         } else {
-            configurer.setTemplateLoaderPaths(FILE_PROTOCOL + haloProperties.getWorkDir() + "blog-frontend/", "classpath:/templates/");
+            configurer.setTemplateLoaderPaths(FILE_PROTOCOL + myBlogProperties.getWorkDir() + "blog-frontend/", "classpath:/templates/");
         }
         configurer.setDefaultEncoding("UTF-8");
 
@@ -150,7 +150,7 @@ public class WebMvcAutoConfiguration implements WebMvcConfigurer {
 
         configuration.setNewBuiltinClassResolver(TemplateClassResolver.SAFER_RESOLVER);
 
-        if (haloProperties.isProductionEnv()) {
+        if (myBlogProperties.isProductionEnv()) {
             configuration.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
         }
 
@@ -202,7 +202,7 @@ public class WebMvcAutoConfiguration implements WebMvcConfigurer {
         return new WebMvcRegistrations() {
             @Override
             public RequestMappingHandlerMapping getRequestMappingHandlerMapping() {
-                return new HaloRequestMappingHandlerMapping(haloProperties);
+                return new HaloRequestMappingHandlerMapping(myBlogProperties);
             }
         };
     }

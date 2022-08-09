@@ -1,6 +1,6 @@
 package com.qinweizhao.blog.framework.cache;
 
-import com.qinweizhao.blog.config.properties.HaloProperties;
+import com.qinweizhao.blog.config.properties.MyBlogProperties;
 import com.qinweizhao.blog.util.DateUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.lang.NonNull;
@@ -20,7 +20,7 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 public abstract class AbstractCacheStore<K, V> implements CacheStore<K, V> {
 
-    protected HaloProperties haloProperties;
+    protected MyBlogProperties myBlogProperties;
 
     /**
      * Get cache wrapper by key.

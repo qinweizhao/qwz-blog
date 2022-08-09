@@ -1,7 +1,7 @@
 package com.qinweizhao.blog.framework.cache;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.qinweizhao.blog.config.properties.HaloProperties;
+import com.qinweizhao.blog.config.properties.MyBlogProperties;
 import com.qinweizhao.blog.util.JsonUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.iq80.leveldb.*;
@@ -31,8 +31,8 @@ public class LevelCacheStore extends AbstractStringCacheStore {
 
     private Timer timer;
 
-    public LevelCacheStore(HaloProperties haloProperties) {
-        super.haloProperties = haloProperties;
+    public LevelCacheStore(MyBlogProperties myBlogProperties) {
+        super.myBlogProperties = myBlogProperties;
     }
 
     @PostConstruct
@@ -42,7 +42,7 @@ public class LevelCacheStore extends AbstractStringCacheStore {
         }
         try {
             //work path
-            File folder = new File(haloProperties.getWorkDir() + ".leveldb");
+            File folder = new File(myBlogProperties.getWorkDir() + ".leveldb");
             DBFactory factory = new Iq80DBFactory();
             Options options = new Options();
             options.createIfMissing(true);

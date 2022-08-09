@@ -6,10 +6,8 @@ import com.qiniu.storage.Region;
 import com.qinweizhao.blog.exception.MissingPropertyException;
 import com.qinweizhao.blog.model.dto.OptionDTO;
 import com.qinweizhao.blog.model.entity.Option;
-import com.qinweizhao.blog.model.enums.PostPermalinkType;
 import com.qinweizhao.blog.model.enums.ValueEnum;
 import com.qinweizhao.blog.model.properties.PropertyEnum;
-import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -40,6 +38,7 @@ public interface OptionService extends IService<Option> {
 
     /**
      * 构建完整路径
+     *
      * @param postId postId
      * @return String
      */
@@ -48,8 +47,9 @@ public interface OptionService extends IService<Option> {
 
     /**
      * 保存属性
+     *
      * @param property property
-     * @param value value
+     * @param value    value
      */
     void saveProperty(PropertyEnum property, String value);
 
@@ -81,7 +81,7 @@ public interface OptionService extends IService<Option> {
 //     * @param optionId    option id must not be null.
 //     * @param optionParam option param must not be null.
 //     */
-//    void update(@NonNull Integer optionId, @NonNull OptionParam optionParam);
+//    void update( Integer optionId,  OptionParam optionParam);
 //
 
 
@@ -91,14 +91,14 @@ public interface OptionService extends IService<Option> {
      * @param properties blog properties
      */
 //    @Transactional
-//    void saveProperties(@NonNull Map<? extends PropertyEnum, String> properties);
+//    void saveProperties( Map<? extends PropertyEnum, String> properties);
 
     /**
      * Get all options
      *
      * @return Map
      */
-    @NonNull
+
     @Transactional
     Map<String, Object> listOptions();
 
@@ -108,7 +108,7 @@ public interface OptionService extends IService<Option> {
      * @param keys key list
      * @return a map of option
      */
-    @NonNull
+
     Map<String, Object> listOptions(@Nullable List<String> keys);
 
     /**
@@ -116,7 +116,7 @@ public interface OptionService extends IService<Option> {
      *
      * @return a list of option dto
      */
-    @NonNull
+
     List<OptionDTO> listDtos();
 
 //    /**
@@ -126,7 +126,7 @@ public interface OptionService extends IService<Option> {
 //     * @param optionQuery optionQuery
 //     * @return a page of option output dto
 //     */
-//    Page<OptionSimpleDTO> pageDtosBy(@NonNull Pageable pageable, OptionQuery optionQuery);
+//    Page<OptionSimpleDTO> pageDtosBy( Pageable pageable, OptionQuery optionQuery);
 //
 //    /**
 //     * Removes option permanently.
@@ -134,8 +134,8 @@ public interface OptionService extends IService<Option> {
 //     * @param id option id must not be null
 //     * @return option detail deleted
 //     */
-//    @NonNull
-//    Option removePermanently(@NonNull Integer id);
+//    
+//    Option removePermanently( Integer id);
 
     /**
      * Get option by key
@@ -144,7 +144,7 @@ public interface OptionService extends IService<Option> {
      * @return option value or null
      */
     @Nullable
-    Object getByKeyOfNullable(@NonNull String key);
+    Object getByKeyOfNullable(String key);
 
     /**
      * Gets option value of non null.
@@ -152,8 +152,8 @@ public interface OptionService extends IService<Option> {
      * @param key option key must not be null
      * @return option value of non null
      */
-    @NonNull
-    Object getByKeyOfNonNull(@NonNull String key);
+
+    Object getByKeyOfNonNull(String key);
 
     /**
      * Get option by key
@@ -161,8 +161,8 @@ public interface OptionService extends IService<Option> {
      * @param key option key must not be blank
      * @return an optional option value
      */
-    @NonNull
-    Optional<Object> getByKey(@NonNull String key);
+
+    Optional<Object> getByKey(String key);
 
     /**
      * Gets option value by blog property.
@@ -171,7 +171,7 @@ public interface OptionService extends IService<Option> {
      * @return an option value
      */
     @Nullable
-    Object getByPropertyOfNullable(@NonNull PropertyEnum property);
+    Object getByPropertyOfNullable(PropertyEnum property);
 
     /**
      * Gets option value by blog property.
@@ -180,8 +180,8 @@ public interface OptionService extends IService<Option> {
      * @return an optiona value
      * @throws MissingPropertyException throws when property value dismisses
      */
-    @NonNull
-    Object getByPropertyOfNonNull(@NonNull PropertyEnum property);
+
+    Object getByPropertyOfNonNull(PropertyEnum property);
 
     /**
      * Gets option value by blog property.
@@ -189,8 +189,8 @@ public interface OptionService extends IService<Option> {
      * @param property blog property must not be null
      * @return an optional option value
      */
-    @NonNull
-    Optional<Object> getByProperty(@NonNull PropertyEnum property);
+
+    Optional<Object> getByProperty(PropertyEnum property);
 
     /**
      * Gets property value by blog property.
@@ -201,7 +201,7 @@ public interface OptionService extends IService<Option> {
      * @param <T>          property type
      * @return property value
      */
-    <T> T getByPropertyOrDefault(@NonNull PropertyEnum property, @NonNull Class<T> propertyType, T defaultValue);
+    <T> T getByPropertyOrDefault(PropertyEnum property, Class<T> propertyType, T defaultValue);
 
     /**
      * Gets property value by blog property.
@@ -213,7 +213,7 @@ public interface OptionService extends IService<Option> {
      * @param <T>          property type
      * @return property value
      */
-    <T> T getByPropertyOrDefault(@NonNull PropertyEnum property, @NonNull Class<T> propertyType);
+    <T> T getByPropertyOrDefault(PropertyEnum property, Class<T> propertyType);
 
     /**
      * Gets property value by blog property.
@@ -223,7 +223,7 @@ public interface OptionService extends IService<Option> {
      * @param <T>          property type
      * @return property value
      */
-    <T> Optional<T> getByProperty(@NonNull PropertyEnum property, @NonNull Class<T> propertyType);
+    <T> Optional<T> getByProperty(PropertyEnum property, Class<T> propertyType);
 
     /**
      * Gets value by key.
@@ -234,7 +234,7 @@ public interface OptionService extends IService<Option> {
      * @param <T>          property type
      * @return value
      */
-    <T> T getByKeyOrDefault(@NonNull String key, @NonNull Class<T> valueType, T defaultValue);
+    <T> T getByKeyOrDefault(String key, Class<T> valueType, T defaultValue);
 
     /**
      * Gets value by key.
@@ -244,8 +244,8 @@ public interface OptionService extends IService<Option> {
      * @param <T>       value type
      * @return value
      */
-    @NonNull
-    <T> Optional<T> getByKey(@NonNull String key, @NonNull Class<T> valueType);
+
+    <T> Optional<T> getByKey(String key, Class<T> valueType);
 
     /**
      * Gets enum value by property.
@@ -255,8 +255,8 @@ public interface OptionService extends IService<Option> {
      * @param <T>       enum value type
      * @return an optional enum value
      */
-    @NonNull
-    <T extends Enum<T>> Optional<T> getEnumByProperty(@NonNull PropertyEnum property, @NonNull Class<T> valueType);
+
+    <T extends Enum<T>> Optional<T> getEnumByProperty(PropertyEnum property, Class<T> valueType);
 
     /**
      * Gets enum value by property.
@@ -268,7 +268,7 @@ public interface OptionService extends IService<Option> {
      * @return enum value
      */
     @Nullable
-    <T extends Enum<T>> T getEnumByPropertyOrDefault(@NonNull PropertyEnum property, @NonNull Class<T> valueType, @Nullable T defaultValue);
+    <T extends Enum<T>> T getEnumByPropertyOrDefault(PropertyEnum property, Class<T> valueType, @Nullable T defaultValue);
 
     /**
      * Gets value enum by property.
@@ -280,8 +280,8 @@ public interface OptionService extends IService<Option> {
      * @param <E>       value enum type
      * @return an optional value enum value
      */
-    @NonNull
-    <V, E extends ValueEnum<V>> Optional<E> getValueEnumByProperty(@NonNull PropertyEnum property, @NonNull Class<V> valueType, @NonNull Class<E> enumType);
+
+    <V, E extends ValueEnum<V>> Optional<E> getValueEnumByProperty(PropertyEnum property, Class<V> valueType, Class<E> enumType);
 
     /**
      * Gets value enum by property.
@@ -295,7 +295,7 @@ public interface OptionService extends IService<Option> {
      * @return value enum value or null if the default value is null
      */
     @Nullable
-    <V, E extends ValueEnum<V>> E getValueEnumByPropertyOrDefault(@NonNull PropertyEnum property, @NonNull Class<V> valueType, @NonNull Class<E> enumType, @Nullable E defaultValue);
+    <V, E extends ValueEnum<V>> E getValueEnumByPropertyOrDefault(PropertyEnum property, Class<V> valueType, Class<E> enumType, @Nullable E defaultValue);
 
 
     /**
@@ -331,7 +331,7 @@ public interface OptionService extends IService<Option> {
      *
      * @return qiniu zone
      */
-    @NonNull
+
     @Deprecated
     Zone getQnYunZone();
 
@@ -340,7 +340,7 @@ public interface OptionService extends IService<Option> {
      *
      * @return qiniu region
      */
-    @NonNull
+
     Region getQiniuRegion();
 
     /**
@@ -348,7 +348,7 @@ public interface OptionService extends IService<Option> {
      *
      * @return locale user set or default locale
      */
-    @NonNull
+
     Locale getLocale();
 
     /**
@@ -356,7 +356,6 @@ public interface OptionService extends IService<Option> {
      *
      * @return blog base url (If blog url isn't present, current machine IP address will be default)
      */
-    @NonNull
     String getBlogBaseUrl();
 
     /**
@@ -364,7 +363,7 @@ public interface OptionService extends IService<Option> {
      *
      * @return blog title.
      */
-    @NonNull
+
     String getBlogTitle();
 
     /**
@@ -454,6 +453,7 @@ public interface OptionService extends IService<Option> {
 
     /**
      * 博客注册时间
+     *
      * @return long
      */
     long getBirthday();
@@ -465,7 +465,7 @@ public interface OptionService extends IService<Option> {
 //     * @param newUrl new blog url.
 //     * @return replaced options.
 //     */
-//    List<OptionDTO> replaceUrl(@NonNull String oldUrl, @NonNull String newUrl);
+//    List<OptionDTO> replaceUrl( String oldUrl,  String newUrl);
 //
 //    /**
 //     * Converts to option output dto.
@@ -473,6 +473,6 @@ public interface OptionService extends IService<Option> {
 //     * @param option option must not be null
 //     * @return an option output dto
 //     */
-//    @NonNull
-//    OptionSimpleDTO convertToDto(@NonNull Option option);
+//    
+//    OptionSimpleDTO convertToDto( Option option);
 }

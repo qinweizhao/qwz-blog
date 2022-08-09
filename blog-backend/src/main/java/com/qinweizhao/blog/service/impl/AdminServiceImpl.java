@@ -2,7 +2,7 @@ package com.qinweizhao.blog.service.impl;
 
 import cn.hutool.core.lang.Validator;
 import cn.hutool.core.util.RandomUtil;
-import com.qinweizhao.blog.config.properties.HaloProperties;
+import com.qinweizhao.blog.config.properties.MyBlogProperties;
 import com.qinweizhao.blog.exception.BadRequestException;
 import com.qinweizhao.blog.exception.NotFoundException;
 import com.qinweizhao.blog.exception.ServiceException;
@@ -64,7 +64,7 @@ public class AdminServiceImpl implements AdminService {
 
     private final AbstractStringCacheStore cacheStore;
 
-    private final HaloProperties haloProperties;
+    private final MyBlogProperties myBlogProperties;
 
     private final ApplicationEventPublisher eventPublisher;
 
@@ -220,7 +220,7 @@ public class AdminServiceImpl implements AdminService {
 
         environmentDTO.setVersion(HaloConst.HALO_VERSION);
 
-        environmentDTO.setMode(haloProperties.getMode());
+        environmentDTO.setMode(myBlogProperties.getMode());
 
         return environmentDTO;
     }
@@ -276,7 +276,7 @@ public class AdminServiceImpl implements AdminService {
     public String getLogFiles(Long lines) {
         Assert.notNull(lines, "Lines must not be null");
 
-        File file = new File(haloProperties.getWorkDir(), LOG_PATH);
+        File file = new File(myBlogProperties.getWorkDir(), LOG_PATH);
 
         List<String> linesArray = new ArrayList<>();
 

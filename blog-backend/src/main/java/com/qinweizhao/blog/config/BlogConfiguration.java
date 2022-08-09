@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.qinweizhao.blog.framework.cache.AbstractStringCacheStore;
 import com.qinweizhao.blog.framework.cache.InMemoryCacheStore;
 import com.qinweizhao.blog.framework.cache.LevelCacheStore;
-import com.qinweizhao.blog.config.properties.HaloProperties;
+import com.qinweizhao.blog.config.properties.MyBlogProperties;
 import com.qinweizhao.blog.util.HttpClientUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -22,17 +22,17 @@ import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 
 /**
- * Halo configuration.
+ * Blog configuration.
  *
  * @author johnniang
  */
 @Slf4j
 @Configuration
-@EnableConfigurationProperties(HaloProperties.class)
-public class HaloConfiguration {
+@EnableConfigurationProperties(MyBlogProperties.class)
+public class BlogConfiguration {
 
     @Resource
-    private HaloProperties haloProperties;
+    private MyBlogProperties myBlogProperties;
 
     @Bean
     public ObjectMapper objectMapper(Jackson2ObjectMapperBuilder builder) {
@@ -45,7 +45,7 @@ public class HaloConfiguration {
             throws NoSuchAlgorithmException, KeyStoreException, KeyManagementException {
         RestTemplate httpsRestTemplate = builder.build();
         httpsRestTemplate.setRequestFactory(new HttpComponentsClientHttpRequestFactory(HttpClientUtils.createHttpsClient(
-                (int) haloProperties.getDownloadTimeout().toMillis())));
+                (int) myBlogProperties.getDownloadTimeout().toMillis())));
         return httpsRestTemplate;
     }
 
@@ -53,9 +53,9 @@ public class HaloConfiguration {
     @ConditionalOnMissingBean
     public AbstractStringCacheStore stringCacheStore() {
         AbstractStringCacheStore stringCacheStore;
-        switch (haloProperties.getCache()) {
+        switch (myBlogProperties.getCache()) {
             case "level":
-                stringCacheStore = new LevelCacheStore(this.haloProperties);
+                stringCacheStore = new LevelCacheStore(this.myBlogProperties);
                 break;
             case "memory":
             default:

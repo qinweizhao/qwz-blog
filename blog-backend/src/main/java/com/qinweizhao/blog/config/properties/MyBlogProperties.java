@@ -20,9 +20,8 @@ import static com.qinweizhao.blog.util.HaloUtils.ensureSuffix;
  * @date 2019-03-15
  */
 @Data
-@ConfigurationProperties("halo")
-public class HaloProperties {
-
+@ConfigurationProperties("blog")
+public class MyBlogProperties {
 
 
     /**
@@ -39,6 +38,11 @@ public class HaloProperties {
      * 启动模式
      */
     private Mode mode = Mode.PRODUCTION;
+
+    /**
+     * 博客路径
+     */
+    private String blogUrl = "https://www.qinweizhao.com";
 
     /**
      * 后台管理路径

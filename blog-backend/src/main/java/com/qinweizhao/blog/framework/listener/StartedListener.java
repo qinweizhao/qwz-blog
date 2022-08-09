@@ -1,6 +1,6 @@
 package com.qinweizhao.blog.framework.listener;
 
-import com.qinweizhao.blog.config.properties.HaloProperties;
+import com.qinweizhao.blog.config.properties.MyBlogProperties;
 import com.qinweizhao.blog.service.OptionService;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
@@ -32,7 +32,7 @@ import java.nio.file.Paths;
 public class StartedListener implements ApplicationListener<ApplicationStartedEvent> {
 
     @Resource
-    private HaloProperties haloProperties;
+    private MyBlogProperties myBlogProperties;
 
     @Resource
     private OptionService optionService;
@@ -46,12 +46,12 @@ public class StartedListener implements ApplicationListener<ApplicationStartedEv
     private void printStartInfo() {
         String blogUrl = optionService.getBlogBaseUrl();
         log.info(AnsiOutput.toString(AnsiColor.BRIGHT_BLUE, "Blog started at         ", blogUrl));
-        log.info(AnsiOutput.toString(AnsiColor.BRIGHT_BLUE, "Blog admin started at   ", blogUrl, "/", haloProperties.getAdminPath()));
+        log.info(AnsiOutput.toString(AnsiColor.BRIGHT_BLUE, "Blog admin started at   ", blogUrl, "/", myBlogProperties.getAdminPath()));
         log.info(AnsiOutput.toString(AnsiColor.BRIGHT_YELLOW, "Blog has started successfully!"));
     }
 
     private void initDirectory() {
-        Path workPath = Paths.get(haloProperties.getWorkDir());
+        Path workPath = Paths.get(myBlogProperties.getWorkDir());
         try {
             if (Files.notExists(workPath)) {
                 Files.createDirectories(workPath);

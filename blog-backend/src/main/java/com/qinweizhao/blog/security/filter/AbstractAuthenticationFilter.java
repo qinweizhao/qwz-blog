@@ -1,6 +1,6 @@
 package com.qinweizhao.blog.security.filter;
 
-import com.qinweizhao.blog.config.properties.HaloProperties;
+import com.qinweizhao.blog.config.properties.MyBlogProperties;
 import com.qinweizhao.blog.exception.AbstractHaloException;
 import com.qinweizhao.blog.exception.BadRequestException;
 import com.qinweizhao.blog.exception.ForbiddenException;
@@ -38,7 +38,7 @@ import static com.qinweizhao.blog.model.support.HaloConst.ONE_TIME_TOKEN_QUERY_N
 public abstract class AbstractAuthenticationFilter extends OncePerRequestFilter {
 
     protected final AntPathMatcher antPathMatcher;
-    protected final HaloProperties haloProperties;
+    protected final MyBlogProperties myBlogProperties;
     protected final AbstractStringCacheStore cacheStore;
     private final UrlPathHelper urlPathHelper = new UrlPathHelper();
     private final OneTimeTokenService oneTimeTokenService;
@@ -51,10 +51,10 @@ public abstract class AbstractAuthenticationFilter extends OncePerRequestFilter 
 
     private Set<String> urlPatterns = new LinkedHashSet<>();
 
-    AbstractAuthenticationFilter(HaloProperties haloProperties,
+    AbstractAuthenticationFilter(MyBlogProperties myBlogProperties,
                                  AbstractStringCacheStore cacheStore,
                                  OneTimeTokenService oneTimeTokenService) {
-        this.haloProperties = haloProperties;
+        this.myBlogProperties = myBlogProperties;
         this.cacheStore = cacheStore;
         this.oneTimeTokenService = oneTimeTokenService;
 
@@ -141,7 +141,7 @@ public abstract class AbstractAuthenticationFilter extends OncePerRequestFilter 
                 if (failureHandler == null) {
                     // Create default authentication failure handler
                     DefaultAuthenticationFailureHandler failureHandler = new DefaultAuthenticationFailureHandler();
-                    failureHandler.setProductionEnv(haloProperties.isProductionEnv());
+                    failureHandler.setProductionEnv(myBlogProperties.isProductionEnv());
 
                     this.failureHandler = failureHandler;
                 }
