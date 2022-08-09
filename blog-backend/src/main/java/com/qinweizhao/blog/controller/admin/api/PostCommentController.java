@@ -49,7 +49,11 @@ public class PostCommentController {
     @GetMapping("latest")
     public List<CommentDTO> listLatest(@RequestParam(name = "top", defaultValue = "10") int top,
                                        @RequestParam(name = "status", required = false) CommentStatus status) {
-        return commentService.listLatest(top, status, CommentType.POST);
+        CommentQueryParam param = new CommentQueryParam();
+        param.setSize(top);
+        param.setStatus(status);
+        param.setType(CommentType.POST);
+        return commentService.listLatest(param);
     }
 
 

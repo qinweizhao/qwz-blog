@@ -6,9 +6,7 @@ import com.qinweizhao.blog.model.core.PageResult;
 import com.qinweizhao.blog.model.dto.*;
 import com.qinweizhao.blog.model.enums.PostStatus;
 import com.qinweizhao.blog.model.param.PostQueryParam;
-import com.qinweizhao.blog.model.support.HaloConst;
 import com.qinweizhao.blog.service.*;
-import com.qinweizhao.blog.util.MarkdownUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.ui.Model;
@@ -81,7 +79,7 @@ public class PostModel {
 //        postService.getPrevPost(post).ifPresent(prevPost -> model.addAttribute("prevPost", postService.convertToDetailVo(prevPost)));
 //        postService.getNextPost(post).ifPresent(nextPost -> model.addAttribute("nextPost", postService.convertToDetailVo(nextPost)));
 
-        List<CategoryDTO> categories = postCategoryService.listCategoriesByPostId(post.getId());
+        List<CategoryDTO> categories = postCategoryService.listByPostId(post.getId());
         List<TagDTO> tags = postTagService.listTagsByPostId(post.getId());
 
         // Generate meta keywords.

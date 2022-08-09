@@ -33,7 +33,7 @@ public interface PostCategoryService extends IService<PostCategory> {
      * @param postId postId
      * @return List
      */
-    List<CategoryDTO> listCategoriesByPostId(Integer postId);
+    List<CategoryDTO> listByPostId(Integer postId);
 
 
 

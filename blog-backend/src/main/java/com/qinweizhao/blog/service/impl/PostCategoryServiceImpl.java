@@ -74,7 +74,7 @@ public class PostCategoryServiceImpl extends ServiceImpl<PostCategoryMapper, Pos
     }
 
     @Override
-    public List<CategoryDTO> listCategoriesByPostId(Integer postId) {
+    public List<CategoryDTO> listByPostId(Integer postId) {
         Set<Integer> categoryIds = postCategoryMapper.selectSetCategoryIdsByPostId(postId);
         List<Category> categories = categoryMapper.selectListByIds(categoryIds);
         return CategoryConvert.INSTANCE.convertToDTO(categories);

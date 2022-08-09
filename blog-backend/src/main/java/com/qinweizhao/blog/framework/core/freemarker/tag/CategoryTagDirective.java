@@ -17,6 +17,7 @@ import java.util.Map;
  * Freemarker custom tag of category.
  *
  * @author ryanwang
+ * @author qinweizhao
  * @date 2019-03-22
  */
 @Component
@@ -42,14 +43,14 @@ public class CategoryTagDirective implements TemplateDirectiveModel {
             String method = params.get(HaloConst.METHOD_KEY).toString();
             switch (method) {
                 case "list":
-                    env.setVariable("categories", builder.build().wrap(categoryService.list(more)));
+                    env.setVariable("categories", builder.build().wrap(categoryService.list(true)));
                     break;
                 case "tree":
                     env.setVariable("categories", builder.build().wrap(categoryService.listAsTree()));
                     break;
                 case "listByPostId":
                     Integer postId = Integer.parseInt(params.get("postId").toString());
-                    List<CategoryDTO> categories = postCategoryService.listCategoriesByPostId(postId);
+                    List<CategoryDTO> categories = postCategoryService.listByPostId(postId);
                     env.setVariable("categories", builder.build().wrap(categories));
                     break;
                 case "count":

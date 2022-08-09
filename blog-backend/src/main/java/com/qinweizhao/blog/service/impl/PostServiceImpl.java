@@ -379,7 +379,7 @@ public class PostServiceImpl implements PostService {
 
         List<TagDTO> tags = postTagService.listTagsByPostId(post.getId());
 
-        List<CategoryDTO> categories = postCategoryService.listCategoriesByPostId(post.getId());
+        List<CategoryDTO> categories = postCategoryService.listByPostId(post.getId());
 
         Content content = contentMapper.selectById(postId);
         postDTO.setFormatContent(content.getContent());

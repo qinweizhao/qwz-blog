@@ -48,7 +48,11 @@ public class JournalCommentController {
     @GetMapping("latest")
     public List<CommentDTO> latest(@RequestParam(name = "top", defaultValue = "10") int top,
                                    @RequestParam(name = "status", required = false) CommentStatus status) {
-        return commentService.listLatest(top, status, CommentType.JOURNAL);
+        CommentQueryParam param = new CommentQueryParam();
+        param.setSize(top);
+        param.setStatus(status);
+        param.setType(CommentType.JOURNAL);
+        return commentService.listLatest(param);
 
     }
 

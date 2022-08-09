@@ -261,11 +261,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public List<CommentDTO> listLatest(int top, CommentStatus status, CommentType type) {
-        CommentQueryParam param = new CommentQueryParam();
-        param.setSize(top);
-        param.setStatus(status);
-        param.setType(type);
+    public List<CommentDTO> listLatest(CommentQueryParam param) {
         return this.pageComment(param).getContent();
     }
 

@@ -21,8 +21,6 @@ import java.util.Map;
 @Component
 public class MenuTagDirective implements TemplateDirectiveModel {
 
-    private static final String METHOD_KEY = "method";
-
     private final MenuService menuService;
 
     private final OptionService optionService;

@@ -39,8 +39,7 @@ public class CommentTagDirective implements TemplateDirectiveModel {
                     CommentQueryParam param = new CommentQueryParam();
                     param.setType(CommentType.POST);
                     param.setPage(top);
-                    // todo 未知错误待解决
-                    env.setVariable("comments", builder.build().wrap(commentService.pageComment(param)));
+                    env.setVariable("comments", builder.build().wrap(commentService.listLatest(param)));
                     break;
                 case "count":
                     env.setVariable("count", builder.build().wrap(commentService.count()));

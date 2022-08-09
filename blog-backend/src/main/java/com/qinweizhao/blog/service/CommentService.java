@@ -118,11 +118,9 @@ public interface CommentService {
 
     /**
      * 最新的数据
-     * @param top top
-     * @param status status
-     * @param type type
+     * @param param param
      * @return List
      */
-    List<CommentDTO> listLatest(int top,CommentStatus status,CommentType type);
+    List<CommentDTO> listLatest(CommentQueryParam param);
 
 }
