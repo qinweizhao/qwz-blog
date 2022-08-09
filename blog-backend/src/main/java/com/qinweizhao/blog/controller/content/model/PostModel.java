@@ -3,10 +3,15 @@ package com.qinweizhao.blog.controller.content.model;
 import com.qinweizhao.blog.exception.ForbiddenException;
 import com.qinweizhao.blog.framework.cache.AbstractStringCacheStore;
 import com.qinweizhao.blog.model.core.PageResult;
-import com.qinweizhao.blog.model.dto.*;
+import com.qinweizhao.blog.model.dto.CategoryDTO;
+import com.qinweizhao.blog.model.dto.PostDTO;
+import com.qinweizhao.blog.model.dto.PostListDTO;
+import com.qinweizhao.blog.model.dto.TagDTO;
 import com.qinweizhao.blog.model.enums.PostStatus;
 import com.qinweizhao.blog.model.param.PostQueryParam;
+import com.qinweizhao.blog.model.support.HaloConst;
 import com.qinweizhao.blog.service.*;
+import com.qinweizhao.blog.util.MarkdownUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.ui.Model;
@@ -67,21 +72,19 @@ public class PostModel {
             if (!cachedToken.equals(token)) {
                 throw new ForbiddenException("您没有该文章的访问权限");
             }
-//            if (post.getEditorType().equals(PostEditorType.MARKDOWN)) {
-//                post.setFormatContent(MarkdownUtils.renderHtml(post.getOriginalContent()));
-//            } else {
-//                post.setFormatContent(post.getOriginalContent());
-//            }
+            post.setFormatContent(MarkdownUtils.renderHtml(post.getOriginalContent()));
+
         }
 
 //        postService.publishVisitEvent(post.getId());
 //
 //        postService.getPrevPost(post).ifPresent(prevPost -> model.addAttribute("prevPost", postService.convertToDetailVo(prevPost)));
 //        postService.getNextPost(post).ifPresent(nextPost -> model.addAttribute("nextPost", postService.convertToDetailVo(nextPost)));
-
+        model.addAttribute("prevPost",new PostDTO());
+        model.addAttribute("nextPost",new PostDTO());
         List<CategoryDTO> categories = postCategoryService.listByPostId(post.getId());
         List<TagDTO> tags = postTagService.listTagsByPostId(post.getId());
-
+        post.setCategories(categories);
         // Generate meta keywords.
         if (StringUtils.isNotEmpty(post.getMetaKeywords())) {
             model.addAttribute("meta_keywords", post.getMetaKeywords());
@@ -90,14 +93,14 @@ public class PostModel {
         }
 
         // Generate meta description.
-//        if (StringUtils.isNotEmpty(post.getMetaDescription())) {
-//            model.addAttribute("meta_description", post.getMetaDescription());
-//        } else {
-//            model.addAttribute("meta_description", postService.generateDescription(post.getFormatContent()));
-//        }
+        if (StringUtils.isNotEmpty(post.getMetaDescription())) {
+            model.addAttribute("meta_description", post.getMetaDescription());
+        } else {
+            model.addAttribute("meta_description", postService.generateDescription(post.getFormatContent()));
+        }
 
         model.addAttribute("is_post", true);
-//        model.addAttribute("post", postService.convertToDetailVo(post));
+        model.addAttribute("post", post);
         model.addAttribute("categories", categories);
         model.addAttribute("tags", tags);
         model.addAttribute("metas", new HashMap<>());

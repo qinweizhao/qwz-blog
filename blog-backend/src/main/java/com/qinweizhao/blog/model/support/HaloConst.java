@@ -34,7 +34,7 @@ public class HaloConst {
     /**
      * 默认主题名字
      */
-    public final static String DEFAULT_THEME_ID = "blog-frontend-portal";
+    public final static String DEFAULT_THEME_ID = "blog-frontend-portal1";
 
     /**
      * 默认错误路径

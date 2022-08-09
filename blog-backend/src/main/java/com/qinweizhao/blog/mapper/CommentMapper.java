@@ -11,6 +11,7 @@ import com.qinweizhao.blog.model.projection.CommentChildrenCountProjection;
 import com.qinweizhao.blog.model.projection.CommentCountProjection;
 import com.qinweizhao.blog.util.LambdaQueryWrapperX;
 import com.qinweizhao.blog.util.MyBatisUtils;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.Collection;
@@ -26,6 +27,7 @@ import java.util.Set;
  * @author qinweizhao
  * @since 2022-07-08
  */
+@Mapper
 public interface CommentMapper extends BaseMapper<Comment> {
 
 

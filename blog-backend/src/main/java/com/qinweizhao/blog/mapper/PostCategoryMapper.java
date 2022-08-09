@@ -7,6 +7,7 @@ import com.qinweizhao.blog.model.entity.PostTag;
 import com.qinweizhao.blog.model.enums.PostStatus;
 import com.qinweizhao.blog.model.projection.CategoryPostCountProjection;
 import com.qinweizhao.blog.util.LambdaQueryWrapperX;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.Collection;
 import java.util.List;
@@ -70,7 +71,7 @@ public interface PostCategoryMapper extends BaseMapper<PostCategory> {
      * @param status     status
      * @return Set
      */
-    Set<Integer> selectSetPostIdByCategoryIdAndPostStatus(Integer categoryId, PostStatus status);
+    Set<Integer> selectSetPostIdByCategoryIdAndPostStatus(@Param("categoryId") Integer categoryId, @Param("status") PostStatus status);
 
     /**
      * 通过文章 Id 删除关联

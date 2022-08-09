@@ -2,6 +2,7 @@ package com.qinweizhao.blog.framework.core.freemarker.tag;
 
 import com.qinweizhao.blog.model.dto.TagDTO;
 import com.qinweizhao.blog.model.support.HaloConst;
+import com.qinweizhao.blog.service.OptionService;
 import com.qinweizhao.blog.service.PostTagService;
 import com.qinweizhao.blog.service.TagService;
 import freemarker.core.Environment;
@@ -23,13 +24,16 @@ import java.util.Map;
 public class TagTagDirective implements TemplateDirectiveModel {
 
     private final TagService tagService;
+    private final OptionService optionService;
 
     private final PostTagService postTagService;
 
     public TagTagDirective(Configuration configuration,
                            TagService tagService,
+                           OptionService optionService,
                            PostTagService postTagService) {
         this.tagService = tagService;
+        this.optionService = optionService;
         this.postTagService = postTagService;
         configuration.setSharedVariable("tagTag", this);
     }
@@ -47,6 +51,7 @@ public class TagTagDirective implements TemplateDirectiveModel {
                 case "listByPostId":
                     Integer postId = Integer.parseInt(params.get("postId").toString());
                     List<TagDTO> tags = postTagService.listTagsByPostId(postId);
+                    tags.forEach(item->item.setFullPath(optionService.buildFullPath(postId)));
                     env.setVariable("tags", builder.build().wrap(tags));
                     break;
                 case "count":

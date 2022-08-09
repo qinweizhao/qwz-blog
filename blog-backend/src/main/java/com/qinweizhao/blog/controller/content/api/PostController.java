@@ -1,15 +1,17 @@
 package com.qinweizhao.blog.controller.content.api;
 
 import com.qinweizhao.blog.model.core.PageResult;
+import com.qinweizhao.blog.model.dto.CommentDTO;
+import com.qinweizhao.blog.model.dto.PostDTO;
 import com.qinweizhao.blog.model.dto.PostListDTO;
+import com.qinweizhao.blog.model.enums.CommentType;
+import com.qinweizhao.blog.model.param.CommentQueryParam;
 import com.qinweizhao.blog.model.param.PostQueryParam;
 import com.qinweizhao.blog.service.CommentService;
 import com.qinweizhao.blog.service.OptionService;
 import com.qinweizhao.blog.service.PostService;
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * 内容发布控制器
@@ -35,7 +37,7 @@ public class PostController {
         return postService.page(param);
     }
 
-//    @PostMapping(value = "search")
+    //    @PostMapping(value = "search")
 //    @ApiOperation("Lists posts by keyword")
 //    public Page<BasePostSimpleDTO> pageBy(@RequestParam(value = "keyword") String keyword,
 //                                          @PageableDefault(sort = "createTime", direction = DESC) Pageable pageable) {
@@ -43,27 +45,26 @@ public class PostController {
 //        return PostConvert.INSTANCE.convertToDTO(postPage);
 //    }
 //
-//    @GetMapping("{postId:\\d+}")
-//    @ApiOperation("Gets a post")
-//    public PostDetailVO getBy(@PathVariable("postId") Integer postId,
-//                              @RequestParam(value = "formatDisabled", required = false, defaultValue = "true") Boolean formatDisabled,
-//                              @RequestParam(value = "sourceDisabled", required = false, defaultValue = "false") Boolean sourceDisabled) {
-//        PostDetailVO postDetailVO = postService.convertToDetailVo(postService.getById(postId));
-//
-//        if (formatDisabled) {
-//            // Clear the format content
-//            postDetailVO.setFormatContent(null);
-//        }
-//
-//        if (sourceDisabled) {
-//            // Clear the original content
-//            postDetailVO.setOriginalContent(null);
-//        }
-//
-//        postService.publishVisitEvent(postDetailVO.getId());
-//
-//        return postDetailVO;
-//    }
+    @GetMapping("{postId:\\d+}")
+    public PostDTO get(@PathVariable("postId") Integer postId,
+                       @RequestParam(value = "formatDisabled", required = false, defaultValue = "true") Boolean formatDisabled,
+                       @RequestParam(value = "sourceDisabled", required = false, defaultValue = "false") Boolean sourceDisabled) {
+        PostDTO result = postService.getById(postId);
+
+        if (formatDisabled) {
+            // Clear the format content
+            result.setFormatContent(null);
+        }
+
+        if (sourceDisabled) {
+            // Clear the original content
+            result.setOriginalContent(null);
+        }
+
+//        postService.publishVisitEvent(result.getId());
+
+        return result;
+    }
 
 //    @GetMapping("/slug")
 //    @ApiOperation("Gets a post")
@@ -107,13 +108,18 @@ public class PostController {
 //        return commentService.convertTo(postComments);
 //    }
 //
-//    @GetMapping("{postId:\\d+}/comments/tree_view")
-//    @ApiOperation("Lists comments with tree view")
-//    public Page<BaseCommentVO> listCommentsTree(@PathVariable("postId") Integer postId,
-//                                                @RequestParam(name = "page", required = false, defaultValue = "0") int page,
-//                                                @SortDefault(sort = "createTime", direction = DESC) Sort sort) {
-//        return commentService.pageVosBy(postId, PageRequest.of(page, optionService.getCommentPageSize(), sort));
-//    }
+
+    /**
+     * 用树状视图列出评论
+     *
+     * @param postId postId
+     * @return PageResult
+     */
+    @GetMapping("{postId:\\d+}/comments/tree_view")
+    public PageResult<CommentDTO> listCommentsTree(@PathVariable("postId") Integer postId, CommentQueryParam param) {
+        param.setType(CommentType.POST);
+        return commentService.pageComment(param);
+    }
 //
 //    @GetMapping("{postId:\\d+}/comments/list_view")
 //    @ApiOperation("Lists comment with list view")

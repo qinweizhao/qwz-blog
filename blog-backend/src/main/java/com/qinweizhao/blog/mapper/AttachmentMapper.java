@@ -9,6 +9,7 @@ import com.qinweizhao.blog.model.enums.AttachmentType;
 import com.qinweizhao.blog.model.param.AttachmentQueryParam;
 import com.qinweizhao.blog.util.LambdaQueryWrapperX;
 import com.qinweizhao.blog.util.MyBatisUtils;
+import org.apache.ibatis.annotations.Mapper;
 import org.springframework.util.ObjectUtils;
 
 import java.util.List;
@@ -17,6 +18,7 @@ import java.util.List;
  * @author qinweizhao
  * @since 2022/7/6
  */
+@Mapper
 public interface AttachmentMapper extends BaseMapper<Attachment> {
 
 
