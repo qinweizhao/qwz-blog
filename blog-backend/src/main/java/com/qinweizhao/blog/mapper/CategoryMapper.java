@@ -25,7 +25,7 @@ public interface CategoryMapper extends BaseMapper<Category> {
      */
     default List<Category> selectList() {
         return selectList(new LambdaQueryWrapper<Category>()
-                .orderByDesc(Category::getCreateTime)
+                .orderByDesc(Category::getPriority)
         );
     }
 
