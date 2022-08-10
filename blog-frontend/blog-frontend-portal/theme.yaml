@@ -1,19 +1,23 @@
 id: blog-frontend-portal
 name: blog-frontend-portal
 author:
-  name: qinweizhao
+  name: YVKG
   website: https://www.qinweizhao.com
-description: Joe2.0改造版
-logo: https://bbchin.com/logo
+description: 博客门面
+logo: https://www.qinweizhao.com/logo
 website: https://www.qinweizhao.com
-repo: https://github.com/qinweizhao/qwz-blog/blog-frontend/blog-frontend-portal
+repo: https://github.com/qinweizhao/qwz-blog
 cover: https://cdn.jsdelivr.net/gh/qinhua/halo-theme-joe2.0@master/source/img/dp/welcome.jpg
-version: 2.0.2
+version: 1.0.0
 require: ^1.0.0
 # 文章页 meta 变量
 postMetaField:
+  - enable_aside
+  - enable_page_meta
   - enable_passage_tips
   - enable_collect_check
+  - enable_read_limit
+  - use_raw_content
   - enable_comment
   - enable_toc
   - toc_depth
@@ -24,17 +28,17 @@ postMetaField:
   - enable_share
   - enable_like
   - code_theme
-  - enable_mathjax
-  - enable_mermaid
+  - enable_fold_long_code
+  - enable_katex
 
 # 自定义页 meta 变量
 sheetMetaField:
   - enable_aside
   - enable_page_meta
   - enable_collect_check
+  - use_raw_content
   - enable_comment
   - img_align
   - img_max_width
-  - enable_mathjax
-  - enable_mermaid
+  - enable_katex
   # - show_thumbnail

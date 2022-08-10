@@ -4,6 +4,7 @@
   <@headInfo.head title="首页" type="index"/>
   <#import "template/macro/tail.ftl" as tailInfo>
   <body>
+  2222222222222
     <div id="Joe">
       <#include "template/common/navbar.ftl">
       <div class="joe_container joe_main_container page-index${settings.enable_show_in_up?then(' animated showInUp','')}${(settings.aside_position=='left')?then(' revert','')}">
@@ -23,8 +24,6 @@
           <#if settings.enable_index_list_ajax==false>
             <#include "template/common/pager.ftl">
             <@pager method="index" postsData=posts display="${settings.max_pager_number!5}" />
-            <#--  <#include "template/macro/empty.ftl">
-            <@empty type="index" text="${settings.home_empty_text!'暂无文章数据'}" isAsync="true"/>  -->
           <#else>
             <div class="joe_load" loading="true">加载中...</div>
           </#if>

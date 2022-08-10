@@ -6,12 +6,11 @@
       <span class="text">最新文章</span>
     </div>
     <div class="joe_aside__item-contain">
-
       <@postTag method="latest" top="${settings.newest_page_size!5}">
         <#if posts?size gt 0>
-          <ul class="list">
+          <ul class="list">       
             <#list posts as post>
-                <li class="item">
+              <li class="item">
                 <a class="link" href="${post.fullPath!}" title="${post.title!}">${post.title!}</a>
                 <i class="joe-font joe-icon-link"></i>
               </li>

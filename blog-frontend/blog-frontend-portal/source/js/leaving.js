@@ -11,7 +11,7 @@ const leavingContext = {
 			url: `/api/content/sheets/${sheetId}/comments/top_view`,
 			method: "GET",
 			data: {
-				page: 1,
+				page: 0,
 				// size: ThemeConfig.leaving_card_max,
 				sort: "createTime,desc",
 			},
@@ -34,9 +34,9 @@ const leavingContext = {
             <div class="user">
                 <img class="avatar lazyload" src="${
 							ThemeConfig.lazyload_avatar
-							}" data-src="${avatar}" alt="用户头像" onerror="this.src='${
+							}" data-src="${avatar}" alt="用户头像" onerror="Joe.errorImg(this,${
 								ThemeConfig.comment_avatar_error
-							}'"/>
+							})"/>
                 <div class="nickname">${item.author}</div>
                 <div class="date">${new Date(
 								item.createTime

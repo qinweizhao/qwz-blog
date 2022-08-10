@@ -22,7 +22,7 @@ var _self = (typeof window !== 'undefined')
 var Prism = (function (_self) {
 
 	// Private helper vars
-	var lang = /(?:^|\s)lang(?:uage)?-([\w-]+)(?=\s|$)/i;
+	var lang = /(?:^|\s)lang(?:uage)?-([\w-+]+)(?=\s|$)/i; //语言类名匹配
 	var uniqueId = 0;
 
 	// The grammar object for plaintext
@@ -556,7 +556,7 @@ var Prism = (function (_self) {
 		 * @param {Element} element The element containing the code.
 		 * It must have a class of `language-xxxx` to be processed, where `xxxx` is a valid language identifier.
 		 * @param {boolean} [async=false] Whether the element is to be highlighted asynchronously using Web Workers
-		 * to improve performance and avoid blocking the UI when highlighting very large chunks of code. This config is
+		 * to improve performance and avoid blocking the UI when highlighting very large chunks of code. This option is
 		 * [disabled by default](https://prismjs.com/faq.html#why-is-asynchronous-highlighting-disabled-by-default).
 		 *
 		 * Note: All language definitions required to highlight the code must be included in the main `prism.js` file for
@@ -2646,6 +2646,8 @@ delete Prism.languages.c['boolean'];
 		'class-name': /\b[a-z_]\w*\b(?!\s*::)/i
 	}, Prism.languages.cpp['base-clause']);
 
+  Prism.languages['c++'] = Prism.languages.cpp;
+  Prism.languages['C++'] = Prism.languages.cpp;
 }(Prism));
 
 (function (Prism) {
@@ -2925,7 +2927,7 @@ delete Prism.languages.c['boolean'];
 		.replace(/<SP_BS>/g, function () { return spaceAfterBackSlash; });
 
 	var string = /"(?:[^"\\\r\n]|\\(?:\r\n|[\s\S]))*"|'(?:[^'\\\r\n]|\\(?:\r\n|[\s\S]))*'/.source;
-	var config = /--[\w-]+=(?:<STR>|(?!["'])(?:[^\s\\]|\\.)+)/.source.replace(/<STR>/g, function () { return string; });
+	var option = /--[\w-]+=(?:<STR>|(?!["'])(?:[^\s\\]|\\.)+)/.source.replace(/<STR>/g, function () { return string; });
 
 	var stringRule = {
 		pattern: RegExp(string),
@@ -2944,7 +2946,7 @@ delete Prism.languages.c['boolean'];
 	 */
 	function re(source, flags) {
 		source = source
-			.replace(/<OPT>/g, function () { return config; })
+			.replace(/<OPT>/g, function () { return option; })
 			.replace(/<SP>/g, function () { return space; });
 
 		return RegExp(source, flags);
@@ -5542,7 +5544,7 @@ Prism.languages.python = {
 						pattern: /(:)[^:(){}]+(?=\}$)/,
 						lookbehind: true
 					},
-					'conversion-config': {
+					'conversion-option': {
 						pattern: /![sra](?=[:}]$)/,
 						alias: 'punctuation'
 					},
@@ -7338,6 +7340,8 @@ Prism.languages.wasm = {
 		"cs": "C#",
 		"dotnet": "C#",
 		"cpp": "C++",
+		"c++": "C++",
+		"C++": "C++",
 		"cfscript": "CFScript",
 		"cfc": "CFScript",
 		"cil": "CIL",
