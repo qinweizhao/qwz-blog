@@ -32,5 +32,6 @@ build/
 
 */.DS_Store
 
-./blog-resource/logs/**
+/blog-resource/logs/spring.log
 
+/blog-frontend/blog-frontend-portal/source/*/min/*.min.*

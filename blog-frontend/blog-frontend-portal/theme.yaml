@@ -8,7 +8,7 @@ logo: https://www.qinweizhao.com/logo
 website: https://www.qinweizhao.com
 repo: https://github.com/qinweizhao/qwz-blog
 cover: https://cdn.jsdelivr.net/gh/qinhua/halo-theme-joe2.0@master/source/img/dp/welcome.jpg
-version: 1.0.0
+version: 1.0.10
 require: ^1.0.0
 # 文章页 meta 变量
 postMetaField:
