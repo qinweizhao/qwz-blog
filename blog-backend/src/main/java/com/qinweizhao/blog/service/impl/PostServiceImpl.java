@@ -293,13 +293,15 @@ public class PostServiceImpl implements PostService {
         Assert.notNull(postId, "Post id must not be null");
 
         // 标签
-        postTagMapper.deleteByPostId(postId);
+        int i1 = postTagMapper.deleteByPostId(postId);
         // 分类
-        postCategoryMapper.deleteByPostId(postId);
+        int i2 = postCategoryMapper.deleteByPostId(postId);
         // 元数据
-        metaService.removeByPostId(postId);
+        boolean b = metaService.removeByPostId(postId);
         // 评论
-        commentMapper.deleteByPostId(postId);
+        int i3 = commentMapper.deleteByPostId(postId);
+
+        log.debug("删除和标签关联{}条，和分类{}条，评论{}条，删除元数据状态{}", i1, i2, i3, b);
 
         return postMapper.deleteById(postId) > 0;
     }
@@ -374,6 +376,11 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
+    public PostStatus getStatusById(Integer postId) {
+        return postMapper.selectStatusById(postId);
+    }
+
+    @Override
     public PostDTO getById(Integer postId) {
 
         Post post = postMapper.selectById(postId);
@@ -385,8 +392,9 @@ public class PostServiceImpl implements PostService {
         List<CategoryDTO> categories = postCategoryService.listByPostId(post.getId());
 
         Content content = contentMapper.selectById(postId);
-        postDTO.setFormatContent(content.getContent());
-        postDTO.setOriginalContent(content.getOriginalContent());
+        String originalContent = content.getOriginalContent();
+        postDTO.setFormatContent(MarkdownUtils.renderHtml(originalContent));
+        postDTO.setOriginalContent(originalContent);
         postDTO.setSummary(generateSummary(content.getContent()));
 
         Set<Integer> tagIds = ServiceUtils.fetchProperty(tags, TagDTO::getId);
@@ -408,7 +416,14 @@ public class PostServiceImpl implements PostService {
     @Override
     public PostDTO getBySlugAndStatus(PostStatus published, String slug) {
         Post post = postMapper.selectBySlugAndStatus(slug, published);
-        return PostConvert.INSTANCE.convert(post);
+        PostDTO result = PostConvert.INSTANCE.convert(post);
+        // todo
+        Integer postId = post.getId();
+        result.setCommentCount(0L);
+        Content content = contentMapper.selectById(postId);
+        result.setFormatContent(content.getContent());
+        result.setFullPath(optionService.buildFullPath(post.getId()));
+        return result;
     }
 
     @Override

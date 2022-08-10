@@ -220,4 +220,11 @@ public interface PostMapper extends BaseMapper<Post> {
      * @return boolean
      */
     boolean selectExistsByIdNotAndSlug(@Param("id") Integer id, @Param("slug") String slug);
+
+    /**
+     * 获取文章状态
+     * @param postId postId
+     * @return PostStatus
+     */
+    PostStatus selectStatusById(Integer postId);
 }

@@ -148,4 +148,16 @@ public interface CommentMapper extends BaseMapper<Comment> {
                 .eq(Comment::getTargetId, postId)
         );
     }
+
+    /**
+     * 统计个数
+     * @param postId postId
+     * @return Long
+     */
+    default Long selectCountByPostId(Integer postId){
+        return this.selectCount(new LambdaQueryWrapper<Comment>()
+                .eq(Comment::getTargetId,postId)
+        );
+    }
+
 }

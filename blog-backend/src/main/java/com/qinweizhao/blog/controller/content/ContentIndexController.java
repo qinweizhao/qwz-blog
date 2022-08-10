@@ -2,6 +2,7 @@ package com.qinweizhao.blog.controller.content;
 
 import com.qinweizhao.blog.controller.content.model.PostModel;
 import com.qinweizhao.blog.model.dto.PostDTO;
+import com.qinweizhao.blog.model.enums.PostStatus;
 import com.qinweizhao.blog.service.OptionService;
 import com.qinweizhao.blog.service.PostService;
 import lombok.extern.slf4j.Slf4j;
@@ -47,16 +48,15 @@ public class ContentIndexController {
     public String index(Integer p, String token, Model model) {
 
         if (!Objects.isNull(p)) {
-            PostDTO post = postService.getById(p);
-            System.out.println("postModel.content(post, token, model) = " + postModel.content(post, token, model));
-            return postModel.content(post, token, model);
+            PostStatus status = postService.getStatusById(p);
+            return postModel.content(p,status, token, model);
         }
 
         return this.index(model, 1);
     }
 
     /**
-     * Render blog index
+     * 首页
      *
      * @param model model
      * @param page  current page number

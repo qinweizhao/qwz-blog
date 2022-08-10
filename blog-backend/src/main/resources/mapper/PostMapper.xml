@@ -105,4 +105,10 @@
           and id = #{id} limit 1
     </select>
 
+    <select id="selectStatusById" resultType="com.qinweizhao.blog.model.enums.PostStatus">
+        select status
+        from post
+        where id = #{id}
+    </select>
+
 </mapper>

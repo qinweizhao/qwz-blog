@@ -168,4 +168,11 @@ public interface PostService {
      * @return boolean
      */
     boolean updateStatusByIds(List<Integer> ids, PostStatus status);
+
+    /**
+     * 获取文章状态
+     * @param postId postId
+     * @return PostStatus
+     */
+    PostStatus getStatusById(Integer postId);
 }
