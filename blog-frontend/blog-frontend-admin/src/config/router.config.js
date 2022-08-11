@@ -149,10 +149,10 @@ export const asyncRouterMap = [
     ]
   },
   {
-    path: '/interface/themes/setting/visual',
+    path: '/theme/setting/visual',
     name: 'ThemeVisualSetting',
     hidden: true,
-    component: () => import('@/views/interface/ThemeVisualSetting'),
+    component: () => import('@/views/theme/ThemeVisualSetting'),
     meta: { title: '预览模式', hiddenHeaderContent: false }
   },
   {

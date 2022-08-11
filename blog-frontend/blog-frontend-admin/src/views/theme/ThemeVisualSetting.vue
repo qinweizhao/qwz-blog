@@ -25,9 +25,10 @@
 </template>
 <script>
 // components
-import ThemeSettingForm from '../theme/components/ThemeSettingForm'
+import ThemeSettingForm from './components/ThemeSettingForm'
 
 import apiClient from '@/utils/api-client'
+import themeApi from '@/api/theme'
 import { mapGetters } from 'vuex'
 
 export default {
@@ -57,8 +58,8 @@ export default {
     async handleGetTheme(themeId) {
       try {
         this.theme.loading = true
-        const { data } = await apiClient.theme.get(themeId)
-        this.theme.data = data
+        const { data } = await themeApi.getProperty(themeId)
+        this.theme.data = data.data
       } finally {
         this.theme.loading = false
       }

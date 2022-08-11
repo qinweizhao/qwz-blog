@@ -32,7 +32,7 @@ const config = {
         configApi
           .listAllByKeys(keys)
           .then(response => {
-            commit('SET_OPTIONS', response.data)
+            commit('SET_OPTIONS', response.data.data)
             resolve(response)
           })
           .catch(error => {
