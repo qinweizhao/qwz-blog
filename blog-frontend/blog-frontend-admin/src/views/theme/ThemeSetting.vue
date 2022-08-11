@@ -1,8 +1,6 @@
 <template>
   <page-view :sub-title="theme.current.version || '-'" :title="theme.current.name || '-'" affix>
     <template slot="extra">
-      <a-button @click="localUpgradeModel.visible = true" icon="upload"> 更新 </a-button>
-
       <a-button :disabled="!theme.current.activated" @click="handleRouteToThemeVisualSetting">
         <a-icon type="eye" />
         预览模式
@@ -12,18 +10,11 @@
     <a-spin :spinning="theme.loading">
       <ThemeSettingForm :theme="theme.current" />
     </a-spin>
-
-    <ThemeLocalUpgradeModal
-      :theme="theme.current"
-      :visible.sync="localUpgradeModel.visible"
-      @success="handleGetTheme"
-    />
   </page-view>
 </template>
 <script>
 // components
 import { PageView } from '@/layouts'
-import ThemeLocalUpgradeModal from './components/ThemeLocalUpgradeModal'
 import ThemeSettingForm from './components/ThemeSettingForm'
 
 // api
@@ -33,7 +24,6 @@ export default {
   name: 'ThemeSetting',
   components: {
     PageView,
-    ThemeLocalUpgradeModal,
     ThemeSettingForm
   },
   data() {

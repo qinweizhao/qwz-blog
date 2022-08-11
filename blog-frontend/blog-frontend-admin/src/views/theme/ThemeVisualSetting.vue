@@ -27,7 +27,6 @@
 // components
 import ThemeSettingForm from './components/ThemeSettingForm'
 
-import apiClient from '@/utils/api-client'
 import themeApi from '@/api/theme'
 import { mapGetters } from 'vuex'
 
