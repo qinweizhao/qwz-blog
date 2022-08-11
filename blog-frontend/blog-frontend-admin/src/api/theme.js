@@ -4,48 +4,6 @@ const baseUrl = '/api/admin/themes'
 
 const themeApi = {}
 
-themeApi.listAll = () => {
-  return service({
-    url: `${baseUrl}`,
-    method: 'get'
-  })
-}
-
-themeApi.listFilesActivated = () => {
-  return service({
-    url: `${baseUrl}/activation/files`,
-    method: 'get'
-  })
-}
-
-themeApi.listFiles = themeId => {
-  return service({
-    url: `${baseUrl}/${themeId}/files`,
-    method: 'get'
-  })
-}
-
-themeApi.customSheetTpls = () => {
-  return service({
-    url: `${baseUrl}/activation/template/custom/sheet`,
-    method: 'get'
-  })
-}
-
-themeApi.customPostTpls = () => {
-  return service({
-    url: `${baseUrl}/activation/template/custom/post`,
-    method: 'get'
-  })
-}
-
-themeApi.active = theme => {
-  return service({
-    url: `${baseUrl}/${theme}/activation`,
-    method: 'post'
-  })
-}
-
 themeApi.getActivatedTheme = () => {
   return service({
     url: `${baseUrl}/activation`,

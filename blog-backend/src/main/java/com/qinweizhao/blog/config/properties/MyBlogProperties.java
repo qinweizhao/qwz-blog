@@ -45,6 +45,11 @@ public class MyBlogProperties {
     private String blogUrl = "https://www.qinweizhao.com";
 
     /**
+     * 博客路径
+     */
+    private String themeId = "blog-frontend-portal";
+
+    /**
      * 后台管理路径
      */
     private String adminPath = "admin";

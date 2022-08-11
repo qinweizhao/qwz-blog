@@ -22,6 +22,13 @@ public interface ThemeSettingService {
      */
     Map<String, Object> listMap(String themeId);
 
+    /**
+     * 保存主题配置
+     * @param settings  settings
+     * @return boolean
+     */
+    boolean save(Map<String, Object> settings);
+
 //
 //    /**
 //     * Saves theme setting.
@@ -53,14 +60,12 @@ public interface ThemeSettingService {
 //
 //    List<ThemeSetting> listBy(String themeId);
 //
-//    /**
-//     * Lists theme settings as map.
-//     *
-//     * @param themeId theme id must not be blank
-//     * @return theme setting map
-//     */
-//
-//    Map<String, Object> listAsMapBy(String themeId);
+    /**
+     * Lists theme settings as map.
+     *
+     * @return theme setting map
+     */
+    Map<String, Object> listAsMapBy();
 //
 //    /**
 //     * Replace theme setting url in batch.

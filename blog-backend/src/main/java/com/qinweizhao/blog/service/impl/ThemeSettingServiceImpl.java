@@ -1,5 +1,8 @@
 package com.qinweizhao.blog.service.impl;
 
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.qinweizhao.blog.config.properties.MyBlogProperties;
+import com.qinweizhao.blog.exception.ServiceException;
 import com.qinweizhao.blog.framework.handler.theme.config.support.Group;
 import com.qinweizhao.blog.framework.handler.theme.config.support.Item;
 import com.qinweizhao.blog.mapper.ThemeSettingMapper;
@@ -8,9 +11,12 @@ import com.qinweizhao.blog.service.ThemeService;
 import com.qinweizhao.blog.service.ThemeSettingService;
 import com.qinweizhao.blog.util.ServiceUtils;
 import freemarker.template.Configuration;
+import freemarker.template.TemplateModelException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
+import org.springframework.util.ObjectUtils;
 
 import java.util.*;
 
@@ -30,14 +36,15 @@ public class ThemeSettingServiceImpl implements ThemeSettingService {
     private final ThemeService themeService;
 
     private final Configuration configuration;
+    private final MyBlogProperties blogProperties;
 
     @Override
     public Map<String, Object> listMap(String themeId) {
         // Convert to item map(key: item name, value: item)
-        Map<String, Item> itemMap = getConfigItemMap(themeId);
+        Map<String, Item> itemMap = getConfigItemMap();
 
         // Get theme setting
-        List<ThemeSetting> themeSettings = themeSettingMapper.selectListByThemeId(themeId);
+        List<ThemeSetting> themeSettings = themeSettingMapper.selectList(Wrappers.emptyWrapper());
 
         Map<String, Object> result = new HashMap<>();
 
@@ -75,6 +82,71 @@ public class ThemeSettingServiceImpl implements ThemeSettingService {
         return result;
     }
 
+    @Override
+    public boolean save(Map<String, Object> settings) {
+
+        if (CollectionUtils.isEmpty(settings)) {
+            return false;
+        }
+        Set<String> strings = settings.keySet();
+        // Save the settings
+        settings.forEach((key, value) -> {
+
+
+        });
+
+        try {
+            configuration.setSharedVariable("settings", listAsMapBy());
+        } catch (TemplateModelException e) {
+            throw new ServiceException("主题设置保存失败", e);
+        }
+        return false;
+    }
+
+
+    @Override
+    public Map<String, Object> listAsMapBy() {
+        // Convert to item map(key: item name, value: item)
+        Map<String, Item> itemMap = getConfigItemMap();
+
+        // Get theme setting
+        List<ThemeSetting> themeSettings = themeSettingMapper.selectList(Wrappers.emptyWrapper());
+
+        Map<String, Object> result = new HashMap<>();
+
+        // Build settings from user-defined
+        themeSettings.forEach(themeSetting -> {
+            String key = themeSetting.getSettingKey();
+
+            Item item = itemMap.get(key);
+
+            if (item == null) {
+                return;
+            }
+
+            Object convertedValue = item.getDataType().convertTo(themeSetting.getSettingValue());
+            log.debug("Converted user-defined data from [{}] to [{}], type: [{}]", themeSetting.getSettingValue(), convertedValue, item.getDataType());
+
+            result.put(key, convertedValue);
+        });
+
+        // Build settings from pre-defined
+        itemMap.forEach((name, item) -> {
+            log.debug("Name: [{}], item: [{}]", name, item);
+
+            if (item.getDefaultValue() == null || result.containsKey(name)) {
+                return;
+            }
+
+            // Set default value
+            Object convertedDefaultValue = item.getDataType().convertTo(item.getDefaultValue());
+            log.debug("Converted pre-defined data from [{}] to [{}], type: [{}]", item.getDefaultValue(), convertedDefaultValue, item.getDataType());
+
+            result.put(name, convertedDefaultValue);
+        });
+
+        return result;
+    }
 
 //
 //    @Override
@@ -218,12 +290,11 @@ public class ThemeSettingServiceImpl implements ThemeSettingService {
     /**
      * 获取配置项映射。 （键：项目名称，值：项目）
      *
-     * @param themeId theme id must not be blank
      * @return config item map
      */
-    private Map<String, Item> getConfigItemMap(String themeId) {
+    private Map<String, Item> getConfigItemMap() {
         // Get theme configuration
-        List<Group> groups = themeService.fetchConfig(themeId);
+        List<Group> groups = themeService.fetchConfig();
 
         // Mix all items
         Set<Item> items = new LinkedHashSet<>();

@@ -58,10 +58,10 @@ logging:
 
 blog:
   # 例如：https://www.qinweizhao.com
-  blogUrl: http://localhost:8090
+  blog-url: http://localhost:8090
   auth-enabled: true
   mode: development
-  workDir: ${user.home}/Code/qwz/qwz-blog/
+  work-dir: ${user.home}/Code/qwz/qwz-blog/
   cache: memory
   admin-path: qwz
   productionEnv: false

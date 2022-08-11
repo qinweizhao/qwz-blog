@@ -19,8 +19,6 @@ public class ThemeSetting extends BaseEntity {
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
-    private String themeId;
-
     private String settingKey;
 
     private String settingValue;

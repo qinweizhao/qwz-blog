@@ -89,10 +89,9 @@ public interface ThemeService {
     /**
      * 通过主题 id 获取主题属性
      *
-     * @param themeId themeId
      * @return ThemeProperty
      */
-    ThemeProperty getThemeOfNonNullBy(String themeId);
+    ThemeProperty getThemeOfNonNullBy( );
 
 
 //    /**
@@ -261,10 +260,9 @@ public interface ThemeService {
     /**
      * 获取配置
      *
-     * @param themeId themeId
      * @return List
      */
-    List<Group> fetchConfig(String themeId);
+    List<Group> fetchConfig();
 
 
     /**

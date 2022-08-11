@@ -1,6 +1,5 @@
 package com.qinweizhao.blog.model.properties;
 
-import static com.qinweizhao.blog.model.support.HaloConst.DEFAULT_THEME_ID;
 
 /**
  * Primary properties.
@@ -9,16 +8,6 @@ import static com.qinweizhao.blog.model.support.HaloConst.DEFAULT_THEME_ID;
  * @date 4/2/19
  */
 public enum PrimaryProperties implements PropertyEnum {
-
-    /**
-     * is blog installed.
-     */
-    IS_INSTALLED("is_installed", Boolean.class, "false"),
-
-    /**
-     * current actived theme.
-     */
-    THEME("theme", String.class, DEFAULT_THEME_ID),
 
     /**
      * blog birthday

@@ -32,11 +32,6 @@ public class HaloConst {
     public final static String URL_SEPARATOR = "/";
 
     /**
-     * 默认主题名字
-     */
-    public final static String DEFAULT_THEME_ID = "blog-frontend-portal";
-
-    /**
      * 默认错误路径
      */
     public static final String DEFAULT_ERROR_PATH = "common/error/error";

@@ -17,7 +17,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
-import org.springframework.util.Assert;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
@@ -31,7 +30,6 @@ import java.util.List;
 import java.util.Optional;
 
 import static com.qinweizhao.blog.model.support.HaloConst.DEFAULT_ERROR_PATH;
-import static com.qinweizhao.blog.model.support.HaloConst.DEFAULT_THEME_ID;
 
 /**
  * Theme service implementation.
@@ -73,25 +71,24 @@ public class ThemeServiceImpl implements ThemeService {
 
 
     @Override
-    public ThemeProperty getThemeOfNonNullBy(String themeId) {
-        return fetchThemePropertyBy(themeId).orElseThrow(() -> new NotFoundException(themeId + " 主题不存在或已删除！").setErrorData(themeId));
+    public ThemeProperty getThemeOfNonNullBy() {
+        return fetchThemePropertyBy().orElseThrow(() -> new NotFoundException(" 主题不存在或已删除！"));
     }
 
-    public Optional<ThemeProperty> fetchThemePropertyBy(String themeId) {
-        if (StringUtils.isBlank(themeId)) {
-            return Optional.empty();
-        }
+    public Optional<ThemeProperty> fetchThemePropertyBy() {
 
         // Get all themes
         List<ThemeProperty> themes = getThemes();
 
         // filter and find first
-        return themes.stream()
-                .filter(themeProperty -> StringUtils.equals(themeProperty.getId(), themeId))
-                .findFirst();
+        return themes.stream().findFirst();
     }
 
-
+    /**
+     * 获取所有主题配置
+     *
+     * @return List
+     */
     public List<ThemeProperty> getThemes() {
         ThemeProperty[] themeProperties = cacheStore.getAny(THEMES_CACHE_KEY, ThemeProperty[].class).orElseGet(() -> {
             List<ThemeProperty> properties = ThemePropertyScanner.INSTANCE.scan(getBasePath(), getActivatedThemeId());
@@ -119,17 +116,7 @@ public class ThemeServiceImpl implements ThemeService {
 
     @Override
     public String getActivatedThemeId() {
-//        if (activatedThemeId == null) {
-//            synchronized (this) {
-//                if (activatedThemeId == null) {
-//                    activatedThemeId = optionService.getByPropertyOrDefault(PrimaryProperties.THEME, String.class, DEFAULT_THEME_ID);
-//                }
-//            }
-//        }
-//        String activatedThemeId = this.activatedThemeId;
-//        assert activatedThemeId != null;
-//        return activatedThemeId;
-        return DEFAULT_THEME_ID;
+        return myBlogProperties.getThemeId();
     }
 
 //
@@ -328,15 +315,14 @@ public class ThemeServiceImpl implements ThemeService {
 
     @Override
     public Optional<ThemeProperty> fetchActivatedTheme() {
-        return fetchThemePropertyBy(getActivatedThemeId());
+        return fetchThemePropertyBy();
     }
 
     @Override
-    public List<Group> fetchConfig(String themeId) {
-        Assert.hasText(themeId, "主题 ID 不能为空");
+    public List<Group> fetchConfig() {
 
         // Get theme property
-        ThemeProperty themeProperty = getThemeOfNonNullBy(themeId);
+        ThemeProperty themeProperty = getThemeOfNonNullBy();
 
         if (!themeProperty.isHasOptions()) {
             // If this theme dose not has an option, then return empty list
@@ -607,7 +593,7 @@ public class ThemeServiceImpl implements ThemeService {
      * @param absoluteName must not be blank
      */
     private void checkDirectory(String absoluteName) {
-        ThemeProperty activeThemeProperty = getThemeOfNonNullBy(getActivatedThemeId());
+        ThemeProperty activeThemeProperty = getThemeOfNonNullBy();
         FileUtils.checkDirectoryTraversal(activeThemeProperty.getThemePath(), absoluteName);
     }
 
