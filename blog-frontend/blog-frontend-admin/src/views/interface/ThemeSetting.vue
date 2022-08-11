@@ -26,8 +26,8 @@ import { PageView } from '@/layouts'
 import ThemeLocalUpgradeModal from './components/ThemeLocalUpgradeModal'
 import ThemeSettingForm from './components/ThemeSettingForm'
 
-// utils
-import apiClient from '@/utils/api-client'
+// api
+import themeApi from '@/api/theme'
 
 export default {
   name: 'ThemeSetting',
@@ -62,11 +62,11 @@ export default {
       try {
         this.theme.loading = true
         if (themeId) {
-          const { data } = await apiClient.theme.get(themeId)
-          this.theme.current = data
+          const { data } = await themeApi.getProperty(themeId)
+          this.theme.current = data.data
         } else {
-          const { data } = await apiClient.theme.getActivatedTheme()
-          this.theme.current = data
+          const { data } = await themeApi.getActivatedTheme()
+          this.theme.current = data.data
         }
       } finally {
         this.theme.loading = false

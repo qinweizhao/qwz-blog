@@ -71,14 +71,14 @@ themeApi.delete = (key, deleteSettings) => {
   })
 }
 
-themeApi.fetchConfiguration = themeId => {
+themeApi.listConfigurations = themeId => {
   return service({
     url: `${baseUrl}/${themeId}/configurations`,
     method: 'get'
   })
 }
 
-themeApi.fetchSettings = themeId => {
+themeApi.listSettings = themeId => {
   return service({
     url: `${baseUrl}/${themeId}/settings`,
     method: 'get'

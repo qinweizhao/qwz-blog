@@ -59,7 +59,7 @@
               v-model="form.settings[item.name]"
               :defaultValue="item.defaultValue"
             >
-              <a-radio v-for="(config, radioIndex) in item.options" :key="radioIndex" :value="option.value">
+              <a-radio v-for="(config, radioIndex) in item.options" :key="radioIndex" :value="config.value">
                 {{ config.label }}
               </a-radio>
             </a-radio-group>
@@ -68,7 +68,7 @@
               v-model="form.settings[item.name]"
               :defaultValue="item.defaultValue"
             >
-              <a-select-option v-for="config in item.options" :key="option.value" :value="option.value">
+              <a-select-option v-for="config in item.options" :key="config.value" :value="config.value">
                 {{ config.label }}
               </a-select-option>
             </a-select>
@@ -126,7 +126,8 @@
 import Verte from 'verte'
 import 'verte/dist/verte.css'
 
-import apiClient from '@/utils/api-client'
+// api
+import themeApi from '@/api/theme'
 
 export default {
   name: 'ThemeSettingForm',
@@ -171,9 +172,8 @@ export default {
   methods: {
     async handleGetConfigurations() {
       try {
-        const { data } = await apiClient.theme.listConfigurations(this.theme.id)
-        this.form.configurations = data
-
+        const { data } = await themeApi.listConfigurations(this.theme.id)
+        this.form.configurations = data.data
         await this.handleGetSettings()
       } catch (error) {
         this.$log.error(error)
@@ -181,8 +181,8 @@ export default {
     },
     async handleGetSettings() {
       try {
-        const { data } = await apiClient.theme.listSettings(this.theme.id)
-        this.form.settings = data
+        const { data } = await themeApi.listSettings(this.theme.id)
+        this.form.settings = data.data
       } catch (error) {
         this.$log.error(error)
       }
@@ -190,7 +190,7 @@ export default {
     async handleSaveSettings() {
       try {
         this.form.saving = true
-        await apiClient.theme.saveSettings(this.theme.id, this.form.settings)
+        await themeApi.saveSettings(this.theme.id, this.form.settings)
       } catch (error) {
         this.$log.error(error)
         this.form.saveErrored = true

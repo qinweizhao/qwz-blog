@@ -90,11 +90,11 @@ public class PostModel {
             model.addAttribute("meta_description", postService.generateDescription(post.getFormatContent()));
         }
 
-        model.addAttribute("is_post", true);
+//        model.addAttribute("is_post", true);
         model.addAttribute("post", post);
-        model.addAttribute("categories", post.getCategories());
-        model.addAttribute("tags", tags);
-        model.addAttribute("metas", post.getMetas());
+//        model.addAttribute("categories", post.getCategories());
+//        model.addAttribute("tags", tags);
+//        model.addAttribute("metas", post.getMetas());
 
         return themeService.render("post");
     }
