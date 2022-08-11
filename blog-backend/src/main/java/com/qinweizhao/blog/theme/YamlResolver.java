@@ -12,12 +12,15 @@ import org.springframework.lang.NonNull;
  */
 public enum YamlResolver {
 
+    /**
+     * 实例
+     */
     INSTANCE;
 
     private final ObjectMapper yamlMapper;
 
     YamlResolver() {
-        // create a default yaml mapper
+        // 创建一个默认的 yaml 映射器
         yamlMapper = new ObjectMapper(new YAMLFactory());
         yamlMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     }

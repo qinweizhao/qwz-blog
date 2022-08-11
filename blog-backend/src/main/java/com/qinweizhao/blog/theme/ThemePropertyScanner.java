@@ -32,16 +32,21 @@ import static com.qinweizhao.blog.service.ThemeService.SETTINGS_NAMES;
 @Slf4j
 public enum ThemePropertyScanner {
 
+    /**
+     * 实例
+     */
     INSTANCE;
 
     /**
-     * Theme property file name.
+     * 主题属性文件名
      */
     private static final String[] THEME_PROPERTY_FILE_NAMES = {"theme.yaml", "theme.yml"};
+
     /**
-     * Theme screenshots name.
+     * 主题截图名称
      */
     private static final String THEME_SCREENSHOTS_NAME = "screenshot";
+
     private final ThemePropertyResolver propertyResolver = new YamlThemePropertyResolver();
 
     /**
@@ -50,8 +55,7 @@ public enum ThemePropertyScanner {
      * @param themePath them path must not be null
      * @return a list of them property
      */
-    @NonNull
-    public List<ThemeProperty> scan(@NonNull Path themePath, @Nullable String activeThemeId) {
+    public List<ThemeProperty> scan( Path themePath, @Nullable String activeThemeId) {
         // create if absent
         try {
             if (Files.notExists(themePath)) {
@@ -95,8 +99,8 @@ public enum ThemePropertyScanner {
      * @param themePath theme path must not be null
      * @return an optional theme property
      */
-    @NonNull
-    public Optional<ThemeProperty> fetchThemeProperty(@NonNull Path themePath) {
+    
+    public Optional<ThemeProperty> fetchThemeProperty( Path themePath) {
         Assert.notNull(themePath, "Theme path must not be null");
 
         Optional<Path> optionalPath = fetchPropertyPath(themePath);
@@ -134,14 +138,14 @@ public enum ThemePropertyScanner {
     }
 
     /**
-     * Gets screenshots file name.
+     * 获取屏幕截图文件名
      *
      * @param themePath theme path must not be null
      * @return screenshots file name or null if the given theme path has not screenshots
      * @throws IOException throws when listing files
      */
-    @NonNull
-    private Optional<String> getScreenshotsFileName(@NonNull Path themePath) throws IOException {
+    
+    private Optional<String> getScreenshotsFileName( Path themePath) throws IOException {
         Assert.notNull(themePath, "Theme path must not be null");
 
         try (Stream<Path> pathStream = Files.list(themePath)) {
@@ -159,8 +163,8 @@ public enum ThemePropertyScanner {
      * @param themePath theme path.
      * @return an optional property path
      */
-    @NonNull
-    private Optional<Path> fetchPropertyPath(@NonNull Path themePath) {
+    
+    private Optional<Path> fetchPropertyPath( Path themePath) {
         Assert.notNull(themePath, "Theme path must not be null");
 
         for (String propertyPathName : THEME_PROPERTY_FILE_NAMES) {
@@ -184,7 +188,7 @@ public enum ThemePropertyScanner {
      * @param themePath theme path must not be null
      * @return true if it has options; false otherwise
      */
-    private boolean hasOptions(@NonNull Path themePath) {
+    private boolean hasOptions( Path themePath) {
         Assert.notNull(themePath, "Path must not be null");
 
         for (String optionsName : SETTINGS_NAMES) {
