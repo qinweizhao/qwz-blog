@@ -2,6 +2,7 @@ package com.qinweizhao.blog.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.IdUtil;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.qinweizhao.blog.exception.AlreadyExistsException;
 import com.qinweizhao.blog.exception.ServiceException;
 import com.qinweizhao.blog.framework.cache.AbstractStringCacheStore;
@@ -384,8 +385,8 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public PostDTO getPrevPost(Integer postId) {
-        Integer id = postMapper.selectPrevIdByIdAndStatus(postId,PostStatus.PUBLISHED);
-        if (ObjectUtils.isEmpty(id)){
+        Integer id = postMapper.selectPrevIdByIdAndStatus(postId, PostStatus.PUBLISHED);
+        if (ObjectUtils.isEmpty(id)) {
             return null;
         }
         return this.getById(id);
@@ -393,11 +394,23 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public PostDTO getNextPost(Integer postId) {
-        Integer id = postMapper.selectNextIdByIdAndStatus(postId,PostStatus.PUBLISHED);
-        if (ObjectUtils.isEmpty(id)){
+        Integer id = postMapper.selectNextIdByIdAndStatus(postId, PostStatus.PUBLISHED);
+        if (ObjectUtils.isEmpty(id)) {
             return null;
         }
         return this.getById(id);
+    }
+
+    @Override
+    public long count() {
+        return postMapper.selectCount(Wrappers.emptyWrapper());
+    }
+
+    @Override
+    public boolean increaseVisit(Integer postId) {
+        Post post = postMapper.selectById(postId);
+        post.setVisits(post.getVisits() + 1);
+        return postMapper.insert(post) > 1;
     }
 
     @Override

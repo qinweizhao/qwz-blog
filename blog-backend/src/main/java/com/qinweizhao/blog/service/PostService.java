@@ -189,4 +189,18 @@ public interface PostService {
      * @return PostDTO
      */
     PostDTO getNextPost(Integer postId);
+
+    /**
+     * 统计个数
+     * @return long
+     */
+    long count();
+
+
+    /**
+     * 增加访问量
+     * @param postId postId
+     * @return boolean
+     */
+    boolean increaseVisit(Integer postId);
 }

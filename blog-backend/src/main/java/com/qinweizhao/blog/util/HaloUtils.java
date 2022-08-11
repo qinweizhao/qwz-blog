@@ -4,7 +4,6 @@ import cn.hutool.core.util.URLUtil;
 import com.qinweizhao.blog.model.support.HaloConst;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
@@ -27,13 +26,13 @@ public class HaloUtils {
     public static final String URL_SEPARATOR = "/";
     private static final String RE_HTML_MARK = "(<[^<]*?>)|(<[\\s]*?/[^<]*?>)|(<[^<]*?/[\\s]*?>)";
 
-    @NonNull
-    public static String ensureBoth(@NonNull String string, @NonNull String bothfix) {
+
+    public static String ensureBoth(String string, String bothfix) {
         return ensureBoth(string, bothfix, bothfix);
     }
 
-    @NonNull
-    public static String ensureBoth(@NonNull String string, @NonNull String prefix, @NonNull String suffix) {
+
+    public static String ensureBoth(String string, String prefix, String suffix) {
         return ensureSuffix(ensurePrefix(string, prefix), suffix);
     }
 
@@ -44,8 +43,8 @@ public class HaloUtils {
      * @param prefix prefix must not be blank
      * @return string contain prefix specified
      */
-    @NonNull
-    public static String ensurePrefix(@NonNull String string, @NonNull String prefix) {
+
+    public static String ensurePrefix(String string, String prefix) {
         Assert.hasText(string, "String must not be blank");
         Assert.hasText(prefix, "Prefix must not be blank");
 
@@ -60,8 +59,8 @@ public class HaloUtils {
      * @param suffix suffix must not be blank
      * @return string contain suffix specified
      */
-    @NonNull
-    public static String ensureSuffix(@NonNull String string, @NonNull String suffix) {
+
+    public static String ensureSuffix(String string, String suffix) {
         Assert.hasText(string, "String must not be blank");
         Assert.hasText(suffix, "Suffix must not be blank");
 
@@ -74,7 +73,7 @@ public class HaloUtils {
      * @param partUrls partial urls must not be empty
      * @return full url
      */
-    public static String compositeHttpUrl(@NonNull String... partUrls) {
+    public static String compositeHttpUrl(String... partUrls) {
         Assert.notEmpty(partUrls, "Partial url must not be blank");
 
         StringBuilder builder = new StringBuilder();
@@ -102,7 +101,7 @@ public class HaloUtils {
      * @param rightSize right size
      * @return desensitization
      */
-    public static String desensitize(@NonNull String plainText, int leftSize, int rightSize) {
+    public static String desensitize(String plainText, int leftSize, int rightSize) {
         Assert.hasText(plainText, "Plain text must not be blank");
 
         if (leftSize < 0) {
@@ -138,7 +137,7 @@ public class HaloUtils {
      * @param pathname full path name must not be blank.
      * @return text with url separator
      */
-    public static String changeFileSeparatorToUrlSeparator(@NonNull String pathname) {
+    public static String changeFileSeparatorToUrlSeparator(String pathname) {
         Assert.hasText(pathname, "Path name must not be blank");
 
         return pathname.replace(FILE_SEPARATOR, "/");
@@ -150,7 +149,7 @@ public class HaloUtils {
      * @param totalSeconds seconds
      * @return formatted time
      */
-    @NonNull
+
     public static String timeFormat(long totalSeconds) {
         if (totalSeconds <= 0) {
             return "0 second";
@@ -194,8 +193,8 @@ public class HaloUtils {
      * @param pluralLabel plural label
      * @return pluralized format
      */
-    @NonNull
-    public static String pluralize(long times, @NonNull String label, @NonNull String pluralLabel) {
+
+    public static String pluralize(long times, String label, String pluralLabel) {
         Assert.hasText(label, "Label must not be blank");
         Assert.hasText(pluralLabel, "Plural label must not be blank");
 
@@ -215,7 +214,7 @@ public class HaloUtils {
      *
      * @return random uuid without dash
      */
-    @NonNull
+
     public static String randomUUIDWithoutDash() {
         return StringUtils.remove(UUID.randomUUID().toString(), '-');
     }
@@ -226,7 +225,7 @@ public class HaloUtils {
      * @param url url can be blank
      * @return initial url
      */
-    @NonNull
+
     public static String initializeUrlIfBlank(@Nullable String url) {
         if (!StringUtils.isBlank(url)) {
             return url;
@@ -240,8 +239,8 @@ public class HaloUtils {
      * @param originalUrl original url
      * @return normalized url.
      */
-    @NonNull
-    public static String normalizeUrl(@NonNull String originalUrl) {
+
+    public static String normalizeUrl(String originalUrl) {
         Assert.hasText(originalUrl, "Original Url must not be blank");
 
         if (StringUtils.startsWithAny(originalUrl, URL_SEPARATOR, HaloConst.PROTOCOL_HTTPS, HaloConst.PROTOCOL_HTTP)
@@ -257,7 +256,7 @@ public class HaloUtils {
      *
      * @return current machine IP address.
      */
-    public static String getMachineIP() {
+    public static String getMachineIp() {
         InetAddress machineAddress;
         try {
             machineAddress = InetAddress.getLocalHost();
