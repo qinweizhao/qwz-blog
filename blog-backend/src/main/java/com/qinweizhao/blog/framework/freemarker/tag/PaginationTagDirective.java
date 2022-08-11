@@ -1,4 +1,4 @@
-package com.qinweizhao.blog.framework.core.freemarker.tag;
+package com.qinweizhao.blog.framework.freemarker.tag;
 
 import cn.hutool.core.util.PageUtil;
 import com.qinweizhao.blog.model.support.HaloConst;

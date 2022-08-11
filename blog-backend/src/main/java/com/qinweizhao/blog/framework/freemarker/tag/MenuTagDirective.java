@@ -1,4 +1,4 @@
-package com.qinweizhao.blog.framework.core.freemarker.tag;
+package com.qinweizhao.blog.framework.freemarker.tag;
 
 import com.qinweizhao.blog.model.properties.PrimaryProperties;
 import com.qinweizhao.blog.model.support.HaloConst;

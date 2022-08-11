@@ -1,4 +1,4 @@
-package com.qinweizhao.blog.framework.core.freemarker.method;
+package com.qinweizhao.blog.framework.freemarker.method;
 
 import cn.hutool.core.util.RandomUtil;
 import freemarker.template.Configuration;
