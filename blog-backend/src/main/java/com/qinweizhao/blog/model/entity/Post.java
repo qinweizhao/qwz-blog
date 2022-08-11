@@ -58,11 +58,6 @@ public class Post extends BaseEntity {
     private Long likes;
 
     /**
-     * 密码
-     */
-    private String password;
-
-    /**
      * 状态
      */
     private Integer status;

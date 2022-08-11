@@ -175,4 +175,18 @@ public interface PostService {
      * @return PostStatus
      */
     PostStatus getStatusById(Integer postId);
+
+    /**
+     * 获取上一个文章(发布状态)
+     * @param postId postId
+     * @return PostDTO
+     */
+    PostDTO getPrevPost(Integer postId);
+
+    /**
+     * 获取下一个文章(发布状态)
+     * @param postId postId
+     * @return PostDTO
+     */
+    PostDTO getNextPost(Integer postId);
 }

@@ -130,6 +130,7 @@ public class HaloConst {
     public final static String API_ACCESS_KEY_QUERY_NAME = "api_access_key";
     public final static String ONE_TIME_TOKEN_QUERY_NAME = "ott";
     public final static String ONE_TIME_TOKEN_HEADER_NAME = "ott";
+
     /**
      * Version constant. (Available in production environment)
      */

@@ -40,8 +40,6 @@ public class PostDTO {
 
     private Boolean disallowComment;
 
-    private String password;
-
     private Integer topPriority;
 
     private Long likes;

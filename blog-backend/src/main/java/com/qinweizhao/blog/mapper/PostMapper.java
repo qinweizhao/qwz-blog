@@ -223,8 +223,27 @@ public interface PostMapper extends BaseMapper<Post> {
 
     /**
      * 获取文章状态
+     *
      * @param postId postId
      * @return PostStatus
      */
     PostStatus selectStatusById(Integer postId);
+
+    /**
+     * 查询下一个文章 id
+     *
+     * @param postId postId
+     * @param status status
+     * @return Integer
+     */
+    Integer selectNextIdByIdAndStatus(@Param("postId") Integer postId, @Param("status") PostStatus status);
+
+    /**
+     * 查询上一个文章 id
+     *
+     * @param postId postId
+     * @param status status
+     * @return Integer
+     */
+    Integer selectPrevIdByIdAndStatus(@Param("postId") Integer postId, @Param("status") PostStatus status);
 }

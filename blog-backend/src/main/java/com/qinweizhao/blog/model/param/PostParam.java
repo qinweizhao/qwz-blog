@@ -39,9 +39,6 @@ public class PostParam {
 
     private Boolean disallowComment = false;
 
-    @Size(max = 255, message = "文章密码的字符长度不能超过 {max}")
-    private String password;
-
     @Size(max = 255, message = "Length of template must not be more than {max}")
     private String template;
 

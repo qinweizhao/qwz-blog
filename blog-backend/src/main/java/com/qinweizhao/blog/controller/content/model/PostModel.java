@@ -25,7 +25,6 @@ import java.util.stream.Collectors;
 /**
  * Post Model
  *
- * @author ryanwang
  * @author qinweizhao
  * @date 2020-01-07
  */
@@ -49,41 +48,37 @@ public class PostModel {
 
     public String content(Integer postId, PostStatus status, String token, Model model) {
 
-        // 草稿和已删除post_password
-        if (PostStatus.RECYCLE.equals(status) || PostStatus.DRAFT.equals(status)) {
+
+        if (PostStatus.RECYCLE.equals(status)) {
             throw new NotFoundException("查询不到该文章的信息");
         }
-        // 如果文章状态为隐私 且 token 为空。
-        if (PostStatus.INTIMATE.equals(status) && StringUtils.isEmpty(token)) {
-            model.addAttribute("postId", postId);
-            return "common/template/post_password";
+
+        if (PostStatus.DRAFT.equals(status) && StringUtils.isEmpty(token)) {
+            throw new NotFoundException("查询不到该文章的信息");
         }
 
-        if (StringUtils.isNotEmpty(token)) {
+        if (PostStatus.DRAFT.equals(status) && StringUtils.isNotEmpty(token)) {
             // 验证 token
             String cachedToken = cacheStore.getAny(token, String.class).orElseThrow(() -> new ForbiddenException("您没有该文章的访问权限"));
             if (!cachedToken.equals(token)) {
-                throw new ForbiddenException("您没有该文章的访问权限");
+                throw new ForbiddenException("预览文章携带的令牌错误");
             }
         }
 
         PostDTO post = postService.getById(postId);
 
-        // add
-        post.setCommentCount(commentMapper.selectCountByPostId(postId));
 
-        //todo 待完善
-        model.addAttribute("prevPost", new PostDTO());
-        model.addAttribute("nextPost", new PostDTO());
-        List<TagDTO> tags = post.getTags();
-        // Generate meta keywords.
+        model.addAttribute("prevPost", postService.getPrevPost(postId));
+        model.addAttribute("nextPost", postService.getNextPost(postId));
+
+
         if (StringUtils.isNotEmpty(post.getMetaKeywords())) {
             model.addAttribute("meta_keywords", post.getMetaKeywords());
         } else {
+            List<TagDTO> tags = post.getTags();
             model.addAttribute("meta_keywords", tags.stream().map(TagDTO::getName).collect(Collectors.joining(",")));
         }
 
-        // Generate meta description.
         if (StringUtils.isNotEmpty(post.getMetaDescription())) {
             model.addAttribute("meta_description", post.getMetaDescription());
         } else {

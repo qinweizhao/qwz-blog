@@ -4,7 +4,6 @@
   <@headInfo.head title="首页" type="index"/>
   <#import "template/macro/tail.ftl" as tailInfo>
   <body>
-  2222222222222
     <div id="Joe">
       <#include "template/common/navbar.ftl">
       <div class="joe_container joe_main_container page-index${settings.enable_show_in_up?then(' animated showInUp','')}${(settings.aside_position=='left')?then(' revert','')}">

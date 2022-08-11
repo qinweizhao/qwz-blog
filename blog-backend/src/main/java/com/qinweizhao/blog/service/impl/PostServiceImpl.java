@@ -33,6 +33,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.ObjectUtils;
 
 import java.time.LocalDateTime;
 import java.util.*;
@@ -136,10 +137,6 @@ public class PostServiceImpl implements PostService {
 
         String originalContent = param.getOriginalContent();
 
-        if (StringUtils.isNotEmpty(post.getPassword()) && param.getStatus() != PostStatus.DRAFT) {
-            post.setStatus(PostStatus.INTIMATE.getValue());
-        }
-
         originalContent = HaloUtils.cleanHtmlTag(originalContent);
         post.setWordCount((long) originalContent.length());
         postMapper.insert(post);
@@ -234,6 +231,11 @@ public class PostServiceImpl implements PostService {
     }
 
 
+    /**
+     * 文章别名必须唯一
+     *
+     * @param post post
+     */
     private void slugMustNotExist(Post post) {
 
         boolean exist;
@@ -381,6 +383,24 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
+    public PostDTO getPrevPost(Integer postId) {
+        Integer id = postMapper.selectPrevIdByIdAndStatus(postId,PostStatus.PUBLISHED);
+        if (ObjectUtils.isEmpty(id)){
+            return null;
+        }
+        return this.getById(id);
+    }
+
+    @Override
+    public PostDTO getNextPost(Integer postId) {
+        Integer id = postMapper.selectNextIdByIdAndStatus(postId,PostStatus.PUBLISHED);
+        if (ObjectUtils.isEmpty(id)){
+            return null;
+        }
+        return this.getById(id);
+    }
+
+    @Override
     public PostDTO getById(Integer postId) {
 
         Post post = postMapper.selectById(postId);
@@ -408,6 +428,9 @@ public class PostServiceImpl implements PostService {
         postDTO.setCategories(categories);
 
         postDTO.setFullPath(buildFullPath(post.getId()));
+
+        postDTO.setCommentCount(commentMapper.selectCountByPostId(postId));
+
 
         return postDTO;
     }

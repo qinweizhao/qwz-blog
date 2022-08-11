@@ -32,8 +32,6 @@ public class PostSimpleDTO {
 
     private Boolean disallowComment;
 
-    private String password;
-
     private Integer topPriority;
 
     private Long likes;
