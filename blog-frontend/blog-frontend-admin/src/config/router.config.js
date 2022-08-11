@@ -80,31 +80,16 @@ export const asyncRouterMap = [
       {
         path: '/menus',
         name: 'MenuList',
-        component: () => import('@/views/interface/MenuList'),
+        component: () => import('@/views/menu/MenuList'),
         meta: { title: '菜单', icon: 'menu', hiddenHeaderContent: false }
       },
 
-      // interface
+      // theme
       {
-        path: '/interface',
-        name: 'Interface',
-        component: BlankLayout,
-        redirect: '/interface/themes/setting',
-        meta: { title: '主题', icon: 'skin' },
-        children: [
-          {
-            path: '/interface/themes/setting',
-            name: 'ThemeSetting',
-            component: () => import('@/views/interface/ThemeSetting'),
-            meta: { title: '设置', hiddenHeaderContent: false }
-          },
-          {
-            path: '/interface/themes/edit',
-            name: 'ThemeEdit',
-            component: () => import('@/views/interface/ThemeEdit'),
-            meta: { title: '编辑', hiddenHeaderContent: false }
-          }
-        ]
+        path: '/theme',
+        name: 'ThemeSetting',
+        component: () => import('@/views/theme/ThemeSetting'),
+        meta: { title: '主题', icon: 'skin' }
       },
 
       // user
