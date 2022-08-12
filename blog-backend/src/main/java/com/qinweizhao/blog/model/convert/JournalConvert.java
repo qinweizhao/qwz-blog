@@ -59,4 +59,12 @@ public interface JournalConvert {
         journal.setType(type);
         return journal;
     }
+
+    /**
+     * convert
+     *
+     * @param journal journal
+     * @return JournalDTO
+     */
+    JournalDTO convert(Journal journal);
 }

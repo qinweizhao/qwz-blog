@@ -2,6 +2,7 @@ package com.qinweizhao.blog.model.dto;
 
 import com.qinweizhao.blog.model.core.BaseTree;
 import com.qinweizhao.blog.model.enums.CommentStatus;
+import com.qinweizhao.blog.model.enums.CommentType;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -20,6 +21,8 @@ import java.time.LocalDateTime;
 public class CommentDTO extends BaseTree<CommentDTO> {
 
     private Long id;
+
+    private CommentType type;
 
     private Integer targetId;
 

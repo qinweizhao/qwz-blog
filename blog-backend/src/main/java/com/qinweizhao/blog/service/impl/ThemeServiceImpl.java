@@ -286,20 +286,10 @@ public class ThemeServiceImpl implements ThemeService {
 //    @Override
 //    @NonNull
 
-//
-//    @Override
-//    @NonNull
-//    public ThemeProperty getActivatedTheme() {
-//        if (activatedTheme == null) {
-//            synchronized (this) {
-//                if (activatedTheme == null) {
-//                    // Get theme property
-//                    activatedTheme = getThemeOfNonNullBy(getActivatedThemeId());
-//                }
-//            }
-//        }
-//        return activatedTheme;
-//    }
+
+    public ThemeProperty getActivatedTheme() {
+        return getThemeOfNonNullBy();
+    }
 //
 //    /**
 //     * 设置激活的主题
@@ -359,6 +349,14 @@ public class ThemeServiceImpl implements ThemeService {
         return fetchActivatedTheme()
                 .map(themeProperty -> String.format(RENDER_TEMPLATE, themeProperty.getFolderName(), pageName))
                 .orElse(DEFAULT_ERROR_PATH);
+    }
+
+    @Override
+    public String renderWithSuffix(String pageName) {
+        // Get activated theme
+        ThemeProperty activatedTheme = getActivatedTheme();
+        // Build render url
+        return String.format(RENDER_TEMPLATE_SUFFIX, activatedTheme.getFolderName(), pageName);
     }
 //
 //    @Override

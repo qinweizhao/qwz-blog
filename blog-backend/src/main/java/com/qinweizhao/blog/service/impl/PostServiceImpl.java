@@ -457,6 +457,14 @@ public class PostServiceImpl implements PostService {
         return postDTO;
     }
 
+    @Override
+    public PostSimpleDTO getSimpleById(Integer postId) {
+        Post post = postMapper.selectById(postId);
+        PostSimpleDTO result = PostConvert.INSTANCE.convertSimpleDTO(post);
+        result.setFullPath(buildFullPath(post.getId()));
+        return result;
+    }
+
 
     @Override
     public PostDTO getBySlugAndStatus(PostStatus published, String slug) {

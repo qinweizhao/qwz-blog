@@ -55,4 +55,10 @@ public interface JournalService {
     Long count();
 
 
+    /**
+     * 获取评论
+     * @param targetId targetId
+     * @return JournalDTO
+     */
+    JournalDTO getById(Integer targetId);
 }

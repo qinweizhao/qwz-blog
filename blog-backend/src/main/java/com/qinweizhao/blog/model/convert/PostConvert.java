@@ -119,4 +119,12 @@ public interface PostConvert {
      * @return List
      */
     List<PostListDTO> convertToListVO(List<PostSimpleDTO> postList);
+
+    /**
+     * convertSimpleDTO
+     *
+     * @param post post
+     * @return PostSimpleDTO
+     */
+    PostSimpleDTO convertSimpleDTO(Post post);
 }

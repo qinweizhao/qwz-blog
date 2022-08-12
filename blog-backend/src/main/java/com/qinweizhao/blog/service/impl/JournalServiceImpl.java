@@ -65,5 +65,11 @@ public class JournalServiceImpl implements JournalService {
         return journalMapper.selectCount(Wrappers.emptyWrapper());
     }
 
+    @Override
+    public JournalDTO getById(Integer journalId) {
+        Journal journal = journalMapper.selectById(journalId);
+        return JournalConvert.INSTANCE.convert(journal);
+    }
+
 
 }

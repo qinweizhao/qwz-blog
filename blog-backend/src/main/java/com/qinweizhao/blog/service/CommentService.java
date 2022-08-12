@@ -123,4 +123,11 @@ public interface CommentService {
      */
     List<CommentDTO> listLatest(CommentQueryParam param);
 
+    /**
+     * 获取评论
+     * @param commentId commentId
+     * @return CommentDTO
+     */
+    CommentDTO getById(Long commentId);
+
 }

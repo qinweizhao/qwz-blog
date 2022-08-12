@@ -273,6 +273,13 @@ public interface ThemeService {
      */
     String render(String pageName);
 
+    /**
+     * 渲染指定页面
+     * @param pageName pageName
+     * @return String
+     */
+    String renderWithSuffix(String pageName);
+
 //
 //    /**
 //     * Actives a theme.

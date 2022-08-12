@@ -266,6 +266,12 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
+    public CommentDTO getById(Long commentId) {
+        Comment comment = commentMapper.selectById(commentId);
+        return CommentConvert.INSTANCE.convert(comment);
+    }
+
+    @Override
     public boolean removeById(Long commentId) {
 
         Comment comment = commentMapper.selectById(commentId);

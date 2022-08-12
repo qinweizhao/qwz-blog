@@ -31,6 +31,15 @@ public interface PostService {
      */
     PostDTO getById(Integer postId);
 
+
+    /**
+     * 详情
+     *
+     * @param postId postId
+     * @return PostDetailDTO
+     */
+    PostSimpleDTO getSimpleById(Integer postId);
+
     /**
      * 获取详情
      *
