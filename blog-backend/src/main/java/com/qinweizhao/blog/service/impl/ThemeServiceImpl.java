@@ -67,11 +67,13 @@ public class ThemeServiceImpl implements ThemeService {
      * @return List
      */
     public ThemeProperty getThemes() {
+
         return cacheStore.getAny(THEMES_CACHE_KEY, ThemeProperty.class).orElseGet(() -> {
-            List<ThemeProperty> properties = ThemePropertyScanner.INSTANCE.scan(getBasePath(), getActivatedThemeId());
+            // 扫描配置，为防止报异常，如果存在多个只会取扫描的第一个。
+            ThemeProperty properties = ThemePropertyScanner.INSTANCE.scan(getBasePath());
             // Cache the themes
             cacheStore.putAny(THEMES_CACHE_KEY, properties);
-            return new ThemeProperty();
+            return properties;
         });
     }
 
@@ -86,12 +88,6 @@ public class ThemeServiceImpl implements ThemeService {
         } else {
             return Paths.get(myBlogProperties.getWorkDir(), "blog-frontend");
         }
-    }
-
-
-    @Override
-    public String getActivatedThemeId() {
-        return myBlogProperties.getThemeId();
     }
 
     @Override

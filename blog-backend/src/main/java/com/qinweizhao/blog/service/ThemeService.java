@@ -92,13 +92,6 @@ public interface ThemeService {
     boolean templateExists(String template);
 
     /**
-     * 获取当前主题 ID
-     *
-     * @return String
-     */
-    String getActivatedThemeId();
-
-    /**
      * 获取主题属性(Optional)
      *
      * @return activated theme property

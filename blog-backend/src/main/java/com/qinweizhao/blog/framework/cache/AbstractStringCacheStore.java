@@ -55,13 +55,11 @@ public abstract class AbstractStringCacheStore extends AbstractCacheStore<String
      * @return T
      */
     public <T> Optional<T> getAny(String key, Class<T> type) {
-        Assert.notNull(type, "Type must not be null");
-
         return get(key).map(value -> {
             try {
                 return JsonUtils.jsonToObject(value, type);
             } catch (IOException e) {
-                log.error("Failed to convert json to type: " + type.getName(), e);
+                log.error("无法将 Json 转换为类型: " + type.getName(), e);
                 return null;
             }
         });

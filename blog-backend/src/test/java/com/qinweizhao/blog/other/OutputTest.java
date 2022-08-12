@@ -8,6 +8,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.util.ResourceUtils;
 
 import java.net.URI;
+import java.util.Collections;
+import java.util.List;
 
 import static com.qinweizhao.blog.model.support.HaloConst.FILE_SEPARATOR;
 import static com.qinweizhao.blog.model.support.HaloConst.USER_HOME;
@@ -63,6 +65,13 @@ public class OutputTest {
 
     }
 
+
+
+    @Test
+    void print(){
+        List<Object> objects = Collections.emptyList();
+        System.out.println(objects);
+    }
 
 
 

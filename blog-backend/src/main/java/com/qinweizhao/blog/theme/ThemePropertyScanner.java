@@ -6,8 +6,6 @@ import com.qinweizhao.blog.framework.handler.theme.config.support.ThemeProperty;
 import com.qinweizhao.blog.util.FilenameUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.lang.NonNull;
-import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 
@@ -50,20 +48,20 @@ public enum ThemePropertyScanner {
     private final ThemePropertyResolver propertyResolver = new YamlThemePropertyResolver();
 
     /**
-     * Scan theme properties.
+     * 扫描主题属性 todo
      *
      * @param themePath them path must not be null
      * @return a list of them property
      */
-    public List<ThemeProperty> scan( Path themePath, @Nullable String activeThemeId) {
-        // create if absent
+    public ThemeProperty scan(Path themePath) {
+        // 不存在就创建
         try {
             if (Files.notExists(themePath)) {
                 Files.createDirectories(themePath);
             }
         } catch (IOException e) {
             log.error("Failed to create directory: " + themePath, e);
-            return Collections.emptyList();
+            return new ThemeProperty();
         }
         try (Stream<Path> pathStream = Files.list(themePath)) {
             // List and filter sub folders
@@ -71,7 +69,7 @@ public enum ThemePropertyScanner {
                     .collect(Collectors.toList());
 
             if (CollectionUtils.isEmpty(themePaths)) {
-                return Collections.emptyList();
+                return new ThemeProperty();
             }
 
             // Get theme properties
@@ -80,16 +78,14 @@ public enum ThemePropertyScanner {
                     .filter(Optional::isPresent)
                     .map(Optional::get)
                     .peek(themeProperty -> {
-                        if (StringUtils.equals(activeThemeId, themeProperty.getId())) {
-                            themeProperty.setActivated(true);
-                        }
+                        themeProperty.setActivated(true);
                     })
                     .toArray(ThemeProperty[]::new);
             // Cache the themes
-            return Arrays.asList(properties);
+            return properties[0];
         } catch (IOException e) {
             log.error("Failed to get themes", e);
-            return Collections.emptyList();
+            return new ThemeProperty();
         }
     }
 
@@ -99,8 +95,8 @@ public enum ThemePropertyScanner {
      * @param themePath theme path must not be null
      * @return an optional theme property
      */
-    
-    public Optional<ThemeProperty> fetchThemeProperty( Path themePath) {
+
+    public Optional<ThemeProperty> fetchThemeProperty(Path themePath) {
         Assert.notNull(themePath, "Theme path must not be null");
 
         Optional<Path> optionalPath = fetchPropertyPath(themePath);
@@ -144,8 +140,8 @@ public enum ThemePropertyScanner {
      * @return screenshots file name or null if the given theme path has not screenshots
      * @throws IOException throws when listing files
      */
-    
-    private Optional<String> getScreenshotsFileName( Path themePath) throws IOException {
+
+    private Optional<String> getScreenshotsFileName(Path themePath) throws IOException {
         Assert.notNull(themePath, "Theme path must not be null");
 
         try (Stream<Path> pathStream = Files.list(themePath)) {
@@ -163,8 +159,8 @@ public enum ThemePropertyScanner {
      * @param themePath theme path.
      * @return an optional property path
      */
-    
-    private Optional<Path> fetchPropertyPath( Path themePath) {
+
+    private Optional<Path> fetchPropertyPath(Path themePath) {
         Assert.notNull(themePath, "Theme path must not be null");
 
         for (String propertyPathName : THEME_PROPERTY_FILE_NAMES) {
@@ -188,7 +184,7 @@ public enum ThemePropertyScanner {
      * @param themePath theme path must not be null
      * @return true if it has options; false otherwise
      */
-    private boolean hasOptions( Path themePath) {
+    private boolean hasOptions(Path themePath) {
         Assert.notNull(themePath, "Path must not be null");
 
         for (String optionsName : SETTINGS_NAMES) {
