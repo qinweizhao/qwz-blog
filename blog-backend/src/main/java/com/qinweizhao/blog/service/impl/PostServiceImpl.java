@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.qinweizhao.blog.exception.AlreadyExistsException;
 import com.qinweizhao.blog.exception.ServiceException;
 import com.qinweizhao.blog.framework.cache.AbstractStringCacheStore;
+import com.qinweizhao.blog.framework.event.post.PostVisitEvent;
 import com.qinweizhao.blog.mapper.*;
 import com.qinweizhao.blog.model.convert.MetaConvert;
 import com.qinweizhao.blog.model.convert.PostConvert;
@@ -29,6 +30,7 @@ import com.qinweizhao.blog.util.ServiceUtils;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -83,7 +85,9 @@ public class PostServiceImpl implements PostService {
 
     private final MetaService metaService;
 
-    private AbstractStringCacheStore cacheStore;
+    private final AbstractStringCacheStore cacheStore;
+
+    private final ApplicationEventPublisher eventPublisher;
 
     @Override
     public PageResult<PostListDTO> page(PostQueryParam param) {
@@ -411,6 +415,11 @@ public class PostServiceImpl implements PostService {
         Post post = postMapper.selectById(postId);
         post.setVisits(post.getVisits() + 1);
         return postMapper.insert(post) > 1;
+    }
+
+    @Override
+    public void publishVisitEvent(Integer postId) {
+        eventPublisher.publishEvent(new PostVisitEvent(this, postId));
     }
 
     @Override

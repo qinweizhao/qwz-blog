@@ -203,4 +203,10 @@ public interface PostService {
      * @return boolean
      */
     boolean increaseVisit(Integer postId);
+
+    /**
+     * 发送访问事件
+     * @param postId postId
+     */
+    void publishVisitEvent(Integer postId);
 }

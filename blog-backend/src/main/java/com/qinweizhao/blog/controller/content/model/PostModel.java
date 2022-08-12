@@ -91,6 +91,10 @@ public class PostModel {
 //        model.addAttribute("tags", tags);
 //        model.addAttribute("metas", post.getMetas());
 
+        // 发送事件
+        postService.publishVisitEvent(post.getId());
+
+
         return themeService.render("post");
     }
 
