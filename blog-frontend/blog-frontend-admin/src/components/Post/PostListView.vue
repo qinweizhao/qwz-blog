@@ -741,8 +741,8 @@ export default {
     },
 
     handlePreview(postId) {
-      apiClient.post.getPreviewLinkById(postId).then(response => {
-        window.open(response, '_blank')
+      postApi.preview(postId).then(response => {
+        window.open(response.data, '_blank')
       })
     },
 

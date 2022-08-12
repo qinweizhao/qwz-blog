@@ -291,7 +291,7 @@ public class PostServiceImpl implements PostService {
 
         previewUrl.append("&token=")
                 .append(token);
-        // build preview post url and return
+
         return previewUrl.toString();
     }
 
