@@ -131,6 +131,11 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
+    public PageResult<PostSimpleDTO> pageSimple(PostQueryParam param) {
+        return null;
+    }
+
+    @Override
     @Transactional(rollbackFor = Exception.class)
     public boolean save(PostParam param) {
         Post post = PostConvert.INSTANCE.convert(param);
@@ -414,7 +419,7 @@ public class PostServiceImpl implements PostService {
     public boolean increaseVisit(Integer postId) {
         Post post = postMapper.selectById(postId);
         post.setVisits(post.getVisits() + 1);
-        return postMapper.insert(post) > 1;
+        return postMapper.updateById(post) > 1;
     }
 
     @Override
@@ -462,20 +467,6 @@ public class PostServiceImpl implements PostService {
         Post post = postMapper.selectById(postId);
         PostSimpleDTO result = PostConvert.INSTANCE.convertSimpleDTO(post);
         result.setFullPath(buildFullPath(post.getId()));
-        return result;
-    }
-
-
-    @Override
-    public PostDTO getBySlugAndStatus(PostStatus published, String slug) {
-        Post post = postMapper.selectBySlugAndStatus(slug, published);
-        PostDTO result = PostConvert.INSTANCE.convert(post);
-        // todo
-        Integer postId = post.getId();
-        result.setCommentCount(0L);
-        Content content = contentMapper.selectById(postId);
-        result.setFormatContent(content.getContent());
-        result.setFullPath(optionService.buildFullPath(post.getId()));
         return result;
     }
 

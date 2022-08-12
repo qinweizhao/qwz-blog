@@ -24,6 +24,23 @@ import java.util.List;
 public interface PostService {
 
     /**
+     * 分页
+     *
+     * @param param param
+     * @return PageResult
+     */
+    PageResult<PostListDTO> page(PostQueryParam param);
+
+
+    /**
+     * 分页
+     *
+     * @param param param
+     * @return PageResult
+     */
+    PageResult<PostSimpleDTO> pageSimple(PostQueryParam param);
+
+    /**
      * 详情
      *
      * @param postId postId
@@ -40,14 +57,6 @@ public interface PostService {
      */
     PostSimpleDTO getSimpleById(Integer postId);
 
-    /**
-     * 获取详情
-     *
-     * @param published published
-     * @param slug      slug
-     * @return PostDetailDTO
-     */
-    PostDTO getBySlugAndStatus(PostStatus published, String slug);
 
 
     /**
@@ -79,14 +88,6 @@ public interface PostService {
      * @return List
      */
     List<PostSimpleDTO> listSimple(int top);
-
-    /**
-     * 分页
-     *
-     * @param param param
-     * @return PageResult
-     */
-    PageResult<PostListDTO> page(PostQueryParam param);
 
     /**
      * 新增
