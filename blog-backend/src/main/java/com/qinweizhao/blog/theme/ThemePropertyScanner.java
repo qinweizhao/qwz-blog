@@ -13,8 +13,6 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -45,13 +43,16 @@ public enum ThemePropertyScanner {
      */
     private static final String THEME_SCREENSHOTS_NAME = "screenshot";
 
+    /**
+     * 属性解析器
+     */
     private final ThemePropertyResolver propertyResolver = new YamlThemePropertyResolver();
 
     /**
-     * 扫描主题属性 todo
+     * 扫描主题属性
      *
-     * @param themePath them path must not be null
-     * @return a list of them property
+     * @param themePath themePath
+     * @return ThemeProperty
      */
     public ThemeProperty scan(Path themePath) {
         // 不存在就创建
@@ -60,11 +61,11 @@ public enum ThemePropertyScanner {
                 Files.createDirectories(themePath);
             }
         } catch (IOException e) {
-            log.error("Failed to create directory: " + themePath, e);
+            log.error("创建目录失败: " + themePath, e);
             return new ThemeProperty();
         }
         try (Stream<Path> pathStream = Files.list(themePath)) {
-            // List and filter sub folders
+            // 列出和过滤子文件夹
             List<Path> themePaths = pathStream.filter(Files::isDirectory)
                     .collect(Collectors.toList());
 
@@ -72,32 +73,30 @@ public enum ThemePropertyScanner {
                 return new ThemeProperty();
             }
 
-            // Get theme properties
+            // 获取属性
             ThemeProperty[] properties = themePaths.stream()
                     .map(this::fetchThemeProperty)
                     .filter(Optional::isPresent)
                     .map(Optional::get)
-                    .peek(themeProperty -> {
-                        themeProperty.setActivated(true);
-                    })
+                    .peek(themeProperty -> themeProperty.setActivated(true))
                     .toArray(ThemeProperty[]::new);
-            // Cache the themes
+            // 缓存属性
             return properties[0];
         } catch (IOException e) {
-            log.error("Failed to get themes", e);
+            log.error("获取主题失败", e);
             return new ThemeProperty();
         }
     }
 
     /**
-     * Fetch theme property
+     * 获取主题属性
      *
-     * @param themePath theme path must not be null
-     * @return an optional theme property
+     * @param themePath themePath
+     * @return ThemeProperty
      */
 
     public Optional<ThemeProperty> fetchThemeProperty(Path themePath) {
-        Assert.notNull(themePath, "Theme path must not be null");
+        Assert.notNull(themePath, "主题路径不能为空");
 
         Optional<Path> optionalPath = fetchPropertyPath(themePath);
 
@@ -136,13 +135,13 @@ public enum ThemePropertyScanner {
     /**
      * 获取屏幕截图文件名
      *
-     * @param themePath theme path must not be null
-     * @return screenshots file name or null if the given theme path has not screenshots
-     * @throws IOException throws when listing files
+     * @param themePath themePath
+     * @return 如果给定的主题路径没有截图，则截图文件名或 null
+     * @throws IOException String
      */
 
     private Optional<String> getScreenshotsFileName(Path themePath) throws IOException {
-        Assert.notNull(themePath, "Theme path must not be null");
+        Assert.notNull(themePath, "主题路径不能为空");
 
         try (Stream<Path> pathStream = Files.list(themePath)) {
             return pathStream.filter(path -> Files.isRegularFile(path)

@@ -35,11 +35,12 @@ public class ThemeSettingServiceImpl implements ThemeSettingService {
     private final ThemeService themeService;
 
     private final Configuration configuration;
+
     private final MyBlogProperties blogProperties;
 
     @Override
     public Map<String, Object> getSettings() {
-        // Convert to item map(key: item name, value: item)
+
         Map<String, Item> itemMap = getConfigItemMap();
 
         // Get theme setting
@@ -87,10 +88,9 @@ public class ThemeSettingServiceImpl implements ThemeSettingService {
         if (CollectionUtils.isEmpty(settings)) {
             return false;
         }
-        // Save the settings
+        // 保存配置
         settings.forEach((key, value) -> {
-
-
+            this.saveItem(key,value.toString());
         });
 
         try {
@@ -99,6 +99,16 @@ public class ThemeSettingServiceImpl implements ThemeSettingService {
             throw new ServiceException("主题设置保存失败", e);
         }
         return false;
+    }
+
+    /**
+     * 保存配置
+     * @param key key
+     * @param value value
+     */
+    private void saveItem(String key, String value) {
+
+
     }
 
 

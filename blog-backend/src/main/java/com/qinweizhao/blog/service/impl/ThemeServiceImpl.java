@@ -109,7 +109,7 @@ public class ThemeServiceImpl implements ThemeService {
     @Override
     public List<Group> listConfig() {
 
-        // Get theme property
+        // 获取主题属性
         ThemeProperty themeProperty = getThemeProperty();
 
         if (!themeProperty.isHasOptions()) {
@@ -151,9 +151,9 @@ public class ThemeServiceImpl implements ThemeService {
 
     @Override
     public String renderWithSuffix(String pageName) {
-        // Get activated theme
+        // 获取主题属性
         ThemeProperty activatedTheme = getThemeProperty();
-        // Build render url
+        // 构建渲染地址
         return String.format(RENDER_TEMPLATE_SUFFIX, activatedTheme.getFolderName(), pageName);
     }
 

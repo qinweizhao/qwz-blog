@@ -15,16 +15,6 @@ import java.util.Optional;
  */
 public interface ThemeService {
 
-    /**
-     * 主题属性文件名
-     */
-    String THEME_PROPERTY_FILE_NAME = "theme.yaml";
-
-    /**
-     * 主题属性文件名
-     */
-    String[] THEME_PROPERTY_FILE_NAMES = {"theme.yaml", "theme.yml"};
-
 
     /**
      * 配置文件名

@@ -9,6 +9,7 @@ import java.util.Set;
  * Theme property.
  *
  * @author ryanwang
+ * @author qinweizhao
  * @since 2019-03-22
  */
 @Data
@@ -29,10 +30,6 @@ public class ThemeProperty {
      */
     private String website;
 
-    /**
-     * Theme remote branch.(default is master)
-     */
-    private String branch;
 
     /**
      * Theme repo url.
