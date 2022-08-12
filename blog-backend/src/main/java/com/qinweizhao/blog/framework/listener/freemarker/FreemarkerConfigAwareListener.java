@@ -11,6 +11,7 @@ import com.qinweizhao.blog.service.ThemeSettingService;
 import com.qinweizhao.blog.service.UserService;
 import freemarker.template.Configuration;
 import freemarker.template.TemplateModelException;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.event.ApplicationStartedEvent;
 import org.springframework.context.event.EventListener;
@@ -18,33 +19,24 @@ import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
-
 /**
- * Freemarker config aware listener.
- *
- * @author johnniang
- * @author ryanwang
- * @since 2019-04-20
+ * @author qinweizhao
+ * @since 2022/7/4
  */
 @Slf4j
 @Component
+@AllArgsConstructor
 public class FreemarkerConfigAwareListener {
 
-    @Resource
-    private OptionService optionService;
+    private final OptionService optionService;
 
-    @Resource
-    private Configuration configuration;
+    private final Configuration configuration;
 
-    @Resource
-    private ThemeService themeService;
+    private final ThemeService themeService;
 
-    @Resource
-    private ThemeSettingService themeSettingService;
+    private final ThemeSettingService themeSettingService;
 
-    @Resource
-    private UserService userService;
+    private final UserService userService;
 
     @EventListener
     @Order(Ordered.HIGHEST_PRECEDENCE + 1)
@@ -65,18 +57,18 @@ public class FreemarkerConfigAwareListener {
         loadUserConfig();
     }
 
-    @EventListener
-    public void onOptionUpdate(OptionUpdatedEvent event) throws TemplateModelException {
-        log.debug("Received option updated event时间：{}", event.getTimestamp());
-
-        loadOptionsConfig();
-        loadThemeConfig();
-    }
-
-
     private void loadUserConfig() throws TemplateModelException {
         configuration.setSharedVariable("user", userService.getCurrentUser().orElse(null));
         log.debug("Loaded user");
+    }
+
+
+    @EventListener
+    public void onOptionUpdate(OptionUpdatedEvent event) throws TemplateModelException {
+        log.debug("收到配置更新事件时间：{}", event.getTimestamp());
+
+        loadOptionsConfig();
+        loadThemeConfig();
     }
 
     private void loadOptionsConfig() throws TemplateModelException {
@@ -121,10 +113,10 @@ public class FreemarkerConfigAwareListener {
 
                 configuration.setSharedVariable("settings", themeSettingService.getSettings());
 
-                log.debug("Loaded theme and settings");
+                log.debug("加载主题和设置");
             } catch (TemplateModelException e) {
 
-                log.error("Failed to set shared variable!", e);
+                log.error("设置共享变量失败!", e);
 
             }
         });
