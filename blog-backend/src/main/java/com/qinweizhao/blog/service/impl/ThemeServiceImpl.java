@@ -7,8 +7,6 @@ import com.qinweizhao.blog.framework.cache.AbstractStringCacheStore;
 import com.qinweizhao.blog.framework.handler.theme.config.ThemeConfigResolver;
 import com.qinweizhao.blog.framework.handler.theme.config.support.Group;
 import com.qinweizhao.blog.framework.handler.theme.config.support.ThemeProperty;
-import com.qinweizhao.blog.mapper.ThemeSettingMapper;
-import com.qinweizhao.blog.service.OptionService;
 import com.qinweizhao.blog.service.ThemeService;
 import com.qinweizhao.blog.theme.ThemePropertyScanner;
 import com.qinweizhao.blog.util.FileUtils;
@@ -40,15 +38,11 @@ import static com.qinweizhao.blog.model.support.HaloConst.DEFAULT_ERROR_PATH;
 @AllArgsConstructor
 public class ThemeServiceImpl implements ThemeService {
 
-    private final OptionService optionService;
-
     private final MyBlogProperties myBlogProperties;
 
     private final ThemeConfigResolver themeConfigResolver;
 
     private final AbstractStringCacheStore cacheStore;
-
-    private final ThemeSettingMapper themeSettingMapper;
 
 
     @Override
@@ -71,7 +65,7 @@ public class ThemeServiceImpl implements ThemeService {
         return cacheStore.getAny(THEMES_CACHE_KEY, ThemeProperty.class).orElseGet(() -> {
             // 扫描配置，为防止报异常，如果存在多个只会取扫描的第一个。
             ThemeProperty properties = ThemePropertyScanner.INSTANCE.scan(getBasePath());
-            // Cache the themes
+            // 缓存主题配置
             cacheStore.putAny(THEMES_CACHE_KEY, properties);
             return properties;
         });

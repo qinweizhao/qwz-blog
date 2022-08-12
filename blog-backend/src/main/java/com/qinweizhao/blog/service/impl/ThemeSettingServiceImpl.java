@@ -44,7 +44,7 @@ public class ThemeSettingServiceImpl implements ThemeSettingService {
 
         Map<String, Item> itemMap = getConfigItemMap();
 
-        // Get theme setting
+        // 获取主题配置
         List<ThemeSetting> themeSettings = themeSettingMapper.selectList(Wrappers.emptyWrapper());
 
         Map<String, Object> result = new LinkedHashMap<>();
@@ -60,7 +60,7 @@ public class ThemeSettingServiceImpl implements ThemeSettingService {
             }
 
             Object convertedValue = item.getDataType().convertTo(themeSetting.getSettingValue());
-            log.debug("Converted user-defined data from [{}] to [{}], type: [{}]", themeSetting.getSettingValue(), convertedValue, item.getDataType());
+            log.debug("将用户定义的数据从 [{}] 转换为 [{}], 类型: [{}]", themeSetting.getSettingValue(), convertedValue, item.getDataType());
 
             result.put(key, convertedValue);
         });
@@ -75,7 +75,7 @@ public class ThemeSettingServiceImpl implements ThemeSettingService {
 
             // 设置默认值
             Object convertedDefaultValue = item.getDataType().convertTo(item.getDefaultValue());
-            log.debug("Converted pre-defined data from [{}] to [{}], type: [{}]", item.getDefaultValue(), convertedDefaultValue, item.getDataType());
+            log.debug("将预定义数据来自 [{}] 转换为 [{}], 类型: [{}]", item.getDefaultValue(), convertedDefaultValue, item.getDataType());
 
             result.put(name, convertedDefaultValue);
         });
