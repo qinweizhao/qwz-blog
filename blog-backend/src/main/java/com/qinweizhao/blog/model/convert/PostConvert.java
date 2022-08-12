@@ -64,6 +64,14 @@ public interface PostConvert {
     List<PostSimpleDTO> convertToSimpleDTO(List<Post> posts);
 
     /**
+     * convertSimpleDTO
+     *
+     * @param post post
+     * @return PostSimpleDTO
+     */
+    PostSimpleDTO convertSimpleDTO(Post post);
+
+    /**
      * statusToInteger
      *
      * @param status status
@@ -104,13 +112,7 @@ public interface PostConvert {
         return ValueEnum.valueToEnum(PostStatus.class, status);
     }
 
-    /**
-     * convertListDTO
-     *
-     * @param post post
-     * @return PostListDTO
-     */
-    PostListDTO convertListDTO(Post post);
+
 
     /**
      * convertToListVO
@@ -120,11 +122,5 @@ public interface PostConvert {
      */
     List<PostListDTO> convertToListVO(List<PostSimpleDTO> postList);
 
-    /**
-     * convertSimpleDTO
-     *
-     * @param post post
-     * @return PostSimpleDTO
-     */
-    PostSimpleDTO convertSimpleDTO(Post post);
+
 }

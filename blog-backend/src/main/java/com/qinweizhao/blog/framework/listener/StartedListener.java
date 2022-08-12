@@ -2,6 +2,7 @@ package com.qinweizhao.blog.framework.listener;
 
 import com.qinweizhao.blog.config.properties.MyBlogProperties;
 import com.qinweizhao.blog.service.OptionService;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.boot.ansi.AnsiColor;
@@ -12,7 +13,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 
-import javax.annotation.Resource;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -28,14 +28,13 @@ import java.nio.file.Paths;
  */
 @Slf4j
 @Configuration
+@AllArgsConstructor
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class StartedListener implements ApplicationListener<ApplicationStartedEvent> {
 
-    @Resource
-    private MyBlogProperties myBlogProperties;
+    private final MyBlogProperties myBlogProperties;
 
-    @Resource
-    private OptionService optionService;
+    private final OptionService optionService;
 
     @Override
     public void onApplicationEvent(@NotNull ApplicationStartedEvent event) {
@@ -43,6 +42,9 @@ public class StartedListener implements ApplicationListener<ApplicationStartedEv
         this.printStartInfo();
     }
 
+    /**
+     * 打印开始信息
+     */
     private void printStartInfo() {
         String blogUrl = optionService.getBlogBaseUrl();
         log.info(AnsiOutput.toString(AnsiColor.BRIGHT_BLUE, "Blog started at         ", blogUrl));
@@ -50,6 +52,9 @@ public class StartedListener implements ApplicationListener<ApplicationStartedEv
         log.info(AnsiOutput.toString(AnsiColor.BRIGHT_YELLOW, "Blog has started successfully!"));
     }
 
+    /**
+     * 初始化目录
+     */
     private void initDirectory() {
         Path workPath = Paths.get(myBlogProperties.getWorkDir());
         try {

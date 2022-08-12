@@ -39,7 +39,7 @@ public class ThemeSettingServiceImpl implements ThemeSettingService {
     private final MyBlogProperties blogProperties;
 
     @Override
-    public Map<String, Object> listMap(String themeId) {
+    public Map<String, Object> getSettings() {
         // Convert to item map(key: item name, value: item)
         Map<String, Item> itemMap = getConfigItemMap();
 

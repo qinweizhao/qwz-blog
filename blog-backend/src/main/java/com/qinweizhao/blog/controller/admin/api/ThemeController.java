@@ -13,7 +13,6 @@ import java.util.Map;
 /**
  * Theme controller.
  *
- * @author ryanwang
  * @author qinweizhao
  * @date 2019-03-20
  */
@@ -27,48 +26,35 @@ public class ThemeController {
     private final ThemeSettingService themeSettingService;
 
     /**
-     * 通过主题 id 获取主题属性
-     *
-     * @param themeId themeId
-     * @return ThemeProperty
-     */
-    @GetMapping("{themeId}")
-    public ThemeProperty get(@PathVariable("themeId") String themeId) {
-        return themeService.getThemeOfNonNullBy();
-    }
-
-
-    /**
-     * 获取激活主题
+     * 获取主题属性
      *
      * @return ThemeProperty
      */
-    @GetMapping("activation")
-    public ThemeProperty getActivateTheme() {
-        return themeService.getThemeOfNonNullBy();
+    @GetMapping
+    public ThemeProperty getProperty() {
+        return themeService.getThemeProperty();
     }
+
 
     /**
      * 主题配置
      *
-     * @param themeId themeId
      * @return List
      */
-    @GetMapping("{themeId}/configurations")
-    public List<Group> fetchConfig(@PathVariable("themeId") String themeId) {
+    @GetMapping("configurations")
+    public List<Group> listConfigurations() {
         return themeService.fetchConfig();
     }
 
 
     /**
-     * 按主题 ID 列出主题设置
+     * 主题设置
      *
-     * @param themeId themeId
      * @return Map
      */
-    @GetMapping("{themeId}/settings")
-    public Map<String, Object> listSetting(@PathVariable("themeId") String themeId) {
-        return themeSettingService.listMap(themeId);
+    @GetMapping("settings")
+    public Map<String, Object> setting() {
+        return themeSettingService.getSettings();
     }
 
     /**
@@ -76,27 +62,11 @@ public class ThemeController {
      *
      * @param settings settings
      */
-    @PostMapping("activation/settings")
-    public Boolean saveSettingsBy(@RequestBody Map<String, Object> settings) {
+    @PostMapping("settings")
+    public Boolean saveSettings(@RequestBody Map<String, Object> settings) {
         return themeSettingService.save(settings);
     }
-//
-//    @PostMapping("{themeId}/settings")
-//    @ApiOperation("Saves theme settings")
-//    @CacheLock(prefix = "save_theme_setting_by_themeId")
-//    public void saveSettingsBy(@PathVariable("themeId") String themeId,
-//                               @RequestBody Map<String, Object> settings) {
-//        themeSettingService.save(settings, themeId);
-//    }
-//
-//    @DeleteMapping("{themeId}")
-//    @ApiOperation("Deletes a theme")
-//    @DisableOnCondition
-//    public void deleteBy(@PathVariable("themeId") String themeId,
-//                         @RequestParam(value = "deleteSettings", defaultValue = "false") Boolean deleteSettings) {
-//        themeService.deleteTheme(themeId, deleteSettings);
-//    }
-//
+
 //    @PostMapping("upload")
 //    @ApiOperation("Uploads a theme")
 //    public ThemeProperty uploadTheme(@RequestPart("file") MultipartFile file) {

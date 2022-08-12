@@ -181,7 +181,7 @@ export default {
     },
     async handleGetSettings() {
       try {
-        const { data } = await themeApi.listSettings(this.theme.id)
+        const { data } = await themeApi.getSettings(this.theme.id)
         this.form.settings = data.data
       } catch (error) {
         this.$log.error(error)
@@ -190,7 +190,7 @@ export default {
     async handleSaveSettings() {
       try {
         this.form.saving = true
-        await themeApi.saveSettings(this.theme.id, this.form.settings)
+        await themeApi.saveSettings(this.form.settings)
       } catch (error) {
         this.$log.error(error)
         this.form.saveErrored = true

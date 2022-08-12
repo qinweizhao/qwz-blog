@@ -16,11 +16,10 @@ import java.util.Map;
 public interface ThemeSettingService {
 
     /**
-     * 按主题 ID 列出主题设置
-     * @param themeId themeId
+     * 列出主题设置
      * @return Map
      */
-    Map<String, Object> listMap(String themeId);
+    Map<String, Object> getSettings();
 
     /**
      * 保存主题配置

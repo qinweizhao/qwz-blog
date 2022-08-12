@@ -71,7 +71,7 @@ public class ThemeServiceImpl implements ThemeService {
 
 
     @Override
-    public ThemeProperty getThemeOfNonNullBy() {
+    public ThemeProperty getThemeProperty() {
         return fetchThemePropertyBy().orElseThrow(() -> new NotFoundException(" 主题不存在或已删除！"));
     }
 
@@ -286,9 +286,12 @@ public class ThemeServiceImpl implements ThemeService {
 //    @Override
 //    @NonNull
 
-
+    //
+//    @Override
+//    @NonNull
     public ThemeProperty getActivatedTheme() {
-        return getThemeOfNonNullBy();
+
+        return getThemeProperty();
     }
 //
 //    /**
@@ -312,7 +315,7 @@ public class ThemeServiceImpl implements ThemeService {
     public List<Group> fetchConfig() {
 
         // Get theme property
-        ThemeProperty themeProperty = getThemeOfNonNullBy();
+        ThemeProperty themeProperty = getThemeProperty();
 
         if (!themeProperty.isHasOptions()) {
             // If this theme dose not has an option, then return empty list
@@ -591,7 +594,7 @@ public class ThemeServiceImpl implements ThemeService {
      * @param absoluteName must not be blank
      */
     private void checkDirectory(String absoluteName) {
-        ThemeProperty activeThemeProperty = getThemeOfNonNullBy();
+        ThemeProperty activeThemeProperty = getThemeProperty();
         FileUtils.checkDirectoryTraversal(activeThemeProperty.getThemePath(), absoluteName);
     }
 

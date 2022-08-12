@@ -47,24 +47,22 @@ export default {
     ...mapGetters(['options'])
   },
   beforeRouteEnter(to, from, next) {
-    // Get theme id from query
-    const themeId = to.query.themeId
     next(async vm => {
-      await vm.handleGetTheme(themeId)
+      await vm.handleGetTheme()
     })
   },
   methods: {
-    async handleGetTheme(themeId) {
+    async handleGetTheme() {
       try {
         this.theme.loading = true
-        const { data } = await themeApi.getProperty(themeId)
+        const { data } = await themeApi.getProperty()
         this.theme.data = data.data
       } finally {
         this.theme.loading = false
       }
     },
     handleRouteToThemeSetting() {
-      this.$router.push({ name: 'ThemeSetting', query: { themeId: this.theme.id } })
+      this.$router.push({ name: 'ThemeSetting'})
     },
     onSettingsSaved() {
       document.getElementById('themeViewIframe').contentWindow.location.reload()

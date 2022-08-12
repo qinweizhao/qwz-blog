@@ -91,7 +91,7 @@ public interface ThemeService {
      *
      * @return ThemeProperty
      */
-    ThemeProperty getThemeOfNonNullBy( );
+    ThemeProperty getThemeProperty( );
 
 
 //    /**

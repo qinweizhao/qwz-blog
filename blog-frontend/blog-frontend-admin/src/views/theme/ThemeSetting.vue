@@ -42,22 +42,16 @@ export default {
   },
   beforeRouteEnter(to, from, next) {
     // Get post id from query
-    const themeId = to.query.themeId
     next(async vm => {
-      await vm.handleGetTheme(themeId)
+      await vm.handleGetTheme()
     })
   },
   methods: {
-    async handleGetTheme(themeId) {
+    async handleGetTheme() {
       try {
         this.theme.loading = true
-        if (themeId) {
-          const { data } = await themeApi.getProperty(themeId)
-          this.theme.current = data.data
-        } else {
-          const { data } = await themeApi.getActivatedTheme()
-          this.theme.current = data.data
-        }
+        const { data } = await themeApi.getProperty()
+        this.theme.current = data.data
       } finally {
         this.theme.loading = false
       }
@@ -67,7 +61,7 @@ export default {
     },
 
     handleRouteToThemeVisualSetting() {
-      this.$router.push({ name: 'ThemeVisualSetting', query: { themeId: this.theme.current.id } })
+      this.$router.push({ name: 'ThemeVisualSetting' })
     }
   }
 }

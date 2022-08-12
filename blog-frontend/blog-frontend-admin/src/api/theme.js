@@ -4,79 +4,32 @@ const baseUrl = '/api/admin/themes'
 
 const themeApi = {}
 
-themeApi.getActivatedTheme = () => {
+themeApi.getProperty = () => {
   return service({
-    url: `${baseUrl}/activation`,
+    url: `${baseUrl}`,
     method: 'get'
   })
 }
 
-themeApi.update = themeId => {
+themeApi.listConfigurations = () => {
   return service({
-    url: `${baseUrl}/fetching/${themeId}`,
-    timeout: 60000,
-    method: 'put'
-  })
-}
-
-themeApi.delete = (key, deleteSettings) => {
-  return service({
-    url: `${baseUrl}/${key}`,
-    params: {
-      deleteSettings: deleteSettings
-    },
-    method: 'delete'
-  })
-}
-
-themeApi.listConfigurations = themeId => {
-  return service({
-    url: `${baseUrl}/${themeId}/configurations`,
+    url: `${baseUrl}/configurations`,
     method: 'get'
   })
 }
 
-themeApi.listSettings = themeId => {
+themeApi.getSettings = () => {
   return service({
-    url: `${baseUrl}/${themeId}/settings`,
+    url: `${baseUrl}/settings`,
     method: 'get'
   })
 }
 
-themeApi.saveSettings = (themeId, settings) => {
+themeApi.saveSettings = settings => {
   return service({
-    url: `${baseUrl}/${themeId}/settings`,
+    url: `${baseUrl}/settings`,
     data: settings,
     method: 'post'
-  })
-}
-
-themeApi.getProperty = themeId => {
-  return service({
-    url: `${baseUrl}/${themeId}`,
-    method: 'get'
-  })
-}
-
-themeApi.upload = (formData, uploadProgress, cancelToken) => {
-  return service({
-    url: `${baseUrl}/upload`,
-    timeout: 86400000, // 24 hours
-    data: formData, // form data
-    onUploadProgress: uploadProgress,
-    cancelToken: cancelToken,
-    method: 'post'
-  })
-}
-
-themeApi.updateByUpload = (formData, uploadProgress, cancelToken, themeId) => {
-  return service({
-    url: `${baseUrl}/upload/${themeId}`,
-    timeout: 86400000, // 24 hours
-    data: formData, // form data
-    onUploadProgress: uploadProgress,
-    cancelToken: cancelToken,
-    method: 'put'
   })
 }
 

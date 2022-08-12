@@ -51,7 +51,7 @@ public class FreemarkerConfigAwareListener {
     @EventListener
     @Order(Ordered.HIGHEST_PRECEDENCE + 1)
     public void onApplicationStartedEvent(ApplicationStartedEvent applicationStartedEvent) throws TemplateModelException {
-        log.debug("收到应用程序启动事件");
+        log.debug("收到应用程序启动事件，时间：{}", applicationStartedEvent.getTimestamp());
 
         // 加载主题配置
         loadThemeConfig();
@@ -136,7 +136,7 @@ public class FreemarkerConfigAwareListener {
 
                 configuration.setSharedVariable("theme_base", themeBasePath);
 
-                configuration.setSharedVariable("settings", themeSettingService.listMap(themeService.getActivatedThemeId()));
+                configuration.setSharedVariable("settings", themeSettingService.getSettings());
                 log.debug("Loaded theme and settings");
             } catch (TemplateModelException e) {
                 log.error("Failed to set shared variable!", e);
