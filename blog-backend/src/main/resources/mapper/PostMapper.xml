@@ -79,7 +79,7 @@
         left join post_category pc ON p.id = pc.post_id
         <where>
             <if test="param.status != null and param.status != ''">
-                and p.status = #{param.status.value}
+                and p.status = #{param.status}
             </if>
             <if test="param.keyword != null and param.keyword != ''">
                 and p.title like concat('%', #{param.keyword}, '%')

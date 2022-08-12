@@ -278,7 +278,7 @@ public class PostServiceImpl implements PostService {
     public String getPreviewUrl(Integer postId) {
         String token = IdUtil.simpleUUID();
 
-        // cache preview token
+        // 缓存预览文章(草稿状态)携带的 token
         cacheStore.putAny(token, token, 10, TimeUnit.MINUTES);
 
         StringBuilder previewUrl = new StringBuilder();

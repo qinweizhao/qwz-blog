@@ -122,7 +122,8 @@ public interface PostMapper extends BaseMapper<Post> {
         Map<String, Object> paramMap = new LinkedHashMap<>();
         paramMap.put("keyword", param.getKeyword());
         paramMap.put("categoryId", param.getCategoryId());
-        paramMap.put("status", PostConvert.INSTANCE.statusToInteger(param.getStatus()));
+        Integer status = PostConvert.INSTANCE.statusToInteger(param.getStatus());
+        paramMap.put("status", String.valueOf(status));
 
         Page<Post> postPage = this.selectPagePosts(page, paramMap);
         return MyBatisUtils.buildPageResult(postPage);

@@ -5,6 +5,7 @@ import com.qinweizhao.blog.model.dto.CommentDTO;
 import com.qinweizhao.blog.model.dto.PostDTO;
 import com.qinweizhao.blog.model.dto.PostListDTO;
 import com.qinweizhao.blog.model.enums.CommentType;
+import com.qinweizhao.blog.model.enums.PostStatus;
 import com.qinweizhao.blog.model.param.CommentQueryParam;
 import com.qinweizhao.blog.model.param.PostQueryParam;
 import com.qinweizhao.blog.service.CommentService;
@@ -32,19 +33,32 @@ public class PostController {
     private final OptionService optionService;
 
 
+    /**
+     * 首页文章列表
+     *
+     * @param param param
+     * @return PageResult
+     */
     @GetMapping
     public PageResult<PostListDTO> page(PostQueryParam param) {
+        // 只要发布状态的文章
+        param.setStatus(PostStatus.PUBLISHED);
         return postService.page(param);
     }
 
-    //    @PostMapping(value = "search")
-//    @ApiOperation("Lists posts by keyword")
-//    public Page<BasePostSimpleDTO> pageBy(@RequestParam(value = "keyword") String keyword,
-//                                          @PageableDefault(sort = "createTime", direction = DESC) Pageable pageable) {
-//        Page<Post> postPage = postService.page(null);
-//        return PostConvert.INSTANCE.convertToDTO(postPage);
-//    }
-//
+    /**
+     * 搜索
+     *
+     * @param param keyword
+     * @return PageResult
+     */
+    @PostMapping(value = "search")
+    public PageResult<PostListDTO> pageBy(PostQueryParam param) {
+        // 只要发布状态的文章
+        param.setStatus(PostStatus.PUBLISHED);
+        return postService.page(param);
+    }
+
     @GetMapping("{postId:\\d+}")
     public PostDTO get(@PathVariable("postId") Integer postId,
                        @RequestParam(value = "formatDisabled", required = false, defaultValue = "true") Boolean formatDisabled,
@@ -61,7 +75,7 @@ public class PostController {
             result.setOriginalContent(null);
         }
 
-//        postService.publishVisitEvent(result.getId());
+        postService.publishVisitEvent(result.getId());
 
         return result;
     }
