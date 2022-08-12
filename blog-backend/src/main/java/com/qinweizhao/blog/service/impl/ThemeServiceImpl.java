@@ -122,7 +122,7 @@ public class ThemeServiceImpl implements ThemeService {
                 // Resolve the options path
                 Path optionsPath = Paths.get(themeProperty.getThemePath(), optionsName);
 
-                log.debug("Finding options in: [{}]", optionsPath.toString());
+                log.debug("Finding options in: [{}]", optionsPath);
 
                 // Check existence
                 if (!Files.exists(optionsPath)) {

@@ -2,7 +2,6 @@ package com.qinweizhao.blog.controller.admin.api;
 
 import com.qinweizhao.blog.model.dto.StatisticDTO;
 import com.qinweizhao.blog.model.dto.StatisticWithUserDTO;
-import com.qinweizhao.blog.model.support.BaseResponse;
 import com.qinweizhao.blog.service.StatisticService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,14 +24,13 @@ public class StatisticController {
 
 
     /**
-     * 获取博客统计信息
+     * 获取统计信息
      *
      * @return StatisticDTO
      */
     @GetMapping
-    public BaseResponse<StatisticDTO> statistics() {
-        StatisticDTO statisticDTO = statisticService.getStatistic();
-        return BaseResponse.ok(statisticDTO);
+    public StatisticDTO statistics() {
+        return statisticService.getStatistic();
     }
 
     /**
