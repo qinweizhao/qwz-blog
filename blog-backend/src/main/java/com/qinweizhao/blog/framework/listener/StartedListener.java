@@ -2,6 +2,7 @@ package com.qinweizhao.blog.framework.listener;
 
 import com.qinweizhao.blog.config.properties.MyBlogProperties;
 import com.qinweizhao.blog.service.OptionService;
+import com.qinweizhao.blog.service.ThemeSettingService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
@@ -17,6 +18,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Map;
 
 /**
  * 应用程序启动后执行的方法。
@@ -35,6 +37,8 @@ public class StartedListener implements ApplicationListener<ApplicationStartedEv
     private final MyBlogProperties myBlogProperties;
 
     private final OptionService optionService;
+
+    private final ThemeSettingService themeSettingService;
 
     @Override
     public void onApplicationEvent(@NotNull ApplicationStartedEvent event) {

@@ -25,11 +25,5 @@ public interface ThemeSettingService {
      */
     boolean save(Map<String, Object> settings);
 
-    /**
-     * Lists theme settings as map.
-     *
-     * @return theme setting map
-     */
-    Map<String, Object> listAsMap();
 
 }

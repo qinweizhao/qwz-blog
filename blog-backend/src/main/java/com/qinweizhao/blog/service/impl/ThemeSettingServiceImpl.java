@@ -24,6 +24,7 @@ import java.util.*;
  * Theme setting service implementation.
  *
  * @author johnniang
+ * @author qinweizhao
  * @since 2019-04-08
  */
 @Slf4j
@@ -92,7 +93,7 @@ public class ThemeSettingServiceImpl implements ThemeSettingService {
         settings.forEach((key, value) -> this.saveItem(key, String.valueOf(value)));
 
         try {
-            configuration.setSharedVariable("settings", listAsMap());
+            configuration.setSharedVariable("settings", this.getSettings());
         } catch (TemplateModelException e) {
             throw new ServiceException("主题设置保存失败", e);
         }
@@ -131,50 +132,6 @@ public class ThemeSettingServiceImpl implements ThemeSettingService {
 
     }
 
-
-    @Override
-    public Map<String, Object> listAsMap() {
-
-        Map<String, Item> itemMap = getConfigItemMap();
-
-        // Get theme setting
-        List<ThemeSetting> themeSettings = themeSettingMapper.selectList(Wrappers.emptyWrapper());
-
-        Map<String, Object> result = new LinkedHashMap<>();
-
-        // Build settings from user-defined
-        themeSettings.forEach(themeSetting -> {
-            String key = themeSetting.getSettingKey();
-
-            Item item = itemMap.get(key);
-
-            if (item == null) {
-                return;
-            }
-
-            Object convertedValue = item.getDataType().convertTo(themeSetting.getSettingValue());
-            log.debug("Converted user-defined data from [{}] to [{}], type: [{}]", themeSetting.getSettingValue(), convertedValue, item.getDataType());
-
-            result.put(key, convertedValue);
-        });
-
-        // Build settings from pre-defined
-        itemMap.forEach((name, item) -> {
-            log.debug("Name: [{}], item: [{}]", name, item);
-
-            if (item.getDefaultValue() == null || result.containsKey(name)) {
-                return;
-            }
-
-            // Set default value
-            Object convertedDefaultValue = item.getDataType().convertTo(item.getDefaultValue());
-            log.debug("Converted pre-defined data from [{}] to [{}], type: [{}]", item.getDefaultValue(), convertedDefaultValue, item.getDataType());
-
-            result.put(name, convertedDefaultValue);
-        });
-
-        return result;
-    }
 
     /**
      * 获取配置项映射。 （键：项目名称，值：项目）
