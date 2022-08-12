@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
  *
  * @author ryanwang
  * @author qinweizhao
- * @date 2020-01-11
+ * @since 2020-01-11
  */
 @Component
 public class CategoryModel {

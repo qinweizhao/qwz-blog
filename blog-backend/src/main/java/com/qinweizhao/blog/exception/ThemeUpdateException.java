@@ -4,7 +4,7 @@ package com.qinweizhao.blog.exception;
  * Theme update exception.
  *
  * @author johnniang
- * @date 19-5-30
+ * @since 19-5-30
  */
 public class ThemeUpdateException extends ServiceException {
 

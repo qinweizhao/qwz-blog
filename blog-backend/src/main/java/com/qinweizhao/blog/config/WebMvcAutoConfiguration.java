@@ -38,7 +38,7 @@ import static com.qinweizhao.blog.util.HaloUtils.*;
 /**
  * @author ryanwang
  * @author qinweizhao
- * @date 2018-01-02
+ * @since 2018-01-02
  */
 @Slf4j
 @Configuration

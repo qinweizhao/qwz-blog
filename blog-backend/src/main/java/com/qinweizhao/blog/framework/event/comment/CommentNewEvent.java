@@ -6,7 +6,7 @@ import org.springframework.lang.NonNull;
  * PostComment new event.
  *
  * @author johnniang
- * @date 19-4-23
+ * @since 19-4-23
  */
 public class CommentNewEvent extends AbstractCommentBaseEvent {
 

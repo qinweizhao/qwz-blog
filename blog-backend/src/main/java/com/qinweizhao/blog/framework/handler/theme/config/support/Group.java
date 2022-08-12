@@ -8,7 +8,7 @@ import java.util.List;
  * Theme configuration: group entity.
  *
  * @author johnniang
- * @date 4/10/19
+ * @since 4/10/19
  */
 @Data
 public class Group {

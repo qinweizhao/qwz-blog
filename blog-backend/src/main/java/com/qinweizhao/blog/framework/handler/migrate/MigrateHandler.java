@@ -9,7 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
  * Migrate handler interface.
  *
  * @author ryanwang
- * @date 2019-10-28
+ * @since 2019-10-28
  */
 public interface MigrateHandler {
 

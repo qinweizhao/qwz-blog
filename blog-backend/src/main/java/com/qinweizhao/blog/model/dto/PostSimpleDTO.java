@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 
 /**
  * @author qinweizhao
- * @date 2022-08-07
+ * @since 2022-08-07
  */
 @Data
 public class PostSimpleDTO {

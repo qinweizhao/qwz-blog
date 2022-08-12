@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
  * Option output dto.
  *
  * @author johnniang
- * @date 3/20/19
+ * @since 3/20/19
  */
 @Data
 @NoArgsConstructor

@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
  * Post Model
  *
  * @author qinweizhao
- * @date 2020-01-07
+ * @since 2020-01-07
  */
 @Component
 @AllArgsConstructor

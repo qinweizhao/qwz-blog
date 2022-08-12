@@ -7,7 +7,7 @@ import com.baomidou.mybatisplus.annotation.EnumValue;
  *
  * @author ryanwang
  * @author qinweizhao
- * @date 2019-03-12
+ * @since 2019-03-12
  */
 public enum AttachmentType implements ValueEnum<Integer> {
 

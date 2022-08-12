@@ -18,7 +18,7 @@ import static com.qinweizhao.blog.model.support.HaloConst.FILE_SEPARATOR;
  *
  * @author ryanwang
  * @author johnniang
- * @date 2017-12-22
+ * @since 2017-12-22
  */
 @Slf4j
 public class HaloUtils {

@@ -4,7 +4,7 @@ package com.qinweizhao.blog.model.properties;
  * Minio properties.
  *
  * @author Wh1te
- * @date 2020-10-03
+ * @since 2020-10-03
  */
 public enum MinioProperties implements PropertyEnum {
 

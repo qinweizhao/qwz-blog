@@ -2,7 +2,7 @@ package com.qinweizhao.blog.model.enums;
 
 /**
  * @author Wh1te
- * @date 2020-10-19
+ * @since 2020-10-19
  */
 public enum TimeUnit implements ValueEnum<Integer> {
 

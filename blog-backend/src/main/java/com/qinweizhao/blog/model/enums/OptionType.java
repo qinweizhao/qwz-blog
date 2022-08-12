@@ -4,7 +4,7 @@ package com.qinweizhao.blog.model.enums;
  * Option Type.
  *
  * @author ryanwang
- * @date 2019-12-02
+ * @since 2019-12-02
  */
 public enum OptionType implements ValueEnum<Integer> {
 

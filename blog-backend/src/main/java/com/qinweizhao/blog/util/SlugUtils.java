@@ -13,7 +13,7 @@ import java.util.regex.Pattern;
  *
  * @author johnniang
  * @author ryanwang
- * @date 2019-03-20
+ * @since 2019-03-20
  */
 public class SlugUtils {
 

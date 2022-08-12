@@ -8,7 +8,7 @@ import org.springframework.http.MediaType;
  * Upload result dto.
  *
  * @author johnniang
- * @date 3/26/19
+ * @since 3/26/19
  */
 @Data
 @ToString

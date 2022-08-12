@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
  * Content user controller.
  *
  * @author johnniang
- * @date 2019-04-03
+ * @since 2019-04-03
  */
 @RestController("ApiContentUserController")
 @RequestMapping("/api/content/users")

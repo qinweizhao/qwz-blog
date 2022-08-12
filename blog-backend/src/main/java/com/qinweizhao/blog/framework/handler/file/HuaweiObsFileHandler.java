@@ -27,7 +27,7 @@ import static com.qinweizhao.blog.model.support.HaloConst.URL_SEPARATOR;
  * Huawei obs file handler.
  *
  * @author qilin
- * @date 2020-04-03
+ * @since 2020-04-03
  */
 @Slf4j
 @Component

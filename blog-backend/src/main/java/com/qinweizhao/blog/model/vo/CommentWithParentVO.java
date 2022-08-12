@@ -10,7 +10,7 @@ import lombok.extern.slf4j.Slf4j;
  * Base comment with parent comment vo.
  *
  * @author johnniang
- * @date 3/31/19
+ * @since 3/31/19
  */
 @Data
 @ToString(callSuper = true)

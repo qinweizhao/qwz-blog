@@ -19,7 +19,7 @@ import java.util.Optional;
  * Authentication argument resolver.
  *
  * @author johnniang
- * @date 12/11/18
+ * @since 12/11/18
  */
 @Slf4j
 public class AuthenticationArgumentResolver implements HandlerMethodArgumentResolver {

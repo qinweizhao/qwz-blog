@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
  * Attachment output dto.
  *
  * @author johnniang
- * @date 3/21/19
+ * @since 3/21/19
  */
 @Data
 public class AttachmentDTO {

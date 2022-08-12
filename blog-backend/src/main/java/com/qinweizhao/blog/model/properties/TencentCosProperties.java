@@ -7,7 +7,7 @@ import com.qinweizhao.blog.model.support.HaloConst;
  *
  * @author wangya
  * @author ryanwang
- * @date 2019-07-25
+ * @since 2019-07-25
  */
 public enum TencentCosProperties implements PropertyEnum {
 

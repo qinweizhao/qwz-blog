@@ -9,7 +9,7 @@ import lombok.EqualsAndHashCode;
  * Attachment query params.
  *
  * @author ryanwang
- * @date 2019/04/18
+ * @since 2019/04/18
  */
 @Data
 @EqualsAndHashCode(callSuper = true)

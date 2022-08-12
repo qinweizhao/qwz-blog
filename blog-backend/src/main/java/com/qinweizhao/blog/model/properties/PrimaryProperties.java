@@ -5,7 +5,7 @@ package com.qinweizhao.blog.model.properties;
  * Primary properties.
  *
  * @author johnniang
- * @date 4/2/19
+ * @since 4/2/19
  */
 public enum PrimaryProperties implements PropertyEnum {
 

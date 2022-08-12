@@ -13,7 +13,7 @@ import java.io.IOException;
  * Yaml theme file resolver.
  *
  * @author johnniang
- * @date 2019-04-11
+ * @since 2019-04-11
  */
 @Service
 public class YamlThemePropertyResolver implements ThemePropertyResolver {

@@ -10,7 +10,7 @@ import org.springframework.util.Assert;
  * Data type enum.
  *
  * @author johnniang
- * @date 4/9/19
+ * @since 4/9/19
  */
 @Slf4j
 public enum DataType implements ValueEnum<Integer> {

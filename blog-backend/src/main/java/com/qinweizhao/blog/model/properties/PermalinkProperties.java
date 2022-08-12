@@ -4,7 +4,7 @@ package com.qinweizhao.blog.model.properties;
  * Permalink properties enum.
  *
  * @author ryanwang
- * @date 2020-01-07
+ * @since 2020-01-07
  */
 public enum PermalinkProperties implements PropertyEnum {
 

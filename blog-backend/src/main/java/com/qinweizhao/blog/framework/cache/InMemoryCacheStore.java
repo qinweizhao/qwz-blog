@@ -109,7 +109,7 @@ public class InMemoryCacheStore extends AbstractStringCacheStore {
      * Cache cleaner.
      *
      * @author johnniang
-     * @date 03/28/19
+     * @since 03/28/19
      */
     private class CacheExpiryCleaner extends TimerTask {
 

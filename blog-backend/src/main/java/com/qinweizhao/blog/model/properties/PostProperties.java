@@ -7,7 +7,7 @@ import com.qinweizhao.blog.model.enums.TimeUnit;
  *
  * @author johnniang
  * @author ryanwang
- * @date 2019-04-01
+ * @since 2019-04-01
  */
 public enum PostProperties implements PropertyEnum {
 

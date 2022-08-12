@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
  * Option list output dto.
  *
  * @author ryanwang
- * @date 2019-12-02
+ * @since 2019-12-02
  */
 @EqualsAndHashCode(callSuper = true)
 @Data

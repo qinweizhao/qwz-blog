@@ -4,7 +4,7 @@ package com.qinweizhao.blog.exception;
  * Property format exception.
  *
  * @author johnniang
- * @date 3/27/19
+ * @since 3/27/19
  */
 public class PropertyFormatException extends BadRequestException {
 

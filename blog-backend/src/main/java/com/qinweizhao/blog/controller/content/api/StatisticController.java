@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
  * Content statistic controller.
  *
  * @author ryan0up
- * @date 2019-12-16
+ * @since 2019-12-16
  */
 @RestController("ApiContentStatisticController")
 @RequestMapping("/api/content/statistics")

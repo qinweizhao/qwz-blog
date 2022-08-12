@@ -7,7 +7,7 @@ import com.qinweizhao.blog.model.support.HaloConst;
  *
  * @author MyFaith
  * @author ryanwang
- * @date 2019-04-04
+ * @since 2019-04-04
  */
 public enum AliOssProperties implements PropertyEnum {
 

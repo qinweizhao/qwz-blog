@@ -6,7 +6,7 @@ import org.springframework.context.ApplicationEvent;
  * Option updated event.
  *
  * @author johnniang
- * @date 19-4-29
+ * @since 19-4-29
  */
 public class OptionUpdatedEvent extends ApplicationEvent {
 

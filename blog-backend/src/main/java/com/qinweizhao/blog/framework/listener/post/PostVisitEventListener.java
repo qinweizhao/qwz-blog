@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
  * Visit event listener.
  *
  * @author johnniang
- * @date 19-4-22
+ * @since 19-4-22
  */
 @Component
 public class PostVisitEventListener extends AbstractVisitEventListener {

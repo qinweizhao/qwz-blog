@@ -9,7 +9,7 @@ import java.util.Date;
  * User output dto.
  *
  * @author johnniang
- * @date 3/16/19
+ * @since 3/16/19
  */
 @Data
 public class UserDTO {

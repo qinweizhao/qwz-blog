@@ -35,7 +35,7 @@
 // *
 // * @author johnniang
 // * @author ryanwang
-// * @date 2019-04-26
+// * @since 2019-04-26
 // */
 //@RestController("ApiContentJournalController")
 //@AllArgsConstructor

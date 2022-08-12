@@ -29,7 +29,7 @@ import static com.qinweizhao.blog.model.support.HaloConst.URL_SEPARATOR;
  *
  * @author MyFaith
  * @author ryanwang
- * @date 2019-04-04
+ * @since 2019-04-04
  */
 @Slf4j
 @Component

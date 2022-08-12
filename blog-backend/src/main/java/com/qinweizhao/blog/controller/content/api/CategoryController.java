@@ -23,7 +23,7 @@
 // * Content category controller.
 // *
 // * @author ryanwang
-// * @date 2019-06-09
+// * @since 2019-06-09
 // */
 //@RestController("ApiContentCategoryController")
 //@RequestMapping("/api/content/categories")

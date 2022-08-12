@@ -27,7 +27,7 @@
 // * MinIO file handler.
 // *
 // * @author Wh1te
-// * @date 2020-10-03
+// * @since 2020-10-03
 // */
 //@Slf4j
 //@Component

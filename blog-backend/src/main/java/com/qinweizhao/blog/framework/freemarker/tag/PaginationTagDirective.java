@@ -18,7 +18,7 @@ import static com.qinweizhao.blog.model.support.HaloConst.URL_SEPARATOR;
 
 /**
  * @author ryanwang
- * @date 2020-03-07
+ * @since 2020-03-07
  */
 @Component
 public class PaginationTagDirective implements TemplateDirectiveModel {

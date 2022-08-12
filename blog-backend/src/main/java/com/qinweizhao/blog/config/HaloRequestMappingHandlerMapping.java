@@ -22,7 +22,7 @@ import static com.qinweizhao.blog.util.HaloUtils.ensureBoth;
 
 /**
  * @author ryanwang
- * @date 2020-03-24
+ * @since 2020-03-24
  */
 @Slf4j
 public class HaloRequestMappingHandlerMapping extends RequestMappingHandlerMapping implements ApplicationListener<StaticStorageChangedEvent> {

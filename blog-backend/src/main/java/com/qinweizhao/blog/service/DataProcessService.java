@@ -6,7 +6,7 @@ import org.springframework.lang.NonNull;
  * Data process service interface.
  *
  * @author ryanwang
- * @date 2019-12-29
+ * @since 2019-12-29
  */
 public interface DataProcessService {
 

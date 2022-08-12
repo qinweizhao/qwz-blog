@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
  * LogService implementation class
  *
  * @author qinweizhao
- * @date 2019-03-14
+ * @since 2019-03-14
  */
 @Service
 public class LogServiceImpl extends ServiceImpl<LogMapper, Log> implements LogService {

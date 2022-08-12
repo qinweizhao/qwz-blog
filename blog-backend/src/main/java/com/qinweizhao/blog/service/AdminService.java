@@ -12,7 +12,7 @@ import com.qinweizhao.blog.security.token.AuthToken;
  * @author johnniang
  * @author ryanwang
  * @author qinweizhao
- * @date 2019-04-29
+ * @since 2019-04-29
  */
 public interface AdminService {
 

@@ -6,7 +6,7 @@ import org.springframework.context.ApplicationEvent;
  * Theme activated event.
  *
  * @author johnniang
- * @date 19-4-20
+ * @since 19-4-20
  */
 public class ThemeActivatedEvent extends ApplicationEvent {
 

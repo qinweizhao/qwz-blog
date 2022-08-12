@@ -4,7 +4,7 @@ package com.qinweizhao.blog.exception;
  * Unsupported media type exception.
  *
  * @author johnniang
- * @date 19-4-19
+ * @since 19-4-19
  */
 public class UnsupportedMediaTypeException extends BadRequestException {
 

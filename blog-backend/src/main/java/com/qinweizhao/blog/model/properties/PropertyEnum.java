@@ -15,7 +15,7 @@ import java.util.Map;
  * Property enum.
  *
  * @author johnniang
- * @date 3/26/19
+ * @since 3/26/19
  */
 public interface PropertyEnum extends ValueEnum<String> {
 

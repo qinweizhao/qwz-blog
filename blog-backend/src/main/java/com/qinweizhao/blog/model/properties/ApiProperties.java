@@ -4,7 +4,7 @@ package com.qinweizhao.blog.model.properties;
  * Api properties.
  *
  * @author ryanwang
- * @date 2019-06-25
+ * @since 2019-06-25
  */
 public enum ApiProperties implements PropertyEnum {
 

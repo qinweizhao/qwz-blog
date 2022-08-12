@@ -4,7 +4,7 @@ package com.qinweizhao.blog.model.enums;
  * Migrate type.
  *
  * @author ryanwang
- * @date 2019-03-12
+ * @since 2019-03-12
  */
 public enum MigrateType implements ValueEnum<Integer> {
 

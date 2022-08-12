@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
  * Category post count projection.
  *
  * @author johnniang
- * @date 19-4-23
+ * @since 19-4-23
  */
 @Data
 public class CategoryPostCountProjection {

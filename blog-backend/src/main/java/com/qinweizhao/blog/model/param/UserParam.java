@@ -13,7 +13,7 @@ import javax.validation.constraints.Size;
  * User param.
  *
  * @author johnniang
- * @date 3/19/19
+ * @since 3/19/19
  */
 @Data
 public class UserParam {

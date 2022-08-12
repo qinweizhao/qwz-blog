@@ -10,7 +10,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 /**
  * @author ryanwang
  * @author qinweizhao
- * @date 2017-11-14
+ * @since 2017-11-14
  */
 @SpringBootApplication(exclude = {MultipartAutoConfiguration.class})
 @EnableAsync

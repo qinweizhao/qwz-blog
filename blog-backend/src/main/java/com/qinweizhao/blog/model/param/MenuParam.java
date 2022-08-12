@@ -12,7 +12,7 @@ import javax.validation.constraints.Size;
  * @author johnniang
  * @author ryanwang
  * @author qinweizhao
- * @date 4/3/19
+ * @since 4/3/19
  */
 @Data
 public class MenuParam {

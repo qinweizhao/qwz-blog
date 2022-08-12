@@ -7,7 +7,7 @@ import lombok.Getter;
  * 评论违规类型
  *
  * @author Lei XinXin
- * @date 2020/1/4
+ * @since 2020/1/4
  */
 @Getter
 public enum CommentViolationTypeEnum {

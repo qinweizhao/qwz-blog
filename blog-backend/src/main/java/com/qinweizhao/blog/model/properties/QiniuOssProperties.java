@@ -7,7 +7,7 @@ import com.qinweizhao.blog.model.support.HaloConst;
  *
  * @author johnniang
  * @author ryanwang
- * @date 2019-03-26
+ * @since 2019-03-26
  */
 public enum QiniuOssProperties implements PropertyEnum {
 

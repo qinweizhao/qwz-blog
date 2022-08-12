@@ -9,7 +9,7 @@ import java.util.List;
  * Static page dto.
  *
  * @author ryanwang
- * @date 2019-12-26
+ * @since 2019-12-26
  */
 @Data
 public class StaticPageFile implements Comparator<StaticPageFile> {

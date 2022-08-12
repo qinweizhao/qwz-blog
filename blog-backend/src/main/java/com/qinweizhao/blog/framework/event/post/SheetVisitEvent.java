@@ -4,7 +4,7 @@ package com.qinweizhao.blog.framework.event.post;
  * Sheet visit event.
  *
  * @author johnniang
- * @date 19-4-24
+ * @since 19-4-24
  */
 public class SheetVisitEvent extends AbstractVisitEvent {
 

@@ -12,7 +12,7 @@ import java.util.List;
  * Static storage controller.
  *
  * @author ryanwang
- * @date 2019-12-06
+ * @since 2019-12-06
  */
 @RestController
 @RequestMapping("/api/admin/statics")

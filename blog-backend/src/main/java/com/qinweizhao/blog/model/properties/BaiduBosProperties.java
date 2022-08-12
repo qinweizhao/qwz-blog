@@ -7,7 +7,7 @@ import com.qinweizhao.blog.model.support.HaloConst;
  *
  * @author wangya
  * @author ryanwang
- * @date 2019-07-19
+ * @since 2019-07-19
  */
 public enum BaiduBosProperties implements PropertyEnum {
 

@@ -8,7 +8,7 @@ import javax.validation.constraints.NotBlank;
  * Reset password params.
  *
  * @author ryanwang
- * @date 2019-09-05
+ * @since 2019-09-05
  */
 @Data
 public class ResetPasswordParam {

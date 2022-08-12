@@ -13,7 +13,7 @@ import javax.validation.constraints.Size;
  * PostComment param.
  *
  * @author qinweizhao
- * @date 3/22/19
+ * @since 3/22/19
  */
 @Data
 public class CommentParam {

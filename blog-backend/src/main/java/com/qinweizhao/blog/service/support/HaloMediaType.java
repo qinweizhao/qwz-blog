@@ -10,7 +10,7 @@ import java.util.Map;
  * Halo Media type.
  *
  * @author johnniang
- * @date 19-4-18
+ * @since 19-4-18
  */
 @Slf4j
 public class HaloMediaType extends MediaType {

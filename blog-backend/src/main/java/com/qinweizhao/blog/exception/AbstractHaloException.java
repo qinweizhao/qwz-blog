@@ -9,7 +9,7 @@ import org.springframework.lang.Nullable;
  *
  * @author johnniang
  * @author ryan0up
- * @date 2019-03-15
+ * @since 2019-03-15
  */
 public abstract class AbstractHaloException extends RuntimeException {
 

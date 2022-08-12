@@ -5,7 +5,7 @@ package com.qinweizhao.blog.model.properties;
  *
  * @author johnniang
  * @author ryanwang
- * @date 4/1/19
+ * @since 4/1/19
  */
 public enum SeoProperties implements PropertyEnum {
 

@@ -6,7 +6,7 @@ import lombok.Getter;
  * 封禁状态
  *
  * @author Lei XinXin
- * @date 2020/1/5
+ * @since 2020/1/5
  */
 @Getter
 public enum BanStatusEnum {

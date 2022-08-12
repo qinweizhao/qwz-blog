@@ -32,7 +32,7 @@ import static com.qinweizhao.blog.model.support.HaloConst.URL_SEPARATOR;
  *
  * @author wangya
  * @author ryanwang
- * @date 2019-07-25
+ * @since 2019-07-25
  */
 @Slf4j
 @Component

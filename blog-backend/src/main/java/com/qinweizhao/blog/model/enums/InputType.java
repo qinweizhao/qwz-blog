@@ -7,7 +7,7 @@ import org.springframework.lang.Nullable;
  *
  * @author johnniang
  * @author ryanwang
- * @date 4/10/19
+ * @since 4/10/19
  */
 public enum InputType {
 

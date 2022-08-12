@@ -5,7 +5,7 @@ package com.qinweizhao.blog.model.properties;
  *
  * @author johnniang
  * @author ryanwang
- * @date 2019-04-01
+ * @since 2019-04-01
  */
 public enum CommentProperties implements PropertyEnum {
 

@@ -4,7 +4,7 @@ package com.qinweizhao.blog.exception;
  * Theme not support exception.
  *
  * @author ryanwang
- * @date 2020-02-03
+ * @since 2020-02-03
  */
 public class ThemeNotSupportException extends BadRequestException {
 

@@ -4,7 +4,7 @@ package com.qinweizhao.blog.model.enums;
  * Global path type.
  *
  * @author ryanwang
- * @date 2020-02-01
+ * @since 2020-02-01
  */
 public enum GlobalPathType implements ValueEnum<Integer> {
 

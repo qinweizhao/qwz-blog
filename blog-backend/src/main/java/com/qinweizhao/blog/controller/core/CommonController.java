@@ -24,7 +24,7 @@ import javax.servlet.http.HttpServletRequest;
  * Error page Controller
  *
  * @author ryanwang
- * @date 2017-12-26
+ * @since 2017-12-26
  */
 @Slf4j
 @Controller

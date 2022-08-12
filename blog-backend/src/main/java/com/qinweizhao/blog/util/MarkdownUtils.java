@@ -34,7 +34,7 @@ import java.util.regex.Pattern;
  * Markdown utils.
  *
  * @author ryanwang
- * @date 2019-06-27
+ * @since 2019-06-27
  */
 public class MarkdownUtils {
 

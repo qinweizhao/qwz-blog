@@ -13,7 +13,7 @@ import java.util.List;
  * Freemarker template random method.
  *
  * @author ryanwang
- * @date 2018-12-21
+ * @since 2018-12-21
  */
 @Component
 public class RandomMethod implements TemplateMethodModelEx {

@@ -4,7 +4,7 @@ package com.qinweizhao.blog.exception;
  * repeat type exception
  *
  * @author bestsort
- * @date 3/13/20 5:03 PM
+ * @since 3/13/20 5:03 PM
  */
 public class RepeatTypeException extends ServiceException {
     public RepeatTypeException(String message) {

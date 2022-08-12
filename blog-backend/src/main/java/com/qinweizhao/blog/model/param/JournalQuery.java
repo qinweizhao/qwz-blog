@@ -9,7 +9,7 @@ import lombok.EqualsAndHashCode;
  * Journal query params.
  *
  * @author ryanwang
- * @date 2019/04/26
+ * @since 2019/04/26
  */
 @Data
 @EqualsAndHashCode(callSuper = true)

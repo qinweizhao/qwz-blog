@@ -9,7 +9,7 @@ import lombok.ToString;
  * Comment including replied count.
  *
  * @author johnniang
- * @date 19-5-14
+ * @since 19-5-14
  */
 @Data
 @ToString(callSuper = true)

@@ -11,7 +11,7 @@ import java.util.concurrent.TimeUnit;
  * Date utilities.
  *
  * @author johnniang
- * @date 3/18/19
+ * @since 3/18/19
  */
 public class DateUtils {
 

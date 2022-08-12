@@ -40,7 +40,7 @@ import static com.qinweizhao.blog.util.HaloUtils.ensureSuffix;
  *
  * @author johnniang
  * @author ryanwang
- * @date 2019-03-27
+ * @since 2019-03-27
  */
 @Slf4j
 @Component

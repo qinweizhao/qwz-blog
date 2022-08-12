@@ -6,7 +6,7 @@ import com.qinweizhao.blog.model.support.HaloConst;
  * Huawei obs properties.
  *
  * @author qilin
- * @date 2020-04-03
+ * @since 2020-04-03
  */
 public enum HuaweiObsProperties implements PropertyEnum {
 

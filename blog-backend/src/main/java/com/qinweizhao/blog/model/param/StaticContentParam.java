@@ -6,7 +6,7 @@ import lombok.Data;
  * Static content param.
  *
  * @author Holldean
- * @date 2020-05-04
+ * @since 2020-05-04
  */
 @Data
 public class StaticContentParam {

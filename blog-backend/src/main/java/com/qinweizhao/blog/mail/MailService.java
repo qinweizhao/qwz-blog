@@ -6,7 +6,7 @@ import java.util.Map;
  * Mail service interface.
  *
  * @author ryanwang
- * @date 2019-03-17
+ * @since 2019-03-17
  */
 public interface MailService {
 

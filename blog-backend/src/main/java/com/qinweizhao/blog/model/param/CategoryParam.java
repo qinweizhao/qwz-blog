@@ -11,7 +11,7 @@ import javax.validation.constraints.Size;
  * @author johnniang
  * @author ryanwang
  * @author qinweizhao
- * @date 2019-03-21
+ * @since 2019-03-21
  */
 @Data
 public class CategoryParam {

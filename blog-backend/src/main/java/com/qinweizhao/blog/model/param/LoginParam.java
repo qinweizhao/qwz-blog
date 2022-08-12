@@ -10,7 +10,7 @@ import javax.validation.constraints.Size;
  * Login param.
  *
  * @author johnniang
- * @date 3/28/19
+ * @since 3/28/19
  */
 @Data
 @ToString

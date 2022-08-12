@@ -6,7 +6,7 @@ import lombok.Data;
  * Theme configuration: option entity.
  *
  * @author johnniang
- * @date 4/10/19
+ * @since 4/10/19
  */
 @Data
 public class Option {

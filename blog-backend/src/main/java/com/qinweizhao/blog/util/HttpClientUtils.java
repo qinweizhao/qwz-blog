@@ -27,7 +27,7 @@ import java.util.Objects;
  * Http client utilities.
  *
  * @author johnniang
- * @date 3/29/19
+ * @since 3/29/19
  */
 public class HttpClientUtils {
 

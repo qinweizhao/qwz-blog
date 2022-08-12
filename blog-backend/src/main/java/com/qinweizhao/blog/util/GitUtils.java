@@ -22,7 +22,7 @@ import java.util.List;
  * Git utilities.
  *
  * @author johnniang
- * @date 19-6-12
+ * @since 19-6-12
  */
 @Slf4j
 public class GitUtils {

@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
  *
  * @author johnniang
  * @author ryanwang
- * @date 2019-04-24
+ * @since 2019-04-24
  */
 @Data
 public class JournalDTO {

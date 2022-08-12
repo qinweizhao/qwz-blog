@@ -7,7 +7,7 @@ import lombok.Data;
  *
  * @author johnniang
  * @author ryanwang
- * @date 2019-03-19
+ * @since 2019-03-19
  */
 @Data
 public class StatisticDTO {

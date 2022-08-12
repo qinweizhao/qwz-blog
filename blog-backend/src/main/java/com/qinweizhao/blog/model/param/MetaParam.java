@@ -11,7 +11,7 @@ import javax.validation.constraints.Size;
  *
  * @author ryanwang
  * @author ikaisec
- * @date 2019-08-04
+ * @since 2019-08-04
  */
 @Data
 public class MetaParam {

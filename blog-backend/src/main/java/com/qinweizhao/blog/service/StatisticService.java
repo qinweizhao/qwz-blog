@@ -7,7 +7,7 @@ import com.qinweizhao.blog.model.dto.StatisticWithUserDTO;
  * Statistic service interface.
  *
  * @author ryanwang
- * @date 2019-12-16
+ * @since 2019-12-16
  */
 public interface StatisticService {
 

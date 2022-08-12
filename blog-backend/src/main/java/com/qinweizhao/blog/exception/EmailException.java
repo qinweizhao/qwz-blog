@@ -4,7 +4,7 @@ package com.qinweizhao.blog.exception;
  * Email exception.
  *
  * @author johnniang
- * @date 19-4-23
+ * @since 19-4-23
  */
 public class EmailException extends ServiceException {
 

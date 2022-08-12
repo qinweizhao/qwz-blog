@@ -7,7 +7,7 @@ import lombok.Data;
  * Option query params.
  *
  * @author ryanwang
- * @date 2019-12-02
+ * @since 2019-12-02
  */
 @Data
 public class OptionQuery {

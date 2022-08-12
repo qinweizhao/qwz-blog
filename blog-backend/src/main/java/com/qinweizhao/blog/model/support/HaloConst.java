@@ -11,7 +11,7 @@ import java.util.Optional;
  * </pre>
  *
  * @author ryanwang
- * @date 2017/12/29
+ * @since 2017/12/29
  */
 public class HaloConst {
 

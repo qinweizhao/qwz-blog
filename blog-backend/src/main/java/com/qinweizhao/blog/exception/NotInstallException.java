@@ -4,7 +4,7 @@ package com.qinweizhao.blog.exception;
  * Not install exception.
  *
  * @author johnniang
- * @date 19-4-29
+ * @since 19-4-29
  */
 public class NotInstallException extends BadRequestException {
 

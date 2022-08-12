@@ -7,7 +7,7 @@ import lombok.Data;
  * Access token.
  *
  * @author johnniang
- * @date 19-4-29
+ * @since 19-4-29
  */
 @Data
 public class AuthToken {

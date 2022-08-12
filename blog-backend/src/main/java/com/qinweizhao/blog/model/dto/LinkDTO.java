@@ -6,7 +6,7 @@ import lombok.Data;
  * Link output dto.
  *
  * @author ryanwang
- * @date 2019/3/21
+ * @since 2019/3/21
  */
 @Data
 public class LinkDTO {

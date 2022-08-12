@@ -8,7 +8,7 @@ import lombok.ToString;
  * Http trace dto.
  *
  * @author johnniang
- * @date 19-6-18
+ * @since 19-6-18
  */
 @Data
 @ToString

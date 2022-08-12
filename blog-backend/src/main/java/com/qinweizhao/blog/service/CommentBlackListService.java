@@ -8,7 +8,7 @@ import com.qinweizhao.blog.model.enums.CommentViolationTypeEnum;
  * Comment BlackList Service
  *
  * @author Lei XinXin
- * @date 2020/1/3
+ * @since 2020/1/3
  */
 public interface CommentBlackListService {
 

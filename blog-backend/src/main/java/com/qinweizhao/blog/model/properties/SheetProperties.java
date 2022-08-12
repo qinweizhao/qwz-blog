@@ -6,7 +6,7 @@ import org.springframework.lang.NonNull;
  * Sheet properties.
  *
  * @author ryanwang
- * @date 2020-02-11
+ * @since 2020-02-11
  */
 public enum SheetProperties implements PropertyEnum {
 

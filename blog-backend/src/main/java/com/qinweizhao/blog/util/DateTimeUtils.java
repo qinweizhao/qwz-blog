@@ -12,7 +12,7 @@ import static cn.hutool.core.date.DatePattern.*;
  * 日期工具
  *
  * @author LeiXinXin
- * @date 2019/12/10
+ * @since 2019/12/10
  */
 public class DateTimeUtils {
     /**

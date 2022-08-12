@@ -5,7 +5,7 @@ package com.qinweizhao.blog.model.properties;
  *
  * @author ryanwang
  * @author ikaisec
- * @date 2019-08-04
+ * @since 2019-08-04
  */
 public enum SmmsProperties implements PropertyEnum {
 

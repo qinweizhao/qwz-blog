@@ -12,7 +12,7 @@ import java.io.IOException;
  * 内容认证失败处理程序
  *
  * @author johnniang
- * @date 19-5-6
+ * @since 19-5-6
  */
 public class ContentAuthenticationFailureHandler implements AuthenticationFailureHandler {
 

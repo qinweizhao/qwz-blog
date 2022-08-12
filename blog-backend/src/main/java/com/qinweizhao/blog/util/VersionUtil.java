@@ -7,8 +7,8 @@ import lombok.extern.slf4j.Slf4j;
  *
  * @author ryanwang
  * @author johnniang
- * @date 2020-02-03
- * @date 2020-08-03
+ * @since 2020-02-03
+ * @since 2020-08-03
  */
 @Slf4j
 public final class VersionUtil {

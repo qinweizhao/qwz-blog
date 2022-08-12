@@ -8,7 +8,7 @@ import org.springframework.lang.Nullable;
  * Halo runtime mode.
  *
  * @author johnniang
- * @date 19-6-10
+ * @since 19-6-10
  */
 public enum Mode {
 

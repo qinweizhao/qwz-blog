@@ -8,7 +8,7 @@ import org.springframework.util.Assert;
  * Visit event.
  *
  * @author johnniang
- * @date 19-4-22
+ * @since 19-4-22
  */
 public abstract class AbstractVisitEvent extends ApplicationEvent {
 

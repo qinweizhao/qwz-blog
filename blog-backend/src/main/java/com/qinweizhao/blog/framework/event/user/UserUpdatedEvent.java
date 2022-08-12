@@ -8,7 +8,7 @@ import org.springframework.util.Assert;
  * User update event. (creation or updating)
  *
  * @author johnniang
- * @date 19-4-29
+ * @since 19-4-29
  */
 public class UserUpdatedEvent extends ApplicationEvent {
 

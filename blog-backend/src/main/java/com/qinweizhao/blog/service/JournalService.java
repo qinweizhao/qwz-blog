@@ -9,7 +9,7 @@ import com.qinweizhao.blog.model.param.JournalQuery;
  * Journal service interface.
  *
  * @author qinweizhao
- * @date 2019-04-24
+ * @since 2019-04-24
  */
 public interface JournalService {
 

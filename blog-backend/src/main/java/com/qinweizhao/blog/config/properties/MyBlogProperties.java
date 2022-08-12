@@ -17,7 +17,7 @@ import static com.qinweizhao.blog.util.HaloUtils.ensureSuffix;
  * @author johnniang
  * @author ryanwang
  * @author qinweizhao
- * @date 2019-03-15
+ * @since 2019-03-15
  */
 @Data
 @ConfigurationProperties("blog")

@@ -11,7 +11,7 @@ import javax.validation.constraints.Size;
  *
  * @author johnniang
  * @author ryanwang
- * @date 2019-4-25
+ * @since 2019-4-25
  */
 @Data
 public class JournalParam {

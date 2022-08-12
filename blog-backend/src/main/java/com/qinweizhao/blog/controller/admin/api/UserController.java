@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
  * User controller.
  *
  * @author qinweizhao
- * @date 2019-03-19
+ * @since 2022/7/31
  */
 @RestController
 @AllArgsConstructor

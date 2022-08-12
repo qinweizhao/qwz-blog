@@ -4,7 +4,7 @@ package com.qinweizhao.blog.exception;
  * Missing property value exception.
  *
  * @author johnniang
- * @date 3/22/19
+ * @since 3/22/19
  */
 public class MissingPropertyException extends BadRequestException {
 

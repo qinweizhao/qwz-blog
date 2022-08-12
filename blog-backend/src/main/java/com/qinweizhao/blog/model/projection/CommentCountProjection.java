@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
  * PostComment count projection
  *
  * @author johnniang
- * @date 3/22/19
+ * @since 3/22/19
  */
 @Data
 @AllArgsConstructor

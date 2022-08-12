@@ -32,7 +32,7 @@ import static com.qinweizhao.blog.model.support.HaloConst.ONE_TIME_TOKEN_QUERY_N
  * Abstract authentication filter.
  *
  * @author johnniang
- * @date 19-4-16
+ * @since 19-4-16
  */
 @Slf4j
 public abstract class AbstractAuthenticationFilter extends OncePerRequestFilter {

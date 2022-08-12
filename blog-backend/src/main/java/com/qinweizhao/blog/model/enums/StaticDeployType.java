@@ -4,7 +4,7 @@ package com.qinweizhao.blog.model.enums;
  * Static deploy type.
  *
  * @author ryanwang
- * @date 2019-12-26
+ * @since 2019-12-26
  */
 public enum StaticDeployType implements ValueEnum<Integer> {
 

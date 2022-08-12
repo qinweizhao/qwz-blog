@@ -15,7 +15,7 @@ import static com.qinweizhao.blog.model.support.HaloConst.FILE_SEPARATOR;
  * File handler interface.
  *
  * @author johnniang
- * @date 2019-03-27
+ * @since 2019-03-27
  */
 public interface FileHandler {
 

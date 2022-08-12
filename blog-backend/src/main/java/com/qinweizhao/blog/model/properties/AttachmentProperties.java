@@ -6,7 +6,7 @@ import com.qinweizhao.blog.model.enums.AttachmentType;
  * Attachment properties.
  *
  * @author johnniang
- * @date 4/1/19
+ * @since 4/1/19
  */
 public enum AttachmentProperties implements PropertyEnum {
 

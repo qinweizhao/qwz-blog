@@ -18,7 +18,7 @@ import java.util.Map;
  * Freemarker custom tag of post.
  *
  * @author ryanwang
- * @date 2018-04-26
+ * @since 2018-04-26
  */
 @Component
 public class PostTagDirective implements TemplateDirectiveModel {

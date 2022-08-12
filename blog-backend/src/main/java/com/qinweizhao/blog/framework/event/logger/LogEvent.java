@@ -8,7 +8,7 @@ import org.springframework.context.ApplicationEvent;
 
 /**
  * @author johnniang
- * @date 19-4-20
+ * @since 19-4-20
  */
 public class LogEvent extends ApplicationEvent {
 
