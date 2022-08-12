@@ -1,7 +1,6 @@
 package com.qinweizhao.blog.service.impl;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.qinweizhao.blog.config.properties.MyBlogProperties;
 import com.qinweizhao.blog.exception.ServiceException;
 import com.qinweizhao.blog.framework.handler.theme.config.support.Group;
 import com.qinweizhao.blog.framework.handler.theme.config.support.Item;
@@ -38,7 +37,6 @@ public class ThemeSettingServiceImpl implements ThemeSettingService {
 
     private final Configuration configuration;
 
-    private final MyBlogProperties blogProperties;
 
     @Override
     public Map<String, Object> getSettings() {
@@ -48,9 +46,9 @@ public class ThemeSettingServiceImpl implements ThemeSettingService {
         // Get theme setting
         List<ThemeSetting> themeSettings = themeSettingMapper.selectList(Wrappers.emptyWrapper());
 
-        Map<String, Object> result = new HashMap<>();
+        Map<String, Object> result = new LinkedHashMap<>();
 
-        // Build settings from user-defined
+        // 从用户定义的构建设置
         themeSettings.forEach(themeSetting -> {
             String key = themeSetting.getSettingKey();
 
@@ -66,7 +64,7 @@ public class ThemeSettingServiceImpl implements ThemeSettingService {
             result.put(key, convertedValue);
         });
 
-        // Build settings from pre-defined
+        // 从预定义的构建设置
         itemMap.forEach((name, item) -> {
             log.debug("Name: [{}], item: [{}]", name, item);
 
@@ -98,7 +96,8 @@ public class ThemeSettingServiceImpl implements ThemeSettingService {
         } catch (TemplateModelException e) {
             throw new ServiceException("主题设置保存失败", e);
         }
-        return false;
+
+        return true;
     }
 
     /**
@@ -135,13 +134,13 @@ public class ThemeSettingServiceImpl implements ThemeSettingService {
 
     @Override
     public Map<String, Object> listAsMap() {
-        // Convert to item map(key: item name, value: item)
+
         Map<String, Item> itemMap = getConfigItemMap();
 
         // Get theme setting
         List<ThemeSetting> themeSettings = themeSettingMapper.selectList(Wrappers.emptyWrapper());
 
-        Map<String, Object> result = new HashMap<>();
+        Map<String, Object> result = new LinkedHashMap<>();
 
         // Build settings from user-defined
         themeSettings.forEach(themeSetting -> {
