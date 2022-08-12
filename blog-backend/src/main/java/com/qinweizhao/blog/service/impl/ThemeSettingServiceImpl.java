@@ -14,8 +14,10 @@ import freemarker.template.Configuration;
 import freemarker.template.TemplateModelException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.ObjectUtils;
 
 import java.util.*;
 
@@ -72,7 +74,7 @@ public class ThemeSettingServiceImpl implements ThemeSettingService {
                 return;
             }
 
-            // Set default value
+            // 设置默认值
             Object convertedDefaultValue = item.getDataType().convertTo(item.getDefaultValue());
             log.debug("Converted pre-defined data from [{}] to [{}], type: [{}]", item.getDefaultValue(), convertedDefaultValue, item.getDataType());
 
@@ -89,9 +91,7 @@ public class ThemeSettingServiceImpl implements ThemeSettingService {
             return false;
         }
         // 保存配置
-        settings.forEach((key, value) -> {
-            this.saveItem(key,value.toString());
-        });
+        settings.forEach((key, value) -> this.saveItem(key, String.valueOf(value)));
 
         try {
             configuration.setSharedVariable("settings", listAsMap());
@@ -103,11 +103,32 @@ public class ThemeSettingServiceImpl implements ThemeSettingService {
 
     /**
      * 保存配置
-     * @param key key
+     *
+     * @param key   key
      * @param value value
      */
     private void saveItem(String key, String value) {
+        if (StringUtils.isBlank(value)) {
+            themeSettingMapper.deleteByKey(key);
+        }
 
+        ThemeSetting dbThemeSetting = themeSettingMapper.selectByKey(key);
+
+        ThemeSetting themeSetting = new ThemeSetting();
+        themeSetting.setSettingKey(key);
+        themeSetting.setSettingValue(value);
+
+        if (ObjectUtils.isEmpty(dbThemeSetting)) {
+            // 不存在，执行保存
+            themeSettingMapper.insert(themeSetting);
+        } else {
+            // 存在，判断是否已经需要更新，然后执行过更新。
+            String settingValue = dbThemeSetting.getSettingValue();
+            if (!settingValue.equals(value)) {
+                boolean b = themeSettingMapper.updateByKey(themeSetting);
+                log.debug("更新主题配置：key：{}，更新结果：{}", key, b);
+            }
+        }
 
     }
 
@@ -155,145 +176,6 @@ public class ThemeSettingServiceImpl implements ThemeSettingService {
 
         return result;
     }
-
-//
-//    @Override
-//    public ThemeSetting save(String key, String value, String themeId) {
-//        Assert.notNull(key, "Setting key must not be null");
-//        assertThemeIdHasText(themeId);
-//
-//        log.debug("Starting saving theme setting key: [{}], value: [{}]", key, value);
-//
-//        // Find setting by key
-//        Optional<ThemeSetting> themeSettingOptional = themeSettingRepository.findByThemeIdAndKey(themeId, key);
-//
-//        if (StringUtils.isBlank(value)) {
-//            // Delete it
-//            return themeSettingOptional
-//                    .map(setting -> {
-//                        themeSettingRepository.delete(setting);
-//                        log.debug("Removed theme setting: [{}]", setting);
-//                        return setting;
-//                    }).orElse(null);
-//        }
-//
-//        // Get config item map
-//        Map<String, Item> itemMap = getConfigItemMap(themeId);
-//
-//        // Get item info
-//        Item item = itemMap.get(key);
-//
-//        // Update or create
-//        ThemeSetting themeSetting = themeSettingOptional
-//                .map(setting -> {
-//                    log.debug("Updating theme setting: [{}]", setting);
-//                    setting.setValue(value);
-//                    log.debug("Updated theme setting: [{}]", setting);
-//                    return setting;
-//                }).orElseGet(() -> {
-//                    ThemeSetting setting = new ThemeSetting();
-//                    setting.setKey(key);
-//                    setting.setValue(value);
-//                    setting.setThemeId(themeId);
-//                    log.debug("Creating theme setting: [{}]", setting);
-//                    return setting;
-//                });
-//        // Determine whether the data already exists
-//        if (themeSettingRepository.findOne(Example.of(themeSetting)).isPresent()) {
-//            return null;
-//        }
-//        // Save the theme setting
-//        return themeSettingRepository.save(themeSetting);
-//    }
-//
-//    @Override
-//    public void save(Map<String, Object> settings, String themeId) {
-//        assertThemeIdHasText(themeId);
-//
-//        if (CollectionUtils.isEmpty(settings)) {
-//            return;
-//        }
-//
-//        // Save the settings
-//        settings.forEach((key, value) -> save(key, value.toString(), themeId));
-//
-//        try {
-//            configuration.setSharedVariable("settings", listAsMapBy(themeService.getActivatedThemeId()));
-//        } catch (TemplateModelException e) {
-//            throw new ServiceException("主题设置保存失败", e);
-//        }
-//    }
-//
-//    @Override
-//    public List<ThemeSetting> listBy(String themeId) {
-//        assertThemeIdHasText(themeId);
-//
-//        return themeSettingRepository.findAllByThemeId(themeId);
-//    }
-//
-//    @Override
-//    public Map<String, Object> listAsMapBy(String themeId) {
-//        // Convert to item map(key: item name, value: item)
-//        Map<String, Item> itemMap = getConfigItemMap(themeId);
-//
-//        // Get theme setting
-//        List<ThemeSetting> themeSettings = listBy(themeId);
-//
-//        Map<String, Object> result = new HashMap<>();
-//
-//        // Build settings from user-defined
-//        themeSettings.forEach(themeSetting -> {
-//            String key = themeSetting.getKey();
-//
-//            Item item = itemMap.get(key);
-//
-//            if (item == null) {
-//                return;
-//            }
-//
-//            Object convertedValue = item.getDataType().convertTo(themeSetting.getValue());
-//            log.debug("Converted user-defined data from [{}] to [{}], type: [{}]", themeSetting.getValue(), convertedValue, item.getDataType());
-//
-//            result.put(key, convertedValue);
-//        });
-//
-//        // Build settings from pre-defined
-//        itemMap.forEach((name, item) -> {
-//            log.debug("Name: [{}], item: [{}]", name, item);
-//
-//            if (item.getDefaultValue() == null || result.containsKey(name)) {
-//                return;
-//            }
-//
-//            // Set default value
-//            Object convertedDefaultValue = item.getDataType().convertTo(item.getDefaultValue());
-//            log.debug("Converted pre-defined data from [{}] to [{}], type: [{}]", item.getDefaultValue(), convertedDefaultValue, item.getDataType());
-//
-//            result.put(name, convertedDefaultValue);
-//        });
-//
-//        return result;
-//    }
-//
-//    @Override
-//    public List<ThemeSetting> replaceUrl(String oldUrl, String newUrl) {
-//        List<ThemeSetting> themeSettings = listAll();
-//        List<ThemeSetting> replaced = new ArrayList<>();
-//        themeSettings.forEach(themeSetting -> {
-//            if (StringUtils.isNotEmpty(themeSetting.getValue())) {
-//                themeSetting.setValue(themeSetting.getValue().replaceAll(oldUrl, newUrl));
-//            }
-//            replaced.add(themeSetting);
-//        });
-//        return updateInBatch(replaced);
-//    }
-//
-//    @Override
-//    @Transactional
-//    public void deleteInactivated() {
-//        themeSettingRepository.deleteByThemeIdIsNot(themeService.getActivatedThemeId());
-//    }
-//
 
     /**
      * 获取配置项映射。 （键：项目名称，值：项目）
