@@ -42,7 +42,7 @@ public class ThemeController {
      */
     @GetMapping("configurations")
     public List<Group> listConfigurations() {
-        return themeService.fetchConfig();
+        return themeService.listConfig();
     }
 
     /**

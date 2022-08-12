@@ -16,7 +16,6 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
-import org.springframework.util.ObjectUtils;
 
 import java.util.*;
 
@@ -88,7 +87,6 @@ public class ThemeSettingServiceImpl implements ThemeSettingService {
         if (CollectionUtils.isEmpty(settings)) {
             return false;
         }
-        Set<String> strings = settings.keySet();
         // Save the settings
         settings.forEach((key, value) -> {
 
@@ -96,7 +94,7 @@ public class ThemeSettingServiceImpl implements ThemeSettingService {
         });
 
         try {
-            configuration.setSharedVariable("settings", listAsMapBy());
+            configuration.setSharedVariable("settings", listAsMap());
         } catch (TemplateModelException e) {
             throw new ServiceException("主题设置保存失败", e);
         }
@@ -105,7 +103,7 @@ public class ThemeSettingServiceImpl implements ThemeSettingService {
 
 
     @Override
-    public Map<String, Object> listAsMapBy() {
+    public Map<String, Object> listAsMap() {
         // Convert to item map(key: item name, value: item)
         Map<String, Item> itemMap = getConfigItemMap();
 
@@ -294,7 +292,7 @@ public class ThemeSettingServiceImpl implements ThemeSettingService {
      */
     private Map<String, Item> getConfigItemMap() {
         // Get theme configuration
-        List<Group> groups = themeService.fetchConfig();
+        List<Group> groups = themeService.listConfig();
 
         // Mix all items
         Set<Item> items = new LinkedHashSet<>();
@@ -303,14 +301,6 @@ public class ThemeSettingServiceImpl implements ThemeSettingService {
         // Convert to item map(key: item name, value: item)
         return ServiceUtils.convertToMap(items, Item::getName);
     }
-//
-//    /**
-//     * Asserts theme id has text.
-//     *
-//     * @param themeId theme id to be checked
-//     */
-//    private void assertThemeIdHasText(String themeId) {
-//        Assert.hasText(themeId, "Theme id must not be null");
-//    }
+
 
 }

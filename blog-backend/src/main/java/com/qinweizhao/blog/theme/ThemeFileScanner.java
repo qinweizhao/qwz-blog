@@ -23,6 +23,9 @@ import static com.qinweizhao.blog.service.ThemeService.CAN_EDIT_SUFFIX;
  */
 public enum ThemeFileScanner {
 
+    /**
+     * 实例
+     */
     INSTANCE;
 
     /**

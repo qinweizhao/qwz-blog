@@ -46,6 +46,14 @@ public abstract class AbstractStringCacheStore extends AbstractCacheStore<String
         }
     }
 
+    /**
+     * 获取信息
+     *
+     * @param key  key
+     * @param type type
+     * @param <T>  T
+     * @return T
+     */
     public <T> Optional<T> getAny(String key, Class<T> type) {
         Assert.notNull(type, "Type must not be null");
 

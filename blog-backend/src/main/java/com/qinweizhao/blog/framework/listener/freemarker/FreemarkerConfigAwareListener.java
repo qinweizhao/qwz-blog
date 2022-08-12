@@ -1,8 +1,6 @@
 package com.qinweizhao.blog.framework.listener.freemarker;
 
 import com.qinweizhao.blog.framework.event.options.OptionUpdatedEvent;
-import com.qinweizhao.blog.framework.event.theme.ThemeActivatedEvent;
-import com.qinweizhao.blog.framework.event.theme.ThemeUpdatedEvent;
 import com.qinweizhao.blog.framework.event.user.UserUpdatedEvent;
 import com.qinweizhao.blog.model.properties.BlogProperties;
 import com.qinweizhao.blog.model.properties.SeoProperties;
@@ -59,19 +57,6 @@ public class FreemarkerConfigAwareListener {
         loadUserConfig();
     }
 
-    @EventListener
-    public void onThemeActivatedEvent(ThemeActivatedEvent themeActivatedEvent) throws TemplateModelException {
-        log.debug("收到主题激活事件");
-
-        loadThemeConfig();
-    }
-
-    @EventListener
-    public void onThemeUpdatedEvent(ThemeUpdatedEvent event) throws TemplateModelException {
-        log.debug("收到主题更新事件");
-
-        loadThemeConfig();
-    }
 
     @EventListener
     public void onUserUpdate(UserUpdatedEvent event) throws TemplateModelException {
@@ -82,7 +67,7 @@ public class FreemarkerConfigAwareListener {
 
     @EventListener
     public void onOptionUpdate(OptionUpdatedEvent event) throws TemplateModelException {
-        log.debug("Received option updated event");
+        log.debug("Received option updated event时间：{}", event.getTimestamp());
 
         loadOptionsConfig();
         loadThemeConfig();
@@ -125,21 +110,22 @@ public class FreemarkerConfigAwareListener {
 
     private void loadThemeConfig() {
         // 获取当前激活的主题
-        System.out.println("themeService.fetchActivatedTheme() = " + themeService.fetchActivatedTheme());
         themeService.fetchActivatedTheme().ifPresent(activatedTheme -> {
             String themeBasePath = (optionService.isEnabledAbsolutePath() ? optionService.getBlogBaseUrl() : "") + "/themes/" + activatedTheme.getFolderName();
             try {
                 configuration.setSharedVariable("theme", activatedTheme);
 
-                // TODO: 未来删除
                 configuration.setSharedVariable("static", themeBasePath);
 
                 configuration.setSharedVariable("theme_base", themeBasePath);
 
                 configuration.setSharedVariable("settings", themeSettingService.getSettings());
+
                 log.debug("Loaded theme and settings");
             } catch (TemplateModelException e) {
+
                 log.error("Failed to set shared variable!", e);
+
             }
         });
 
