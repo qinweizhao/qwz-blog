@@ -35,7 +35,6 @@ public class ThemeController {
         return themeService.getThemeProperty();
     }
 
-
     /**
      * 主题配置
      *
@@ -45,7 +44,6 @@ public class ThemeController {
     public List<Group> listConfigurations() {
         return themeService.fetchConfig();
     }
-
 
     /**
      * 主题设置
@@ -67,46 +65,4 @@ public class ThemeController {
         return themeSettingService.save(settings);
     }
 
-//    @PostMapping("upload")
-//    @ApiOperation("Uploads a theme")
-//    public ThemeProperty uploadTheme(@RequestPart("file") MultipartFile file) {
-//        return themeService.upload(file);
-//    }
-//
-////    @PutMapping("upload/{themeId}")
-////    @ApiOperation("Upgrades theme by file")
-////    public ThemeProperty updateThemeByUpload(@PathVariable("themeId") String themeId,
-////            @RequestPart("file") MultipartFile file) {
-////        return themeService.update(themeId, file);
-////    }
-//
-//    @PostMapping("fetching")
-//    @ApiOperation("Fetches a new theme")
-//    public ThemeProperty fetchTheme(@RequestParam("uri") String uri) {
-//        return themeService.fetch(uri);
-//    }
-//
-//    @PostMapping("fetchingBranches")
-//    @ApiOperation("Fetches all branches")
-//    public List<ThemeProperty> fetchBranches(@RequestParam("uri") String uri) {
-//        return themeService.fetchBranches(uri);
-//    }
-//
-//    @GetMapping("fetchBranch")
-//    @ApiOperation("Fetch specific branch")
-//    public ThemeProperty fetchBranch(@RequestParam("uri") String uri, @RequestParam("branch") String branchName) {
-//        return themeService.fetchBranch(uri, branchName);
-//    }
-//
-//    @PostMapping("reload")
-//    @ApiOperation("Reloads themes")
-//    public void reload() {
-//        themeService.reload();
-//    }
-//
-//    @GetMapping(value = "activation/template/exists")
-//    @ApiOperation("Determines if template exists")
-//    public BaseResponse<Boolean> exists(@RequestParam(value = "template") String template) {
-//        return BaseResponse.ok(themeService.templateExists(template));
-//    }
 }
