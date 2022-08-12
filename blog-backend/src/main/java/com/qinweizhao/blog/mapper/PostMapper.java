@@ -130,6 +130,24 @@ public interface PostMapper extends BaseMapper<Post> {
     }
 
     /**
+     * 分页（不需要关联分类）
+     * @param param param
+     * @return PageResult
+     */
+    default PageResult<Post> selectPageSimple(PostQueryParam param) {
+        Page<Post> page = MyBatisUtils.buildPage(param);
+        String keyword = param.getKeyword();
+        Page<Post> postPage = selectPage(page, new LambdaQueryWrapperX<Post>()
+                .eqIfPresent(Post::getStatus, param.getStatus())
+                .likeIfPresent(Post::getTitle, keyword)
+                .likeIfPresent(Post::getSummary, keyword)
+                .likeIfPresent(Post::getSlug, keyword)
+        );
+        return new PageResult<>(postPage.getRecords(), postPage.getCurrent(), postPage.getTotal(), postPage.hasPrevious(), postPage.hasNext());
+    }
+
+
+    /**
      * 分页(关联查询)
      *
      * @param page  page
@@ -162,20 +180,6 @@ public interface PostMapper extends BaseMapper<Post> {
     default List<Post> selectListByIds(Set<Integer> postIds) {
         return selectList(new LambdaQueryWrapperX<Post>()
                 .inIfPresent(Post::getId, postIds)
-        );
-    }
-
-    /**
-     * 通过别名和状态查询
-     *
-     * @param slug   slug
-     * @param status published
-     * @return Post
-     */
-    default Post selectBySlugAndStatus(String slug, PostStatus status) {
-        return this.selectOne(new LambdaQueryWrapperX<Post>()
-                .eq(Post::getSlug, slug)
-                .eq(Post::getSlug, status)
         );
     }
 
@@ -247,4 +251,5 @@ public interface PostMapper extends BaseMapper<Post> {
      * @return Integer
      */
     Integer selectPrevIdByIdAndStatus(@Param("postId") Integer postId, @Param("status") PostStatus status);
+
 }

@@ -7,6 +7,7 @@ import com.qinweizhao.blog.mapper.CommentMapper;
 import com.qinweizhao.blog.model.core.PageResult;
 import com.qinweizhao.blog.model.dto.PostDTO;
 import com.qinweizhao.blog.model.dto.PostListDTO;
+import com.qinweizhao.blog.model.dto.PostSimpleDTO;
 import com.qinweizhao.blog.model.dto.TagDTO;
 import com.qinweizhao.blog.model.enums.PostStatus;
 import com.qinweizhao.blog.model.param.PostQueryParam;
@@ -104,7 +105,7 @@ public class PostModel {
         PostQueryParam param = new PostQueryParam();
         param.setSize(pageSize);
         param.setPage(page);
-        PageResult<PostListDTO> posts = postService.page(param);
+        PageResult<PostSimpleDTO> posts = postService.pageSimple(param);
 
         model.addAttribute("is_index", true);
         model.addAttribute("posts", posts);

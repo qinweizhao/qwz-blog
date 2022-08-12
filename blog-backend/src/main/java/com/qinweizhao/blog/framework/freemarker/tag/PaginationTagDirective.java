@@ -35,17 +35,16 @@ public class PaginationTagDirective implements TemplateDirectiveModel {
     public void execute(Environment env, Map params, TemplateModel[] loopVars, TemplateDirectiveBody body) throws TemplateException, IOException {
         final DefaultObjectWrapperBuilder builder = new DefaultObjectWrapperBuilder(Configuration.VERSION_2_3_25);
         if (params.containsKey(HaloConst.METHOD_KEY)) {
-
-            // Get params
+            // 获取参数
             String method = params.get(HaloConst.METHOD_KEY).toString();
+
             int page = Integer.parseInt(params.get("page").toString());
             int total = Integer.parseInt(params.get("total").toString());
             int display = Integer.parseInt(params.get("display").toString());
 
-            // Create pagination object.
             Pagination pagination = new Pagination();
 
-            // Generate next page full path and pre page full path.
+            // 生成下一页完整路径和前一页完整路径
             StringBuilder nextPageFullPath = new StringBuilder();
             StringBuilder prevPageFullPath = new StringBuilder();
 

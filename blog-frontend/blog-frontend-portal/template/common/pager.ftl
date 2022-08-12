@@ -1,5 +1,5 @@
 <#macro pager method postsData slug="" keyword="" display="8">
-  <@paginationTag method="${method}" page="${postsData.number!}" slug="${slug!}" keyword="${keyword!}" total="${postsData.totalPages!}" display="${display}">
+  <@paginationTag method="${method}" page="${postsData.current!}" slug="${slug!}" keyword="${keyword!}" total="${postsData.totalPages!}" display="${display}">
     <#if postsData?? && postsData.totalPages gt 1>
       <#assign disabledPrev = pagination.hasPrev == false>
       <#assign disabledNext = pagination.hasNext == false || (pagination.rainbowPages?size == 0)>

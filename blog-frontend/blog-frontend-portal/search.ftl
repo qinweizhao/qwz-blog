@@ -28,6 +28,7 @@
                 </#list>
               </ul>
               <#include "template/common/pager.ftl">
+              ${posts.total}
               <@pager method="search" postsData=posts keyword="${keyword}" display="${settings.max_pager_number!5}" />
             <#else>
               <#include "template/macro/empty.ftl">

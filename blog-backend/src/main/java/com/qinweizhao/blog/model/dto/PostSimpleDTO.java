@@ -4,6 +4,7 @@ import com.qinweizhao.blog.model.enums.PostStatus;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * @author qinweizhao
@@ -37,6 +38,11 @@ public class PostSimpleDTO {
     private Long likes;
 
     private LocalDateTime createTime;
+
+    private List<CategoryDTO> categories;
+
+    private Long commentCount;
+
 
     public boolean isTopped() {
         return this.topPriority != null && this.topPriority > 0;

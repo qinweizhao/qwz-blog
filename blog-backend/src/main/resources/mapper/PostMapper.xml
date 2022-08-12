@@ -83,8 +83,6 @@
             </if>
             <if test="param.keyword != null and param.keyword != ''">
                 and p.title like concat('%', #{param.keyword}, '%')
-                or p.slug like concat('%', #{param.keyword}, '%')
-                or p.summary like concat('%', #{param.keyword}, '%')
             </if>
             <if test="param.categoryId != null and param.categoryId != ''">
                 and pc.category_id = #{param.categoryId}

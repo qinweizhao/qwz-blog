@@ -1,8 +1,6 @@
 package com.qinweizhao.blog.model.core;
 
 
-import lombok.ToString;
-
 import java.util.Collections;
 import java.util.List;
 
@@ -24,6 +22,11 @@ public class PageResult<T> {
     protected Long total = 0L;
 
     /**
+     * 当前页
+     */
+    protected Long current = 0L;
+
+    /**
      * 是否有上一页
      */
     protected Boolean hasPrevious = false;
@@ -41,9 +44,17 @@ public class PageResult<T> {
         this.total = total;
     }
 
-    public PageResult(List<T> content, long total,boolean hasPrevious,boolean hasNext) {
+    public PageResult(List<T> content, long total, boolean hasPrevious, boolean hasNext) {
         this.content = content;
         this.total = total;
+        this.hasPrevious = hasPrevious;
+        this.hasNext = hasNext;
+    }
+
+    public PageResult(List<T> content,long current, long total, boolean hasPrevious, boolean hasNext) {
+        this.content = content;
+        this.total = total;
+        this.current = current;
         this.hasPrevious = hasPrevious;
         this.hasNext = hasNext;
     }
@@ -71,7 +82,7 @@ public class PageResult<T> {
     public Boolean hasNext() {
         return this.hasNext;
     }
-    
+
     public Boolean getHasPrevious() {
         return hasPrevious;
     }
@@ -88,4 +99,11 @@ public class PageResult<T> {
         this.hasNext = hasNext;
     }
 
+    public Long getCurrent() {
+        return current;
+    }
+
+    public void setCurrent(Long current) {
+        this.current = current;
+    }
 }

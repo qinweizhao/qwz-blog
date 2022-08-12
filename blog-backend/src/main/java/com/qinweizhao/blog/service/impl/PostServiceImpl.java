@@ -132,8 +132,32 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public PageResult<PostSimpleDTO> pageSimple(PostQueryParam param) {
-        return null;
+        PageResult<Post> pageResult = postMapper.selectPageSimple(param);
+        List<Post> pageContent = pageResult.getContent();
+        List<PostSimpleDTO> posts = PostConvert.INSTANCE.convertToSimpleDTO(pageContent);
+
+        Set<Integer> postIds = ServiceUtils.fetchProperty(posts, PostSimpleDTO::getId);
+
+
+        Map<Integer, Long> commentCountMap = commentService.countByPostIds(postIds);
+
+        Map<Integer, List<CategoryDTO>> categoryListMap = postCategoryService.listCategoryListMap(postIds);
+
+        List<PostSimpleDTO> collect = posts.stream().peek(post -> {
+
+            post.setCategories(new ArrayList<>(
+                    Optional.ofNullable(categoryListMap.get(post.getId()))
+                            .orElseGet(LinkedList::new)));
+
+            post.setCommentCount(commentCountMap.getOrDefault(post.getId(), 0L));
+
+            post.setFullPath(buildFullPath(post.getId()));
+
+        }).collect(Collectors.toList());
+
+        return new PageResult<>(collect, pageResult.getCurrent(), pageResult.getTotal(), pageResult.hasPrevious(), pageResult.hasNext());
     }
+
 
     @Override
     @Transactional(rollbackFor = Exception.class)
