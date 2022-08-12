@@ -91,6 +91,21 @@
         order by p.create_time desc
     </select>
 
+    <select id="selectPageSimplePosts" resultType="com.qinweizhao.blog.model.entity.Post">
+        select
+        <include refid="Base_Column_List"/>
+        from post
+        <where>
+            <if test="param.status != null and param.status != ''">
+                and status = #{param.status}
+            </if>
+            <if test="param.keyword != null and param.keyword != ''">
+                and CONCAT(title,slug,summary) like concat('%', #{param.keyword}, '%')
+            </if>
+        </where>
+        order by create_time desc
+    </select>
+
     <select id="selectExistsBySlug" resultType="java.lang.Boolean">
         select count(0)
         from post
@@ -123,5 +138,6 @@
         where id &gt; #{postId}
           and status = #{status}
     </select>
+
 
 </mapper>

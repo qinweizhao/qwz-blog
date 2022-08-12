@@ -20,6 +20,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.ui.Model;
 
 import javax.annotation.Resource;
+import javax.sound.midi.Soundbank;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -106,6 +107,8 @@ public class PostModel {
         param.setSize(pageSize);
         param.setPage(page);
         PageResult<PostSimpleDTO> posts = postService.pageSimple(param);
+//        PageResult<PostListDTO> posts = postService.page(param);
+        System.out.println("执行此处");
 
         model.addAttribute("is_index", true);
         model.addAttribute("posts", posts);

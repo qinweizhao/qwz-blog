@@ -2,6 +2,7 @@ package com.qinweizhao.blog.controller.content;
 
 import com.qinweizhao.blog.model.core.PageResult;
 import com.qinweizhao.blog.model.dto.PostListDTO;
+import com.qinweizhao.blog.model.dto.PostSimpleDTO;
 import com.qinweizhao.blog.model.enums.PostStatus;
 import com.qinweizhao.blog.model.param.PostQueryParam;
 import com.qinweizhao.blog.service.OptionService;
@@ -65,7 +66,7 @@ public class ContentSearchController {
         param.setPage(page);
         param.setKeyword(keyword);
         param.setStatus(PostStatus.PUBLISHED);
-        final PageResult<PostListDTO> postPage = postService.page(param);
+        final PageResult<PostSimpleDTO> postPage = postService.pageSimple(param);
 
 
         model.addAttribute("is_search", true);

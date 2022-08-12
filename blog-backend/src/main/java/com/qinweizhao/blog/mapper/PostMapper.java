@@ -135,14 +135,13 @@ public interface PostMapper extends BaseMapper<Post> {
      * @return PageResult
      */
     default PageResult<Post> selectPageSimple(PostQueryParam param) {
-        Page<Post> page = MyBatisUtils.buildPage(param);
-        String keyword = param.getKeyword();
-        Page<Post> postPage = selectPage(page, new LambdaQueryWrapperX<Post>()
-                .eqIfPresent(Post::getStatus, param.getStatus())
-                .likeIfPresent(Post::getTitle, keyword)
-                .likeIfPresent(Post::getSummary, keyword)
-                .likeIfPresent(Post::getSlug, keyword)
-        );
+        // 待改进，改进优先级：3
+        IPage<Post> page = MyBatisUtils.buildPage(param);
+
+        Map<String, Object> paramMap = new LinkedHashMap<>();
+        paramMap.put("keyword", param.getKeyword());
+        paramMap.put("status", String.valueOf(PostConvert.INSTANCE.statusToInteger(param.getStatus())));
+        Page<Post> postPage = this.selectPageSimplePosts(page,paramMap);
         return new PageResult<>(postPage.getRecords(), postPage.getCurrent(), postPage.getTotal(), postPage.hasPrevious(), postPage.hasNext());
     }
 
@@ -155,6 +154,15 @@ public interface PostMapper extends BaseMapper<Post> {
      * @return PageResult
      */
     Page<Post> selectPagePosts(IPage<Post> page, @Param("param") Map<String, Object> param);
+
+    /**
+     * 分页(关联查询)
+     *
+     * @param page  page
+     * @param param param
+     * @return PageResult
+     */
+    Page<Post> selectPageSimplePosts(IPage<Post> page, @Param("param") Map<String, Object> param);
 
     /**
      * 更新帖子状态
