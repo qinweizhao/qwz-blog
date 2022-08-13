@@ -68,7 +68,6 @@ public class ContentSearchController {
         param.setStatus(PostStatus.PUBLISHED);
         final PageResult<PostSimpleDTO> postPage = postService.pageSimple(param);
 
-
         model.addAttribute("is_search", true);
         model.addAttribute("keyword", keyword);
         model.addAttribute("posts", postPage);

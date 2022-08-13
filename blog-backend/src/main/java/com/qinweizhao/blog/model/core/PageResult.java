@@ -27,6 +27,11 @@ public class PageResult<T> {
     protected Long current = 0L;
 
     /**
+     * 当前页大小
+     */
+    protected Long size = 0L;
+
+    /**
      * 是否有上一页
      */
     protected Boolean hasPrevious = false;
@@ -51,10 +56,11 @@ public class PageResult<T> {
         this.hasNext = hasNext;
     }
 
-    public PageResult(List<T> content,long current, long total, boolean hasPrevious, boolean hasNext) {
+    public PageResult(List<T> content,long current,long size, long total, boolean hasPrevious, boolean hasNext) {
         this.content = content;
-        this.total = total;
         this.current = current;
+        this.size = size;
+        this.total = total;
         this.hasPrevious = hasPrevious;
         this.hasNext = hasNext;
     }
@@ -105,5 +111,24 @@ public class PageResult<T> {
 
     public void setCurrent(Long current) {
         this.current = current;
+    }
+
+    public Long getSize() {
+        return size;
+    }
+
+    public void setSize(Long size) {
+        this.size = size;
+    }
+
+    public long getPages() {
+        if (getSize() == 0) {
+            return 0L;
+        }
+        long pages = getTotal() / getSize();
+        if (getTotal() % getSize() != 0) {
+            pages++;
+        }
+        return pages;
     }
 }

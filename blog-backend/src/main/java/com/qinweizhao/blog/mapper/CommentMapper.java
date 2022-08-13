@@ -87,7 +87,7 @@ public interface CommentMapper extends BaseMapper<Comment> {
                 .likeIfPresent(Comment::getContent, param.getKeyword())
                 .likeIfPresent(Comment::getEmail, param.getKeyword())
         );
-        return MyBatisUtils.buildPageResult(commentPage);
+        return MyBatisUtils.buildSimplePageResult(commentPage);
     }
 
     /**

@@ -17,6 +17,13 @@ import java.util.stream.Collectors;
  */
 public class MyBatisUtils {
 
+    /**
+     * 构建分页
+     *
+     * @param pageParam pageParam
+     * @param <T>       T
+     * @return T
+     */
     public static <T> Page<T> buildPage(PageParam pageParam) {
         // 页码 + 数量
         Page<T> page = new Page<>(pageParam.getPage(), pageParam.getSize());
@@ -31,7 +38,27 @@ public class MyBatisUtils {
     }
 
 
-    public static <T> PageResult<T> buildPageResult(Page<T> page) {
-        return new PageResult<T>(page.getRecords(),page.getTotal(),page.hasPrevious(),page.hasNext());
+    /**
+     * 构建分页返回数据
+     *
+     * @param page page
+     * @param <T>  T
+     * @return T
+     */
+    public static <T> PageResult<T> buildSimplePageResult(Page<T> page) {
+        return new PageResult<T>(page.getRecords(), page.getTotal(), page.hasPrevious(), page.hasNext());
     }
+
+
+    /**
+     * 构建分页返回数据
+     *
+     * @param page page
+     * @param <T>  T
+     * @return T
+     */
+    public static <T> PageResult<T> buildPageResult(Page<T> page) {
+        return new PageResult<>(page.getRecords(), page.getCurrent(), page.getSize(), page.getTotal(), page.hasPrevious(), page.hasNext());
+    }
+
 }

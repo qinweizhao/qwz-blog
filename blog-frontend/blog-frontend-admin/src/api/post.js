@@ -29,25 +29,19 @@ postApi.get = postId => {
   })
 }
 
-postApi.create = (postToCreate, autoSave) => {
+postApi.create = postToCreate => {
   return service({
     url: baseUrl,
     method: 'post',
-    data: postToCreate,
-    params: {
-      autoSave: autoSave
-    }
+    data: postToCreate
   })
 }
 
-postApi.update = (postId, postToUpdate, autoSave) => {
+postApi.update = (postId, postToUpdate) => {
   return service({
     url: `${baseUrl}/${postId}`,
     method: 'put',
-    data: postToUpdate,
-    params: {
-      autoSave: autoSave
-    }
+    data: postToUpdate
   })
 }
 

@@ -51,7 +51,7 @@ public interface JournalMapper extends BaseMapper<Journal> {
                 .eqIfPresent(Journal::getType, param.getType())
                 .likeIfPresent(Journal::getSourceContent, param.getKeyword())
         );
-        return MyBatisUtils.buildPageResult(result);
+        return MyBatisUtils.buildSimplePageResult(result);
     }
 
 

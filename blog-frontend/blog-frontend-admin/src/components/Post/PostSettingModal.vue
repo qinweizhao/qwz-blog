@@ -175,6 +175,7 @@ import { postStatuses } from '@/core/constant'
 
 // apis
 import apiClient from '@/utils/api-client'
+import postApi from '@/api/post'
 
 export default {
   name: 'PostSettingModal',
@@ -313,9 +314,9 @@ export default {
       this.form.model.keepRaw = true
       try {
         if (this.hasId) {
-          await apiClient.post.update(this.form.model.id, this.form.model)
+          await postApi.update(this.form.model.id, this.form.model)
         } else {
-          await apiClient.post.create(this.form.model)
+          await postApi.create(this.form.model)
         }
       } catch (error) {
         this.$log.error(error)

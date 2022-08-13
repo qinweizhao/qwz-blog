@@ -126,11 +126,12 @@ public interface PostMapper extends BaseMapper<Post> {
         paramMap.put("status", String.valueOf(status));
 
         Page<Post> postPage = this.selectPagePosts(page, paramMap);
-        return MyBatisUtils.buildPageResult(postPage);
+        return MyBatisUtils.buildSimplePageResult(postPage);
     }
 
     /**
      * 分页（不需要关联分类）
+     *
      * @param param param
      * @return PageResult
      */
@@ -141,8 +142,8 @@ public interface PostMapper extends BaseMapper<Post> {
         Map<String, Object> paramMap = new LinkedHashMap<>();
         paramMap.put("keyword", param.getKeyword());
         paramMap.put("status", String.valueOf(PostConvert.INSTANCE.statusToInteger(param.getStatus())));
-        Page<Post> postPage = this.selectPageSimplePosts(page,paramMap);
-        return new PageResult<>(postPage.getRecords(), postPage.getCurrent(), postPage.getTotal(), postPage.hasPrevious(), postPage.hasNext());
+        Page<Post> postPage = this.selectPageSimplePosts(page, paramMap);
+        return MyBatisUtils.buildPageResult(postPage);
     }
 
 

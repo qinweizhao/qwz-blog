@@ -69,6 +69,6 @@ public interface AttachmentMapper extends BaseMapper<Attachment> {
                 .eqIfPresent(Attachment::getType, typeValue)
                 .orderByDesc(Attachment::getCreateTime)
         );
-        return MyBatisUtils.buildPageResult(attachmentPage);
+        return MyBatisUtils.buildSimplePageResult(attachmentPage);
     }
 }

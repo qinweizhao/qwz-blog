@@ -28,7 +28,7 @@ public interface LogMapper extends BaseMapper<Log> {
     default PageResult<Log> selectPageLogs(LogQueryParam param) {
         Page<Log> page = MyBatisUtils.buildPage(param);
         Page<Log> logPage = this.selectPage(page, new LambdaQueryWrapper<>());
-        return MyBatisUtils.buildPageResult(logPage);
+        return MyBatisUtils.buildSimplePageResult(logPage);
     }
 
 

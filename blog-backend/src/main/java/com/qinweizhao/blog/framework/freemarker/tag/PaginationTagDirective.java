@@ -53,7 +53,7 @@ public class PaginationTagDirective implements TemplateDirectiveModel {
                 prevPageFullPath.append(optionService.getBlogBaseUrl());
             }
 
-            int[] rainbow = PageUtil.rainbow(page + 1, total, display);
+            int[] rainbow = PageUtil.rainbow(page, total, display);
 
             List<RainbowPage> rainbowPages = new ArrayList<>();
             StringBuilder fullPath = new StringBuilder();
@@ -68,7 +68,7 @@ public class PaginationTagDirective implements TemplateDirectiveModel {
                 case "index":
 
                     nextPageFullPath.append("/page/")
-                            .append(page + 2)
+                            .append(page + 1)
                             .append(pathSuffix);
 
                     if (page == 1) {
@@ -85,7 +85,7 @@ public class PaginationTagDirective implements TemplateDirectiveModel {
                         RainbowPage rainbowPage = new RainbowPage();
                         rainbowPage.setPage(current);
                         rainbowPage.setFullPath(fullPath.toString() + current + pathSuffix);
-                        rainbowPage.setIsCurrent(page + 1 == current);
+                        rainbowPage.setIsCurrent(page == current);
                         rainbowPages.add(rainbowPage);
                     }
                     break;
@@ -97,7 +97,7 @@ public class PaginationTagDirective implements TemplateDirectiveModel {
                             .append(optionService.getArchivesPrefix());
 
                     nextPageFullPath.append("/page/")
-                            .append(page + 2)
+                            .append(page + 1)
                             .append(pathSuffix);
 
                     if (page == 1) {
@@ -118,7 +118,7 @@ public class PaginationTagDirective implements TemplateDirectiveModel {
                         RainbowPage rainbowPage = new RainbowPage();
                         rainbowPage.setPage(current);
                         rainbowPage.setFullPath(fullPath.toString() + current + pathSuffix);
-                        rainbowPage.setIsCurrent(page + 1 == current);
+                        rainbowPage.setIsCurrent(page == current);
                         rainbowPages.add(rainbowPage);
                     }
                     break;
@@ -131,7 +131,7 @@ public class PaginationTagDirective implements TemplateDirectiveModel {
                             .append("search");
 
                     nextPageFullPath.append("/page/")
-                            .append(page + 2)
+                            .append(page)
                             .append(pathSuffix)
                             .append("?keyword=")
                             .append(keyword);
@@ -157,7 +157,7 @@ public class PaginationTagDirective implements TemplateDirectiveModel {
                         RainbowPage rainbowPage = new RainbowPage();
                         rainbowPage.setPage(current);
                         rainbowPage.setFullPath(fullPath.toString() + current + pathSuffix + "?keyword=" + keyword);
-                        rainbowPage.setIsCurrent(page + 1 == current);
+                        rainbowPage.setIsCurrent(page == current);
                         rainbowPages.add(rainbowPage);
                     }
                     break;
@@ -174,7 +174,7 @@ public class PaginationTagDirective implements TemplateDirectiveModel {
                             .append(tagSlug);
 
                     nextPageFullPath.append("/page/")
-                            .append(page + 2)
+                            .append(page + 1)
                             .append(pathSuffix);
 
                     if (page == 1) {
@@ -196,7 +196,7 @@ public class PaginationTagDirective implements TemplateDirectiveModel {
                         RainbowPage rainbowPage = new RainbowPage();
                         rainbowPage.setPage(current);
                         rainbowPage.setFullPath(fullPath.toString() + current + pathSuffix);
-                        rainbowPage.setIsCurrent(page + 1 == current);
+                        rainbowPage.setIsCurrent(page == current);
                         rainbowPages.add(rainbowPage);
                     }
                     break;
@@ -213,7 +213,7 @@ public class PaginationTagDirective implements TemplateDirectiveModel {
                             .append(categorySlug);
 
                     nextPageFullPath.append("/page/")
-                            .append(page + 2)
+                            .append(page + 1)
                             .append(pathSuffix);
 
                     if (page == 1) {
@@ -235,7 +235,7 @@ public class PaginationTagDirective implements TemplateDirectiveModel {
                         RainbowPage rainbowPage = new RainbowPage();
                         rainbowPage.setPage(current);
                         rainbowPage.setFullPath(fullPath.toString() + current + pathSuffix);
-                        rainbowPage.setIsCurrent(page + 1 == current);
+                        rainbowPage.setIsCurrent(page == current);
                         rainbowPages.add(rainbowPage);
                     }
                     break;
@@ -247,7 +247,7 @@ public class PaginationTagDirective implements TemplateDirectiveModel {
                             .append(optionService.getPhotosPrefix());
 
                     nextPageFullPath.append("/page/")
-                            .append(page + 2)
+                            .append(page + 1)
                             .append(pathSuffix);
 
                     if (page == 1) {
@@ -267,7 +267,7 @@ public class PaginationTagDirective implements TemplateDirectiveModel {
                         RainbowPage rainbowPage = new RainbowPage();
                         rainbowPage.setPage(current);
                         rainbowPage.setFullPath(fullPath.toString() + current + pathSuffix);
-                        rainbowPage.setIsCurrent(page + 1 == current);
+                        rainbowPage.setIsCurrent(page == current);
                         rainbowPages.add(rainbowPage);
                     }
                     break;
@@ -279,7 +279,7 @@ public class PaginationTagDirective implements TemplateDirectiveModel {
                             .append(optionService.getJournalsPrefix());
 
                     nextPageFullPath.append("/page/")
-                            .append(page + 2)
+                            .append(page + 1)
                             .append(pathSuffix);
 
                     if (page == 1) {
@@ -299,7 +299,7 @@ public class PaginationTagDirective implements TemplateDirectiveModel {
                         RainbowPage rainbowPage = new RainbowPage();
                         rainbowPage.setPage(current);
                         rainbowPage.setFullPath(fullPath.toString() + current + pathSuffix);
-                        rainbowPage.setIsCurrent(page + 1 == current);
+                        rainbowPage.setIsCurrent(page == current);
                         rainbowPages.add(rainbowPage);
                     }
                     break;
@@ -309,7 +309,7 @@ public class PaginationTagDirective implements TemplateDirectiveModel {
             pagination.setNextPageFullPath(nextPageFullPath.toString());
             pagination.setPrevPageFullPath(prevPageFullPath.toString());
             pagination.setRainbowPages(rainbowPages);
-            pagination.setHasNext(total != page + 1);
+            pagination.setHasNext(total != page);
             pagination.setHasPrev(page != 0);
             env.setVariable("pagination", builder.build().wrap(pagination));
         }
