@@ -13,7 +13,7 @@
                     <div class="joe_archive__title-title">
                         <i class="joe-font joe-icon-search joe_archive__title-icon"></i>
                         <#if keyword?? && keyword?trim!=''>
-                            搜索到<span class="muted ellipsis">${posts.content?size}</span>条与<span
+                            搜索到<span class="muted ellipsis">${posts.total}</span>条与<span
                                 class="muted ellipsis">${keyword}</span>
                             <span>相关的文章：</span>
                         <#else>
