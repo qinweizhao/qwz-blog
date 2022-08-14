@@ -162,7 +162,6 @@ public class SheetServiceImpl implements SheetService {
 
         String context = (optionService.isEnabledAbsolutePath() ? optionService.getBlogBaseUrl() : "") + "/";
 
-        // photos sheet
         IndependentSheetDTO photoSheet = new IndependentSheetDTO();
         photoSheet.setId(2);
         photoSheet.setTitle("图库页面");
@@ -170,7 +169,6 @@ public class SheetServiceImpl implements SheetService {
         photoSheet.setRouteName("PhotoList");
         photoSheet.setAvailable(themeService.templateExists("photos.ftl"));
 
-        // journals sheet
         IndependentSheetDTO journalSheet = new IndependentSheetDTO();
         journalSheet.setId(3);
         journalSheet.setTitle("日志页面");

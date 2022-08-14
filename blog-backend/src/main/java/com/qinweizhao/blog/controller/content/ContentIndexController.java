@@ -1,18 +1,15 @@
 package com.qinweizhao.blog.controller.content;
 
 import com.qinweizhao.blog.controller.content.model.PostModel;
-import com.qinweizhao.blog.model.dto.PostDTO;
 import com.qinweizhao.blog.model.enums.PostStatus;
-import com.qinweizhao.blog.service.OptionService;
 import com.qinweizhao.blog.service.PostService;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
 
-import javax.annotation.Resource;
 import java.util.Objects;
 
 /**
@@ -24,17 +21,12 @@ import java.util.Objects;
  */
 @Slf4j
 @Controller
-@RequestMapping
+@AllArgsConstructor
 public class ContentIndexController {
 
-    @Resource
-    private PostService postService;
+    private final PostService postService;
 
-    @Resource
-    private OptionService optionService;
-
-    @Resource
-    private PostModel postModel;
+    private final PostModel postModel;
 
 
     /**
@@ -49,7 +41,7 @@ public class ContentIndexController {
 
         if (!Objects.isNull(p)) {
             PostStatus status = postService.getStatusById(p);
-            return postModel.content(p,status, token, model);
+            return postModel.content(p, status, token, model);
         }
 
         return this.index(model, 1);
@@ -63,8 +55,7 @@ public class ContentIndexController {
      * @return template path: themes/{theme}/index.ftl
      */
     @GetMapping(value = "page/{page}")
-    public String index(Model model,
-                        @PathVariable(value = "page") Integer page) {
+    public String index(Model model, @PathVariable(value = "page") Integer page) {
         System.out.println("postModel.list(page, model) = " + postModel.list(page, model));
         return postModel.list(page, model);
     }
