@@ -282,7 +282,7 @@ export default {
       for (let i = 0; i < menus.length; i++) {
         result.push(menus[i])
         const children = menus[i].children
-        if (children.length > 0) {
+        if (children && children.length > 0) {
           this.handleGetMenusWithoutLevel(children, result)
         }
       }

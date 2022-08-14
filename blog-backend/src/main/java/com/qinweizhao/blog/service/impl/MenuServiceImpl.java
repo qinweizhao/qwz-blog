@@ -1,8 +1,8 @@
 package com.qinweizhao.blog.service.impl;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.qinweizhao.blog.model.convert.MenuConvert;
 import com.qinweizhao.blog.mapper.MenuMapper;
+import com.qinweizhao.blog.model.convert.MenuConvert;
 import com.qinweizhao.blog.model.dto.MenuDTO;
 import com.qinweizhao.blog.model.entity.Menu;
 import com.qinweizhao.blog.model.param.MenuParam;
@@ -83,6 +83,9 @@ public class MenuServiceImpl implements MenuService {
 
     @Override
     public boolean removeByIds(List<Integer> menuIds) {
+        if (CollectionUtils.isEmpty(menuIds)) {
+            return true;
+        }
         int i = menuMapper.deleteBatchIds(menuIds);
         int size = menuIds.size();
         return size == i;
@@ -196,12 +199,11 @@ public class MenuServiceImpl implements MenuService {
 
         menus.forEach(menu -> {
             if (parentMenu.getId().equals(menu.getParentId())) {
-                // Save child menu
+
                 children.add(menu);
 
-                // Convert to child menu vo
                 MenuDTO child = MenuConvert.INSTANCE.convert(menu);
-                // Init children if absent
+
                 if (parentMenu.getChildren() == null) {
                     parentMenu.setChildren(new LinkedList<>());
                 }
