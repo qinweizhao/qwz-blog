@@ -153,7 +153,8 @@ import { deepClone } from '@/utils/util'
 import { mapActions, mapGetters } from 'vuex'
 
 // apis
-import apiClient from '@/utils/api-client'
+import menuApi from '@/api/menu'
+import configApi from '@/api/config'
 
 export default {
   components: { PageView, MenuTreeNode, MenuForm, MenuInternalLinkSelector },
@@ -241,10 +242,10 @@ export default {
     ...mapActions(['refreshOptionsCache']),
     handleListTeams(autoSelectTeam = false) {
       this.teams.loading = true
-      apiClient.menu
+      menuApi
         .listTeams()
         .then(response => {
-          this.teams.data = response.data
+          this.teams.data = response.data.data
           if (!this.teams.selected || autoSelectTeam) {
             this.teams.selected = this.teams.data[0]
           }
@@ -257,10 +258,10 @@ export default {
     handleListMenus() {
       this.list.data = []
       this.list.loading = true
-      apiClient.menu
-        .listTreeViewByTeam(this.teams.selected)
+      menuApi
+        .listTreeByTeam(this.teams.selected)
         .then(response => {
-          this.list.data = response.data
+          this.list.data = response.data.data
         })
         .finally(() => {
           this.list.loading = false
@@ -294,8 +295,8 @@ export default {
     },
     handleUpdateBatch() {
       this.formBatch.saving = true
-      apiClient.menu
-        .updateInBatch(this.computedMenusWithoutLevel)
+      menuApi
+        .updateBatch(this.computedMenusWithoutLevel)
         .catch(() => {
           this.formBatch.errored = true
         })
@@ -312,7 +313,7 @@ export default {
         title: '提示',
         content: '确定要删除当前分组以及所有菜单？',
         onOk() {
-          apiClient.menu.deleteInBatch(_this.computedMenuIds).finally(() => {
+          menuApi.deleteBatch(_this.computedMenuIds).finally(() => {
             _this.handleListTeams(true)
           })
         }
@@ -353,8 +354,8 @@ export default {
     },
     handleSetDefaultTeam() {
       this.teams.default.saving = true
-      apiClient.option
-        .saveMapView({
+      configApi
+        .save({
           default_menu_team: this.teams.selected
         })
         .catch(() => {
@@ -385,7 +386,7 @@ export default {
     async handleUpdateTeamInBatch() {
       try {
         this.updateTeamForm.saving = true
-        await apiClient.menu.updateInBatch(
+        await menuApi.updateBatch(
           this.computedMenusWithoutLevel.map(menu => {
             return {
               ...menu,
@@ -395,7 +396,7 @@ export default {
         )
 
         if (this.teams.selected === this.defaultMenuTeam) {
-          await apiClient.option.saveMapView({
+          await configApi.save({
             default_menu_team: this.updateTeamForm.team
           })
 

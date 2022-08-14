@@ -93,6 +93,10 @@
 </template>
 <script>
 import apiClient from '@/utils/api-client'
+import categoryApi from '@/api/category'
+import tagApi from '@/api/tag'
+import sheetApi from '@/api/sheet'
+import configApi from '@/api/config'
 
 export default {
   name: 'MenuInternalLinkSelector',
@@ -115,13 +119,6 @@ export default {
       sheet: {
         independents: [],
         customs: {
-          data: [],
-          pagination: {
-            page: 1,
-            size: 10,
-            sort: null,
-            total: 1
-          },
           queryParam: {
             page: 1,
             size: 10,
@@ -178,42 +175,22 @@ export default {
     visible(value) {
       if (value) {
         this.handleFetchAll()
-        this.handleListSheets()
       }
     }
   },
   methods: {
     handleFetchAll() {
       this.loading = true
-      Promise.all([
-        apiClient.option.listAsMapView(),
-        apiClient.category.list({ sort: [], more: false }),
-        apiClient.tag.list({ more: false }),
-        apiClient.sheet.listIndependents()
-      ])
+      Promise.all([configApi.list(), categoryApi.list(), tagApi.list(), sheetApi.listIndependent()])
         .then(response => {
-          this.options = response[0].data
-          this.categories = response[1].data
-          this.tags = response[2].data
-          this.sheet.independents = response[3].data
+          this.options = response[0].data.data
+          this.categories = response[1].data.data
+          this.tags = response[2].data.data
+          this.sheet.independents = response[3].data.data
         })
         .finally(() => {
           this.loading = false
         })
-    },
-    handleListSheets() {
-      this.sheet.customs.queryParam.page = this.sheet.customs.pagination.page - 1
-      this.sheet.customs.queryParam.size = this.sheet.customs.pagination.size
-      this.sheet.customs.queryParam.sort = this.sheet.customs.pagination.sort
-      apiClient.sheet.list(this.sheet.customs.queryParam).then(response => {
-        this.sheet.customs.data = response.data.content
-        this.sheet.customs.pagination.total = response.data.total
-      })
-    },
-    handleSheetPaginationChange(page, pageSize) {
-      this.sheet.customs.pagination.page = page
-      this.sheet.customs.pagination.size = pageSize
-      this.handleListSheets()
     },
     handleInsertPre(name, url) {
       this.menus.push({

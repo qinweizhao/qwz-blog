@@ -278,7 +278,7 @@ export default {
       }
     },
     handleListOptions() {
-      configApi.listAll().then(response => {
+      configApi.list().then(response => {
         this.optionModal.options = response.data.data
       })
     },

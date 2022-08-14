@@ -4,7 +4,7 @@ const baseUrl = '/api/admin/options'
 
 const configApi = {}
 
-configApi.listAll = () => {
+configApi.list = () => {
   return service({
     url: `${baseUrl}/map_view`,
     method: 'get'

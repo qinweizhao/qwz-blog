@@ -24,7 +24,7 @@ public interface CategoryService {
     CategoryDTO getById(Integer categoryId);
 
     /**
-     * 列表
+     * 列表(菜单)
      *
      * @return List
      * @param more more

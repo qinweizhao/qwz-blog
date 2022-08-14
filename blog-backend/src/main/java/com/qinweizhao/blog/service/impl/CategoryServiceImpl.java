@@ -18,6 +18,7 @@ import com.qinweizhao.blog.util.SlugUtils;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -71,25 +72,43 @@ public class CategoryServiceImpl implements CategoryService {
 
                         categoryDTO.setPostCount(categoryPostCountMap.getOrDefault(category.getId(), 0L));
 
-                        StringBuilder fullPath = new StringBuilder();
-
-                        if (optionService.isEnabledAbsolutePath()) {
-                            fullPath.append(optionService.getBlogBaseUrl());
-                        }
-
-                        fullPath.append(URL_SEPARATOR)
-                                .append(optionService.getCategoriesPrefix())
-                                .append(URL_SEPARATOR)
-                                .append(category.getSlug())
-                                .append(optionService.getPathSuffix());
-
-                        categoryDTO.setFullPath(fullPath.toString());
-
-                        return categoryDTO;
+                        return setFullPath(category, categoryDTO);
                     })
                     .collect(Collectors.toList());
         }
-        return CategoryConvert.INSTANCE.convertToDTO(categories);
+        return categories.stream()
+                .map(category -> {
+                    // 创建类别帖子计数 dto
+                    CategoryDTO categoryDTO = CategoryConvert.INSTANCE.convert(category);
+
+                    return setFullPath(category, categoryDTO);
+                })
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * 填充完整路径
+     * @param category category
+     * @param categoryDTO categoryDTO
+     * @return CategoryDTO
+     */
+    @NotNull
+    private CategoryDTO setFullPath(Category category, CategoryDTO categoryDTO) {
+        StringBuilder fullPath = new StringBuilder();
+
+        if (optionService.isEnabledAbsolutePath()) {
+            fullPath.append(optionService.getBlogBaseUrl());
+        }
+
+        fullPath.append(URL_SEPARATOR)
+                .append(optionService.getCategoriesPrefix())
+                .append(URL_SEPARATOR)
+                .append(category.getSlug())
+                .append(optionService.getPathSuffix());
+
+        categoryDTO.setFullPath(fullPath.toString());
+
+        return categoryDTO;
     }
 
 

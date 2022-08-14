@@ -46,39 +46,39 @@ public class PostController {
         return postService.page(param);
     }
 
-    /**
-     * 搜索
-     *
-     * @param param keyword
-     * @return PageResult
-     */
-    @PostMapping(value = "search")
-    public PageResult<PostListDTO> pageBy(PostQueryParam param) {
-        // 只要发布状态的文章
-        param.setStatus(PostStatus.PUBLISHED);
-        return postService.page(param);
-    }
+//    /**
+//     * 搜索
+//     *
+//     * @param param keyword
+//     * @return PageResult
+//     */
+//    @PostMapping(value = "search")
+//    public PageResult<PostListDTO> pageBy(PostQueryParam param) {
+//        // 只要发布状态的文章
+//        param.setStatus(PostStatus.PUBLISHED);
+//        return postService.page(param);
+//    }
 
-    @GetMapping("{postId:\\d+}")
-    public PostDTO get(@PathVariable("postId") Integer postId,
-                       @RequestParam(value = "formatDisabled", required = false, defaultValue = "true") Boolean formatDisabled,
-                       @RequestParam(value = "sourceDisabled", required = false, defaultValue = "false") Boolean sourceDisabled) {
-        PostDTO result = postService.getById(postId);
-
-        if (formatDisabled) {
-            // Clear the format content
-            result.setFormatContent(null);
-        }
-
-        if (sourceDisabled) {
-            // Clear the original content
-            result.setOriginalContent(null);
-        }
-
-        postService.publishVisitEvent(result.getId());
-
-        return result;
-    }
+//    @GetMapping("{postId:\\d+}")
+//    public PostDTO get(@PathVariable("postId") Integer postId,
+//                       @RequestParam(value = "formatDisabled", required = false, defaultValue = "true") Boolean formatDisabled,
+//                       @RequestParam(value = "sourceDisabled", required = false, defaultValue = "false") Boolean sourceDisabled) {
+//        PostDTO result = postService.getById(postId);
+//
+//        if (formatDisabled) {
+//            // Clear the format content
+//            result.setFormatContent(null);
+//        }
+//
+//        if (sourceDisabled) {
+//            // Clear the original content
+//            result.setOriginalContent(null);
+//        }
+//
+//        postService.publishVisitEvent(result.getId());
+//
+//        return result;
+//    }
 
 //    @GetMapping("/slug")
 //    @ApiOperation("Gets a post")
@@ -123,17 +123,17 @@ public class PostController {
 //    }
 //
 
-    /**
-     * 用树状视图列出评论
-     *
-     * @param postId postId
-     * @return PageResult
-     */
-    @GetMapping("{postId:\\d+}/comments/tree_view")
-    public PageResult<CommentDTO> listCommentsTree(@PathVariable("postId") Integer postId, CommentQueryParam param) {
-        param.setType(CommentType.POST);
-        return commentService.pageComment(param);
-    }
+//    /**
+//     * 用树状视图列出评论
+//     *
+//     * @param postId postId
+//     * @return PageResult
+//     */
+//    @GetMapping("{postId:\\d+}/comments/tree_view")
+//    public PageResult<CommentDTO> listCommentsTree(@PathVariable("postId") Integer postId, CommentQueryParam param) {
+//        param.setType(CommentType.POST);
+//        return commentService.pageComment(param);
+//    }
 //
 //    @GetMapping("{postId:\\d+}/comments/list_view")
 //    @ApiOperation("Lists comment with list view")
