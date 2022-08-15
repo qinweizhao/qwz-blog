@@ -75,6 +75,11 @@ public interface PostService {
      */
     String buildFullPath(Integer postId);
 
+
+    List<ArchiveYearVO> listYearArchives();
+
+    List<ArchiveMonthVO> listMonthArchives();
+
     /**
      * 列表（最新发布）
      *

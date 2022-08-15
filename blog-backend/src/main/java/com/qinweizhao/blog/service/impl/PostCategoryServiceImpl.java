@@ -56,6 +56,10 @@ public class PostCategoryServiceImpl extends ServiceImpl<PostCategoryMapper, Pos
         // 获取分类 id
         Set<Integer> categoryIds = ServiceUtils.fetchProperty(postCategories, PostCategory::getCategoryId);
 
+        if (CollectionUtils.isEmpty(categoryIds)) {
+            return Collections.emptyMap();
+        }
+
         // 查询所有分类
         List<CategoryDTO> categories = CategoryConvert.INSTANCE.convertToDTO(categoryMapper.selectBatchIds(categoryIds));
 

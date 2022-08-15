@@ -52,6 +52,9 @@ public class PostTagServiceImpl extends ServiceImpl<PostTagMapper, PostTag> impl
         // Fetch tag ids
         Set<Integer> tagIds = ServiceUtils.fetchProperty(postTags, PostTag::getTagId);
 
+        if (CollectionUtils.isEmpty(tagIds)) {
+            return Collections.emptyMap();
+        }
         // Find all tags
         List<TagDTO> tags = TagConvert.INSTANCE.convertToDTO(tagMapper.selectBatchIds(tagIds));
 

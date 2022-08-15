@@ -64,20 +64,20 @@ public class PostTagDirective implements TemplateDirectiveModel {
                     break;
                 case "listByCategoryId":
                     Integer categoryId = Integer.parseInt(params.get("categoryId").toString());
-                    env.setVariable("posts", builder.build().wrap(postService.convertToListVo(postCategoryService.listPostByCategoryIdAndPostStatus(categoryId, PostStatus.PUBLISHED))));
+                    env.setVariable("posts", builder.build().wrap(postCategoryService.listPostByCategoryIdAndPostStatus(categoryId, PostStatus.PUBLISHED)));
                     break;
                 case "listByCategorySlug":
                     String categorySlug = params.get("categorySlug").toString();
                     List<PostSimpleDTO> posts = postCategoryService.listPostByCategorySlugAndPostStatus(categorySlug, PostStatus.PUBLISHED);
-                    env.setVariable("posts", builder.build().wrap(postService.convertToListVo(posts)));
+                    env.setVariable("posts", builder.build().wrap(posts));
                     break;
                 case "listByTagId":
                     Integer tagId = Integer.parseInt(params.get("tagId").toString());
-                    env.setVariable("posteditTimes", builder.build().wrap(postService.convertToListVo(postTagService.listPostsByTagIdAndPostStatus(tagId, PostStatus.PUBLISHED))));
+                    env.setVariable("posteditTimes", builder.build().wrap(postTagService.listPostsByTagIdAndPostStatus(tagId, PostStatus.PUBLISHED)));
                     break;
                 case "listByTagSlug":
                     String tagSlug = params.get("tagSlug").toString();
-                    env.setVariable("posts", builder.build().wrap(postService.convertToListVo(postTagService.listPostsByTagSlugAndPostStatus(tagSlug, PostStatus.PUBLISHED))));
+                    env.setVariable("posts", builder.build().wrap(postTagService.listPostsByTagSlugAndPostStatus(tagSlug, PostStatus.PUBLISHED)));
                     break;
                 default:
                     break;

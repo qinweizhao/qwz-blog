@@ -53,7 +53,7 @@
                       <#list posts.content?sort_by("createTime")?reverse as post>
                         <li class="item">
                           <a rel="noopener noreferrer" target="_blank" title="${post.title!}" href="${post.fullPath!}">${post.title!}</a>
-                          <span>${post.createTime?string('yyyy-MM-dd')}</span>
+                          <span>${post.createTime?date('yyyy-MM-dd')}</span>
                         </li>
                       </#list>
                     </ul>
@@ -73,7 +73,7 @@
                             <ol class="panel-body">
                               <#list archive.posts?sort_by("createTime")?reverse as post>
                                 <li>
-                                  <a rel="noopener noreferrer" target="_blank" title="${post.title!}" href="${post.fullPath!}">${post.createTime?string('MM-dd')}：${post.title!}</a>
+                                  <a rel="noopener noreferrer" target="_blank" title="${post.title!}" href="${post.fullPath!}">${post.createTime?date('MM-dd')}：${post.title!}</a>
                                 </li>
                               </#list>
                             </ol>

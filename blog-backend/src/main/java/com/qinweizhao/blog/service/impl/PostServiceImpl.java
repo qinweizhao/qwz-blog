@@ -508,16 +508,108 @@ public class PostServiceImpl implements PostService {
         return StringUtils.substring(text, 0, summaryLength);
     }
 
+    public List<PostListDTO> convertToListVo(List<PostSimpleDTO> posts) {
+        Assert.notNull(posts, "Post page must not be null");
 
-//
-//    @Override
-//    public List<ArchiveMonthVO> listMonthArchives() {
-//        // Get all posts
-//        List<Post> posts = postMapper
-//                .selectListByStatus(PostStatus.PUBLISHED);
-//
-//        return convertToMonthArchives(posts);
-//    }
+        Set<Integer> postIds = ServiceUtils.fetchProperty(posts, PostSimpleDTO::getId);
+
+        // Get tag list map
+        Map<Integer, List<TagDTO>> tagListMap = postTagService.listTagListMapBy(postIds);
+
+        // Get category list map
+        Map<Integer, List<CategoryDTO>> categoryListMap = postCategoryService
+                .listCategoryListMap(postIds);
+
+        // Get comment count
+        Map<Integer, Long> commentCountMap = commentService.countByPostIds(postIds);
+
+        // Get post meta list map
+//        Map<Integer, List<Meta>> postMetaListMap = metaService.listPostMetaAsMap(postIds);
+
+        // todo
+        // is null
+        return posts.stream().map(post -> {
+            PostListDTO postListDTO = PostConvert.INSTANCE.convertToListVO(post);
+//            if (StringUtils.isBlank(postListDTO.getSummary())) {
+//                postListDTO.setSummary(generateSummary(post.getFormatContent()));
+//            }
+
+            Optional.ofNullable(tagListMap.get(post.getId())).orElseGet(LinkedList::new);
+
+            // Set tags
+            postListDTO.setTags(Optional.ofNullable(tagListMap.get(post.getId()))
+                    .orElseGet(LinkedList::new)
+                    .stream()
+
+                    .collect(Collectors.toList()));
+
+            // Set categories
+            postListDTO.setCategories(Optional.ofNullable(categoryListMap.get(post.getId()))
+                    .orElseGet(LinkedList::new)
+                    .stream()
+                    .collect(Collectors.toList()));
+
+            // Set post metas
+//            List<PostMeta> metas = Optional.ofNullable(postMetaListMap.get(post.getId()))
+//                    .orElseGet(LinkedList::new);
+//            postListVO.setMetas(postMetaService.convertToMap(metas));
+
+            // Set comment count
+            postListDTO.setCommentCount(commentCountMap.getOrDefault(post.getId(), 0L));
+
+//            postListDTO.setFullPath(buildFullPath(post));
+
+            return postListDTO;
+        }).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<ArchiveYearVO> listYearArchives() {
+
+        List<Post> posts = postMapper.selectListByStatus(PostStatus.PUBLISHED);
+
+        return convertToYearArchives(posts);
+    }
+
+    private List<ArchiveYearVO> convertToYearArchives(List<Post> posts) {
+        Map<Integer, List<PostSimpleDTO>> yearPostMap = new HashMap<>(8);
+
+        List<PostSimpleDTO> postSimples = PostConvert.INSTANCE.convertToSimpleDTO(posts);
+
+
+        postSimples.forEach(post -> {
+            LocalDateTime createTime = post.getCreateTime();
+            yearPostMap.computeIfAbsent(createTime.getYear(), year -> new LinkedList<>())
+                    .add(post);
+        });
+
+        List<ArchiveYearVO> archives = new LinkedList<>();
+
+        yearPostMap.forEach((year, postList) -> {
+            // Build archive
+            ArchiveYearVO archive = new ArchiveYearVO();
+            archive.setYear(year);
+            archive.setPosts(PostConvert.INSTANCE.convertToListVO(postList));
+
+            // Add archive
+            archives.add(archive);
+        });
+
+        // Sort this list
+        archives.sort(new ArchiveYearVO.ArchiveComparator());
+
+        return archives;
+
+    }
+
+    @Override
+    public List<ArchiveMonthVO> listMonthArchives() {
+        // Get all posts
+        List<Post> posts = postMapper
+                .selectListByStatus(PostStatus.PUBLISHED);
+
+        return convertToMonthArchives(posts);
+    }
 
     @Override
     public List<PostSimpleDTO> listSimple(int top) {
@@ -527,37 +619,38 @@ public class PostServiceImpl implements PostService {
         return result;
     }
 
-//
-//    private List<ArchiveMonthVO> convertToMonthArchives(List<Post> posts) {
-//
-//
-//        Map<Integer, Map<Integer, List<PostSimpleDTO>>> yearMonthPostMap = new HashMap<>(8);
-//
-////        posts.forEach(post -> {
-////            LocalDateTime createTime = post.getCreateTime();
-////            yearMonthPostMap.computeIfAbsent(createTime.getYear(), year -> new HashMap<>())
-////                    .computeIfAbsent(createTime.getMonthValue() + 1,
-////                            month -> new LinkedList<>())
-//////                    .add(PostConvert.INSTANCE.convert(post));
-////        });
-//
-//        List<ArchiveMonthVO> archives = new LinkedList<>();
-//
-//        yearMonthPostMap.forEach((year, monthPostMap) ->
-//                monthPostMap.forEach((month, postList) -> {
-//                    ArchiveMonthVO archive = new ArchiveMonthVO();
-//                    archive.setYear(year);
-//                    archive.setMonth(month);
-//                    archive.setPosts(convertToListVo(postList));
-//
-//                    archives.add(archive);
-//                }));
-//
-//        // Sort this list
-//        archives.sort(new ArchiveMonthVO.ArchiveComparator());
-//
-//        return archives;
-//    }
+
+    private List<ArchiveMonthVO> convertToMonthArchives(List<Post> posts) {
+
+        List<PostSimpleDTO> postSimples = PostConvert.INSTANCE.convertToSimpleDTO(posts);
+
+        Map<Integer, Map<Integer, List<PostSimpleDTO>>> yearMonthPostMap = new HashMap<>(8);
+
+        postSimples.forEach(post -> {
+            LocalDateTime createTime = post.getCreateTime();
+            yearMonthPostMap.computeIfAbsent(createTime.getYear(), year -> new HashMap<>())
+                    .computeIfAbsent(createTime.getMonthValue() + 1,
+                            month -> new LinkedList<>())
+                    .add(post);
+        });
+
+        List<ArchiveMonthVO> archives = new LinkedList<>();
+
+        yearMonthPostMap.forEach((year, monthPostMap) ->
+                monthPostMap.forEach((month, postList) -> {
+                    ArchiveMonthVO archive = new ArchiveMonthVO();
+                    archive.setYear(year);
+                    archive.setMonth(month);
+                    archive.setPosts(convertToListVo(postList));
+
+                    archives.add(archive);
+                }));
+
+        // Sort this list
+        archives.sort(new ArchiveMonthVO.ArchiveComparator());
+
+        return archives;
+    }
 
     protected String generateSummary(@NonNull String htmlContent) {
         Assert.notNull(htmlContent, "文章原始内容不能为空");

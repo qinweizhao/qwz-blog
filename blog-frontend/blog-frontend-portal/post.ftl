@@ -35,7 +35,7 @@
                         <a class="link" href="${blog_url}/s/about" title="${user.nickname!}">${user.nickname!}</a>
                       </div>
                       <div class="item">
-                        <span class="text">${post.createTime}</span>
+                        <span class="text">${post.createTime?date('yyyy-MM-dd')}</span>
                         <span class="line">/</span>
                         <span class="text">${post.commentCount} 评论</span>
                         <span class="line">/</span>
@@ -52,7 +52,7 @@
                       </div>
                     </div>
                   </div>
-                  <time class="joe_detail__count-created" datetime="${post.createTime}">${post.createTime}</time>
+                  <time class="joe_detail__count-created" datetime="${post.createTime?date('yyyy-MM-dd')}">${post.createTime?date('yyyy-MM-dd')}</time>
                 </div>
               </#if>
               <div class="joe_detail__overdue">
@@ -71,7 +71,7 @@
                       <#if settings.passage_tips_content?? && settings.passage_tips_content!=''>
                         ${settings.passage_tips_content}
                       <#else>
-                        本文最后更新于 ${post.updateTime?string('yyyy-MM-dd')}，若内容或图片失效，请留言反馈。部分素材来自网络，若不小心影响到您的利益，请联系我们删除。
+                        本文最后更新于 ${post.updateTime?date('yyyy-MM-dd')}，若内容或图片失效，请留言反馈。部分素材来自网络，若不小心影响到您的利益，请联系我们删除。
                       </#if>
                     </div>
                   </div>
