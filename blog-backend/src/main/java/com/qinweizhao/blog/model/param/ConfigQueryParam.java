@@ -1,7 +1,7 @@
 package com.qinweizhao.blog.model.param;
 
 import com.qinweizhao.blog.model.core.PageParam;
-import com.qinweizhao.blog.model.enums.OptionType;
+import com.qinweizhao.blog.model.enums.ConfigType;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -14,9 +14,9 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class OptionQuery extends PageParam {
+public class ConfigQueryParam extends PageParam {
 
     private String keyword;
 
-    private OptionType type;
+    private ConfigType type;
 }

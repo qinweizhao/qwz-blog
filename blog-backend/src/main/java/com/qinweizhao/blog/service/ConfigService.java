@@ -5,11 +5,11 @@ import com.qiniu.common.Zone;
 import com.qiniu.storage.Region;
 import com.qinweizhao.blog.exception.MissingPropertyException;
 import com.qinweizhao.blog.model.core.PageResult;
-import com.qinweizhao.blog.model.dto.OptionDTO;
-import com.qinweizhao.blog.model.dto.OptionSimpleDTO;
+import com.qinweizhao.blog.model.dto.ConfigDTO;
+import com.qinweizhao.blog.model.dto.ConfigSimpleDTO;
 import com.qinweizhao.blog.model.entity.Config;
 import com.qinweizhao.blog.model.enums.ValueEnum;
-import com.qinweizhao.blog.model.param.OptionQuery;
+import com.qinweizhao.blog.model.param.ConfigQueryParam;
 import com.qinweizhao.blog.model.properties.PropertyEnum;
 import org.springframework.lang.Nullable;
 import org.springframework.transaction.annotation.Transactional;
@@ -120,7 +120,7 @@ public interface ConfigService extends IService<Config> {
      * @return a list of option dto
      */
 
-    List<OptionDTO> listDtos();
+    List<ConfigDTO> listDtos();
 
 //    /**
 //     * Pages option output dtos.
@@ -463,10 +463,10 @@ public interface ConfigService extends IService<Config> {
 
     /**
      * 分页列表
-     * @param optionQuery optionQuery
+     * @param configQueryParam optionQuery
      * @return PageResult
      */
-    PageResult<OptionSimpleDTO> pageSimple(OptionQuery optionQuery);
+    PageResult<ConfigSimpleDTO> pageSimple(ConfigQueryParam configQueryParam);
 
 //
 //    /**

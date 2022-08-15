@@ -39,7 +39,7 @@
           :dataSource="formattedData"
           :loading="loading"
           :pagination="false"
-          :rowKey="config => option.id"
+          :rowKey="config => config.id"
           :scrollToFirstRowOnChange="true"
         >
           <span slot="type" slot-scope="typeProperty">
@@ -119,7 +119,7 @@
   </div>
 </template>
 <script>
-import apiClient from '@/utils/api-client'
+import configApi from '@/api/config'
 import { mapActions } from 'vuex'
 
 const columns = [
@@ -161,7 +161,7 @@ const columns = [
   }
 ]
 export default {
-  name: 'OptionsList',
+  name: 'ConfigsList',
   data() {
     return {
       optionType: {
@@ -189,7 +189,7 @@ export default {
         type: null
       },
       loading: false,
-      options: [],
+      configs: [],
 
       form: {
         visible: false,
@@ -205,9 +205,9 @@ export default {
   },
   computed: {
     formattedData() {
-      return this.options.map(config => {
-        option.typeProperty = this.optionType[option.type]
-        return option
+      return this.configs.map(config => {
+        config.typeProperty = this.optionType[config.type]
+        return config
       })
     },
     formTitle() {
@@ -215,20 +215,20 @@ export default {
     }
   },
   beforeMount() {
-    this.handleListOptions()
+    this.handleListConfigs()
   },
   methods: {
     ...mapActions(['refreshOptionsCache']),
-    handleListOptions() {
+    handleListConfigs() {
       this.loading = true
-      this.queryParam.page = this.pagination.page - 1
+      this.queryParam.page = this.pagination.page
       this.queryParam.size = this.pagination.size
       this.queryParam.sort = this.pagination.sort
-      apiClient.option
-        .listAsView(this.queryParam)
+      configApi
+        .query(this.queryParam)
         .then(response => {
-          this.options = response.data.content
-          this.pagination.total = response.data.total
+          this.configs = response.data.data.content
+          this.pagination.total = response.data.data.total
         })
         .finally(() => {
           this.loading = false
@@ -238,13 +238,13 @@ export default {
       this.handlePaginationChange(1, this.pagination.size)
     },
     handleDeleteOption(id) {
-      apiClient.option
+      configApi
         .delete(id)
         .then(() => {
           this.$message.success('删除成功！')
         })
         .finally(() => {
-          this.handleListOptions()
+          this.handleListConfigs()
           this.refreshOptionsCache()
         })
     },
@@ -255,7 +255,7 @@ export default {
       })
     },
     handleOpenEditFormModal(config) {
-      this.form.model = option
+      this.form.model = config
       this.form.visible = true
       this.$nextTick(() => {
         this.$refs.keyInput.focus()
@@ -265,7 +265,7 @@ export default {
       this.$log.debug(`Current: ${page}, PageSize: ${pageSize}`)
       this.pagination.page = page
       this.pagination.size = pageSize
-      this.handleListOptions()
+      this.handleListConfigs()
     },
     handleResetParam() {
       this.queryParam.keyword = null
@@ -282,7 +282,7 @@ export default {
         if (valid) {
           _this.form.saving = true
           if (_this.form.model.id) {
-            apiClient.option
+            configApi
               .update(_this.form.model.id, _this.form.model)
               .catch(() => {
                 _this.form.saveErrored = true
@@ -294,7 +294,7 @@ export default {
               })
           } else {
             _this.form.model.type = _this.optionType.CUSTOM.value
-            apiClient.option
+            configApi
               .create(_this.form.model)
               .catch(() => {
                 _this.form.saveErrored = true
@@ -314,7 +314,7 @@ export default {
       } else {
         this.form.model = {}
         this.form.visible = false
-        this.handleListOptions()
+        this.handleListConfigs()
         this.refreshOptionsCache()
       }
     }

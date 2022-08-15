@@ -1,26 +1,30 @@
 package com.qinweizhao.blog.model.enums;
 
+import com.baomidou.mybatisplus.annotation.EnumValue;
+
 /**
  * Option Type.
  *
  * @author ryanwang
+ * @author qinweizhao
  * @since 2019-12-02
  */
-public enum OptionType implements ValueEnum<Integer> {
+public enum ConfigType implements ValueEnum<Integer> {
 
     /**
-     * internal option
+     * 内部
      */
     INTERNAL(0),
 
     /**
-     * custom option
+     * 自定义
      */
     CUSTOM(1);
 
+    @EnumValue
     private final Integer value;
 
-    OptionType(Integer value) {
+    ConfigType(Integer value) {
         this.value = value;
     }
 

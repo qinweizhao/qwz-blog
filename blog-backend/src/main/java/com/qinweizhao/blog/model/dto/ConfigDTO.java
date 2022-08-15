@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class OptionDTO {
+public class ConfigDTO {
 
     private String key;
 

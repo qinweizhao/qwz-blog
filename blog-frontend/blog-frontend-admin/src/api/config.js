@@ -27,40 +27,40 @@ configApi.query = params => {
   })
 }
 
-configApi.save = options => {
+configApi.save = configs => {
   return service({
     url: `${baseUrl}/map_view/saving`,
     method: 'post',
-    data: options
+    data: configs
   })
 }
 
-configApi.create = option => {
+configApi.create = config => {
   return service({
     url: baseUrl,
-    data: option,
+    data: config,
     method: 'post'
   })
 }
 
-configApi.delete = optionId => {
+configApi.delete = configId => {
   return service({
-    url: `${baseUrl}/${optionId}`,
+    url: `${baseUrl}/${configId}`,
     method: 'delete'
   })
 }
 
-configApi.get = optionId => {
+configApi.get = configId => {
   return service({
-    url: `${baseUrl}/${optionId}`,
+    url: `${baseUrl}/${configId}`,
     method: 'get'
   })
 }
 
-configApi.update = (optionId, option) => {
+configApi.update = (configId, config) => {
   return service({
-    url: `${baseUrl}/${optionId}`,
-    data: option,
+    url: `${baseUrl}/${configId}`,
+    data: config,
     method: 'put'
   })
 }

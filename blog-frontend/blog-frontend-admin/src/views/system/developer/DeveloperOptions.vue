@@ -46,7 +46,7 @@ export default {
       {
         title: '系统变量',
         icon: 'table',
-        component: () => import('./tabs/OptionsList'),
+        component: () => import('./tabs/ConfigsList'),
         key: 'optionsList'
       },
       {

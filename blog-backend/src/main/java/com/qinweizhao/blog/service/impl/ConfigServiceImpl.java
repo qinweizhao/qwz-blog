@@ -8,12 +8,13 @@ import com.qinweizhao.blog.exception.MissingPropertyException;
 import com.qinweizhao.blog.framework.cache.AbstractStringCacheStore;
 import com.qinweizhao.blog.framework.event.options.OptionUpdatedEvent;
 import com.qinweizhao.blog.mapper.ConfigMapper;
+import com.qinweizhao.blog.model.convert.ConfigConvert;
 import com.qinweizhao.blog.model.core.PageResult;
-import com.qinweizhao.blog.model.dto.OptionDTO;
-import com.qinweizhao.blog.model.dto.OptionSimpleDTO;
+import com.qinweizhao.blog.model.dto.ConfigDTO;
+import com.qinweizhao.blog.model.dto.ConfigSimpleDTO;
 import com.qinweizhao.blog.model.entity.Config;
 import com.qinweizhao.blog.model.enums.ValueEnum;
-import com.qinweizhao.blog.model.param.OptionQuery;
+import com.qinweizhao.blog.model.param.ConfigQueryParam;
 import com.qinweizhao.blog.model.properties.*;
 import com.qinweizhao.blog.service.ConfigService;
 import com.qinweizhao.blog.util.DateUtils;
@@ -230,10 +231,10 @@ public class ConfigServiceImpl extends ServiceImpl<ConfigMapper, Config> impleme
     }
 
     @Override
-    public List<OptionDTO> listDtos() {
-        List<OptionDTO> result = new LinkedList<>();
+    public List<ConfigDTO> listDtos() {
+        List<ConfigDTO> result = new LinkedList<>();
 
-        listOptions().forEach((key, value) -> result.add(new OptionDTO(key, value)));
+        listOptions().forEach((key, value) -> result.add(new ConfigDTO(key, value)));
 
         return result;
     }
@@ -571,8 +572,9 @@ public class ConfigServiceImpl extends ServiceImpl<ConfigMapper, Config> impleme
     }
 
     @Override
-    public PageResult<OptionSimpleDTO> pageSimple(OptionQuery optionQuery) {
-        return null;
+    public PageResult<ConfigSimpleDTO> pageSimple(ConfigQueryParam param) {
+        PageResult<Config> page = configMapper.selectPage(param);
+        return ConfigConvert.INSTANCE.convert(page);
     }
 
     @Override

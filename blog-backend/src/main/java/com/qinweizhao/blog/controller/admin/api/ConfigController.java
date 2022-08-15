@@ -1,8 +1,8 @@
 package com.qinweizhao.blog.controller.admin.api;
 
 import com.qinweizhao.blog.model.core.PageResult;
-import com.qinweizhao.blog.model.dto.OptionSimpleDTO;
-import com.qinweizhao.blog.model.param.OptionQuery;
+import com.qinweizhao.blog.model.dto.ConfigSimpleDTO;
+import com.qinweizhao.blog.model.param.ConfigQueryParam;
 import com.qinweizhao.blog.service.ConfigService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -56,12 +56,12 @@ public class ConfigController {
     /**
      * 开发者选项->系统变量
      *
-     * @param optionQuery optionQuery
+     * @param configQueryParam optionQuery
      * @return PageResult
      */
     @GetMapping("list_view")
-    public PageResult<OptionSimpleDTO> listAllWithListView(OptionQuery optionQuery) {
-        return configService.pageSimple(optionQuery);
+    public PageResult<ConfigSimpleDTO> listAllWithListView(ConfigQueryParam configQueryParam) {
+        return configService.pageSimple(configQueryParam);
     }
 ////
 ////    @GetMapping("{id:\\d+}")

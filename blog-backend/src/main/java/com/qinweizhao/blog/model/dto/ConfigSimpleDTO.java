@@ -1,6 +1,6 @@
 package com.qinweizhao.blog.model.dto;
 
-import com.qinweizhao.blog.model.enums.OptionType;
+import com.qinweizhao.blog.model.enums.ConfigType;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -14,11 +14,11 @@ import java.time.LocalDateTime;
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class OptionSimpleDTO extends OptionDTO {
+public class ConfigSimpleDTO extends ConfigDTO {
 
     private Integer id;
 
-    private OptionType type;
+    private ConfigType type;
 
     private LocalDateTime createTime;
 

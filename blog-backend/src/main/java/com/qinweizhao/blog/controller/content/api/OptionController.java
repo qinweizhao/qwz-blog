@@ -1,6 +1,6 @@
 package com.qinweizhao.blog.controller.content.api;
 
-import com.qinweizhao.blog.model.dto.OptionDTO;
+import com.qinweizhao.blog.model.dto.ConfigDTO;
 import com.qinweizhao.blog.model.support.BaseResponse;
 import com.qinweizhao.blog.service.ConfigService;
 import org.springframework.http.HttpStatus;
@@ -28,7 +28,7 @@ public class OptionController {
     }
 
     @GetMapping("list_view")
-    public List<OptionDTO> listAll() {
+    public List<ConfigDTO> listAll() {
         return configService.listDtos();
     }
 
