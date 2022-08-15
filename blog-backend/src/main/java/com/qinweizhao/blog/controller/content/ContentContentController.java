@@ -5,10 +5,12 @@
 //import com.qinweizhao.blog.cache.lock.CacheLock;
 //import com.qinweizhao.blog.controller.content.model.*;
 //import com.qinweizhao.blog.exception.NotFoundException;
+//import com.qinweizhao.blog.framework.cache.AbstractStringCacheStore;
 //import com.qinweizhao.blog.model.dto.post.BasePostMinimalDTO;
 //import com.qinweizhao.blog.model.entity.Post;
 //import com.qinweizhao.blog.model.enums.PostPermalinkType;
 //import com.qinweizhao.blog.model.enums.PostStatus;
+//import com.qinweizhao.blog.service.ConfigService;
 //import com.qinweizhao.blog.service.OptionService;
 //import com.qinweizhao.blog.service.PostService;
 //import com.qinweizhao.blog.service.SheetService;
@@ -34,38 +36,33 @@
 //@RequestMapping
 //public class ContentContentController {
 //
-//    @Resource
+//
 //    private PostModel postModel;
 //
-//    @Resource
+//
 //    private SheetModel sheetModel;
 //
-//    @Resource
+//
 //    private CategoryModel categoryModel;
 //
-//    @Resource
+//
 //    private TagModel tagModel;
 //
-//    @Resource
+//
 //    private JournalModel journalModel;
 //
-//    @Resource
-//    private PhotoModel photoModel;
 //
-//    @Resource
-//    private LinkModel linkModel;
 //
-//    @Resource
-//    private OptionService optionService;
 //
-//    @Resource
-//    private PostService postService;
+//    private final ConfigService configService;
 //
-//    @Resource
-//    private SheetService sheetService;
 //
-//    @Resource
-//    private AbstractStringCacheStore cacheStore;
+//    private final PostService postService;
+//
+//
+//    private final SheetService sheetService;
+//
+//    private final AbstractStringCacheStore cacheStore;
 //
 //
 //    @GetMapping("{prefix}")
