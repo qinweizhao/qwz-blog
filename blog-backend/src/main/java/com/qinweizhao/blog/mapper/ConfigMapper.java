@@ -48,6 +48,7 @@ public interface ConfigMapper extends BaseMapper<Config> {
         this.selectPage(page, new LambdaQueryWrapperX<Config>()
                 .likeIfPresent(Config::getOptionKey, param.getKeyword())
                 .eqIfPresent(Config::getType, param.getType())
+                .orderByDesc(Config::getCreateTime)
         );
         return MyBatisUtils.buildSimplePageResult(page);
     }

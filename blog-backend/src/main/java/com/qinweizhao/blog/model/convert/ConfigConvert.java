@@ -6,6 +6,7 @@ import com.qinweizhao.blog.model.dto.ConfigSimpleDTO;
 import com.qinweizhao.blog.model.entity.Config;
 import com.qinweizhao.blog.model.enums.ConfigType;
 import com.qinweizhao.blog.model.enums.ValueEnum;
+import com.qinweizhao.blog.model.param.ConfigParam;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
@@ -64,4 +65,20 @@ public interface ConfigConvert {
     }
 
 
+    /**
+     * convert
+     *
+     * @param param param
+     * @return Config
+     */
+    default Config convert(ConfigParam param) {
+        if (param == null) {
+            return null;
+        }
+        Config config = new Config();
+        config.setOptionKey(param.getKey());
+        config.setOptionValue(param.getValue());
+        config.setType(param.getType().getValue());
+        return config;
+    }
 }

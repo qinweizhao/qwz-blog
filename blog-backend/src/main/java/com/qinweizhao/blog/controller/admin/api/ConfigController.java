@@ -1,12 +1,17 @@
 package com.qinweizhao.blog.controller.admin.api;
 
+import com.qinweizhao.blog.framework.annotation.DisableOnCondition;
+import com.qinweizhao.blog.model.convert.ConfigConvert;
 import com.qinweizhao.blog.model.core.PageResult;
 import com.qinweizhao.blog.model.dto.ConfigSimpleDTO;
+import com.qinweizhao.blog.model.entity.Config;
+import com.qinweizhao.blog.model.param.ConfigParam;
 import com.qinweizhao.blog.model.param.ConfigQueryParam;
 import com.qinweizhao.blog.service.ConfigService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Map;
 
@@ -25,13 +30,11 @@ public class ConfigController {
     private final ConfigService configService;
 
 //    @GetMapping
-//    @ApiOperation("Lists options")
 //    public List<OptionDTO> listAll() {
 //        return optionService.listDtos();
 //    }
 //
 //    @PostMapping("saving")
-//    @ApiOperation("Saves options")
 //    @DisableOnCondition
 //    public void saveOptions(@Valid @RequestBody List<OptionParam> optionParams) {
 //        optionService.save(optionParams);
@@ -70,28 +73,48 @@ public class ConfigController {
 ////        Option option = optionService.getById(id);
 ////        return optionService.convertToDto(option);
 ////    }
-//
-//    @PostMapping
-//    @ApiOperation("Creates option")
-//    @DisableOnCondition
-//    public void createBy(@RequestBody @Valid OptionParam optionParam) {
-//        optionService.save(optionParam);
-//    }
-//
-//    @PutMapping("{optionId:\\d+}")
-//    @ApiOperation("Updates option")
-//    @DisableOnCondition
-//    public void updateBy(@PathVariable("optionId") Integer optionId,
-//                         @RequestBody @Valid OptionParam optionParam) {
-//        optionService.update(optionId, optionParam);
-//    }
-//
-//    @DeleteMapping("{optionId:\\d+}")
-//    @ApiOperation("Deletes option")
-//    @DisableOnCondition
-//    public void deletePermanently(@PathVariable("optionId") Integer optionId) {
-//        optionService.removePermanently(optionId);
-//    }
+
+    /**
+     * 新增
+     *
+     * @param param param
+     */
+    @PostMapping
+    @DisableOnCondition
+    public Boolean create(@RequestBody @Valid ConfigParam param) {
+        Config config = ConfigConvert.INSTANCE.convert(param);
+        return configService.save(config);
+    }
+
+    /**
+     * 更新
+     *
+     * @param configId configId
+     * @param param    param
+     * @return Boolean
+     */
+    @PutMapping("{configId:\\d+}")
+    @DisableOnCondition
+    public Boolean updateBy(@PathVariable("configId") Integer configId,
+                            @RequestBody @Valid ConfigParam param) {
+        Config config = ConfigConvert.INSTANCE.convert(param);
+        config.setId(configId);
+        return configService.updateById(config);
+    }
+
+
+    /**
+     * 删除
+     *
+     * @param optionId optionId
+     * @return Boolean
+     */
+    @DeleteMapping("{optionId:\\d+}")
+    @DisableOnCondition
+    public Boolean deletePermanently(@PathVariable("optionId") Integer optionId) {
+        return configService.removeById(optionId);
+    }
+
 //
 //    @PostMapping("map_view/saving")
 //    @ApiOperation("Saves options by option map")
