@@ -21,9 +21,17 @@ public interface AdminService {
      */
     int ACCESS_TOKEN_EXPIRED_SECONDS = 24 * 3600;
 
+    /**
+     * 刷新令牌过期天数
+     */
     int REFRESH_TOKEN_EXPIRED_DAYS = 30;
 
-    String LOG_PATH = "logs/spring.log";
+    /**
+     * 日志路径
+     */
+//    String LOG_PATH = "logs/spring.log";
+
+    String LOG_PATH = "/blog-resource/logs/spring.log";
 
     /**
      * 验证用户名密码

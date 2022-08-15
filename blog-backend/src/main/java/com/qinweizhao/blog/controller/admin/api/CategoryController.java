@@ -3,14 +3,11 @@ package com.qinweizhao.blog.controller.admin.api;
 import com.qinweizhao.blog.model.dto.CategoryDTO;
 import com.qinweizhao.blog.model.param.CategoryParam;
 import com.qinweizhao.blog.service.CategoryService;
-import com.qinweizhao.blog.service.PostCategoryService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
 
 /**
@@ -25,8 +22,6 @@ import java.util.stream.Collectors;
 public class CategoryController {
 
     private final CategoryService categoryService;
-
-    private final PostCategoryService postCategoryService;
 
     /**
      * 获取分类详细信息
@@ -79,13 +74,14 @@ public class CategoryController {
      */
     @PutMapping("{categoryId:\\d+}")
     public Boolean update(@PathVariable("categoryId") Integer categoryId,
-                            @RequestBody @Valid CategoryParam categoryParam) {
+                          @RequestBody @Valid CategoryParam categoryParam) {
 
         return categoryService.updateById(categoryId, categoryParam);
     }
 
     /**
      * 批量更新分类
+     *
      * @return Boolean
      */
     @PutMapping("/batch")
@@ -102,7 +98,6 @@ public class CategoryController {
     public void deletePermanently(@PathVariable("categoryId") Integer categoryId) {
         categoryService.removeCategoryAndPostCategoryById(categoryId);
     }
-
 
 
 }

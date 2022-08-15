@@ -6,7 +6,6 @@ import com.qinweizhao.blog.exception.NotFoundException;
 import com.qinweizhao.blog.model.dto.UserDTO;
 import com.qinweizhao.blog.model.entity.User;
 import com.qinweizhao.blog.model.param.UserUpdateParam;
-import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 
 import java.util.Optional;
@@ -40,7 +39,6 @@ public interface UserService extends IService<User> {
      *
      * @return an optional user
      */
-    @NonNull
     Optional<User> getCurrentUser();
 
     /**
@@ -49,8 +47,7 @@ public interface UserService extends IService<User> {
      * @param username username must not be blank
      * @return an optional user
      */
-    @NonNull
-    Optional<User> getByUsername(@NonNull String username);
+    Optional<User> getByUsername(String username);
 
     /**
      * Gets non null user by username.
@@ -59,7 +56,6 @@ public interface UserService extends IService<User> {
      * @return user info
      * @throws NotFoundException throws when the username does not exist
      */
-    @NonNull
     User getByUsernameOfNonNull(String username);
 
     /**
@@ -68,8 +64,8 @@ public interface UserService extends IService<User> {
      * @param email email must not be blank
      * @return an optional user
      */
-    @NonNull
-    Optional<User> getByEmail(@NonNull String email);
+
+    Optional<User> getByEmail(String email);
 
     /**
      * Gets non null user by email.
@@ -78,8 +74,8 @@ public interface UserService extends IService<User> {
      * @return user info
      * @throws NotFoundException throws when the username does not exist
      */
-    @NonNull
-    User getByEmailOfNonNull(@NonNull String email);
+
+    User getByEmailOfNonNull(String email);
 
     /**
      * Updates user password.
@@ -98,7 +94,7 @@ public interface UserService extends IService<User> {
      * @param user user info must not be null
      * @throws ForbiddenException throws if the given user has been expired
      */
-    void mustNotExpire(@NonNull User user);
+    void mustNotExpire(User user);
 
     /**
      * Checks the password is match the user password.
@@ -107,7 +103,7 @@ public interface UserService extends IService<User> {
      * @param plainPassword plain password
      * @return true if the given password is match the user password; false otherwise
      */
-    boolean passwordMatch(@NonNull User user, @Nullable String plainPassword);
+    boolean passwordMatch(User user, @Nullable String plainPassword);
 
     /**
      * Set user password.
@@ -115,7 +111,7 @@ public interface UserService extends IService<User> {
      * @param user          user must not be null
      * @param plainPassword plain password must not be blank
      */
-    void setPassword(@NonNull User user, @NonNull String plainPassword);
+    void setPassword(User user, String plainPassword);
 
     /**
      * verify user's email and username
@@ -124,11 +120,12 @@ public interface UserService extends IService<User> {
      * @param password password must not be null
      * @return boolean
      */
-    boolean verifyUser(@NonNull String username, @NonNull String password);
+    boolean verifyUser(String username, String password);
 
 
     /**
      * 更新用户资料
+     *
      * @param userParam userParam
      * @return UserDTO
      */

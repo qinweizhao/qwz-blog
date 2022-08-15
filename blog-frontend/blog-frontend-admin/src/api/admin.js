@@ -70,7 +70,7 @@ adminApi.updateAdminAssets = () => {
 
 adminApi.getLogFiles = lines => {
   return service({
-    url: `${baseUrl}/halo/logfile`,
+    url: `${baseUrl}/blog/logfile`,
     params: {
       lines: lines
     },

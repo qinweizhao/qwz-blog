@@ -11,7 +11,7 @@ actuatorApi.logfile = () => {
   })
 }
 
-actuatorApi.env = () => {
+actuatorApi.getEnv = () => {
   return service({
     url: `${baseUrl}/env`,
     method: 'get'

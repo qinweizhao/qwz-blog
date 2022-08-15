@@ -18,7 +18,6 @@ import com.qinweizhao.blog.util.ServiceUtils;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
@@ -26,6 +25,7 @@ import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 
 import javax.annotation.PostConstruct;
+import javax.validation.constraints.NotNull;
 import java.util.*;
 
 import static com.qinweizhao.blog.model.support.HaloConst.URL_SEPARATOR;

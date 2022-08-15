@@ -2,7 +2,6 @@ package com.qinweizhao.blog.controller.admin.api;
 
 import com.qinweizhao.blog.model.dto.TagDTO;
 import com.qinweizhao.blog.model.param.TagParam;
-import com.qinweizhao.blog.service.PostTagService;
 import com.qinweizhao.blog.service.TagService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -12,10 +11,10 @@ import javax.validation.Valid;
 import java.util.List;
 
 /**
- * Tag controller.
+ * 标签管理
  *
- * @author johnniang
- * @since 3/20/19
+ * @author qinweizhao
+ * @since 2022/7/31
  */
 @Slf4j
 @RestController

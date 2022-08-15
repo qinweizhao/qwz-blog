@@ -13,7 +13,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 /**
- * User controller.
+ * 用户管理
  *
  * @author qinweizhao
  * @since 2022/7/31

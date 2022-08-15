@@ -62,6 +62,8 @@ export default {
         }
       })
 
+      console.log('this.value')
+      console.log(this.value)
       this.codemirrorState = EditorState.create({
         doc: this.value,
         extensions: [basicSetup, onUpdateExtension, keymap.of([indentWithTab]), defaultTheme, ...this.extensions]

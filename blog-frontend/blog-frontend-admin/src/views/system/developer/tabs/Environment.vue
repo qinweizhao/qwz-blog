@@ -140,7 +140,7 @@
 </template>
 <script>
 import { mixin, mixinDevice } from '@/mixins/mixin.js'
-import apiClient from '@/utils/api-client'
+import actuatorApi from '@/api/actuator'
 
 export default {
   name: 'Environment',
@@ -182,8 +182,8 @@ export default {
   },
   methods: {
     loadEnv() {
-      apiClient.actuator.getEnv().then(response => {
-        const propertiesSources = response.propertySources
+      actuatorApi.getEnv().then(response => {
+        const propertiesSources = response.data.propertySources
         propertiesSources.forEach(item => {
           this.propertiesSourcesMap[item.name] = item.properties
         })
@@ -191,34 +191,34 @@ export default {
       })
     },
     loadSystemInfo() {
-      apiClient.actuator.getSystemCpuCount().then(response => {
-        this.system.cpu.count = response.measurements[0].value
+      actuatorApi.getSystemCpuCount().then(response => {
+        this.system.cpu.count = response.data.measurements[0].value
       })
-      apiClient.actuator.getSystemCpuUsage().then(response => {
-        this.system.cpu.usage = Number(response.measurements[0].value * 100).toFixed(2)
+      actuatorApi.getSystemCpuUsage().then(response => {
+        this.system.cpu.usage = Number(response.data.measurements[0].value * 100).toFixed(2)
       })
-      apiClient.actuator.getProcessUptime().then(response => {
-        this.system.process.uptime = response.measurements[0].value
+      actuatorApi.getProcessUptime().then(response => {
+        this.system.process.uptime = response.data.measurements[0].value
       })
-      apiClient.actuator.getProcessStartTime().then(response => {
-        this.system.process.startTime = response.measurements[0].value * 1000
+      actuatorApi.getProcessStartTime().then(response => {
+        this.system.process.startTime = response.data.measurements[0].value * 1000
       })
-      apiClient.actuator.getProcessCpuUsage().then(response => {
-        this.system.process.cpuUsage = response.measurements[0].value
+      actuatorApi.getProcessCpuUsage().then(response => {
+        this.system.process.cpuUsage = response.data.measurements[0].value
       })
     },
     loadJvmInfo() {
-      apiClient.actuator.getJvmMemoryMax().then(response => {
-        this.jvm.memory.max = response.measurements[0].value
+      actuatorApi.getJvmMemoryMax().then(response => {
+        this.jvm.memory.max = response.data.measurements[0].value
       })
-      apiClient.actuator.getJvmMemoryCommitted().then(response => {
-        this.jvm.memory.committed = response.measurements[0].value
+      actuatorApi.getJvmMemoryCommitted().then(response => {
+        this.jvm.memory.committed = response.data.measurements[0].value
       })
-      apiClient.actuator.getJvmMemoryUsed().then(response => {
-        this.jvm.memory.used = response.measurements[0].value
+      actuatorApi.getJvmMemoryUsed().then(response => {
+        this.jvm.memory.used = response.data.measurements[0].value
       })
-      apiClient.actuator.getJvmGcPause().then(response => {
-        this.jvm.gc.pause.count = response.measurements[0].value
+      actuatorApi.getJvmGcPause().then(response => {
+        this.jvm.gc.pause.count = response.data.measurements[0].value
       })
     },
     handleRefresh() {

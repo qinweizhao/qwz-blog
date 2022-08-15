@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Theme controller.
+ * 主题管理
  *
  * @author qinweizhao
  * @since 2022/7/31

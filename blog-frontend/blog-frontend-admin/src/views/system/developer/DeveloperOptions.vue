@@ -50,12 +50,6 @@ export default {
         key: 'optionsList'
       },
       {
-        title: '静态存储',
-        icon: 'cloud',
-        component: () => import('./tabs/StaticStorage'),
-        key: 'staticStorage'
-      },
-      {
         title: '设置',
         icon: 'setting',
         component: () => import('./tabs/SettingsForm'),

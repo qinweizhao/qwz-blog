@@ -102,7 +102,7 @@ public class AdminController {
      * @param lines lines
      * @return BaseResponse
      */
-    @GetMapping(value = "halo/logfile")
+    @GetMapping(value = "blog/logfile")
     @DisableOnCondition
     public String getLogFiles(@RequestParam("lines") Long lines) {
         return adminService.getLogFiles(lines);

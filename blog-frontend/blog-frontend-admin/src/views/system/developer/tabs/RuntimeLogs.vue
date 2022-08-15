@@ -23,8 +23,7 @@
 import Codemirror from '@/components/Codemirror/Codemirror'
 import { java } from '@codemirror/lang-java'
 import { datetimeFormat } from '@/utils/datetime'
-import apiClient from '@/utils/api-client'
-
+import adminApi from '@/api/admin'
 export default {
   name: 'RuntimeLogs',
   components: {
@@ -47,8 +46,8 @@ export default {
   methods: {
     handleLoadLogsLines() {
       this.loading = true
-      apiClient
-        .getLogFile(this.logLines)
+      adminApi
+        .getLogFiles(this.logLines)
         .then(response => {
           this.logContent = response.data
           this.$nextTick(() => {
@@ -64,8 +63,8 @@ export default {
     handleDownloadLogFile() {
       const hide = this.$message.loading('下载中...', 0)
       this.downloading = true
-      apiClient
-        .getLogFile(this.logLines)
+      adminApi
+        .getLogFiles(this.logLines)
         .then(response => {
           const blob = new Blob([response.data])
           const downloadElement = document.createElement('a')
