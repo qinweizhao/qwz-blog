@@ -630,28 +630,10 @@ public class ConfigServiceImpl extends ServiceImpl<ConfigMapper, Config> impleme
 
     }
 
-//    @Override
-//    public List<OptionDTO> replaceUrl(String oldUrl, String newUrl) {
-//        List<Option> options = listAll();
-//        List<Option> replaced = new ArrayList<>();
-//        options.forEach(option -> {
-//            if (StringUtils.isNotEmpty(option.getValue())) {
-//                option.setValue(option.getValue().replaceAll(oldUrl, newUrl));
-//            }
-//            replaced.add(option);
-//        });
-//        List<Option> updated = updateInBatch(replaced);
-//        publishOptionUpdatedEvent();
-//        return updated.stream().map(this::convertToDto).collect(Collectors.toList());
-//    }
-//
-//    @Override
-//    public OptionSimpleDTO convertToDto(Option option) {
-//        Assert.notNull(option, "Option must not be null");
-//
-//        return new OptionSimpleDTO().convertFrom(option);
-//    }
 
+    /**
+     * 清除缓存
+     */
     private void cleanCache() {
         cacheStore.delete(OPTIONS_KEY);
     }

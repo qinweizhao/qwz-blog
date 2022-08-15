@@ -75,12 +75,6 @@ public interface PostService {
      */
     String buildFullPath(Integer postId);
 
-    List<PostListDTO> convertToListVo(List<PostSimpleDTO> simpleDTOList);
-
-    List<ArchiveYearVO> listYearArchives();
-
-    List<ArchiveMonthVO> listMonthArchives();
-
     /**
      * 列表（最新发布）
      *

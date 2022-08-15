@@ -3,13 +3,14 @@ package com.qinweizhao.blog.controller.content.model;
 import com.qinweizhao.blog.exception.ForbiddenException;
 import com.qinweizhao.blog.exception.NotFoundException;
 import com.qinweizhao.blog.framework.cache.AbstractStringCacheStore;
-import com.qinweizhao.blog.mapper.CommentMapper;
+import com.qinweizhao.blog.model.convert.PostConvert;
 import com.qinweizhao.blog.model.core.PageResult;
 import com.qinweizhao.blog.model.dto.PostDTO;
 import com.qinweizhao.blog.model.dto.PostSimpleDTO;
 import com.qinweizhao.blog.model.dto.TagDTO;
 import com.qinweizhao.blog.model.enums.PostStatus;
 import com.qinweizhao.blog.model.param.PostQueryParam;
+import com.qinweizhao.blog.model.vo.ArchiveYearVO;
 import com.qinweizhao.blog.service.ConfigService;
 import com.qinweizhao.blog.service.PostService;
 import com.qinweizhao.blog.service.ThemeService;
@@ -18,8 +19,11 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.ui.Model;
 
-import javax.annotation.Resource;
+import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -32,18 +36,13 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class PostModel {
 
-    @Resource
-    private PostService postService;
+    private final PostService postService;
 
-    @Resource
-    private ThemeService themeService;
-
+    private final ThemeService themeService;
 
     private final ConfigService configService;
 
     private final AbstractStringCacheStore cacheStore;
-
-    private final CommentMapper commentMapper;
 
 
     public String content(Integer postId, PostStatus status, String token, Model model) {
@@ -105,7 +104,6 @@ public class PostModel {
         param.setSize(pageSize);
         param.setPage(page);
         PageResult<PostSimpleDTO> posts = postService.pageSimple(param);
-//        PageResult<PostListDTO> posts = postService.page(param);
 
         model.addAttribute("is_index", true);
         model.addAttribute("posts", posts);
@@ -113,23 +111,60 @@ public class PostModel {
         model.addAttribute("meta_description", configService.getSeoDescription());
         return themeService.render("index");
     }
-//
-//    public String archives(Integer page, Model model) {
-//        int pageSize = optionService.getArchivesPageSize();
-//        Pageable pageable = PageRequest
-//                .of(page >= 1 ? page - 1 : page, pageSize, Sort.by(Sort.Direction.DESC, "createTime"));
-//
-//        Page<Post> postPage = postService.pageBy(PostStatus.PUBLISHED, pageable);
-//
-//        Page<PostListVO> posts = postService.convertToListVo(postPage);
-//
-//        List<ArchiveYearVO> archives = postService.convertToYearArchives(postPage.getContent());
-//
-//        model.addAttribute("is_archives", true);
-//        model.addAttribute("posts", posts);
-//        model.addAttribute("archives", archives);
-//        model.addAttribute("meta_keywords", optionService.getSeoKeywords());
-//        model.addAttribute("meta_description", optionService.getSeoDescription());
-//        return themeService.render("archives");
-//    }
+
+    public String archives(Integer page, Model model) {
+
+        int pageSize = configService.getArchivesPageSize();
+
+        PostQueryParam param = new PostQueryParam();
+        param.setStatus(PostStatus.PUBLISHED);
+        param.setPage(page);
+        param.setSize(pageSize);
+
+        PageResult<PostSimpleDTO> posts = postService.pageSimple(param);
+
+        List<ArchiveYearVO> archives = this.buildYearArchives(posts.getContent());
+
+        model.addAttribute("is_archives", true);
+        model.addAttribute("posts", posts);
+        model.addAttribute("archives", archives);
+        model.addAttribute("meta_keywords", configService.getSeoKeywords());
+        model.addAttribute("meta_description", configService.getSeoDescription());
+        return themeService.render("archives");
+    }
+
+
+    /**
+     * 构建返回结果
+     *
+     * @param posts posts
+     * @return List
+     */
+    private List<ArchiveYearVO> buildYearArchives(List<PostSimpleDTO> posts) {
+        Map<Integer, List<PostSimpleDTO>> yearPostMap = new HashMap<>(8);
+
+        posts.forEach(post -> {
+            LocalDateTime createTime = post.getCreateTime();
+            yearPostMap.computeIfAbsent(createTime.getYear(), year -> new LinkedList<>())
+                    .add(post);
+        });
+
+        List<ArchiveYearVO> archives = new LinkedList<>();
+
+        yearPostMap.forEach((year, postList) -> {
+            // Build archive
+            ArchiveYearVO archive = new ArchiveYearVO();
+            archive.setYear(year);
+            archive.setPosts(PostConvert.INSTANCE.convertToListVO(postList));
+
+            // Add archive
+            archives.add(archive);
+        });
+
+        // Sort this list
+        archives.sort(new ArchiveYearVO.ArchiveComparator());
+
+        return archives;
+
+    }
 }

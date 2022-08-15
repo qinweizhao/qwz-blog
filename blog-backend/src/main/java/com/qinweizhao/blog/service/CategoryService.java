@@ -24,6 +24,13 @@ public interface CategoryService {
     CategoryDTO getById(Integer categoryId);
 
     /**
+     * 通过别名获取分类
+     * @param slug slug
+     * @return CategoryDTO
+     */
+    CategoryDTO getBySlug(String slug);
+
+    /**
      * 列表(菜单)
      *
      * @return List
@@ -78,4 +85,5 @@ public interface CategoryService {
      * @return boolean
      */
     boolean updateInBatch(List<CategoryParam> params);
+
 }

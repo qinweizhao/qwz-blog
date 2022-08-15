@@ -1,99 +1,80 @@
-//package com.qinweizhao.blog.controller.content;
-//
-//import cn.hutool.core.util.IdUtil;
-//import com.qinweizhao.blog.cache.AbstractStringCacheStore;
-//import com.qinweizhao.blog.cache.lock.CacheLock;
-//import com.qinweizhao.blog.controller.content.model.*;
-//import com.qinweizhao.blog.exception.NotFoundException;
-//import com.qinweizhao.blog.framework.cache.AbstractStringCacheStore;
-//import com.qinweizhao.blog.model.dto.post.BasePostMinimalDTO;
-//import com.qinweizhao.blog.model.entity.Post;
-//import com.qinweizhao.blog.model.enums.PostPermalinkType;
-//import com.qinweizhao.blog.model.enums.PostStatus;
-//import com.qinweizhao.blog.service.ConfigService;
-//import com.qinweizhao.blog.service.configService;
-//import com.qinweizhao.blog.service.PostService;
-//import com.qinweizhao.blog.service.SheetService;
-//import lombok.AllArgsConstructor;
-//import lombok.extern.slf4j.Slf4j;
-//import org.apache.commons.lang3.StringUtils;
-//import org.springframework.stereotype.Controller;
-//import org.springframework.ui.Model;
-//import org.springframework.web.bind.annotation.*;
-//
-//import javax.annotation.Resource;
-//import java.io.UnsupportedEncodingException;
-//import java.net.URLEncoder;
-//import java.nio.charset.StandardCharsets;
-//import java.util.concurrent.TimeUnit;
-//
-///**
-// * @author ryanwang
-// * @author qinweizhao
-// * @since 2020-01-07
-// */
-//@Slf4j
-//@Controller
-//@AllArgsConstructor
-//public class ContentContentController {
-//
-//
-//    private final PostModel postModel;
-//
-//    private final CategoryModel categoryModel;
-//
-//    private final TagModel tagModel;
-//
-//    private final JournalModel journalModel;
-//
-//    private final ConfigService configService;
-//
-//    private final PostService postService;
-//
-//    private final SheetService sheetService;
-//
-//    private final AbstractStringCacheStore cacheStore;
-//
-//
-//    @GetMapping("{prefix}")
-//    public String content(@PathVariable("prefix") String prefix,
-//                          Model model) {
-//        if (configService.getArchivesPrefix().equals(prefix)) {
-//            return postModel.archives(1, model);
-//        }
-//        if (configService.getCategoriesPrefix().equals(prefix)) {
-//            return categoryModel.list(model);
-//        }
-//        if (configService.getTagsPrefix().equals(prefix)) {
-//            return tagModel.list(model);
-//        }
-//        if (configService.getJournalsPrefix().equals(prefix)) {
-//            return journalModel.list(1, model);
-//        }
-//        if (configService.getPhotosPrefix().equals(prefix)) {
-//            return photoModel.list(1, model);
-//        }
-//        if (configService.getLinksPrefix().equals(prefix)) {
-//            return linkModel.list(model);
-//        }
-//        return null;
-//    }
-//
-//    @GetMapping("{prefix}/page/{page:\\d+}")
-//    public String content(@PathVariable("prefix") String prefix,
-//                          @PathVariable(value = "page") Integer page,
-//                          Model model) {
-//        if (configService.getArchivesPrefix().equals(prefix)) {
-//            return postModel.archives(page, model);
-//        } else if (configService.getJournalsPrefix().equals(prefix)) {
-//            return journalModel.list(page, model);
-//        } else if (configService.getPhotosPrefix().equals(prefix)) {
-//            return photoModel.list(page, model);
-//        } else {
-//            throw new NotFoundException("Not Found");
-//        }
-//    }
-//
+package com.qinweizhao.blog.controller.content;
+
+import com.qinweizhao.blog.controller.content.model.CategoryModel;
+import com.qinweizhao.blog.controller.content.model.JournalModel;
+import com.qinweizhao.blog.controller.content.model.PostModel;
+import com.qinweizhao.blog.controller.content.model.TagModel;
+import com.qinweizhao.blog.exception.NotFoundException;
+import com.qinweizhao.blog.framework.cache.AbstractStringCacheStore;
+import com.qinweizhao.blog.service.ConfigService;
+import com.qinweizhao.blog.service.PostService;
+import com.qinweizhao.blog.service.SheetService;
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+
+/**
+ * @author ryanwang
+ * @author qinweizhao
+ * @since 2020-01-07
+ */
+@Slf4j
+@Controller
+@AllArgsConstructor
+public class ContentContentController {
+
+    private final PostModel postModel;
+
+    private final CategoryModel categoryModel;
+
+    private final TagModel tagModel;
+
+    private final JournalModel journalModel;
+
+    private final ConfigService configService;
+
+    private final PostService postService;
+
+    private final SheetService sheetService;
+
+    private final AbstractStringCacheStore cacheStore;
+
+
+    @GetMapping("{prefix}")
+    public String content(@PathVariable("prefix") String prefix,
+                          Model model) {
+        if (configService.getArchivesPrefix().equals(prefix)) {
+            return postModel.archives(1, model);
+        }
+        if (configService.getCategoriesPrefix().equals(prefix)) {
+            return categoryModel.list(model);
+        }
+        if (configService.getTagsPrefix().equals(prefix)) {
+            return tagModel.list(model);
+        }
+        if (configService.getJournalsPrefix().equals(prefix)) {
+            return journalModel.list(1, model);
+        }
+
+        return null;
+    }
+
+    @GetMapping("{prefix}/page/{page:\\d+}")
+    public String content(@PathVariable("prefix") String prefix,
+                          @PathVariable(value = "page") Integer page,
+                          Model model) {
+        if (configService.getArchivesPrefix().equals(prefix)) {
+            return postModel.archives(page, model);
+        } else if (configService.getJournalsPrefix().equals(prefix)) {
+            return journalModel.list(page, model);
+        } else {
+            throw new NotFoundException("Not Found");
+        }
+    }
+
 //    @GetMapping("{prefix}/{slug}")
 //    public String content(@PathVariable("prefix") String prefix,
 //                          @PathVariable("slug") String slug,
@@ -197,4 +178,4 @@
 //
 //        return "redirect:" + redirectUrl;
 //    }
-//}
+}

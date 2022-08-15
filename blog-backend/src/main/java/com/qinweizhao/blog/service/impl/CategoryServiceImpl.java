@@ -58,6 +58,12 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
+    public CategoryDTO getBySlug(String slug) {
+        Category category = categoryMapper.selectBySlug(slug);
+        return CategoryConvert.INSTANCE.convert(category);
+    }
+
+    @Override
     public List<CategoryDTO> list(boolean more) {
         List<Category> categories = categoryMapper.selectList();
         if (more) {
