@@ -13,7 +13,7 @@ import com.qinweizhao.blog.exception.FileOperationException;
 import com.qinweizhao.blog.model.enums.AttachmentType;
 import com.qinweizhao.blog.model.properties.QiniuOssProperties;
 import com.qinweizhao.blog.model.support.UploadResult;
-import com.qinweizhao.blog.service.OptionService;
+import com.qinweizhao.blog.service.ConfigService;
 import com.qinweizhao.blog.util.FilenameUtils;
 import com.qinweizhao.blog.util.ImageUtils;
 import com.qinweizhao.blog.util.JsonUtils;
@@ -46,26 +46,26 @@ import static com.qinweizhao.blog.util.HaloUtils.ensureSuffix;
 @Component
 public class QiniuOssFileHandler implements FileHandler {
 
-    private final OptionService optionService;
+    private final ConfigService configService;
 
-    public QiniuOssFileHandler(OptionService optionService) {
-        this.optionService = optionService;
+    public QiniuOssFileHandler(ConfigService configService) {
+        this.configService = configService;
     }
 
     @Override
     public UploadResult upload(MultipartFile file) {
         Assert.notNull(file, "Multipart file must not be null");
 
-        Region region = optionService.getQiniuRegion();
+        Region region = configService.getQiniuRegion();
 
-        String accessKey = optionService.getByPropertyOfNonNull(QiniuOssProperties.OSS_ACCESS_KEY).toString();
-        String secretKey = optionService.getByPropertyOfNonNull(QiniuOssProperties.OSS_SECRET_KEY).toString();
-        String bucket = optionService.getByPropertyOfNonNull(QiniuOssProperties.OSS_BUCKET).toString();
-        String protocol = optionService.getByPropertyOfNonNull(QiniuOssProperties.OSS_PROTOCOL).toString();
-        String domain = optionService.getByPropertyOfNonNull(QiniuOssProperties.OSS_DOMAIN).toString();
-        String source = optionService.getByPropertyOrDefault(QiniuOssProperties.OSS_SOURCE, String.class, "");
-        String styleRule = optionService.getByPropertyOrDefault(QiniuOssProperties.OSS_STYLE_RULE, String.class, "");
-        String thumbnailStyleRule = optionService.getByPropertyOrDefault(QiniuOssProperties.OSS_THUMBNAIL_STYLE_RULE, String.class, "");
+        String accessKey = configService.getByPropertyOfNonNull(QiniuOssProperties.OSS_ACCESS_KEY).toString();
+        String secretKey = configService.getByPropertyOfNonNull(QiniuOssProperties.OSS_SECRET_KEY).toString();
+        String bucket = configService.getByPropertyOfNonNull(QiniuOssProperties.OSS_BUCKET).toString();
+        String protocol = configService.getByPropertyOfNonNull(QiniuOssProperties.OSS_PROTOCOL).toString();
+        String domain = configService.getByPropertyOfNonNull(QiniuOssProperties.OSS_DOMAIN).toString();
+        String source = configService.getByPropertyOrDefault(QiniuOssProperties.OSS_SOURCE, String.class, "");
+        String styleRule = configService.getByPropertyOrDefault(QiniuOssProperties.OSS_STYLE_RULE, String.class, "");
+        String thumbnailStyleRule = configService.getByPropertyOrDefault(QiniuOssProperties.OSS_THUMBNAIL_STYLE_RULE, String.class, "");
 
         // Create configuration
         Configuration configuration = new Configuration(region);
@@ -151,11 +151,11 @@ public class QiniuOssFileHandler implements FileHandler {
     public void delete(String key) {
         Assert.notNull(key, "File key must not be blank");
 
-        Region region = optionService.getQiniuRegion();
+        Region region = configService.getQiniuRegion();
 
-        String accessKey = optionService.getByPropertyOfNonNull(QiniuOssProperties.OSS_ACCESS_KEY).toString();
-        String secretKey = optionService.getByPropertyOfNonNull(QiniuOssProperties.OSS_SECRET_KEY).toString();
-        String bucket = optionService.getByPropertyOfNonNull(QiniuOssProperties.OSS_BUCKET).toString();
+        String accessKey = configService.getByPropertyOfNonNull(QiniuOssProperties.OSS_ACCESS_KEY).toString();
+        String secretKey = configService.getByPropertyOfNonNull(QiniuOssProperties.OSS_SECRET_KEY).toString();
+        String bucket = configService.getByPropertyOfNonNull(QiniuOssProperties.OSS_BUCKET).toString();
 
         // Create configuration
         Configuration configuration = new Configuration(region);

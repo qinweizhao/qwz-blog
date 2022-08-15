@@ -9,7 +9,7 @@ import com.qinweizhao.blog.model.properties.ApiProperties;
 import com.qinweizhao.blog.model.properties.CommentProperties;
 import com.qinweizhao.blog.security.handler.DefaultAuthenticationFailureHandler;
 import com.qinweizhao.blog.security.service.OneTimeTokenService;
-import com.qinweizhao.blog.service.OptionService;
+import com.qinweizhao.blog.service.ConfigService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.annotation.Order;
@@ -36,15 +36,15 @@ import static com.qinweizhao.blog.model.support.HaloConst.API_ACCESS_KEY_QUERY_N
 @Order(0)
 public class ApiAuthenticationFilter extends AbstractAuthenticationFilter {
 
-    private final OptionService optionService;
+    private final ConfigService configService;
 
     public ApiAuthenticationFilter(MyBlogProperties myBlogProperties,
-                                   OptionService optionService,
+                                   ConfigService configService,
                                    AbstractStringCacheStore cacheStore,
                                    OneTimeTokenService oneTimeTokenService,
                                    ObjectMapper objectMapper) {
         super(myBlogProperties, cacheStore, oneTimeTokenService);
-        this.optionService = optionService;
+        this.configService = configService;
 
         addUrlPatterns("/api/content/**");
 
@@ -69,7 +69,7 @@ public class ApiAuthenticationFilter extends AbstractAuthenticationFilter {
         }
 
         // Get api_enable from option
-        Boolean apiEnabled = optionService.getByPropertyOrDefault(ApiProperties.API_ENABLED, Boolean.class, false);
+        Boolean apiEnabled = configService.getByPropertyOrDefault(ApiProperties.API_ENABLED, Boolean.class, false);
 
         if (!apiEnabled) {
             throw new ForbiddenException("API has been disabled by blogger currently");
@@ -84,7 +84,7 @@ public class ApiAuthenticationFilter extends AbstractAuthenticationFilter {
         }
 
         // Get access key from option
-        Optional<String> optionalAccessKey = optionService.getByProperty(ApiProperties.API_ACCESS_KEY, String.class);
+        Optional<String> optionalAccessKey = configService.getByProperty(ApiProperties.API_ACCESS_KEY, String.class);
 
         if (!optionalAccessKey.isPresent()) {
             // If the access key is not set
@@ -105,7 +105,7 @@ public class ApiAuthenticationFilter extends AbstractAuthenticationFilter {
         boolean result = super.shouldNotFilter(request);
 
         if (antPathMatcher.match("/api/content/*/comments", request.getServletPath())) {
-            Boolean commentApiEnabled = optionService.getByPropertyOrDefault(CommentProperties.API_ENABLED, Boolean.class, true);
+            Boolean commentApiEnabled = configService.getByPropertyOrDefault(CommentProperties.API_ENABLED, Boolean.class, true);
             if (!commentApiEnabled) {
                 // If the comment api is disabled
                 result = false;

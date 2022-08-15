@@ -21,7 +21,7 @@ import com.qinweizhao.blog.security.context.SecurityContextHolder;
 import com.qinweizhao.blog.security.token.AuthToken;
 import com.qinweizhao.blog.security.util.AuthUtils;
 import com.qinweizhao.blog.service.AdminService;
-import com.qinweizhao.blog.service.OptionService;
+import com.qinweizhao.blog.service.ConfigService;
 import com.qinweizhao.blog.service.UserService;
 import com.qinweizhao.blog.util.HaloUtils;
 import lombok.AllArgsConstructor;
@@ -56,7 +56,7 @@ import static com.qinweizhao.blog.model.support.HaloConst.DATABASE_PRODUCT_NAME;
 @AllArgsConstructor
 public class AdminServiceImpl implements AdminService {
 
-    private final OptionService optionService;
+    private final ConfigService configService;
 
     private final UserService userService;
 
@@ -165,7 +165,7 @@ public class AdminServiceImpl implements AdminService {
         // Cache code.
         cacheStore.putAny("code", code, 5, TimeUnit.MINUTES);
 
-        Boolean emailEnabled = optionService.getByPropertyOrDefault(EmailProperties.ENABLED, Boolean.class, false);
+        Boolean emailEnabled = configService.getByPropertyOrDefault(EmailProperties.ENABLED, Boolean.class, false);
 
         if (!emailEnabled) {
             throw new ServiceException("未启用 SMTP 服务，无法发送邮件，但是你可以通过系统日志找到验证码");

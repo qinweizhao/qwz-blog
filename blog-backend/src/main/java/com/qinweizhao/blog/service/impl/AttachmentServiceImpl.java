@@ -12,7 +12,7 @@ import com.qinweizhao.blog.model.param.AttachmentQueryParam;
 import com.qinweizhao.blog.model.properties.AttachmentProperties;
 import com.qinweizhao.blog.model.support.UploadResult;
 import com.qinweizhao.blog.service.AttachmentService;
-import com.qinweizhao.blog.service.OptionService;
+import com.qinweizhao.blog.service.ConfigService;
 import com.qinweizhao.blog.util.HaloUtils;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -39,7 +39,7 @@ public class AttachmentServiceImpl implements AttachmentService {
 
     private final AttachmentMapper attachmentMapper;
 
-    private final OptionService optionService;
+    private final ConfigService configService;
 
     private final FileHandlers fileHandlers;
 
@@ -47,9 +47,9 @@ public class AttachmentServiceImpl implements AttachmentService {
     public PageResult<AttachmentDTO> page(AttachmentQueryParam param) {
         PageResult<Attachment> result = attachmentMapper.selectPageAttachments(param);
         // Get blog base url
-        String blogBaseUrl = optionService.getBlogBaseUrl();
+        String blogBaseUrl = configService.getBlogBaseUrl();
 
-        Boolean enabledAbsolutePath = optionService.isEnabledAbsolutePath();
+        Boolean enabledAbsolutePath = configService.isEnabledAbsolutePath();
 
 
         result.getContent().forEach(item -> {
@@ -135,6 +135,6 @@ public class AttachmentServiceImpl implements AttachmentService {
      * @return attachment type
      */
     private AttachmentType getAttachmentType() {
-        return Objects.requireNonNull(optionService.getEnumByPropertyOrDefault(AttachmentProperties.ATTACHMENT_TYPE, AttachmentType.class, AttachmentType.LOCAL));
+        return Objects.requireNonNull(configService.getEnumByPropertyOrDefault(AttachmentProperties.ATTACHMENT_TYPE, AttachmentType.class, AttachmentType.LOCAL));
     }
 }

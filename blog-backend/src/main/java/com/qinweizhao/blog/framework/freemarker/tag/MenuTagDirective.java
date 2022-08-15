@@ -3,7 +3,7 @@ package com.qinweizhao.blog.framework.freemarker.tag;
 import com.qinweizhao.blog.model.properties.PrimaryProperties;
 import com.qinweizhao.blog.model.support.HaloConst;
 import com.qinweizhao.blog.service.MenuService;
-import com.qinweizhao.blog.service.OptionService;
+import com.qinweizhao.blog.service.ConfigService;
 import freemarker.core.Environment;
 import freemarker.template.*;
 import org.springframework.stereotype.Component;
@@ -23,11 +23,11 @@ public class MenuTagDirective implements TemplateDirectiveModel {
 
     private final MenuService menuService;
 
-    private final OptionService optionService;
+    private final ConfigService configService;
 
-    public MenuTagDirective(Configuration configuration, MenuService menuService, OptionService optionService) {
+    public MenuTagDirective(Configuration configuration, MenuService menuService, ConfigService configService) {
         this.menuService = menuService;
-        this.optionService = optionService;
+        this.configService = configService;
         configuration.setSharedVariable("menuTag", this);
     }
 
@@ -39,11 +39,11 @@ public class MenuTagDirective implements TemplateDirectiveModel {
             String method = params.get(HaloConst.METHOD_KEY).toString();
             switch (method) {
                 case "list":
-                    String listTeam = optionService.getByPropertyOrDefault(PrimaryProperties.DEFAULT_MENU_TEAM, String.class, "");
+                    String listTeam = configService.getByPropertyOrDefault(PrimaryProperties.DEFAULT_MENU_TEAM, String.class, "");
                     env.setVariable("menus", builder.build().wrap(menuService.listByTeam(listTeam)));
                     break;
                 case "tree":
-                    String treeTeam = optionService.getByPropertyOrDefault(PrimaryProperties.DEFAULT_MENU_TEAM, String.class, "");
+                    String treeTeam = configService.getByPropertyOrDefault(PrimaryProperties.DEFAULT_MENU_TEAM, String.class, "");
                     env.setVariable("menus", builder.build().wrap(menuService.listByTeamAsTree(treeTeam)));
                     break;
                 case "listTeams":

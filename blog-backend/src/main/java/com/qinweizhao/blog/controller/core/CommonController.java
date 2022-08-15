@@ -2,7 +2,7 @@ package com.qinweizhao.blog.controller.core;
 
 import com.qinweizhao.blog.exception.AbstractHaloException;
 import com.qinweizhao.blog.exception.NotFoundException;
-import com.qinweizhao.blog.service.OptionService;
+import com.qinweizhao.blog.service.ConfigService;
 import com.qinweizhao.blog.service.ThemeService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.web.ErrorProperties;
@@ -43,16 +43,16 @@ public class CommonController extends AbstractErrorController {
 
     private final ErrorProperties errorProperties;
 
-    private final OptionService optionService;
+    private final ConfigService configService;
 
     public CommonController(ThemeService themeService,
                             ErrorAttributes errorAttributes,
                             ServerProperties serverProperties,
-                            OptionService optionService) {
+                            ConfigService configService) {
         super(errorAttributes);
         this.themeService = themeService;
         this.errorProperties = serverProperties.getError();
-        this.optionService = optionService;
+        this.configService = configService;
     }
 
     /**

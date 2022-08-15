@@ -6,7 +6,7 @@ import com.qinweizhao.blog.model.entity.CommentBlackList;
 import com.qinweizhao.blog.model.enums.CommentViolationTypeEnum;
 import com.qinweizhao.blog.model.properties.CommentProperties;
 import com.qinweizhao.blog.service.CommentBlackListService;
-import com.qinweizhao.blog.service.OptionService;
+import com.qinweizhao.blog.service.ConfigService;
 import com.qinweizhao.blog.util.DateTimeUtils;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -33,7 +33,7 @@ public class CommentBlackListServiceImpl implements CommentBlackListService {
 
     private final CommentMapper commentMapper;
 
-    private final OptionService optionService;
+    private final ConfigService configService;
 
 
     @Override
@@ -48,9 +48,9 @@ public class CommentBlackListServiceImpl implements CommentBlackListService {
         CommentBlackList blackList = commentBlackListMapper.selectByIpAddress(ipAddress);
         LocalDateTime now = LocalDateTime.now();
         Date endTime = new Date(DateTimeUtils.toEpochMilli(now));
-        Integer banTime = optionService.getByPropertyOrDefault(CommentProperties.COMMENT_BAN_TIME, Integer.class, 10);
+        Integer banTime = configService.getByPropertyOrDefault(CommentProperties.COMMENT_BAN_TIME, Integer.class, 10);
         Date startTime = new Date(DateTimeUtils.toEpochMilli(now.minusMinutes(banTime)));
-        Integer range = optionService.getByPropertyOrDefault(CommentProperties.COMMENT_RANGE, Integer.class, 30);
+        Integer range = configService.getByPropertyOrDefault(CommentProperties.COMMENT_RANGE, Integer.class, 30);
         boolean isPresent = commentMapper.countByIpAndTime(ipAddress, startTime, endTime) >= range;
         if (isPresent && !ObjectUtils.isEmpty(blackList)) {
             update(now, blackList, banTime);

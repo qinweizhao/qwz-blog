@@ -12,7 +12,7 @@ import com.qinweizhao.blog.model.entity.Category;
 import com.qinweizhao.blog.model.entity.Post;
 import com.qinweizhao.blog.model.entity.PostCategory;
 import com.qinweizhao.blog.model.enums.PostStatus;
-import com.qinweizhao.blog.service.OptionService;
+import com.qinweizhao.blog.service.ConfigService;
 import com.qinweizhao.blog.service.PostCategoryService;
 import com.qinweizhao.blog.util.ServiceUtils;
 import lombok.AllArgsConstructor;
@@ -41,7 +41,7 @@ public class PostCategoryServiceImpl extends ServiceImpl<PostCategoryMapper, Pos
 
     private final PostCategoryMapper postCategoryMapper;
 
-    private final OptionService optionService;
+    private final ConfigService configService;
 
 
     @Override
@@ -78,7 +78,7 @@ public class PostCategoryServiceImpl extends ServiceImpl<PostCategoryMapper, Pos
         Set<Integer> categoryIds = postCategoryMapper.selectSetCategoryIdsByPostId(postId);
         List<Category> categories = categoryMapper.selectListByIds(categoryIds);
         List<CategoryDTO> result = CategoryConvert.INSTANCE.convertToDTO(categories);
-        result.forEach(item->item.setFullPath(optionService.buildFullPath(postId)));
+        result.forEach(item->item.setFullPath(configService.buildFullPath(postId)));
         return result;
     }
 

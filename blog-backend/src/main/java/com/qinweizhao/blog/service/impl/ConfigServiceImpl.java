@@ -7,12 +7,15 @@ import com.qinweizhao.blog.config.properties.MyBlogProperties;
 import com.qinweizhao.blog.exception.MissingPropertyException;
 import com.qinweizhao.blog.framework.cache.AbstractStringCacheStore;
 import com.qinweizhao.blog.framework.event.options.OptionUpdatedEvent;
-import com.qinweizhao.blog.mapper.OptionMapper;
+import com.qinweizhao.blog.mapper.ConfigMapper;
+import com.qinweizhao.blog.model.core.PageResult;
 import com.qinweizhao.blog.model.dto.OptionDTO;
-import com.qinweizhao.blog.model.entity.Option;
+import com.qinweizhao.blog.model.dto.OptionSimpleDTO;
+import com.qinweizhao.blog.model.entity.Config;
 import com.qinweizhao.blog.model.enums.ValueEnum;
+import com.qinweizhao.blog.model.param.OptionQuery;
 import com.qinweizhao.blog.model.properties.*;
-import com.qinweizhao.blog.service.OptionService;
+import com.qinweizhao.blog.service.ConfigService;
 import com.qinweizhao.blog.util.DateUtils;
 import com.qinweizhao.blog.util.ServiceUtils;
 import lombok.AllArgsConstructor;
@@ -40,7 +43,7 @@ import static com.qinweizhao.blog.model.support.HaloConst.URL_SEPARATOR;
 @Slf4j
 @Service
 @AllArgsConstructor
-public class OptionServiceImpl extends ServiceImpl<OptionMapper, Option> implements OptionService {
+public class ConfigServiceImpl extends ServiceImpl<ConfigMapper, Config> implements ConfigService {
 
     private final ApplicationContext applicationContext;
 
@@ -51,6 +54,8 @@ public class OptionServiceImpl extends ServiceImpl<OptionMapper, Option> impleme
     private final ApplicationEventPublisher eventPublisher;
 
     private final MyBlogProperties myBlogProperties;
+
+    private final ConfigMapper configMapper;
 
 
     @Override
@@ -168,20 +173,20 @@ public class OptionServiceImpl extends ServiceImpl<OptionMapper, Option> impleme
     public @NotNull Map<String, Object> listOptions() {
         // Get options from cache
         return cacheStore.getAny(OPTIONS_KEY, Map.class).orElseGet(() -> {
-            List<Option> options = list();
+            List<Config> configs = list();
 
-            Set<String> keys = ServiceUtils.fetchProperty(options, Option::getOptionKey);
+            Set<String> keys = ServiceUtils.fetchProperty(configs, Config::getOptionKey);
 
-            Map<String, Object> userDefinedOptionMap = ServiceUtils.convertToMap(options, Option::getOptionKey, option -> {
-                String key = option.getOptionKey();
+            Map<String, Object> userDefinedOptionMap = ServiceUtils.convertToMap(configs, Config::getOptionKey, config -> {
+                String key = config.getOptionKey();
 
                 PropertyEnum propertyEnum = propertyEnumMap.get(key);
 
                 if (propertyEnum == null) {
-                    return option.getOptionValue();
+                    return config.getOptionValue();
                 }
 
-                return PropertyEnum.convertTo(option.getOptionValue(), propertyEnum);
+                return PropertyEnum.convertTo(config.getOptionValue(), propertyEnum);
             });
 
             Map<String, Object> result = new HashMap<>(userDefinedOptionMap);
@@ -566,6 +571,11 @@ public class OptionServiceImpl extends ServiceImpl<OptionMapper, Option> impleme
     }
 
     @Override
+    public PageResult<OptionSimpleDTO> pageSimple(OptionQuery optionQuery) {
+        return null;
+    }
+
+    @Override
     public void saveProperty(PropertyEnum property, String value) {
         this.save(property.getValue(), value);
     }
@@ -581,26 +591,26 @@ public class OptionServiceImpl extends ServiceImpl<OptionMapper, Option> impleme
             return;
         }
 
-        Map<String, Option> optionKeyMap = ServiceUtils.convertToMap(this.list(), Option::getOptionKey);
+        Map<String, Config> optionKeyMap = ServiceUtils.convertToMap(this.list(), Config::getOptionKey);
 
-        List<Option> optionsToCreate = new LinkedList<>();
-        List<Option> optionsToUpdate = new LinkedList<>();
+        List<Config> optionsToCreate = new LinkedList<>();
+        List<Config> optionsToUpdate = new LinkedList<>();
 
         optionMap.forEach((key, value) -> {
-            Option oldOption = optionKeyMap.get(key);
-            if (oldOption == null || !StringUtils.equals(oldOption.getOptionValue(), value.toString())) {
+            Config oldConfig = optionKeyMap.get(key);
+            if (oldConfig == null || !StringUtils.equals(oldConfig.getOptionValue(), value.toString())) {
 
-                Option option = new Option();
-                option.setOptionKey(key);
-                option.setOptionValue(String.valueOf(value));
+                Config config = new Config();
+                config.setOptionKey(key);
+                config.setOptionValue(String.valueOf(value));
 
-                if (oldOption == null) {
+                if (oldConfig == null) {
                     // Create it
-                    optionsToCreate.add(option);
-                } else if (!StringUtils.equals(oldOption.getOptionValue(), value.toString())) {
+                    optionsToCreate.add(config);
+                } else if (!StringUtils.equals(oldConfig.getOptionValue(), value.toString())) {
                     // Update it
-                    option.setId(oldOption.getId());
-                    optionsToUpdate.add(option);
+                    config.setId(oldConfig.getId());
+                    optionsToUpdate.add(config);
                 }
             }
         });

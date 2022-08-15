@@ -1,11 +1,10 @@
 package com.qinweizhao.blog.controller.content;
 
 import com.qinweizhao.blog.model.core.PageResult;
-import com.qinweizhao.blog.model.dto.PostListDTO;
 import com.qinweizhao.blog.model.dto.PostSimpleDTO;
 import com.qinweizhao.blog.model.enums.PostStatus;
 import com.qinweizhao.blog.model.param.PostQueryParam;
-import com.qinweizhao.blog.service.OptionService;
+import com.qinweizhao.blog.service.ConfigService;
 import com.qinweizhao.blog.service.PostService;
 import com.qinweizhao.blog.service.ThemeService;
 import org.springframework.stereotype.Controller;
@@ -34,7 +33,7 @@ public class ContentSearchController {
     private PostService postService;
 
     @Resource
-    private OptionService optionService;
+    private ConfigService configService;
 
     @Resource
     private ThemeService themeService;
@@ -71,8 +70,8 @@ public class ContentSearchController {
         model.addAttribute("is_search", true);
         model.addAttribute("keyword", keyword);
         model.addAttribute("posts", postPage);
-        model.addAttribute("meta_keywords", optionService.getSeoKeywords());
-        model.addAttribute("meta_description", optionService.getSeoDescription());
+        model.addAttribute("meta_keywords", configService.getSeoKeywords());
+        model.addAttribute("meta_description", configService.getSeoDescription());
         return themeService.render("search");
     }
 }

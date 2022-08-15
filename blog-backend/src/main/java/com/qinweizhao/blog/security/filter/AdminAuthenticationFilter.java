@@ -12,7 +12,7 @@ import com.qinweizhao.blog.security.handler.DefaultAuthenticationFailureHandler;
 import com.qinweizhao.blog.security.service.OneTimeTokenService;
 import com.qinweizhao.blog.security.support.UserDetail;
 import com.qinweizhao.blog.security.util.AuthUtils;
-import com.qinweizhao.blog.service.OptionService;
+import com.qinweizhao.blog.service.ConfigService;
 import com.qinweizhao.blog.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -47,7 +47,7 @@ public class AdminAuthenticationFilter extends AbstractAuthenticationFilter {
     public AdminAuthenticationFilter(AbstractStringCacheStore cacheStore,
                                      UserService userService,
                                      MyBlogProperties myBlogProperties,
-                                     OptionService optionService,
+                                     ConfigService configService,
                                      OneTimeTokenService oneTimeTokenService,
                                      ObjectMapper objectMapper) {
         super(myBlogProperties, cacheStore, oneTimeTokenService);

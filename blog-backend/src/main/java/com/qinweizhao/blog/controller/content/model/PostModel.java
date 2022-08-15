@@ -6,12 +6,11 @@ import com.qinweizhao.blog.framework.cache.AbstractStringCacheStore;
 import com.qinweizhao.blog.mapper.CommentMapper;
 import com.qinweizhao.blog.model.core.PageResult;
 import com.qinweizhao.blog.model.dto.PostDTO;
-import com.qinweizhao.blog.model.dto.PostListDTO;
 import com.qinweizhao.blog.model.dto.PostSimpleDTO;
 import com.qinweizhao.blog.model.dto.TagDTO;
 import com.qinweizhao.blog.model.enums.PostStatus;
 import com.qinweizhao.blog.model.param.PostQueryParam;
-import com.qinweizhao.blog.service.OptionService;
+import com.qinweizhao.blog.service.ConfigService;
 import com.qinweizhao.blog.service.PostService;
 import com.qinweizhao.blog.service.ThemeService;
 import lombok.AllArgsConstructor;
@@ -20,7 +19,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.ui.Model;
 
 import javax.annotation.Resource;
-import javax.sound.midi.Soundbank;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -41,7 +39,7 @@ public class PostModel {
     private ThemeService themeService;
 
 
-    private final OptionService optionService;
+    private final ConfigService configService;
 
     private final AbstractStringCacheStore cacheStore;
 
@@ -101,7 +99,7 @@ public class PostModel {
     }
 
     public String list(Integer page, Model model) {
-        int pageSize = optionService.getPostPageSize();
+        int pageSize = configService.getPostPageSize();
 
         PostQueryParam param = new PostQueryParam();
         param.setSize(pageSize);
@@ -111,8 +109,8 @@ public class PostModel {
 
         model.addAttribute("is_index", true);
         model.addAttribute("posts", posts);
-        model.addAttribute("meta_keywords", optionService.getSeoKeywords());
-        model.addAttribute("meta_description", optionService.getSeoDescription());
+        model.addAttribute("meta_keywords", configService.getSeoKeywords());
+        model.addAttribute("meta_description", configService.getSeoDescription());
         return themeService.render("index");
     }
 //

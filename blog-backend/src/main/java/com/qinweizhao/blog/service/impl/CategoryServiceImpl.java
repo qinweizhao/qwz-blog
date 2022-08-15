@@ -12,7 +12,7 @@ import com.qinweizhao.blog.model.entity.Category;
 import com.qinweizhao.blog.model.param.CategoryParam;
 import com.qinweizhao.blog.model.projection.CategoryPostCountProjection;
 import com.qinweizhao.blog.service.CategoryService;
-import com.qinweizhao.blog.service.OptionService;
+import com.qinweizhao.blog.service.ConfigService;
 import com.qinweizhao.blog.util.ServiceUtils;
 import com.qinweizhao.blog.util.SlugUtils;
 import lombok.AllArgsConstructor;
@@ -49,7 +49,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     private final PostCategoryMapper postCategoryMapper;
 
-    private final OptionService optionService;
+    private final ConfigService configService;
 
     @Override
     public CategoryDTO getById(Integer categoryId) {
@@ -96,15 +96,15 @@ public class CategoryServiceImpl implements CategoryService {
     private CategoryDTO setFullPath(Category category, CategoryDTO categoryDTO) {
         StringBuilder fullPath = new StringBuilder();
 
-        if (optionService.isEnabledAbsolutePath()) {
-            fullPath.append(optionService.getBlogBaseUrl());
+        if (configService.isEnabledAbsolutePath()) {
+            fullPath.append(configService.getBlogBaseUrl());
         }
 
         fullPath.append(URL_SEPARATOR)
-                .append(optionService.getCategoriesPrefix())
+                .append(configService.getCategoriesPrefix())
                 .append(URL_SEPARATOR)
                 .append(category.getSlug())
-                .append(optionService.getPathSuffix());
+                .append(configService.getPathSuffix());
 
         categoryDTO.setFullPath(fullPath.toString());
 
@@ -246,15 +246,15 @@ public class CategoryServiceImpl implements CategoryService {
 
             StringBuilder fullPath = new StringBuilder();
 
-            if (optionService.isEnabledAbsolutePath()) {
-                fullPath.append(optionService.getBlogBaseUrl());
+            if (configService.isEnabledAbsolutePath()) {
+                fullPath.append(configService.getBlogBaseUrl());
             }
 
             fullPath.append(URL_SEPARATOR)
-                    .append(optionService.getCategoriesPrefix())
+                    .append(configService.getCategoriesPrefix())
                     .append(URL_SEPARATOR)
                     .append(child.getSlug())
-                    .append(optionService.getPathSuffix());
+                    .append(configService.getPathSuffix());
 
             child.setFullPath(fullPath.toString());
 

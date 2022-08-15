@@ -26,7 +26,7 @@ import com.qinweizhao.blog.security.authentication.Authentication;
 import com.qinweizhao.blog.security.context.SecurityContextHolder;
 import com.qinweizhao.blog.service.CommentBlackListService;
 import com.qinweizhao.blog.service.CommentService;
-import com.qinweizhao.blog.service.OptionService;
+import com.qinweizhao.blog.service.ConfigService;
 import com.qinweizhao.blog.service.UserService;
 import com.qinweizhao.blog.util.ServiceUtils;
 import com.qinweizhao.blog.util.ServletUtils;
@@ -65,7 +65,7 @@ public class CommentServiceImpl implements CommentService {
 
     private final JournalMapper journalMapper;
 
-    private final OptionService optionService;
+    private final ConfigService configService;
 
     private final UserService userService;
 
@@ -74,7 +74,7 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public void validateCommentBlackListStatus() {
         CommentViolationTypeEnum banStatus = commentBlackListService.commentsBanStatus(ServletUtils.getRequestIp());
-        Integer banTime = optionService.getByPropertyOrDefault(CommentProperties.COMMENT_BAN_TIME, Integer.class, 10);
+        Integer banTime = configService.getByPropertyOrDefault(CommentProperties.COMMENT_BAN_TIME, Integer.class, 10);
         if (banStatus == CommentViolationTypeEnum.FREQUENTLY) {
             throw new ForbiddenException(String.format("您的评论过于频繁，请%s分钟之后再试。", banTime));
         }
@@ -135,8 +135,8 @@ public class CommentServiceImpl implements CommentService {
     public String buildFullPath(Integer postId) {
         StringBuilder fullPath = new StringBuilder();
 
-        if (optionService.isEnabledAbsolutePath()) {
-            fullPath.append(optionService.getBlogBaseUrl());
+        if (configService.isEnabledAbsolutePath()) {
+            fullPath.append(configService.getBlogBaseUrl());
         }
 
         fullPath.append(URL_SEPARATOR);
@@ -164,7 +164,7 @@ public class CommentServiceImpl implements CommentService {
             User user = authentication.getDetail().getUser();
             param.setAuthor(StringUtils.isBlank(user.getNickname()) ? user.getUsername() : user.getNickname());
             param.setEmail(user.getEmail());
-            param.setAuthorUrl(optionService.getByPropertyOrDefault(BlogProperties.BLOG_URL, String.class, null));
+            param.setAuthorUrl(configService.getByPropertyOrDefault(BlogProperties.BLOG_URL, String.class, null));
         }
 
 
@@ -214,7 +214,7 @@ public class CommentServiceImpl implements CommentService {
         } else {
             // 游客的评论
             // 处理评论状态
-            Boolean needAudit = optionService.getByPropertyOrDefault(CommentProperties.NEW_NEED_CHECK, Boolean.class, true);
+            Boolean needAudit = configService.getByPropertyOrDefault(CommentProperties.NEW_NEED_CHECK, Boolean.class, true);
             comment.setStatus(needAudit ? CommentStatus.AUDITING.getValue() : CommentStatus.PUBLISHED.getValue());
         }
 

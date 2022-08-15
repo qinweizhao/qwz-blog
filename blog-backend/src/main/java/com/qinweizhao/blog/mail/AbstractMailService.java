@@ -2,7 +2,7 @@ package com.qinweizhao.blog.mail;
 
 import com.qinweizhao.blog.exception.EmailException;
 import com.qinweizhao.blog.model.properties.EmailProperties;
-import com.qinweizhao.blog.service.OptionService;
+import com.qinweizhao.blog.service.ConfigService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.lang.NonNull;
@@ -29,15 +29,15 @@ import java.util.concurrent.Executors;
 public abstract class AbstractMailService implements MailService {
 
     private static final int DEFAULT_POOL_SIZE = 5;
-    protected final OptionService optionService;
+    protected final ConfigService configService;
     private JavaMailSender cachedMailSender;
     private MailProperties cachedMailProperties;
     private String cachedFromName;
     @Nullable
     private ExecutorService executorService;
 
-    protected AbstractMailService(OptionService optionService) {
-        this.optionService = optionService;
+    protected AbstractMailService(ConfigService configService) {
+        this.configService = configService;
     }
 
     @NonNull
@@ -80,7 +80,7 @@ public abstract class AbstractMailService implements MailService {
         }
 
         // check if mail is enable
-        Boolean emailEnabled = optionService.getByPropertyOrDefault(EmailProperties.ENABLED, Boolean.class);
+        Boolean emailEnabled = configService.getByPropertyOrDefault(EmailProperties.ENABLED, Boolean.class);
 
         if (!emailEnabled) {
             // If disabled
@@ -161,7 +161,7 @@ public abstract class AbstractMailService implements MailService {
 
         if (StringUtils.isBlank(this.cachedFromName)) {
             // set personal name
-            this.cachedFromName = optionService.getByPropertyOfNonNull(EmailProperties.FROM_NAME).toString();
+            this.cachedFromName = configService.getByPropertyOfNonNull(EmailProperties.FROM_NAME).toString();
         }
 
         if (javaMailSender instanceof JavaMailSenderImpl) {
@@ -188,11 +188,11 @@ public abstract class AbstractMailService implements MailService {
             MailProperties mailProperties = new MailProperties(log.isDebugEnabled());
 
             // set properties
-            mailProperties.setHost(optionService.getByPropertyOrDefault(EmailProperties.HOST, String.class));
-            mailProperties.setPort(optionService.getByPropertyOrDefault(EmailProperties.SSL_PORT, Integer.class));
-            mailProperties.setUsername(optionService.getByPropertyOrDefault(EmailProperties.USERNAME, String.class));
-            mailProperties.setPassword(optionService.getByPropertyOrDefault(EmailProperties.PASSWORD, String.class));
-            mailProperties.setProtocol(optionService.getByPropertyOrDefault(EmailProperties.PROTOCOL, String.class));
+            mailProperties.setHost(configService.getByPropertyOrDefault(EmailProperties.HOST, String.class));
+            mailProperties.setPort(configService.getByPropertyOrDefault(EmailProperties.SSL_PORT, Integer.class));
+            mailProperties.setUsername(configService.getByPropertyOrDefault(EmailProperties.USERNAME, String.class));
+            mailProperties.setPassword(configService.getByPropertyOrDefault(EmailProperties.PASSWORD, String.class));
+            mailProperties.setProtocol(configService.getByPropertyOrDefault(EmailProperties.PROTOCOL, String.class));
             this.cachedMailProperties = mailProperties;
         }
 

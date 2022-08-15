@@ -1,7 +1,7 @@
 package com.qinweizhao.blog.framework.listener;
 
 import com.qinweizhao.blog.config.properties.MyBlogProperties;
-import com.qinweizhao.blog.service.OptionService;
+import com.qinweizhao.blog.service.ConfigService;
 import com.qinweizhao.blog.service.ThemeSettingService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,7 +18,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Map;
 
 /**
  * 应用程序启动后执行的方法。
@@ -36,7 +35,7 @@ public class StartedListener implements ApplicationListener<ApplicationStartedEv
 
     private final MyBlogProperties myBlogProperties;
 
-    private final OptionService optionService;
+    private final ConfigService configService;
 
     private final ThemeSettingService themeSettingService;
 
@@ -50,7 +49,7 @@ public class StartedListener implements ApplicationListener<ApplicationStartedEv
      * 打印开始信息
      */
     private void printStartInfo() {
-        String blogUrl = optionService.getBlogBaseUrl();
+        String blogUrl = configService.getBlogBaseUrl();
         log.info(AnsiOutput.toString(AnsiColor.BRIGHT_BLUE, "Blog started at         ", blogUrl));
         log.info(AnsiOutput.toString(AnsiColor.BRIGHT_BLUE, "Blog admin started at   ", blogUrl, "/", myBlogProperties.getAdminPath()));
         log.info(AnsiOutput.toString(AnsiColor.BRIGHT_YELLOW, "Blog has started successfully!"));

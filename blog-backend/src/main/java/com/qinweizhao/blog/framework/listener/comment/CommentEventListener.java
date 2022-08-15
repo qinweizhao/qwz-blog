@@ -38,7 +38,7 @@ public class CommentEventListener {
 
     private final MailService mailService;
 
-    private final OptionService optionService;
+    private final ConfigService configService;
 
     private final CommentService commentService;
 
@@ -59,7 +59,7 @@ public class CommentEventListener {
     @Async
     @EventListener
     public void handleCommentNewEvent(CommentNewEvent newEvent) {
-        Boolean newCommentNotice = optionService.getByPropertyOrDefault(CommentProperties.NEW_NOTICE, Boolean.class, false);
+        Boolean newCommentNotice = configService.getByPropertyOrDefault(CommentProperties.NEW_NOTICE, Boolean.class, false);
 
         if (!newCommentNotice) {
             // Skip mailing
@@ -72,7 +72,7 @@ public class CommentEventListener {
 
         StringBuilder subject = new StringBuilder();
 
-        Boolean enabledAbsolutePath = optionService.isEnabledAbsolutePath();
+        Boolean enabledAbsolutePath = configService.isEnabledAbsolutePath();
 
         CommentDTO commentDTO = commentService.getById(newEvent.getCommentId());
 
@@ -84,7 +84,7 @@ public class CommentEventListener {
             log.debug("收到文章评论: [{}]", commentDTO);
 
             PostSimpleDTO postSimpleDTO = postService.getSimpleById(targetId);
-            data.put("pageFullPath", enabledAbsolutePath ? postSimpleDTO.getFullPath() : optionService.getBlogBaseUrl() + postSimpleDTO.getFullPath());
+            data.put("pageFullPath", enabledAbsolutePath ? postSimpleDTO.getFullPath() : configService.getBlogBaseUrl() + postSimpleDTO.getFullPath());
             data.put("pageTitle", postSimpleDTO.getTitle());
             data.put("author", commentDTO.getAuthor());
             data.put("content", commentDTO.getContent());
@@ -99,9 +99,9 @@ public class CommentEventListener {
 
             JournalDTO journalDTO = journalService.getById(targetId);
 
-            StrBuilder url = new StrBuilder(optionService.getBlogBaseUrl())
+            StrBuilder url = new StrBuilder(configService.getBlogBaseUrl())
                     .append("/")
-                    .append(optionService.getJournalsPrefix());
+                    .append(configService.getJournalsPrefix());
             data.put("pageFullPath", url.toString());
             data.put("pageTitle", journalDTO.getCreateTime());
             data.put("author", commentDTO.getAuthor());
@@ -127,17 +127,17 @@ public class CommentEventListener {
     @Async
     @EventListener
     public void handleCommentReplyEvent(CommentReplyEvent replyEvent) {
-        Boolean replyCommentNotice = optionService.getByPropertyOrDefault(CommentProperties.REPLY_NOTICE, Boolean.class, false);
+        Boolean replyCommentNotice = configService.getByPropertyOrDefault(CommentProperties.REPLY_NOTICE, Boolean.class, false);
         if (!replyCommentNotice) {
             return;
         }
         String baseAuthorEmail = "";
-        String blogTitle = optionService.getBlogTitle();
+        String blogTitle = configService.getBlogTitle();
 
         Map<String, Object> data = new LinkedHashMap<>();
         StringBuilder subject = new StringBuilder();
 
-        Boolean enabledAbsolutePath = optionService.isEnabledAbsolutePath();
+        Boolean enabledAbsolutePath = configService.isEnabledAbsolutePath();
 
         CommentDTO commentDTO = commentService.getById(replyEvent.getCommentId());
         CommentType type = commentDTO.getType();
@@ -156,7 +156,7 @@ public class CommentEventListener {
             baseAuthorEmail = baseComment.getEmail();
             PostSimpleDTO postSimpleDTO = postService.getSimpleById(commentDTO.getTargetId());
 
-            data.put("pageFullPath", enabledAbsolutePath ? postSimpleDTO.getFullPath() : optionService.getBlogBaseUrl() + postSimpleDTO.getFullPath());
+            data.put("pageFullPath", enabledAbsolutePath ? postSimpleDTO.getFullPath() : configService.getBlogBaseUrl() + postSimpleDTO.getFullPath());
             data.put("pageTitle", postSimpleDTO.getTitle());
             data.put("baseAuthor", baseComment.getAuthor());
             data.put("baseContent", baseComment.getContent());
@@ -183,9 +183,9 @@ public class CommentEventListener {
 
             JournalDTO journal = journalService.getById(commentDTO.getTargetId());
 
-            StrBuilder url = new StrBuilder(optionService.getBlogBaseUrl())
+            StrBuilder url = new StrBuilder(configService.getBlogBaseUrl())
                     .append("/")
-                    .append(optionService.getJournalsPrefix());
+                    .append(configService.getJournalsPrefix());
             data.put("pageFullPath", url);
             data.put("pageTitle", journal.getContent());
             data.put("baseAuthor", baseComment.getAuthor());

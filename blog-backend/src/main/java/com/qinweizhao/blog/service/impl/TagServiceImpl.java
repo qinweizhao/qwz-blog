@@ -4,13 +4,12 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.qinweizhao.blog.exception.AlreadyExistsException;
 import com.qinweizhao.blog.mapper.PostTagMapper;
 import com.qinweizhao.blog.mapper.TagMapper;
-import com.qinweizhao.blog.model.convert.PostTagConvert;
 import com.qinweizhao.blog.model.convert.TagConvert;
 import com.qinweizhao.blog.model.dto.TagDTO;
 import com.qinweizhao.blog.model.entity.Tag;
 import com.qinweizhao.blog.model.param.TagParam;
 import com.qinweizhao.blog.model.projection.TagPostPostCountProjection;
-import com.qinweizhao.blog.service.OptionService;
+import com.qinweizhao.blog.service.ConfigService;
 import com.qinweizhao.blog.service.PostTagService;
 import com.qinweizhao.blog.service.TagService;
 import com.qinweizhao.blog.util.ServiceUtils;
@@ -22,7 +21,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import static com.qinweizhao.blog.model.support.HaloConst.URL_SEPARATOR;
 
@@ -39,7 +37,7 @@ import static com.qinweizhao.blog.model.support.HaloConst.URL_SEPARATOR;
 public class TagServiceImpl implements TagService {
 
 
-    private final OptionService optionService;
+    private final ConfigService configService;
 
     private final PostTagMapper postTagMapper;
 
@@ -62,15 +60,15 @@ public class TagServiceImpl implements TagService {
 
             StringBuilder fullPath = new StringBuilder();
 
-            if (optionService.isEnabledAbsolutePath()) {
-                fullPath.append(optionService.getBlogBaseUrl());
+            if (configService.isEnabledAbsolutePath()) {
+                fullPath.append(configService.getBlogBaseUrl());
             }
 
             fullPath.append(URL_SEPARATOR)
-                    .append(optionService.getTagsPrefix())
+                    .append(configService.getTagsPrefix())
                     .append(URL_SEPARATOR)
                     .append(item.getSlug())
-                    .append(optionService.getPathSuffix());
+                    .append(configService.getPathSuffix());
 
             item.setFullPath(fullPath.toString());
 
@@ -112,15 +110,15 @@ public class TagServiceImpl implements TagService {
 
         StringBuilder fullPath = new StringBuilder();
 
-        if (optionService.isEnabledAbsolutePath()) {
-            fullPath.append(optionService.getBlogBaseUrl());
+        if (configService.isEnabledAbsolutePath()) {
+            fullPath.append(configService.getBlogBaseUrl());
         }
 
         fullPath.append(URL_SEPARATOR)
-                .append(optionService.getTagsPrefix())
+                .append(configService.getTagsPrefix())
                 .append(URL_SEPARATOR)
                 .append(tag.getSlug())
-                .append(optionService.getPathSuffix());
+                .append(configService.getPathSuffix());
 
         tagDTO.setFullPath(fullPath.toString());
 

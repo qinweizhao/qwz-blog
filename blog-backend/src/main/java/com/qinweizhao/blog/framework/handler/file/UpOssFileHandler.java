@@ -4,7 +4,7 @@ import com.qinweizhao.blog.exception.FileOperationException;
 import com.qinweizhao.blog.model.enums.AttachmentType;
 import com.qinweizhao.blog.model.properties.UpOssProperties;
 import com.qinweizhao.blog.model.support.UploadResult;
-import com.qinweizhao.blog.service.OptionService;
+import com.qinweizhao.blog.service.ConfigService;
 import com.qinweizhao.blog.util.FilenameUtils;
 import com.qinweizhao.blog.util.ImageUtils;
 import com.upyun.RestManager;
@@ -35,25 +35,25 @@ import java.util.Objects;
 @Component
 public class UpOssFileHandler implements FileHandler {
 
-    private final OptionService optionService;
+    private final ConfigService configService;
 
-    public UpOssFileHandler(OptionService optionService) {
-        this.optionService = optionService;
+    public UpOssFileHandler(ConfigService configService) {
+        this.configService = configService;
     }
 
     @Override
     public UploadResult upload(MultipartFile file) {
         Assert.notNull(file, "Multipart file must not be null");
 
-        String source = optionService.getByPropertyOfNonNull(UpOssProperties.OSS_SOURCE).toString();
-        String password = optionService.getByPropertyOfNonNull(UpOssProperties.OSS_PASSWORD).toString();
-        String bucket = optionService.getByPropertyOfNonNull(UpOssProperties.OSS_BUCKET).toString();
-        String protocol = optionService.getByPropertyOfNonNull(UpOssProperties.OSS_PROTOCOL).toString();
-        String domain = optionService.getByPropertyOfNonNull(UpOssProperties.OSS_DOMAIN).toString();
-        String operator = optionService.getByPropertyOfNonNull(UpOssProperties.OSS_OPERATOR).toString();
+        String source = configService.getByPropertyOfNonNull(UpOssProperties.OSS_SOURCE).toString();
+        String password = configService.getByPropertyOfNonNull(UpOssProperties.OSS_PASSWORD).toString();
+        String bucket = configService.getByPropertyOfNonNull(UpOssProperties.OSS_BUCKET).toString();
+        String protocol = configService.getByPropertyOfNonNull(UpOssProperties.OSS_PROTOCOL).toString();
+        String domain = configService.getByPropertyOfNonNull(UpOssProperties.OSS_DOMAIN).toString();
+        String operator = configService.getByPropertyOfNonNull(UpOssProperties.OSS_OPERATOR).toString();
         // style rule can be null
-        String styleRule = optionService.getByPropertyOrDefault(UpOssProperties.OSS_STYLE_RULE, String.class, "");
-        String thumbnailStyleRule = optionService.getByPropertyOrDefault(UpOssProperties.OSS_THUMBNAIL_STYLE_RULE, String.class, "");
+        String styleRule = configService.getByPropertyOrDefault(UpOssProperties.OSS_STYLE_RULE, String.class, "");
+        String thumbnailStyleRule = configService.getByPropertyOrDefault(UpOssProperties.OSS_THUMBNAIL_STYLE_RULE, String.class, "");
 
         RestManager manager = new RestManager(bucket, operator, password);
         manager.setTimeout(60 * 10);
@@ -113,9 +113,9 @@ public class UpOssFileHandler implements FileHandler {
         Assert.notNull(key, "File key must not be blank");
 
         // Get config
-        String password = optionService.getByPropertyOfNonNull(UpOssProperties.OSS_PASSWORD).toString();
-        String bucket = optionService.getByPropertyOfNonNull(UpOssProperties.OSS_BUCKET).toString();
-        String operator = optionService.getByPropertyOfNonNull(UpOssProperties.OSS_OPERATOR).toString();
+        String password = configService.getByPropertyOfNonNull(UpOssProperties.OSS_PASSWORD).toString();
+        String bucket = configService.getByPropertyOfNonNull(UpOssProperties.OSS_BUCKET).toString();
+        String operator = configService.getByPropertyOfNonNull(UpOssProperties.OSS_OPERATOR).toString();
 
         RestManager manager = new RestManager(bucket, operator, password);
         manager.setTimeout(60 * 10);

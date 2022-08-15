@@ -1,6 +1,9 @@
 package com.qinweizhao.blog.controller.admin.api;
 
-import com.qinweizhao.blog.service.OptionService;
+import com.qinweizhao.blog.model.core.PageResult;
+import com.qinweizhao.blog.model.dto.OptionSimpleDTO;
+import com.qinweizhao.blog.model.param.OptionQuery;
+import com.qinweizhao.blog.service.ConfigService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,9 +20,9 @@ import java.util.Map;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/api/admin/options")
-public class OptionController {
+public class ConfigController {
 
-    private final OptionService optionService;
+    private final ConfigService configService;
 
 //    @GetMapping
 //    @ApiOperation("Lists options")
@@ -36,7 +39,7 @@ public class OptionController {
 
     @GetMapping("map_view")
     public Map<String, Object> listAllWithMapView() {
-        return optionService.listOptions();
+        return configService.listOptions();
     }
 
     /**
@@ -47,15 +50,19 @@ public class OptionController {
      */
     @PostMapping("map_view/keys")
     public Map<String, Object> listAllWithMapView(@RequestBody List<String> keys) {
-        return optionService.listOptions(keys);
+        return configService.listOptions(keys);
     }
 
-//    @GetMapping("list_view")
-//    @ApiOperation("Lists all options with list view")
-//    public Page<OptionSimpleDTO> listAllWithListView(@PageableDefault(sort = "updateTime", direction = DESC) Pageable pageable,
-//                                                     OptionQuery optionQuery) {
-//        return optionService.pageDtosBy(pageable, optionQuery);
-//    }
+    /**
+     * 开发者选项->系统变量
+     *
+     * @param optionQuery optionQuery
+     * @return PageResult
+     */
+    @GetMapping("list_view")
+    public PageResult<OptionSimpleDTO> listAllWithListView(OptionQuery optionQuery) {
+        return configService.pageSimple(optionQuery);
+    }
 ////
 ////    @GetMapping("{id:\\d+}")
 ////    @ApiOperation("Gets option detail by id")

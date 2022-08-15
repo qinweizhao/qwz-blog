@@ -4,7 +4,7 @@ import cn.hutool.core.util.PageUtil;
 import com.qinweizhao.blog.model.support.HaloConst;
 import com.qinweizhao.blog.model.support.Pagination;
 import com.qinweizhao.blog.model.support.RainbowPage;
-import com.qinweizhao.blog.service.OptionService;
+import com.qinweizhao.blog.service.ConfigService;
 import freemarker.core.Environment;
 import freemarker.template.*;
 import org.springframework.stereotype.Component;
@@ -23,11 +23,11 @@ import static com.qinweizhao.blog.model.support.HaloConst.URL_SEPARATOR;
 @Component
 public class PaginationTagDirective implements TemplateDirectiveModel {
 
-    private final OptionService optionService;
+    private final ConfigService configService;
 
     public PaginationTagDirective(Configuration configuration,
-                                  OptionService optionService) {
-        this.optionService = optionService;
+                                  ConfigService configService) {
+        this.configService = configService;
         configuration.setSharedVariable("paginationTag", this);
     }
 
@@ -48,9 +48,9 @@ public class PaginationTagDirective implements TemplateDirectiveModel {
             StringBuilder nextPageFullPath = new StringBuilder();
             StringBuilder prevPageFullPath = new StringBuilder();
 
-            if (optionService.isEnabledAbsolutePath()) {
-                nextPageFullPath.append(optionService.getBlogBaseUrl());
-                prevPageFullPath.append(optionService.getBlogBaseUrl());
+            if (configService.isEnabledAbsolutePath()) {
+                nextPageFullPath.append(configService.getBlogBaseUrl());
+                prevPageFullPath.append(configService.getBlogBaseUrl());
             }
 
             int[] rainbow = PageUtil.rainbow(page, total, display);
@@ -58,11 +58,11 @@ public class PaginationTagDirective implements TemplateDirectiveModel {
             List<RainbowPage> rainbowPages = new ArrayList<>();
             StringBuilder fullPath = new StringBuilder();
 
-            if (optionService.isEnabledAbsolutePath()) {
-                fullPath.append(optionService.getBlogBaseUrl());
+            if (configService.isEnabledAbsolutePath()) {
+                fullPath.append(configService.getBlogBaseUrl());
             }
 
-            String pathSuffix = optionService.getPathSuffix();
+            String pathSuffix = configService.getPathSuffix();
 
             switch (method) {
                 case "index":
@@ -92,9 +92,9 @@ public class PaginationTagDirective implements TemplateDirectiveModel {
                 case "archives":
 
                     nextPageFullPath.append(URL_SEPARATOR)
-                            .append(optionService.getArchivesPrefix());
+                            .append(configService.getArchivesPrefix());
                     prevPageFullPath.append(URL_SEPARATOR)
-                            .append(optionService.getArchivesPrefix());
+                            .append(configService.getArchivesPrefix());
 
                     nextPageFullPath.append("/page/")
                             .append(page + 1)
@@ -110,7 +110,7 @@ public class PaginationTagDirective implements TemplateDirectiveModel {
                     }
 
                     fullPath.append(URL_SEPARATOR)
-                            .append(optionService.getArchivesPrefix());
+                            .append(configService.getArchivesPrefix());
 
                     fullPath.append("/page/");
 
@@ -165,11 +165,11 @@ public class PaginationTagDirective implements TemplateDirectiveModel {
                     String tagSlug = params.get("slug").toString();
 
                     nextPageFullPath.append(URL_SEPARATOR)
-                            .append(optionService.getTagsPrefix())
+                            .append(configService.getTagsPrefix())
                             .append(URL_SEPARATOR)
                             .append(tagSlug);
                     prevPageFullPath.append(URL_SEPARATOR)
-                            .append(optionService.getTagsPrefix())
+                            .append(configService.getTagsPrefix())
                             .append(URL_SEPARATOR)
                             .append(tagSlug);
 
@@ -186,7 +186,7 @@ public class PaginationTagDirective implements TemplateDirectiveModel {
                     }
 
                     fullPath.append(URL_SEPARATOR)
-                            .append(optionService.getTagsPrefix())
+                            .append(configService.getTagsPrefix())
                             .append(URL_SEPARATOR)
                             .append(tagSlug);
 
@@ -204,11 +204,11 @@ public class PaginationTagDirective implements TemplateDirectiveModel {
                     String categorySlug = params.get("slug").toString();
 
                     nextPageFullPath.append(URL_SEPARATOR)
-                            .append(optionService.getCategoriesPrefix())
+                            .append(configService.getCategoriesPrefix())
                             .append(URL_SEPARATOR)
                             .append(categorySlug);
                     prevPageFullPath.append(URL_SEPARATOR)
-                            .append(optionService.getCategoriesPrefix())
+                            .append(configService.getCategoriesPrefix())
                             .append(URL_SEPARATOR)
                             .append(categorySlug);
 
@@ -225,7 +225,7 @@ public class PaginationTagDirective implements TemplateDirectiveModel {
                     }
 
                     fullPath.append(URL_SEPARATOR)
-                            .append(optionService.getCategoriesPrefix())
+                            .append(configService.getCategoriesPrefix())
                             .append(URL_SEPARATOR)
                             .append(categorySlug);
 
@@ -242,9 +242,9 @@ public class PaginationTagDirective implements TemplateDirectiveModel {
                 case "photos":
 
                     nextPageFullPath.append(URL_SEPARATOR)
-                            .append(optionService.getPhotosPrefix());
+                            .append(configService.getPhotosPrefix());
                     prevPageFullPath.append(URL_SEPARATOR)
-                            .append(optionService.getPhotosPrefix());
+                            .append(configService.getPhotosPrefix());
 
                     nextPageFullPath.append("/page/")
                             .append(page + 1)
@@ -259,7 +259,7 @@ public class PaginationTagDirective implements TemplateDirectiveModel {
                     }
 
                     fullPath.append(URL_SEPARATOR)
-                            .append(optionService.getPhotosPrefix());
+                            .append(configService.getPhotosPrefix());
 
                     fullPath.append("/page/");
 
@@ -274,9 +274,9 @@ public class PaginationTagDirective implements TemplateDirectiveModel {
                 case "journals":
 
                     nextPageFullPath.append(URL_SEPARATOR)
-                            .append(optionService.getJournalsPrefix());
+                            .append(configService.getJournalsPrefix());
                     prevPageFullPath.append(URL_SEPARATOR)
-                            .append(optionService.getJournalsPrefix());
+                            .append(configService.getJournalsPrefix());
 
                     nextPageFullPath.append("/page/")
                             .append(page + 1)
@@ -291,7 +291,7 @@ public class PaginationTagDirective implements TemplateDirectiveModel {
                     }
 
                     fullPath.append(URL_SEPARATOR)
-                            .append(optionService.getJournalsPrefix());
+                            .append(configService.getJournalsPrefix());
 
                     fullPath.append("/page/");
 

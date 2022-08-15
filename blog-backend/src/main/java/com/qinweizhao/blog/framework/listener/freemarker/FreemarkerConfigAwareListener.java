@@ -5,7 +5,7 @@ import com.qinweizhao.blog.framework.event.user.UserUpdatedEvent;
 import com.qinweizhao.blog.model.properties.BlogProperties;
 import com.qinweizhao.blog.model.properties.SeoProperties;
 import com.qinweizhao.blog.model.support.HaloConst;
-import com.qinweizhao.blog.service.OptionService;
+import com.qinweizhao.blog.service.ConfigService;
 import com.qinweizhao.blog.service.ThemeService;
 import com.qinweizhao.blog.service.ThemeSettingService;
 import com.qinweizhao.blog.service.UserService;
@@ -28,7 +28,7 @@ import org.springframework.stereotype.Component;
 @AllArgsConstructor
 public class FreemarkerConfigAwareListener {
 
-    private final OptionService optionService;
+    private final ConfigService configService;
 
     private final Configuration configuration;
 
@@ -73,29 +73,29 @@ public class FreemarkerConfigAwareListener {
 
     private void loadOptionsConfig() throws TemplateModelException {
 
-        final String blogBaseUrl = optionService.getBlogBaseUrl();
-        final String context = optionService.isEnabledAbsolutePath() ? blogBaseUrl + "/" : "/";
+        final String blogBaseUrl = configService.getBlogBaseUrl();
+        final String context = configService.isEnabledAbsolutePath() ? blogBaseUrl + "/" : "/";
 
-        configuration.setSharedVariable("options", optionService.listOptions());
+        configuration.setSharedVariable("options", configService.listOptions());
         configuration.setSharedVariable("context", context);
         configuration.setSharedVariable("version", HaloConst.HALO_VERSION);
-        configuration.setSharedVariable("globalAbsolutePathEnabled", optionService.isEnabledAbsolutePath());
-        configuration.setSharedVariable("blog_title", optionService.getBlogTitle());
+        configuration.setSharedVariable("globalAbsolutePathEnabled", configService.isEnabledAbsolutePath());
+        configuration.setSharedVariable("blog_title", configService.getBlogTitle());
         configuration.setSharedVariable("blog_url", blogBaseUrl);
-        configuration.setSharedVariable("blog_logo", optionService.getByPropertyOrDefault(BlogProperties.BLOG_LOGO, String.class, BlogProperties.BLOG_LOGO.defaultValue()));
-        configuration.setSharedVariable("seo_keywords", optionService.getByPropertyOrDefault(SeoProperties.KEYWORDS, String.class, SeoProperties.KEYWORDS.defaultValue()));
-        configuration.setSharedVariable("seo_description", optionService.getByPropertyOrDefault(SeoProperties.DESCRIPTION, String.class, SeoProperties.DESCRIPTION.defaultValue()));
+        configuration.setSharedVariable("blog_logo", configService.getByPropertyOrDefault(BlogProperties.BLOG_LOGO, String.class, BlogProperties.BLOG_LOGO.defaultValue()));
+        configuration.setSharedVariable("seo_keywords", configService.getByPropertyOrDefault(SeoProperties.KEYWORDS, String.class, SeoProperties.KEYWORDS.defaultValue()));
+        configuration.setSharedVariable("seo_description", configService.getByPropertyOrDefault(SeoProperties.DESCRIPTION, String.class, SeoProperties.DESCRIPTION.defaultValue()));
 
         configuration.setSharedVariable("rss_url", blogBaseUrl + "/rss.xml");
         configuration.setSharedVariable("atom_url", blogBaseUrl + "/atom.xml");
         configuration.setSharedVariable("sitemap_xml_url", blogBaseUrl + "/sitemap.xml");
         configuration.setSharedVariable("sitemap_html_url", blogBaseUrl + "/sitemap.html");
-        configuration.setSharedVariable("links_url", context + optionService.getLinksPrefix());
-        configuration.setSharedVariable("photos_url", context + optionService.getPhotosPrefix());
-        configuration.setSharedVariable("journals_url", context + optionService.getJournalsPrefix());
-        configuration.setSharedVariable("archives_url", context + optionService.getArchivesPrefix());
-        configuration.setSharedVariable("categories_url", context + optionService.getCategoriesPrefix());
-        configuration.setSharedVariable("tags_url", context + optionService.getTagsPrefix());
+        configuration.setSharedVariable("links_url", context + configService.getLinksPrefix());
+        configuration.setSharedVariable("photos_url", context + configService.getPhotosPrefix());
+        configuration.setSharedVariable("journals_url", context + configService.getJournalsPrefix());
+        configuration.setSharedVariable("archives_url", context + configService.getArchivesPrefix());
+        configuration.setSharedVariable("categories_url", context + configService.getCategoriesPrefix());
+        configuration.setSharedVariable("tags_url", context + configService.getTagsPrefix());
 
         log.debug("已加载选项");
     }
@@ -103,7 +103,7 @@ public class FreemarkerConfigAwareListener {
     private void loadThemeConfig() {
         // 获取当前激活的主题
         themeService.fetchActivatedTheme().ifPresent(activatedTheme -> {
-            String themeBasePath = (optionService.isEnabledAbsolutePath() ? optionService.getBlogBaseUrl() : "") + "/themes/" + activatedTheme.getFolderName();
+            String themeBasePath = (configService.isEnabledAbsolutePath() ? configService.getBlogBaseUrl() : "") + "/themes/" + activatedTheme.getFolderName();
             try {
                 configuration.setSharedVariable("theme", activatedTheme);
 

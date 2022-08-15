@@ -1,15 +1,11 @@
 package com.qinweizhao.blog.controller.content.api;
 
 import com.qinweizhao.blog.model.core.PageResult;
-import com.qinweizhao.blog.model.dto.CommentDTO;
-import com.qinweizhao.blog.model.dto.PostDTO;
 import com.qinweizhao.blog.model.dto.PostListDTO;
-import com.qinweizhao.blog.model.enums.CommentType;
 import com.qinweizhao.blog.model.enums.PostStatus;
-import com.qinweizhao.blog.model.param.CommentQueryParam;
 import com.qinweizhao.blog.model.param.PostQueryParam;
 import com.qinweizhao.blog.service.CommentService;
-import com.qinweizhao.blog.service.OptionService;
+import com.qinweizhao.blog.service.ConfigService;
 import com.qinweizhao.blog.service.PostService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -30,7 +26,7 @@ public class PostController {
 
     private final CommentService commentService;
 
-    private final OptionService optionService;
+    private final ConfigService configService;
 
 
     /**

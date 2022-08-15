@@ -69,7 +69,7 @@ public class PostServiceImpl implements PostService {
 
     private final PostMapper postMapper;
 
-    private final OptionService optionService;
+    private final ConfigService configService;
 
     private final PostTagMapper postTagMapper;
 
@@ -312,8 +312,8 @@ public class PostServiceImpl implements PostService {
 
         StringBuilder previewUrl = new StringBuilder();
 
-        if (!optionService.isEnabledAbsolutePath()) {
-            previewUrl.append(optionService.getBlogBaseUrl());
+        if (!configService.isEnabledAbsolutePath()) {
+            previewUrl.append(configService.getBlogBaseUrl());
         }
 
         previewUrl.append(this.buildFullPath(postId));
@@ -503,7 +503,7 @@ public class PostServiceImpl implements PostService {
         text = matcher.replaceAll("");
 
         // Get summary length
-        Integer summaryLength = optionService.getByPropertyOrDefault(PostProperties.SUMMARY_LENGTH, Integer.class, 150);
+        Integer summaryLength = configService.getByPropertyOrDefault(PostProperties.SUMMARY_LENGTH, Integer.class, 150);
 
         return StringUtils.substring(text, 0, summaryLength);
     }
@@ -616,7 +616,7 @@ public class PostServiceImpl implements PostService {
     public List<PostSimpleDTO> listSimple(int top) {
         List<Post> posts = postMapper.selectListLatest(top);
         List<PostSimpleDTO> result = PostConvert.INSTANCE.convertToSimpleDTO(posts);
-        result.forEach(item -> item.setFullPath(optionService.buildFullPath(item.getId())));
+        result.forEach(item -> item.setFullPath(configService.buildFullPath(item.getId())));
         return result;
     }
 
@@ -660,7 +660,7 @@ public class PostServiceImpl implements PostService {
         Matcher matcher = summaryPattern.matcher(text);
         text = matcher.replaceAll("");
 
-        Integer summaryLength = optionService.getByPropertyOrDefault(PostProperties.SUMMARY_LENGTH, Integer.class, 150);
+        Integer summaryLength = configService.getByPropertyOrDefault(PostProperties.SUMMARY_LENGTH, Integer.class, 150);
 
         return StringUtils.substring(text, 0, summaryLength);
     }
@@ -670,8 +670,8 @@ public class PostServiceImpl implements PostService {
     public String buildFullPath(Integer postId) {
         StringBuilder fullPath = new StringBuilder();
 
-        if (optionService.isEnabledAbsolutePath()) {
-            fullPath.append(optionService.getBlogBaseUrl());
+        if (configService.isEnabledAbsolutePath()) {
+            fullPath.append(configService.getBlogBaseUrl());
         }
 
         fullPath.append(URL_SEPARATOR);

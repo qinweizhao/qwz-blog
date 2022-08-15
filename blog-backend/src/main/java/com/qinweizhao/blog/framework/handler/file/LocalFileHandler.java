@@ -4,7 +4,7 @@ import com.qinweizhao.blog.config.properties.MyBlogProperties;
 import com.qinweizhao.blog.exception.FileOperationException;
 import com.qinweizhao.blog.model.enums.AttachmentType;
 import com.qinweizhao.blog.model.support.UploadResult;
-import com.qinweizhao.blog.service.OptionService;
+import com.qinweizhao.blog.service.ConfigService;
 import com.qinweizhao.blog.util.FilenameUtils;
 import com.qinweizhao.blog.util.HaloUtils;
 import com.qinweizhao.blog.util.ImageUtils;
@@ -55,15 +55,15 @@ public class LocalFileHandler implements FileHandler {
      * Thumbnail height.
      */
     private final static int THUMB_HEIGHT = 256;
-    private final OptionService optionService;
+    private final ConfigService configService;
     private final String workDir;
     ReentrantLock lock = new ReentrantLock();
     @Resource
     private MyBlogProperties myBlogProperties;
 
-    public LocalFileHandler(OptionService optionService,
+    public LocalFileHandler(ConfigService configService,
                             MyBlogProperties myBlogProperties) {
-        this.optionService = optionService;
+        this.configService = configService;
 
         // Get work dir TODO
         workDir = FileHandler.normalizeDirectory(myBlogProperties.getWorkDir());
@@ -94,7 +94,7 @@ public class LocalFileHandler implements FileHandler {
         Assert.notNull(file, "Multipart file must not be null");
 
         // Get current time
-        Calendar current = Calendar.getInstance(optionService.getLocale());
+        Calendar current = Calendar.getInstance(configService.getLocale());
         // Get month and day of month
         int year = current.get(Calendar.YEAR);
         int month = current.get(Calendar.MONTH) + 1;

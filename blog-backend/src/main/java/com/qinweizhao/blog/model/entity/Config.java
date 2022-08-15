@@ -14,7 +14,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @TableName("config")
-public class Option extends BaseEntity {
+public class Config extends BaseEntity {
 
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;

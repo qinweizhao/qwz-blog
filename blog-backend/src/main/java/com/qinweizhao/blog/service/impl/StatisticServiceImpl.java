@@ -28,7 +28,7 @@ public class StatisticServiceImpl implements StatisticService {
 
     private final CommentService commentService;
 
-    private final OptionService optionService;
+    private final ConfigService configService;
 
     private final CategoryService categoryService;
 
@@ -49,7 +49,7 @@ public class StatisticServiceImpl implements StatisticService {
         statisticDTO.setCategoryCount(categoryService.count());
         statisticDTO.setJournalCount(journalService.count());
 
-        long birthday = optionService.getBirthday();
+        long birthday = configService.getBirthday();
         long days = (System.currentTimeMillis() - birthday) / (1000 * 24 * 3600);
         statisticDTO.setEstablishDays(days);
         statisticDTO.setBirthday(birthday);
