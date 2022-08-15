@@ -30,7 +30,6 @@ import com.qinweizhao.blog.service.OptionService;
 import com.qinweizhao.blog.service.UserService;
 import com.qinweizhao.blog.util.ServiceUtils;
 import com.qinweizhao.blog.util.ServletUtils;
-import com.qinweizhao.blog.util.ValidationUtils;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.digest.DigestUtils;
@@ -162,18 +161,14 @@ public class CommentServiceImpl implements CommentService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         if (authentication != null) {
-            // Blogger comment
             User user = authentication.getDetail().getUser();
             param.setAuthor(StringUtils.isBlank(user.getNickname()) ? user.getUsername() : user.getNickname());
             param.setEmail(user.getEmail());
             param.setAuthorUrl(optionService.getByPropertyOrDefault(BlogProperties.BLOG_URL, String.class, null));
         }
 
-        // 手动验证评论参数
-        ValidationUtils.validate(param);
 
         if (authentication == null) {
-
             if (userService.getByEmail(param.getEmail()).isPresent()) {
                 throw new BadRequestException("不能使用博主的邮箱，如果您是博主，请登录管理端进行回复。");
             }
