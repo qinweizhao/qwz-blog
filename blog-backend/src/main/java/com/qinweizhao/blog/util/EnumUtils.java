@@ -19,23 +19,23 @@ public class EnumUtils {
      * @param value     枚举值
      * @param method    取值方法
      * @param <E>       对应枚举
-     * @return
+     * @return E
      */
     public static <E extends Enum<?>> E valueOf(Class<E> enumClass, Object value, Method method) {
         E[] es = enumClass.getEnumConstants();
         for (E e : es) {
-            Object evalue;
+            Object eValue;
             try {
                 method.setAccessible(true);
-                evalue = method.invoke(e);
+                eValue = method.invoke(e);
             } catch (IllegalAccessException | InvocationTargetException e1) {
                 throw ExceptionUtils.mpe("Error: NoSuchMethod in {}.  Cause:", e, enumClass.getName());
             }
-            if (value instanceof Number && evalue instanceof Number
-                    && new BigDecimal(String.valueOf(value)).compareTo(new BigDecimal(String.valueOf(evalue))) == 0) {
+            if (value instanceof Number && eValue instanceof Number
+                    && new BigDecimal(String.valueOf(value)).compareTo(new BigDecimal(String.valueOf(eValue))) == 0) {
                 return e;
             }
-            if (Objects.equals(evalue, value)) {
+            if (Objects.equals(eValue, value)) {
                 return e;
             }
         }
@@ -45,10 +45,10 @@ public class EnumUtils {
     /**
      * 根据value值获取enum对象
      *
-     * @param enumClass
-     * @param value
-     * @param <E>
-     * @return
+     * @param enumClass enumClass
+     * @param value     value
+     * @param <E>       E
+     * @return E
      */
     public static <E extends Enum<E>> E getEnumByValue(final Class<E> enumClass, Object value) {
         try {
@@ -62,24 +62,24 @@ public class EnumUtils {
     /**
      * 根据value值获取text
      *
-     * @param enumClass
-     * @param value
-     * @param <E>
-     * @return
+     * @param enumClass enumClass
+     * @param value     value
+     * @param <E>       E
+     * @return E
      */
     public static <E extends Enum<E>> String getTextByValue(final Class<E> enumClass, Object value) {
         E e = getEnumByValue(enumClass, value);
-        Object evalue;
-        Method method = null;
+        Object eValue;
+        Method method;
         try {
             method = enumClass.getMethod("getText");
             method.setAccessible(true);
-            evalue = method.invoke(e);
+            eValue = method.invoke(e);
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e1) {
             throw ExceptionUtils.mpe("Error: NoSuchMethod in {}.  Cause:", e, enumClass.getName());
         }
-        if (evalue != null) {
-            return String.valueOf(evalue);
+        if (eValue != null) {
+            return String.valueOf(eValue);
         }
         return null;
     }
@@ -87,10 +87,10 @@ public class EnumUtils {
     /**
      * 根据code值获取enum对象，如果code值相同，则获取第一个enum对象
      *
-     * @param enumClass
-     * @param value
-     * @param <E>
-     * @return
+     * @param enumClass enumClass
+     * @param value     value
+     * @param <E>       E
+     * @return E
      */
     public static <E extends Enum<E>> E getEnumByCode(final Class<E> enumClass, Object value) {
         try {
@@ -104,24 +104,24 @@ public class EnumUtils {
     /**
      * 根据code值获取text，如果code值相同，则获取第一个enum对象的text
      *
-     * @param enumClass
-     * @param value
-     * @param <E>
-     * @return
+     * @param enumClass enumClass
+     * @param value     value
+     * @param <E>       E
+     * @return E
      */
     public static <E extends Enum<E>> String getTextByCode(final Class<E> enumClass, Object value) {
         E e = getEnumByCode(enumClass, value);
-        Object evalue;
-        Method method = null;
+        Object eValue;
+        Method method;
         try {
             method = enumClass.getMethod("getText");
             method.setAccessible(true);
-            evalue = method.invoke(e);
+            eValue = method.invoke(e);
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e1) {
             throw ExceptionUtils.mpe("Error: NoSuchMethod in {}.  Cause:", e, enumClass.getName());
         }
-        if (evalue != null) {
-            return String.valueOf(evalue);
+        if (eValue != null) {
+            return String.valueOf(eValue);
         }
         return null;
     }
@@ -129,10 +129,10 @@ public class EnumUtils {
     /**
      * 根据code值获取enum对象
      *
-     * @param enumClass
-     * @param value
-     * @param <E>
-     * @return
+     * @param enumClass enumClass
+     * @param value     value
+     * @param <E>       E
+     * @return E
      */
     public static <E extends Enum<E>> E getEnumBySubCode(final Class<E> enumClass, Object value) {
         try {
@@ -146,24 +146,24 @@ public class EnumUtils {
     /**
      * 根据code值获取text，如果code值相同，则获取第一个enum对象的text
      *
-     * @param enumClass
-     * @param value
-     * @param <E>
-     * @return
+     * @param enumClass enumClass
+     * @param value     value
+     * @param <E>       E
+     * @return E
      */
     public static <E extends Enum<E>> String getSubTextBySubCode(final Class<E> enumClass, Object value) {
         E e = getEnumBySubCode(enumClass, value);
-        Object evalue;
-        Method method = null;
+        Object eValue;
+        Method method;
         try {
             method = enumClass.getMethod("getSubText");
             method.setAccessible(true);
-            evalue = method.invoke(e);
+            eValue = method.invoke(e);
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e1) {
             throw ExceptionUtils.mpe("Error: NoSuchMethod in {}.  Cause:", e, enumClass.getName());
         }
-        if (evalue != null) {
-            return String.valueOf(evalue);
+        if (eValue != null) {
+            return String.valueOf(eValue);
         }
         return null;
     }
