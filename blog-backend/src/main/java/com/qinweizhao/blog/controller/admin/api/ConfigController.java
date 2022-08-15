@@ -115,12 +115,15 @@ public class ConfigController {
         return configService.removeById(optionId);
     }
 
-//
-//    @PostMapping("map_view/saving")
-//    @ApiOperation("Saves options by option map")
-//    @DisableOnCondition
-//    public void saveOptionsWithMapView(@RequestBody Map<String, Object> optionMap) {
-//        optionService.save(optionMap);
-//    }
+
+    /**
+     * 保存
+     * @param configMap optionMap
+     */
+    @PostMapping("map_view/saving")
+    @DisableOnCondition
+    public void saveOptionsWithMapView(@RequestBody Map<String, Object> configMap) {
+        configService.save(configMap);
+    }
 
 }
