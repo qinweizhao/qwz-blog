@@ -1,8 +1,11 @@
 package com.qinweizhao.blog.controller.content.api;
 
 import com.qinweizhao.blog.model.core.PageResult;
+import com.qinweizhao.blog.model.dto.CommentDTO;
 import com.qinweizhao.blog.model.dto.PostListDTO;
+import com.qinweizhao.blog.model.enums.CommentType;
 import com.qinweizhao.blog.model.enums.PostStatus;
+import com.qinweizhao.blog.model.param.CommentQueryParam;
 import com.qinweizhao.blog.model.param.PostQueryParam;
 import com.qinweizhao.blog.service.CommentService;
 import com.qinweizhao.blog.service.ConfigService;
@@ -119,17 +122,17 @@ public class PostController {
 //    }
 //
 
-//    /**
-//     * 用树状视图列出评论
-//     *
-//     * @param postId postId
-//     * @return PageResult
-//     */
-//    @GetMapping("{postId:\\d+}/comments/tree_view")
-//    public PageResult<CommentDTO> listCommentsTree(@PathVariable("postId") Integer postId, CommentQueryParam param) {
-//        param.setType(CommentType.POST);
-//        return commentService.pageComment(param);
-//    }
+    /**
+     * 用树状视图列出评论
+     *
+     * @param postId postId
+     * @return PageResult
+     */
+    @GetMapping("{postId:\\d+}/comments/tree_view")
+    public PageResult<CommentDTO> listCommentsTree(@PathVariable("postId") Integer postId, CommentQueryParam param) {
+        param.setType(CommentType.POST);
+        return commentService.pageTree(postId,param);
+    }
 //
 //    @GetMapping("{postId:\\d+}/comments/list_view")
 //    @ApiOperation("Lists comment with list view")

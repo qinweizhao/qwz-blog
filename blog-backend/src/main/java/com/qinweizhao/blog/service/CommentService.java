@@ -54,7 +54,7 @@ public interface CommentService {
      * @param param  param
      * @return PageResult
      */
-    PageResult<CommentDTO> pageTree(Integer targetId, PageParam param);
+    PageResult<CommentDTO> pageTree(Integer targetId, CommentQueryParam param);
 
     /**
      * 统计个数

@@ -56,7 +56,6 @@ public class ContentIndexController {
      */
     @GetMapping(value = "page/{page}")
     public String index(Model model, @PathVariable(value = "page") Integer page) {
-        System.out.println("postModel.list(page, model) = " + postModel.list(page, model));
         return postModel.list(page, model);
     }
 }
