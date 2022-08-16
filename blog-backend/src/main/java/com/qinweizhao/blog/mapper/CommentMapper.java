@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.qinweizhao.blog.model.core.PageResult;
 import com.qinweizhao.blog.model.entity.Comment;
 import com.qinweizhao.blog.model.enums.CommentStatus;
+import com.qinweizhao.blog.model.enums.CommentType;
 import com.qinweizhao.blog.model.param.CommentQueryParam;
 import com.qinweizhao.blog.model.projection.CommentChildrenCountProjection;
 import com.qinweizhao.blog.model.projection.CommentCountProjection;
@@ -34,10 +35,11 @@ public interface CommentMapper extends BaseMapper<Comment> {
     /**
      * 统计评论个数
      *
+     * @param type type
      * @param targetIds targetIds
      * @return List
      */
-    List<CommentCountProjection> selectCountByPostIds(@Param("targetIds") Collection<Integer> targetIds);
+    List<CommentCountProjection> selectCountByTypeAndTargetIds(@Param("type") CommentType type, @Param("targetIds") Collection<Integer> targetIds);
 
     /**
      * 按评论 id 查找直接子评论。

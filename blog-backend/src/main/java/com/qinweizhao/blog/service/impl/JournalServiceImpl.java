@@ -5,7 +5,9 @@ import com.qinweizhao.blog.mapper.JournalMapper;
 import com.qinweizhao.blog.model.convert.JournalConvert;
 import com.qinweizhao.blog.model.core.PageResult;
 import com.qinweizhao.blog.model.dto.JournalDTO;
+import com.qinweizhao.blog.model.entity.Comment;
 import com.qinweizhao.blog.model.entity.Journal;
+import com.qinweizhao.blog.model.enums.CommentType;
 import com.qinweizhao.blog.model.param.JournalParam;
 import com.qinweizhao.blog.model.param.JournalQuery;
 import com.qinweizhao.blog.service.CommentService;
@@ -47,7 +49,8 @@ public class JournalServiceImpl implements JournalService {
             return result;
         }
         Set<Integer> journalIds = ServiceUtils.fetchProperty(journalDTOList, JournalDTO::getId);
-        Map<Integer, Long> commentCountMap = commentService.countByPostIds(journalIds);
+
+        Map<Integer, Long> commentCountMap = commentService.countByTypeAndTargetIds(CommentType.JOURNAL,journalIds);
 
         journalDTOList.forEach(item -> item.setCommentCount(commentCountMap.get(item.getId())));
         return result;

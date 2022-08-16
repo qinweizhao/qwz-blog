@@ -16,6 +16,7 @@ import com.qinweizhao.blog.model.entity.Content;
 import com.qinweizhao.blog.model.entity.Post;
 import com.qinweizhao.blog.model.entity.PostCategory;
 import com.qinweizhao.blog.model.entity.PostTag;
+import com.qinweizhao.blog.model.enums.CommentType;
 import com.qinweizhao.blog.model.enums.PostStatus;
 import com.qinweizhao.blog.model.param.MetaParam;
 import com.qinweizhao.blog.model.param.PostParam;
@@ -102,7 +103,7 @@ public class PostServiceImpl implements PostService {
         Map<Integer, List<TagDTO>> tagListMap = postTagService.listTagListMapBy(postIds);
         Map<Integer, List<CategoryDTO>> categoryListMap = postCategoryService.listCategoryListMap(postIds);
         Map<Integer, List<MetaDTO>> postMetaListMap = metaService.getListMetaAsMapByPostIds(postIds);
-        Map<Integer, Long> commentCountMap = commentService.countByPostIds(postIds);
+        Map<Integer, Long> commentCountMap = commentService.countByTypeAndTargetIds(CommentType.POST, postIds);
 
 
         List<PostListDTO> collect = posts.stream().map(post -> {
@@ -138,7 +139,7 @@ public class PostServiceImpl implements PostService {
 
         Set<Integer> postIds = ServiceUtils.fetchProperty(posts, PostSimpleDTO::getId);
 
-        Map<Integer, Long> commentCountMap = commentService.countByPostIds(postIds);
+        Map<Integer, Long> commentCountMap = commentService.countByTypeAndTargetIds(CommentType.POST, postIds);
 
         Map<Integer, List<CategoryDTO>> categoryListMap = postCategoryService.listCategoryListMap(postIds);
 

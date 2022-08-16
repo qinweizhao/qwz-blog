@@ -333,11 +333,11 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public Map<Integer, Long> countByPostIds(Set<Integer> postIds) {
+    public Map<Integer, Long> countByTypeAndTargetIds(CommentType type, Set<Integer> postIds) {
         if (CollectionUtils.isEmpty(postIds)) {
             return Collections.emptyMap();
         }
-        List<CommentCountProjection> commentCountProjections = commentMapper.selectCountByPostIds(postIds);
+        List<CommentCountProjection> commentCountProjections = commentMapper.selectCountByTypeAndTargetIds(type,postIds);
         return ServiceUtils.convertToMap(commentCountProjections, CommentCountProjection::getPostId, CommentCountProjection::getCount);
     }
 

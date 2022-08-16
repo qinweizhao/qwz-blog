@@ -1,6 +1,5 @@
 package com.qinweizhao.blog.service;
 
-import com.qinweizhao.blog.model.core.PageParam;
 import com.qinweizhao.blog.model.core.PageResult;
 import com.qinweizhao.blog.model.dto.CommentDTO;
 import com.qinweizhao.blog.model.enums.CommentStatus;
@@ -42,30 +41,33 @@ public interface CommentService {
     /**
      * 统计评论个数
      *
+     * @param type      type
      * @param targetIds postIds
      * @return Map
      */
-    Map<Integer, Long> countByPostIds(Set<Integer> targetIds);
+    Map<Integer, Long> countByTypeAndTargetIds(CommentType type, Set<Integer> targetIds);
 
     /**
      * 分页（树）
      *
      * @param targetId postId/journalId
-     * @param param  param
+     * @param param    param
      * @return PageResult
      */
     PageResult<CommentDTO> pageTree(Integer targetId, CommentQueryParam param);
 
     /**
      * 统计个数
+     *
      * @return Long
      */
     Long count();
 
     /**
      * 更新评论状态
+     *
      * @param commentId commentId
-     * @param status status
+     * @param status    status
      * @return boolean
      */
     boolean updateStatus(Long commentId, CommentStatus status);
@@ -73,6 +75,7 @@ public interface CommentService {
 
     /**
      * 新增
+     *
      * @param commentParam postCommentParam
      * @return boolean
      */
@@ -81,6 +84,7 @@ public interface CommentService {
 
     /**
      * 删除评论（+子）
+     *
      * @param commentId commentId
      * @return boolean
      */
@@ -88,7 +92,8 @@ public interface CommentService {
 
     /**
      * 批量修改状态
-     * @param ids ids
+     *
+     * @param ids    ids
      * @param status status
      * @return boolean
      */
@@ -105,12 +110,13 @@ public interface CommentService {
      * 校验目标
      *
      * @param postId postId
-     * @param type type
+     * @param type   type
      */
     void validateTarget(Integer postId, CommentType type);
 
     /**
      * 批量删除
+     *
      * @param ids ids
      * @return boolean
      */
@@ -118,6 +124,7 @@ public interface CommentService {
 
     /**
      * 最新的数据
+     *
      * @param param param
      * @return List
      */
@@ -125,6 +132,7 @@ public interface CommentService {
 
     /**
      * 获取评论
+     *
      * @param commentId commentId
      * @return CommentDTO
      */
