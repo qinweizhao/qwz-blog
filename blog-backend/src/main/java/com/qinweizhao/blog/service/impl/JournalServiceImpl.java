@@ -8,11 +8,18 @@ import com.qinweizhao.blog.model.dto.JournalDTO;
 import com.qinweizhao.blog.model.entity.Journal;
 import com.qinweizhao.blog.model.param.JournalParam;
 import com.qinweizhao.blog.model.param.JournalQuery;
+import com.qinweizhao.blog.service.CommentService;
 import com.qinweizhao.blog.service.JournalService;
 import com.qinweizhao.blog.util.MarkdownUtils;
+import com.qinweizhao.blog.util.ServiceUtils;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
+
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Journal service implementation.
@@ -29,10 +36,21 @@ public class JournalServiceImpl implements JournalService {
 
     private final JournalMapper journalMapper;
 
+    private final CommentService commentService;
+
     @Override
     public PageResult<JournalDTO> page(JournalQuery journalQuery) {
         PageResult<Journal> page = journalMapper.selectPageJournals(journalQuery);
-        return JournalConvert.INSTANCE.convert(page);
+        PageResult<JournalDTO> result = JournalConvert.INSTANCE.convert(page);
+        List<JournalDTO> journalDTOList = result.getContent();
+        if (ObjectUtils.isEmpty(journalDTOList)) {
+            return result;
+        }
+        Set<Integer> journalIds = ServiceUtils.fetchProperty(journalDTOList, JournalDTO::getId);
+        Map<Integer, Long> commentCountMap = commentService.countByPostIds(journalIds);
+
+        journalDTOList.forEach(item -> item.setCommentCount(commentCountMap.get(item.getId())));
+        return result;
     }
 
     @Override

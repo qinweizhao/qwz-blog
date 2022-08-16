@@ -42,10 +42,10 @@ public interface CommentService {
     /**
      * 统计评论个数
      *
-     * @param postIds postIds
+     * @param targetIds postIds
      * @return Map
      */
-    Map<Integer, Long> countByPostIds(Set<Integer> postIds);
+    Map<Integer, Long> countByPostIds(Set<Integer> targetIds);
 
     /**
      * 分页（树）

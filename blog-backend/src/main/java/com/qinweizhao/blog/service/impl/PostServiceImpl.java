@@ -138,7 +138,6 @@ public class PostServiceImpl implements PostService {
 
         Set<Integer> postIds = ServiceUtils.fetchProperty(posts, PostSimpleDTO::getId);
 
-
         Map<Integer, Long> commentCountMap = commentService.countByPostIds(postIds);
 
         Map<Integer, List<CategoryDTO>> categoryListMap = postCategoryService.listCategoryListMap(postIds);
@@ -481,7 +480,6 @@ public class PostServiceImpl implements PostService {
         postDTO.setFullPath(buildFullPath(post.getId()));
 
         postDTO.setCommentCount(commentMapper.selectCountByPostId(postId));
-
 
         return postDTO;
     }

@@ -32,7 +32,7 @@ public class JournalController {
      * @return Page
      */
     @GetMapping
-    public PageResult<JournalDTO> pageBy(JournalQuery param) {
+    public PageResult<JournalDTO> page(JournalQuery param) {
         return journalService.page(param);
     }
 
