@@ -8,45 +8,6 @@
             <#if settings.enable_icp && settings.icp?? && settings.icp?trim!=''> - <a class="icp" href="https://beian.miit.gov.cn" target="_blank" rel="noopener noreferrer nofollow">${settings.icp}</a></#if>
           </p>
           <#if settings.enable_powerby!true><p class="site_powered">Powered by<a class="a-powered" href="https://halo.run/" target="_blank" rel="noopener noreferrer">Halo</a>&nbsp;|&nbsp;🌈 Theme by<a class="a-theme" title="当前主题：Joe2.0 V${theme.version!}" href="${theme.repo!}" target="_blank" rel="noopener noreferrer">M酷</a></p></#if>
-          <#if settings.driven_by?? && settings.driven_by!='none'>
-            <#assign driven_logo=BASE_RES_URL + '/source/img/cloud/' + settings.driven_by + '.svg'>
-            <#switch settings.driven_by>  
-              <#case 'aliyun'>  
-                <#assign driven_url='https://www.aliyun.com'>
-                <#break>  
-              <#case 'tencent'>  
-                <#assign driven_url='https://cloud.tencent.com'>
-                <#break>  
-              <#case 'baidu'>  
-                <#assign driven_url='https://cloud.baidu.com'>
-                <#break>  
-              <#case 'upyun'>  
-                <#assign driven_url='https://www.upyun.com'>
-                <#break>  
-              <#case 'qiniu'>  
-                <#assign driven_url='https://www.qiniu.com'>
-                <#break>
-              <#case 'huawei'>  
-                <#assign driven_url='https://www.huaweicloud.com'>
-                <#break>    
-              <#case 'jinshan'>  
-                <#assign driven_url='https://www.ksyun.com'>
-                <#break>    
-              <#case 'custom'>
-                <#assign c_cloud=settings.custome_cloud?split('\n')>
-                <#assign driven_logo=(c_cloud[0]?? && c_cloud[0]?trim!='')?then(c_cloud[0]?trim,'')>
-                <#assign driven_url=(c_cloud[1]?? && c_cloud[1]?trim!='')?then(c_cloud[1]?trim,'')>
-                <#break>    
-              <#default>
-                <#assign driven_url=''>
-            </#switch>
-            <#assign clickable = driven_url != '' && driven_url != '#'>
-            <p class="site_driven">本站点由
-              <a href="${clickable?then(driven_url,'javascript:;')}" ${clickable?then('target="_blank"','')} rel="noopener noreferrer nofollow">
-                <img class="${settings.driven_by}" src="${driven_logo}" onerror="Joe.errorImg(this)" alt="云服务商"/>
-              </a>提供云服务
-            </p>
-          </#if>
           <#if settings.enable_birthday!false>
             <div class="site_life">
               <i class="joe-font joe-icon-jiasu"></i>已运行&nbsp;<strong class="joe_run__day">00</strong> 天 <strong class="joe_run__hour">00</strong> 时 <strong class="joe_run__minute">00</strong> 分 <strong class="joe_run__second">00</strong> 秒

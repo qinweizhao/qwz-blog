@@ -78,7 +78,7 @@ public class MenuServiceImpl implements MenuService {
                 menuMapper.updateById(menu);
             });
         }
-        return true;
+        return menuMapper.deleteById(menuId) > 0;
     }
 
     @Override
