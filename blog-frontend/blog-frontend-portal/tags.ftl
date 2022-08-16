@@ -18,7 +18,7 @@
               <#assign random_img_ok=settings.enable_random_img_api==true && settings.random_img_api?trim!=''>
               <ul class="joe_index__hot-list${(settings.tags_type!='card')?then('-tag','')} animated fadeIn" style="padding-bottom: 10px;">
                 <@tagTag method="list">
-                  <#list tags?sort_by(settings.tags_sort)?reverse as tag>
+                  <#list tags as tag>
                     <#if settings.tags_type=='card'>
                       <li class="item">
                         <a class="link" href="${tag.fullPath!}" title="${tag.name!}">
@@ -34,7 +34,6 @@
                         </a>
                       </li>
                     <#else>
-                      <#--  <li class="item" ${(tag.color??)?then('style="background-color:'+tag.color+'"','')}>  -->
                       <li class="item">
                         <a class="link" href="${tag.fullPath!}" title="${tag.name!}">
                           <span title="${tag.name!}">${tag.name!}</span>
