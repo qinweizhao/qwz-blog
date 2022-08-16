@@ -12,10 +12,6 @@
         <div class="joe_main">
             <div class="joe_detail">
                 <h1 class="joe_detail__title txt-shadow">${title}</h1>
-                <#if settings.enable_journal_add!false>
-                    <a class="joe_journal_add" href="${blog_url+'/admin/index.html#/sheets/journals'}" target="_blank"
-                       rel="nofollow"><i class="joe-font joe-icon-edit"></i></a>
-                </#if>
                 <div class="joe_detail__count">
                     <div class="joe_detail__count-information">
                         <img width="35" height="35" class="avatar lazyload" data-src="${USER_AVATAR}"
@@ -26,7 +22,6 @@
                                    title="${user.nickname!}">${user.nickname!}</a>
                             </div>
                             <div class="item">
-                                <#--  <span class="text">${journals.total!0} 条动态</span>  -->
                                 <span class="text">${(settings.motto?? && settings.motto!='')?then(settings.motto, user.description!'一句话介绍自己吧！')}</span>
                                 <#if settings.check_baidu_collect!false>
                                     <span class="line">/</span>

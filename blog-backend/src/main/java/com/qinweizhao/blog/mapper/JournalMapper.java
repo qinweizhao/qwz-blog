@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.qinweizhao.blog.model.core.PageResult;
 import com.qinweizhao.blog.model.entity.Journal;
-import com.qinweizhao.blog.model.param.JournalQuery;
+import com.qinweizhao.blog.model.param.JournalQueryParam;
 import com.qinweizhao.blog.util.LambdaQueryWrapperX;
 import com.qinweizhao.blog.util.MyBatisUtils;
 import org.apache.ibatis.annotations.Mapper;
@@ -45,7 +45,7 @@ public interface JournalMapper extends BaseMapper<Journal> {
      * @param param param
      * @return PageResult
      */
-    default PageResult<Journal> selectPageJournals(JournalQuery param) {
+    default PageResult<Journal> selectPageJournals(JournalQueryParam param) {
         Page<Journal> page = MyBatisUtils.buildPage(param);
         Page<Journal> result = this.selectPage(page, new LambdaQueryWrapperX<Journal>()
                 .eqIfPresent(Journal::getType, param.getType())

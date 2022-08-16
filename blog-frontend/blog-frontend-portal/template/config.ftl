@@ -30,7 +30,6 @@
 <#global LOGO = (blog_logo?? && blog_logo != "")?then(blog_logo, DEFAULT_LOGO)>
 <#global USER_AVATAR = (user.avatar?? && user.avatar != '' && user.avatar?index_of("gravatar.com") == -1)?then(user.avatar, settings.default_avatar)>
 <#global LAZY_IMG = BASE_RES_URL + "/source/img/lazyload.gif">
-<#--  <#global ERROR_IMG = BASE_RES_URL + "/source/img/error_img.png">  -->
 <#global EMPTY_IMG = "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==">
 <script id="theme-config-getter" type="text/javascript">
   // 获取主题配置

@@ -3,7 +3,7 @@ package com.qinweizhao.blog.controller.admin.api;
 import com.qinweizhao.blog.model.core.PageResult;
 import com.qinweizhao.blog.model.dto.JournalDTO;
 import com.qinweizhao.blog.model.param.JournalParam;
-import com.qinweizhao.blog.model.param.JournalQuery;
+import com.qinweizhao.blog.model.param.JournalQueryParam;
 import com.qinweizhao.blog.service.JournalService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -32,7 +32,7 @@ public class JournalController {
      * @return Page
      */
     @GetMapping
-    public PageResult<JournalDTO> page(JournalQuery param) {
+    public PageResult<JournalDTO> page(JournalQueryParam param) {
         return journalService.page(param);
     }
 
@@ -44,7 +44,7 @@ public class JournalController {
      */
     @GetMapping("latest")
     public List<JournalDTO> pageLatest(@RequestParam(name = "top", defaultValue = "10") int top) {
-        JournalQuery param = new JournalQuery();
+        JournalQueryParam param = new JournalQueryParam();
         param.setPage(top);
 
         PageResult<JournalDTO> page = journalService.page(param);

@@ -13,7 +13,7 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class JournalQuery extends PageParam {
+public class JournalQueryParam extends PageParam {
 
     /**
      * Keyword.

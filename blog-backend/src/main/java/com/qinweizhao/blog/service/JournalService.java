@@ -3,7 +3,7 @@ package com.qinweizhao.blog.service;
 import com.qinweizhao.blog.model.core.PageResult;
 import com.qinweizhao.blog.model.dto.JournalDTO;
 import com.qinweizhao.blog.model.param.JournalParam;
-import com.qinweizhao.blog.model.param.JournalQuery;
+import com.qinweizhao.blog.model.param.JournalQueryParam;
 
 /**
  * Journal service interface.
@@ -16,10 +16,10 @@ public interface JournalService {
     /**
      * 分页
      *
-     * @param journalQuery journalQuery
+     * @param journalQueryParam journalQuery
      * @return PageResult
      */
-    PageResult<JournalDTO> page(JournalQuery journalQuery);
+    PageResult<JournalDTO> page(JournalQueryParam journalQueryParam);
 
     /**
      * 新增

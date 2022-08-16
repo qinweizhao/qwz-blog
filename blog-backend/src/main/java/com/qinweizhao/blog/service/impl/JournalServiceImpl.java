@@ -8,7 +8,7 @@ import com.qinweizhao.blog.model.dto.JournalDTO;
 import com.qinweizhao.blog.model.entity.Journal;
 import com.qinweizhao.blog.model.enums.CommentType;
 import com.qinweizhao.blog.model.param.JournalParam;
-import com.qinweizhao.blog.model.param.JournalQuery;
+import com.qinweizhao.blog.model.param.JournalQueryParam;
 import com.qinweizhao.blog.service.CommentService;
 import com.qinweizhao.blog.service.JournalService;
 import com.qinweizhao.blog.util.MarkdownUtils;
@@ -40,8 +40,8 @@ public class JournalServiceImpl implements JournalService {
     private final CommentService commentService;
 
     @Override
-    public PageResult<JournalDTO> page(JournalQuery journalQuery) {
-        PageResult<Journal> page = journalMapper.selectPageJournals(journalQuery);
+    public PageResult<JournalDTO> page(JournalQueryParam journalQueryParam) {
+        PageResult<Journal> page = journalMapper.selectPageJournals(journalQueryParam);
         PageResult<JournalDTO> result = JournalConvert.INSTANCE.convert(page);
         List<JournalDTO> journalDTOList = result.getContent();
         if (ObjectUtils.isEmpty(journalDTOList)) {

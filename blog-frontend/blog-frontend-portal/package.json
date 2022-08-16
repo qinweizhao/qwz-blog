@@ -1,7 +1,7 @@
 {
-  "name": "halo-theme-joe2.0",
+  "name": "blog-frontend-portal",
   "version": "1.0.10",
-  "description": "A halo theme joe2.0",
+  "description": "joe2.0改造版",
   "main": "index.js",
   "author": "BabyChin，QinWeiZhao",
   "scripts": {
@@ -23,11 +23,11 @@
     "url": "git+https://github.com/qinhua/halo-theme-joe2.0.git"
   },
   "keywords": [
-    "halo",
-    "joe2.0",
-    "halo-blog",
-    "halo-theme",
-    "halo-theme-joe2.0"
+    "blog",
+    "qwz",
+    "qinweizhao",
+    "YVKG",
+    "Monday_1201"
   ],
   "license": "ISC",
   "bugs": {

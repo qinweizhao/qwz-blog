@@ -3,7 +3,7 @@ package com.qinweizhao.blog.controller.content.model;
 import com.qinweizhao.blog.model.core.PageResult;
 import com.qinweizhao.blog.model.dto.JournalDTO;
 import com.qinweizhao.blog.model.enums.JournalType;
-import com.qinweizhao.blog.model.param.JournalQuery;
+import com.qinweizhao.blog.model.param.JournalQueryParam;
 import com.qinweizhao.blog.model.properties.SheetProperties;
 import com.qinweizhao.blog.service.ConfigService;
 import com.qinweizhao.blog.service.JournalService;
@@ -36,7 +36,7 @@ public class JournalModel {
 
         int pageSize = configService.getByPropertyOrDefault(SheetProperties.JOURNALS_PAGE_SIZE, Integer.class, Integer.parseInt(SheetProperties.JOURNALS_PAGE_SIZE.defaultValue()));
 
-        JournalQuery param = new JournalQuery();
+        JournalQueryParam param = new JournalQueryParam();
         param.setPage(page);
         param.setSize(pageSize);
         param.setType(JournalType.PUBLIC);
