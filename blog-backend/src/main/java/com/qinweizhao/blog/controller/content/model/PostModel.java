@@ -112,59 +112,12 @@ public class PostModel {
         return themeService.render("index");
     }
 
-    public String archives(Integer page, Model model) {
-
-        int pageSize = configService.getArchivesPageSize();
-
-        PostQueryParam param = new PostQueryParam();
-        param.setStatus(PostStatus.PUBLISHED);
-        param.setPage(page);
-        param.setSize(pageSize);
-
-        PageResult<PostSimpleDTO> posts = postService.pageSimple(param);
-
-        List<ArchiveYearVO> archives = this.buildYearArchives(posts.getContent());
-
+    public String archives(Model model) {
         model.addAttribute("is_archives", true);
-        model.addAttribute("posts", posts);
-        model.addAttribute("archives", archives);
         model.addAttribute("meta_keywords", configService.getSeoKeywords());
         model.addAttribute("meta_description", configService.getSeoDescription());
         return themeService.render("archives");
     }
 
 
-    /**
-     * 构建返回结果
-     *
-     * @param posts posts
-     * @return List
-     */
-    private List<ArchiveYearVO> buildYearArchives(List<PostSimpleDTO> posts) {
-        Map<Integer, List<PostSimpleDTO>> yearPostMap = new HashMap<>(8);
-
-        posts.forEach(post -> {
-            LocalDateTime createTime = post.getCreateTime();
-            yearPostMap.computeIfAbsent(createTime.getYear(), year -> new LinkedList<>())
-                    .add(post);
-        });
-
-        List<ArchiveYearVO> archives = new LinkedList<>();
-
-        yearPostMap.forEach((year, postList) -> {
-            // Build archive
-            ArchiveYearVO archive = new ArchiveYearVO();
-            archive.setYear(year);
-            archive.setPosts(PostConvert.INSTANCE.convertToListVO(postList));
-
-            // Add archive
-            archives.add(archive);
-        });
-
-        // Sort this list
-        archives.sort(new ArchiveYearVO.ArchiveComparator());
-
-        return archives;
-
-    }
 }

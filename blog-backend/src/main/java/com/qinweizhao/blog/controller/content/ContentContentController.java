@@ -47,7 +47,7 @@ public class ContentContentController {
     public String content(@PathVariable("prefix") String prefix,
                           Model model) {
         if (configService.getArchivesPrefix().equals(prefix)) {
-            return postModel.archives(1, model);
+            return postModel.archives(model);
         }
         if (configService.getCategoriesPrefix().equals(prefix)) {
             return categoryModel.list(model);
@@ -67,7 +67,7 @@ public class ContentContentController {
                           @PathVariable(value = "page") Integer page,
                           Model model) {
         if (configService.getArchivesPrefix().equals(prefix)) {
-            return postModel.archives(page, model);
+            return postModel.archives(model);
         } else if (configService.getJournalsPrefix().equals(prefix)) {
             return journalModel.list(page, model);
         } else {
