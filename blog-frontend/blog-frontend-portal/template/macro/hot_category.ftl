@@ -3,7 +3,6 @@
     <div class="joe_index__title">
       <ul class="joe_index__title-title default">
         <li class="item active" data-type="created">精品分类</li>
-        <#--  <li class="line"></li>  -->
       </ul>
       <div class="joe_index__title-notice">
         <a href="${blog_url}/categories" target="_blank" rel="noopener noreferrer nofollow"><i class="joe-font joe-icon-application"></i>全部分类</a>
@@ -12,14 +11,13 @@
     <ul class="joe_index__hot-list hotlist">
       <#if settings.hot_category_source == 'hot'>
         <@categoryTag method="list">
-          <#list categories?sort_by("postCount")?reverse as category>
+          <#list categories as category>
             <#if category_index lt 4>
               <li class="item animated fadeIn">
                 <a class="link" target="_blank" href="${category.fullPath!}" title="${category.name!}">
                   <figure class="inner">
                     <#if settings.enabel_category_celcius!true>
-                      <#include "post_num.ftl">
-                      <@post_num type="category" id="${category.id?c}" suffix="℃" />
+                      <em class="post-nums">${category.postCount!}</em>
                     </#if>
                     <#assign cover=(category.thumbnail?? && category.thumbnail!='')?then(category.thumbnail, BASE_RES_URL+'/source/img/hot_cover${category_index+1}.jpg')>
                     <img width="100%" height="120" class="image lazyload" data-src="${cover}" src="${LAZY_IMG}" onerror="Joe.errorImg(this)" alt="${category.name!}">

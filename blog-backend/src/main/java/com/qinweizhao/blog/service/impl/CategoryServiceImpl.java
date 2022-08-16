@@ -67,7 +67,7 @@ public class CategoryServiceImpl implements CategoryService {
     public List<CategoryDTO> list(boolean more) {
         List<Category> categories = categoryMapper.selectList();
         if (more) {
-            // 查询分类发帖数
+            // 查询分类文章个数
             Map<Integer, Long> categoryPostCountMap = ServiceUtils.convertToMap(postCategoryMapper.selectPostCount(), CategoryPostCountProjection::getCategoryId, CategoryPostCountProjection::getPostCount);
 
             // 转换并返回

@@ -26,8 +26,7 @@
                                             <a class="link" href="${category.fullPath!}" title="${category.name!}">
                                                 <figure class="inner">
                                                     <#if settings.enable_categories_post_num!true>
-                                                        <#include "template/macro/post_num.ftl">
-                                                        <@post_num type="category" id="${category.id?c}" suffix="篇" />
+                                                        <em class="post-nums">${category.postCount!}篇</em>
                                                     </#if>
                                                     <#assign thumbnail=(category.thumbnail?? && category.thumbnail!='')?then(category.thumbnail,(random_img_ok==true)?then(settings.random_img_api + ((settings.random_img_api?index_of('?')!=-1)?then('&','?')) + '_r=' + category.id,'https://picsum.photos/id/2${category_index}/350/200')) >
                                                     <img width="100%" height="120" class="image lazyload"
@@ -43,8 +42,7 @@
                                             <a class="link" href="${category.fullPath!}" title="${category.name!}">
                                                 <span title="${category.name!}">${category.name!}</span>
                                                 <#if settings.enable_categories_post_num!true>
-                                                    <#include "template/macro/post_num.ftl">
-                                                    <@post_num type="category" id="${category.id?c}" />
+                                                    <em class="post-nums">${category.postCount!}</em>
                                                 </#if>
                                             </a>
                                         </li>

@@ -30,7 +30,7 @@
     </select>
 
     <select id="selectSetPostIdByTagIdAndPostStatus" resultType="java.lang.Integer">
-        select pc.post_id
+        select pt.post_id
         from post_tag pt
                  left join
              post p

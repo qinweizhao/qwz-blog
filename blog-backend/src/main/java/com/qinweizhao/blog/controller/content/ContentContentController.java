@@ -46,9 +46,11 @@ public class ContentContentController {
     @GetMapping("{prefix}")
     public String content(@PathVariable("prefix") String prefix,
                           Model model) {
+        // 归档
         if (configService.getArchivesPrefix().equals(prefix)) {
             return postModel.archives(model);
         }
+        // 分类
         if (configService.getCategoriesPrefix().equals(prefix)) {
             return categoryModel.list(model);
         }

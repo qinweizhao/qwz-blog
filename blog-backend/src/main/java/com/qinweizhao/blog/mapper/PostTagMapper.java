@@ -6,6 +6,7 @@ import com.qinweizhao.blog.model.entity.PostTag;
 import com.qinweizhao.blog.model.enums.PostStatus;
 import com.qinweizhao.blog.model.projection.TagPostPostCountProjection;
 import com.qinweizhao.blog.util.LambdaQueryWrapperX;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.Collection;
 import java.util.List;
@@ -68,7 +69,7 @@ public interface PostTagMapper extends BaseMapper<PostTag> {
      * @param status status
      * @return Set
      */
-    Set<Integer> selectSetPostIdByTagIdAndPostStatus(Integer tagId, PostStatus status);
+    Set<Integer> selectSetPostIdByTagIdAndPostStatus(@Param("tagId") Integer tagId, @Param("status") PostStatus status);
 
     /**
      * 通过文章 id 删除关联
