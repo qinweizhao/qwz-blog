@@ -338,13 +338,13 @@ public class CommentServiceImpl implements CommentService {
             return Collections.emptyMap();
         }
         List<CommentCountProjection> commentCountProjections = commentMapper.selectCountByTypeAndTargetIds(type,postIds);
-        return ServiceUtils.convertToMap(commentCountProjections, CommentCountProjection::getPostId, CommentCountProjection::getCount);
+        return ServiceUtils.convertToMap(commentCountProjections, CommentCountProjection::getTargetId, CommentCountProjection::getCount);
     }
 
     @Override
     public PageResult<CommentDTO> pageTree(Integer targetId, CommentQueryParam param) {
 
-        List<Comment> comments = commentMapper.selectListByTargetId(targetId);
+        List<Comment> comments = commentMapper.selectListByTypeAndTargetId(param.getType(),targetId);
 
         return this.buildPageTree(comments, param);
     }
@@ -421,13 +421,13 @@ public class CommentServiceImpl implements CommentService {
         // Add children
         children.forEach(comment -> {
             // Convert to comment vo
-            CommentDTO commentVO = CommentConvert.INSTANCE.convert(comment);
+            CommentDTO commentDTO = CommentConvert.INSTANCE.convert(comment);
 
             if (parentComment.getChildren() == null) {
                 parentComment.setChildren(new LinkedList<>());
             }
 
-            parentComment.getChildren().add(commentVO);
+            parentComment.getChildren().add(commentDTO);
         });
 
         // Remove children

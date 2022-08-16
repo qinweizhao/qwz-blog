@@ -65,6 +65,7 @@ public class JournalCommentController {
      */
     @GetMapping("{journalId:\\d+}/tree_view")
     public PageResult<CommentDTO> pageTree(@PathVariable("journalId") Integer journalId, CommentQueryParam param) {
+        param.setType(CommentType.JOURNAL);
         return commentService.pageTree(journalId, param);
     }
 

@@ -17,5 +17,5 @@ public class CommentCountProjection {
 
     private Long count;
 
-    private Integer postId;
+    private Integer targetId;
 }

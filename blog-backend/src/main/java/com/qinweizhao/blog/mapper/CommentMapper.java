@@ -35,7 +35,7 @@ public interface CommentMapper extends BaseMapper<Comment> {
     /**
      * 统计评论个数
      *
-     * @param type type
+     * @param type      type
      * @param targetIds targetIds
      * @return List
      */
@@ -95,12 +95,14 @@ public interface CommentMapper extends BaseMapper<Comment> {
     /**
      * 通过 postId 获取所有评论
      *
+     * @param type     type
      * @param targetId targetId
      * @return List
      */
-    default List<Comment> selectListByTargetId(Integer targetId) {
+    default List<Comment> selectListByTypeAndTargetId(CommentType type, Integer targetId) {
         return this.selectList(new LambdaQueryWrapperX<Comment>()
                 .eq(Comment::getTargetId, targetId)
+                .eq(Comment::getType, type)
         );
     }
 
@@ -153,12 +155,13 @@ public interface CommentMapper extends BaseMapper<Comment> {
 
     /**
      * 统计个数
+     *
      * @param postId postId
      * @return Long
      */
-    default Long selectCountByPostId(Integer postId){
+    default Long selectCountByPostId(Integer postId) {
         return this.selectCount(new LambdaQueryWrapper<Comment>()
-                .eq(Comment::getTargetId,postId)
+                .eq(Comment::getTargetId, postId)
         );
     }
 
