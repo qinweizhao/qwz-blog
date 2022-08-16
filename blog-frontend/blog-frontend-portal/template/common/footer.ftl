@@ -7,7 +7,7 @@
             ${.now?string("yyyy")} ©<a href="${blog_url!}" target="_blank" rel="noopener noreferrer">${user.nickname!}</a>
             <#if settings.enable_icp && settings.icp?? && settings.icp?trim!=''> - <a class="icp" href="https://beian.miit.gov.cn" target="_blank" rel="noopener noreferrer nofollow">${settings.icp}</a></#if>
           </p>
-          <#if settings.enable_powerby!true><p class="site_powered">Powered by<a class="a-powered" href="https://halo.run/" target="_blank" rel="noopener noreferrer">Halo</a>&nbsp;|&nbsp;🌈 Theme by<a class="a-theme" title="当前主题：Joe2.0 V${theme.version!}" href="${theme.repo!}" target="_blank" rel="noopener noreferrer">M酷</a></p></#if>
+          <#if settings.enable_powerby!true><p class="site_powered">Powered by<a class="a-powered" href="https://www.qinweizhao.com/" target="_blank" rel="noopener noreferrer">Qwz</a></p></#if>
           <#if settings.enable_birthday!false>
             <div class="site_life">
               <i class="joe-font joe-icon-jiasu"></i>已运行&nbsp;<strong class="joe_run__day">00</strong> 天 <strong class="joe_run__hour">00</strong> 时 <strong class="joe_run__minute">00</strong> 分 <strong class="joe_run__second">00</strong> 秒

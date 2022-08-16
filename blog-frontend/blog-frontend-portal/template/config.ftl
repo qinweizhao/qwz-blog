@@ -71,8 +71,8 @@
 
 <script id="metas-getter" type="text/javascript">
   // 获取当前页面元数据，这里不要做解析
-  window.PageAttrs = {
-    "metas": {
+  window.PageAttrs={
+    "metas":{
       <#if metas??>
         <#list metas?keys as key>
           "${key}": "${metas['${key}']}",
