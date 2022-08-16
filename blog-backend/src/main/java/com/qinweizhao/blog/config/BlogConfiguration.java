@@ -62,7 +62,7 @@ public class BlogConfiguration {
                 stringCacheStore = new InMemoryCacheStore();
                 break;
         }
-        log.info("Halo cache store load impl : [{}]", stringCacheStore.getClass());
+        log.info("Blog cache store load impl : [{}]", stringCacheStore.getClass());
         return stringCacheStore;
 
     }

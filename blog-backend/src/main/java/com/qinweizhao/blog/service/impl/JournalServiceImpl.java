@@ -51,7 +51,7 @@ public class JournalServiceImpl implements JournalService {
 
         Map<Integer, Long> commentCountMap = commentService.countByTypeAndTargetIds(CommentType.JOURNAL, journalIds);
 
-        journalDTOList.forEach(item -> item.setCommentCount(commentCountMap.get(item.getId())));
+        journalDTOList.forEach(item -> item.setCommentCount(commentCountMap.getOrDefault(item.getId(), 0L)));
         return result;
     }
 
