@@ -1,9 +1,7 @@
 package com.qinweizhao.blog.model.vo;
 
-import com.qinweizhao.blog.model.dto.PostListDTO;
+import com.qinweizhao.blog.model.dto.PostSimpleDTO;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
 
 import java.util.Comparator;
 import java.util.List;
@@ -20,7 +18,7 @@ public class ArchiveYearVO {
 
     private Integer year;
 
-    private List<PostListDTO> posts;
+    private List<PostSimpleDTO> posts;
 
     public static class ArchiveComparator implements Comparator<ArchiveYearVO> {
 

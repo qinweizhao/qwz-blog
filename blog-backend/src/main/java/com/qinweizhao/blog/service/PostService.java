@@ -76,10 +76,6 @@ public interface PostService {
     String buildFullPath(Integer postId);
 
 
-    List<ArchiveYearVO> listYearArchives();
-
-    List<ArchiveMonthVO> listMonthArchives();
-
     /**
      * 列表（最新发布）
      *
@@ -205,7 +201,6 @@ public interface PostService {
      */
     long count();
 
-
     /**
      * 增加访问量
      * @param postId postId
@@ -218,4 +213,19 @@ public interface PostService {
      * @param postId postId
      */
     void publishVisitEvent(Integer postId);
+
+
+
+    /**
+     * 归档（Year）
+     * @return List
+     */
+    List<ArchiveYearVO> listYearArchives();
+
+
+    /**
+     * 归档（Year）
+     * @return List
+     */
+    List<ArchiveMonthVO> listMonthArchives();
 }
