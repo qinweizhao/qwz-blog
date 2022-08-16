@@ -47,7 +47,7 @@
                   <a-list-item v-for="(item, index) in sheet.independents" :key="index">
                     <a-list-item-meta :description="item.fullPath" :title="item.title" />
                     <template slot="actions">
-                      <a-button class="!p-0" type="link" @click="handleInsertPre(item.name, item.fullPath)">
+                      <a-button class="!p-0" type="link" @click="handleInsertPre(item.title, item.fullPath)">
                         <a-icon type="plus-circle" />
                       </a-button>
                     </template>
@@ -92,7 +92,7 @@
   </a-modal>
 </template>
 <script>
-import apiClient from '@/utils/api-client'
+import menuApi from '@/api/menu'
 import categoryApi from '@/api/category'
 import tagApi from '@/api/tag'
 import sheetApi from '@/api/sheet'
@@ -209,8 +209,8 @@ export default {
     },
     handleCreateBatch() {
       this.saving = true
-      apiClient.menu
-        .createInBatch(this.menus)
+      menuApi
+        .createBatch(this.menus)
         .catch(() => {
           this.saveErrored = false
         })

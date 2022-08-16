@@ -1,62 +1,61 @@
-//package com.qinweizhao.blog.controller.content;
-//
-//import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-//import com.qinweizhao.blog.model.dto.CategoryDTO;
-//import com.qinweizhao.blog.model.entity.Post;
-//import com.qinweizhao.blog.model.enums.PostStatus;
-//import com.qinweizhao.blog.service.CategoryService;
-//import com.qinweizhao.blog.service.OptionService;
-//import com.qinweizhao.blog.service.PostCategoryService;
-//import com.qinweizhao.blog.service.PostService;
-//import freemarker.template.Template;
-//import freemarker.template.TemplateException;
-//import lombok.extern.slf4j.Slf4j;
-//import org.apache.commons.lang3.RegExUtils;
-//import org.springframework.http.MediaType;
-//import org.springframework.lang.NonNull;
-//import org.springframework.stereotype.Controller;
-//import org.springframework.ui.Model;
-//import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
-//import org.springframework.util.Assert;
-//import org.springframework.web.bind.annotation.GetMapping;
-//import org.springframework.web.bind.annotation.PathVariable;
-//import org.springframework.web.bind.annotation.ResponseBody;
-//import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
-//
-//import javax.annotation.Resource;
-//import java.io.IOException;
-//
-//
-///**
-// * @author ryanwang
-// * @author qinweizhao
-// * @since 2019-03-21
-// */
-//@Slf4j
-//@Controller
-//public class ContentFeedController {
-//
-//    private final static String UTF_8_SUFFIX = ";charset=UTF-8";
-//
-//    private final static String XML_INVALID_CHAR = "[\\x00-\\x1F\\x7F]";
-//
-//    private final static String XML_MEDIA_TYPE = MediaType.APPLICATION_XML_VALUE + UTF_8_SUFFIX;
-//
-//    @Resource
-//    private PostService postService;
-//
-//    @Resource
-//    private CategoryService categoryService;
-//
-//    @Resource
-//    private PostCategoryService postCategoryService;
-//
-//    @Resource
-//    private OptionService optionService;
-//
-//    @Resource
-//    private FreeMarkerConfigurer freeMarker;
-//
+package com.qinweizhao.blog.controller.content;
+
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.qinweizhao.blog.model.convert.PostConvert;
+import com.qinweizhao.blog.model.core.PageResult;
+import com.qinweizhao.blog.model.dto.PostDTO;
+import com.qinweizhao.blog.model.dto.PostListDTO;
+import com.qinweizhao.blog.model.dto.PostSimpleDTO;
+import com.qinweizhao.blog.model.entity.Post;
+import com.qinweizhao.blog.model.enums.PostStatus;
+import com.qinweizhao.blog.model.param.PostQueryParam;
+import com.qinweizhao.blog.service.CategoryService;
+import com.qinweizhao.blog.service.ConfigService;
+import com.qinweizhao.blog.service.PostCategoryService;
+import com.qinweizhao.blog.service.PostService;
+import freemarker.template.Template;
+import freemarker.template.TemplateException;
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.RegExUtils;
+import org.springframework.http.MediaType;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
+
+import java.io.IOException;
+import java.util.List;
+
+
+/**
+ * @author ryanwang
+ * @author qinweizhao
+ * @since 2019-03-21
+ */
+@Slf4j
+@Controller
+@AllArgsConstructor
+public class ContentFeedController {
+
+    private final static String UTF_8_SUFFIX = ";charset=UTF-8";
+
+    private final static String XML_INVALID_CHAR = "[\\x00-\\x1F\\x7F]";
+
+    private final static String XML_MEDIA_TYPE = MediaType.APPLICATION_XML_VALUE + UTF_8_SUFFIX;
+
+    private final PostService postService;
+
+    private final CategoryService categoryService;
+
+    private final PostCategoryService postCategoryService;
+
+    private final ConfigService configService;
+
+    private final FreeMarkerConfigurer freeMarker;
+
 //    /**
 //     * Get post rss
 //     *
@@ -68,7 +67,10 @@
 //    @GetMapping(value = {"feed", "feed.xml", "rss", "rss.xml"}, produces = XML_MEDIA_TYPE)
 //    @ResponseBody
 //    public String feed(Model model) throws IOException, TemplateException {
-//        model.addAttribute("posts", buildPosts(buildPostPageable(optionService.getRssPageSize())));
+//        int rssPageSize = configService.getRssPageSize();
+//        PostQueryParam param = new PostQueryParam();
+//        param.setSize(rssPageSize);
+//        model.addAttribute("posts", buildPosts(param));
 //        Template template = freeMarker.getConfiguration().getTemplate("common/web/rss.ftl");
 //        return FreeMarkerTemplateUtils.processTemplateIntoString(template, model);
 //    }
@@ -88,7 +90,7 @@
 //        Category category = categoryService.getBySlugOfNonNull(slug);
 //        CategoryDTO categoryDTO = categoryService.convertTo(category);
 //        model.addAttribute("category", categoryDTO);
-//        model.addAttribute("posts", buildCategoryPosts(buildPostPageable(optionService.getRssPageSize()), categoryDTO));
+//        model.addAttribute("posts", buildCategoryPosts(buildPostPageable(configService.getRssPageSize()), categoryDTO));
 //        Template template = freeMarker.getConfiguration().getTemplate("common/web/rss.ftl");
 //        return FreeMarkerTemplateUtils.processTemplateIntoString(template, model);
 //    }
@@ -104,7 +106,7 @@
 //    @GetMapping(value = {"atom", "atom.xml"}, produces = XML_MEDIA_TYPE)
 //    @ResponseBody
 //    public String atom(Model model) throws IOException, TemplateException {
-//        model.addAttribute("posts", buildPosts(buildPostPageable(optionService.getRssPageSize())));
+//        model.addAttribute("posts", buildPosts(buildPostPageable(configService.getRssPageSize())));
 //        Template template = freeMarker.getConfiguration().getTemplate("common/web/atom.ftl");
 //        return FreeMarkerTemplateUtils.processTemplateIntoString(template, model);
 //    }
@@ -124,7 +126,7 @@
 //        Category category = categoryService.getBySlugOfNonNull(slug);
 //        CategoryDTO categoryDTO = categoryService.convertTo(category);
 //        model.addAttribute("category", categoryDTO);
-//        model.addAttribute("posts", buildCategoryPosts(buildPostPageable(optionService.getRssPageSize()), categoryDTO));
+//        model.addAttribute("posts", buildCategoryPosts(buildPostPageable(configService.getRssPageSize()), categoryDTO));
 //        Template template = freeMarker.getConfiguration().getTemplate("common/web/atom.ftl");
 //        return FreeMarkerTemplateUtils.processTemplateIntoString(template, model);
 //    }
@@ -185,20 +187,20 @@
 //        return PageRequest.of(0, size, Sort.by(DESC, "createTime"));
 //    }
 //
+//
 //    /**
 //     * Build posts.
 //     *
-//     * @param pageable pageable
 //     * @return list of post detail vo
 //     */
-//    private List<PostDetailVO> buildPosts(@NonNull Pageable pageable) {
-//        Assert.notNull(pageable, "Pageable must not be null");
+//    private List<PostDTO> buildPosts(PostQueryParam param) {
+//        param.setStatus(PostStatus.PUBLISHED);
+//        PageResult<PostSimpleDTO> postPage = postService.pageSimple(param);
 //
-//        Page<Post> postPage = postService.pageBy(PostStatus.PUBLISHED, pageable);
-//        Page<PostDetailVO> posts = postService.convertToDetailVo(postPage);
-//        posts.getContent().forEach(postDetailVO -> {
-//            postDetailVO.setFormatContent(RegExUtils.replaceAll(postDetailVO.getFormatContent(), XML_INVALID_CHAR, ""));
-//            postDetailVO.setSummary(RegExUtils.replaceAll(postDetailVO.getSummary(), XML_INVALID_CHAR, ""));
+//        PageResult<PostDTO> posts = PostConvert.INSTANCE.convertDTO(postPage);
+//        posts.getContent().forEach(postDTO -> {
+//            postDTO.setFormatContent(RegExUtils.replaceAll(postDTO.getFormatContent(), XML_INVALID_CHAR, ""));
+//            postDTO.setSummary(RegExUtils.replaceAll(postDTO.getSummary(), XML_INVALID_CHAR, ""));
 //        });
 //        return posts.getContent();
 //    }
@@ -222,4 +224,4 @@
 //        });
 //        return posts.getContent();
 //    }
-//}
+}

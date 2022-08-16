@@ -21,7 +21,7 @@
                 <description>${user.description!}</description>
             </#if>
         </#if>
-        <generator>Halo ${version!}</generator>
+        <generator>Blog ${version!}</generator>
         <lastBuildDate>${lastModified?string('EEE, dd MMM yyyy HH:mm:ss z')}</lastBuildDate>
         <#if posts?? && posts?size gt 0>
             <#list posts as post>

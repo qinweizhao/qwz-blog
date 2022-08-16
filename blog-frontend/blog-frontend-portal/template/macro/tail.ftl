@@ -86,11 +86,6 @@
     <!-- 卜算子 -->
     <script src="${BASE_RES_URL}/source/lib/busuanzi/busuanzi.min.js"></script>
   </#if>
-  <#if settings.enable_live2d>
-    <!-- live2d -->
-    <#include "../../plugins/live2d/ftl/live2d.ftl">
-    <@live2d />
-  </#if>
   <#-- ===== 引入脚本 end ===== -->
 
   <#if settings.custom_external_js_body??>

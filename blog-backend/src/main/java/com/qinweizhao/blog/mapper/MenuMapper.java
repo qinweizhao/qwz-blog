@@ -78,6 +78,7 @@ public interface MenuMapper extends BaseMapper<Menu> {
     default List<Menu> selectListByTeam(String team) {
         return this.selectList(new LambdaQueryWrapperX<Menu>()
                 .eq(Menu::getTeam, team)
+                .orderByAsc(Menu::getPriority)
         );
     }
 
