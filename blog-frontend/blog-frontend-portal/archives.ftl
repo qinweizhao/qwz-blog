@@ -26,11 +26,11 @@
                                                 年<#if metric == 'month'> ${archive.month?c} 月</#if><i
                                                         class="joe-font joe-icon-arrow-down"></i></div>
                                             <ol class="panel-body">
-                                                <#list archive.posts?sort_by("createTime")?reverse as post>
+                                                <#list archive.posts as post>
                                                     <li>
                                                         <a rel="noopener noreferrer" target="_blank"
                                                            title="${post.title!}"
-                                                           href="${post.fullPath!}">${post.createTime?date('MM-dd')}
+                                                           href="${post.fullPath!}">${post.createTime?date('yyyy-MM-dd')}
                                                             ：${post.title!}</a>
                                                     </li>
                                                 </#list>

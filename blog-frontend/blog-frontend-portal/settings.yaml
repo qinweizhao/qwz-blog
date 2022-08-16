@@ -2349,18 +2349,6 @@ categories:
           label: 标签
         - value: card
           label: 卡片
-    categories_sort:
-      name: categories_sort
-      label: 排序方式
-      type: select
-      data-type: text
-      default: createTime
-      description: "配置分类页的数据排序方式"
-      options:
-        - value: createTime
-          label: 创建时间降序
-        - value: postCount
-          label: 文章数降序
     enable_categories_post_num:
       name: enable_categories_post_num
       label: 展示文章数

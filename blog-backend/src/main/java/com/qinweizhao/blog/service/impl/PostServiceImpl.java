@@ -553,7 +553,7 @@ public class PostServiceImpl implements PostService {
         postSimples.forEach(post -> {
             LocalDateTime createTime = post.getCreateTime();
             yearMonthPostMap.computeIfAbsent(createTime.getYear(), year -> new LinkedHashMap<>())
-                    .computeIfAbsent(createTime.getMonthValue() + 1,
+                    .computeIfAbsent(createTime.getMonthValue(),
                             month -> new LinkedList<>())
                     .add(post);
         });
@@ -570,7 +570,6 @@ public class PostServiceImpl implements PostService {
                     archives.add(archive);
                 }));
 
-        // Sort this list
         archives.sort(new ArchiveMonthVO.ArchiveComparator());
 
         return archives;

@@ -224,7 +224,7 @@ public interface PostService {
 
 
     /**
-     * 归档（Year）
+     * 归档（Month）
      * @return List
      */
     List<ArchiveMonthVO> listMonthArchives();
