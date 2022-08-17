@@ -68,7 +68,7 @@ const commonContext = {
 		const $nav_menus = $(".joe_header__above-nav a");
 		const $nav_side_menus = $(".panel-side-menu .link");
 		let activeIndex = 0;
-		const { href, pathname } = location;
+		const {href, pathname} = location;
 
 		$nav_menus.each((index, item) => {
 			const cur_href = item.getAttribute("href");
@@ -189,8 +189,8 @@ const commonContext = {
 		if (!$(".page-post").length) return; // 仅针对文章页
 		if (
 			ThemeConfig.enable_code_expander &&
-      ThemeConfig.enable_fold_long_code &&
-      PageAttrs.metas.enable_fold_long_code !== "false"
+            ThemeConfig.enable_fold_long_code &&
+            PageAttrs.metas.enable_fold_long_code !== "false"
 		) {
 			$(".page-post pre[class*='language-']").each(function (_index, item) {
 				const $item = $(item);
@@ -209,64 +209,63 @@ const commonContext = {
 	initBaidu() {
 		if (!ThemeConfig.check_baidu_collect || !$("#joe_baidu_record").length)
 			return;
-		Utils.request({
-			url: ThemeConfig.BASE_URL + "/halo-api/bd/iscollect",
-			method: "GET",
-			returnRaw: true,
-			data: {
-				url: window.location.href,
-			},
-		})
-			.then((res) => {
-				if (res.data && res.data.collected) {
-					$("#joe_baidu_record").css("color", "#67c23a").html("已收录");
-				} else {
-					/* 如果填写了Token，则自动推送给百度 */
-					if (ThemeConfig.baidu_token) {
-						$("#joe_baidu_record").html(
-							"<span style=\"color: #e6a23c\">未收录，推送中...</span>"
-						);
-						let _timer = setTimeout(function () {
-							Utils.request({
-								url: ThemeConfig.BASE_URL + "/halo-api/bd/push",
-								method: "POST",
-								returnRaw: true,
-								data: {
-									site: ThemeConfig.blog_url,
-									token: ThemeConfig.baidu_token,
-									urls: window.location.href,
-								},
-							})
-								.then((res) => {
-									if (res.data.success === 0) {
-										$("#joe_baidu_record").html(
-											"<span style=\"color: #f56c6c\">推送失败，请检查！</span>"
-										);
-									} else {
-										$("#joe_baidu_record").html(
-											"<span style=\"color: #67c23a\">推送成功！</span>"
-										);
-									}
-								})
-								.catch((err) => {
-									console.log(err);
-								});
-							clearTimeout(_timer);
-							_timer = null;
-						}, 1000);
-					} else {
-						const url = `https://ziyuan.baidu.com/linksubmit/url?sitename=${encodeURI(
-							window.location.href
-						)}`;
-						$("#joe_baidu_record").html(
-							`<a target="_blank" href="${url}" rel="noopener noreferrer nofollow" style="color: #f56c6c">未收录，提交收录</a>`
-						);
-					}
-				}
-			})
-			.catch((err) => {
-				console.log(err);
-			});
+		// Utils.request({
+		// 	url: "api/bd/iscollect",
+		// 	method: "GET",
+		// 	returnRaw: true,
+		// 	data: {
+		// 		url: window.location.href,
+		// 	},
+		// })
+		try {
+			// if (res.data && res.data.collected) {
+			// 	$("#joe_baidu_record").css("color", "#67c23a").html("已收录");
+			// } else { todo
+			/* 如果填写了Token，则自动推送给百度 */
+			if (ThemeConfig.baidu_token) {
+				$("#joe_baidu_record").html(
+					"<span style=\"color: #e6a23c\">未收录，推送中...</span>"
+				);
+				let _timer = setTimeout(function () {
+					Utils.request({
+						url: "api/bd/push",
+						method: "POST",
+						returnRaw: true,
+						data: {
+							site: ThemeConfig.blog_url,
+							token: ThemeConfig.baidu_token,
+							urls: window.location.href,
+						},
+					})
+						.then((res) => {
+							if (res.data.success === 0) {
+								$("#joe_baidu_record").html(
+									"<span style=\"color: #f56c6c\">推送失败，请检查！</span>"
+								);
+							} else {
+								$("#joe_baidu_record").html(
+									"<span style=\"color: #67c23a\">推送成功！</span>"
+								);
+							}
+						})
+						.catch((err) => {
+							console.log(err);
+						});
+					clearTimeout(_timer);
+					_timer = null;
+				}, 1000);
+			} else {
+				const url = `https://ziyuan.baidu.com/linksubmit/url?sitename=${encodeURI(
+					window.location.href
+				)}`;
+				$("#joe_baidu_record").html(
+					`<a target="_blank" href="${url}" rel="noopener noreferrer nofollow" style="color: #f56c6c">未收录，提交收录</a>`
+				);
+			}
+		}
+		catch(err)  {
+			console.log(err);
+		};
 	},
 	/* 音乐播放器 */
 	initMusic() {
@@ -321,7 +320,7 @@ const commonContext = {
 		const $el = $(".joe_action_item.back2top");
 		const handleScroll = () => {
 			const scrollTop =
-        document.documentElement.scrollTop || document.body.scrollTop;
+                document.documentElement.scrollTop || document.body.scrollTop;
 			$el[(scrollTop > 300 ? "add" : "remove") + "Class"]("active");
 		};
 
@@ -428,9 +427,9 @@ const commonContext = {
 	initWeather() {
 		if (
 			Joe.isMobile ||
-      !ThemeConfig.enable_weather ||
-      !ThemeConfig.weather_key ||
-      !$("#he-plugin-simple").length
+            !ThemeConfig.enable_weather ||
+            !ThemeConfig.weather_key ||
+            !$("#he-plugin-simple").length
 		)
 			return;
 		window.WIDGET = {
@@ -489,14 +488,14 @@ const commonContext = {
 
 			$allLink.each(function () {
 				const $this = $(this);
-				const curHref=$this.attr("href");
-				if(!curHref.includes("javascript:;")){
+				const curHref = $this.attr("href");
+				if (!curHref.includes("javascript:;")) {
 					let target = "";
 					target =
-          ThemeConfig.link_behavior === "new" &&
-          !$this.attr("href").startsWith("#")
-          	? "_blank"
-          	: "";
+                        ThemeConfig.link_behavior === "new" &&
+                        !$this.attr("href").startsWith("#")
+                        	? "_blank"
+                        	: "";
 					$this.attr({
 						target,
 						rel: "noopener noreferrer nofollow",
@@ -513,8 +512,8 @@ const commonContext = {
 			$allLink.each(function () {
 				const $this = $(this);
 				// 排除内容中的锚点、排除href设置为javascript:;的情况
-				const curHref=$this.attr("href");
-				if(!curHref.includes("javascript:;")){
+				const curHref = $this.attr("href");
+				if (!curHref.includes("javascript:;")) {
 					const target = !curHref.startsWith("#") ? "_blank" : "";
 					$this.attr({
 						target,
@@ -528,9 +527,9 @@ const commonContext = {
 	init3dTag() {
 		if (
 			Joe.isMobile ||
-      !ThemeConfig.enable_tag_cloud ||
-      ThemeConfig.tag_cloud_type !== "3d" ||
-      !$(".tags-cloud-list").length
+            !ThemeConfig.enable_tag_cloud ||
+            ThemeConfig.tag_cloud_type !== "3d" ||
+            !$(".tags-cloud-list").length
 		)
 			return;
 		$.getScript(
@@ -752,7 +751,7 @@ const commonContext = {
 			last_scroll_position = window.scrollY;
 			if (
 				new_scroll_position < last_scroll_position &&
-        last_scroll_position > headerHeight
+                last_scroll_position > headerHeight
 			) {
 				$joeHeader.addClass("active");
 				$effectEl && $effectEl.css("top", offset2);
@@ -829,8 +828,8 @@ const commonContext = {
 	loadMouseEffect() {
 		if (
 			Joe.isMobile ||
-      ThemeConfig.enable_clean_mode ||
-      ThemeConfig.cursor_effect === "off"
+            ThemeConfig.enable_clean_mode ||
+            ThemeConfig.cursor_effect === "off"
 		)
 			return;
 		$.getScript(
@@ -841,8 +840,8 @@ const commonContext = {
 	loadBackdropEffect() {
 		if (
 			Joe.isMobile ||
-      ThemeConfig.enable_clean_mode ||
-      ThemeConfig.backdrop === "off"
+            ThemeConfig.enable_clean_mode ||
+            ThemeConfig.backdrop === "off"
 		)
 			return;
 		$.getScript(
@@ -867,16 +866,16 @@ const commonContext = {
 		document.addEventListener("visibilitychange", function () {
 			if (
 				location.href.indexOf(ThemeConfig.blog_url) > 0 ||
-        location.pathname !== "/"
+                location.pathname !== "/"
 			)
 				return;
 			if (document.hidden) {
 				document.title =
-          ThemeConfig.offscreen_title_leave || "歪，你去哪里了？";
+                    ThemeConfig.offscreen_title_leave || "歪，你去哪里了？";
 				clearTimeout(timer);
 			} else {
 				document.title =
-          ThemeConfig.offscreen_title_back || "(つェ⊂)咦，又回来了!";
+                    ThemeConfig.offscreen_title_back || "(つェ⊂)咦，又回来了!";
 				timer = setTimeout(function () {
 					document.title = OriginTitile;
 				}, 2000);
@@ -897,9 +896,9 @@ const commonContext = {
 		if (!ThemeConfig.enable_birthday) return;
 		if (
 			!/^\d+$/.test(ThemeConfig.birthday) &&
-      !/^(\d{4}\/\d{1,2}\/\d{1,2}\s\d{1,2}:\d{1,2}(:\d{0,2})?)$/.test(
-      	ThemeConfig.birthday
-      )
+            !/^(\d{4}\/\d{1,2}\/\d{1,2}\s\d{1,2}:\d{1,2}(:\d{0,2})?)$/.test(
+            	ThemeConfig.birthday
+            )
 		) {
 			Qmsg.error("“自定义博客起始时间” 格式错误，请检查！");
 			return;
@@ -941,10 +940,10 @@ const commonContext = {
 		if (Joe.isMobile || !ThemeConfig.show_loaded_time) return;
 		const consume_time = performance.now();
 		consume_time &&
-      console.log(
-      	"%c页面加载耗时：" + Math.round(consume_time) + " ms",
-      	"padding: 6px 8px;color:#fff;background:linear-gradient(270deg, #4edb21, #f15206);border-radius: 3px;"
-      );
+        console.log(
+        	"%c页面加载耗时：" + Math.round(consume_time) + " ms",
+        	"padding: 6px 8px;color:#fff;background:linear-gradient(270deg, #4edb21, #f15206);border-radius: 3px;"
+        );
 	},
 	/* 调试模式 */
 	debug() {
