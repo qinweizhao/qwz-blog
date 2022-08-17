@@ -25,7 +25,7 @@ public interface CategoryMapper extends BaseMapper<Category> {
      */
     default List<Category> selectList() {
         return selectList(new LambdaQueryWrapper<Category>()
-                .orderByDesc(Category::getPriority)
+                .orderByAsc(Category::getPriority)
         );
     }
 
@@ -67,7 +67,9 @@ public interface CategoryMapper extends BaseMapper<Category> {
      */
     default List<Category> selectListByParentId(Integer parentId) {
         return selectList(new LambdaQueryWrapper<Category>()
-                .eq(Category::getParentId, parentId));
+                .eq(Category::getParentId, parentId)
+                .orderByAsc(Category::getPriority)
+        );
     }
 
     /**

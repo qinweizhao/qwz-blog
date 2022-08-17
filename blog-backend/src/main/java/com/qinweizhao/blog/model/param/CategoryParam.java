@@ -32,7 +32,7 @@ public class CategoryParam {
     private String thumbnail;
 
     @NotBlank(message = "分类优先级不能为空")
-    private Integer priority;
+    private String priority;
 
     private Integer parentId = 0;
 

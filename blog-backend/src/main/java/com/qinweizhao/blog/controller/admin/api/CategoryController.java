@@ -4,6 +4,7 @@ import com.qinweizhao.blog.model.dto.CategoryDTO;
 import com.qinweizhao.blog.model.param.CategoryParam;
 import com.qinweizhao.blog.service.CategoryService;
 import lombok.AllArgsConstructor;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -61,7 +62,7 @@ public class CategoryController {
      * @return Boolean
      */
     @PostMapping
-    public Boolean saveCategory(@RequestBody @Valid CategoryParam categoryParam) {
+    public Boolean saveCategory(@RequestBody @Validated CategoryParam categoryParam) {
         return categoryService.saveCategory(categoryParam);
     }
 

@@ -4,20 +4,20 @@
       <a-col :lg="8" :md="8" :sm="24" :xl="8" :xs="24" class="pb-3">
         <a-card :bodyStyle="{ padding: '16px' }" :head-style="{ padding: '8px 16px!important' }" :title="title">
           <a-form-model ref="categoryForm" :model="form.model" :rules="form.rules" layout="horizontal">
-            <a-form-model-item help="* 页面上所显示的名称" label="名称：" prop="name">
+            <a-form-model-item label="名称：" prop="name">
               <a-input ref="nameInput" v-model="form.model.name" />
             </a-form-model-item>
-            <a-form-model-item help="* 一般为单个分类页面的标识，最好为英文" label="别名：" prop="slug">
+            <a-form-model-item label="别名：" prop="slug">
               <a-input v-model="form.model.slug" />
             </a-form-model-item>
             <a-form-model-item label="上级目录：" prop="parentId">
               <category-select-tree :categories="list.data" :category-id.sync="form.model.parentId" />
             </a-form-model-item>
-            <a-form-model-item help="* 在分类页面可展示，需要主题支持" label="封面图：" prop="thumbnail">
+            <a-form-model-item label="封面图：" prop="thumbnail">
               <AttachmentInput v-model="form.model.thumbnail" title="选择封面图" />
             </a-form-model-item>
-            <a-form-model-item help="* 分类密码" label="密码：" prop="password">
-              <a-input-password v-model="form.model.password" autocomplete="new-password" />
+            <a-form-model-item label="展示优先级：" prop="priority">
+              <a-input v-model="form.model.priority" />
             </a-form-model-item>
             <a-form-model-item help="* 分类描述，需要主题支持" label="描述：" prop="description">
               <a-input v-model="form.model.description" :autoSize="{ minRows: 3 }" type="textarea" />
@@ -154,15 +154,15 @@ export default {
       categories.forEach(category => (hashMap[category.id] = { ...category, children: [] }))
       categories.forEach(category => {
         const current = hashMap[category.id]
-        const parent = hashMap[category.parentId]
+        // const parent = hashMap[category.parentId]
 
-        if (current.password) {
-          current.hasPassword = true
-        }
-
-        if (parent && (parent.password || parent.hasPassword)) {
-          current.hasPassword = true
-        }
+        // if (current.password) {
+        //   current.hasPassword = true
+        // }
+        //
+        // if (parent && (parent.password || parent.hasPassword)) {
+        //   current.hasPassword = true
+        // }
 
         if (category.parentId) {
           hashMap[category.parentId].children.push(current)
@@ -232,10 +232,6 @@ export default {
       const toFlatList = (data, parentId = 0) => {
         if (!data || data.length === 0) return []
         return data.reduce((prev, current, index) => {
-          console.log("prev, current, index")
-          console.log(prev)
-          console.log(current)
-          console.log(index)
           current.priority = index + 1
           current.parentId = parentId
           const children = current.children.length > 0 ? toFlatList(current.children, current.id) : []

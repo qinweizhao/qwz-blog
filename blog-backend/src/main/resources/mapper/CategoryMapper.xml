@@ -4,21 +4,20 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.qinweizhao.blog.model.entity.Category">
-        <id column="id" property="id" />
-        <result column="create_time" property="createTime" />
-        <result column="update_time" property="updateTime" />
-        <result column="description" property="description" />
-        <result column="name" property="name" />
-        <result column="parent_id" property="parentId" />
-        <result column="password" property="password" />
-        <result column="slug" property="slug" />
-        <result column="slug_name" property="slugName" />
-        <result column="thumbnail" property="thumbnail" />
+        <id column="id" property="id"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="description" property="description"/>
+        <result column="name" property="name"/>
+        <result column="parent_id" property="parentId"/>
+        <result column="slug" property="slug"/>
+        <result column="thumbnail" property="thumbnail"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, create_time, update_time, description, name, parent_id, password, slug, slug_name, thumbnail
+        id
+        , create_time, update_time, description, name, parent_id, slug, thumbnail
     </sql>
 
 </mapper>

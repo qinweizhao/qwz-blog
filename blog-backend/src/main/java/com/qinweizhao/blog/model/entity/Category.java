@@ -25,11 +25,7 @@ public class Category extends BaseEntity {
 
     private Integer priority;
 
-    private String password;
-
     private String slug;
-
-    private String slugName;
 
     private String thumbnail;
 
