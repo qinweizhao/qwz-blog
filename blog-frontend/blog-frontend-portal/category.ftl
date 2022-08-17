@@ -31,7 +31,6 @@
             </#if>
           </div>
         </div>
-        <#--  <#include "template/common/aside.ftl">  -->
       </div>
       <#include "template/common/actions.ftl">
       <#include "template/common/footer.ftl">

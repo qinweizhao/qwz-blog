@@ -55,7 +55,7 @@ public class TagServiceImpl implements TagService {
         // 查找所有帖子计数
         Map<Integer, Long> tagPostCountMap = ServiceUtils.convertToMap(postTagMapper.selectPostCount(), TagPostPostCountProjection::getTagId, TagPostPostCountProjection::getPostCount);
 
-        result.forEach(item->{
+        result.forEach(item -> {
             item.setPostCount(tagPostCountMap.getOrDefault(item.getId(), 0L));
 
             StringBuilder fullPath = new StringBuilder();
@@ -123,6 +123,29 @@ public class TagServiceImpl implements TagService {
         tagDTO.setFullPath(fullPath.toString());
 
         return tagDTO;
+    }
+
+    @Override
+    public TagDTO getBySlug(String slug) {
+        Tag tag = tagMapper.selectBySlug(slug);
+
+//        TagDTO tagDTO =
+//
+//        StringBuilder fullPath = new StringBuilder();
+//
+//        if (configService.isEnabledAbsolutePath()) {
+//            fullPath.append(configService.getBlogBaseUrl());
+//        }
+//
+//        fullPath.append(URL_SEPARATOR)
+//                .append(configService.getTagsPrefix())
+//                .append(URL_SEPARATOR)
+//                .append(tag.getSlug())
+//                .append(configService.getPathSuffix());
+//
+//        tagDTO.setFullPath(fullPath.toString());
+
+        return TagConvert.INSTANCE.convert(tag);
     }
 
 

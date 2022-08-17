@@ -35,6 +35,13 @@ public interface TagService  {
     TagDTO getById(Integer tagId);
 
     /**
+     * 通过别名获取
+     * @param slug slug
+     * @return TagDTO
+     */
+    TagDTO getBySlug(String slug);
+
+    /**
      * 更新
      * @param tagId tagId
      * @param tagParam tagParam
@@ -55,51 +62,4 @@ public interface TagService  {
      */
     Long count();
 
-
-
-//
-//    /**
-//     * Get tag by slug
-//     *
-//     * @param slug slug
-//     * @return Tag
-//     */
-//    @NonNull
-//    Tag getBySlugOfNonNull(@NonNull String slug);
-//
-//    /**
-//     * Get tag by slug
-//     *
-//     * @param slug slug
-//     * @return tag
-//     */
-//    @NonNull
-//    Tag getBySlug(@NonNull String slug);
-//
-//    /**
-//     * Get tag by tag name.
-//     *
-//     * @param name name
-//     * @return Tag
-//     */
-//    @Nullable
-//    Tag getByName(@NonNull String name);
-//
-//    /**
-//     * Converts to tag dto.
-//     *
-//     * @param tag tag must not be null
-//     * @return tag dto
-//     */
-//    @NonNull
-//    TagDTO convertTo(@NonNull Tag tag);
-//
-//    /**
-//     * Converts to tag dtos.
-//     *
-//     * @param tags tag list
-//     * @return a list of tag output dto
-//     */
-//    @NonNull
-//    List<TagDTO> convertTo(@Nullable List<Tag> tags);
 }

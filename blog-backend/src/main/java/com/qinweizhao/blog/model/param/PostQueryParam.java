@@ -31,4 +31,9 @@ public class PostQueryParam extends PageParam {
      */
     private Integer categoryId;
 
+    /**
+     * Tag id.
+     */
+    private Integer tagId;
+
 }

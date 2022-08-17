@@ -8,7 +8,7 @@
         <#list posts as post>
             <url>
                 <loc><#if !globalAbsolutePathEnabled!true>${blog_url!}</#if>${post.fullPath!}</loc>
-                <lastmod>${post.createTime?iso_local}</lastmod>
+                <lastmod>${post.createTime}</lastmod>
             </url>
         </#list>
     </#if>
@@ -17,7 +17,7 @@
             <#list categories as category>
                 <url>
                     <loc><#if !globalAbsolutePathEnabled!true>${blog_url!}</#if>${category.fullPath!}</loc>
-                    <lastmod>${category.createTime?iso_local}</lastmod>
+                    <lastmod>${category.createTime}</lastmod>
                 </url>
             </#list>
         </#if>
@@ -27,7 +27,7 @@
             <#list tags as tag>
                 <url>
                     <loc><#if !globalAbsolutePathEnabled!true>${blog_url!}</#if>${tag.fullPath!}</loc>
-                    <lastmod>${tag.createTime?iso_local}</lastmod>
+                    <lastmod>${tag.createTime}</lastmod>
                 </url>
             </#list>
         </#if>

@@ -128,7 +128,7 @@ public class PostServiceImpl implements PostService {
             return postListDTO;
         }).collect(Collectors.toList());
 
-        return new PageResult<>(collect, pageResult.getTotal(), pageResult.hasPrevious(), pageResult.hasNext());
+        return new PageResult<>(collect, pageResult.getCurrent(), pageResult.getSize(), pageResult.getTotal(), pageResult.hasPrevious(), pageResult.hasNext());
     }
 
     @Override

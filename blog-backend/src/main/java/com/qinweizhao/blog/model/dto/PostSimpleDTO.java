@@ -43,7 +43,6 @@ public class PostSimpleDTO {
 
     private Long commentCount;
 
-
     public boolean isTopped() {
         return this.topPriority != null && this.topPriority > 0;
     }
