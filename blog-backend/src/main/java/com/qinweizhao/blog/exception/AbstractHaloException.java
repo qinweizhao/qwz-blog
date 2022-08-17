@@ -1,8 +1,6 @@
 package com.qinweizhao.blog.exception;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.lang.NonNull;
-import org.springframework.lang.Nullable;
 
 /**
  * Base exception of the project.
@@ -31,10 +29,10 @@ public abstract class AbstractHaloException extends RuntimeException {
      *
      * @return {@link HttpStatus}
      */
-    @NonNull
+
     public abstract HttpStatus getStatus();
 
-    @Nullable
+
     public Object getErrorData() {
         return errorData;
     }
@@ -45,8 +43,8 @@ public abstract class AbstractHaloException extends RuntimeException {
      * @param errorData error data
      * @return current exception.
      */
-    @NonNull
-    public AbstractHaloException setErrorData(@Nullable Object errorData) {
+
+    public AbstractHaloException setErrorData(Object errorData) {
         this.errorData = errorData;
         return this;
     }

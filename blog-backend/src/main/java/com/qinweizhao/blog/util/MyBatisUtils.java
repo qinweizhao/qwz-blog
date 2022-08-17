@@ -10,10 +10,10 @@ import com.qinweizhao.blog.model.core.PageResult;
 import java.util.List;
 import java.util.stream.Collectors;
 
+
 /**
- * MyBatis 工具类
- *
- * @author weizhao
+ * @author qinweizhao
+ * @since 2022/8/11
  */
 public class MyBatisUtils {
 

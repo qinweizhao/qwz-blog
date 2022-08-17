@@ -12,6 +12,7 @@ import java.util.Collection;
  * <p>
  * 1. 拼接条件的方法，增加 xxxIfPresent 方法，用于判断值不存在的时候，不要拼接到条件中。
  *
+ * @author qinweizhao
  * @param <T> 数据类型
  */
 public class QueryWrapperX<T> extends QueryWrapper<T> {

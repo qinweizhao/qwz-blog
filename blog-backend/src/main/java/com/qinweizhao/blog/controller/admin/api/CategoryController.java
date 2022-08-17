@@ -73,9 +73,7 @@ public class CategoryController {
      * @return CategoryDTO
      */
     @PutMapping("{categoryId:\\d+}")
-    public Boolean update(@PathVariable("categoryId") Integer categoryId,
-                          @RequestBody @Valid CategoryParam categoryParam) {
-
+    public Boolean update(@PathVariable("categoryId") Integer categoryId, @RequestBody @Valid CategoryParam categoryParam) {
         return categoryService.updateById(categoryId, categoryParam);
     }
 
@@ -85,7 +83,7 @@ public class CategoryController {
      * @return Boolean
      */
     @PutMapping("/batch")
-    public Boolean updateBatchBy(@RequestBody List<@Valid CategoryParam> params) {
+    public Boolean updateBatch(@RequestBody List<@Valid CategoryParam> params) {
         return categoryService.updateInBatch(params);
     }
 
@@ -93,10 +91,11 @@ public class CategoryController {
      * 删除分类
      *
      * @param categoryId categoryId
+     * @return Boolean
      */
     @DeleteMapping("{categoryId:\\d+}")
-    public void deletePermanently(@PathVariable("categoryId") Integer categoryId) {
-        categoryService.removeCategoryAndPostCategoryById(categoryId);
+    public Boolean deletePermanently(@PathVariable("categoryId") Integer categoryId) {
+        return categoryService.removeCategoryAndPostCategoryById(categoryId);
     }
 
 

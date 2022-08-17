@@ -31,6 +31,9 @@ public class CategoryParam {
     @Size(max = 1023, message = "封面图链接的字符长度不能超过 {max}")
     private String thumbnail;
 
+    @NotBlank(message = "分类优先级不能为空")
+    private Integer priority;
+
     private Integer parentId = 0;
 
 }

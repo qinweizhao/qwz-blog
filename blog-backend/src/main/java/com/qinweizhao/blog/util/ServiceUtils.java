@@ -122,45 +122,5 @@ public class ServiceUtils {
     public static boolean isEmptyId(@Nullable Number id) {
         return id == null || id.longValue() <= 0;
     }
-//
-//    /**
-//     * Builds latest page request.
-//     *
-//     * @param top top must not be less than 1
-//     * @return latest page request
-//     */
-//    @NonNull
-//    public static Pageable buildLatestPageable(int top) {
-//        return buildLatestPageable(top, "createTime");
-//    }
-//
-//    /**
-//     * Build empty page result.
-//     *
-//     * @param page page info must not be null
-//     * @param <T>  target page result type
-//     * @param <S>  source page result type
-//     * @return empty page result
-//     */
-//    @NonNull
-//    public static <T, S> Page<T> buildEmptyPageImpl(@NonNull Page<S> page) {
-//        Assert.notNull(page, "Page result must not be null");
-//
-//        return new PageImpl<>(Collections.emptyList(), page.getPageable(), page.getTotalElements());
-//    }
-//
-//    /**
-//     * Builds latest page request.
-//     *
-//     * @param top          top must not be less than 1
-//     * @param sortProperty sort property must not be blank
-//     * @return latest page request
-//     */
-//    @NonNull
-//    public static Pageable buildLatestPageable(int top, @NonNull String sortProperty) {
-//        Assert.isTrue(top > 0, "Top number must not be less than 0");
-//        Assert.hasText(sortProperty, "Sort property must not be blank");
-//
-//        return PageRequest.of(0, top, Sort.by(Sort.Direction.DESC, sortProperty));
-//    }
+
 }

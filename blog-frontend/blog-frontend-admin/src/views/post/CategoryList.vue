@@ -232,6 +232,10 @@ export default {
       const toFlatList = (data, parentId = 0) => {
         if (!data || data.length === 0) return []
         return data.reduce((prev, current, index) => {
+          console.log("prev, current, index")
+          console.log(prev)
+          console.log(current)
+          console.log(index)
           current.priority = index + 1
           current.parentId = parentId
           const children = current.children.length > 0 ? toFlatList(current.children, current.id) : []

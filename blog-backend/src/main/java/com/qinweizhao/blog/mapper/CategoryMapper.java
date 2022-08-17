@@ -60,17 +60,6 @@ public interface CategoryMapper extends BaseMapper<Category> {
     }
 
     /**
-     * 通过名称获取类别
-     *
-     * @param name name
-     * @return Category
-     */
-    default Category selectByName(String name) {
-        return selectOne(new LambdaQueryWrapper<Category>().eq(Category::getName, name));
-    }
-
-
-    /**
      * 通过 parentId 获取分类集合
      *
      * @param parentId parentId

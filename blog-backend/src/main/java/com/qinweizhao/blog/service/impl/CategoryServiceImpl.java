@@ -1,7 +1,6 @@
 package com.qinweizhao.blog.service.impl;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.google.common.base.Objects;
 import com.qinweizhao.blog.exception.AlreadyExistsException;
 import com.qinweizhao.blog.exception.NotFoundException;
 import com.qinweizhao.blog.mapper.CategoryMapper;
@@ -23,6 +22,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.ObjectUtils;
 
 import java.util.Collections;
 import java.util.LinkedList;
@@ -94,7 +94,8 @@ public class CategoryServiceImpl implements CategoryService {
 
     /**
      * 填充完整路径
-     * @param category category
+     *
+     * @param category    category
      * @param categoryDTO categoryDTO
      * @return CategoryDTO
      */
@@ -183,9 +184,9 @@ public class CategoryServiceImpl implements CategoryService {
                 categoryMapper.updateById(category);
             });
         }
-        // Remove category
+
         categoryMapper.deleteById(categoryId);
-        // Remove post categories
+
         postCategoryMapper.deleteByCategoryId(categoryId);
         return true;
     }
@@ -198,7 +199,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public boolean updateInBatch(List<CategoryParam> params) {
         params.stream()
-                .filter(categoryParam -> java.util.Objects.nonNull(categoryParam.getId()))
+                .filter(categoryParam -> !ObjectUtils.isEmpty(categoryParam.getId()))
                 .forEach(categoryParam -> this.updateById(categoryParam.getId(), categoryParam));
         return true;
     }
@@ -239,7 +240,7 @@ public class CategoryServiceImpl implements CategoryService {
 
         // Get children for removing after
         List<Category> children = categories.stream()
-                .filter(category -> Objects.equal(parentCategory.getId(), category.getParentId()))
+                .filter(category -> ObjectUtils.nullSafeEquals(parentCategory.getId(), category.getParentId()))
                 .collect(Collectors.toList());
 
         children.forEach(category -> {
