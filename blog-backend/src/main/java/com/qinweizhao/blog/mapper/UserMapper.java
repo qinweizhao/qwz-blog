@@ -31,7 +31,7 @@ public interface UserMapper extends BaseMapper<User> {
      * @return User
      */
     default Optional<User> selectByByEmail(String email) {
-        return Optional.of(this.selectOne(new LambdaQueryWrapper<User>().eq(User::getEmail, email)));
+        return Optional.ofNullable(this.selectOne(new LambdaQueryWrapper<User>().eq(User::getEmail, email)));
     }
 
 }

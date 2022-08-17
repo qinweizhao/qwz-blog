@@ -1,15 +1,17 @@
 package com.qinweizhao.blog.controller.content.api;
 
+import com.qinweizhao.blog.framework.cache.lock.CacheLock;
 import com.qinweizhao.blog.model.core.PageResult;
 import com.qinweizhao.blog.model.dto.CommentDTO;
 import com.qinweizhao.blog.model.enums.CommentType;
+import com.qinweizhao.blog.model.param.CommentParam;
 import com.qinweizhao.blog.model.param.CommentQueryParam;
 import com.qinweizhao.blog.service.CommentService;
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.HtmlUtils;
+
+import java.nio.charset.StandardCharsets;
 
 /**
  * 日志 controller.
@@ -38,4 +40,14 @@ public class JournalController {
         return commentService.pageTree(journalId, param);
     }
 
+    @PostMapping("comments")
+    @CacheLock(autoDelete = false, traceRequest = true)
+    public Boolean comment(@RequestBody CommentParam param) {
+        param.setTargetId(param.getPostId());
+        commentService.validateCommentBlackListStatus();
+        param.setType(CommentType.JOURNAL);
+        // 转义内容
+        param.setContent(HtmlUtils.htmlEscape(param.getContent(), StandardCharsets.UTF_8.displayName()));
+        return commentService.save(param);
+    }
 }
