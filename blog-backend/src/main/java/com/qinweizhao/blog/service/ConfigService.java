@@ -62,31 +62,6 @@ public interface ConfigService extends IService<Config> {
      * @param options options
      */
     void save(Map<String, Object> options);
-//
-//    /**
-//     * Save multiple options
-//     *
-//     * @param optionParams option params
-//     */
-//    @Transactional
-//    void save(@Nullable List<OptionParam> optionParams);
-//
-//    /**
-//     * Save single option.
-//     *
-//     * @param optionParam option param
-//     */
-//    void save(@Nullable OptionParam optionParam);
-//
-//    /**
-//     * Update option by id.
-//     *
-//     * @param optionId    option id must not be null.
-//     * @param optionParam option param must not be null.
-//     */
-//    void update( Integer optionId,  OptionParam optionParam);
-//
-
 
     /**
      * Saves blog properties.

@@ -13,7 +13,6 @@ import freemarker.template.Configuration;
 import freemarker.template.TemplateModelException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;
@@ -108,8 +107,11 @@ public class ThemeSettingServiceImpl implements ThemeSettingService {
      * @param value value
      */
     private void saveItem(String key, String value) {
-        if (StringUtils.isBlank(value)) {
+        if (ObjectUtils.isEmpty(value)) {
+            log.debug("主题配置");
+            log.debug("删除主题配置，key:{}",key);
             themeSettingMapper.deleteByKey(key);
+            return;
         }
 
         ThemeSetting dbThemeSetting = themeSettingMapper.selectByKey(key);
@@ -119,6 +121,9 @@ public class ThemeSettingServiceImpl implements ThemeSettingService {
         themeSetting.setSettingValue(value);
 
         if (ObjectUtils.isEmpty(dbThemeSetting)) {
+            log.debug("主题配置");
+            log.debug("保存主题配置，key:{}",key);
+
             // 不存在，执行保存
             themeSettingMapper.insert(themeSetting);
         } else {
@@ -126,6 +131,7 @@ public class ThemeSettingServiceImpl implements ThemeSettingService {
             String settingValue = dbThemeSetting.getSettingValue();
             if (!settingValue.equals(value)) {
                 boolean b = themeSettingMapper.updateByKey(themeSetting);
+                log.debug("主题配置");
                 log.debug("更新主题配置：key：{}，更新结果：{}", key, b);
             }
         }

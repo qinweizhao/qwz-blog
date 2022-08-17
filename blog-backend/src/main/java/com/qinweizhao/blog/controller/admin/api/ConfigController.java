@@ -29,17 +29,11 @@ public class ConfigController {
 
     private final ConfigService configService;
 
-//    @GetMapping
-//    public List<OptionDTO> listAll() {
-//        return optionService.listDtos();
-//    }
-//
-//    @PostMapping("saving")
-//    @DisableOnCondition
-//    public void saveOptions(@Valid @RequestBody List<OptionParam> optionParams) {
-//        optionService.save(optionParams);
-//    }
-
+    /**
+     * map
+     *
+     * @return Map
+     */
     @GetMapping("map_view")
     public Map<String, Object> listAllWithMapView() {
         return configService.listOptions();
@@ -66,13 +60,6 @@ public class ConfigController {
     public PageResult<ConfigSimpleDTO> listAllWithListView(ConfigQueryParam configQueryParam) {
         return configService.pageSimple(configQueryParam);
     }
-////
-////    @GetMapping("{id:\\d+}")
-////    @ApiOperation("Gets option detail by id")
-////    public OptionSimpleDTO getBy(@PathVariable("id") Integer id) {
-////        Option option = optionService.getById(id);
-////        return optionService.convertToDto(option);
-////    }
 
     /**
      * 新增
@@ -102,7 +89,6 @@ public class ConfigController {
         return configService.updateById(config);
     }
 
-
     /**
      * 删除
      *
@@ -118,6 +104,7 @@ public class ConfigController {
 
     /**
      * 保存
+     *
      * @param configMap optionMap
      */
     @PostMapping("map_view/saving")
