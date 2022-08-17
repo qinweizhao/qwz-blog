@@ -64,14 +64,6 @@ public interface ConfigService extends IService<Config> {
     void save(Map<String, Object> options);
 
     /**
-     * Saves blog properties.
-     *
-     * @param properties blog properties
-     */
-//    @Transactional
-//    void saveProperties( Map<? extends PropertyEnum, String> properties);
-
-    /**
      * Get all options
      *
      * @return Map
@@ -438,27 +430,10 @@ public interface ConfigService extends IService<Config> {
 
     /**
      * 分页列表
+     *
      * @param configQueryParam optionQuery
      * @return PageResult
      */
     PageResult<ConfigSimpleDTO> pageSimple(ConfigQueryParam configQueryParam);
 
-//
-//    /**
-//     * Replace option url in batch.
-//     *
-//     * @param oldUrl old blog url.
-//     * @param newUrl new blog url.
-//     * @return replaced options.
-//     */
-//    List<OptionDTO> replaceUrl( String oldUrl,  String newUrl);
-//
-//    /**
-//     * Converts to option output dto.
-//     *
-//     * @param option option must not be null
-//     * @return an option output dto
-//     */
-//    
-//    OptionSimpleDTO convertToDto( Option option);
 }
