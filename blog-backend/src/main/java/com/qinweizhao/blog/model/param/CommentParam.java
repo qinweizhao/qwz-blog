@@ -36,6 +36,8 @@ public class CommentParam {
 
     @Min(value = 1, message = "文章编号不能小于 {value}")
     private Integer targetId;
+    // todo 未来删除 为了适配前台
+    private Integer postId;
 
     @Min(value = 0, message = "PostComment parent id must not be less than {value}")
     private Long parentId = 0L;
@@ -46,4 +48,7 @@ public class CommentParam {
      * 类型（前端不用传）
      */
     private CommentType type;
+
+
+
 }

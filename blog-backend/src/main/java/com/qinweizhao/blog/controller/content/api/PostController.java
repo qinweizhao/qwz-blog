@@ -1,19 +1,21 @@
 package com.qinweizhao.blog.controller.content.api;
 
+import com.qinweizhao.blog.framework.cache.lock.CacheLock;
 import com.qinweizhao.blog.model.core.PageResult;
 import com.qinweizhao.blog.model.dto.CommentDTO;
 import com.qinweizhao.blog.model.dto.PostListDTO;
 import com.qinweizhao.blog.model.enums.CommentType;
 import com.qinweizhao.blog.model.enums.PostStatus;
+import com.qinweizhao.blog.model.param.CommentParam;
 import com.qinweizhao.blog.model.param.CommentQueryParam;
 import com.qinweizhao.blog.model.param.PostQueryParam;
 import com.qinweizhao.blog.service.CommentService;
 import com.qinweizhao.blog.service.PostService;
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.HtmlUtils;
+
+import java.nio.charset.StandardCharsets;
 
 /**
  * 内容发布控制器
@@ -54,6 +56,18 @@ public class PostController {
     public PageResult<CommentDTO> listCommentsTree(@PathVariable("postId") Integer postId, CommentQueryParam param) {
         param.setType(CommentType.POST);
         return commentService.pageTree(postId, param);
+    }
+
+
+    @PostMapping("comments")
+    @CacheLock(autoDelete = false, traceRequest = true)
+    public Boolean comment(@RequestBody CommentParam param) {
+        param.setTargetId(param.getPostId());
+        commentService.validateCommentBlackListStatus();
+        param.setType(CommentType.POST);
+        // 转义内容
+        param.setContent(HtmlUtils.htmlEscape(param.getContent(), StandardCharsets.UTF_8.displayName()));
+        return commentService.save(param);
     }
 
 
