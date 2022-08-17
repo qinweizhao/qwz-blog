@@ -188,8 +188,6 @@ export default {
           this.propertiesSourcesMap[item.name] = item.properties
         })
         this.systemProperties = this.propertiesSourcesMap['systemProperties']
-        console.log('this.systemProperties')
-        console.log(this.systemProperties)
       })
     },
     loadSystemInfo() {
@@ -208,8 +206,6 @@ export default {
       actuatorApi.getProcessCpuUsage().then(response => {
         this.system.process.cpuUsage = response.data.measurements[0].value
       })
-      console.log('this.system')
-      console.log(this.system)
     },
     loadJvmInfo() {
       actuatorApi.getJvmMemoryMax().then(response => {
@@ -224,8 +220,6 @@ export default {
       actuatorApi.getJvmGcPause().then(response => {
         this.jvm.gc.pause.count = response.data.measurements[0].value
       })
-      console.log('this.jvm')
-      console.log(this.jvm)
     },
     handleRefresh() {
       this.loadSystemInfo()

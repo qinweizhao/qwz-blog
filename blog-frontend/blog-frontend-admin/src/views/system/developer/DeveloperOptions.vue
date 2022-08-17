@@ -47,7 +47,7 @@ export default {
         title: '系统变量',
         icon: 'table',
         component: () => import('./tabs/ConfigsList'),
-        key: 'optionsList'
+        key: 'configsList'
       },
       {
         title: '设置',
