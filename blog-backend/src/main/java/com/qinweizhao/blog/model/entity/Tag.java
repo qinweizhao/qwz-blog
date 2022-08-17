@@ -21,6 +21,8 @@ public class Tag extends BaseEntity {
 
     private String slug;
 
+    private String color;
+
     private String thumbnail;
 
 }

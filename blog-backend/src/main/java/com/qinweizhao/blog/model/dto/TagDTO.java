@@ -19,6 +19,8 @@ public class TagDTO {
 
     private String slug;
 
+    private String color;
+
     private String thumbnail;
 
     private LocalDateTime createTime;

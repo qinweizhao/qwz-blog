@@ -25,5 +25,5 @@ public class TagParam {
     @Size(max = 1023, message = "封面图链接的字符长度不能超过 {max}")
     private String thumbnail;
 
-
+    private String color;
 }

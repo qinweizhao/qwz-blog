@@ -4,10 +4,10 @@
       <a-col :lg="8" :md="8" :sm="24" :xl="8" :xs="24" class="pb-3">
         <a-card :bodyStyle="{ padding: '16px' }" :head-style="{ padding: '8px 16px!important' }" :title="title">
           <a-form-model ref="categoryForm" :model="form.model" :rules="form.rules" layout="horizontal">
-            <a-form-model-item label="名称：" prop="name">
+            <a-form-model-item help="* 显示的名称" label="名称：" prop="name">
               <a-input ref="nameInput" v-model="form.model.name" />
             </a-form-model-item>
-            <a-form-model-item label="别名：" prop="slug">
+            <a-form-model-item help="* 单个分类页面的标识，最好为英文" label="别名：" prop="slug">
               <a-input v-model="form.model.slug" />
             </a-form-model-item>
             <a-form-model-item label="上级目录：" prop="parentId">
@@ -16,10 +16,10 @@
             <a-form-model-item label="封面图：" prop="thumbnail">
               <AttachmentInput v-model="form.model.thumbnail" title="选择封面图" />
             </a-form-model-item>
-            <a-form-model-item label="展示优先级：" prop="priority">
+            <a-form-model-item help="* 显示顺序" label="优先级：" prop="priority">
               <a-input v-model="form.model.priority" />
             </a-form-model-item>
-            <a-form-model-item help="* 分类描述，需要主题支持" label="描述：" prop="description">
+            <a-form-model-item label="描述：" prop="description">
               <a-input v-model="form.model.description" :autoSize="{ minRows: 3 }" type="textarea" />
             </a-form-model-item>
             <a-form-model-item>
@@ -109,6 +109,7 @@ export default {
             { max: 255, message: '* 分类名称的字符长度不能超过 255', trigger: ['change'] }
           ],
           slug: [{ max: 255, message: '* 分类别名的字符长度不能超过 255', trigger: ['change'] }],
+          priority: [{ required: true, max: 255, message: '* 优先级不能为空', trigger: ['change'] }],
           thumbnail: [{ max: 1023, message: '* 封面图链接的字符长度不能超过 1023', trigger: ['change'] }],
           description: [{ max: 100, message: '* 分类描述的字符长度不能超过 100', trigger: ['change'] }]
         }
