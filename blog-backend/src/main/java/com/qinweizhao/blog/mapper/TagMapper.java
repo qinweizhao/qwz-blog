@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.qinweizhao.blog.model.entity.Tag;
 import com.qinweizhao.blog.util.LambdaQueryWrapperX;
 import org.apache.ibatis.annotations.Mapper;
-import org.springframework.lang.NonNull;
 import org.springframework.util.ObjectUtils;
 
 import java.util.ArrayList;
@@ -43,26 +42,17 @@ public interface TagMapper extends BaseMapper<Tag> {
     }
 
     /**
-     * 按名称获取标签
-     *
-     * @param name name
-     * @return Tag
-     */
-    default Tag getByName(@NonNull String name) {
-        return selectOne(new LambdaQueryWrapper<Tag>().eq(Tag::getName, name));
-    }
-
-    /**
      * 查询标签集合
+     *
      * @param tagIds tagIds
      * @return List
      */
-    default List<Tag> selectListByIds(Set<Integer> tagIds){
-        if (ObjectUtils.isEmpty(tagIds)){
+    default List<Tag> selectListByIds(Set<Integer> tagIds) {
+        if (ObjectUtils.isEmpty(tagIds)) {
             return new ArrayList<>();
         }
         return selectList(new LambdaQueryWrapperX<Tag>()
-                .inIfPresent(Tag::getId,tagIds)
+                .inIfPresent(Tag::getId, tagIds)
         );
     }
 }
