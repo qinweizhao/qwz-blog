@@ -6,15 +6,19 @@ import com.qinweizhao.blog.controller.content.model.PostModel;
 import com.qinweizhao.blog.controller.content.model.TagModel;
 import com.qinweizhao.blog.exception.NotFoundException;
 import com.qinweizhao.blog.framework.cache.AbstractStringCacheStore;
+import com.qinweizhao.blog.model.entity.Post;
+import com.qinweizhao.blog.model.enums.PostPermalinkType;
 import com.qinweizhao.blog.service.ConfigService;
 import com.qinweizhao.blog.service.PostService;
 import com.qinweizhao.blog.service.SheetService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * @author ryanwang
@@ -79,31 +83,20 @@ public class ContentContentController {
         }
     }
 
-//    @GetMapping("{prefix}/{slug}")
-//    public String content(@PathVariable("prefix") String prefix,
-//                          @PathVariable("slug") String slug,
-//                          @RequestParam(value = "token", required = false) String token,
-//                          Model model) {
-//        PostPermalinkType postPermalinkType = configService.getPostPermalinkType();
-//
-//        if (postPermalinkType.equals(PostPermalinkType.DEFAULT) && configService.getArchivesPrefix().equals(prefix)) {
-//            Post post = postService.getBySlug(slug);
-//            return postModel.content(post, token, model);
-//        } else if (postPermalinkType.equals(PostPermalinkType.YEAR) && prefix.length() == 4 && StringUtils.isNumeric(prefix)) {
-//            Post post = postService.getBy(Integer.parseInt(prefix), slug);
-//            return postModel.content(post, token, model);
-//        } else if (configService.getSheetPrefix().equals(prefix)) {
-//            Sheet sheet = sheetService.getBySlug(slug);
-//            return sheetModel.content(sheet, token, model);
-//        } else if (configService.getCategoriesPrefix().equals(prefix)) {
-//            return categoryModel.listPost(model, slug, 1);
-//        } else if (configService.getTagsPrefix().equals(prefix)) {
-//            return tagModel.listPost(model, slug, 1);
-//        } else {
-//            throw new NotFoundException("Not Found");
-//        }
-//    }
-//
+    @GetMapping("{prefix}/{slug}")
+    public String content(@PathVariable("prefix") String prefix,
+                          @PathVariable("slug") String slug,
+                          @RequestParam(value = "token", required = false) String token,
+                          Model model) {
+          if (configService.getCategoriesPrefix().equals(prefix)) {
+            return categoryModel.listPost(model, slug, 1);
+        } else if (configService.getTagsPrefix().equals(prefix)) {
+            return tagModel.list(model);
+        } else {
+            throw new NotFoundException("Not Found");
+        }
+    }
+
 //    @GetMapping("{prefix}/{slug}/page/{page:\\d+}")
 //    public String content(@PathVariable("prefix") String prefix,
 //                          @PathVariable("slug") String slug,

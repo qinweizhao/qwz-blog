@@ -520,6 +520,7 @@ public class PostServiceImpl implements PostService {
 
         postSimples.forEach(post -> {
             LocalDateTime createTime = post.getCreateTime();
+            post.setFullPath(buildFullPath(post.getId()));
             yearPostMap.computeIfAbsent(createTime.getYear(), year -> new LinkedList<>())
                     .add(post);
         });
@@ -551,6 +552,7 @@ public class PostServiceImpl implements PostService {
 
         postSimples.forEach(post -> {
             LocalDateTime createTime = post.getCreateTime();
+            post.setFullPath(buildFullPath(post.getId()));
             yearMonthPostMap.computeIfAbsent(createTime.getYear(), year -> new LinkedHashMap<>())
                     .computeIfAbsent(createTime.getMonthValue(),
                             month -> new LinkedList<>())

@@ -37,7 +37,6 @@ public class ThemeSettingServiceImpl implements ThemeSettingService {
 
     private final Configuration configuration;
 
-
     @Override
     public Map<String, Object> getSettings() {
 
@@ -109,7 +108,7 @@ public class ThemeSettingServiceImpl implements ThemeSettingService {
     private void saveItem(String key, String value) {
         if (ObjectUtils.isEmpty(value)) {
             log.debug("主题配置");
-            log.debug("删除主题配置，key:{}",key);
+            log.debug("删除主题配置，key:{}", key);
             themeSettingMapper.deleteByKey(key);
             return;
         }
@@ -122,7 +121,7 @@ public class ThemeSettingServiceImpl implements ThemeSettingService {
 
         if (ObjectUtils.isEmpty(dbThemeSetting)) {
             log.debug("主题配置");
-            log.debug("保存主题配置，key:{}",key);
+            log.debug("保存主题配置，key:{}", key);
 
             // 不存在，执行保存
             themeSettingMapper.insert(themeSetting);
@@ -138,21 +137,18 @@ public class ThemeSettingServiceImpl implements ThemeSettingService {
 
     }
 
-
     /**
      * 获取配置项映射。 （键：项目名称，值：项目）
      *
      * @return config item map
      */
     private Map<String, Item> getConfigItemMap() {
-        // Get theme configuration
+
         List<Group> groups = themeService.listConfig();
 
-        // Mix all items
         Set<Item> items = new LinkedHashSet<>();
         groups.forEach(group -> items.addAll(group.getItems()));
 
-        // Convert to item map(key: item name, value: item)
         return ServiceUtils.convertToMap(items, Item::getName);
     }
 
