@@ -35,7 +35,7 @@ public class ConfigController {
      * @return Map
      */
     @GetMapping("map_view")
-    public Map<String, Object> listAllWithMapView() {
+    public Map<String, Object> listAsMapView() {
         return configService.listOptions();
     }
 
@@ -46,7 +46,7 @@ public class ConfigController {
      * @return Map
      */
     @PostMapping("map_view/keys")
-    public Map<String, Object> listAllWithMapView(@RequestBody List<String> keys) {
+    public Map<String, Object> listAsMapView(@RequestBody List<String> keys) {
         return configService.listOptions(keys);
     }
 

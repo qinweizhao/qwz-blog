@@ -78,6 +78,7 @@
 </template>
 <script>
 import apiClient from '@/utils/api-client'
+import mailApi from '@/api/mail'
 
 export default {
   name: 'SmtpTab',
@@ -148,10 +149,14 @@ export default {
       _this.$refs.smtpTestForm.validate(valid => {
         if (valid) {
           this.sending = true
-          apiClient.mail
-            .testSmtpService(this.mailParam)
+          mailApi
+            .testMail(this.mailParam)
             .then(response => {
-              this.$message.info(response.data)
+              if (response.data.data) {
+                this.$message.info('已发送，请查收。若确认没有收到邮件，请检查服务器日志')
+              } else {
+                this.$message.info('发送失败')
+              }
             })
             .catch(() => {
               this.sendErrored = true

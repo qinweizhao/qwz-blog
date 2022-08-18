@@ -27,9 +27,8 @@ public class MailController {
 
     @DisableOnCondition
     @PostMapping("test")
-    public String testMail(@Valid @RequestBody MailParam mailParam) {
-        mailService.sendTextMail(mailParam.getTo(), mailParam.getSubject(), mailParam.getContent());
-        return "已发送，请查收。若确认没有收到邮件，请检查服务器日志";
+    public Boolean testMail(@Valid @RequestBody MailParam mailParam) {
+        return mailService.sendTextMail(mailParam.getTo(), mailParam.getSubject(), mailParam.getContent());
     }
 
     @DisableOnCondition

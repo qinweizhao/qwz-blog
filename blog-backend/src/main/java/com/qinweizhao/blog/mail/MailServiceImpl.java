@@ -34,12 +34,13 @@ public class MailServiceImpl extends AbstractMailService implements ApplicationL
     }
 
     @Override
-    public void sendTextMail(String to, String subject, String content) {
+    public boolean sendTextMail(String to, String subject, String content) {
         sendMailTemplate(true, messageHelper -> {
             messageHelper.setSubject(subject);
             messageHelper.setTo(to);
             messageHelper.setText(content);
         });
+        return false;
     }
 
     @Override
@@ -73,7 +74,6 @@ public class MailServiceImpl extends AbstractMailService implements ApplicationL
 
     @Override
     public void onApplicationEvent(@NotNull OptionUpdatedEvent event) {
-        // clear the cached java mail sender
         clearCache();
     }
 }

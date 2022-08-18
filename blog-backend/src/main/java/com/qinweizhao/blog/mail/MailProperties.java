@@ -20,7 +20,7 @@ public class MailProperties extends org.springframework.boot.autoconfigure.mail.
     }
 
     public MailProperties(boolean needDebug) {
-        // set some default properties
+        // 设置一些默认属性
         addProperties("mail.debug", Boolean.toString(needDebug));
         addProperties("mail.smtp.auth", Boolean.TRUE.toString());
         addProperties("mail.smtp.ssl.enable", Boolean.TRUE.toString());

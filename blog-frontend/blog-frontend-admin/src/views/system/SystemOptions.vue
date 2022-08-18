@@ -140,7 +140,7 @@ import OtherTab from './optiontabs/OtherTab'
 import PermalinkTab from './optiontabs/PermalinkTab'
 import ApiTab from './optiontabs/ApiTab'
 import AdvancedOtherTab from './optiontabs/AdvancedOtherTab'
-import apiClient from '@/utils/api-client'
+import configApi from '@/api/config'
 
 import { mapActions } from 'vuex'
 
@@ -184,8 +184,8 @@ export default {
      */
     async handleListOptions() {
       try {
-        const response = await apiClient.option.listAsMapView()
-        this.options = response.data
+        const response = await configApi.list()
+        this.options = response.data.data
       } catch (e) {
         this.$log.error(e)
       }
@@ -208,7 +208,7 @@ export default {
     async onSaveOptions() {
       try {
         this.saving = true
-        await apiClient.option.saveMapView(this.options)
+        await configApi.save(this.options)
       } catch (e) {
         this.errored = true
         this.$log.error(e)

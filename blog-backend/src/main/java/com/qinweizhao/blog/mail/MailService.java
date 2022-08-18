@@ -17,7 +17,7 @@ public interface MailService {
      * @param subject subject
      * @param content content
      */
-    void sendTextMail(String to, String subject, String content);
+    boolean sendTextMail(String to, String subject, String content);
 
     /**
      * 使用 html 发送电子邮件
