@@ -1,10 +1,13 @@
 package com.qinweizhao.blog.model.properties;
 
+import javax.annotation.Resource;
+
 /**
  * @author ryanwang
  * @since 2019-03-17
  */
 public enum BlogProperties implements PropertyEnum {
+
 
     /**
      * Blog locale.
@@ -20,11 +23,6 @@ public enum BlogProperties implements PropertyEnum {
      * Blog logo.
      */
     BLOG_LOGO("blog_logo", String.class, ""),
-
-    /**
-     * Blog url.
-     */
-    BLOG_URL("blog_url", String.class, ""),
 
     /**
      * Blog favicon.

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <link rel="alternate" type="application/rss+xml" title="atom 1.0" href="${atom_url!}">
+<#--    <link rel="alternate" type="application/rss+xml" title="atom 1.0" href="${atom_url!}">-->
     <title>${(status)!500} | ${(error)!'未知错误'}</title>
 
     <style type="text/css">
