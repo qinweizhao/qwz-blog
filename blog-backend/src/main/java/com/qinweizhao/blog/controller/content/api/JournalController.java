@@ -3,6 +3,7 @@ package com.qinweizhao.blog.controller.content.api;
 import com.qinweizhao.blog.framework.cache.lock.CacheLock;
 import com.qinweizhao.blog.model.core.PageResult;
 import com.qinweizhao.blog.model.dto.CommentDTO;
+import com.qinweizhao.blog.model.enums.CommentStatus;
 import com.qinweizhao.blog.model.enums.CommentType;
 import com.qinweizhao.blog.model.param.CommentParam;
 import com.qinweizhao.blog.model.param.CommentQueryParam;
@@ -35,6 +36,7 @@ public class JournalController {
     @GetMapping("{journalId:\\d+}/comments/tree_view")
     public PageResult<CommentDTO> listCommentsTree(@PathVariable("journalId") Integer journalId, CommentQueryParam param) {
         param.setType(CommentType.JOURNAL);
+        param.setStatus(CommentStatus.PUBLISHED);
         return commentService.pageTree(journalId, param);
     }
 

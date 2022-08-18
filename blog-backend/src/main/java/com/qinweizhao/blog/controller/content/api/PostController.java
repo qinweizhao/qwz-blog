@@ -4,6 +4,7 @@ import com.qinweizhao.blog.framework.cache.lock.CacheLock;
 import com.qinweizhao.blog.model.core.PageResult;
 import com.qinweizhao.blog.model.dto.CommentDTO;
 import com.qinweizhao.blog.model.dto.PostListDTO;
+import com.qinweizhao.blog.model.enums.CommentStatus;
 import com.qinweizhao.blog.model.enums.CommentType;
 import com.qinweizhao.blog.model.enums.PostStatus;
 import com.qinweizhao.blog.model.param.CommentParam;
@@ -55,6 +56,7 @@ public class PostController {
     @GetMapping("{postId:\\d+}/comments/tree_view")
     public PageResult<CommentDTO> listCommentsTree(@PathVariable("postId") Integer postId, CommentQueryParam param) {
         param.setType(CommentType.POST);
+        param.setStatus(CommentStatus.PUBLISHED);
         return commentService.pageTree(postId, param);
     }
 
