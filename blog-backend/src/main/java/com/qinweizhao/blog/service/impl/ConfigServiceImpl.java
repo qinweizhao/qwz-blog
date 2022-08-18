@@ -1,7 +1,6 @@
 package com.qinweizhao.blog.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.qiniu.common.Zone;
 import com.qiniu.storage.Region;
 import com.qinweizhao.blog.config.properties.MyBlogProperties;
 import com.qinweizhao.blog.exception.MissingPropertyException;
@@ -257,16 +256,6 @@ public class ConfigServiceImpl extends ServiceImpl<ConfigMapper, Config> impleme
         } catch (NumberFormatException e) {
             log.error(CommentProperties.PAGE_SIZE.getValue() + " option is not a number format", e);
             return DEFAULT_COMMENT_PAGE_SIZE;
-        }
-    }
-
-    @Override
-    public int getRssPageSize() {
-        try {
-            return getByPropertyOrDefault(PostProperties.RSS_PAGE_SIZE, Integer.class, DEFAULT_RSS_PAGE_SIZE);
-        } catch (NumberFormatException e) {
-            log.error(PostProperties.RSS_PAGE_SIZE.getValue() + " setting is not a number format", e);
-            return DEFAULT_RSS_PAGE_SIZE;
         }
     }
 
