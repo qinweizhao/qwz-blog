@@ -1,4 +1,4 @@
-package com.qinweizhao.blog.security.util;
+package com.qinweizhao.blog.framework.security.util;
 
 import com.qinweizhao.blog.model.entity.User;
 import org.springframework.lang.NonNull;

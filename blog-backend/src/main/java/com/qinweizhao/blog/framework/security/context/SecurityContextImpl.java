@@ -1,6 +1,6 @@
-package com.qinweizhao.blog.security.context;
+package com.qinweizhao.blog.framework.security.context;
 
-import com.qinweizhao.blog.security.authentication.Authentication;
+import com.qinweizhao.blog.framework.security.authentication.Authentication;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;

@@ -1,4 +1,4 @@
-package com.qinweizhao.blog.security.token;
+package com.qinweizhao.blog.framework.security.token;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;

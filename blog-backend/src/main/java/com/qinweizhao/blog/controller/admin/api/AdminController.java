@@ -5,7 +5,7 @@ import com.qinweizhao.blog.framework.cache.lock.CacheLock;
 import com.qinweizhao.blog.model.dto.EnvironmentDTO;
 import com.qinweizhao.blog.model.param.LoginParam;
 import com.qinweizhao.blog.model.param.ResetPasswordParam;
-import com.qinweizhao.blog.security.token.AuthToken;
+import com.qinweizhao.blog.framework.security.token.AuthToken;
 import com.qinweizhao.blog.service.AdminService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

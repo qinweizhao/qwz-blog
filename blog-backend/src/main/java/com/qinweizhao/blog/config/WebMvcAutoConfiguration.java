@@ -3,7 +3,7 @@ package com.qinweizhao.blog.config;
 import com.qinweizhao.blog.config.properties.MyBlogProperties;
 import com.qinweizhao.blog.framework.factory.StringToEnumConverterFactory;
 import com.qinweizhao.blog.model.support.HaloConst;
-import com.qinweizhao.blog.security.resolver.AuthenticationArgumentResolver;
+import com.qinweizhao.blog.framework.security.resolver.AuthenticationArgumentResolver;
 import freemarker.core.TemplateClassResolver;
 import freemarker.template.TemplateException;
 import freemarker.template.TemplateExceptionHandler;

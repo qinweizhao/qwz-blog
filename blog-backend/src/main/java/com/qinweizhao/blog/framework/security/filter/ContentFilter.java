@@ -1,9 +1,9 @@
-package com.qinweizhao.blog.security.filter;
+package com.qinweizhao.blog.framework.security.filter;
 
 import com.qinweizhao.blog.config.properties.MyBlogProperties;
 import com.qinweizhao.blog.framework.cache.AbstractStringCacheStore;
-import com.qinweizhao.blog.security.handler.ContentAuthenticationFailureHandler;
-import com.qinweizhao.blog.security.service.OneTimeTokenService;
+import com.qinweizhao.blog.framework.security.handler.ContentAuthenticationFailureHandler;
+import com.qinweizhao.blog.framework.security.service.OneTimeTokenService;
 import com.qinweizhao.blog.util.HaloUtils;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;

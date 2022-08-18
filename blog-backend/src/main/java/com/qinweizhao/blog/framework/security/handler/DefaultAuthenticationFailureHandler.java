@@ -1,4 +1,4 @@
-package com.qinweizhao.blog.security.handler;
+package com.qinweizhao.blog.framework.security.handler;
 
 import cn.hutool.extra.servlet.ServletUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;

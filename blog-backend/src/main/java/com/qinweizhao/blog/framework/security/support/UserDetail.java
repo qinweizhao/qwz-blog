@@ -1,4 +1,4 @@
-package com.qinweizhao.blog.security.support;
+package com.qinweizhao.blog.framework.security.support;
 
 import com.qinweizhao.blog.exception.AuthenticationException;
 import com.qinweizhao.blog.model.entity.User;

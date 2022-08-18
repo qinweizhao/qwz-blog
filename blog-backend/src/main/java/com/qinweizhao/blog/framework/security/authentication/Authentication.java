@@ -1,6 +1,6 @@
-package com.qinweizhao.blog.security.authentication;
+package com.qinweizhao.blog.framework.security.authentication;
 
-import com.qinweizhao.blog.security.support.UserDetail;
+import com.qinweizhao.blog.framework.security.support.UserDetail;
 import org.springframework.lang.NonNull;
 
 /**

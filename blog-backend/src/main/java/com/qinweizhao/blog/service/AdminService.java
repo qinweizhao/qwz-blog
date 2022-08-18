@@ -4,7 +4,7 @@ import com.qinweizhao.blog.model.dto.EnvironmentDTO;
 import com.qinweizhao.blog.model.entity.User;
 import com.qinweizhao.blog.model.param.LoginParam;
 import com.qinweizhao.blog.model.param.ResetPasswordParam;
-import com.qinweizhao.blog.security.token.AuthToken;
+import com.qinweizhao.blog.framework.security.token.AuthToken;
 
 /**
  * Admin service interface.

@@ -1,4 +1,4 @@
-package com.qinweizhao.blog.security.filter;
+package com.qinweizhao.blog.framework.security.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.qinweizhao.blog.framework.cache.AbstractStringCacheStore;
@@ -7,8 +7,8 @@ import com.qinweizhao.blog.exception.AuthenticationException;
 import com.qinweizhao.blog.exception.ForbiddenException;
 import com.qinweizhao.blog.model.properties.ApiProperties;
 import com.qinweizhao.blog.model.properties.CommentProperties;
-import com.qinweizhao.blog.security.handler.DefaultAuthenticationFailureHandler;
-import com.qinweizhao.blog.security.service.OneTimeTokenService;
+import com.qinweizhao.blog.framework.security.handler.DefaultAuthenticationFailureHandler;
+import com.qinweizhao.blog.framework.security.service.OneTimeTokenService;
 import com.qinweizhao.blog.service.ConfigService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;

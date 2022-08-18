@@ -1,17 +1,17 @@
-package com.qinweizhao.blog.security.filter;
+package com.qinweizhao.blog.framework.security.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.qinweizhao.blog.config.properties.MyBlogProperties;
 import com.qinweizhao.blog.exception.AuthenticationException;
 import com.qinweizhao.blog.framework.cache.AbstractStringCacheStore;
+import com.qinweizhao.blog.framework.security.authentication.AuthenticationImpl;
+import com.qinweizhao.blog.framework.security.context.SecurityContextHolder;
+import com.qinweizhao.blog.framework.security.context.SecurityContextImpl;
+import com.qinweizhao.blog.framework.security.handler.DefaultAuthenticationFailureHandler;
+import com.qinweizhao.blog.framework.security.service.OneTimeTokenService;
+import com.qinweizhao.blog.framework.security.support.UserDetail;
 import com.qinweizhao.blog.model.entity.User;
-import com.qinweizhao.blog.security.authentication.AuthenticationImpl;
-import com.qinweizhao.blog.security.context.SecurityContextHolder;
-import com.qinweizhao.blog.security.context.SecurityContextImpl;
-import com.qinweizhao.blog.security.handler.DefaultAuthenticationFailureHandler;
-import com.qinweizhao.blog.security.service.OneTimeTokenService;
-import com.qinweizhao.blog.security.support.UserDetail;
-import com.qinweizhao.blog.security.util.AuthUtils;
+import com.qinweizhao.blog.framework.security.util.AuthUtils;
 import com.qinweizhao.blog.service.ConfigService;
 import com.qinweizhao.blog.service.UserService;
 import lombok.extern.slf4j.Slf4j;

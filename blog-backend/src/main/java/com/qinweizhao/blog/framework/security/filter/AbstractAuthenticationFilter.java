@@ -1,14 +1,14 @@
-package com.qinweizhao.blog.security.filter;
+package com.qinweizhao.blog.framework.security.filter;
 
 import com.qinweizhao.blog.config.properties.MyBlogProperties;
 import com.qinweizhao.blog.exception.AbstractHaloException;
 import com.qinweizhao.blog.exception.BadRequestException;
 import com.qinweizhao.blog.exception.ForbiddenException;
 import com.qinweizhao.blog.framework.cache.AbstractStringCacheStore;
-import com.qinweizhao.blog.security.context.SecurityContextHolder;
-import com.qinweizhao.blog.security.handler.AuthenticationFailureHandler;
-import com.qinweizhao.blog.security.handler.DefaultAuthenticationFailureHandler;
-import com.qinweizhao.blog.security.service.OneTimeTokenService;
+import com.qinweizhao.blog.framework.security.context.SecurityContextHolder;
+import com.qinweizhao.blog.framework.security.handler.AuthenticationFailureHandler;
+import com.qinweizhao.blog.framework.security.handler.DefaultAuthenticationFailureHandler;
+import com.qinweizhao.blog.framework.security.service.OneTimeTokenService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.lang.NonNull;

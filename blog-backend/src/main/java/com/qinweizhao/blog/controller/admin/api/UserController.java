@@ -6,7 +6,7 @@ import com.qinweizhao.blog.model.dto.UserDTO;
 import com.qinweizhao.blog.model.param.PasswordParam;
 import com.qinweizhao.blog.model.param.UserUpdateParam;
 import com.qinweizhao.blog.model.support.BaseResponse;
-import com.qinweizhao.blog.security.util.SecurityUtils;
+import com.qinweizhao.blog.framework.security.util.SecurityUtils;
 import com.qinweizhao.blog.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.validation.annotation.Validated;

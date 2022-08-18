@@ -35,3 +35,4 @@ build/
 /blog-resource/logs/spring.log
 
 /blog-frontend/blog-frontend-portal/source/*/min/*.min.*
+/blog-frontend/blog-frontend-admin/pnpm-lock.yaml

@@ -1,4 +1,4 @@
-package com.qinweizhao.blog.security.service;
+package com.qinweizhao.blog.framework.security.service;
 
 import java.util.Optional;
 

@@ -7,7 +7,7 @@ import com.qinweizhao.blog.model.dto.StatisticWithUserDTO;
 import com.qinweizhao.blog.model.entity.User;
 import com.qinweizhao.blog.model.enums.CommentStatus;
 import com.qinweizhao.blog.model.enums.PostStatus;
-import com.qinweizhao.blog.security.util.SecurityUtils;
+import com.qinweizhao.blog.framework.security.util.SecurityUtils;
 import com.qinweizhao.blog.service.*;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;

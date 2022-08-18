@@ -3,7 +3,6 @@ package com.qinweizhao.blog.framework.cache;
 import com.qinweizhao.blog.config.properties.MyBlogProperties;
 import com.qinweizhao.blog.util.DateUtils;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
@@ -28,8 +27,8 @@ public abstract class AbstractCacheStore<K, V> implements CacheStore<K, V> {
      * @param key key must not be null
      * @return an optional cache wrapper
      */
-    @NonNull
-    abstract Optional<CacheWrapper<V>> getInternal(@NonNull K key);
+
+    abstract Optional<CacheWrapper<V>> getInternal(K key);
 
     /**
      * Puts the cache wrapper.
@@ -37,7 +36,7 @@ public abstract class AbstractCacheStore<K, V> implements CacheStore<K, V> {
      * @param key          key must not be null
      * @param cacheWrapper cache wrapper must not be null
      */
-    abstract void putInternal(@NonNull K key, @NonNull CacheWrapper<V> cacheWrapper);
+    abstract void putInternal(K key, CacheWrapper<V> cacheWrapper);
 
     /**
      * Puts the cache wrapper if the key is absent.
@@ -46,7 +45,7 @@ public abstract class AbstractCacheStore<K, V> implements CacheStore<K, V> {
      * @param cacheWrapper cache wrapper must not be null
      * @return true if the key is absent and the value is set, false if the key is present before, or null if any other reason
      */
-    abstract Boolean putInternalIfAbsent(@NonNull K key, @NonNull CacheWrapper<V> cacheWrapper);
+    abstract Boolean putInternalIfAbsent(K key, CacheWrapper<V> cacheWrapper);
 
     @Override
     public Optional<V> get(K key) {
@@ -92,8 +91,8 @@ public abstract class AbstractCacheStore<K, V> implements CacheStore<K, V> {
      * @param timeUnit timeout unit must
      * @return cache wrapper
      */
-    @NonNull
-    private CacheWrapper<V> buildCacheWrapper(@NonNull V value, long timeout, @Nullable TimeUnit timeUnit) {
+
+    private CacheWrapper<V> buildCacheWrapper(V value, long timeout, @Nullable TimeUnit timeUnit) {
         Assert.notNull(value, "Cache value must not be null");
         Assert.isTrue(timeout >= 0, "Cache expiration timeout must not be less than 1");
 

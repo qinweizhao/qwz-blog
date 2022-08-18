@@ -1,7 +1,5 @@
 package com.qinweizhao.blog.framework.cache;
 
-import org.springframework.lang.NonNull;
-
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
@@ -21,8 +19,7 @@ public interface CacheStore<K, V> {
      * @param key must not be null
      * @return cache value
      */
-    @NonNull
-    Optional<V> get(@NonNull K key);
+    Optional<V> get(K key);
 
     /**
      * Puts a cache which will be expired.
@@ -32,7 +29,7 @@ public interface CacheStore<K, V> {
      * @param timeout  the key expiration must not be less than 1
      * @param timeUnit timeout unit
      */
-    void put(@NonNull K key, @NonNull V value, long timeout, @NonNull TimeUnit timeUnit);
+    void put(K key, V value, long timeout, TimeUnit timeUnit);
 
     /**
      * Puts a cache which will be expired if the key is absent.
@@ -43,7 +40,7 @@ public interface CacheStore<K, V> {
      * @param timeUnit timeout unit must not be null
      * @return true if the key is absent and the value is set, false if the key is present before, or null if any other reason
      */
-    Boolean putIfAbsent(@NonNull K key, @NonNull V value, long timeout, @NonNull TimeUnit timeUnit);
+    Boolean putIfAbsent(K key, V value, long timeout, TimeUnit timeUnit);
 
     /**
      * Puts a non-expired cache.
@@ -51,13 +48,13 @@ public interface CacheStore<K, V> {
      * @param key   cache key must not be null
      * @param value cache value must not be null
      */
-    void put(@NonNull K key, @NonNull V value);
+    void put(K key, V value);
 
     /**
      * Delete a key.
      *
      * @param key cache key must not be null
      */
-    void delete(@NonNull K key);
+    void delete(K key);
 
 }
