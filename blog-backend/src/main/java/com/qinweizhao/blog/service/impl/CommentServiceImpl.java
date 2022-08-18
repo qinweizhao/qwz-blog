@@ -5,6 +5,10 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.qinweizhao.blog.exception.BadRequestException;
 import com.qinweizhao.blog.exception.ForbiddenException;
 import com.qinweizhao.blog.exception.NotFoundException;
+import com.qinweizhao.blog.framework.event.comment.CommentNewEvent;
+import com.qinweizhao.blog.framework.event.comment.CommentReplyEvent;
+import com.qinweizhao.blog.framework.security.authentication.Authentication;
+import com.qinweizhao.blog.framework.security.context.SecurityContextHolder;
 import com.qinweizhao.blog.mapper.CommentMapper;
 import com.qinweizhao.blog.mapper.JournalMapper;
 import com.qinweizhao.blog.mapper.PostMapper;
@@ -22,8 +26,6 @@ import com.qinweizhao.blog.model.param.CommentQueryParam;
 import com.qinweizhao.blog.model.projection.CommentCountProjection;
 import com.qinweizhao.blog.model.properties.BlogProperties;
 import com.qinweizhao.blog.model.properties.CommentProperties;
-import com.qinweizhao.blog.framework.security.authentication.Authentication;
-import com.qinweizhao.blog.framework.security.context.SecurityContextHolder;
 import com.qinweizhao.blog.service.CommentBlackListService;
 import com.qinweizhao.blog.service.CommentService;
 import com.qinweizhao.blog.service.ConfigService;
@@ -34,6 +36,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
@@ -68,6 +71,8 @@ public class CommentServiceImpl implements CommentService {
     private final ConfigService configService;
 
     private final UserService userService;
+
+    private final ApplicationEventPublisher eventPublisher;
 
     private final CommentBlackListService commentBlackListService;
 
@@ -221,8 +226,15 @@ public class CommentServiceImpl implements CommentService {
         // 设置类型
         comment.setType(type.getValue());
 
-        // todo
-        // event
+        if (ServiceUtils.isEmptyId(comment.getParentId())) {
+            if (authentication == null) {
+                // New comment of guest
+                eventPublisher.publishEvent(new CommentNewEvent(this, comment.getId()));
+            }
+        } else {
+            // Reply comment
+            eventPublisher.publishEvent(new CommentReplyEvent(this, comment.getId()));
+        }
 
         int i = commentMapper.insert(comment);
         return i > 0;
@@ -337,14 +349,14 @@ public class CommentServiceImpl implements CommentService {
         if (CollectionUtils.isEmpty(postIds)) {
             return Collections.emptyMap();
         }
-        List<CommentCountProjection> commentCountProjections = commentMapper.selectCountByTypeAndTargetIds(type,postIds);
+        List<CommentCountProjection> commentCountProjections = commentMapper.selectCountByTypeAndTargetIds(type, postIds);
         return ServiceUtils.convertToMap(commentCountProjections, CommentCountProjection::getTargetId, CommentCountProjection::getCount);
     }
 
     @Override
     public PageResult<CommentDTO> pageTree(Integer targetId, CommentQueryParam param) {
 
-        List<Comment> comments = commentMapper.selectListByTypeAndTargetId(param.getType(),targetId);
+        List<Comment> comments = commentMapper.selectListByTypeAndTargetId(param.getType(), targetId);
 
         return this.buildPageTree(comments, param);
     }
@@ -413,14 +425,11 @@ public class CommentServiceImpl implements CommentService {
             return;
         }
 
-        // Get children
         List<Comment> children = comments.stream()
                 .filter(comment -> Objects.equals(parentComment.getId(), comment.getParentId()))
                 .collect(Collectors.toList());
 
-        // Add children
         children.forEach(comment -> {
-            // Convert to comment vo
             CommentDTO commentDTO = CommentConvert.INSTANCE.convert(comment);
 
             if (parentComment.getChildren() == null) {
@@ -430,13 +439,10 @@ public class CommentServiceImpl implements CommentService {
             parentComment.getChildren().add(commentDTO);
         });
 
-        // Remove children
         comments.removeAll(children);
 
         if (!CollectionUtils.isEmpty(parentComment.getChildren())) {
-            // Recursively concrete the children
             parentComment.getChildren().forEach(childComment -> concreteTree(childComment, comments));
-
         }
     }
 
