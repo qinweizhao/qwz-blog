@@ -1,6 +1,6 @@
 package com.qinweizhao.blog.mail;
 
-import com.qinweizhao.blog.framework.event.options.OptionUpdatedEvent;
+import com.qinweizhao.blog.framework.event.options.ConfigUpdatedEvent;
 import com.qinweizhao.blog.service.ConfigService;
 import freemarker.template.Template;
 import lombok.extern.slf4j.Slf4j;
@@ -23,7 +23,7 @@ import java.util.Map;
  */
 @Slf4j
 @Service
-public class MailServiceImpl extends AbstractMailService implements ApplicationListener<OptionUpdatedEvent> {
+public class MailServiceImpl extends AbstractMailService implements ApplicationListener<ConfigUpdatedEvent> {
 
     private final FreeMarkerConfigurer freeMarker;
 
@@ -73,7 +73,7 @@ public class MailServiceImpl extends AbstractMailService implements ApplicationL
 
 
     @Override
-    public void onApplicationEvent(@NotNull OptionUpdatedEvent event) {
+    public void onApplicationEvent(@NotNull ConfigUpdatedEvent event) {
         clearCache();
     }
 }

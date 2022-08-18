@@ -8,6 +8,7 @@ import com.qinweizhao.blog.model.dto.ConfigDTO;
 import com.qinweizhao.blog.model.dto.ConfigSimpleDTO;
 import com.qinweizhao.blog.model.entity.Config;
 import com.qinweizhao.blog.model.enums.ValueEnum;
+import com.qinweizhao.blog.model.param.ConfigParam;
 import com.qinweizhao.blog.model.param.ConfigQueryParam;
 import com.qinweizhao.blog.model.properties.PropertyEnum;
 import org.springframework.lang.Nullable;
@@ -33,10 +34,7 @@ public interface ConfigService extends IService<Config> {
 
     int DEFAULT_COMMENT_PAGE_SIZE = 10;
 
-    int DEFAULT_RSS_PAGE_SIZE = 20;
-
     String OPTIONS_KEY = "options";
-
 
     /**
      * 构建完整路径
@@ -45,7 +43,6 @@ public interface ConfigService extends IService<Config> {
      * @return String
      */
     String buildFullPath(Integer postId);
-
 
     /**
      * 保存属性
@@ -381,10 +378,9 @@ public interface ConfigService extends IService<Config> {
     /**
      * Is enabled absolute path.
      *
-     * @return true or false.
+     * @return boolean
      */
-    Boolean isEnabledAbsolutePath();
-
+    boolean isEnabledAbsolutePath();
 
     /**
      * 博客注册时间
@@ -401,4 +397,10 @@ public interface ConfigService extends IService<Config> {
      */
     PageResult<ConfigSimpleDTO> pageSimple(ConfigQueryParam configQueryParam);
 
+    /**
+     * 新增
+     * @param param param
+     * @return boolean
+     */
+    boolean save(ConfigParam param);
 }

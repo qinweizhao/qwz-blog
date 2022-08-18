@@ -69,8 +69,7 @@ public class ConfigController {
     @PostMapping
     @DisableOnCondition
     public Boolean create(@RequestBody @Valid ConfigParam param) {
-        Config config = ConfigConvert.INSTANCE.convert(param);
-        return configService.save(config);
+        return configService.save(param);
     }
 
     /**

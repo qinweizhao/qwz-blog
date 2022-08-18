@@ -1,6 +1,6 @@
 package com.qinweizhao.blog.framework.listener.freemarker;
 
-import com.qinweizhao.blog.framework.event.options.OptionUpdatedEvent;
+import com.qinweizhao.blog.framework.event.options.ConfigUpdatedEvent;
 import com.qinweizhao.blog.framework.event.user.UserUpdatedEvent;
 import com.qinweizhao.blog.model.properties.BlogProperties;
 import com.qinweizhao.blog.model.properties.SeoProperties;
@@ -59,12 +59,12 @@ public class FreemarkerConfigAwareListener {
 
     private void loadUserConfig() throws TemplateModelException {
         configuration.setSharedVariable("user", userService.getCurrentUser().orElse(null));
-        log.debug("Loaded user");
+        log.debug("加载用户");
     }
 
 
     @EventListener
-    public void onOptionUpdate(OptionUpdatedEvent event) throws TemplateModelException {
+    public void onOptionUpdate(ConfigUpdatedEvent event) throws TemplateModelException {
         log.debug("收到配置更新事件时间：{}", event.getTimestamp());
 
         loadOptionsConfig();
@@ -86,8 +86,8 @@ public class FreemarkerConfigAwareListener {
         configuration.setSharedVariable("seo_keywords", configService.getByPropertyOrDefault(SeoProperties.KEYWORDS, String.class, SeoProperties.KEYWORDS.defaultValue()));
         configuration.setSharedVariable("seo_description", configService.getByPropertyOrDefault(SeoProperties.DESCRIPTION, String.class, SeoProperties.DESCRIPTION.defaultValue()));
 
-        configuration.setSharedVariable("rss_url", blogBaseUrl + "/rss.xml");
-        configuration.setSharedVariable("atom_url", blogBaseUrl + "/atom.xml");
+//        configuration.setSharedVariable("rss_url", blogBaseUrl + "/rss.xml");
+//        configuration.setSharedVariable("atom_url", blogBaseUrl + "/atom.xml");
         configuration.setSharedVariable("sitemap_xml_url", blogBaseUrl + "/sitemap.xml");
         configuration.setSharedVariable("sitemap_html_url", blogBaseUrl + "/sitemap.html");
         configuration.setSharedVariable("links_url", context + configService.getLinksPrefix());

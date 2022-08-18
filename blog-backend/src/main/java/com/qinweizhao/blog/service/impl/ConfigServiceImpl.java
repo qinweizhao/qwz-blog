@@ -5,7 +5,7 @@ import com.qiniu.storage.Region;
 import com.qinweizhao.blog.config.properties.MyBlogProperties;
 import com.qinweizhao.blog.exception.MissingPropertyException;
 import com.qinweizhao.blog.framework.cache.AbstractStringCacheStore;
-import com.qinweizhao.blog.framework.event.options.OptionUpdatedEvent;
+import com.qinweizhao.blog.framework.event.options.ConfigUpdatedEvent;
 import com.qinweizhao.blog.mapper.ConfigMapper;
 import com.qinweizhao.blog.model.convert.ConfigConvert;
 import com.qinweizhao.blog.model.core.PageResult;
@@ -13,6 +13,7 @@ import com.qinweizhao.blog.model.dto.ConfigDTO;
 import com.qinweizhao.blog.model.dto.ConfigSimpleDTO;
 import com.qinweizhao.blog.model.entity.Config;
 import com.qinweizhao.blog.model.enums.ValueEnum;
+import com.qinweizhao.blog.model.param.ConfigParam;
 import com.qinweizhao.blog.model.param.ConfigQueryParam;
 import com.qinweizhao.blog.model.properties.*;
 import com.qinweizhao.blog.service.ConfigService;
@@ -37,7 +38,7 @@ import static com.qinweizhao.blog.model.support.HaloConst.URL_SEPARATOR;
  * OptionService implementation class
  *
  * @author ryanwang
- * @author johnniang
+ * @author qinweizhao
  * @since 2019-03-14
  */
 @Slf4j
@@ -372,7 +373,7 @@ public class ConfigServiceImpl extends ServiceImpl<ConfigMapper, Config> impleme
     }
 
     @Override
-    public Boolean isEnabledAbsolutePath() {
+    public boolean isEnabledAbsolutePath() {
         return getByPropertyOrDefault(OtherProperties.GLOBAL_ABSOLUTE_PATH_ENABLED, Boolean.class, true);
     }
 
@@ -392,14 +393,16 @@ public class ConfigServiceImpl extends ServiceImpl<ConfigMapper, Config> impleme
     }
 
     @Override
+    public boolean save(ConfigParam param) {
+        this.save(Collections.singletonMap(param.getKey(), param.getValue()));
+        return true;
+    }
+
+    @Override
     public void saveProperty(PropertyEnum property, String value) {
-        this.save(property.getValue(), value);
-    }
+        this.save(Collections.singletonMap(property.getValue(), value));
 
-    private void save(String key, String value) {
-        this.save(Collections.singletonMap(key, value));
     }
-
 
     @Override
     public void save(Map<String, Object> optionMap) {
@@ -421,10 +424,8 @@ public class ConfigServiceImpl extends ServiceImpl<ConfigMapper, Config> impleme
                 config.setOptionValue(String.valueOf(value));
 
                 if (oldConfig == null) {
-                    // Create it
                     optionsToCreate.add(config);
                 } else if (!StringUtils.equals(oldConfig.getOptionValue(), value.toString())) {
-                    // Update it
                     config.setId(oldConfig.getId());
                     optionsToUpdate.add(config);
                 }
@@ -438,12 +439,11 @@ public class ConfigServiceImpl extends ServiceImpl<ConfigMapper, Config> impleme
         this.saveBatch(optionsToCreate);
 
         if (!CollectionUtils.isEmpty(optionsToUpdate) || !CollectionUtils.isEmpty(optionsToCreate)) {
-            // If there is something changed
+            // 如果有什么改变
             publishOptionUpdatedEvent();
         }
 
     }
-
 
     /**
      * 清除缓存
@@ -453,9 +453,10 @@ public class ConfigServiceImpl extends ServiceImpl<ConfigMapper, Config> impleme
     }
 
     private void publishOptionUpdatedEvent() {
-//        flush();
+        log.debug("配置变动，清除缓存开始。");
         cleanCache();
-        eventPublisher.publishEvent(new OptionUpdatedEvent(this));
+        log.debug("配置变动，清除缓存完成。");
+        eventPublisher.publishEvent(new ConfigUpdatedEvent(this));
     }
 }
 
