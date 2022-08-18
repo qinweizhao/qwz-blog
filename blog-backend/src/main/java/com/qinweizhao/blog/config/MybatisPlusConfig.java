@@ -16,7 +16,7 @@ import org.springframework.context.annotation.Configuration;
 public class MybatisPlusConfig {
 
     /**
-     * 新的分页插件
+     * 分页插件
      */
     @Bean
     public MybatisPlusInterceptor mybatisPlusInterceptor() {

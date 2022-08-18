@@ -20,15 +20,6 @@
       <a-form-model-item help="* 包括标签所属文章页面、分类所属文章页面" label="归档页面每页文章条数：">
         <a-input-number v-model="options.post_archives_page_size" :min="1" style="width: 100%" />
       </a-form-model-item>
-      <a-form-model-item label="RSS 内容类型：">
-        <a-select v-model="options.rss_content_type">
-          <a-select-option value="full">全文</a-select-option>
-          <a-select-option value="summary">摘要</a-select-option>
-        </a-select>
-      </a-form-model-item>
-      <a-form-model-item label="RSS 内容条数：">
-        <a-input-number v-model="options.rss_page_size" :min="1" style="width: 100%" />
-      </a-form-model-item>
       <a-form-model-item label="文章摘要字数：">
         <a-input-number v-model="options.post_summary_length" style="width: 100%" />
       </a-form-model-item>

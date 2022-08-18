@@ -29,7 +29,7 @@ import java.security.NoSuchAlgorithmException;
 @Slf4j
 @Configuration
 @EnableConfigurationProperties(MyBlogProperties.class)
-public class BlogConfiguration {
+public class MyBlogConfiguration {
 
     @Resource
     private MyBlogProperties myBlogProperties;

@@ -14,10 +14,8 @@ import org.springframework.web.util.HtmlUtils;
 import java.nio.charset.StandardCharsets;
 
 /**
- * 日志 controller.
- *
- * @author johnniang
- * @author ryanwang
+ * 前台-日志
+ * @author qinweizhao
  * @since 2019-04-26l
  */
 @RestController("ApiContentJournalController")

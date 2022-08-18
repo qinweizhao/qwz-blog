@@ -2,14 +2,13 @@ package com.qinweizhao.blog.config;
 
 import com.qinweizhao.blog.config.properties.MyBlogProperties;
 import lombok.extern.slf4j.Slf4j;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.util.PathMatcher;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
-import java.nio.file.Files;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -21,7 +20,7 @@ import static com.qinweizhao.blog.util.HaloUtils.ensureBoth;
  * @since 2020-03-24
  */
 @Slf4j
-public class HaloRequestMappingHandlerMapping extends RequestMappingHandlerMapping {
+public class MyRequestMappingHandlerMapping extends RequestMappingHandlerMapping {
 
     private final Set<String> blackPatterns = new HashSet<>(16);
 
@@ -29,14 +28,14 @@ public class HaloRequestMappingHandlerMapping extends RequestMappingHandlerMappi
 
     private final MyBlogProperties myBlogProperties;
 
-    public HaloRequestMappingHandlerMapping(MyBlogProperties myBlogProperties) {
+    public MyRequestMappingHandlerMapping(MyBlogProperties myBlogProperties) {
         this.myBlogProperties = myBlogProperties;
         this.initBlackPatterns();
         pathMatcher = new AntPathMatcher();
     }
 
     @Override
-    protected HandlerMethod lookupHandlerMethod(String lookupPath, HttpServletRequest request) throws Exception {
+    protected HandlerMethod lookupHandlerMethod(@NotNull String lookupPath, @NotNull HttpServletRequest request) throws Exception {
         log.debug("寻找路径: [{}]", lookupPath);
         for (String blackPattern : blackPatterns) {
             if (this.pathMatcher.match(blackPattern, lookupPath)) {

@@ -13,6 +13,7 @@ import java.util.Properties;
  * Java mail sender factory.
  *
  * @author johnniang
+ * @author qinweizhao
  */
 public class MailSenderFactory {
 
@@ -24,11 +25,11 @@ public class MailSenderFactory {
      */
     @NonNull
     public JavaMailSender getMailSender(@NonNull MailProperties mailProperties) {
-        Assert.notNull(mailProperties, "Mail properties must not be null");
+        Assert.notNull(mailProperties, "邮件属性不能为空");
 
-        // create mail sender
+        // 创建邮件发件人
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
-        // set properties
+        // 设置属性
         setProperties(mailSender, mailProperties);
 
         return mailSender;

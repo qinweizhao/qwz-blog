@@ -20,6 +20,7 @@ import java.util.Map;
  *
  * @author johnniang
  * @author ryanwang
+ * @author qinweizhao
  * @since 2019-03-20
  */
 @RestController
@@ -30,7 +31,7 @@ public class ConfigController {
     private final ConfigService configService;
 
     /**
-     * map
+     * 配置
      *
      * @return Map
      */
@@ -40,7 +41,7 @@ public class ConfigController {
     }
 
     /**
-     * Lists options with map view by keys
+     * 配置
      *
      * @param keys keys
      * @return Map
@@ -68,7 +69,7 @@ public class ConfigController {
      */
     @PostMapping
     @DisableOnCondition
-    public Boolean create(@RequestBody @Valid ConfigParam param) {
+    public Boolean save(@RequestBody @Valid ConfigParam param) {
         return configService.save(param);
     }
 
@@ -83,9 +84,8 @@ public class ConfigController {
     @DisableOnCondition
     public Boolean updateBy(@PathVariable("configId") Integer configId,
                             @RequestBody @Valid ConfigParam param) {
-        Config config = ConfigConvert.INSTANCE.convert(param);
-        config.setId(configId);
-        return configService.updateById(config);
+        param.setId(configId);
+        return configService.updateById(param);
     }
 
     /**

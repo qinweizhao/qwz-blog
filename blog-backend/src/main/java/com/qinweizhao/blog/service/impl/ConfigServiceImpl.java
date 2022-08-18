@@ -1,6 +1,6 @@
 package com.qinweizhao.blog.service.impl;
 
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.qiniu.storage.Region;
 import com.qinweizhao.blog.config.properties.MyBlogProperties;
 import com.qinweizhao.blog.exception.MissingPropertyException;
@@ -9,7 +9,6 @@ import com.qinweizhao.blog.framework.event.options.ConfigUpdatedEvent;
 import com.qinweizhao.blog.mapper.ConfigMapper;
 import com.qinweizhao.blog.model.convert.ConfigConvert;
 import com.qinweizhao.blog.model.core.PageResult;
-import com.qinweizhao.blog.model.dto.ConfigDTO;
 import com.qinweizhao.blog.model.dto.ConfigSimpleDTO;
 import com.qinweizhao.blog.model.entity.Config;
 import com.qinweizhao.blog.model.enums.ValueEnum;
@@ -27,6 +26,7 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.ObjectUtils;
 
 import javax.annotation.PostConstruct;
 import javax.validation.constraints.NotNull;
@@ -44,7 +44,7 @@ import static com.qinweizhao.blog.model.support.HaloConst.URL_SEPARATOR;
 @Slf4j
 @Service
 @AllArgsConstructor
-public class ConfigServiceImpl extends ServiceImpl<ConfigMapper, Config> implements ConfigService {
+public class ConfigServiceImpl implements ConfigService {
 
     private final ApplicationContext applicationContext;
 
@@ -81,10 +81,11 @@ public class ConfigServiceImpl extends ServiceImpl<ConfigMapper, Config> impleme
         propertyEnumMap = Collections.unmodifiableMap(PropertyEnum.getValuePropertyEnumMap());
     }
 
+    @SuppressWarnings("all")
     @Override
     public @NotNull Map<String, Object> listOptions() {
         return cacheStore.getAny(OPTIONS_KEY, Map.class).orElseGet(() -> {
-            List<Config> configs = list();
+            List<Config> configs = configMapper.selectList(Wrappers.emptyWrapper());
 
             Set<String> keys = ServiceUtils.fetchProperty(configs, Config::getOptionKey);
 
@@ -138,14 +139,6 @@ public class ConfigServiceImpl extends ServiceImpl<ConfigMapper, Config> impleme
         return result;
     }
 
-    @Override
-    public List<ConfigDTO> listDtos() {
-        List<ConfigDTO> result = new LinkedList<>();
-
-        listOptions().forEach((key, value) -> result.add(new ConfigDTO(key, value)));
-
-        return result;
-    }
 
     @Override
     public Object getByKeyOfNullable(String key) {
@@ -394,8 +387,44 @@ public class ConfigServiceImpl extends ServiceImpl<ConfigMapper, Config> impleme
 
     @Override
     public boolean save(ConfigParam param) {
-        this.save(Collections.singletonMap(param.getKey(), param.getValue()));
+        String key = param.getKey();
+        String value = param.getValue();
+        Config dbConfig = configMapper.selectByKey(key);
+        if (ObjectUtils.isEmpty(dbConfig)) {
+            Config config = ConfigConvert.INSTANCE.convert(param);
+            configMapper.insert(config);
+            this.publishOptionUpdatedEvent();
+            return true;
+        } else {
+            if (dbConfig.getOptionValue().equals(value)) {
+                return true;
+            } else {
+                Config config = ConfigConvert.INSTANCE.convert(param);
+                config.setId(dbConfig.getId());
+                configMapper.updateById(config);
+            }
+        }
+        this.publishOptionUpdatedEvent();
         return true;
+    }
+
+    @Override
+    public boolean updateById(ConfigParam param) {
+        Config config = ConfigConvert.INSTANCE.convert(param);
+        int flag = configMapper.updateById(config);
+        if (flag > 0) {
+            this.publishOptionUpdatedEvent();
+        }
+        return flag > 0;
+    }
+
+    @Override
+    public boolean removeById(Integer optionId) {
+        int flag = configMapper.deleteById(optionId);
+        if (flag > 0) {
+            this.publishOptionUpdatedEvent();
+        }
+        return flag > 0;
     }
 
     @Override
@@ -410,12 +439,17 @@ public class ConfigServiceImpl extends ServiceImpl<ConfigMapper, Config> impleme
             return;
         }
 
-        Map<String, Config> optionKeyMap = ServiceUtils.convertToMap(this.list(), Config::getOptionKey);
+        Map<String, Config> optionKeyMap = ServiceUtils.convertToMap(configMapper.selectList(Wrappers.emptyWrapper()), Config::getOptionKey);
 
         List<Config> optionsToCreate = new LinkedList<>();
         List<Config> optionsToUpdate = new LinkedList<>();
 
         optionMap.forEach((key, value) -> {
+            if (ObjectUtils.isEmpty(value)) {
+                int i = configMapper.deleteByKey(key);
+                log.debug("删除配置，key 为：{}，结果是否成功{}", key, i > 0);
+            }
+
             Config oldConfig = optionKeyMap.get(key);
             if (oldConfig == null || !StringUtils.equals(oldConfig.getOptionValue(), value.toString())) {
 
@@ -432,15 +466,15 @@ public class ConfigServiceImpl extends ServiceImpl<ConfigMapper, Config> impleme
             }
         });
 
-        // Update
-        this.updateBatchById(optionsToUpdate);
+        boolean updateFlag = configMapper.updateBatchById(optionsToUpdate);
 
-        // Create
-        this.saveBatch(optionsToCreate);
+        boolean insertFlag = configMapper.insertBatch(optionsToCreate);
+
+        log.debug("更新配置{}，新增配置{}", updateFlag, insertFlag);
 
         if (!CollectionUtils.isEmpty(optionsToUpdate) || !CollectionUtils.isEmpty(optionsToCreate)) {
             // 如果有什么改变
-            publishOptionUpdatedEvent();
+            this.publishOptionUpdatedEvent();
         }
 
     }
@@ -452,6 +486,9 @@ public class ConfigServiceImpl extends ServiceImpl<ConfigMapper, Config> impleme
         cacheStore.delete(OPTIONS_KEY);
     }
 
+    /**
+     * 发布配置更新事件
+     */
     private void publishOptionUpdatedEvent() {
         log.debug("配置变动，清除缓存开始。");
         cleanCache();

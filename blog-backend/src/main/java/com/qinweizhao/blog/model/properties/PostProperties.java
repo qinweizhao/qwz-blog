@@ -17,16 +17,6 @@ public enum PostProperties implements PropertyEnum {
     SUMMARY_LENGTH("post_summary_length", Integer.class, "150"),
 
     /**
-     * Rss page size.
-     */
-    RSS_PAGE_SIZE("rss_page_size", Integer.class, "20"),
-
-    /**
-     * Rss content type,full or summary.
-     */
-    RSS_CONTENT_TYPE("rss_content_type", Integer.class, "full"),
-
-    /**
      * Post index page size.
      */
     INDEX_PAGE_SIZE("post_index_page_size", Integer.class, "10"),

@@ -1,20 +1,27 @@
 package com.qinweizhao.blog.config;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.qinweizhao.blog.config.properties.MyBlogProperties;
 import com.qinweizhao.blog.framework.factory.StringToEnumConverterFactory;
-import com.qinweizhao.blog.model.support.HaloConst;
 import com.qinweizhao.blog.framework.security.resolver.AuthenticationArgumentResolver;
+import com.qinweizhao.blog.model.support.HaloConst;
 import freemarker.core.TemplateClassResolver;
 import freemarker.template.TemplateException;
 import freemarker.template.TemplateExceptionHandler;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.boot.autoconfigure.web.servlet.MultipartProperties;
 import org.springframework.boot.autoconfigure.web.servlet.WebMvcRegistrations;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.boot.jackson.JsonComponentModule;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.http.CacheControl;
+import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
@@ -25,7 +32,6 @@ import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandl
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver;
 
-import javax.annotation.Resource;
 import javax.servlet.MultipartConfigElement;
 import java.io.IOException;
 import java.util.List;
@@ -42,35 +48,28 @@ import static com.qinweizhao.blog.util.HaloUtils.*;
  */
 @Slf4j
 @Configuration
+@AllArgsConstructor
 @EnableConfigurationProperties(MultipartProperties.class)
 public class WebMvcAutoConfiguration implements WebMvcConfigurer {
 
     private static final String FILE_PROTOCOL = "file:///";
 
-//    @Resource
-//    private PageableHandlerMethodArgumentResolver pageableResolver;
-//
-//    @Resource
-//    private SortHandlerMethodArgumentResolver sortResolver;
-
-    @Resource
-    private MyBlogProperties myBlogProperties;
+    private final MyBlogProperties myBlogProperties;
 
 
-//    @Override
-//    public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
-//        converters.stream()
-//                .filter(c -> c instanceof MappingJackson2HttpMessageConverter)
-//                .findFirst()
-//                .ifPresent(converter -> {
-//                    MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter = (MappingJackson2HttpMessageConverter) converter;
-//                    Jackson2ObjectMapperBuilder builder = Jackson2ObjectMapperBuilder.json();
-//                    JsonComponentModule module = new JsonComponentModule();
-//                    module.addSerializer(PageImpl.class, new PageJacksonSerializer());
-//                    ObjectMapper objectMapper = builder.modules(module).build();
-//                    mappingJackson2HttpMessageConverter.setObjectMapper(objectMapper);
-//                });
-//    }
+    @Override
+    public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
+        converters.stream()
+                .filter(c -> c instanceof MappingJackson2HttpMessageConverter)
+                .findFirst()
+                .ifPresent(converter -> {
+                    MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter = (MappingJackson2HttpMessageConverter) converter;
+                    Jackson2ObjectMapperBuilder builder = Jackson2ObjectMapperBuilder.json();
+                    JsonComponentModule module = new JsonComponentModule();
+                    ObjectMapper objectMapper = builder.modules(module).build();
+                    mappingJackson2HttpMessageConverter.setObjectMapper(objectMapper);
+                });
+    }
 
 
     @Override
@@ -84,7 +83,7 @@ public class WebMvcAutoConfiguration implements WebMvcConfigurer {
      * @param registry registry
      */
     @Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+    public void addResourceHandlers(@NotNull ResourceHandlerRegistry registry) {
         String workDir = FILE_PROTOCOL + ensureSuffix(myBlogProperties.getWorkDir(), FILE_SEPARATOR);
         String uploadUrlPattern = ensureBoth(myBlogProperties.getUploadUrlPrefix(), URL_SEPARATOR) + "**";
         String adminPathPattern = ensureSuffix(myBlogProperties.getAdminPath(), URL_SEPARATOR) + "**";
@@ -173,7 +172,7 @@ public class WebMvcAutoConfiguration implements WebMvcConfigurer {
         resolver.setMaxUploadSize(multipartConfigElement.getMaxRequestSize());
         resolver.setMaxUploadSizePerFile(multipartConfigElement.getMaxFileSize());
 
-        //lazy multipart parsing, throwing parse exceptions once the application attempts to obtain multipart files
+        // 惰性多部分解析，一旦应用程序尝试获取多部分文件，就会抛出解析异常
         resolver.setResolveLazily(true);
 
         return resolver;
@@ -202,7 +201,7 @@ public class WebMvcAutoConfiguration implements WebMvcConfigurer {
         return new WebMvcRegistrations() {
             @Override
             public RequestMappingHandlerMapping getRequestMappingHandlerMapping() {
-                return new HaloRequestMappingHandlerMapping(myBlogProperties);
+                return new MyRequestMappingHandlerMapping(myBlogProperties);
             }
         };
     }

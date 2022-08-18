@@ -17,6 +17,8 @@ import javax.validation.constraints.Size;
 @Data
 public class ConfigParam {
 
+    private Integer id;
+
     @NotBlank(message = "Option key must not be blank")
     @Size(max = 100, message = "Length of option key must not be more than {max}")
     private String key;

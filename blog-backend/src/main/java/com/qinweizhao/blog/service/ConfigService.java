@@ -1,12 +1,9 @@
 package com.qinweizhao.blog.service;
 
-import com.baomidou.mybatisplus.extension.service.IService;
 import com.qiniu.storage.Region;
 import com.qinweizhao.blog.exception.MissingPropertyException;
 import com.qinweizhao.blog.model.core.PageResult;
-import com.qinweizhao.blog.model.dto.ConfigDTO;
 import com.qinweizhao.blog.model.dto.ConfigSimpleDTO;
-import com.qinweizhao.blog.model.entity.Config;
 import com.qinweizhao.blog.model.enums.ValueEnum;
 import com.qinweizhao.blog.model.param.ConfigParam;
 import com.qinweizhao.blog.model.param.ConfigQueryParam;
@@ -26,7 +23,7 @@ import java.util.Optional;
  * @author ryanwang
  * @since 2019-03-14
  */
-public interface ConfigService extends IService<Config> {
+public interface ConfigService {
 
     int DEFAULT_POST_PAGE_SIZE = 10;
 
@@ -74,16 +71,8 @@ public interface ConfigService extends IService<Config> {
      * @param keys key list
      * @return a map of option
      */
-
     Map<String, Object> listOptions(@Nullable List<String> keys);
 
-    /**
-     * Lists all option dtos.
-     *
-     * @return a list of option dto
-     */
-
-    List<ConfigDTO> listDtos();
 
     /**
      * Get option by key
@@ -399,8 +388,26 @@ public interface ConfigService extends IService<Config> {
 
     /**
      * 新增
+     *
      * @param param param
      * @return boolean
      */
     boolean save(ConfigParam param);
+
+    /**
+     * 更新
+     *
+     * @param param param
+     * @return boolean
+     */
+    boolean updateById(ConfigParam param);
+
+    /**
+     * 删除
+     *
+     * @param optionId optionId
+     * @return boolean
+     */
+    boolean removeById(Integer optionId);
+
 }

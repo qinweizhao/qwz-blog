@@ -18,7 +18,7 @@ import org.springframework.web.util.HtmlUtils;
 import java.nio.charset.StandardCharsets;
 
 /**
- * 内容发布控制器
+ * 前台-文章
  *
  * @author johnniang
  * @author qinweizhao
