@@ -77,7 +77,6 @@
   </div>
 </template>
 <script>
-import apiClient from '@/utils/api-client'
 import mailApi from '@/api/mail'
 
 export default {
