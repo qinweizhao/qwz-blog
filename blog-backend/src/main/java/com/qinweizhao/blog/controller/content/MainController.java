@@ -41,7 +41,7 @@ public class MainController {
     private MyBlogProperties myBlogProperties;
 
 
-    @GetMapping("${halo.admin-path:admin}")
+    @GetMapping("${blog.admin-path:admin}")
     public void admin(HttpServletResponse response) throws IOException {
         String adminIndexRedirectUri = HaloUtils.ensureBoth(myBlogProperties.getAdminPath(), HaloUtils.URL_SEPARATOR) + INDEX_REDIRECT_URI;
         response.sendRedirect(adminIndexRedirectUri);

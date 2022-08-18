@@ -68,7 +68,7 @@
 
     <select id="selectCountLikes" resultType="java.lang.Long">
         select sum(p.likes)
-        from Post p
+        from post p
     </select>
 
 
