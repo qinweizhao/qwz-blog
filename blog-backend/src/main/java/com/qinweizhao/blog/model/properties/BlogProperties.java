@@ -1,7 +1,5 @@
 package com.qinweizhao.blog.model.properties;
 
-import javax.annotation.Resource;
-
 /**
  * @author ryanwang
  * @since 2019-03-17

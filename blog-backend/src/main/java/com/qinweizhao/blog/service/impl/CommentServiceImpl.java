@@ -169,9 +169,8 @@ public class CommentServiceImpl implements CommentService {
             User user = authentication.getDetail().getUser();
             param.setAuthor(StringUtils.isBlank(user.getNickname()) ? user.getUsername() : user.getNickname());
             param.setEmail(user.getEmail());
-            param.setAuthorUrl(configService.getByPropertyOrDefault(BlogProperties.BLOG_URL, String.class, null));
+            param.setAuthorUrl(configService.getBlogBaseUrl());
         }
-
 
         if (authentication == null) {
             if (userService.getByEmail(param.getEmail()).isPresent()) {
