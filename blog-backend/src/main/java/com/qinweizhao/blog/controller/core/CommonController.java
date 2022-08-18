@@ -1,6 +1,6 @@
 package com.qinweizhao.blog.controller.core;
 
-import com.qinweizhao.blog.exception.AbstractHaloException;
+import com.qinweizhao.blog.exception.BaseException;
 import com.qinweizhao.blog.exception.NotFoundException;
 import com.qinweizhao.blog.service.ConfigService;
 import com.qinweizhao.blog.service.ThemeService;
@@ -161,8 +161,8 @@ public class CommonController extends AbstractErrorController {
         if (throwable instanceof NestedServletException) {
             log.error("Captured an exception", throwable);
             Throwable rootCause = ((NestedServletException) throwable).getRootCause();
-            if (rootCause instanceof AbstractHaloException) {
-                AbstractHaloException haloException = (AbstractHaloException) rootCause;
+            if (rootCause instanceof BaseException) {
+                BaseException haloException = (BaseException) rootCause;
                 request.setAttribute("javax.servlet.error.status_code", haloException.getStatus().value());
                 request.setAttribute("javax.servlet.error.exception", rootCause);
                 request.setAttribute("javax.servlet.error.message", haloException.getMessage());

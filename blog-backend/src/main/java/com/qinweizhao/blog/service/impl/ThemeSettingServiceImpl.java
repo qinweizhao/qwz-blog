@@ -108,8 +108,8 @@ public class ThemeSettingServiceImpl implements ThemeSettingService {
     private void saveItem(String key, String value) {
         if (ObjectUtils.isEmpty(value)) {
             log.debug("主题配置");
-            log.debug("删除主题配置，key:{}", key);
-            themeSettingMapper.deleteByKey(key);
+            int i = themeSettingMapper.deleteByKey(key);
+            log.debug("删除主题配置{}条，key:{}", i, key);
             return;
         }
 

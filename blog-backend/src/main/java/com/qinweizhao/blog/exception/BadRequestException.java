@@ -7,7 +7,7 @@ import org.springframework.http.HttpStatus;
  *
  * @author johnniang
  */
-public class BadRequestException extends AbstractHaloException {
+public class BadRequestException extends BaseException {
 
     public BadRequestException(String message) {
         super(message);

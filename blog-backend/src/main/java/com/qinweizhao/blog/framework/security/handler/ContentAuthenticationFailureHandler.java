@@ -1,6 +1,6 @@
 package com.qinweizhao.blog.framework.security.handler;
 
-import com.qinweizhao.blog.exception.AbstractHaloException;
+import com.qinweizhao.blog.exception.BaseException;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -16,7 +16,7 @@ import java.io.IOException;
 public class ContentAuthenticationFailureHandler implements AuthenticationFailureHandler {
 
     @Override
-    public void onFailure(HttpServletRequest request, HttpServletResponse response, AbstractHaloException exception) throws IOException, ServletException {
+    public void onFailure(HttpServletRequest request, HttpServletResponse response, BaseException exception) throws IOException, ServletException {
 
         // Forward to error
         request.getRequestDispatcher(request.getContextPath() + "/error").forward(request, response);

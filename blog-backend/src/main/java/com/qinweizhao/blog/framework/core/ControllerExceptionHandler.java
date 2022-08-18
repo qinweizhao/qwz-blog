@@ -1,6 +1,6 @@
 package com.qinweizhao.blog.framework.core;
 
-import com.qinweizhao.blog.exception.AbstractHaloException;
+import com.qinweizhao.blog.exception.BaseException;
 import com.qinweizhao.blog.model.support.BaseResponse;
 import com.qinweizhao.blog.util.ExceptionUtils;
 import com.qinweizhao.blog.util.ValidationUtils;
@@ -113,8 +113,8 @@ public class ControllerExceptionHandler {
         return response;
     }
 
-    @ExceptionHandler(AbstractHaloException.class)
-    public ResponseEntity<BaseResponse<?>> handleHaloException(AbstractHaloException e) {
+    @ExceptionHandler(BaseException.class)
+    public ResponseEntity<BaseResponse<?>> handleHaloException(BaseException e) {
         BaseResponse<Object> baseResponse = handleBaseException(e);
         baseResponse.setStatus(e.getStatus().value());
         baseResponse.setData(e.getErrorData());

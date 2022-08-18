@@ -7,7 +7,7 @@ import org.springframework.http.HttpStatus;
  *
  * @author johnniang
  */
-public class NotFoundException extends AbstractHaloException {
+public class NotFoundException extends BaseException {
 
     public NotFoundException(String message) {
         super(message);

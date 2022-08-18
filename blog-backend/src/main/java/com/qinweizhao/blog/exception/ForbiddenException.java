@@ -7,7 +7,7 @@ import org.springframework.http.HttpStatus;
  *
  * @author johnniang
  */
-public class ForbiddenException extends AbstractHaloException {
+public class ForbiddenException extends BaseException {
 
     public ForbiddenException(String message) {
         super(message);

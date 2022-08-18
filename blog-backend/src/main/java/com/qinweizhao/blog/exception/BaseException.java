@@ -9,18 +9,18 @@ import org.springframework.http.HttpStatus;
  * @author ryan0up
  * @since 2019-03-15
  */
-public abstract class AbstractHaloException extends RuntimeException {
+public abstract class BaseException extends RuntimeException {
 
     /**
      * Error errorData.
      */
     private Object errorData;
 
-    public AbstractHaloException(String message) {
+    public BaseException(String message) {
         super(message);
     }
 
-    public AbstractHaloException(String message, Throwable cause) {
+    public BaseException(String message, Throwable cause) {
         super(message, cause);
     }
 
@@ -44,7 +44,7 @@ public abstract class AbstractHaloException extends RuntimeException {
      * @return current exception.
      */
 
-    public AbstractHaloException setErrorData(Object errorData) {
+    public BaseException setErrorData(Object errorData) {
         this.errorData = errorData;
         return this;
     }

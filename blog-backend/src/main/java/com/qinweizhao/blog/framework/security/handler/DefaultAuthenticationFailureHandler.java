@@ -2,7 +2,7 @@ package com.qinweizhao.blog.framework.security.handler;
 
 import cn.hutool.extra.servlet.ServletUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.qinweizhao.blog.exception.AbstractHaloException;
+import com.qinweizhao.blog.exception.BaseException;
 import com.qinweizhao.blog.model.support.BaseResponse;
 import com.qinweizhao.blog.util.ExceptionUtils;
 import com.qinweizhao.blog.util.JsonUtils;
@@ -31,7 +31,7 @@ public class DefaultAuthenticationFailureHandler implements AuthenticationFailur
     }
 
     @Override
-    public void onFailure(HttpServletRequest request, HttpServletResponse response, AbstractHaloException exception) throws IOException {
+    public void onFailure(HttpServletRequest request, HttpServletResponse response, BaseException exception) throws IOException {
         log.warn("Handle unsuccessful authentication, ip: [{}]", ServletUtil.getClientIP(request));
         log.error("Authentication failure: [{}], status: [{}], data: [{}]", exception.getMessage(), exception.getStatus(), exception.getErrorData());
 

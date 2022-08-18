@@ -1,6 +1,6 @@
 package com.qinweizhao.blog.framework.security.handler;
 
-import com.qinweizhao.blog.exception.AbstractHaloException;
+import com.qinweizhao.blog.exception.BaseException;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -23,5 +23,5 @@ public interface AuthenticationFailureHandler {
      * @throws IOException      io exception
      * @throws ServletException service exception
      */
-    void onFailure(HttpServletRequest request, HttpServletResponse response, AbstractHaloException exception) throws IOException, ServletException;
+    void onFailure(HttpServletRequest request, HttpServletResponse response, BaseException exception) throws IOException, ServletException;
 }
