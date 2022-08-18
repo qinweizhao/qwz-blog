@@ -46,17 +46,17 @@ public class AttachmentServiceImpl implements AttachmentService {
     @Override
     public PageResult<AttachmentDTO> page(AttachmentQueryParam param) {
         PageResult<Attachment> result = attachmentMapper.selectPageAttachments(param);
-        // Get blog base url
+
         String blogBaseUrl = configService.getBlogBaseUrl();
 
-        Boolean enabledAbsolutePath = configService.isEnabledAbsolutePath();
+        boolean enabledAbsolutePath = configService.isEnabledAbsolutePath();
 
 
         result.getContent().forEach(item -> {
-            // Append blog base url to path and thumbnail
             String fullPath = StringUtils
                     .join(enabledAbsolutePath ? blogBaseUrl : "", "/", item.getPath());
             item.setPath(fullPath);
+            item.setThumbPath(fullPath);
         });
         return AttachmentConvert.INSTANCE.convertToDTO(result);
     }

@@ -24,6 +24,6 @@
 
     <select id="selectListTeam" resultType="java.lang.String">
         select distinct a.team
-        from Menu a
+        from menu a
     </select>
 </mapper>
