@@ -7,6 +7,7 @@ import com.qinweizhao.blog.model.enums.CommentType;
 import com.qinweizhao.blog.model.param.CommentParam;
 import com.qinweizhao.blog.model.param.CommentQueryParam;
 import com.qinweizhao.blog.service.CommentService;
+import com.qinweizhao.blog.service.ConfigService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,6 +27,8 @@ public class JournalCommentController {
 
     private final CommentService commentService;
 
+    private final ConfigService configService;
+
     /**
      * 分页
      *
@@ -35,6 +38,7 @@ public class JournalCommentController {
     @GetMapping
     public PageResult<CommentDTO> page(CommentQueryParam param) {
         param.setType(CommentType.JOURNAL);
+        param.setSize(configService.getCommentPageSize());
         return commentService.pageComment(param);
     }
 
@@ -66,6 +70,7 @@ public class JournalCommentController {
     @GetMapping("{journalId:\\d+}/tree_view")
     public PageResult<CommentDTO> pageTree(@PathVariable("journalId") Integer journalId, CommentQueryParam param) {
         param.setType(CommentType.JOURNAL);
+        param.setSize(configService.getCommentPageSize());
         return commentService.pageTree(journalId, param);
     }
 

@@ -89,24 +89,6 @@ public interface ConfigService extends IService<Config> {
 
     List<ConfigDTO> listDtos();
 
-//    /**
-//     * Pages option output dtos.
-//     *
-//     * @param pageable    page info must not be null
-//     * @param optionQuery optionQuery
-//     * @return a page of option output dto
-//     */
-//    Page<OptionSimpleDTO> pageDtosBy( Pageable pageable, OptionQuery optionQuery);
-//
-//    /**
-//     * Removes option permanently.
-//     *
-//     * @param id option id must not be null
-//     * @return option detail deleted
-//     */
-//    
-//    Option removePermanently( Integer id);
-
     /**
      * Get option by key
      *
@@ -288,22 +270,6 @@ public interface ConfigService extends IService<Config> {
      * @return page size
      */
     int getCommentPageSize();
-
-    /**
-     * Gets rss page size.
-     *
-     * @return page size
-     */
-    int getRssPageSize();
-
-    /**
-     * Get qi niu yun zone.
-     *
-     * @return qiniu zone
-     */
-
-    @Deprecated
-    Zone getQnYunZone();
 
     /**
      * Get qiniu oss region.

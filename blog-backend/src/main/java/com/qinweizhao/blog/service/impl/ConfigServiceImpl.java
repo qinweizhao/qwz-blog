@@ -80,99 +80,9 @@ public class ConfigServiceImpl extends ServiceImpl<ConfigMapper, Config> impleme
     private void init() {
         propertyEnumMap = Collections.unmodifiableMap(PropertyEnum.getValuePropertyEnumMap());
     }
-//
-//    @Override
-//    @Transactional(rollbackFor = Exception.class)
-//    public void save(Map<String, Object> optionMap) {
-//        if (CollectionUtils.isEmpty(optionMap)) {
-//            return;
-//        }
-//
-//        Map<String, Option> optionKeyMap = ServiceUtils.convertToMap(this.list(), Option::getOptionKey);
-//
-//        List<Option> optionsToCreate = new LinkedList<>();
-//        List<Option> optionsToUpdate = new LinkedList<>();
-//
-//        optionMap.forEach((key, value) -> {
-//            Option oldOption = optionKeyMap.get(key);
-//            if (oldOption == null || !StringUtils.equals(oldOption.getOptionValue(), value.toString())) {
-//                OptionParam optionParam = new OptionParam();
-//                optionParam.setKey(key);
-//                optionParam.setValue(value.toString());
-//                ValidationUtils.validate(optionParam);
-//
-//                if (oldOption == null) {
-//                    // Create it
-////                    optionsToCreate.add(optionParam.convertTo());
-//                } else if (!StringUtils.equals(oldOption.getOptionValue(), value.toString())) {
-//                    // Update it
-////                    optionParam.update(oldOption);
-//                    optionsToUpdate.add(oldOption);
-//                }
-//            }
-//        });
-//
-//        // Update them
-//        this.updateBatchById(optionsToUpdate);
-//
-//        // Create them
-//        this.saveBatch(optionsToCreate);
-//
-//        if (!CollectionUtils.isEmpty(optionsToUpdate) || !CollectionUtils.isEmpty(optionsToCreate)) {
-//            // If there is something changed
-//            publishOptionUpdatedEvent();
-//        }
-//
-//    }
-//
-//    @Override
-//    public void save(List<OptionParam> optionParams) {
-//        if (CollectionUtils.isEmpty(optionParams)) {
-//            return;
-//        }
-//
-//        Map<String, Object> optionMap = ServiceUtils.convertToMap(optionParams, OptionParam::getKey, OptionParam::getValue);
-//        save(optionMap);
-//    }
-//
-//    @Override
-//    public void save(OptionParam optionParam) {
-//        Option option = optionParam.convertTo();
-//        save(option);
-//        publishOptionUpdatedEvent();
-//    }
-//
-//    @Override
-//    public void update(Integer optionId, OptionParam optionParam) {
-//        Option optionToUpdate = getById(optionId);
-//        optionParam.update(optionToUpdate);
-//        update(optionToUpdate);
-//        publishOptionUpdatedEvent();
-//    }
-
-//    @Override
-//    public void saveProperty(PropertyEnum property, String value) {
-//        Assert.notNull(property, "Property must not be null");
-//
-//        save(property.getValue(), value);
-//    }
-//
-//    @Override
-//    public void saveProperties(Map<? extends PropertyEnum, String> properties) {
-//        if (CollectionUtils.isEmpty(properties)) {
-//            return;
-//        }
-//
-//        Map<String, Object> optionMap = new LinkedHashMap<>();
-//
-//        properties.forEach((property, value) -> optionMap.put(property.getValue(), value));
-//
-//        save(optionMap);
-//    }
 
     @Override
     public @NotNull Map<String, Object> listOptions() {
-        // Get options from cache
         return cacheStore.getAny(OPTIONS_KEY, Map.class).orElseGet(() -> {
             List<Config> configs = list();
 
@@ -192,7 +102,6 @@ public class ConfigServiceImpl extends ServiceImpl<ConfigMapper, Config> impleme
 
             Map<String, Object> result = new HashMap<>(userDefinedOptionMap);
 
-            // Add default property
             propertyEnumMap.keySet()
                     .stream()
                     .filter(key -> !keys.contains(key))
@@ -206,7 +115,6 @@ public class ConfigServiceImpl extends ServiceImpl<ConfigMapper, Config> impleme
                         result.put(key, PropertyEnum.convertTo(propertyEnum.defaultValue(), propertyEnum));
                     });
 
-            // Cache the result
             cacheStore.putAny(OPTIONS_KEY, result);
 
             return result;
@@ -238,49 +146,6 @@ public class ConfigServiceImpl extends ServiceImpl<ConfigMapper, Config> impleme
 
         return result;
     }
-
-//    @Override
-//    public Page<OptionSimpleDTO> pageDtosBy(Pageable pageable, OptionQuery optionQuery) {
-//        Assert.notNull(pageable, "Page info must not be null");
-//
-//        com.baomidou.mybatisplus.extension.plugins.pagination.Page page = new com.baomidou.mybatisplus.extension.plugins.pagination.Page(1,10);
-//        Page<Option> optionPage = (Page<Option>) this.page(page);
-//
-//        return optionPage.map(this::convertToDto);
-//    }
-
-//    @Override
-//    public Option removePermanently(Integer id) {
-//        removeById(id);
-//        publishOptionUpdatedEvent();
-//        return null;
-//    }
-
-//    @NonNull
-//    private Specification<Option> buildSpecByQuery(@NonNull OptionQuery optionQuery) {
-//        Assert.notNull(optionQuery, "Option query must not be null");
-//
-//        return (Specification<Option>) (root, query, criteriaBuilder) -> {
-//            List<Predicate> predicates = new LinkedList<>();
-//
-//            if (optionQuery.getType() != null) {
-//                predicates.add(criteriaBuilder.equal(root.get("type"), optionQuery.getType()));
-//            }
-//
-//            if (optionQuery.getKeyword() != null) {
-//
-//                String likeCondition = String.format("%%%s%%", StringUtils.strip(optionQuery.getKeyword()));
-//
-//                Predicate keyLike = criteriaBuilder.like(root.get("key"), likeCondition);
-//
-//                Predicate valueLike = criteriaBuilder.like(root.get("value"), likeCondition);
-//
-//                predicates.add(criteriaBuilder.or(keyLike, valueLike));
-//            }
-//
-//            return query.where(predicates.toArray(new Predicate[0])).getRestriction();
-//        };
-//    }
 
     @Override
     public Object getByKeyOfNullable(String key) {
@@ -406,36 +271,6 @@ public class ConfigServiceImpl extends ServiceImpl<ConfigMapper, Config> impleme
     }
 
     @Override
-    public Zone getQnYunZone() {
-        return getByProperty(QiniuOssProperties.OSS_ZONE).map(qiniuZone -> {
-
-            Zone zone;
-            switch (qiniuZone.toString()) {
-                case "z0":
-                    zone = Zone.zone0();
-                    break;
-                case "z1":
-                    zone = Zone.zone1();
-                    break;
-                case "z2":
-                    zone = Zone.zone2();
-                    break;
-                case "na0":
-                    zone = Zone.zoneNa0();
-                    break;
-                case "as0":
-                    zone = Zone.zoneAs0();
-                    break;
-                default:
-                    // Default is detecting zone automatically
-                    zone = Zone.autoZone();
-            }
-            return zone;
-
-        }).orElseGet(Zone::autoZone);
-    }
-
-    @Override
     public Region getQiniuRegion() {
         return getByProperty(QiniuOssProperties.OSS_ZONE).map(qiniuZone -> {
 
@@ -506,16 +341,6 @@ public class ConfigServiceImpl extends ServiceImpl<ConfigMapper, Config> impleme
     public String getSeoDescription() {
         return getByProperty(SeoProperties.DESCRIPTION).orElse("").toString();
     }
-
-//    @Override
-//    public long getBirthday() {
-//        return getByProperty(PrimaryProperties.BIRTHDAY, Long.class).orElseGet(() -> {
-//            long currentTime = DateUtils.now().getTime();
-//            saveProperty(PrimaryProperties.BIRTHDAY, String.valueOf(currentTime));
-//            return currentTime;
-//        });
-//    }
-
 
     @Override
     public String getSheetPrefix() {

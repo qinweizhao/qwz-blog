@@ -26,9 +26,6 @@
       <a-form-model-item help="* 关闭之后将无法进行评论" label="API 评论开关：">
         <a-switch v-model="options.comment_api_enabled" />
       </a-form-model-item>
-      <a-form-model-item help="* 该设置需要主题支持" label="评论模块 JS：">
-        <a-input v-model="options.comment_internal_plugin_js" :autoSize="{ minRows: 2 }" type="textarea" />
-      </a-form-model-item>
       <a-form-model-item help="* 例如：//gravatar.com/avatar/" label="Gravatar 镜像源：">
         <a-input v-model="options.gravatar_source" />
       </a-form-model-item>
