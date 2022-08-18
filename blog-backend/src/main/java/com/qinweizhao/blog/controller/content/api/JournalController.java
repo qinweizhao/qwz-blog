@@ -40,6 +40,12 @@ public class JournalController {
         return commentService.pageTree(journalId, param);
     }
 
+    /**
+     * 日志评论
+     *
+     * @param param param
+     * @return Boolean
+     */
     @PostMapping("comments")
     @CacheLock(autoDelete = false, traceRequest = true)
     public Boolean comment(@RequestBody CommentParam param) {

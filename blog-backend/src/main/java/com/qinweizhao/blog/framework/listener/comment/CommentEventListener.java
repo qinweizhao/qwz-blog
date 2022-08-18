@@ -59,10 +59,10 @@ public class CommentEventListener {
     @Async
     @EventListener
     public void handleCommentNewEvent(CommentNewEvent newEvent) {
+        System.out.println("zhixingzhixing");
         Boolean newCommentNotice = configService.getByPropertyOrDefault(CommentProperties.NEW_NOTICE, Boolean.class, false);
 
         if (!newCommentNotice) {
-            // Skip mailing
             return;
         }
 

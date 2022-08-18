@@ -27,31 +27,31 @@ public class OptionController {
         this.configService = configService;
     }
 
-    @GetMapping("list_view")
-    public List<ConfigDTO> listAll() {
-        return configService.listDtos();
-    }
-
-    @GetMapping("map_view")
-    public Map<String, Object> listAllWithMapView(@RequestParam(value = "key", required = false) List<String> keys) {
-        if (CollectionUtils.isEmpty(keys)) {
-            return configService.listOptions();
-        }
-
-        return configService.listOptions(keys);
-    }
-
-    @GetMapping("keys/{key}")
-    public BaseResponse<Object> getBy(@PathVariable("key") String key) {
-        return BaseResponse.ok(HttpStatus.OK.getReasonPhrase(), configService.getByKey(key).orElse(null));
-    }
-
-
-    @GetMapping("comment")
-    public Map<String, Object> comment() {
-        List<String> keys = new ArrayList<>();
-        keys.add("comment_gravatar_default");
-        keys.add("comment_content_placeholder");
-        return configService.listOptions(keys);
-    }
+//    @GetMapping("list_view")
+//    public List<ConfigDTO> listAll() {
+//        return configService.listDtos();
+//    }
+//
+//    @GetMapping("map_view")
+//    public Map<String, Object> listAllWithMapView(@RequestParam(value = "key", required = false) List<String> keys) {
+//        if (CollectionUtils.isEmpty(keys)) {
+//            return configService.listOptions();
+//        }
+//
+//        return configService.listOptions(keys);
+//    }
+//
+//    @GetMapping("keys/{key}")
+//    public BaseResponse<Object> getBy(@PathVariable("key") String key) {
+//        return BaseResponse.ok(HttpStatus.OK.getReasonPhrase(), configService.getByKey(key).orElse(null));
+//    }
+//
+//
+//    @GetMapping("comment")
+//    public Map<String, Object> comment() {
+//        List<String> keys = new ArrayList<>();
+//        keys.add("comment_gravatar_default");
+//        keys.add("comment_content_placeholder");
+//        return configService.listOptions(keys);
+//    }
 }

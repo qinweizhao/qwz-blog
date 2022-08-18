@@ -181,12 +181,10 @@ public class CommentServiceImpl implements CommentService {
 
         Comment comment = CommentConvert.INSTANCE.convert(param);
 
-        // Check post id
         if (!ServiceUtils.isEmptyId(comment.getTargetId())) {
             this.validateTarget(comment.getTargetId(), type);
         }
 
-        // Check parent id
         if (!ServiceUtils.isEmptyId(comment.getParentId())) {
             Comment flag = commentMapper.selectById(comment.getParentId());
             // 不存在抛出异常
@@ -195,7 +193,6 @@ public class CommentServiceImpl implements CommentService {
             }
         }
 
-        // Set some default values
         if (comment.getIpAddress() == null) {
             comment.setIpAddress(ServletUtils.getRequestIp());
         }
@@ -226,17 +223,18 @@ public class CommentServiceImpl implements CommentService {
         // 设置类型
         comment.setType(type.getValue());
 
+        int i = commentMapper.insert(comment);
+
         if (ServiceUtils.isEmptyId(comment.getParentId())) {
             if (authentication == null) {
-                // New comment of guest
+                // 游客的新评论
                 eventPublisher.publishEvent(new CommentNewEvent(this, comment.getId()));
             }
         } else {
-            // Reply comment
+            // 回复评论
             eventPublisher.publishEvent(new CommentReplyEvent(this, comment.getId()));
         }
 
-        int i = commentMapper.insert(comment);
         return i > 0;
     }
 
