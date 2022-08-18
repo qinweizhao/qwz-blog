@@ -59,6 +59,12 @@ public class PostController {
     }
 
 
+    /**
+     * 新增评论
+     *
+     * @param param param
+     * @return Boolean
+     */
     @PostMapping("comments")
     @CacheLock(autoDelete = false, traceRequest = true)
     public Boolean comment(@RequestBody CommentParam param) {
@@ -70,5 +76,16 @@ public class PostController {
         return commentService.save(param);
     }
 
+
+    /**
+     * 点赞
+     *
+     * @param postId postId
+     * @return Boolean
+     */
+    @PostMapping("{postId:\\d+}/likes")
+    public Boolean like(@PathVariable("postId") Integer postId) {
+        return postService.increaseLike(postId);
+    }
 
 }

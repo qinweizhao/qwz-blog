@@ -102,19 +102,17 @@ public abstract class AbstractVisitEventListener {
                     BlockingQueue<Integer> postVisitQueue = visitQueueMap.get(id);
                     Integer postId = postVisitQueue.take();
 
-                    log.debug("Took a new visit for post id: [{}]", postId);
+                    log.debug("访问了文章: [{}]", postId);
 
-                    // Increase the visit
-                    postService.increaseVisit(postId);
+                    boolean flag = postService.increaseVisit(postId);
 
-                    log.debug("Increased visits for post id: [{}]", postId);
+                    log.debug("文章编号[{}]的访问量增加:{} ", postId, flag);
                 } catch (InterruptedException e) {
-                    log.debug("Post visit task: " + Thread.currentThread().getName() + " was interrupted", e);
-                    // Ignore this exception
+                    log.debug("文章增加访问量失败，线程: " + Thread.currentThread().getName() + " 被打断", e);
                 }
             }
 
-            log.debug("Thread: [{}] has been interrupted", Thread.currentThread().getName());
+            log.debug("线程: [{}] 被打断了", Thread.currentThread().getName());
         }
     }
 }

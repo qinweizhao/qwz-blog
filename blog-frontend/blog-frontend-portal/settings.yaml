@@ -6,9 +6,9 @@ genernal:
       name: access_key
       label: AccessKey <必填>
       type: text
-      default: "joe2.0"
+      default: "weizhao"
       placeholder: "请务必与后台中的Key一致"
-      description: "Access Key 用于页面中 Content API 的校验，不填会导致接口报错，默认为 joe2.0，但可以自己定义，请不要填写中文或特殊字符（请务必同时配置此处的 Access Key 和后台管理中的 Access Key，并保持一致）"
+      description: "Access Key 用于页面中 Content API 的校验，不填会导致接口报错，默认为 weizhao，但可以自己定义，请不要填写中文或特殊字符（请务必同时配置此处的 Access Key 和后台管理中的 Access Key，并保持一致）"
     icp:
       name: icp
       label: ICP 备案号
@@ -900,18 +900,6 @@ aside:
           label: 开启
         - value: false
           label: 关闭
-    enable_qrcode:
-      name: enable_qrcode
-      label: 展示二维码
-      type: switch
-      data-type: bool
-      default: false
-      description: "在侧边栏展示二维码模块，必须配置图片url"
-      options:
-        - value: true
-          label: 开启
-        - value: false
-          label: 关闭
     qrcode_url:
       name: qrcode_url
       label: 二维码图片
@@ -1782,7 +1770,6 @@ post:
           label: 开启
         - value: false
           label: 关闭
-          label: 关闭
     enable_indent:
       name: enable_indent
       label: 首行缩进
@@ -2610,112 +2597,6 @@ social:
       placeholder: "请输入"
       description: "QQ交流群按钮展示的文案，对应首页 “推荐文章” 右侧的 “欢迎加入QQ交流群”"
 
-# 音乐播放器
-# music_player:
-#   label: 音乐播放器
-#   items:
-#     enable_global_music_player:
-#       name: enable_global_music_player
-#       label: 开启背景音乐
-#       type: switch
-#       data-type: bool
-#       default: true
-#       options:
-#         - value: true
-#           label: 开启
-#         - value: false
-#           label: 关闭
-#     music_auto_play:
-#       name: music_auto_play
-#       label: 自动播放
-#       default: false
-#       type: switch
-#       data-type: bool
-#       options:
-#         - value: true
-#           label: 开启
-#         - value: false
-#           label: 关闭
-#     music_loop_play:
-#       name: music_loop_play
-#       label: 循环播放
-#       default: false
-#       type: switch
-#       data-type: bool
-#       options:
-#         - value: true
-#           label: 开启
-#         - value: false
-#           label: 关闭
-#     music_player_theme:
-#       name: music_player_theme
-#       label: 播放器主题色
-#       type: text
-#       default: "#1989fa"
-#       placeholder: "请输入有效的颜色值"
-#     music_player_volume:
-#       name: music_player_volume
-#       label: 默认音量
-#       type: text
-#       default: "0.7"
-#       placeholder: "请输入 0~1 的数字"
-#     music_source:
-#       name: music_source
-#       label: 音乐播放器播放源
-#       type: select
-#       default: netease
-#       options:
-#         - value: netease
-#           label: 网易云音乐
-#         - value: tencent
-#           label: QQ音乐
-#         - value: kugou
-#           label: 酷狗音乐
-#         - value: xiami
-#           label: 虾米音乐
-#         - value: baidu
-#           label: 百度音乐
-#     music_api:
-#       name: music_api
-#       label: 音乐api
-#       type: text
-#       default: "https://api.i-meto.com/meting/api"
-#       # default: "https://api.mizore.cn/meting/api.php"
-#       placeholder: "请输入音乐服务 api 地址"
-#       description: "默认为网易云音乐热歌榜"
-#     music_list_id:
-#       name: music_list_id
-#       label: 播放器歌单ID
-#       type: text
-#       placeholder: "请输入歌单ID"
-#       description: "默认为网易云音乐热歌榜"
-#     music_player_type:
-#       name: music_player_type
-#       label: 播放器类型
-#       type: select
-#       default: "playlist"
-#       options:
-#         - value: song
-#           label: 歌曲
-#         - value: playlist
-#           label: 播放列表
-#         - value: album
-#           label: 相册
-#         - value: search
-#           label: 搜索
-#         - value: artist
-#           label: 艺术家
-#     music_sort_by:
-#       name: music_sort_by
-#       label: 排序方式
-#       type: select
-#       default: "list"
-#       options:
-#         - value: random
-#           label: 随机
-#         - value: list
-#           label: 顺序
-
 # 评论插件
 comment:
   label: 评论框
@@ -2739,13 +2620,6 @@ comment:
           label: 开启
         - value: false
           label: 关闭
-    # comment_page_size:
-    #   name: comment_page_size
-    #   label: 评论分页大小
-    #   type: text
-    #   data-type: long
-    #   default: 10
-    #   description: "配置评论组件的分页大小，默认为 10"
     enable_comment_ua:
       name: enable_comment_ua
       label: 展示评论者UA信息
@@ -2984,21 +2858,9 @@ others:
     baidu_token:
       name: baidu_token
       label: 百度推送Token
-      default: ""
+      default: "9CXqeR4GBvGpU0tc"
       placeholder: "请填入token"
       description: "文章页未收录时会自动将当前链接推送给百度加快收录，Token在百度收录平台注册账号获取（必须启用“检查百度收录”并填入token才生效），https://ziyuan.baidu.com/linksubmit"
-    # enable_pjax:
-    #   name: enable_pjax
-    #   label: 全局Pjax
-    #   type: switch
-    #   data-type: bool
-    #   default: false
-    #   description: "启用全局 pjax 以优化用户体验（开启音乐播放器后建议开启）"
-    #   options:
-    #     - value: true
-    #       label: 开启
-    #     - value: false
-    #       label: 关闭
     cdn_type:
       name: cdn_type
       label: CDN 域名类型

@@ -51,11 +51,6 @@ import static com.qinweizhao.blog.model.support.HaloConst.URL_SEPARATOR;
 /**
  * Post service implementation.
  *
- * @author johnniang
- * @author ryanwang
- * @author guqing
- * @author evanwang
- * @author coor.top
  * @author qinweizhao
  * @since 2019-03-14
  */
@@ -443,7 +438,14 @@ public class PostServiceImpl implements PostService {
     public boolean increaseVisit(Integer postId) {
         Post post = postMapper.selectById(postId);
         post.setVisits(post.getVisits() + 1);
-        return postMapper.updateById(post) > 1;
+        return postMapper.updateById(post) > 0;
+    }
+
+    @Override
+    public boolean increaseLike(Integer postId) {
+        Post post = postMapper.selectById(postId);
+        post.setLikes(post.getLikes() + 1);
+        return postMapper.updateById(post) > 0;
     }
 
     @Override

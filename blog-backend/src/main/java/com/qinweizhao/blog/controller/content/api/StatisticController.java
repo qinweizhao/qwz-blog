@@ -23,13 +23,13 @@ public class StatisticController {
         this.statisticService = statisticService;
     }
 
-    @GetMapping
-    public StatisticDTO statistics() {
-        return statisticService.getStatistic();
-    }
-
-    @GetMapping("user")
-    public StatisticWithUserDTO statisticsWithUser() {
-        return statisticService.getStatisticWithUser();
-    }
+//    @GetMapping
+//    public StatisticDTO statistics() {
+//        return statisticService.getStatistic();
+//    }
+//
+//    @GetMapping("user")
+//    public StatisticWithUserDTO statisticsWithUser() {
+//        return statisticService.getStatisticWithUser();
+//    }
 }
