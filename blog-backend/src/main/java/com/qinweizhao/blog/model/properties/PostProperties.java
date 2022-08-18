@@ -22,27 +22,22 @@ public enum PostProperties implements PropertyEnum {
     INDEX_PAGE_SIZE("post_index_page_size", Integer.class, "10"),
 
     /**
-     * Archives page size.
+     * 归档分页大小
      */
     ARCHIVES_PAGE_SIZE("post_archives_page_size", Integer.class, "10"),
 
     /**
-     * Post index sort.
-     */
-    INDEX_SORT("post_index_sort", String.class, "createTime"),
-
-    /**
-     * Enable auto cleaning recycled post.
+     * 启用自动清理回收状态文章
      */
     RECYCLED_POST_CLEANING_ENABLED("recycled_post_cleaning_enabled", Boolean.class, "false"),
 
     /**
-     * Recycled post retention time
+     * 回收后保留时间
      */
     RECYCLED_POST_RETENTION_TIME("recycled_post_retention_time", Integer.class, "30"),
 
     /**
-     * Recycled post retention time unit.
+     * 回收文章后保留时间单位
      */
     RECYCLED_POST_RETENTION_TIMEUNIT("recycled_post_retention_timeunit", TimeUnit.class, TimeUnit.DAY.name());
 
