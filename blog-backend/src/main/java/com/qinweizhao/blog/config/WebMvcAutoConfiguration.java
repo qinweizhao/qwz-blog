@@ -88,25 +88,31 @@ public class WebMvcAutoConfiguration implements WebMvcConfigurer {
         String uploadUrlPattern = ensureBoth(myBlogProperties.getUploadUrlPrefix(), URL_SEPARATOR) + "**";
         String adminPathPattern = ensureSuffix(myBlogProperties.getAdminPath(), URL_SEPARATOR) + "**";
 
+        String frontendDirName = myBlogProperties.getFrontendDirName();
+
         if (myBlogProperties.isProductionEnv()) {
+            log.debug("当前环境为生产环境");
             registry.addResourceHandler("/**")
                     .addResourceLocations("classpath:/admin/")
                     .addResourceLocations(workDir + "static/");
 
             registry.addResourceHandler("/themes/**")
-                    .addResourceLocations(workDir + "theme/");
+                    .addResourceLocations(workDir + frontendDirName + "/");
 
+            String path = workDir + "frontend/";
+            log.debug("主题的目录为{}", path);
             registry.addResourceHandler(uploadUrlPattern)
                     .setCacheControl(CacheControl.maxAge(7L, TimeUnit.DAYS))
                     .addResourceLocations(workDir + "image/");
 
         } else {
+            log.debug("当前环境为开发环境");
             registry.addResourceHandler("/**")
                     .addResourceLocations("classpath:/admin/")
                     .addResourceLocations(workDir + "blog-resource/static/");
 
             registry.addResourceHandler("/themes/**")
-                    .addResourceLocations(FILE_PROTOCOL + myBlogProperties.getWorkDir() + "blog-frontend/");
+                    .addResourceLocations(FILE_PROTOCOL + myBlogProperties.getWorkDir() + frontendDirName + "/");
 
             String imageUrlPattern = ensureBoth("blog-resource/image/", URL_SEPARATOR) + "**";
             registry.addResourceHandler(imageUrlPattern)
@@ -125,6 +131,7 @@ public class WebMvcAutoConfiguration implements WebMvcConfigurer {
     }
 
     /**
+     * todo
      * 配置 freemarker 模板文件路径。
      *
      * @return new FreeMarkerConfigurer
@@ -132,10 +139,11 @@ public class WebMvcAutoConfiguration implements WebMvcConfigurer {
     @Bean
     public FreeMarkerConfigurer freemarkerConfig(MyBlogProperties myBlogProperties) throws IOException, TemplateException {
         FreeMarkerConfigurer configurer = new FreeMarkerConfigurer();
+        String frontendDirName = myBlogProperties.getFrontendDirName();
         if (myBlogProperties.isProductionEnv()) {
-            configurer.setTemplateLoaderPaths(FILE_PROTOCOL + myBlogProperties.getWorkDir() + "theme/", "classpath:/templates/");
+            configurer.setTemplateLoaderPaths(FILE_PROTOCOL + myBlogProperties.getWorkDir() + frontendDirName + "/", "classpath:/templates/");
         } else {
-            configurer.setTemplateLoaderPaths(FILE_PROTOCOL + myBlogProperties.getWorkDir() + "blog-frontend/", "classpath:/templates/");
+            configurer.setTemplateLoaderPaths(FILE_PROTOCOL + myBlogProperties.getWorkDir() + frontendDirName + "/", "classpath:/templates/");
         }
         configurer.setDefaultEncoding("UTF-8");
 

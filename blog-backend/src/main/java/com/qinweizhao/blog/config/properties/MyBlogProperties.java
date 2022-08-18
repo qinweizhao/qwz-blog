@@ -60,6 +60,16 @@ public class MyBlogProperties {
     private String workDir = ensureSuffix(USER_HOME, FILE_SEPARATOR) + FILE_SEPARATOR;
 
     /**
+     * 主题文件夹名称
+     */
+    private String themeDirName = "blog-frontend-portal";
+
+    /**
+     * 主题文件夹名称
+     */
+    private String frontendDirName = "frontend";
+
+    /**
      * 上传前缀
      */
     private String uploadUrlPrefix = "image";

@@ -54,7 +54,7 @@ public enum ThemePropertyScanner {
      * @param themePath themePath
      * @return ThemeProperty
      */
-    public ThemeProperty scan(Path themePath) {
+    public ThemeProperty scan(Path themePath, String themeDirName) {
         // 不存在就创建
         try {
             if (Files.notExists(themePath)) {
@@ -78,7 +78,11 @@ public enum ThemePropertyScanner {
                     .map(this::fetchThemeProperty)
                     .filter(Optional::isPresent)
                     .map(Optional::get)
-                    .peek(themeProperty -> themeProperty.setActivated(true))
+                    .peek(themeProperty -> {
+                        if (StringUtils.equals(themeDirName, themeProperty.getId())) {
+                            themeProperty.setActivated(true);
+                        }
+                    })
                     .toArray(ThemeProperty[]::new);
             // 缓存属性
             return properties[0];

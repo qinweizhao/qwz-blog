@@ -17,9 +17,9 @@ spring:
   datasource:
     # MySQL database configuration.
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1:3306/qwz-blog?useUnicode=true&characterEncoding=utf8&characterSetResults=utf8&allowMultiQueries=true&autoReconnect=true&useSSL=false&serverTimezone=Asia/Shanghai&zeroDateTimeBehavior=convertToNull
+    url: jdbc:mysql://43.142.101.91:3306/qwz-blog-3?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai&zeroDateTimeBehavior=convertToNull
     username: root
-    password: root
+    password: 123456
     type: com.zaxxer.hikari.HikariDataSource
     hikari:
       # 客户端等待连接池连接的最大毫秒数
@@ -54,6 +54,10 @@ logging:
     path: ${blog.work-dir}/log
 
 blog:
+  # 例如：https://www.qinweizhao.com
+  blog-url: https://www.qinweizhao.com
+  theme-dir-name: blog-frontend-portal
+  frontend-dir-name: frontend
   auth-enabled: true
   mode: PRODUCTION
   work-dir: ${user.home}/.blog/

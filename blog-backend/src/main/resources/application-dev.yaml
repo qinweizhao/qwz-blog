@@ -36,7 +36,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://127.0.0.1:3306/qwz-blog?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai&zeroDateTimeBehavior=convertToNull
     username: root
-    password: root
+    password: Qwz#1201
 
   servlet:
     multipart:
@@ -59,6 +59,8 @@ logging:
 blog:
   # 例如：https://www.qinweizhao.com
   blog-url: http://localhost:8090
+  theme-dir-name: blog-frontend-portal
+  frontend-dir-name: blog-frontend
   auth-enabled: true
   mode: development
   work-dir: ${user.home}/Code/qwz/qwz-blog/

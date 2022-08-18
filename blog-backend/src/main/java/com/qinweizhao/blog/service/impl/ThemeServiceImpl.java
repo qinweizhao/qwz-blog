@@ -61,26 +61,33 @@ public class ThemeServiceImpl implements ThemeService {
      * @return List
      */
     public ThemeProperty getThemes() {
+        String themeDirName = myBlogProperties.getThemeDirName();
+
 
         return cacheStore.getAny(THEMES_CACHE_KEY, ThemeProperty.class).orElseGet(() -> {
             // 扫描配置，为防止报异常，如果存在多个只会取扫描的第一个。
-            ThemeProperty properties = ThemePropertyScanner.INSTANCE.scan(getBasePath());
+            ThemeProperty properties = ThemePropertyScanner.INSTANCE.scan(getBasePath(),themeDirName);
             // 缓存主题配置
+            log.debug("主题配置{}",properties);
             cacheStore.putAny(THEMES_CACHE_KEY, properties);
             return properties;
         });
     }
 
     /**
-     * todo
      *
      * @return Path
      */
     public Path getBasePath() {
+        String frontendDirName = myBlogProperties.getFrontendDirName();
         if (myBlogProperties.isProductionEnv()) {
-            return Paths.get(myBlogProperties.getWorkDir(), "theme");
+            Path frontend = Paths.get(myBlogProperties.getWorkDir(), frontendDirName);
+            log.debug("将要扫描的目录为：{}", frontend);
+            return frontend;
         } else {
-            return Paths.get(myBlogProperties.getWorkDir(), "blog-frontend");
+            Path frontend = Paths.get(myBlogProperties.getWorkDir(), frontendDirName);
+            log.debug("将要扫描的目录为：{}", frontend);
+            return frontend;
         }
     }
 
