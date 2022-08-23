@@ -2926,15 +2926,3 @@ others:
           label: 开启
         - value: false
           label: 关闭
-    rip_mode:
-      name: rip_mode
-      label: RIP模式
-      type: switch
-      data-type: bool
-      default: false
-      description: "整站变灰，向生命致敬，愿精神长存 <愿此功能永不被启用>"
-      options:
-        - value: true
-          label: 开启
-        - value: false
-          label: 关闭
