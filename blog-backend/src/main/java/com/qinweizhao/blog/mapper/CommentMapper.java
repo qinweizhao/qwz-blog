@@ -143,11 +143,13 @@ public interface CommentMapper extends BaseMapper<Comment> {
      * 统计个数
      *
      * @param postId postId
+     * @param status status
      * @return Long
      */
-    default Long selectCountByPostId(Integer postId) {
+    default Long selectCountByPostIdAndStatus(Integer postId, CommentStatus status) {
         return this.selectCount(new LambdaQueryWrapper<Comment>()
                 .eq(Comment::getTargetId, postId)
+                .eq(Comment::getStatus, status)
         );
     }
 
@@ -165,4 +167,5 @@ public interface CommentMapper extends BaseMapper<Comment> {
                 .eq(Comment::getStatus, param.getStatus())
         );
     }
+
 }

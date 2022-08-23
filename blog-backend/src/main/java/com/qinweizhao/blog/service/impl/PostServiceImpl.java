@@ -16,6 +16,7 @@ import com.qinweizhao.blog.model.entity.Content;
 import com.qinweizhao.blog.model.entity.Post;
 import com.qinweizhao.blog.model.entity.PostCategory;
 import com.qinweizhao.blog.model.entity.PostTag;
+import com.qinweizhao.blog.model.enums.CommentStatus;
 import com.qinweizhao.blog.model.enums.CommentType;
 import com.qinweizhao.blog.model.enums.PostStatus;
 import com.qinweizhao.blog.model.param.MetaParam;
@@ -482,7 +483,7 @@ public class PostServiceImpl implements PostService {
 
         postDTO.setFullPath(buildFullPath(post.getId()));
 
-        postDTO.setCommentCount(commentMapper.selectCountByPostId(postId));
+        postDTO.setCommentCount(commentMapper.selectCountByPostIdAndStatus(postId, CommentStatus.PUBLISHED));
 
         return postDTO;
     }
