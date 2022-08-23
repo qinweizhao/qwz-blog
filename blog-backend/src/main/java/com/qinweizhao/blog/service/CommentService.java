@@ -41,11 +41,12 @@ public interface CommentService {
     /**
      * 统计评论个数
      *
+     * @param status      status
      * @param type      type
      * @param targetIds postIds
      * @return Map
      */
-    Map<Integer, Long> countByTypeAndTargetIds(CommentType type, Set<Integer> targetIds);
+    Map<Integer, Long> countBy(CommentStatus status, CommentType type, Set<Integer> targetIds);
 
     /**
      * 分页（树）

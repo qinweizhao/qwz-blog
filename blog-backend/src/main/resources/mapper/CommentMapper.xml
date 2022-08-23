@@ -36,11 +36,12 @@
     </update>
 
 
-    <select id="selectCountByTypeAndTargetIds" resultType="com.qinweizhao.blog.model.projection.CommentCountProjection">
+    <select id="selectCountBy" resultType="com.qinweizhao.blog.model.projection.CommentCountProjection">
         select count(id) as count, target_id
         from comment
         <where>
             type=#{type} and
+            status=#{status} and
             target_id in
             <foreach collection="targetIds" item="id" open="(" close=")" separator=",">
                 #{id}

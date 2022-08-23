@@ -330,22 +330,19 @@ public class CommentServiceImpl implements CommentService {
 
         Set<Long> commentIds = ServiceUtils.fetchProperty(topComments, Comment::getId);
 
-        // Get direct children
         List<Comment> directChildren = commentMapper.selectListByParentIds(commentIds);
 
-        // Recursively invoke
         getChildrenRecursively(directChildren, children);
 
-        // Add direct children to children result
         children.addAll(topComments);
     }
 
     @Override
-    public Map<Integer, Long> countByTypeAndTargetIds(CommentType type, Set<Integer> postIds) {
+    public Map<Integer, Long> countBy(CommentStatus status, CommentType type, Set<Integer> postIds) {
         if (CollectionUtils.isEmpty(postIds)) {
             return Collections.emptyMap();
         }
-        List<CommentCountProjection> commentCountProjections = commentMapper.selectCountByTypeAndTargetIds(type, postIds);
+        List<CommentCountProjection> commentCountProjections = commentMapper.selectCountBy(status, type, postIds);
         return ServiceUtils.convertToMap(commentCountProjections, CommentCountProjection::getTargetId, CommentCountProjection::getCount);
     }
 

@@ -35,11 +35,12 @@ public interface CommentMapper extends BaseMapper<Comment> {
     /**
      * 统计评论个数
      *
+     * @param status      status
      * @param type      type
      * @param targetIds targetIds
      * @return List
      */
-    List<CommentCountProjection> selectCountByTypeAndTargetIds(@Param("type") CommentType type, @Param("targetIds") Collection<Integer> targetIds);
+    List<CommentCountProjection> selectCountBy(@Param("status") CommentStatus status, @Param("type") CommentType type, @Param("targetIds") Collection<Integer> targetIds);
 
     /**
      * 按评论 id 查找直接子评论。
@@ -162,9 +163,9 @@ public interface CommentMapper extends BaseMapper<Comment> {
      */
     default List<Comment> selectListComment(CommentQueryParam param, Integer targetId) {
         return this.selectList(new LambdaQueryWrapperX<Comment>()
-                .eq(Comment::getTargetId, targetId)
-                .eq(Comment::getType, param.getType())
-                .eq(Comment::getStatus, param.getStatus())
+                .eqIfPresent(Comment::getTargetId, targetId)
+                .eqIfPresent(Comment::getType, param.getType())
+                .eqIfPresent(Comment::getStatus, param.getStatus())
         );
     }
 
