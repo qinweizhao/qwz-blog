@@ -2878,18 +2878,6 @@ others:
       label: 自定义 CDN 域名
       default: ""
       description: "若需要使用自己的 CDN 服务，可以在这里填入 CDN 域名（仅在 CDN 域名类型为 “自定义” 时生效，确保能访问到相关静态资源，示例：https://cdn.xxx.com）"
-    enable_console_theme:
-      name: enable_console_theme
-      label: 控制台输出主题信息
-      type: switch
-      data-type: bool
-      default: false
-      description: "是否在控制台输出主题相关信息"
-      options:
-        - value: true
-          label: 开启
-        - value: false
-          label: 关闭
     show_loaded_time:
       name: show_loaded_time
       label: 控制台输出页面加载耗时
@@ -2902,18 +2890,6 @@ others:
           label: 开启
         - value: false
           label: 关闭
-    # enable_backup:
-    #   name: enable_backup
-    #   label: 博客自动备份
-    #   type: switch
-    #   data-type: bool
-    #   default: true
-    #   description: "开启后，系统将每隔5天备份1次，最多备份版本为20份，超过后自动删除最晚的版本，此功能需要先配置相应服务端程序，请戳 xxxxx"
-    #   options:
-    #     - value: true
-    #       label: 开启
-    #     - value: false
-    #       label: 关闭
     enable_debug:
       name: enable_debug
       label: 调试模式
