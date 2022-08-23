@@ -37,7 +37,6 @@ public interface CommentService {
      */
     PageResult<CommentDTO> pageComment(CommentQueryParam param);
 
-
     /**
      * 统计评论个数
      *
@@ -73,7 +72,6 @@ public interface CommentService {
      */
     boolean updateStatus(Long commentId, CommentStatus status);
 
-
     /**
      * 新增
      *
@@ -81,7 +79,6 @@ public interface CommentService {
      * @return boolean
      */
     boolean save(CommentParam commentParam);
-
 
     /**
      * 删除评论（+子）
@@ -100,12 +97,10 @@ public interface CommentService {
      */
     boolean updateStatusByIds(List<Long> ids, CommentStatus status);
 
-
     /**
      * 验证 CommentBlackList 状态
      */
     void validateCommentBlackListStatus();
-
 
     /**
      * 校验目标
