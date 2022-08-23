@@ -1,6 +1,10 @@
 package com.qinweizhao.blog.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalTimeSerializer;
 import com.qinweizhao.blog.config.properties.MyBlogProperties;
 import com.qinweizhao.blog.framework.factory.StringToEnumConverterFactory;
 import com.qinweizhao.blog.framework.security.resolver.AuthenticationArgumentResolver;
@@ -11,6 +15,7 @@ import freemarker.template.TemplateExceptionHandler;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
 import org.springframework.boot.autoconfigure.web.servlet.MultipartProperties;
 import org.springframework.boot.autoconfigure.web.servlet.WebMvcRegistrations;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -34,6 +39,10 @@ import org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver;
 
 import javax.servlet.MultipartConfigElement;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
@@ -56,9 +65,14 @@ public class MyWebMvcConfig implements WebMvcConfigurer {
 
     private final MyBlogProperties myBlogProperties;
 
+    private static final String DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
+
+    private static final String DATE_FORMAT = "yyyy-MM-dd";
+
+    private static final String TIME_FORMAT = "yyyy-MM-dd";
 
     /**
-     * 解决 IE 浏览器 Get  @ResponseBody返回json的时候提示下载问题
+     * 使用此方法,会覆盖 @EnableAutoConfiguration 关于 WebMvcAutoConfiguration 的配置
      *
      * @param converters converters
      */
@@ -72,6 +86,18 @@ public class MyWebMvcConfig implements WebMvcConfigurer {
                     Jackson2ObjectMapperBuilder builder = Jackson2ObjectMapperBuilder.json();
                     JsonComponentModule module = new JsonComponentModule();
                     ObjectMapper objectMapper = builder.modules(module).build();
+                    SimpleModule simpleModule = new SimpleModule();
+
+                    //  LocalDateTime时间格式化
+                    simpleModule.addSerializer(LocalDateTime.class,new LocalDateTimeSerializer(DateTimeFormatter.ofPattern(DATE_TIME_FORMAT)));
+
+                    // LocalDate时间格式化
+                    simpleModule.addSerializer(LocalDate.class, new LocalDateSerializer(DateTimeFormatter.ofPattern(DATE_FORMAT)));
+
+                    // LocalTime时间格式化
+                    simpleModule.addSerializer(LocalTime.class, new LocalTimeSerializer(DateTimeFormatter.ofPattern(TIME_FORMAT)));
+                    objectMapper.registerModule(simpleModule);
+
                     mappingJackson2HttpMessageConverter.setObjectMapper(objectMapper);
                 });
     }

@@ -2,7 +2,6 @@ package com.qinweizhao.blog.framework.listener;
 
 import com.qinweizhao.blog.config.properties.MyBlogProperties;
 import com.qinweizhao.blog.service.ConfigService;
-import com.qinweizhao.blog.service.ThemeSettingService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
@@ -36,8 +35,6 @@ public class StartedListener implements ApplicationListener<ApplicationStartedEv
     private final MyBlogProperties myBlogProperties;
 
     private final ConfigService configService;
-
-    private final ThemeSettingService themeSettingService;
 
     @Override
     public void onApplicationEvent(@NotNull ApplicationStartedEvent event) {

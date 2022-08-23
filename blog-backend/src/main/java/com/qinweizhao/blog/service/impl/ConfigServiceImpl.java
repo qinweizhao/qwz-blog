@@ -111,6 +111,8 @@ public class ConfigServiceImpl implements ConfigService {
                         result.put(key, PropertyEnum.convertTo(propertyEnum.defaultValue(), propertyEnum));
                     });
 
+            // 补充博客地址属性
+            result.put("blog_url", this.getBlogBaseUrl());
             cacheStore.putAny(OPTIONS_KEY, result);
 
             return result;
