@@ -200,24 +200,6 @@ public class CommonController extends AbstractErrorController {
         return this.errorProperties.getPath();
     }
 
-
-    /**
-     * Determine if the stacktrace attribute should be included.
-     *
-     * @param request the source request
-     * @return if the stacktrace attribute should be included
-     */
-    private boolean isIncludeStackTrace(HttpServletRequest request) {
-        ErrorProperties.IncludeStacktrace include = errorProperties.getIncludeStacktrace();
-        if (include == ErrorProperties.IncludeStacktrace.ALWAYS) {
-            return true;
-        }
-        if (include == ErrorProperties.IncludeStacktrace.ON_TRACE_PARAM) {
-            return getTraceParameter(request);
-        }
-        return false;
-    }
-
     /**
      * Get the ErrorAttributeOptions .
      *
