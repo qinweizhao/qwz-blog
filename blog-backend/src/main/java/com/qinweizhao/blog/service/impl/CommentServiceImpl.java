@@ -24,7 +24,6 @@ import com.qinweizhao.blog.model.enums.*;
 import com.qinweizhao.blog.model.param.CommentParam;
 import com.qinweizhao.blog.model.param.CommentQueryParam;
 import com.qinweizhao.blog.model.projection.CommentCountProjection;
-import com.qinweizhao.blog.model.properties.BlogProperties;
 import com.qinweizhao.blog.model.properties.CommentProperties;
 import com.qinweizhao.blog.service.CommentBlackListService;
 import com.qinweizhao.blog.service.CommentService;

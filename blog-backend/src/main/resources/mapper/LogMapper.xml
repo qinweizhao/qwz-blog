@@ -4,18 +4,19 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.qinweizhao.blog.model.entity.Log">
-        <id column="id" property="id" />
-        <result column="create_time" property="createTime" />
-        <result column="update_time" property="updateTime" />
-        <result column="content" property="content" />
-        <result column="ip_address" property="ipAddress" />
-        <result column="log_key" property="logKey" />
-        <result column="type" property="type" />
+        <id column="id" property="id"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="content" property="content"/>
+        <result column="ip_address" property="ipAddress"/>
+        <result column="log_key" property="logKey"/>
+        <result column="type" property="type"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, create_time, update_time, content, ip_address, log_key, type
+        id
+        , create_time, update_time, content, ip_address, log_key, type
     </sql>
 
 </mapper>

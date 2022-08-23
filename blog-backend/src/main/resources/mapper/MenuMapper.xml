@@ -4,21 +4,22 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.qinweizhao.blog.model.entity.Menu">
-        <id column="id" property="id" />
-        <result column="create_time" property="createTime" />
-        <result column="update_time" property="updateTime" />
-        <result column="icon" property="icon" />
-        <result column="name" property="name" />
-        <result column="parent_id" property="parentId" />
-        <result column="priority" property="priority" />
-        <result column="target" property="target" />
-        <result column="team" property="team" />
-        <result column="url" property="url" />
+        <id column="id" property="id"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="icon" property="icon"/>
+        <result column="name" property="name"/>
+        <result column="parent_id" property="parentId"/>
+        <result column="priority" property="priority"/>
+        <result column="target" property="target"/>
+        <result column="team" property="team"/>
+        <result column="url" property="url"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, create_time, update_time, icon, name, parent_id, priority, target, team, url
+        id
+        , create_time, update_time, icon, name, parent_id, priority, target, team, url
     </sql>
 
 

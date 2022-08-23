@@ -2,8 +2,8 @@ package com.qinweizhao.blog.framework.freemarker.tag;
 
 import com.qinweizhao.blog.model.properties.PrimaryProperties;
 import com.qinweizhao.blog.model.support.HaloConst;
-import com.qinweizhao.blog.service.MenuService;
 import com.qinweizhao.blog.service.ConfigService;
+import com.qinweizhao.blog.service.MenuService;
 import freemarker.core.Environment;
 import freemarker.template.*;
 import org.springframework.stereotype.Component;

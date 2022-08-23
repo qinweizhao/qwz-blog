@@ -113,6 +113,7 @@ public interface MenuService {
 
     /**
      * 个数
+     *
      * @return long
      */
     long count();
@@ -120,10 +121,10 @@ public interface MenuService {
 
     /**
      * 分组+菜单 列表
+     *
      * @return List
      */
     List<MenuTeamVO> listTeamVO();
-
 
 
 }

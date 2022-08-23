@@ -4,16 +4,17 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.qinweizhao.blog.model.entity.CommentBlackList">
-        <id column="id" property="id" />
-        <result column="create_time" property="createTime" />
-        <result column="update_time" property="updateTime" />
-        <result column="ban_time" property="banTime" />
-        <result column="ip_address" property="ipAddress" />
+        <id column="id" property="id"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="ban_time" property="banTime"/>
+        <result column="ip_address" property="ipAddress"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, create_time, update_time, ban_time, ip_address
+        id
+        , create_time, update_time, ban_time, ip_address
     </sql>
 
 </mapper>

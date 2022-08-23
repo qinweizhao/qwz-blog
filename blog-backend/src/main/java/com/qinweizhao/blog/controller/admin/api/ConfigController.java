@@ -1,10 +1,8 @@
 package com.qinweizhao.blog.controller.admin.api;
 
 import com.qinweizhao.blog.framework.annotation.DisableOnCondition;
-import com.qinweizhao.blog.model.convert.ConfigConvert;
 import com.qinweizhao.blog.model.core.PageResult;
 import com.qinweizhao.blog.model.dto.ConfigSimpleDTO;
-import com.qinweizhao.blog.model.entity.Config;
 import com.qinweizhao.blog.model.param.ConfigParam;
 import com.qinweizhao.blog.model.param.ConfigQueryParam;
 import com.qinweizhao.blog.service.ConfigService;

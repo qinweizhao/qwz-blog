@@ -36,7 +36,6 @@ public interface PostCategoryService extends IService<PostCategory> {
     List<CategoryDTO> listByPostId(Integer postId);
 
 
-
 //
 //    /**
 //     * Lists post by category id.
@@ -160,16 +159,18 @@ public interface PostCategoryService extends IService<PostCategory> {
 
     /**
      * 列表
+     *
      * @param categoryId categoryId
-     * @param published published
+     * @param published  published
      * @return List
      */
     List<PostSimpleDTO> listPostByCategoryIdAndPostStatus(Integer categoryId, PostStatus published);
 
     /**
      * 列表
+     *
      * @param categorySlug categorySlug
-     * @param status status
+     * @param status       status
      * @return List
      */
     List<PostSimpleDTO> listPostByCategorySlugAndPostStatus(String categorySlug, PostStatus status);

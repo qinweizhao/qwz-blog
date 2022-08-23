@@ -1,9 +1,9 @@
 package com.qinweizhao.blog.framework.security.util;
 
-import com.qinweizhao.blog.framework.security.support.UserDetail;
-import com.qinweizhao.blog.model.entity.User;
 import com.qinweizhao.blog.framework.security.authentication.Authentication;
 import com.qinweizhao.blog.framework.security.context.SecurityContextHolder;
+import com.qinweizhao.blog.framework.security.support.UserDetail;
+import com.qinweizhao.blog.model.entity.User;
 
 import java.util.Objects;
 

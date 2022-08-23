@@ -66,16 +66,15 @@ public class ThemeServiceImpl implements ThemeService {
 
         return cacheStore.getAny(THEMES_CACHE_KEY, ThemeProperty.class).orElseGet(() -> {
             // 扫描配置，为防止报异常，如果存在多个只会取扫描的第一个。
-            ThemeProperty properties = ThemePropertyScanner.INSTANCE.scan(getBasePath(),themeDirName);
+            ThemeProperty properties = ThemePropertyScanner.INSTANCE.scan(getBasePath(), themeDirName);
             // 缓存主题配置
-            log.debug("主题配置{}",properties);
+            log.debug("主题配置{}", properties);
             cacheStore.putAny(THEMES_CACHE_KEY, properties);
             return properties;
         });
     }
 
     /**
-     *
      * @return Path
      */
     public Path getBasePath() {

@@ -49,15 +49,10 @@ public class ConfigServiceImpl implements ConfigService {
     private final ApplicationContext applicationContext;
 
     private final AbstractStringCacheStore cacheStore;
-
-    private Map<String, PropertyEnum> propertyEnumMap;
-
     private final ApplicationEventPublisher eventPublisher;
-
     private final MyBlogProperties myBlogProperties;
-
     private final ConfigMapper configMapper;
-
+    private Map<String, PropertyEnum> propertyEnumMap;
 
     @Override
     public String buildFullPath(Integer postId) {

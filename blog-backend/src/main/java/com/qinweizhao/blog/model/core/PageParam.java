@@ -32,35 +32,6 @@ public abstract class PageParam {
 
     private List<Sort> sorts = new ArrayList<>();
 
-    public static class Sort {
-
-        /**
-         * 属性
-         */
-        private String field;
-
-        /**
-         * 是否正序排序
-         */
-        private boolean asc;
-
-        public String getField() {
-            return field;
-        }
-
-        public void setField(String field) {
-            this.field = field;
-        }
-
-        public boolean isAsc() {
-            return asc;
-        }
-
-        public void setAsc(boolean asc) {
-            this.asc = asc;
-        }
-    }
-
     public List<Sort> getSorts() {
         return sorts;
     }
@@ -122,6 +93,35 @@ public abstract class PageParam {
 
     public void setNeedTotalCount(boolean needTotalCount) {
         this.needTotalCount = needTotalCount;
+    }
+
+    public static class Sort {
+
+        /**
+         * 属性
+         */
+        private String field;
+
+        /**
+         * 是否正序排序
+         */
+        private boolean asc;
+
+        public String getField() {
+            return field;
+        }
+
+        public void setField(String field) {
+            this.field = field;
+        }
+
+        public boolean isAsc() {
+            return asc;
+        }
+
+        public void setAsc(boolean asc) {
+            this.asc = asc;
+        }
     }
 
 }

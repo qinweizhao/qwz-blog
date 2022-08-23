@@ -1,7 +1,5 @@
 package com.qinweizhao.blog.service;
 
-import com.baomidou.mybatisplus.extension.service.IService;
-import com.qinweizhao.blog.model.entity.CommentBlackList;
 import com.qinweizhao.blog.model.enums.CommentViolationTypeEnum;
 
 /**

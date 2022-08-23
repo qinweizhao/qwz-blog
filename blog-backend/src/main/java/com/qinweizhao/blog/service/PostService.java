@@ -58,7 +58,6 @@ public interface PostService {
     PostSimpleDTO getSimpleById(Integer postId);
 
 
-
     /**
      * 生成描述
      *
@@ -176,6 +175,7 @@ public interface PostService {
 
     /**
      * 获取文章状态
+     *
      * @param postId postId
      * @return PostStatus
      */
@@ -183,6 +183,7 @@ public interface PostService {
 
     /**
      * 获取上一个文章(发布状态)
+     *
      * @param postId postId
      * @return PostDTO
      */
@@ -190,6 +191,7 @@ public interface PostService {
 
     /**
      * 获取下一个文章(发布状态)
+     *
      * @param postId postId
      * @return PostDTO
      */
@@ -197,12 +199,14 @@ public interface PostService {
 
     /**
      * 统计个数
+     *
      * @return long
      */
     long count();
 
     /**
      * 增加访问量
+     *
      * @param postId postId
      * @return boolean
      */
@@ -210,6 +214,7 @@ public interface PostService {
 
     /**
      * 增加点赞
+     *
      * @param postId postId
      * @return boolean
      */
@@ -217,12 +222,14 @@ public interface PostService {
 
     /**
      * 发送访问事件
+     *
      * @param postId postId
      */
     void publishVisitEvent(Integer postId);
 
     /**
      * 归档（Year）
+     *
      * @return List
      */
     List<ArchiveYearVO> listYearArchives();
@@ -230,6 +237,7 @@ public interface PostService {
 
     /**
      * 归档（Month）
+     *
      * @return List
      */
     List<ArchiveMonthVO> listMonthArchives();

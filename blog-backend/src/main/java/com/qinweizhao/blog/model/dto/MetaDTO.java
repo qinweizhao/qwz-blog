@@ -3,7 +3,6 @@ package com.qinweizhao.blog.model.dto;
 import lombok.Data;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
 /**
  * Base meta Dto.

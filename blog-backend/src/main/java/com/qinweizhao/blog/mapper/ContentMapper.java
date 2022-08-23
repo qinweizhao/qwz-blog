@@ -2,12 +2,7 @@ package com.qinweizhao.blog.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.qinweizhao.blog.model.entity.Content;
-import com.qinweizhao.blog.model.entity.Meta;
-import com.qinweizhao.blog.util.LambdaQueryWrapperX;
 import org.apache.ibatis.annotations.Mapper;
-
-import java.util.List;
-import java.util.Set;
 
 /**
  * <p>
@@ -19,7 +14,6 @@ import java.util.Set;
  */
 @Mapper
 public interface ContentMapper extends BaseMapper<Content> {
-
 
 
 }

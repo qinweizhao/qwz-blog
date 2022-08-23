@@ -1,7 +1,6 @@
 package com.qinweizhao.blog.model.convert;
 
 
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.qinweizhao.blog.model.core.PageResult;
 import com.qinweizhao.blog.model.dto.PostDTO;
 import com.qinweizhao.blog.model.dto.PostListDTO;
@@ -115,7 +114,6 @@ public interface PostConvert {
     }
 
 
-
     /**
      * convertToListVO
      *
@@ -127,6 +125,7 @@ public interface PostConvert {
 
     /**
      * convertDTO
+     *
      * @param postPage postPage
      * @return PageResult
      */

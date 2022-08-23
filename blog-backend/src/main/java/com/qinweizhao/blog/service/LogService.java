@@ -16,6 +16,7 @@ public interface LogService extends IService<Log> {
 
     /**
      * 分页
+     *
      * @param param param
      * @return Page
      */

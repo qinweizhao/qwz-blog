@@ -3,7 +3,6 @@ package com.qinweizhao.blog.mapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.qinweizhao.blog.model.entity.PostCategory;
-import com.qinweizhao.blog.model.entity.PostTag;
 import com.qinweizhao.blog.model.enums.PostStatus;
 import com.qinweizhao.blog.model.projection.CategoryPostCountProjection;
 import com.qinweizhao.blog.util.LambdaQueryWrapperX;
@@ -88,7 +87,7 @@ public interface PostCategoryMapper extends BaseMapper<PostCategory> {
     /**
      * 批量删除关联
      *
-     * @param postId       postId
+     * @param postId            postId
      * @param removeCategoryIds removeCategoryIds
      * @return int
      */

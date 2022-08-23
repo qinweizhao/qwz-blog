@@ -12,16 +12,18 @@ import java.util.List;
  * @author ryanwang
  * @since 2019-03-14
  */
-public interface TagService  {
+public interface TagService {
 
     /**
      * 列表
+     *
      * @return List
      */
     List<TagDTO> list();
 
     /**
      * 新增标签
+     *
      * @param tagParam tagParam
      * @return boolean
      */
@@ -29,6 +31,7 @@ public interface TagService  {
 
     /**
      * 详情
+     *
      * @param tagId tagId
      * @return TagDTO
      */
@@ -36,6 +39,7 @@ public interface TagService  {
 
     /**
      * 通过别名获取
+     *
      * @param slug slug
      * @return TagDTO
      */
@@ -43,7 +47,8 @@ public interface TagService  {
 
     /**
      * 更新
-     * @param tagId tagId
+     *
+     * @param tagId    tagId
      * @param tagParam tagParam
      * @return boolean
      */
@@ -51,6 +56,7 @@ public interface TagService  {
 
     /**
      * 移除
+     *
      * @param tagId tagId
      * @return boolean
      */
@@ -58,6 +64,7 @@ public interface TagService  {
 
     /**
      * 统计标签个数
+     *
      * @return Long
      */
     Long count();

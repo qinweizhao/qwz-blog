@@ -4,21 +4,22 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.qinweizhao.blog.model.entity.User">
-        <id column="id" property="id" />
-        <result column="username" property="username" />
-        <result column="password" property="password" />
-        <result column="avatar" property="avatar" />
-        <result column="email" property="email" />
-        <result column="description" property="description" />
-        <result column="expire_time" property="expireTime" />
-        <result column="nickname" property="nickname" />
-        <result column="create_time" property="createTime" />
-        <result column="update_time" property="updateTime" />
+        <id column="id" property="id"/>
+        <result column="username" property="username"/>
+        <result column="password" property="password"/>
+        <result column="avatar" property="avatar"/>
+        <result column="email" property="email"/>
+        <result column="description" property="description"/>
+        <result column="expire_time" property="expireTime"/>
+        <result column="nickname" property="nickname"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, username, password, avatar, email, description, expire_time, nickname, create_time, update_time
+        id
+        , username, password, avatar, email, description, expire_time, nickname, create_time, update_time
     </sql>
 
 </mapper>

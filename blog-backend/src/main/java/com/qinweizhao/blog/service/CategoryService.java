@@ -25,6 +25,7 @@ public interface CategoryService {
 
     /**
      * 通过别名获取分类
+     *
      * @param slug slug
      * @return CategoryDTO
      */
@@ -33,8 +34,8 @@ public interface CategoryService {
     /**
      * 列表(菜单)
      *
-     * @return List
      * @param more more
+     * @return List
      */
     List<CategoryDTO> list(boolean more);
 

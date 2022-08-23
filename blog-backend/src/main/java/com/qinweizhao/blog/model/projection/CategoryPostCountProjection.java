@@ -1,8 +1,6 @@
 package com.qinweizhao.blog.model.projection;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 /**
  * Category post count projection.

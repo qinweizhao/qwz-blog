@@ -1,12 +1,12 @@
 package com.qinweizhao.blog.controller.admin.api;
 
 import com.qinweizhao.blog.framework.annotation.DisableOnCondition;
+import com.qinweizhao.blog.framework.security.util.SecurityUtils;
 import com.qinweizhao.blog.model.convert.UserConvert;
 import com.qinweizhao.blog.model.dto.UserDTO;
 import com.qinweizhao.blog.model.param.PasswordParam;
 import com.qinweizhao.blog.model.param.UserUpdateParam;
 import com.qinweizhao.blog.model.support.BaseResponse;
-import com.qinweizhao.blog.framework.security.util.SecurityUtils;
 import com.qinweizhao.blog.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.validation.annotation.Validated;

@@ -1,10 +1,10 @@
 package com.qinweizhao.blog.framework.security.resolver;
 
 import com.qinweizhao.blog.exception.AuthenticationException;
+import com.qinweizhao.blog.framework.security.authentication.Authentication;
 import com.qinweizhao.blog.framework.security.context.SecurityContextHolder;
 import com.qinweizhao.blog.framework.security.support.UserDetail;
 import com.qinweizhao.blog.model.entity.User;
-import com.qinweizhao.blog.framework.security.authentication.Authentication;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.MethodParameter;
 import org.springframework.lang.Nullable;

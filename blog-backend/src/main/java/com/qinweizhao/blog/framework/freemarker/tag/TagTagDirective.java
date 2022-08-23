@@ -51,7 +51,7 @@ public class TagTagDirective implements TemplateDirectiveModel {
                 case "listByPostId":
                     Integer postId = Integer.parseInt(params.get("postId").toString());
                     List<TagDTO> tags = postTagService.listTagsByPostId(postId);
-                    tags.forEach(item->item.setFullPath(configService.buildFullPath(postId)));
+                    tags.forEach(item -> item.setFullPath(configService.buildFullPath(postId)));
                     env.setVariable("tags", builder.build().wrap(tags));
                     break;
                 case "count":

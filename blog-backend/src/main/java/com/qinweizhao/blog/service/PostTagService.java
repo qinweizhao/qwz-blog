@@ -47,12 +47,11 @@ public interface PostTagService extends IService<PostTag> {
 
     /**
      * 查询标签集合
+     *
      * @param postId postId
      * @return List
      */
     List<TagDTO> listTagsByPostId(Integer postId);
-
-
 
 
 //
@@ -153,7 +152,8 @@ public interface PostTagService extends IService<PostTag> {
 
     /**
      * 列表
-     * @param tagId tagId
+     *
+     * @param tagId  tagId
      * @param status published
      * @return List
      */
@@ -161,8 +161,9 @@ public interface PostTagService extends IService<PostTag> {
 
     /**
      * 列表
+     *
      * @param tagSlug tagSlug
-     * @param status published
+     * @param status  published
      * @return List
      */
     List<PostSimpleDTO> listPostsByTagSlugAndPostStatus(String tagSlug, PostStatus status);

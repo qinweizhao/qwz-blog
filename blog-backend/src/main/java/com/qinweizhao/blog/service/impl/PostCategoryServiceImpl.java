@@ -1,10 +1,10 @@
 package com.qinweizhao.blog.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.qinweizhao.blog.model.convert.CategoryConvert;
 import com.qinweizhao.blog.mapper.CategoryMapper;
 import com.qinweizhao.blog.mapper.PostCategoryMapper;
 import com.qinweizhao.blog.mapper.PostMapper;
+import com.qinweizhao.blog.model.convert.CategoryConvert;
 import com.qinweizhao.blog.model.convert.PostConvert;
 import com.qinweizhao.blog.model.dto.CategoryDTO;
 import com.qinweizhao.blog.model.dto.PostSimpleDTO;
@@ -82,7 +82,7 @@ public class PostCategoryServiceImpl extends ServiceImpl<PostCategoryMapper, Pos
         Set<Integer> categoryIds = postCategoryMapper.selectSetCategoryIdsByPostId(postId);
         List<Category> categories = categoryMapper.selectListByIds(categoryIds);
         List<CategoryDTO> result = CategoryConvert.INSTANCE.convertToDTO(categories);
-        result.forEach(item->item.setFullPath(configService.buildFullPath(postId)));
+        result.forEach(item -> item.setFullPath(configService.buildFullPath(postId)));
         return result;
     }
 

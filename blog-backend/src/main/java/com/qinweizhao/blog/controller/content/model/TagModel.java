@@ -5,7 +5,10 @@ import com.qinweizhao.blog.model.dto.PostListDTO;
 import com.qinweizhao.blog.model.dto.TagDTO;
 import com.qinweizhao.blog.model.enums.PostStatus;
 import com.qinweizhao.blog.model.param.PostQueryParam;
-import com.qinweizhao.blog.service.*;
+import com.qinweizhao.blog.service.ConfigService;
+import com.qinweizhao.blog.service.PostService;
+import com.qinweizhao.blog.service.TagService;
+import com.qinweizhao.blog.service.ThemeService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.ui.Model;
@@ -32,6 +35,7 @@ public class TagModel {
 
     /**
      * tags.html
+     *
      * @param model model
      * @return String
      */

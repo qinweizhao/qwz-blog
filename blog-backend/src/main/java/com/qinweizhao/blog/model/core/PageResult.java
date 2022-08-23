@@ -56,7 +56,7 @@ public class PageResult<T> {
         this.hasNext = hasNext;
     }
 
-    public PageResult(List<T> content,long current,long size, long total, boolean hasPrevious, boolean hasNext) {
+    public PageResult(List<T> content, long current, long size, long total, boolean hasPrevious, boolean hasNext) {
         this.content = content;
         this.current = current;
         this.size = size;

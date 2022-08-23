@@ -57,6 +57,7 @@ public interface JournalService {
 
     /**
      * 获取评论
+     *
      * @param targetId targetId
      * @return JournalDTO
      */
