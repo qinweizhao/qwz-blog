@@ -42,7 +42,7 @@ public class ContentFeedController {
     private final FreeMarkerConfigurer freeMarker;
 
     /**
-     * 获取 sitemap.xml.
+     * sitemap.xml.
      *
      * @param model model
      * @return sitemap xml content.
@@ -57,7 +57,7 @@ public class ContentFeedController {
     }
 
     /**
-     * Get sitemap.html.
+     * sitemap.html.
      *
      * @param model model
      * @return template path: common/web/sitemap_html
@@ -69,7 +69,7 @@ public class ContentFeedController {
     }
 
     /**
-     * Get robots.txt
+     * robots.txt
      *
      * @param model model
      * @return robots.txt content
@@ -82,9 +82,8 @@ public class ContentFeedController {
         return FreeMarkerTemplateUtils.processTemplateIntoString(template, model);
     }
 
-
     /**
-     * Build posts.
+     * 构建文章列表
      *
      * @return list of post detail vo
      */

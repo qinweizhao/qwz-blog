@@ -34,6 +34,13 @@ public class ContentContentController {
     private final ConfigService configService;
 
 
+    /**
+     * 一级路径
+     *
+     * @param prefix prefix
+     * @param model  model
+     * @return String
+     */
     @GetMapping("{prefix}")
     public String content(@PathVariable("prefix") String prefix,
                           Model model) {
@@ -57,6 +64,14 @@ public class ContentContentController {
         return null;
     }
 
+    /**
+     * 一级路径分页后
+     *
+     * @param prefix prefix
+     * @param page   page
+     * @param model  model
+     * @return String
+     */
     @GetMapping("{prefix}/page/{page:\\d+}")
     public String content(@PathVariable("prefix") String prefix,
                           @PathVariable(value = "page") Integer page,

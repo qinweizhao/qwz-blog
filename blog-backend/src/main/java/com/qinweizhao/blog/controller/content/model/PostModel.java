@@ -41,7 +41,6 @@ public class PostModel {
 
     public String content(Integer postId, PostStatus status, String token, Model model) {
 
-
         if (PostStatus.RECYCLE.equals(status)) {
             throw new NotFoundException("查询不到该文章的信息");
         }
@@ -60,10 +59,8 @@ public class PostModel {
 
         PostDTO post = postService.getById(postId);
 
-
         model.addAttribute("prevPost", postService.getPrevPost(postId));
         model.addAttribute("nextPost", postService.getNextPost(postId));
-
 
         if (StringUtils.isNotEmpty(post.getMetaKeywords())) {
             model.addAttribute("meta_keywords", post.getMetaKeywords());
@@ -78,15 +75,11 @@ public class PostModel {
             model.addAttribute("meta_description", postService.generateDescription(post.getFormatContent()));
         }
 
-//        model.addAttribute("is_post", true);
+        model.addAttribute("is_post", true);
         model.addAttribute("post", post);
-//        model.addAttribute("categories", post.getCategories());
-//        model.addAttribute("tags", tags);
-//        model.addAttribute("metas", post.getMetas());
 
         // 发送事件
         postService.publishVisitEvent(post.getId());
-
 
         return themeService.render("post");
     }
