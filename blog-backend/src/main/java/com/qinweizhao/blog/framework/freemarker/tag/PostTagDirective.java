@@ -52,7 +52,6 @@ public class PostTagDirective implements TemplateDirectiveModel {
                 case "count":
                     env.setVariable("count", builder.build().wrap(postService.countByStatus(PostStatus.PUBLISHED)));
                     break;
-                // 归档
                 case "archive":
                     String type = params.get("type").toString();
                     env.setVariable("archives", builder.build().wrap("year".equals(type) ? postService.listYearArchives() : postService.listMonthArchives()));

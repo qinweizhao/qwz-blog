@@ -206,7 +206,7 @@ public interface PostMapper extends BaseMapper<Post> {
     }
 
     /**
-     * 查询列表
+     * 查询列表(最新的已经发布的)
      *
      * @param top top
      * @return List
@@ -214,6 +214,7 @@ public interface PostMapper extends BaseMapper<Post> {
     default List<Post> selectListLatest(int top) {
         return this.selectList(new LambdaQueryWrapper<Post>()
                 .orderByDesc(Post::getCreateTime)
+                        .eq(Post::getStatus,PostStatus.PUBLISHED)
                 .last("limit " + top)
         );
     }

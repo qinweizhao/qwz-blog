@@ -1,5 +1,6 @@
 package com.qinweizhao.blog.config;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
@@ -15,7 +16,6 @@ import freemarker.template.TemplateExceptionHandler;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
-import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
 import org.springframework.boot.autoconfigure.web.servlet.MultipartProperties;
 import org.springframework.boot.autoconfigure.web.servlet.WebMvcRegistrations;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -39,6 +39,7 @@ import org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver;
 
 import javax.servlet.MultipartConfigElement;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -71,36 +72,41 @@ public class MyWebMvcConfig implements WebMvcConfigurer {
 
     private static final String TIME_FORMAT = "yyyy-MM-dd";
 
-    /**
-     * 使用此方法,会覆盖 @EnableAutoConfiguration 关于 WebMvcAutoConfiguration 的配置
-     *
-     * @param converters converters
-     */
-    @Override
-    public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
-        converters.stream()
-                .filter(c -> c instanceof MappingJackson2HttpMessageConverter)
-                .findFirst()
-                .ifPresent(converter -> {
-                    MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter = (MappingJackson2HttpMessageConverter) converter;
-                    Jackson2ObjectMapperBuilder builder = Jackson2ObjectMapperBuilder.json();
-                    JsonComponentModule module = new JsonComponentModule();
-                    ObjectMapper objectMapper = builder.modules(module).build();
-                    SimpleModule simpleModule = new SimpleModule();
-
-                    //  LocalDateTime时间格式化
-                    simpleModule.addSerializer(LocalDateTime.class,new LocalDateTimeSerializer(DateTimeFormatter.ofPattern(DATE_TIME_FORMAT)));
-
-                    // LocalDate时间格式化
-                    simpleModule.addSerializer(LocalDate.class, new LocalDateSerializer(DateTimeFormatter.ofPattern(DATE_FORMAT)));
-
-                    // LocalTime时间格式化
-                    simpleModule.addSerializer(LocalTime.class, new LocalTimeSerializer(DateTimeFormatter.ofPattern(TIME_FORMAT)));
-                    objectMapper.registerModule(simpleModule);
-
-                    mappingJackson2HttpMessageConverter.setObjectMapper(objectMapper);
-                });
-    }
+//    /**
+//     *
+//     * @param converters converters
+//     */
+//    @Override
+//    public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
+//        converters.stream()
+//                .filter(c -> c instanceof MappingJackson2HttpMessageConverter)
+//                .findFirst()
+//                .ifPresent(converter -> {
+//                    MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter = (MappingJackson2HttpMessageConverter) converter;
+//                    Jackson2ObjectMapperBuilder builder = Jackson2ObjectMapperBuilder.json();
+//                    JsonComponentModule module = new JsonComponentModule();
+//                    SimpleModule simpleModule = new SimpleModule();
+//
+//                    //  LocalDateTime时间格式化
+//                    simpleModule.addSerializer(LocalDateTime.class, new LocalDateTimeSerializer(DateTimeFormatter.ofPattern(DATE_TIME_FORMAT)));
+//
+//                    // LocalDate时间格式化
+//                    simpleModule.addSerializer(LocalDate.class, new LocalDateSerializer(DateTimeFormatter.ofPattern(DATE_FORMAT)));
+//
+//                    // LocalTime时间格式化
+//                    simpleModule.addSerializer(LocalTime.class, new LocalTimeSerializer(DateTimeFormatter.ofPattern(TIME_FORMAT)));
+//
+//                    ObjectMapper objectMapper = builder.modules(module).build();
+//
+//                    objectMapper.registerModule(simpleModule);
+//
+//                    //Data 时间格式化
+//                    objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+//                    objectMapper.setDateFormat(new SimpleDateFormat(DATE_TIME_FORMAT));
+//
+//                    mappingJackson2HttpMessageConverter.setObjectMapper(objectMapper);
+//                });
+//    }
 
 
     @Override
