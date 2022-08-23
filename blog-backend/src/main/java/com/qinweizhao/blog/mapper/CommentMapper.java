@@ -39,7 +39,7 @@ public interface CommentMapper extends BaseMapper<Comment> {
      * @param targetIds targetIds
      * @return List
      */
-    List<CommentCountProjection> selectCountBy(@Param("status") CommentStatus status, @Param("type") CommentType type, @Param("targetIds") Collection<Integer> targetIds);
+    List<CommentCountProjection> selectListCommentCountProjection(@Param("status") CommentStatus status, @Param("type") CommentType type, @Param("targetIds") Collection<Integer> targetIds);
 
     /**
      * 按评论 id 查找直接子评论。

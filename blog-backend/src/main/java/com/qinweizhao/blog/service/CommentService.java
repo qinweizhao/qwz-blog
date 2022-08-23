@@ -38,14 +38,13 @@ public interface CommentService {
     PageResult<CommentDTO> pageComment(CommentQueryParam param);
 
     /**
-     * 统计评论个数
+     * 统计评论个数（隐藏条件-已发布)
      *
-     * @param status      status
      * @param type      type
      * @param targetIds postIds
      * @return Map
      */
-    Map<Integer, Long> countBy(CommentStatus status, CommentType type, Set<Integer> targetIds);
+    Map<Integer, Long> countByTypeAndTargetIds( CommentType type, Set<Integer> targetIds);
 
     /**
      * 分页（树）
