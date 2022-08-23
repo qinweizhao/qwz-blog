@@ -50,13 +50,18 @@ import static com.qinweizhao.blog.util.HaloUtils.*;
 @Configuration
 @AllArgsConstructor
 @EnableConfigurationProperties(MultipartProperties.class)
-public class WebMvcAutoConfiguration implements WebMvcConfigurer {
+public class MyWebMvcConfig implements WebMvcConfigurer {
 
     private static final String FILE_PROTOCOL = "file:///";
 
     private final MyBlogProperties myBlogProperties;
 
 
+    /**
+     * 解决 IE 浏览器 Get  @ResponseBody返回json的时候提示下载问题
+     *
+     * @param converters converters
+     */
     @Override
     public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
         converters.stream()
@@ -99,8 +104,6 @@ public class WebMvcAutoConfiguration implements WebMvcConfigurer {
             registry.addResourceHandler("/themes/**")
                     .addResourceLocations(workDir + frontendDirName + "/");
 
-            String path = workDir + "frontend/";
-            log.debug("主题的目录为{}", path);
             registry.addResourceHandler(uploadUrlPattern)
                     .setCacheControl(CacheControl.maxAge(7L, TimeUnit.DAYS))
                     .addResourceLocations(workDir + "image/");
@@ -131,7 +134,6 @@ public class WebMvcAutoConfiguration implements WebMvcConfigurer {
     }
 
     /**
-     * todo
      * 配置 freemarker 模板文件路径。
      *
      * @return new FreeMarkerConfigurer
@@ -140,11 +142,7 @@ public class WebMvcAutoConfiguration implements WebMvcConfigurer {
     public FreeMarkerConfigurer freemarkerConfig(MyBlogProperties myBlogProperties) throws IOException, TemplateException {
         FreeMarkerConfigurer configurer = new FreeMarkerConfigurer();
         String frontendDirName = myBlogProperties.getFrontendDirName();
-        if (myBlogProperties.isProductionEnv()) {
-            configurer.setTemplateLoaderPaths(FILE_PROTOCOL + myBlogProperties.getWorkDir() + frontendDirName + "/", "classpath:/templates/");
-        } else {
-            configurer.setTemplateLoaderPaths(FILE_PROTOCOL + myBlogProperties.getWorkDir() + frontendDirName + "/", "classpath:/templates/");
-        }
+        configurer.setTemplateLoaderPaths(FILE_PROTOCOL + myBlogProperties.getWorkDir() + frontendDirName + "/", "classpath:/templates/");
         configurer.setDefaultEncoding("UTF-8");
 
         Properties properties = new Properties();
@@ -152,7 +150,7 @@ public class WebMvcAutoConfiguration implements WebMvcConfigurer {
 
         configurer.setFreemarkerSettings(properties);
 
-        // Predefine configuration
+        // 预定义配置
         freemarker.template.Configuration configuration = configurer.createConfiguration();
 
         configuration.setNewBuiltinClassResolver(TemplateClassResolver.SAFER_RESOLVER);
@@ -161,14 +159,13 @@ public class WebMvcAutoConfiguration implements WebMvcConfigurer {
             configuration.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
         }
 
-        // Set predefined freemarker configuration
         configurer.setConfiguration(configuration);
 
         return configurer;
     }
 
     /**
-     * Configuring multipartResolver for large file upload..
+     * 配置文件上传解析器
      *
      * @return new multipartResolver
      */

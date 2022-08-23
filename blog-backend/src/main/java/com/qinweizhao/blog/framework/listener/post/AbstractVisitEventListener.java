@@ -53,33 +53,31 @@ public abstract class AbstractVisitEventListener {
     protected void handleVisitEvent(@NonNull AbstractVisitEvent event) throws InterruptedException {
         Assert.notNull(event, "Visit event must not be null");
 
-        // Get post id
         Integer id = event.getId();
 
-        log.debug("Received a visit event, post id: [{}]", id);
+        log.debug("收到访问事件，文章 id: [{}]", id);
 
-        // Get post visit queue
+
         BlockingQueue<Integer> postVisitQueue = visitQueueMap.computeIfAbsent(id, this::createEmptyQueue);
 
         visitTaskMap.computeIfAbsent(id, this::createPostVisitTask);
 
-        // Put a visit for the post
         postVisitQueue.put(id);
     }
 
 
     private PostVisitTask createPostVisitTask(Integer postId) {
-        // Create new post visit task
+
         PostVisitTask postVisitTask = new PostVisitTask(postId);
-        // Start a post visit task
+
         executor.execute(postVisitTask);
 
-        log.debug("Created a new post visit task for post id: [{}]", postId);
+        log.debug("为文章 ID 创建了一个新的文章访问任务： [{}]", postId);
         return postVisitTask;
     }
 
     private BlockingQueue<Integer> createEmptyQueue(Integer postId) {
-        // Create a new queue
+
         return new LinkedBlockingQueue<>();
     }
 

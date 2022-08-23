@@ -17,6 +17,7 @@ import static com.qinweizhao.blog.util.HaloUtils.ensureBoth;
 
 /**
  * @author ryanwang
+ * @author qinweizhao
  * @since 2020-03-24
  */
 @Slf4j
@@ -39,7 +40,7 @@ public class MyRequestMappingHandlerMapping extends RequestMappingHandlerMapping
         log.debug("寻找路径: [{}]", lookupPath);
         for (String blackPattern : blackPatterns) {
             if (this.pathMatcher.match(blackPattern, lookupPath)) {
-                log.debug("Skipped path [{}] with pattern: [{}]", lookupPath, blackPattern);
+                log.debug("跳过的路径 [{}]匹配的地址为: [{}]", lookupPath, blackPattern);
                 return null;
             }
         }
@@ -57,7 +58,6 @@ public class MyRequestMappingHandlerMapping extends RequestMappingHandlerMapping
         blackPatterns.add("/css/**");
         blackPatterns.add("/assets/**");
         blackPatterns.add("/color.less");
-        blackPatterns.add("/swagger-ui.html");
         blackPatterns.add("/csrf");
         blackPatterns.add("/webjars/**");
         blackPatterns.add(uploadUrlPattern);

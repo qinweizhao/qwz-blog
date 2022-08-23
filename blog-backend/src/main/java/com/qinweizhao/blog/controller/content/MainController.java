@@ -47,12 +47,6 @@ public class MainController {
         response.sendRedirect(adminIndexRedirectUri);
     }
 
-    @GetMapping("version")
-    @ResponseBody
-    public String version() {
-        return HaloConst.HALO_VERSION;
-    }
-
     @GetMapping("avatar")
     public void avatar(HttpServletResponse response) throws IOException {
         User user = userService.getCurrentUser().orElseThrow(() -> new ServiceException("未查询到博主信息"));
