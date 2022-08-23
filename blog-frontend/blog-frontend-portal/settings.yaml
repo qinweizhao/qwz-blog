@@ -619,12 +619,6 @@ carousel:
           label: 阅读量排行文章
         - value: likes
           label: 点赞排行文章
-        # - value: topped_category
-        #   label: 置顶分类文章
-        # - value: topped_tag
-        #   label: 置顶标签文章
-        # - value: specify_post
-        #   label: 特定关键词文章
         - value: specify_category
           label: 特定分类文章
         - value: specify_tag
@@ -640,7 +634,7 @@ carousel:
       name: banner_data
       label: 手动配置数据
       type: textarea
-      default: "欢迎使用Joe2.0主题-|||-这是一款功能齐全的Halo博客主题，感谢大家的支持🙏-|||-/themes/joe2.0/source/img/dp/welcome.jpg-|||-https://github.com/qinhua/halo-theme-joe2.0#readme=====剪映创作不凡 - TRACK概念片-|||-超能剪辑力如何才能快速GET，且看这里-|||-https://img.zcool.cn/community/011ca2614d755911013e894390b399.png@1280w_1l_2o_100sh.png-|||-#"
+      default: "xxx-|||-xxx|||-xxx-|||-xxx=====xxx-|||-xxx-|||-xxx#"
       description: "手动配置首页的轮播图数据，仅当数据来源为 “手动配置” 时生效（注意：主题内默认配置了演示数据）。【多个轮播图之间用 '=====' 隔开，属性之间用 '-|||-' 隔开】(为了美观，允许换行)，【具体示例】标题-|||-副标题-|||-图片链接-|||-跳转链接，不需要跳转写 '#' 即可（请严格按照此格式或默认示例进行配置，否则可能导致网站崩溃）"
     banner_amount_limit:
       name: banner_amount_limit
@@ -895,34 +889,6 @@ aside:
       data-type: bool
       default: false
       description: "在侧边栏展示公告信息模块，必须配置公告内容才生效（请在 '基本设置' 栏中配置）"
-      options:
-        - value: true
-          label: 开启
-        - value: false
-          label: 关闭
-    qrcode_url:
-      name: qrcode_url
-      label: 二维码图片
-      type: attachment
-      description: "二维码图片的url，支持配置标题、二维码图片、和描述文字"
-    qrcode_title:
-      name: qrcode_title
-      label: 二维码标题
-      type: text
-      default: "我的二维码"
-      placeholder: "请输入二维码标题（仅在二维码url不为空时生效）"
-    qrcode_description:
-      name: qrcode_description
-      label: 二维码描述
-      type: textarea
-      placeholder: "请输入二维码描述（仅在二维码url不为空时生效）"
-    enable_qrcode:
-      name: enable_qrcode
-      label: 展示二维码
-      type: switch
-      data-type: bool
-      default: false
-      description: "在侧边栏展示二维码模块，必须配置图片url"
       options:
         - value: true
           label: 开启

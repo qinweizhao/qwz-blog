@@ -15,20 +15,6 @@
         </div>
       </section>
     </#if>
-    <#if settings.enable_qrcode && settings.qrcode_url?? && settings.qrcode_url!=''>
-      <section class="joe_aside__item qrcode">
-        <div class="joe_aside__item-title">
-          <i class="joe-font joe-icon-qrcode"></i>
-          <span class="text">${settings.qrcode_title!'我的二维码'}</span>
-        </div>
-        <div class="joe_aside__item-contain">
-          <img class="qrcode_img lazyload" src="${LAZY_IMG}" data-src="${settings.qrcode_url!}" onerror="Joe.errorImg(this)" alt="二维码"/>
-          <#if settings.qrcode_description??>
-            <p class="qrcode_description">${settings.qrcode_description!}</p>
-          </#if>
-        </div>
-      </section>
-    </#if>
     <#if settings.enable_music_player && settings.music_id?? && settings.music_id!=''>
       <section class="joe_aside__item timelife">
         <div class="joe_aside__item-title">
