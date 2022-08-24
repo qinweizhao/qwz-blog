@@ -157,10 +157,6 @@ export default {
           url: `${options.blog_url}/${options.archives_prefix}${pathSuffix}`
         },
         {
-          name: 'RSS',
-          url: `${options.blog_url}/atom.xml`
-        },
-        {
           name: '网站地图',
           url: `${options.blog_url}/sitemap.xml`
         },
