@@ -40,18 +40,6 @@
         </template>
         <a-input v-model="options.sheet_prefix" />
       </a-form-model-item>
-      <a-form-model-item label="友情链接页面前缀：">
-        <template slot="help">
-          <span>{{ options.blog_url }}/{{ options.links_prefix }}{{ options.path_suffix }}</span>
-        </template>
-        <a-input v-model="options.links_prefix" />
-      </a-form-model-item>
-      <a-form-model-item label="图库页面前缀：">
-        <template slot="help">
-          <span>{{ options.blog_url }}/{{ options.photos_prefix }}{{ options.path_suffix }}</span>
-        </template>
-        <a-input v-model="options.photos_prefix" />
-      </a-form-model-item>
       <a-form-model-item label="日志页面前缀：">
         <template slot="help">
           <span>{{ options.blog_url }}/{{ options.journals_prefix }}{{ options.path_suffix }}</span>

@@ -28,24 +28,6 @@ public enum PermalinkProperties implements PropertyEnum {
     ARCHIVES_PREFIX("archives_prefix", String.class, "archives"),
 
     /**
-     * Sheet prefix
-     * such as: /s/${slug}
-     */
-    SHEET_PREFIX("sheet_prefix", String.class, "s"),
-
-    /**
-     * Links page prefix
-     * default is links
-     */
-    LINKS_PREFIX("links_prefix", String.class, "links"),
-
-    /**
-     * Photos page prefix
-     * default is photos
-     */
-    PHOTOS_PREFIX("photos_prefix", String.class, "photos"),
-
-    /**
      * Journals page prefix
      * default is journals
      */
