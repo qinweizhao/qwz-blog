@@ -66,49 +66,6 @@ public class MyWebMvcConfig implements WebMvcConfigurer {
 
     private final MyBlogProperties myBlogProperties;
 
-    private static final String DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
-
-    private static final String DATE_FORMAT = "yyyy-MM-dd";
-
-    private static final String TIME_FORMAT = "yyyy-MM-dd";
-
-//    /**
-//     *
-//     * @param converters converters
-//     */
-//    @Override
-//    public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
-//        converters.stream()
-//                .filter(c -> c instanceof MappingJackson2HttpMessageConverter)
-//                .findFirst()
-//                .ifPresent(converter -> {
-//                    MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter = (MappingJackson2HttpMessageConverter) converter;
-//                    Jackson2ObjectMapperBuilder builder = Jackson2ObjectMapperBuilder.json();
-//                    JsonComponentModule module = new JsonComponentModule();
-//                    SimpleModule simpleModule = new SimpleModule();
-//
-//                    //  LocalDateTime时间格式化
-//                    simpleModule.addSerializer(LocalDateTime.class, new LocalDateTimeSerializer(DateTimeFormatter.ofPattern(DATE_TIME_FORMAT)));
-//
-//                    // LocalDate时间格式化
-//                    simpleModule.addSerializer(LocalDate.class, new LocalDateSerializer(DateTimeFormatter.ofPattern(DATE_FORMAT)));
-//
-//                    // LocalTime时间格式化
-//                    simpleModule.addSerializer(LocalTime.class, new LocalTimeSerializer(DateTimeFormatter.ofPattern(TIME_FORMAT)));
-//
-//                    ObjectMapper objectMapper = builder.modules(module).build();
-//
-//                    objectMapper.registerModule(simpleModule);
-//
-//                    //Data 时间格式化
-//                    objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-//                    objectMapper.setDateFormat(new SimpleDateFormat(DATE_TIME_FORMAT));
-//
-//                    mappingJackson2HttpMessageConverter.setObjectMapper(objectMapper);
-//                });
-//    }
-
-
     @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
         resolvers.add(new AuthenticationArgumentResolver());
