@@ -77,6 +77,6 @@ https://www.qinweizhao.com/
     </tr>
     <tr>
         <td><img src="https://gitee.com/qinweizhao/qwz-blog/raw/master/blog-resource/image/2022-08-24_102009.png"/></td>
-        <td><img src="https://gitee.com/qinweizhao/qwz-blog/raw/master/blog-resource/image/2022-08-24_101912.png"/></td>
+        <td><img src="https://gitee.com/qinweizhao/qwz-blog/raw/master/blog-resource/image/2022-08-24_102112.png"/></td>
     </tr>
 </table>
