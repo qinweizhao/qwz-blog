@@ -5,13 +5,13 @@
 2. 执行构建镜像
 
    ```sh
-   docker build -t qinweizhao/blog:v3 .
+   docker build -t qinweizhao/blog .
    ```
 
 3. 运行容器
 
    ```sh
-   docker run -it -d --name blog-v3 -p 8090:8090 -v ~/.blog:/root/.blog --restart=unless-stopped qinweizhao/blog:v3
+   docker run -it -d --name blog -p 8090:8090 -v ~/.blog:/root/.blog --restart=unless-stopped qinweizhao/blog
    ```
 
    
