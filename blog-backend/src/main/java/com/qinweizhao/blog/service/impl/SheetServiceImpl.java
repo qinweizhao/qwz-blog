@@ -9,7 +9,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -33,13 +33,13 @@ public class SheetServiceImpl implements SheetService {
     public List<IndependentSheetDTO> listIndependentSheets() {
 
         String context = (configService.isEnabledAbsolutePath() ? configService.getBlogBaseUrl() : "") + "/";
-
-        IndependentSheetDTO photoSheet = new IndependentSheetDTO();
-        photoSheet.setId(2);
-        photoSheet.setTitle("图库页面");
-        photoSheet.setFullPath(context + configService.getPhotosPrefix());
-        photoSheet.setRouteName("PhotoList");
-        photoSheet.setAvailable(themeService.templateExists("photos.ftl"));
+//
+//        IndependentSheetDTO photoSheet = new IndependentSheetDTO();
+//        photoSheet.setId(2);
+//        photoSheet.setTitle("图库页面");
+//        photoSheet.setFullPath(context + configService.getPhotosPrefix());
+//        photoSheet.setRouteName("PhotoList");
+//        photoSheet.setAvailable(themeService.templateExists("photos.ftl"));
 
         IndependentSheetDTO journalSheet = new IndependentSheetDTO();
         journalSheet.setId(3);
@@ -48,7 +48,8 @@ public class SheetServiceImpl implements SheetService {
         journalSheet.setRouteName("JournalList");
         journalSheet.setAvailable(themeService.templateExists("journals.ftl"));
 
-        return Arrays.asList(photoSheet, journalSheet);
+//        return Arrays.asList(photoSheet, journalSheet);
+        return Collections.singletonList(journalSheet);
     }
 
 }

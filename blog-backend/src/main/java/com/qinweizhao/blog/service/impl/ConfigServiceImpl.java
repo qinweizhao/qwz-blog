@@ -322,20 +322,6 @@ public class ConfigServiceImpl implements ConfigService {
         return getByProperty(SeoProperties.DESCRIPTION).orElse("").toString();
     }
 
-    @Override
-    public String getSheetPrefix() {
-        return getByPropertyOrDefault(PermalinkProperties.SHEET_PREFIX, String.class, PermalinkProperties.SHEET_PREFIX.defaultValue());
-    }
-
-    @Override
-    public String getLinksPrefix() {
-        return getByPropertyOrDefault(PermalinkProperties.LINKS_PREFIX, String.class, PermalinkProperties.LINKS_PREFIX.defaultValue());
-    }
-
-    @Override
-    public String getPhotosPrefix() {
-        return getByPropertyOrDefault(PermalinkProperties.PHOTOS_PREFIX, String.class, PermalinkProperties.PHOTOS_PREFIX.defaultValue());
-    }
 
     @Override
     public String getJournalsPrefix() {

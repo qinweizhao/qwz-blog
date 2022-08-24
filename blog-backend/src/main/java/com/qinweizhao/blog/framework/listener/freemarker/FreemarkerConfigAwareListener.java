@@ -86,8 +86,6 @@ public class FreemarkerConfigAwareListener {
         configuration.setSharedVariable("seo_keywords", configService.getByPropertyOrDefault(SeoProperties.KEYWORDS, String.class, SeoProperties.KEYWORDS.defaultValue()));
         configuration.setSharedVariable("seo_description", configService.getByPropertyOrDefault(SeoProperties.DESCRIPTION, String.class, SeoProperties.DESCRIPTION.defaultValue()));
         configuration.setSharedVariable("sitemap_html_url", blogBaseUrl + "/sitemap.html");
-        configuration.setSharedVariable("links_url", context + configService.getLinksPrefix());
-        configuration.setSharedVariable("photos_url", context + configService.getPhotosPrefix());
         configuration.setSharedVariable("journals_url", context + configService.getJournalsPrefix());
         configuration.setSharedVariable("archives_url", context + configService.getArchivesPrefix());
         configuration.setSharedVariable("categories_url", context + configService.getCategoriesPrefix());

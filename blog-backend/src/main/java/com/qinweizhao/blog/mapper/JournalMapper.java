@@ -50,6 +50,7 @@ public interface JournalMapper extends BaseMapper<Journal> {
         Page<Journal> result = this.selectPage(page, new LambdaQueryWrapperX<Journal>()
                 .eqIfPresent(Journal::getType, param.getType())
                 .likeIfPresent(Journal::getSourceContent, param.getKeyword())
+                .orderByDesc(Journal::getId)
         );
         return MyBatisUtils.buildSimplePageResult(result);
     }

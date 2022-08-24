@@ -302,39 +302,12 @@ public interface ConfigService {
     String getSeoDescription();
 
     /**
-     * Gets blog birthday.
-     *
-     * @return birthday timestamp
-     */
-//    long getBirthday();
-
-    /**
-     * Get sheet custom prefix.
-     *
-     * @return sheet prefix.
-     */
-    String getSheetPrefix();
-
-    /**
-     * Get links page custom prefix.
-     *
-     * @return links page prefix.
-     */
-    String getLinksPrefix();
-
-    /**
-     * Get photos page custom prefix.
-     *
-     * @return photos page prefix.
-     */
-    String getPhotosPrefix();
-
-    /**
-     * Get journals page custom prefix.
+     * 获取日志页面自定义前缀
      *
      * @return journals page prefix.
      */
     String getJournalsPrefix();
+
 
     /**
      * Get archives custom prefix.

@@ -6,7 +6,6 @@ import com.qinweizhao.blog.model.convert.JournalConvert;
 import com.qinweizhao.blog.model.core.PageResult;
 import com.qinweizhao.blog.model.dto.JournalDTO;
 import com.qinweizhao.blog.model.entity.Journal;
-import com.qinweizhao.blog.model.enums.CommentStatus;
 import com.qinweizhao.blog.model.enums.CommentType;
 import com.qinweizhao.blog.model.param.JournalParam;
 import com.qinweizhao.blog.model.param.JournalQueryParam;
