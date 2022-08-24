@@ -46,7 +46,7 @@
                 <ul class="joe_leaving-list"></ul>
                 <#include "template/macro/loading.ftl">
                 <@loading/>
-                <div class="joe_leaving-none tpl">${settings.leaving_empty_text!}</div>
+<#--                <div class="joe_leaving-none tpl">${settings.leaving_empty_text!}</div>-->
               </div>
             </article>
           </div>
