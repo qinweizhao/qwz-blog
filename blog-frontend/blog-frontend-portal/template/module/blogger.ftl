@@ -109,9 +109,6 @@
     <#else>
     </#if>
   </div>
-  <#if settings.enable_weather==true && settings.weather_key?? && settings.weather_key!=''>
-    <div id="he-plugin-simple"></div>
-  </#if>
   <#if settings.enable_social!false>
     <#include "social.ftl">
   </#if>

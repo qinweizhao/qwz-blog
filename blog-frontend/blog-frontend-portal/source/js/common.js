@@ -423,41 +423,6 @@ const commonContext = {
 		});
 		$(".joe_aside__item.timelife .joe_aside__item-contain").html(htmlStr);
 	},
-	/* 激活侧边栏天气 */
-	initWeather() {
-		if (
-			Joe.isMobile ||
-            !ThemeConfig.enable_weather ||
-            !ThemeConfig.weather_key ||
-            !$("#he-plugin-simple").length
-		)
-			return;
-		window.WIDGET = {
-			CONFIG: {
-				modules: "120",
-				background: "5",
-				tmpColor: "FFFFFF",
-				tmpSize: "13",
-				cityColor: "FFFFFF",
-				citySize: "13",
-				aqiColor: "FFFFFF",
-				aqiSize: "13",
-				weatherIconSize: "13",
-				alertIconSize: "13",
-				padding: "5px 5px 4px 5px",
-				shadow: "0",
-				language: "auto",
-				borderRadius: "4",
-				fixed: "true",
-				vertical: "top",
-				horizontal: "left",
-				key: ThemeConfig.weather_key,
-			},
-		};
-		$.getScript(
-			"https://widget.qweather.net/simple/static/js/he-simple-common.js?v=2.0"
-		);
-	},
 	/* 全局图片预览（文章、日志页等） */
 	initGallery() {
 		// 只对符合条件的图片开启预览功能

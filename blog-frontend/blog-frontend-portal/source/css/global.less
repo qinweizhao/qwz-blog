@@ -1888,13 +1888,6 @@ body {
     display: none;
   }
 
-  &.pos_left {
-    #he-plugin-simple {
-      right: auto !important;
-      left: 4px;
-    }
-  }
-
   &__item {
     position: relative;
     width: 280px;
@@ -1957,36 +1950,6 @@ body {
         background: linear-gradient(to bottom,
             rgba(255, 255, 255, 0),
             var(--background));
-      }
-
-      #he-plugin-simple {
-        top: 4px;
-        right: 4px;
-        z-index: 6;
-
-        .s-sticker {
-          background-color: rgba(0, 0, 0, 0.5) !important;
-        }
-
-        .s-sticker-cond img {
-          position: relative;
-          top: -2px;
-        }
-
-        &.he_left {
-          right: auto;
-          left: 4px;
-        }
-
-        >div:last-child {
-          margin-top: -5px !important;
-
-          >div {
-            overflow: hidden;
-            background-color: #242422;
-            border-radius: 4px;
-          }
-        }
       }
 
       #canvas-strips {
