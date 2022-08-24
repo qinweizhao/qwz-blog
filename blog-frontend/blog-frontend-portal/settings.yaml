@@ -2165,52 +2165,6 @@ leaving:
       placeholder: "请输入"
       description: "修改无数据时展示的文案"
 
-# 友链页
-links:
-  label: 友链页
-  items: 
-    links_title:
-      name: links_title
-      label: 友链页标题
-      default: "友情链接"
-      placeholder: "请输入"
-      description: "修改友链页顶部展示的标题"
-    links_type:
-      name: links_type
-      label: 友链展示方式
-      type: select
-      data-type: text
-      default: list
-      description: "配置友链的展示方式，默认按列表顺序展示，可在后台管理中配置排序值（分组暂不支持排序）"
-      options:
-        - value: list
-          label: 列表
-        - value: random-list
-          label: 列表随机
-        - value: group
-          label: 分组
-        - value: random-group
-          label: 分组随机
-    links_omit:
-      name: links_omit
-      label: 不展示的分组
-      default: ""
-      placeholder: "请输入分组名，多个以逗号分隔"
-      description: "如果你不想展示某个分组，可以在这里填入分组名进行过滤（仅在分组模式下可用，且不再展示友链总数）"
-    links_empty_text:
-      name: links_empty_text
-      label: 空白状态文案
-      default: "暂无友链"
-      placeholder: "请输入"
-      description: "修改无数据时展示的文案"
-    links_logo_default:
-      name: links_logo_default
-      label: 友链默认图标
-      type: attachment
-      default: ""
-      placeholder: "请输入"
-      description: "修改友链的默认图标，仅在图标加载出错时生效"
-
 # 分类页
 categories:
   label: 分类页

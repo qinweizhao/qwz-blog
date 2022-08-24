@@ -10,20 +10,6 @@ import org.springframework.lang.NonNull;
  */
 public enum SheetProperties implements PropertyEnum {
 
-    /**
-     * Links page title.
-     */
-    LINKS_TITLE("links_title", String.class, "友情链接"),
-
-    /**
-     * Photos page title.
-     */
-    PHOTOS_TITLE("photos_title", String.class, "图库"),
-
-    /**
-     * Photos page size.
-     */
-    PHOTOS_PAGE_SIZE("photos_page_size", Integer.class, "10"),
 
     /**
      * Journals page title.
