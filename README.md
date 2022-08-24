@@ -17,11 +17,13 @@
 
 ![Alt](https://repobeats.axiom.co/api/embed/407d1af8c2e1faff46c37b1336137e2d0d7e27c4.svg "Analytics image")
 
-## 简介
+## 项目简介
 
-个人博客。
+一个轻量级的个人博客系统，采用 SpringBoot、MyBatis-Plus、Vue、FreeMarker 等技术构建。
 
-## 结构
+> 改造自 Halo 博客。
+
+## 仓库结构
 
 ```
 qwz-blog
@@ -36,11 +38,11 @@ qwz-blog
 │  ├─image 图片
 │  ├─jar 依赖包
 │  ├─logs 项目日志
+│  ├─nginx 配置
 │  ├─sql 数据库文件
-│  ├─static 静态资源
 ```
 
-## 效果
+## 运行效果
 
 ### 前台：
 
