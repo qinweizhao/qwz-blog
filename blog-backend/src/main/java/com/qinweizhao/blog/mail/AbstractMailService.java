@@ -69,26 +69,25 @@ public abstract class AbstractMailService implements MailService {
     }
 
     /**
-     * Send mail template.
+     * 发送邮件模板
      *
      * @param callback mime message callback.
      */
     protected void sendMailTemplate(@Nullable Callback callback) {
         if (callback == null) {
-            log.info("Callback is null, skip to send email");
+            log.info("回调为空，跳过发送邮件");
             return;
         }
 
-        // check if mail is enable
+        // 检查邮件是否启用
         Boolean emailEnabled = configService.getByPropertyOrDefault(EmailProperties.ENABLED, Boolean.class);
 
         if (!emailEnabled) {
-            // If disabled
-            log.info("Email has been disabled by yourself, you can re-enable it through email settings on admin page.");
+            log.info("电子邮件已被禁用，可以通过管理页面上的电子邮件设置重新启用它");
             return;
         }
 
-        // get mail sender
+        // 获取邮件发件人
         JavaMailSender mailSender = getMailSender();
         printMailConfig();
 
@@ -106,7 +105,7 @@ public abstract class AbstractMailService implements MailService {
             // send email
             mailSender.send(mimeMessage);
 
-            log.info("Sent an email to [{}] successfully, subject: [{}], sent date: [{}]",
+            log.info("发送电子邮件至 [{}] 成功， 标题: [{}]， 内容: [{}]",
                     Arrays.toString(mimeMessage.getAllRecipients()),
                     mimeMessage.getSubject(),
                     mimeMessage.getSentDate());
@@ -123,7 +122,7 @@ public abstract class AbstractMailService implements MailService {
      */
     protected void sendMailTemplate(boolean tryToAsync, @Nullable Callback callback) {
         ExecutorService executorService = getExecutorService();
-        if (tryToAsync && executorService != null) {
+        if (tryToAsync) {
             // send mail asynchronously
             executorService.execute(() -> sendMailTemplate(callback));
         } else {

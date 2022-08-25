@@ -35,12 +35,12 @@ public class MailServiceImpl extends AbstractMailService implements ApplicationL
 
     @Override
     public boolean sendTextMail(String to, String subject, String content) {
-        sendMailTemplate(true, messageHelper -> {
+        sendMailTemplate(false, messageHelper -> {
             messageHelper.setSubject(subject);
             messageHelper.setTo(to);
             messageHelper.setText(content);
         });
-        return false;
+        return true;
     }
 
     @Override

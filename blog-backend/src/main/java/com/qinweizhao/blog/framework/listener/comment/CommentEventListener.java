@@ -72,7 +72,7 @@ public class CommentEventListener {
 
         StringBuilder subject = new StringBuilder();
 
-        Boolean enabledAbsolutePath = configService.isEnabledAbsolutePath();
+        boolean enabledAbsolutePath = configService.isEnabledAbsolutePath();
 
         CommentDTO commentDTO = commentService.getById(newEvent.getCommentId());
 
