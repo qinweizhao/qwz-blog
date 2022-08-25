@@ -34,7 +34,7 @@ public interface CommentMapper extends BaseMapper<Comment> {
     /**
      * 统计评论个数
      *
-     * @param status      status
+     * @param status    status
      * @param type      type
      * @param targetIds targetIds
      * @return List

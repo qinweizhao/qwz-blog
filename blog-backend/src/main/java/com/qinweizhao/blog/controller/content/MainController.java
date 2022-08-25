@@ -3,14 +3,12 @@ package com.qinweizhao.blog.controller.content;
 import com.qinweizhao.blog.config.properties.MyBlogProperties;
 import com.qinweizhao.blog.exception.ServiceException;
 import com.qinweizhao.blog.model.entity.User;
-import com.qinweizhao.blog.model.support.HaloConst;
 import com.qinweizhao.blog.service.ConfigService;
 import com.qinweizhao.blog.service.UserService;
 import com.qinweizhao.blog.util.HaloUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;

@@ -44,7 +44,7 @@ public interface CommentService {
      * @param targetIds postIds
      * @return Map
      */
-    Map<Integer, Long> countByTypeAndTargetIds( CommentType type, Set<Integer> targetIds);
+    Map<Integer, Long> countByTypeAndTargetIds(CommentType type, Set<Integer> targetIds);
 
     /**
      * 分页（树）
