@@ -8,74 +8,49 @@ package com.qinweizhao.blog.model.enums;
 public enum LogType implements ValueEnum<Integer> {
 
     /**
-     * Blog initialization
+     * 博客初始化
      */
     BLOG_INITIALIZED(0),
 
     /**
-     * Post published
+     * 发表文章
      */
     POST_PUBLISHED(5),
 
     /**
-     * Post edited
+     * 编辑文章
      */
     POST_EDITED(15),
 
     /**
-     * Post deleted
+     * 删除文章
      */
     POST_DELETED(20),
 
     /**
-     * Logged in
+     * 登陆
      */
     LOGGED_IN(25),
 
     /**
-     * Logged out
+     * 退出
      */
     LOGGED_OUT(30),
 
     /**
-     * Logged failed.
+     * 记录失败
      */
     LOGIN_FAILED(35),
 
     /**
-     * Updated the blogger password
+     * 更新密码
      */
     PASSWORD_UPDATED(40),
 
     /**
-     * Updated the blogger profile
+     * 更新个人资料
      */
-    PROFILE_UPDATED(45),
-
-    /**
-     * Sheet published
-     */
-    SHEET_PUBLISHED(50),
-
-    /**
-     * Sheet edited
-     */
-    SHEET_EDITED(55),
-
-    /**
-     * Sheet deleted
-     */
-    SHEET_DELETED(60),
-
-    /**
-     * MFA Updated
-     */
-    MFA_UPDATED(65),
-
-    /**
-     * Logged pre check
-     */
-    LOGGED_PRE_CHECK(70);
+    PROFILE_UPDATED(45);
 
     private final Integer value;
 
