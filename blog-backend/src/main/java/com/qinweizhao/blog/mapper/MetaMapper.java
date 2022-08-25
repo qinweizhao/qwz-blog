@@ -31,6 +31,18 @@ public interface MetaMapper extends BaseMapper<Meta> {
     }
 
     /**
+     * 通过 postId 获取元数据集合
+     *
+     * @param postId postId
+     * @return List
+     */
+    default List<Meta> selectListByPostId(Integer postId) {
+        return this.selectList(new LambdaQueryWrapperX<Meta>()
+                .eq(Meta::getPostId, postId)
+        );
+    }
+
+    /**
      * 通过文章 id 删除
      *
      * @param postId postId

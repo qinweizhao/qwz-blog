@@ -8,27 +8,27 @@ genernal:
       type: text
       default: "weizhao"
       placeholder: "请务必与后台中的Key一致"
-      description: "Access Key 用于页面中 Content API 的校验，不填会导致接口报错，默认为 weizhao，但可以自己定义，请不要填写中文或特殊字符（请务必同时配置此处的 Access Key 和后台管理中的 Access Key，并保持一致）"
+      description: "Access Key 用于页面中 Content API 的校验"
     icp:
       name: icp
       label: ICP 备案号
       type: text
       default: ""
       placeholder: "请填写 ICP 备案号信息"
-      description: "ICP 备案信息将展示在页脚中，不填不展示（示例：鄂ICP备20001234号-1）"
+      description: "展示在页脚，不填不展示"
     police:
       name: police
       label: 公网安备号
       type: text
       default: ""
       placeholder: "请填写公网安备号信息"
-      description: "公网安备信息将展示在页脚中，不填不展示，也可在 “页脚” 一栏中单独关闭（示例：鄂公网安备42011102001234号）"
+      description: "展示在页脚，不填不展示，也可在 “页脚” 一栏中单独关闭"
     site_notice:
       name: site_notice
       label: 网站公告
       type: textarea
       placeholder: 请输入公告信息
-      description: "网站公告信息，将展示在页面右侧，尽量简洁明了，不填不展示该模块（需要先在 “侧边栏” 中开启公告模块）"
+      description: "展示在页面右侧，不填不展示该模块（需要先在 “侧边栏” 中开启公告模块）"
 
 # 主题
 theme:

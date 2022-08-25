@@ -465,6 +465,9 @@ public class PostServiceImpl implements PostService {
 
         List<CategoryDTO> categories = postCategoryService.listByPostId(post.getId());
 
+        // todo
+        List<MetaDTO> metas = metaService.listByPostId(post.getId());
+
         Content content = contentMapper.selectById(postId);
         String originalContent = content.getOriginalContent();
         postDTO.setFormatContent(MarkdownUtils.renderHtml(originalContent));
@@ -473,6 +476,8 @@ public class PostServiceImpl implements PostService {
 
         Set<Integer> tagIds = ServiceUtils.fetchProperty(tags, TagDTO::getId);
 
+        Set<Long> metaIds = ServiceUtils.fetchProperty(metas, MetaDTO::getId);
+
         Set<Integer> categoryIds = ServiceUtils.fetchProperty(categories, CategoryDTO::getId);
 
         postDTO.setTagIds(tagIds);
@@ -480,6 +485,9 @@ public class PostServiceImpl implements PostService {
 
         postDTO.setCategoryIds(categoryIds);
         postDTO.setCategories(categories);
+
+        postDTO.setMetaIds(metaIds);
+        postDTO.setMetas(metas);
 
         postDTO.setFullPath(buildFullPath(post.getId()));
 

@@ -46,4 +46,10 @@ public class MetaServiceImpl extends ServiceImpl<MetaMapper, Meta> implements Me
     public boolean removeByPostId(Integer postId) {
         return metaMapper.deleteByPostId(postId);
     }
+
+    @Override
+    public List<MetaDTO> listByPostId(Integer postId) {
+        List<Meta> metas = metaMapper.selectListByPostId(postId);
+        return MetaConvert.INSTANCE.convertToDTO(metas);
+    }
 }

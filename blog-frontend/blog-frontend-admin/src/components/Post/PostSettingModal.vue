@@ -113,7 +113,7 @@
           </a-form>
         </a-tab-pane>
         <a-tab-pane key="meta" tab="元数据">
-          <MetaEditor :metas.sync="form.model.metas" :targetId="form.model.id" target="post" />
+          <MetaEditor :metas.sync="form.model.metas" :targetId="form.model.id" />
         </a-tab-pane>
       </a-tabs>
     </div>
@@ -174,7 +174,6 @@ import { mapGetters } from 'vuex'
 import { postStatuses } from '@/core/constant'
 
 // apis
-import apiClient from '@/utils/api-client'
 import postApi from '@/api/post'
 
 export default {

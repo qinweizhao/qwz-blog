@@ -114,10 +114,10 @@ public enum ThemePropertyScanner {
             // 获取属性内容
             String propertyContent = new String(Files.readAllBytes(propertyPath), StandardCharsets.UTF_8);
 
-            // Resolve the base properties
+            // 解析基础属性
             ThemeProperty themeProperty = propertyResolver.resolve(propertyContent);
 
-            // Resolve additional properties
+            // 解析附加属性
             themeProperty.setThemePath(themePath.toString());
             themeProperty.setFolderName(themePath.getFileName().toString());
             themeProperty.setHasOptions(hasOptions(themePath));
@@ -162,7 +162,6 @@ public enum ThemePropertyScanner {
      * @param themePath theme path.
      * @return an optional property path
      */
-
     private Optional<Path> fetchPropertyPath(Path themePath) {
         Assert.notNull(themePath, "Theme path must not be null");
 

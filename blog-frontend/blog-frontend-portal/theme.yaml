@@ -10,6 +10,7 @@ repo: https://github.com/qinweizhao/qwz-blog
 cover: https://cdn.jsdelivr.net/gh/qinhua/halo-theme-joe2.0@master/source/img/dp/welcome.jpg
 version: 1.0.10
 require: ^1.0.0
+
 # 文章页 meta 变量
 postMetaField:
   - enable_aside
@@ -41,4 +42,3 @@ sheetMetaField:
   - img_align
   - img_max_width
   - enable_katex
-  # - show_thumbnail

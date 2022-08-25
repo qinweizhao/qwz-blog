@@ -51,18 +51,11 @@
   </div>
 </template>
 <script>
-import apiClient from '@/utils/api-client'
+import themeApi from '@/api/theme'
 
 export default {
   name: 'MetaEditor',
   props: {
-    target: {
-      type: String,
-      default: 'post',
-      validator: function (value) {
-        return ['post', 'sheet'].indexOf(value) !== -1
-      }
-    },
     targetId: {
       type: Number,
       default: null
@@ -107,9 +100,8 @@ export default {
      */
     async handleListPresetMetasField() {
       try {
-        const response = await apiClient.theme.getActivatedTheme()
-        this.presetFields = response.data[`${this.target}MetaField`] || []
-
+        const response = await themeApi.getProperty()
+        this.presetFields = response.data.data[`postMetaField`] || []
         this.handleGenerateMetas()
       } catch (e) {
         this.$log.error(e)
