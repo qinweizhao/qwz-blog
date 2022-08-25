@@ -3,7 +3,7 @@ package com.qinweizhao.blog.model.enums;
 import com.baomidou.mybatisplus.annotation.EnumValue;
 
 /**
- * Comment type.
+ * 评论类型
  *
  * @author qinweizhao
  * @since 2022-07-08

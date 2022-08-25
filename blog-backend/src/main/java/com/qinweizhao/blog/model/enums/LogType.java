@@ -1,9 +1,9 @@
 package com.qinweizhao.blog.model.enums;
 
 /**
- * Log type.
+ * 日志类型
  *
- * @author johnniang
+ * @author qinweizhao
  */
 public enum LogType implements ValueEnum<Integer> {
 

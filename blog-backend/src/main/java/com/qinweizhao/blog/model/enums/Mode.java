@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import org.springframework.lang.Nullable;
 
 /**
- * Halo runtime mode.
+ * 运行模式
  *
  * @author johnniang
  * @since 19-6-10
