@@ -65,7 +65,6 @@ public class LocalFileHandler implements FileHandler {
                             MyBlogProperties myBlogProperties) {
         this.configService = configService;
 
-        // Get work dir TODO
         workDir = FileHandler.normalizeDirectory(myBlogProperties.getWorkDir());
 
         // Check work directory

@@ -7,7 +7,7 @@
       <#assign thumbnail = tbn.thumbnail>
       <a href="${post.fullPath!}" class="thumbnail" title="${post.title!}" target="_blank" rel="noopener noreferrer">
         <img width="100%" height="100%" class="lazyload" data-src="${thumbnail!}" src="${lazy_img}" onerror="Joe.errorImg(this,'${settings.fallback_thumbnail!}')" alt="${post.title!}">
-        <time datetime="${post.createTime}">${post.createTime}</time>
+        <time datetime="${post.createTime?date('yyyy-MM-dd')}">${post.createTime?date('yyyy-MM-dd')}</time>
         <i class="joe-font joe-icon-picture"></i>
       </a>
     </#if>
@@ -18,7 +18,7 @@
       <a class="abstract" href="${post.fullPath}" title="文章摘要" target="_blank" rel="noopener noreferrer">${post.summary!}</a>
       <div class="meta">
         <ul class="items">
-          <li>${post.createTime}</li>
+          <li>${post.createTime?date('yyyy-MM-dd')}</li>
           <li><i class="joe-font joe-icon-eye"></i>${post.visits?c}</li>
           <li><i class="joe-font joe-icon-message"></i>${post.commentCount?c}</li>
           <li><i class="joe-font joe-icon-dianzan"></i>${post.likes?c}</li>
