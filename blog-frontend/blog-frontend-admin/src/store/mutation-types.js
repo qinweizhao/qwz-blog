@@ -9,9 +9,3 @@ export const DEFAULT_FIXED_HEADER_HIDDEN = 'DEFAULT_FIXED_HEADER_HIDDEN'
 export const DEFAULT_CONTENT_WIDTH_TYPE = 'DEFAULT_CONTENT_WIDTH_TYPE'
 export const USER = 'USER'
 export const OPTIONS = 'OPTIONS'
-export const LAYOUT_SETTING = 'LAYOUT_SETTING'
-
-export const CONTENT_WIDTH_TYPE = {
-  Fluid: 'Fluid',
-  Fixed: 'Fixed'
-}

@@ -24,7 +24,7 @@ public class StatisticController {
 
 
     /**
-     * 获取统计信息
+     * 获取统计信息(登陆后请求)
      *
      * @return StatisticDTO
      */

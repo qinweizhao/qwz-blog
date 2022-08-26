@@ -278,7 +278,7 @@ export default {
           userApi
             .updateProfile(this.userForm.model)
             .then(response => {
-              this.userForm.model = response.data
+              this.userForm.model = response.data.data
               this.setUser(Object.assign({}, this.userForm.model))
               this.handleLoadStatistics()
             })

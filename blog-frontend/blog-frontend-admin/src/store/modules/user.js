@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import { ACCESS_TOKEN, USER } from '@/store/mutation-types'
-import apiClient from '@/utils/api-client'
+import userApi from '@/api/user'
+import adminApi from '@/api/admin'
 
 const user = {
   state: {
@@ -22,25 +23,14 @@ const user = {
     }
   },
   actions: {
-    installCleanToken({ commit }, installData) {
-      return new Promise((resolve, reject) => {
-        apiClient.installation
-          .install(installData)
-          .then(response => {
-            commit('CLEAR_TOKEN')
-            resolve(response)
-          })
-          .catch(error => {
-            reject(error)
-          })
-      })
-    },
     refreshUserCache({ commit }) {
       return new Promise((resolve, reject) => {
-        apiClient.user
+        userApi
           .getProfile()
           .then(response => {
-            commit('SET_USER', response.data)
+            console.log("response.data.data")
+            console.log(response.data.data)
+            commit('SET_USER', response.data.data)
             resolve(response)
           })
           .catch(error => {
@@ -50,10 +40,10 @@ const user = {
     },
     login({ commit }, { username, password, authcode }) {
       return new Promise((resolve, reject) => {
-        apiClient
-          .login({ username, password, authcode })
+        adminApi
+          .login(username, password, authcode)
           .then(response => {
-            const token = response.data
+            const token = response.data.data
             Vue.$log.debug('Got token', token)
             commit('SET_TOKEN', token)
 
@@ -66,7 +56,7 @@ const user = {
     },
     logout({ commit }) {
       return new Promise(resolve => {
-        apiClient
+        adminApi
           .logout()
           .then(() => {
             commit('CLEAR_TOKEN')
@@ -80,10 +70,10 @@ const user = {
     },
     refreshToken({ commit }, refreshToken) {
       return new Promise((resolve, reject) => {
-        apiClient
+        adminApi
           .refreshToken(refreshToken)
           .then(response => {
-            const token = response.data
+            const token = response.data.data
             Vue.$log.debug('Got token', token)
             commit('SET_TOKEN', token)
 
