@@ -19,13 +19,13 @@ userApi.updateProfile = profile => {
   })
 }
 
-userApi.updatePassword = (oldPassword, newPassword) => {
+userApi.updatePassword = param => {
   return service({
     url: `${baseUrl}/profiles/password`,
     method: 'put',
     data: {
-      oldPassword: oldPassword,
-      newPassword: newPassword
+      oldPassword: param.oldPassword,
+      newPassword: param.newPassword
     }
   })
 }

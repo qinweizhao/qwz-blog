@@ -8,8 +8,8 @@ import javax.validation.constraints.Size;
 /**
  * User password param.
  *
- * @author johnniang
- * @since 3/26/19
+ * @author qinweizhao
+ * @since 2022/7/31
  */
 @Data
 public class PasswordParam {

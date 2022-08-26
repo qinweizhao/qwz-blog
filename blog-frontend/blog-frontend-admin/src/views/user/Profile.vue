@@ -38,7 +38,6 @@
               <a-list-item>累计创建了 {{ statistics.data.categoryCount || 0 }} 个分类。</a-list-item>
               <a-list-item>累计创建了 {{ statistics.data.tagCount || 0 }} 个标签。</a-list-item>
               <a-list-item>累计获得了 {{ statistics.data.commentCount || 0 }} 条评论。</a-list-item>
-              <a-list-item>累计添加了 {{ statistics.data.linkCount || 0 }} 个友链。</a-list-item>
               <a-list-item>文章总阅读 {{ statistics.data.visitCount || 0 }} 次。</a-list-item>
               <a-list-item></a-list-item>
             </a-list>
@@ -248,6 +247,9 @@ export default {
           this.passwordForm.saving = true
           userApi
             .updatePassword(this.passwordForm.model)
+            .then(() => {
+              this.handleLoadStatistics()
+            })
             .catch(() => {
               this.passwordForm.errored = true
             })
@@ -278,6 +280,7 @@ export default {
             .then(response => {
               this.userForm.model = response.data
               this.setUser(Object.assign({}, this.userForm.model))
+              this.handleLoadStatistics()
             })
             .catch(() => {
               this.userForm.errored = true

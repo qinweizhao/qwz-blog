@@ -53,14 +53,15 @@ public class UserController {
     /**
      * 更新用户密码
      *
-     * @param passwordParam passwordParam
+     * @param param param
      * @return BaseResponse
      */
     @PutMapping("profiles/password")
     @DisableOnCondition
-    public BaseResponse<String> updatePassword(@RequestBody @Validated PasswordParam passwordParam) {
-        userService.updatePassword(passwordParam.getOldPassword(), passwordParam.getNewPassword(), SecurityUtils.getUserId());
-        return BaseResponse.ok("密码修改成功");
+    public String updatePassword(@RequestBody PasswordParam param) {
+        System.out.println("执行");
+        userService.updatePassword(param.getOldPassword(), param.getNewPassword(), SecurityUtils.getUserId());
+        return "密码修改成功";
     }
 
 }
