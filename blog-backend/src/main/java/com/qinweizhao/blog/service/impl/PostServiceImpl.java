@@ -12,7 +12,10 @@ import com.qinweizhao.blog.model.convert.MetaConvert;
 import com.qinweizhao.blog.model.convert.PostConvert;
 import com.qinweizhao.blog.model.core.PageResult;
 import com.qinweizhao.blog.model.dto.*;
-import com.qinweizhao.blog.model.entity.*;
+import com.qinweizhao.blog.model.entity.Content;
+import com.qinweizhao.blog.model.entity.Post;
+import com.qinweizhao.blog.model.entity.PostCategory;
+import com.qinweizhao.blog.model.entity.PostTag;
 import com.qinweizhao.blog.model.enums.CommentStatus;
 import com.qinweizhao.blog.model.enums.CommentType;
 import com.qinweizhao.blog.model.enums.PostStatus;
@@ -36,9 +39,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;
-import org.springframework.web.util.HtmlUtils;
 
-import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -49,7 +50,7 @@ import java.util.stream.Collectors;
 import static com.qinweizhao.blog.model.support.HaloConst.URL_SEPARATOR;
 
 /**
- * Post service implementation.
+ * 文章管理
  *
  * @author qinweizhao
  * @since 2019-03-14
