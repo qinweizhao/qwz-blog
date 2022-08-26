@@ -18,7 +18,7 @@ import java.util.Collection;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * File handler manager.
+ * 文件处理器管理
  *
  * @author johnniang
  * @since 2019-03-27
@@ -33,13 +33,13 @@ public class FileHandlers {
     private final ConcurrentHashMap<AttachmentType, FileHandler> fileHandlers = new ConcurrentHashMap<>(16);
 
     public FileHandlers(ApplicationContext applicationContext) {
-        // Add all file handler
+        // 添加所有文件处理器
         addFileHandlers(applicationContext.getBeansOfType(FileHandler.class).values());
         log.info("Registered {} file handler(s)", fileHandlers.size());
     }
 
     /**
-     * Uploads files.
+     * 上传文件
      *
      * @param file           multipart file must not be null
      * @param attachmentType attachment type must not be null
@@ -59,14 +59,14 @@ public class FileHandlers {
      * @throws FileOperationException 当无法删除附件或没有可用的文件处理程序删除它时抛出
      */
     public void delete(Attachment attachment) {
-        Assert.notNull(attachment, "Attachment must not be null");
+        Assert.notNull(attachment, "附件不能为空");
         AttachmentType attachmentType = ValueEnum.valueToEnum(AttachmentType.class, attachment.getType());
         getSupportedType(attachmentType)
                 .delete(attachment.getFileKey());
     }
 
     /**
-     * Adds file handlers.
+     * 添加文件处理器
      *
      * @param fileHandlers file handler collection
      * @return current file handlers
