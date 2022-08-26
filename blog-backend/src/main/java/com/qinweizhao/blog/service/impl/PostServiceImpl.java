@@ -12,10 +12,7 @@ import com.qinweizhao.blog.model.convert.MetaConvert;
 import com.qinweizhao.blog.model.convert.PostConvert;
 import com.qinweizhao.blog.model.core.PageResult;
 import com.qinweizhao.blog.model.dto.*;
-import com.qinweizhao.blog.model.entity.Content;
-import com.qinweizhao.blog.model.entity.Post;
-import com.qinweizhao.blog.model.entity.PostCategory;
-import com.qinweizhao.blog.model.entity.PostTag;
+import com.qinweizhao.blog.model.entity.*;
 import com.qinweizhao.blog.model.enums.CommentStatus;
 import com.qinweizhao.blog.model.enums.CommentType;
 import com.qinweizhao.blog.model.enums.PostStatus;
@@ -39,7 +36,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;
+import org.springframework.web.util.HtmlUtils;
 
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -233,6 +232,13 @@ public class PostServiceImpl implements PostService {
 
         postMapper.updateById(post);
 
+        String originalContent = param.getOriginalContent();
+        Content content = new Content();
+        content.setPostId(postId);
+        content.setOriginalContent(originalContent);
+        content.setContent(MarkdownUtils.renderHtml(originalContent));
+        contentMapper.updateById(content);
+
         // 标签
         Set<Integer> tagIds = param.getTagIds();
         Set<Integer> dbTagIds = postTagMapper.selectTagIdsByPostId(postId);
@@ -322,7 +328,7 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public boolean removeById(Integer postId) {
-        Assert.notNull(postId, "Post id must not be null");
+        Assert.notNull(postId, "文章编号不能为空");
 
         // 标签
         int i1 = postTagMapper.deleteByPostId(postId);
@@ -371,7 +377,6 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public boolean updateStatus(PostStatus status, Integer postId) {
-        // Get post
         Post post = postMapper.selectById(postId);
 
         if (!(status.getValue().equals(post.getStatus()))) {
