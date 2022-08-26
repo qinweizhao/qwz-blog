@@ -19,7 +19,7 @@
 <script>
 import haloEditor from '@halo-dev/editor'
 import '@halo-dev/editor/dist/lib/style.css'
-import apiClient from '@/utils/api-client'
+import attachmentApi from '@/api/attachment'
 import { editorToolbars } from '@/core/constant'
 
 export default {
@@ -63,10 +63,12 @@ export default {
     handleAttachmentUpload(file) {
       return new Promise((resolve, reject) => {
         const hideLoading = this.$message.loading('上传中...', 0)
-        apiClient.attachment
-          .upload(file)
+        const formData = new FormData()
+        formData.append('file', file)
+        attachmentApi
+          .upload(formData)
           .then(response => {
-            const attachment = response.data
+            const attachment = response.data.data
             resolve({
               name: attachment.name,
               path: encodeURI(attachment.path)

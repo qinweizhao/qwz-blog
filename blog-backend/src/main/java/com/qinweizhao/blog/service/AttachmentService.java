@@ -63,7 +63,7 @@ public interface AttachmentService {
      * @param file file
      * @return boolean
      */
-    boolean upload(MultipartFile file);
+    AttachmentDTO upload(MultipartFile file);
 
     /**
      * 更新附件

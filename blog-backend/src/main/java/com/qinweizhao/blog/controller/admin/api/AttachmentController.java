@@ -7,11 +7,13 @@ import com.qinweizhao.blog.model.param.AttachmentParam;
 import com.qinweizhao.blog.model.param.AttachmentQueryParam;
 import com.qinweizhao.blog.service.AttachmentService;
 import lombok.AllArgsConstructor;
+import org.checkerframework.checker.units.qual.A;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -101,7 +103,7 @@ public class AttachmentController {
      * @return AttachmentDTO
      */
     @PostMapping("upload")
-    public Boolean uploadAttachment(@RequestPart("file") MultipartFile file) {
+    public AttachmentDTO uploadAttachment(@RequestPart("file") MultipartFile file) {
         return attachmentService.upload(file);
     }
 
@@ -112,11 +114,13 @@ public class AttachmentController {
      * @return List<AttachmentDTO>
      */
     @PostMapping(value = "uploads", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public Boolean uploadAttachments(@RequestPart("files") MultipartFile[] files) {
+    public List<AttachmentDTO> uploadAttachments(@RequestPart("files") MultipartFile[] files) {
+        List<AttachmentDTO> result = new ArrayList<>();
         for (MultipartFile file : files) {
-            attachmentService.upload(file);
+            AttachmentDTO attachmentDTO = attachmentService.upload(file);
+            result.add(attachmentDTO);
         }
-        return true;
+        return result;
     }
 
 }

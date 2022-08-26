@@ -89,7 +89,7 @@ public class AttachmentServiceImpl implements AttachmentService {
     }
 
     @Override
-    public boolean upload(MultipartFile file) {
+    public AttachmentDTO upload(MultipartFile file) {
         Assert.notNull(file, "Multipart 不能为 null");
 
         AttachmentType attachmentType = getAttachmentType();
@@ -117,9 +117,27 @@ public class AttachmentServiceImpl implements AttachmentService {
         attachment.setType(attachmentType.getValue());
 
         log.debug("创建的附件实体为: [{}]", attachment);
+        int i = attachmentMapper.insert(attachment);
+        log.debug("上传附件结果: [{}]", i > 0);
 
         // 创建并返回
-        return attachmentMapper.insert(attachment) != 1;
+        String blogBaseUrl = configService.getBlogBaseUrl();
+
+        boolean enabledAbsolutePath = configService.isEnabledAbsolutePath();
+
+
+        AttachmentDTO result = AttachmentConvert.INSTANCE.convert(attachment);
+        if (Objects.equals(result.getType(), AttachmentType.LOCAL)) {
+            // Append blog base url to path and thumbnail
+            String fullPath = StringUtils.join(enabledAbsolutePath ? blogBaseUrl : "", "/", result.getPath());
+            String fullThumbPath = StringUtils.join(enabledAbsolutePath ? blogBaseUrl : "", "/", result.getThumbPath());
+
+            // Set full path and full thumb path
+            result.setPath(fullPath);
+            result.setThumbPath(fullThumbPath);
+        }
+
+        return result;
     }
 
     @Override
