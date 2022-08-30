@@ -58,10 +58,8 @@ public class UserController {
      */
     @PutMapping("profiles/password")
     @DisableOnCondition
-    public String updatePassword(@RequestBody PasswordParam param) {
-        System.out.println("执行");
-        userService.updatePassword(param.getOldPassword(), param.getNewPassword(), SecurityUtils.getUserId());
-        return "密码修改成功";
+    public Boolean updatePassword(@RequestBody PasswordParam param) {
+        return userService.updatePassword(param.getOldPassword(), param.getNewPassword(), SecurityUtils.getUserId());
     }
 
 }
