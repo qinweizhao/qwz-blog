@@ -12,19 +12,29 @@ import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 
 /**
- * Controller advice for comment result.
+ * 统一封装返回
  *
- * @author johnniang
+ * @author qinweizhao
+ * @since 2022/7/31
  */
 @ControllerAdvice("com.qinweizhao.blog.controller")
-public class CommonResultControllerAdvice implements ResponseBodyAdvice<Object> {
+public class ResponseAdvice implements ResponseBodyAdvice<Object> {
 
+
+    /**
+     * 判断是否要交给 beforeBodyWrite 方法执行，ture：需要；false：不需要
+     *
+     * @param returnType    returnType
+     * @param converterType converterType
+     * @return boolean
+     */
     @Override
-    public boolean supports(MethodParameter returnType, @NotNull Class<? extends HttpMessageConverter<?>> converterType) {
+    public boolean supports(@NotNull MethodParameter returnType, @NotNull Class<? extends HttpMessageConverter<?>> converterType) {
         return AbstractJackson2HttpMessageConverter.class.isAssignableFrom(converterType);
     }
 
@@ -37,35 +47,40 @@ public class CommonResultControllerAdvice implements ResponseBodyAdvice<Object> 
                                         @NotNull ServerHttpRequest request,
                                         @NotNull ServerHttpResponse response) {
         MappingJacksonValue container = getOrCreateContainer(body);
-        // The contain body will never be null
-        beforeBodyWriteInternal(container, contentType, returnType, request, response);
+
+        beforeBodyWriteInternal(container, response);
         return container;
     }
 
     /**
-     * Wrap the body in a {@link MappingJacksonValue} value container (for providing
-     * additional serialization instructions) or simply cast it if already wrapped.
+     * 将主体包装在 {@link MappingJacksonValue} 值容器中（用于提供额外的序列化指令），或者如果已经包装，则直接转换它。
      */
     private MappingJacksonValue getOrCreateContainer(Object body) {
         return body instanceof MappingJacksonValue ? (MappingJacksonValue) body : new MappingJacksonValue(body);
     }
 
-    private void beforeBodyWriteInternal(MappingJacksonValue bodyContainer,
-                                         MediaType contentType,
-                                         MethodParameter returnType,
-                                         ServerHttpRequest request,
-                                         ServerHttpResponse response) {
-        // Get return body
+    /**
+     * 在正文写入内部之前
+     *
+     * @param bodyContainer bodyContainer
+     * @param response      response
+     */
+    private void beforeBodyWriteInternal(MappingJacksonValue bodyContainer, ServerHttpResponse response) {
         Object returnBody = bodyContainer.getValue();
 
+        // 如果已经经过包装则不处理
         if (returnBody instanceof BaseResponse) {
-            // If the return body is instance of BaseResponse
             BaseResponse<?> baseResponse = (BaseResponse<?>) returnBody;
-            response.setStatusCode(HttpStatus.resolve(baseResponse.getStatus()));
+            Integer status = baseResponse.getStatus();
+            if (!ObjectUtils.isEmpty(status) && !ObjectUtils.isEmpty(HttpStatus.resolve(status))) {
+                HttpStatus httpStatus = HttpStatus.resolve(status);
+                assert httpStatus != null;
+                response.setStatusCode(httpStatus);
+            }
             return;
         }
 
-        // Wrap the return body
+        // 包装返回体
         BaseResponse<?> baseResponse = BaseResponse.ok(returnBody);
         bodyContainer.setValue(baseResponse);
         response.setStatusCode(HttpStatus.valueOf(baseResponse.getStatus()));
