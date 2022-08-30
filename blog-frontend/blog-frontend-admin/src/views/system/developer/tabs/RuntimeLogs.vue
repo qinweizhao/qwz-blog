@@ -49,7 +49,7 @@ export default {
       adminApi
         .getLogFiles(this.logLines)
         .then(response => {
-          this.logContent = response.data
+          this.logContent = response.data.data
           this.$nextTick(() => {
             this.$refs.editor.handleInitCodemirror()
             const scrollerView = this.$el.querySelector('.cm-scroller')
