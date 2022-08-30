@@ -7,7 +7,6 @@ import com.qinweizhao.blog.model.param.AttachmentParam;
 import com.qinweizhao.blog.model.param.AttachmentQueryParam;
 import com.qinweizhao.blog.service.AttachmentService;
 import lombok.AllArgsConstructor;
-import org.checkerframework.checker.units.qual.A;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;

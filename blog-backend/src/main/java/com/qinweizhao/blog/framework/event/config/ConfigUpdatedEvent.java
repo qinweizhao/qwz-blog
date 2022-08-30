@@ -1,4 +1,4 @@
-package com.qinweizhao.blog.framework.event.options;
+package com.qinweizhao.blog.framework.event.config;
 
 import org.springframework.context.ApplicationEvent;
 

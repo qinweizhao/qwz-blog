@@ -5,7 +5,7 @@ import com.qiniu.storage.Region;
 import com.qinweizhao.blog.config.properties.MyBlogProperties;
 import com.qinweizhao.blog.exception.MissingPropertyException;
 import com.qinweizhao.blog.framework.cache.AbstractStringCacheStore;
-import com.qinweizhao.blog.framework.event.options.ConfigUpdatedEvent;
+import com.qinweizhao.blog.framework.event.config.ConfigUpdatedEvent;
 import com.qinweizhao.blog.mapper.ConfigMapper;
 import com.qinweizhao.blog.model.convert.ConfigConvert;
 import com.qinweizhao.blog.model.core.PageResult;

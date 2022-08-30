@@ -35,7 +35,7 @@ public class CorsFilter extends GenericFilterBean {
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
         HttpServletResponse httpServletResponse = (HttpServletResponse) response;
 
-        // Set customized header
+        // 设置自定义头
         String originHeaderValue = httpServletRequest.getHeader(HttpHeaders.ORIGIN);
         if (StringUtils.isNotBlank(originHeaderValue)) {
             httpServletResponse.setHeader(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN, originHeaderValue);

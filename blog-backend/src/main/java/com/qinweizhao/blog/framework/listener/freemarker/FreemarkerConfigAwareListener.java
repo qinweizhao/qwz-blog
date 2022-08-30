@@ -1,6 +1,6 @@
 package com.qinweizhao.blog.framework.listener.freemarker;
 
-import com.qinweizhao.blog.framework.event.options.ConfigUpdatedEvent;
+import com.qinweizhao.blog.framework.event.config.ConfigUpdatedEvent;
 import com.qinweizhao.blog.framework.event.user.UserUpdatedEvent;
 import com.qinweizhao.blog.model.properties.BlogProperties;
 import com.qinweizhao.blog.model.properties.SeoProperties;

@@ -23,6 +23,7 @@ import java.util.Objects;
 
 /**
  * @author johnniang
+ * @author qinweizhao
  */
 @Aspect
 @Component
@@ -39,7 +40,7 @@ public class ControllerLogAop {
         String methodName = joinPoint.getSignature().getName();
         Object[] args = joinPoint.getArgs();
 
-        // Get request attribute
+        // 获取请求参数
         ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = Objects.requireNonNull(requestAttributes).getRequest();
 
@@ -52,7 +53,7 @@ public class ControllerLogAop {
 
 
     private void printRequestLog(HttpServletRequest request, String clazzName, String methodName, Object[] args) throws JsonProcessingException {
-        log.debug("Request URL: [{}], URI: [{}], Request Method: [{}], IP: [{}]",
+        log.debug("请求地址: [{}], URI: [{}], 请求方法 [{}], IP: [{}]",
                 request.getRequestURL(),
                 request.getRequestURI(),
                 request.getMethod(),
