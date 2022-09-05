@@ -139,7 +139,7 @@ public class PostServiceImpl implements PostService {
 
         Map<Integer, List<CategoryDTO>> categoryListMap = postCategoryService.listCategoryListMap(postIds);
 
-        List<PostSimpleDTO> collect = posts.stream().peek(post -> {
+        posts.forEach(post -> {
 
             post.setCategories(new ArrayList<>(
                     Optional.ofNullable(categoryListMap.get(post.getId()))
@@ -149,9 +149,9 @@ public class PostServiceImpl implements PostService {
 
             post.setFullPath(buildFullPath(post.getId()));
 
-        }).collect(Collectors.toList());
+        });
 
-        return new PageResult<>(collect, pageResult.getCurrent(), pageResult.getSize(), pageResult.getTotal(), pageResult.hasPrevious(), pageResult.hasNext());
+        return new PageResult<>(posts, pageResult.getCurrent(), pageResult.getSize(), pageResult.getTotal(), pageResult.hasPrevious(), pageResult.hasNext());
     }
 
 
