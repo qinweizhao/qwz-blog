@@ -167,8 +167,14 @@ public class PostServiceImpl implements PostService {
 
         String originalContent = param.getOriginalContent();
 
+        String summary = post.getSummary();
+        if (ObjectUtils.isEmpty(summary)){
+            post.setSummary(generateSummary(MarkdownUtils.renderHtml(originalContent)));
+        }
+
         originalContent = HaloUtils.cleanHtmlTag(originalContent);
         post.setWordCount((long) originalContent.length());
+
         postMapper.insert(post);
         Integer postId = post.getId();
 
@@ -230,6 +236,12 @@ public class PostServiceImpl implements PostService {
         post.setId(postId);
 
         this.slugMustNotExist(post);
+
+        String summary = post.getSummary();
+        if (ObjectUtils.isEmpty(summary)){
+            post.setSummary(generateSummary(MarkdownUtils.renderHtml(param.getOriginalContent())));
+        }
+
 
         postMapper.updateById(post);
 
@@ -471,14 +483,12 @@ public class PostServiceImpl implements PostService {
 
         List<CategoryDTO> categories = postCategoryService.listByPostId(post.getId());
 
-        // todo
         List<MetaDTO> metas = metaService.listByPostId(post.getId());
 
         Content content = contentMapper.selectById(postId);
         String originalContent = content.getOriginalContent();
         postDTO.setFormatContent(MarkdownUtils.renderHtml(originalContent));
         postDTO.setOriginalContent(originalContent);
-        postDTO.setSummary(generateSummary(content.getContent()));
 
         Set<Integer> tagIds = ServiceUtils.fetchProperty(tags, TagDTO::getId);
 
