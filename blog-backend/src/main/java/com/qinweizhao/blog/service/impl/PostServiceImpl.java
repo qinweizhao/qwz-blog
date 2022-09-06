@@ -62,7 +62,7 @@ public class PostServiceImpl implements PostService {
 
     private final ContentMapper contentMapper;
 
-    private final Pattern summaryPattern = Pattern.compile("\t|\r|\n");
+    private final Pattern summaryPattern = Pattern.compile("[\t\r\n]");
 
     private final PostMapper postMapper;
 
@@ -105,17 +105,11 @@ public class PostServiceImpl implements PostService {
         List<PostListDTO> collect = posts.stream().map(post -> {
             PostListDTO postListDTO = PostConvert.INSTANCE.convertToListVO(post);
 
-            postListDTO.setTags(new ArrayList<>(
-                    Optional.ofNullable(tagListMap.get(post.getId()))
-                            .orElseGet(LinkedList::new)));
+            postListDTO.setTags(new ArrayList<>(Optional.ofNullable(tagListMap.get(post.getId())).orElseGet(LinkedList::new)));
 
-            postListDTO.setCategories(new ArrayList<>(
-                    Optional.ofNullable(categoryListMap.get(post.getId()))
-                            .orElseGet(LinkedList::new)));
+            postListDTO.setCategories(new ArrayList<>(Optional.ofNullable(categoryListMap.get(post.getId())).orElseGet(LinkedList::new)));
 
-            postListDTO.setMetas(
-                    Optional.ofNullable(postMetaListMap.get(post.getId()))
-                            .orElseGet(LinkedList::new));
+            postListDTO.setMetas(Optional.ofNullable(postMetaListMap.get(post.getId())).orElseGet(LinkedList::new));
 
             postListDTO.setCommentCount(commentCountMap.getOrDefault(post.getId(), 0L));
 
@@ -141,9 +135,7 @@ public class PostServiceImpl implements PostService {
 
         posts.forEach(post -> {
 
-            post.setCategories(new ArrayList<>(
-                    Optional.ofNullable(categoryListMap.get(post.getId()))
-                            .orElseGet(LinkedList::new)));
+            post.setCategories(new ArrayList<>(Optional.ofNullable(categoryListMap.get(post.getId())).orElseGet(LinkedList::new)));
 
             post.setCommentCount(commentCountMap.getOrDefault(post.getId(), 0L));
 
@@ -168,7 +160,7 @@ public class PostServiceImpl implements PostService {
         String originalContent = param.getOriginalContent();
 
         String summary = post.getSummary();
-        if (ObjectUtils.isEmpty(summary)){
+        if (ObjectUtils.isEmpty(summary)) {
             post.setSummary(generateSummary(MarkdownUtils.renderHtml(originalContent)));
         }
 
@@ -238,7 +230,7 @@ public class PostServiceImpl implements PostService {
         this.slugMustNotExist(post);
 
         String summary = post.getSummary();
-        if (ObjectUtils.isEmpty(summary)){
+        if (ObjectUtils.isEmpty(summary)) {
             post.setSummary(generateSummary(MarkdownUtils.renderHtml(param.getOriginalContent())));
         }
 
@@ -333,8 +325,7 @@ public class PostServiceImpl implements PostService {
 
         previewUrl.append(this.buildFullPath(postId));
 
-        previewUrl.append("&token=")
-                .append(token);
+        previewUrl.append("&token=").append(token);
 
         return previewUrl.toString();
     }
@@ -528,7 +519,6 @@ public class PostServiceImpl implements PostService {
         Matcher matcher = summaryPattern.matcher(text);
         text = matcher.replaceAll("");
 
-        // Get summary length
         Integer summaryLength = configService.getByPropertyOrDefault(PostProperties.SUMMARY_LENGTH, Integer.class, 150);
 
         return StringUtils.substring(text, 0, summaryLength);
@@ -548,8 +538,7 @@ public class PostServiceImpl implements PostService {
         postSimples.forEach(post -> {
             LocalDateTime createTime = post.getCreateTime();
             post.setFullPath(buildFullPath(post.getId()));
-            yearPostMap.computeIfAbsent(createTime.getYear(), year -> new LinkedList<>())
-                    .add(post);
+            yearPostMap.computeIfAbsent(createTime.getYear(), year -> new LinkedList<>()).add(post);
         });
 
         List<ArchiveYearVO> archives = new LinkedList<>();
@@ -570,8 +559,7 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public List<ArchiveMonthVO> listMonthArchives() {
-        List<Post> posts = postMapper
-                .selectListByStatus(PostStatus.PUBLISHED);
+        List<Post> posts = postMapper.selectListByStatus(PostStatus.PUBLISHED);
 
         List<PostSimpleDTO> postSimples = PostConvert.INSTANCE.convertToSimpleDTO(posts);
 
@@ -580,23 +568,19 @@ public class PostServiceImpl implements PostService {
         postSimples.forEach(post -> {
             LocalDateTime createTime = post.getCreateTime();
             post.setFullPath(buildFullPath(post.getId()));
-            yearMonthPostMap.computeIfAbsent(createTime.getYear(), year -> new LinkedHashMap<>())
-                    .computeIfAbsent(createTime.getMonthValue(),
-                            month -> new LinkedList<>())
-                    .add(post);
+            yearMonthPostMap.computeIfAbsent(createTime.getYear(), year -> new LinkedHashMap<>()).computeIfAbsent(createTime.getMonthValue(), month -> new LinkedList<>()).add(post);
         });
 
         List<ArchiveMonthVO> archives = new LinkedList<>();
 
-        yearMonthPostMap.forEach((year, monthPostMap) ->
-                monthPostMap.forEach((month, postList) -> {
-                    ArchiveMonthVO archive = new ArchiveMonthVO();
-                    archive.setYear(year);
-                    archive.setMonth(month);
-                    archive.setPosts(postList);
+        yearMonthPostMap.forEach((year, monthPostMap) -> monthPostMap.forEach((month, postList) -> {
+            ArchiveMonthVO archive = new ArchiveMonthVO();
+            archive.setYear(year);
+            archive.setMonth(month);
+            archive.setPosts(postList);
 
-                    archives.add(archive);
-                }));
+            archives.add(archive);
+        }));
 
         archives.sort(new ArchiveMonthVO.ArchiveComparator());
 
@@ -636,8 +620,7 @@ public class PostServiceImpl implements PostService {
 
         fullPath.append(URL_SEPARATOR);
 
-        fullPath.append("?p=")
-                .append(postId);
+        fullPath.append("?p=").append(postId);
 
         return fullPath.toString();
     }
