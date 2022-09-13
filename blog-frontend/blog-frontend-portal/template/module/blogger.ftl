@@ -112,8 +112,4 @@
   <#if settings.enable_social!false>
     <#include "social.ftl">
   </#if>
-  <#if settings.enable_strips!false>
-    <canvas id="canvas-strips" width="300" height="340"></canvas>
-    <script src="${BASE_RES_URL}/source/effect/bg/strips.js"></script>
-  </#if>
 </section>
