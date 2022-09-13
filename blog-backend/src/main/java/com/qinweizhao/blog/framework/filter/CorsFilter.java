@@ -16,8 +16,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-import static com.qinweizhao.blog.model.support.HaloConst.ADMIN_TOKEN_HEADER_NAME;
-import static com.qinweizhao.blog.model.support.HaloConst.API_ACCESS_KEY_HEADER_NAME;
+import static com.qinweizhao.blog.model.support.BlogConst.ADMIN_TOKEN_HEADER_NAME;
+import static com.qinweizhao.blog.model.support.BlogConst.API_ACCESS_KEY_HEADER_NAME;
 
 /**
  * Filter for CORS.

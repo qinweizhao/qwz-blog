@@ -32,7 +32,7 @@ import java.nio.file.Paths;
 import java.util.Objects;
 
 import static com.qinweizhao.blog.framework.handler.file.FileHandler.isImageType;
-import static com.qinweizhao.blog.model.support.HaloConst.*;
+import static com.qinweizhao.blog.model.support.BlogConst.*;
 import static com.qinweizhao.blog.util.HaloUtils.ensureSuffix;
 
 /**

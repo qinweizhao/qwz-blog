@@ -28,7 +28,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.Collections;
 import java.util.Map;
 
-import static com.qinweizhao.blog.model.support.HaloConst.DEFAULT_ERROR_PATH;
+import static com.qinweizhao.blog.model.support.BlogConst.DEFAULT_ERROR_PATH;
 
 /**
  * Error page Controller

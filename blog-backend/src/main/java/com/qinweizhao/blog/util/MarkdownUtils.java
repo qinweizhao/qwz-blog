@@ -1,6 +1,6 @@
 package com.qinweizhao.blog.util;
 
-import com.qinweizhao.blog.model.support.HaloConst;
+import com.qinweizhao.blog.model.support.BlogConst;
 import com.vladsch.flexmark.ext.attributes.AttributesExtension;
 import com.vladsch.flexmark.ext.autolink.AutolinkExtension;
 import com.vladsch.flexmark.ext.emoji.EmojiExtension;
@@ -82,18 +82,18 @@ public class MarkdownUtils {
         }
 
         // Render netease music short url.
-        if (markdown.contains(HaloConst.NETEASE_MUSIC_PREFIX)) {
-            markdown = markdown.replaceAll(HaloConst.NETEASE_MUSIC_REG_PATTERN, HaloConst.NETEASE_MUSIC_IFRAME);
+        if (markdown.contains(BlogConst.NETEASE_MUSIC_PREFIX)) {
+            markdown = markdown.replaceAll(BlogConst.NETEASE_MUSIC_REG_PATTERN, BlogConst.NETEASE_MUSIC_IFRAME);
         }
 
         // Render bilibili video short url.
-        if (markdown.contains(HaloConst.BILIBILI_VIDEO_PREFIX)) {
-            markdown = markdown.replaceAll(HaloConst.BILIBILI_VIDEO_REG_PATTERN, HaloConst.BILIBILI_VIDEO_IFRAME);
+        if (markdown.contains(BlogConst.BILIBILI_VIDEO_PREFIX)) {
+            markdown = markdown.replaceAll(BlogConst.BILIBILI_VIDEO_REG_PATTERN, BlogConst.BILIBILI_VIDEO_IFRAME);
         }
 
         // Render youtube video short url.
-        if (markdown.contains(HaloConst.YOUTUBE_VIDEO_PREFIX)) {
-            markdown = markdown.replaceAll(HaloConst.YOUTUBE_VIDEO_REG_PATTERN, HaloConst.YOUTUBE_VIDEO_IFRAME);
+        if (markdown.contains(BlogConst.YOUTUBE_VIDEO_PREFIX)) {
+            markdown = markdown.replaceAll(BlogConst.YOUTUBE_VIDEO_REG_PATTERN, BlogConst.YOUTUBE_VIDEO_IFRAME);
         }
 
         Node document = PARSER.parse(markdown);

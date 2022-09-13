@@ -9,7 +9,7 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 import org.springframework.web.multipart.MultipartFile;
 
-import static com.qinweizhao.blog.model.support.HaloConst.FILE_SEPARATOR;
+import static com.qinweizhao.blog.model.support.BlogConst.FILE_SEPARATOR;
 
 /**
  * File handler interface.

@@ -27,8 +27,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Optional;
 
-import static com.qinweizhao.blog.model.support.HaloConst.ADMIN_TOKEN_HEADER_NAME;
-import static com.qinweizhao.blog.model.support.HaloConst.ADMIN_TOKEN_QUERY_NAME;
+import static com.qinweizhao.blog.model.support.BlogConst.ADMIN_TOKEN_HEADER_NAME;
+import static com.qinweizhao.blog.model.support.BlogConst.ADMIN_TOKEN_QUERY_NAME;
 
 /**
  * Admin authentication filter.

@@ -27,7 +27,7 @@ import java.util.Calendar;
 import java.util.Objects;
 import java.util.concurrent.locks.ReentrantLock;
 
-import static com.qinweizhao.blog.model.support.HaloConst.FILE_SEPARATOR;
+import static com.qinweizhao.blog.model.support.BlogConst.FILE_SEPARATOR;
 
 /**
  * Local file handler.

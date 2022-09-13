@@ -50,7 +50,7 @@ logging:
   level:
     com.qinweizhao.blog: DEBUG
   file:
-    path: ${blog.work-dir}/blog-resource/logs
+    path: ${blog.work-dir}/blog-resource/log
 
 blog:
   # 例如：https://www.qinweizhao.com

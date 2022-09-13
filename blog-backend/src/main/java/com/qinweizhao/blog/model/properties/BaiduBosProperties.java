@@ -1,6 +1,6 @@
 package com.qinweizhao.blog.model.properties;
 
-import com.qinweizhao.blog.model.support.HaloConst;
+import com.qinweizhao.blog.model.support.BlogConst;
 
 /**
  * Baidu bos properties.
@@ -14,7 +14,7 @@ public enum BaiduBosProperties implements PropertyEnum {
     /**
      * Baidu bos domain protocol.
      */
-    BOS_PROTOCOL("bos_baidu_domain_protocol", String.class, HaloConst.PROTOCOL_HTTPS),
+    BOS_PROTOCOL("bos_baidu_domain_protocol", String.class, BlogConst.PROTOCOL_HTTPS),
 
     /**
      * Baidu bos domain.

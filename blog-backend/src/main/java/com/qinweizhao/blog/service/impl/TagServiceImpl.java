@@ -22,7 +22,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Map;
 
-import static com.qinweizhao.blog.model.support.HaloConst.URL_SEPARATOR;
+import static com.qinweizhao.blog.model.support.BlogConst.URL_SEPARATOR;
 
 /**
  * TagService implementation class.

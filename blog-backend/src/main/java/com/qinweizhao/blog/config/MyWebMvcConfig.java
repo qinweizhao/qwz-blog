@@ -3,7 +3,7 @@ package com.qinweizhao.blog.config;
 import com.qinweizhao.blog.config.properties.MyBlogProperties;
 import com.qinweizhao.blog.framework.factory.StringToEnumConverterFactory;
 import com.qinweizhao.blog.framework.security.resolver.AuthenticationArgumentResolver;
-import com.qinweizhao.blog.model.support.HaloConst;
+import com.qinweizhao.blog.model.support.BlogConst;
 import freemarker.core.TemplateClassResolver;
 import freemarker.template.TemplateException;
 import freemarker.template.TemplateExceptionHandler;
@@ -35,7 +35,7 @@ import java.util.List;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
-import static com.qinweizhao.blog.model.support.HaloConst.FILE_SEPARATOR;
+import static com.qinweizhao.blog.model.support.BlogConst.FILE_SEPARATOR;
 import static com.qinweizhao.blog.util.HaloUtils.*;
 
 /**
@@ -191,7 +191,7 @@ public class MyWebMvcConfig implements WebMvcConfigurer {
         resolver.setExposeRequestAttributes(false);
         resolver.setExposeSessionAttributes(false);
         resolver.setExposeSpringMacroHelpers(true);
-        resolver.setSuffix(HaloConst.SUFFIX_FTL);
+        resolver.setSuffix(BlogConst.SUFFIX_FTL);
         resolver.setContentType("text/html; charset=UTF-8");
         registry.viewResolver(resolver);
     }

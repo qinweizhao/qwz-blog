@@ -4,7 +4,7 @@ import com.qinweizhao.blog.framework.event.config.ConfigUpdatedEvent;
 import com.qinweizhao.blog.framework.event.user.UserUpdatedEvent;
 import com.qinweizhao.blog.model.properties.BlogProperties;
 import com.qinweizhao.blog.model.properties.SeoProperties;
-import com.qinweizhao.blog.model.support.HaloConst;
+import com.qinweizhao.blog.model.support.BlogConst;
 import com.qinweizhao.blog.service.ConfigService;
 import com.qinweizhao.blog.service.ThemeService;
 import com.qinweizhao.blog.service.ThemeSettingService;
@@ -78,7 +78,7 @@ public class FreemarkerConfigAwareListener {
 
         configuration.setSharedVariable("options", configService.listOptions());
         configuration.setSharedVariable("context", context);
-        configuration.setSharedVariable("version", HaloConst.HALO_VERSION);
+        configuration.setSharedVariable("version", BlogConst.HALO_VERSION);
         configuration.setSharedVariable("globalAbsolutePathEnabled", configService.isEnabledAbsolutePath());
         configuration.setSharedVariable("blog_title", configService.getBlogTitle());
         configuration.setSharedVariable("blog_url", blogBaseUrl);

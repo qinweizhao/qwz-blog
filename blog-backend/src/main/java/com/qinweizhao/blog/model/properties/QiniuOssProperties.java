@@ -1,6 +1,6 @@
 package com.qinweizhao.blog.model.properties;
 
-import com.qinweizhao.blog.model.support.HaloConst;
+import com.qinweizhao.blog.model.support.BlogConst;
 
 /**
  * Qiniu oss properties.
@@ -34,7 +34,7 @@ public enum QiniuOssProperties implements PropertyEnum {
     /**
      * Qiniu oss domain protocol.
      */
-    OSS_PROTOCOL("oss_qiniu_domain_protocol", String.class, HaloConst.PROTOCOL_HTTPS),
+    OSS_PROTOCOL("oss_qiniu_domain_protocol", String.class, BlogConst.PROTOCOL_HTTPS),
 
     /**
      * Qiniu oss domain.

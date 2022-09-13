@@ -1,7 +1,7 @@
 package com.qinweizhao.blog.framework.freemarker.tag;
 
 import cn.hutool.core.util.PageUtil;
-import com.qinweizhao.blog.model.support.HaloConst;
+import com.qinweizhao.blog.model.support.BlogConst;
 import com.qinweizhao.blog.model.support.Pagination;
 import com.qinweizhao.blog.model.support.RainbowPage;
 import com.qinweizhao.blog.service.ConfigService;
@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static com.qinweizhao.blog.model.support.HaloConst.URL_SEPARATOR;
+import static com.qinweizhao.blog.model.support.BlogConst.URL_SEPARATOR;
 
 /**
  * @author ryanwang
@@ -34,9 +34,9 @@ public class PaginationTagDirective implements TemplateDirectiveModel {
     @Override
     public void execute(Environment env, Map params, TemplateModel[] loopVars, TemplateDirectiveBody body) throws TemplateException, IOException {
         final DefaultObjectWrapperBuilder builder = new DefaultObjectWrapperBuilder(Configuration.VERSION_2_3_25);
-        if (params.containsKey(HaloConst.METHOD_KEY)) {
+        if (params.containsKey(BlogConst.METHOD_KEY)) {
             // 获取参数
-            String method = params.get(HaloConst.METHOD_KEY).toString();
+            String method = params.get(BlogConst.METHOD_KEY).toString();
 
             int page = Integer.parseInt(params.get("page").toString());
             int total = Integer.parseInt(params.get("total").toString());

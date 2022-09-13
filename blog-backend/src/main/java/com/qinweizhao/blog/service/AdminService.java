@@ -29,9 +29,7 @@ public interface AdminService {
     /**
      * 日志路径
      */
-//    String LOG_PATH = "logs/spring.log";
-
-    String LOG_PATH = "/blog-resource/logs/spring.log";
+    String LOG_PATH = "log/spring.log";
 
     /**
      * 验证用户名密码

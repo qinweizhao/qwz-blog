@@ -3,7 +3,7 @@ package com.qinweizhao.blog.framework.handler.file;
 import com.qinweizhao.blog.exception.FileOperationException;
 import com.qinweizhao.blog.model.enums.AttachmentType;
 import com.qinweizhao.blog.model.properties.MinioProperties;
-import com.qinweizhao.blog.model.support.HaloConst;
+import com.qinweizhao.blog.model.support.BlogConst;
 import com.qinweizhao.blog.model.support.UploadResult;
 import com.qinweizhao.blog.service.ConfigService;
 import com.qinweizhao.blog.util.FilenameUtils;
@@ -48,7 +48,7 @@ public class MinioFileHandler implements FileHandler {
         String bucketName = configService.getByPropertyOfNonNull(MinioProperties.BUCKET_NAME).toString();
         String source = configService.getByPropertyOrDefault(MinioProperties.SOURCE, String.class, "");
 
-        endpoint = StringUtils.appendIfMissing(endpoint, HaloConst.URL_SEPARATOR);
+        endpoint = StringUtils.appendIfMissing(endpoint, BlogConst.URL_SEPARATOR);
 
         MinioClient minioClient = MinioClient.builder()
                 .endpoint(endpoint)
@@ -59,9 +59,9 @@ public class MinioFileHandler implements FileHandler {
             String basename = FilenameUtils.getBasename(Objects.requireNonNull(file.getOriginalFilename()));
             String extension = FilenameUtils.getExtension(file.getOriginalFilename());
             String timestamp = String.valueOf(System.currentTimeMillis());
-            String upFilePath = StringUtils.join(StringUtils.isNotBlank(source) ? source + HaloConst.URL_SEPARATOR : "",
+            String upFilePath = StringUtils.join(StringUtils.isNotBlank(source) ? source + BlogConst.URL_SEPARATOR : "",
                     basename, "_", timestamp, ".", extension);
-            String filePath = StringUtils.join(endpoint, bucketName, HaloConst.URL_SEPARATOR, upFilePath);
+            String filePath = StringUtils.join(endpoint, bucketName, BlogConst.URL_SEPARATOR, upFilePath);
 
             PutObjectArgs putObjectArgs = PutObjectArgs.builder()
                     .contentType(file.getContentType())
@@ -100,7 +100,7 @@ public class MinioFileHandler implements FileHandler {
         Assert.notNull(key, "File key must not be blank");
 
         String endPoint = configService.getByPropertyOfNonNull(MinioProperties.ENDPOINT).toString();
-        endPoint = StringUtils.appendIfMissing(endPoint, HaloConst.URL_SEPARATOR);
+        endPoint = StringUtils.appendIfMissing(endPoint, BlogConst.URL_SEPARATOR);
 
         String accessKey = configService.getByPropertyOfNonNull(MinioProperties.ACCESS_KEY).toString();
         String accessSecret = configService.getByPropertyOfNonNull(MinioProperties.ACCESS_SECRET).toString();

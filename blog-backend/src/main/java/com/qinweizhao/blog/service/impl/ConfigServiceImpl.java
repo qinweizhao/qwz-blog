@@ -32,7 +32,7 @@ import javax.annotation.PostConstruct;
 import javax.validation.constraints.NotNull;
 import java.util.*;
 
-import static com.qinweizhao.blog.model.support.HaloConst.URL_SEPARATOR;
+import static com.qinweizhao.blog.model.support.BlogConst.URL_SEPARATOR;
 
 /**
  * OptionService implementation class

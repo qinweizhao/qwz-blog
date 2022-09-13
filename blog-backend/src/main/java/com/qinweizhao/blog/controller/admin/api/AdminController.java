@@ -104,7 +104,7 @@ public class AdminController {
      */
     @GetMapping(value = "blog/logfile")
     @DisableOnCondition
-    public String getLogFiles(@RequestParam("lines") Long lines) {
+    public String getLogFiles(@RequestParam(value = "lines", defaultValue = "100") Long lines) {
         return adminService.getLogFiles(lines);
     }
 }

@@ -1,6 +1,6 @@
 package com.qinweizhao.blog.model.properties;
 
-import com.qinweizhao.blog.model.support.HaloConst;
+import com.qinweizhao.blog.model.support.BlogConst;
 
 /**
  * Upyun oss properties.
@@ -29,7 +29,7 @@ public enum UpOssProperties implements PropertyEnum {
     /**
      * upyun oss domain protocol
      */
-    OSS_PROTOCOL("oss_upyun_domain_protocol", String.class, HaloConst.PROTOCOL_HTTPS),
+    OSS_PROTOCOL("oss_upyun_domain_protocol", String.class, BlogConst.PROTOCOL_HTTPS),
 
     /**
      * upyun oss domain

@@ -21,7 +21,7 @@ import javax.imageio.ImageReader;
 import java.io.IOException;
 import java.util.Objects;
 
-import static com.qinweizhao.blog.model.support.HaloConst.URL_SEPARATOR;
+import static com.qinweizhao.blog.model.support.BlogConst.URL_SEPARATOR;
 
 /**
  * Huawei obs file handler.

@@ -1,6 +1,6 @@
 package com.qinweizhao.blog.model.properties;
 
-import com.qinweizhao.blog.model.support.HaloConst;
+import com.qinweizhao.blog.model.support.BlogConst;
 
 /**
  * Huawei obs properties.
@@ -13,7 +13,7 @@ public enum HuaweiObsProperties implements PropertyEnum {
     /**
      * Huawei obs domain protocol
      */
-    OSS_PROTOCOL("obs_huawei_domain_protocol", String.class, HaloConst.PROTOCOL_HTTPS),
+    OSS_PROTOCOL("obs_huawei_domain_protocol", String.class, BlogConst.PROTOCOL_HTTPS),
 
     /**
      * Huawei obs domain

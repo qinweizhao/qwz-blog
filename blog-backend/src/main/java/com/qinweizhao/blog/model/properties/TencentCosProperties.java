@@ -1,6 +1,6 @@
 package com.qinweizhao.blog.model.properties;
 
-import com.qinweizhao.blog.model.support.HaloConst;
+import com.qinweizhao.blog.model.support.BlogConst;
 
 /**
  * Tencent cos properties.
@@ -14,7 +14,7 @@ public enum TencentCosProperties implements PropertyEnum {
     /**
      * Tencent cos domain protocol.
      */
-    COS_PROTOCOL("cos_tencent_domain_protocol", String.class, HaloConst.PROTOCOL_HTTPS),
+    COS_PROTOCOL("cos_tencent_domain_protocol", String.class, BlogConst.PROTOCOL_HTTPS),
 
     /**
      * Tencent cos domain.

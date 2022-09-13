@@ -45,7 +45,7 @@ import org.springframework.util.ObjectUtils;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static com.qinweizhao.blog.model.support.HaloConst.URL_SEPARATOR;
+import static com.qinweizhao.blog.model.support.BlogConst.URL_SEPARATOR;
 
 /**
  * PostCommentService implementation class

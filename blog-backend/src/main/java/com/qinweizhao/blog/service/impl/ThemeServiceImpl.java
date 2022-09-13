@@ -24,7 +24,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-import static com.qinweizhao.blog.model.support.HaloConst.DEFAULT_ERROR_PATH;
+import static com.qinweizhao.blog.model.support.BlogConst.DEFAULT_ERROR_PATH;
 
 /**
  * Theme service implementation.

@@ -1,7 +1,7 @@
 package com.qinweizhao.blog.util;
 
 import cn.hutool.core.util.URLUtil;
-import com.qinweizhao.blog.model.support.HaloConst;
+import com.qinweizhao.blog.model.support.BlogConst;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.lang.Nullable;
@@ -11,7 +11,7 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.UUID;
 
-import static com.qinweizhao.blog.model.support.HaloConst.FILE_SEPARATOR;
+import static com.qinweizhao.blog.model.support.BlogConst.FILE_SEPARATOR;
 
 /**
  * Common utils
@@ -243,7 +243,7 @@ public class HaloUtils {
     public static String normalizeUrl(String originalUrl) {
         Assert.hasText(originalUrl, "Original Url must not be blank");
 
-        if (StringUtils.startsWithAny(originalUrl, URL_SEPARATOR, HaloConst.PROTOCOL_HTTPS, HaloConst.PROTOCOL_HTTP)
+        if (StringUtils.startsWithAny(originalUrl, URL_SEPARATOR, BlogConst.PROTOCOL_HTTPS, BlogConst.PROTOCOL_HTTP)
                 && !StringUtils.startsWith(originalUrl, "//")) {
             return originalUrl;
         }

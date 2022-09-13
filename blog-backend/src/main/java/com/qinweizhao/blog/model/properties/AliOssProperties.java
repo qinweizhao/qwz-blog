@@ -1,6 +1,6 @@
 package com.qinweizhao.blog.model.properties;
 
-import com.qinweizhao.blog.model.support.HaloConst;
+import com.qinweizhao.blog.model.support.BlogConst;
 
 /**
  * Ali yun oss properties.
@@ -14,7 +14,7 @@ public enum AliOssProperties implements PropertyEnum {
     /**
      * Aliyun oss domain protocol
      */
-    OSS_PROTOCOL("oss_ali_domain_protocol", String.class, HaloConst.PROTOCOL_HTTPS),
+    OSS_PROTOCOL("oss_ali_domain_protocol", String.class, BlogConst.PROTOCOL_HTTPS),
 
     /**
      * Aliyun oss domain

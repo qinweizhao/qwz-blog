@@ -25,8 +25,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.*;
 
-import static com.qinweizhao.blog.model.support.HaloConst.ONE_TIME_TOKEN_HEADER_NAME;
-import static com.qinweizhao.blog.model.support.HaloConst.ONE_TIME_TOKEN_QUERY_NAME;
+import static com.qinweizhao.blog.model.support.BlogConst.ONE_TIME_TOKEN_HEADER_NAME;
+import static com.qinweizhao.blog.model.support.BlogConst.ONE_TIME_TOKEN_QUERY_NAME;
 
 /**
  * Abstract authentication filter.

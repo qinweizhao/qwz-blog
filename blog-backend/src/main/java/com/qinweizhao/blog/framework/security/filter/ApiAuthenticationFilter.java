@@ -23,8 +23,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Optional;
 
-import static com.qinweizhao.blog.model.support.HaloConst.API_ACCESS_KEY_HEADER_NAME;
-import static com.qinweizhao.blog.model.support.HaloConst.API_ACCESS_KEY_QUERY_NAME;
+import static com.qinweizhao.blog.model.support.BlogConst.API_ACCESS_KEY_HEADER_NAME;
+import static com.qinweizhao.blog.model.support.BlogConst.API_ACCESS_KEY_QUERY_NAME;
 
 /**
  * Api authentication Filter

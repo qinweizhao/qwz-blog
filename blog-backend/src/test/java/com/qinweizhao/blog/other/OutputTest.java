@@ -11,8 +11,8 @@ import java.net.URI;
 import java.util.Collections;
 import java.util.List;
 
-import static com.qinweizhao.blog.model.support.HaloConst.FILE_SEPARATOR;
-import static com.qinweizhao.blog.model.support.HaloConst.USER_HOME;
+import static com.qinweizhao.blog.model.support.BlogConst.FILE_SEPARATOR;
+import static com.qinweizhao.blog.model.support.BlogConst.USER_HOME;
 import static com.qinweizhao.blog.util.HaloUtils.ensureSuffix;
 
 @SpringBootTest

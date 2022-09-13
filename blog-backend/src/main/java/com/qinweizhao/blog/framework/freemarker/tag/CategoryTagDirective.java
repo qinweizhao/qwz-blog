@@ -1,7 +1,7 @@
 package com.qinweizhao.blog.framework.freemarker.tag;
 
 import com.qinweizhao.blog.model.dto.CategoryDTO;
-import com.qinweizhao.blog.model.support.HaloConst;
+import com.qinweizhao.blog.model.support.BlogConst;
 import com.qinweizhao.blog.service.CategoryService;
 import com.qinweizhao.blog.service.PostCategoryService;
 import freemarker.core.Environment;
@@ -39,8 +39,8 @@ public class CategoryTagDirective implements TemplateDirectiveModel {
     public void execute(Environment env, Map params, TemplateModel[] loopVars, TemplateDirectiveBody body) throws TemplateException, IOException {
         final DefaultObjectWrapperBuilder builder = new DefaultObjectWrapperBuilder(Configuration.VERSION_2_3_25);
 
-        if (params.containsKey(HaloConst.METHOD_KEY)) {
-            String method = params.get(HaloConst.METHOD_KEY).toString();
+        if (params.containsKey(BlogConst.METHOD_KEY)) {
+            String method = params.get(BlogConst.METHOD_KEY).toString();
             switch (method) {
                 case "list":
                     env.setVariable("categories", builder.build().wrap(categoryService.list(true)));

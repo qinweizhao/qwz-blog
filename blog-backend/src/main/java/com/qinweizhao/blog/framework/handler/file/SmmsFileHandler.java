@@ -5,7 +5,7 @@ import com.qinweizhao.blog.exception.FileOperationException;
 import com.qinweizhao.blog.exception.ServiceException;
 import com.qinweizhao.blog.model.enums.AttachmentType;
 import com.qinweizhao.blog.model.properties.SmmsProperties;
-import com.qinweizhao.blog.model.support.HaloConst;
+import com.qinweizhao.blog.model.support.BlogConst;
 import com.qinweizhao.blog.model.support.UploadResult;
 import com.qinweizhao.blog.service.ConfigService;
 import com.qinweizhao.blog.util.FilenameUtils;
@@ -183,7 +183,7 @@ public class SmmsFileHandler implements FileHandler {
      * Set headers.
      */
     private void setHeaders() {
-        headers.set(HttpHeaders.USER_AGENT, "Halo/" + HaloConst.HALO_VERSION);
+        headers.set(HttpHeaders.USER_AGENT, "Halo/" + BlogConst.HALO_VERSION);
         headers.set(HttpHeaders.AUTHORIZATION, configService.getByPropertyOfNonNull(SmmsProperties.SMMS_API_SECRET_TOKEN).toString());
     }
 

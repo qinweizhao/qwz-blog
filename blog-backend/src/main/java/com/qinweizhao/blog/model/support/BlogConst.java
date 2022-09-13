@@ -10,26 +10,28 @@ import java.util.Optional;
  *     公共常量
  * </pre>
  *
- * @author ryanwang
- * @since 2017/12/29
+ * @author qinweizhao
+ * @since 2022/09/13
  */
-public class HaloConst {
+public class BlogConst {
+
+    private BlogConst(){}
 
     /**
      * 用户主目录
      */
-    public final static String USER_HOME = System.getProperties().getProperty("user.home");
+    public static final String USER_HOME = System.getProperties().getProperty("user.home");
 
     /**
      * 临时目录
      */
-    public final static String TEMP_DIR = "/tmp/com.qinweizhao.blog";
+    public static final  String TEMP_DIR = "/tmp/com.qinweizhao.blog";
 
-    public final static String PROTOCOL_HTTPS = "https://";
+    public static final String PROTOCOL_HTTPS = "https://";
 
-    public final static String PROTOCOL_HTTP = "http://";
+    public static final String PROTOCOL_HTTP = "http://";
 
-    public final static String URL_SEPARATOR = "/";
+    public static final String URL_SEPARATOR = "/";
 
     /**
      * 默认错误路径
@@ -97,34 +99,34 @@ public class HaloConst {
     public static final String YOUTUBE_VIDEO_REG_PATTERN = "\\[youtube:(\\w+)\\,(\\d+)\\,(\\d+)\\]";
 
     /**
-     * Github Api url for halo-admin release.
+     * GitHub Api url for halo-admin release.
      */
-    public final static String HALO_ADMIN_RELEASES_LATEST = "https://api.github.com/repos/halo-dev/halo-admin/releases/latest";
+    public static final String HALO_ADMIN_RELEASES_LATEST = "https://api.github.com/repos/halo-dev/halo-admin/releases/latest";
     /**
      * Halo admin version regex.
      */
-    public final static String HALO_ADMIN_VERSION_REGEX = "halo-admin-\\d+\\.\\d+(\\.\\d+)?(-\\S*)?\\.zip";
-    public final static String HALO_ADMIN_RELATIVE_PATH = "templates/admin/";
-    public final static String HALO_ADMIN_RELATIVE_BACKUP_PATH = "templates/admin-backup/";
+    public static final String HALO_ADMIN_VERSION_REGEX = "halo-admin-\\d+\\.\\d+(\\.\\d+)?(-\\S*)?\\.zip";
+    public static final String HALO_ADMIN_RELATIVE_PATH = "templates/admin/";
+    public static final String HALO_ADMIN_RELATIVE_BACKUP_PATH = "templates/admin-backup/";
     /**
      * Content token header name.
      */
-    public final static String API_ACCESS_KEY_HEADER_NAME = "API-" + HttpHeaders.AUTHORIZATION;
+    public static final String API_ACCESS_KEY_HEADER_NAME = "API-" + HttpHeaders.AUTHORIZATION;
     /**
      * Admin token header name.
      */
-    public final static String ADMIN_TOKEN_HEADER_NAME = "ADMIN-" + HttpHeaders.AUTHORIZATION;
+    public static final String ADMIN_TOKEN_HEADER_NAME = "ADMIN-" + HttpHeaders.AUTHORIZATION;
     /**
      * Admin token param name.
      */
-    public final static String ADMIN_TOKEN_QUERY_NAME = "admin_token";
+    public static final String ADMIN_TOKEN_QUERY_NAME = "admin_token";
 
     /**
      * Content api token param name
      */
-    public final static String API_ACCESS_KEY_QUERY_NAME = "api_access_key";
-    public final static String ONE_TIME_TOKEN_QUERY_NAME = "ott";
-    public final static String ONE_TIME_TOKEN_HEADER_NAME = "ott";
+    public static final String API_ACCESS_KEY_QUERY_NAME = "api_access_key";
+    public static final String ONE_TIME_TOKEN_QUERY_NAME = "ott";
+    public static final String ONE_TIME_TOKEN_HEADER_NAME = "ott";
 
     /**
      * Version constant. (Available in production environment)
@@ -143,6 +145,6 @@ public class HaloConst {
 
     static {
         // Set version
-        HALO_VERSION = Optional.ofNullable(HaloConst.class.getPackage().getImplementationVersion()).orElse(UNKNOWN_VERSION);
+        HALO_VERSION = Optional.ofNullable(BlogConst.class.getPackage().getImplementationVersion()).orElse(UNKNOWN_VERSION);
     }
 }

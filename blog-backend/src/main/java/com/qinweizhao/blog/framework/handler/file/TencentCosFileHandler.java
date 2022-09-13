@@ -25,7 +25,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.imageio.ImageReader;
 import java.util.Objects;
 
-import static com.qinweizhao.blog.model.support.HaloConst.URL_SEPARATOR;
+import static com.qinweizhao.blog.model.support.BlogConst.URL_SEPARATOR;
 
 /**
  * Tencent cos file handler.

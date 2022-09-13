@@ -19,7 +19,7 @@ import com.qinweizhao.blog.model.enums.LogType;
 import com.qinweizhao.blog.model.param.LoginParam;
 import com.qinweizhao.blog.model.param.ResetPasswordParam;
 import com.qinweizhao.blog.model.properties.EmailProperties;
-import com.qinweizhao.blog.model.support.HaloConst;
+import com.qinweizhao.blog.model.support.BlogConst;
 import com.qinweizhao.blog.service.AdminService;
 import com.qinweizhao.blog.service.ConfigService;
 import com.qinweizhao.blog.service.UserService;
@@ -41,7 +41,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import static com.qinweizhao.blog.model.support.HaloConst.DATABASE_PRODUCT_NAME;
+import static com.qinweizhao.blog.model.support.BlogConst.DATABASE_PRODUCT_NAME;
 
 /**
  * Admin service implementation.
@@ -80,8 +80,7 @@ public class AdminServiceImpl implements AdminService {
 
         try {
             // 通过用户名或电子邮件获取用户
-            user = Validator.isEmail(username) ?
-                    userService.getByEmailOfNonNull(username) : userService.getByUsernameOfNonNull(username);
+            user = Validator.isEmail(username) ? userService.getByEmailOfNonNull(username) : userService.getByUsernameOfNonNull(username);
         } catch (NotFoundException e) {
             log.error("查找用户失败: " + username);
             eventPublisher.publishEvent(new LogEvent(this, loginParam.getUsername(), LogType.LOGIN_FAILED, loginParam.getUsername()));
@@ -218,7 +217,7 @@ public class AdminServiceImpl implements AdminService {
 
         environmentDTO.setDatabase(DATABASE_PRODUCT_NAME);
 
-        environmentDTO.setVersion(HaloConst.HALO_VERSION);
+        environmentDTO.setVersion(BlogConst.HALO_VERSION);
 
         environmentDTO.setMode(myBlogProperties.getMode());
 
@@ -229,15 +228,13 @@ public class AdminServiceImpl implements AdminService {
     public AuthToken refreshToken(String refreshToken) {
         Assert.hasText(refreshToken, "刷新令牌不能为空");
 
-        Integer userId = cacheStore.getAny(AuthUtils.buildTokenRefreshKey(refreshToken), Integer.class)
-                .orElseThrow(() -> new BadRequestException("登录状态已失效，请重新登录").setErrorData(refreshToken));
+        Integer userId = cacheStore.getAny(AuthUtils.buildTokenRefreshKey(refreshToken), Integer.class).orElseThrow(() -> new BadRequestException("登录状态已失效，请重新登录").setErrorData(refreshToken));
 
         // Get user info
         User user = userService.getById(userId);
 
         // Remove all token
-        cacheStore.getAny(AuthUtils.buildAccessTokenKey(user), String.class)
-                .ifPresent(accessToken -> cacheStore.delete(AuthUtils.buildTokenAccessKey(accessToken)));
+        cacheStore.getAny(AuthUtils.buildAccessTokenKey(user), String.class).ifPresent(accessToken -> cacheStore.delete(AuthUtils.buildTokenAccessKey(accessToken)));
         cacheStore.delete(AuthUtils.buildTokenRefreshKey(refreshToken));
         cacheStore.delete(AuthUtils.buildAccessTokenKey(user));
         cacheStore.delete(AuthUtils.buildRefreshTokenKey(user));
@@ -274,9 +271,15 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public String getLogFiles(Long lines) {
-        Assert.notNull(lines, "Lines must not be null");
+        String workDir;
 
-        File file = new File(myBlogProperties.getWorkDir(), LOG_PATH);
+        if (myBlogProperties.isProductionEnv()) {
+            workDir = myBlogProperties.getWorkDir();
+        } else {
+            workDir = myBlogProperties.getWorkDir() + "blog-resource/";
+        }
+
+        File file = new File(workDir, LOG_PATH);
 
         List<String> linesArray = new ArrayList<>();
 
@@ -326,8 +329,7 @@ public class AdminServiceImpl implements AdminService {
 
         Collections.reverse(linesArray);
 
-        linesArray.forEach(line -> result.append(line)
-                .append(StringUtils.LF));
+        linesArray.forEach(line -> result.append(line).append(StringUtils.LF));
 
         return result.toString();
     }
