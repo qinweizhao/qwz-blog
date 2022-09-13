@@ -12,4 +12,8 @@
     <name>a-resource</name>
     <artifactId>blog-resource</artifactId>
 
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
 </project>
