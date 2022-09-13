@@ -822,30 +822,6 @@ aside:
           label: 是
         - value: false
           label: 否
-    enable_photos_aside:
-      name: enable_photos_aside
-      label: 相册页侧边栏
-      type: switch
-      data-type: bool
-      default: false
-      description: "相册页右侧是否展示侧边栏"
-      options:
-        - value: true
-          label: 是
-        - value: false
-          label: 否
-    enable_links_aside:
-      name: enable_links_aside
-      label: 友链页侧边栏
-      type: switch
-      data-type: bool
-      default: true
-      description: "友链页右侧是否展示侧边栏"
-      options:
-        - value: true
-          label: 是
-        - value: false
-          label: 否
     enable_categories_aside:
       name: enable_categories_aside
       label: 分类页侧边栏
