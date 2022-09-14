@@ -12,6 +12,7 @@ import com.qinweizhao.blog.model.properties.CommentProperties;
 import com.qinweizhao.blog.service.ConfigService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.core.annotation.Order;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
@@ -101,7 +102,7 @@ public class ApiAuthenticationFilter extends AbstractAuthenticationFilter {
     }
 
     @Override
-    protected boolean shouldNotFilter(HttpServletRequest request) {
+    protected boolean shouldNotFilter(@NotNull HttpServletRequest request) {
         boolean result = super.shouldNotFilter(request);
 
         if (antPathMatcher.match("/api/content/*/comments", request.getServletPath())) {

@@ -11,6 +11,7 @@ import com.qinweizhao.blog.framework.security.handler.DefaultAuthenticationFailu
 import com.qinweizhao.blog.framework.security.service.OneTimeTokenService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 import org.springframework.util.AntPathMatcher;
@@ -73,7 +74,7 @@ public abstract class AbstractAuthenticationFilter extends OncePerRequestFilter 
     protected abstract void doAuthenticate(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException;
 
     @Override
-    protected boolean shouldNotFilter(HttpServletRequest request) {
+    protected boolean shouldNotFilter(@NotNull HttpServletRequest request) {
         Assert.notNull(request, "Http servlet request must not be null");
 
         // check white list
@@ -162,7 +163,7 @@ public abstract class AbstractAuthenticationFilter extends OncePerRequestFilter 
     }
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(@NotNull HttpServletRequest request, @NotNull HttpServletResponse response, @NotNull FilterChain filterChain) throws ServletException, IOException {
 
         try {
             // Check the one-time-token
