@@ -18,7 +18,7 @@ import java.nio.charset.StandardCharsets;
  * 前台-日志
  *
  * @author qinweizhao
- * @since 2019-04-26l
+ * @since 2019-04-26
  */
 @RestController("ApiContentJournalController")
 @AllArgsConstructor
