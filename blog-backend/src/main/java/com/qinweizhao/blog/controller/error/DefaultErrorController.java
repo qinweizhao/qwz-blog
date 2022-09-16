@@ -19,15 +19,13 @@ import java.util.List;
  *
  * @author johnniang
  * @author qinweizhao
+ * @since 2022/09/15
  */
 @Component
 @Slf4j
 public class DefaultErrorController extends BasicErrorController {
 
-    public DefaultErrorController(
-        ErrorAttributes errorAttributes,
-        ServerProperties serverProperties,
-        List<ErrorViewResolver> errorViewResolvers) {
+    public DefaultErrorController(ErrorAttributes errorAttributes, ServerProperties serverProperties, List<ErrorViewResolver> errorViewResolvers) {
         super(errorAttributes, serverProperties.getError(), errorViewResolvers);
     }
 
@@ -39,16 +37,15 @@ public class DefaultErrorController extends BasicErrorController {
         if (exception instanceof NestedServletException) {
             NestedServletException nse = (NestedServletException) exception;
             if (nse.getCause() instanceof BaseException) {
-                status = resolveHaloException((BaseException) nse.getCause(), request);
+                status = resolveBlogException((BaseException) nse.getCause(), request);
             }
         } else if (exception instanceof BaseException) {
-            status = resolveHaloException((BaseException) exception, request);
+            status = resolveBlogException((BaseException) exception, request);
         }
         return status;
     }
 
-    private HttpStatus resolveHaloException(BaseException baseException,
-        HttpServletRequest request) {
+    private HttpStatus resolveBlogException(BaseException baseException, HttpServletRequest request) {
         HttpStatus status = baseException.getStatus();
         if (log.isDebugEnabled()) {
             log.error("发生了异常", baseException);
