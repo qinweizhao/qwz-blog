@@ -58,19 +58,14 @@ public class TagServiceImpl implements TagService {
         result.forEach(item -> {
             item.setPostCount(tagPostCountMap.getOrDefault(item.getId(), 0L));
 
-            StringBuilder fullPath = new StringBuilder();
+            String fullPath = configService.getBlogBaseUrl() +
+                    URL_SEPARATOR +
+                    configService.getTagsPrefix() +
+                    URL_SEPARATOR +
+                    item.getSlug() +
+                    configService.getPathSuffix();
 
-            if (configService.isEnabledAbsolutePath()) {
-                fullPath.append(configService.getBlogBaseUrl());
-            }
-
-            fullPath.append(URL_SEPARATOR)
-                    .append(configService.getTagsPrefix())
-                    .append(URL_SEPARATOR)
-                    .append(item.getSlug())
-                    .append(configService.getPathSuffix());
-
-            item.setFullPath(fullPath.toString());
+            item.setFullPath(fullPath);
 
 
         });
@@ -108,19 +103,14 @@ public class TagServiceImpl implements TagService {
 
         TagDTO tagDTO = TagConvert.INSTANCE.convert(tag);
 
-        StringBuilder fullPath = new StringBuilder();
+        String fullPath = configService.getBlogBaseUrl() +
+                URL_SEPARATOR +
+                configService.getTagsPrefix() +
+                URL_SEPARATOR +
+                tag.getSlug() +
+                configService.getPathSuffix();
 
-        if (configService.isEnabledAbsolutePath()) {
-            fullPath.append(configService.getBlogBaseUrl());
-        }
-
-        fullPath.append(URL_SEPARATOR)
-                .append(configService.getTagsPrefix())
-                .append(URL_SEPARATOR)
-                .append(tag.getSlug())
-                .append(configService.getPathSuffix());
-
-        tagDTO.setFullPath(fullPath.toString());
+        tagDTO.setFullPath(fullPath);
 
         return tagDTO;
     }
@@ -128,23 +118,6 @@ public class TagServiceImpl implements TagService {
     @Override
     public TagDTO getBySlug(String slug) {
         Tag tag = tagMapper.selectBySlug(slug);
-
-//        TagDTO tagDTO =
-//
-//        StringBuilder fullPath = new StringBuilder();
-//
-//        if (configService.isEnabledAbsolutePath()) {
-//            fullPath.append(configService.getBlogBaseUrl());
-//        }
-//
-//        fullPath.append(URL_SEPARATOR)
-//                .append(configService.getTagsPrefix())
-//                .append(URL_SEPARATOR)
-//                .append(tag.getSlug())
-//                .append(configService.getPathSuffix());
-//
-//        tagDTO.setFullPath(fullPath.toString());
-
         return TagConvert.INSTANCE.convert(tag);
     }
 

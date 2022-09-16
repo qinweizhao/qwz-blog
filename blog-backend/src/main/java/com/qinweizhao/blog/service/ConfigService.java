@@ -74,20 +74,13 @@ public interface ConfigService {
     Map<String, Object> listOptions(@Nullable List<String> keys);
 
 
-    /**
-     * Get option by key
-     *
-     * @param key option key must not be blank
-     * @return option value or null
-     */
-    @Nullable
-    Object getByKeyOfNullable(String key);
+
 
     /**
-     * Gets option value of non null.
+     * Gets option value of not null.
      *
      * @param key option key must not be null
-     * @return option value of non null
+     * @return option value of not null
      */
 
     Object getByKeyOfNonNull(String key);
@@ -100,15 +93,6 @@ public interface ConfigService {
      */
 
     Optional<Object> getByKey(String key);
-
-    /**
-     * Gets option value by blog property.
-     *
-     * @param property blog property must not be null
-     * @return an option value
-     */
-    @Nullable
-    Object getByPropertyOfNullable(PropertyEnum property);
 
     /**
      * Gets option value by blog property.
@@ -162,16 +146,6 @@ public interface ConfigService {
      */
     <T> Optional<T> getByProperty(PropertyEnum property, Class<T> propertyType);
 
-    /**
-     * Gets value by key.
-     *
-     * @param key          key must not be null
-     * @param valueType    value type must not be null
-     * @param defaultValue default value
-     * @param <T>          property type
-     * @return value
-     */
-    <T> T getByKeyOrDefault(String key, Class<T> valueType, T defaultValue);
 
     /**
      * Gets value by key.
@@ -219,20 +193,6 @@ public interface ConfigService {
      */
 
     <V, E extends ValueEnum<V>> Optional<E> getValueEnumByProperty(PropertyEnum property, Class<V> valueType, Class<E> enumType);
-
-    /**
-     * Gets value enum by property.
-     *
-     * @param property     property must not be blank
-     * @param valueType    enum value type must not be null
-     * @param enumType     enum type must not be null
-     * @param defaultValue default value enum value
-     * @param <V>          enum value type
-     * @param <E>          value enum type
-     * @return value enum value or null if the default value is null
-     */
-    @Nullable
-    <V, E extends ValueEnum<V>> E getValueEnumByPropertyOrDefault(PropertyEnum property, Class<V> valueType, Class<E> enumType, @Nullable E defaultValue);
 
 
     /**
@@ -336,13 +296,6 @@ public interface ConfigService {
      * @return path suffix.
      */
     String getPathSuffix();
-
-    /**
-     * Is enabled absolute path.
-     *
-     * @return boolean
-     */
-    boolean isEnabledAbsolutePath();
 
     /**
      * 博客注册时间

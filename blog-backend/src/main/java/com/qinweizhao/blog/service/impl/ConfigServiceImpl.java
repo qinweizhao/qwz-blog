@@ -56,18 +56,11 @@ public class ConfigServiceImpl implements ConfigService {
 
     @Override
     public String buildFullPath(Integer postId) {
-        StringBuilder fullPath = new StringBuilder();
 
-        if (this.isEnabledAbsolutePath()) {
-            fullPath.append(this.getBlogBaseUrl());
-        }
-
-        fullPath.append(URL_SEPARATOR);
-
-        fullPath.append("?p=")
-                .append(postId);
-
-        return fullPath.toString();
+        return this.getBlogBaseUrl() +
+                URL_SEPARATOR +
+                "?p=" +
+                postId;
     }
 
 
@@ -138,11 +131,6 @@ public class ConfigServiceImpl implements ConfigService {
 
 
     @Override
-    public Object getByKeyOfNullable(String key) {
-        return getByKey(key).orElse(null);
-    }
-
-    @Override
     public Object getByKeyOfNonNull(String key) {
         return getByKey(key).orElseThrow(() -> new MissingPropertyException("You have to config " + key + " setting"));
     }
@@ -152,11 +140,6 @@ public class ConfigServiceImpl implements ConfigService {
         Assert.hasText(key, "Option key must not be blank");
 
         return Optional.ofNullable(listOptions().get(key));
-    }
-
-    @Override
-    public Object getByPropertyOfNullable(PropertyEnum property) {
-        return getByProperty(property).orElse(null);
     }
 
     @Override
@@ -190,10 +173,7 @@ public class ConfigServiceImpl implements ConfigService {
         return getByProperty(property).map(propertyValue -> PropertyEnum.convertTo(propertyValue.toString(), propertyType));
     }
 
-    @Override
-    public <T> T getByKeyOrDefault(String key, Class<T> valueType, T defaultValue) {
-        return getByKey(key, valueType).orElse(defaultValue);
-    }
+
 
     @Override
     public <T> Optional<T> getByKey(String key, Class<T> valueType) {
@@ -215,10 +195,7 @@ public class ConfigServiceImpl implements ConfigService {
         return getByProperty(property).map(value -> ValueEnum.valueToEnum(enumType, PropertyEnum.convertTo(value.toString(), valueType)));
     }
 
-    @Override
-    public <V, E extends ValueEnum<V>> E getValueEnumByPropertyOrDefault(PropertyEnum property, Class<V> valueType, Class<E> enumType, E defaultValue) {
-        return getValueEnumByProperty(property, valueType, enumType).orElse(defaultValue);
-    }
+
 
     @Override
     public int getPostPageSize() {
@@ -348,10 +325,7 @@ public class ConfigServiceImpl implements ConfigService {
         return getByPropertyOrDefault(PermalinkProperties.PATH_SUFFIX, String.class, PermalinkProperties.PATH_SUFFIX.defaultValue());
     }
 
-    @Override
-    public boolean isEnabledAbsolutePath() {
-        return getByPropertyOrDefault(OtherProperties.GLOBAL_ABSOLUTE_PATH_ENABLED, Boolean.class, true);
-    }
+
 
     @Override
     public long getBirthday() {

@@ -59,10 +59,9 @@ public class CommentEventListener {
     @Async
     @EventListener
     public void handleCommentNewEvent(CommentNewEvent newEvent) {
-        System.out.println("zhixingzhixing");
         Boolean newCommentNotice = configService.getByPropertyOrDefault(CommentProperties.NEW_NOTICE, Boolean.class, false);
 
-        if (!newCommentNotice) {
+        if (Boolean.FALSE.equals(newCommentNotice)) {
             return;
         }
 
@@ -72,7 +71,6 @@ public class CommentEventListener {
 
         StringBuilder subject = new StringBuilder();
 
-        boolean enabledAbsolutePath = configService.isEnabledAbsolutePath();
 
         CommentDTO commentDTO = commentService.getById(newEvent.getCommentId());
 
@@ -84,14 +82,12 @@ public class CommentEventListener {
             log.debug("收到文章评论: [{}]", commentDTO);
 
             PostSimpleDTO postSimpleDTO = postService.getSimpleById(targetId);
-            data.put("pageFullPath", enabledAbsolutePath ? postSimpleDTO.getFullPath() : configService.getBlogBaseUrl() + postSimpleDTO.getFullPath());
+            data.put("pageFullPath", postSimpleDTO.getFullPath());
             data.put("pageTitle", postSimpleDTO.getTitle());
             data.put("author", commentDTO.getAuthor());
             data.put("content", commentDTO.getContent());
 
-            subject.append("您的博客文章《")
-                    .append(postSimpleDTO.getTitle())
-                    .append("》有了新的评论。");
+            subject.append("您的博客文章《").append(postSimpleDTO.getTitle()).append("》有了新的评论。");
 
         } else if (CommentType.JOURNAL.equals(type)) {
 
@@ -99,9 +95,7 @@ public class CommentEventListener {
 
             JournalDTO journalDTO = journalService.getById(targetId);
 
-            StrBuilder url = new StrBuilder(configService.getBlogBaseUrl())
-                    .append("/")
-                    .append(configService.getJournalsPrefix());
+            StrBuilder url = new StrBuilder(configService.getBlogBaseUrl()).append("/").append(configService.getJournalsPrefix());
             data.put("pageFullPath", url.toString());
             data.put("pageTitle", journalDTO.getCreateTime());
             data.put("author", commentDTO.getAuthor());
@@ -137,7 +131,6 @@ public class CommentEventListener {
         Map<String, Object> data = new LinkedHashMap<>();
         StringBuilder subject = new StringBuilder();
 
-        Boolean enabledAbsolutePath = configService.isEnabledAbsolutePath();
 
         CommentDTO commentDTO = commentService.getById(replyEvent.getCommentId());
         CommentType type = commentDTO.getType();
@@ -156,18 +149,14 @@ public class CommentEventListener {
             baseAuthorEmail = baseComment.getEmail();
             PostSimpleDTO postSimpleDTO = postService.getSimpleById(commentDTO.getTargetId());
 
-            data.put("pageFullPath", enabledAbsolutePath ? postSimpleDTO.getFullPath() : configService.getBlogBaseUrl() + postSimpleDTO.getFullPath());
+            data.put("pageFullPath",  postSimpleDTO.getFullPath());
             data.put("pageTitle", postSimpleDTO.getTitle());
             data.put("baseAuthor", baseComment.getAuthor());
             data.put("baseContent", baseComment.getContent());
             data.put("replyAuthor", commentDTO.getAuthor());
             data.put("replyContent", commentDTO.getContent());
 
-            subject.append("您在【")
-                    .append(blogTitle)
-                    .append("】评论的文章《")
-                    .append(postSimpleDTO.getTitle())
-                    .append("》有了新的评论。");
+            subject.append("您在【").append(blogTitle).append("】评论的文章《").append(postSimpleDTO.getTitle()).append("》有了新的评论。");
         } else if (CommentType.JOURNAL.equals(type)) {
 
             CommentDTO baseComment = commentService.getById(commentDTO.getParentId());
@@ -175,7 +164,7 @@ public class CommentEventListener {
             if (StringUtils.isEmpty(baseComment.getEmail()) && !Validator.isEmail(baseComment.getEmail())) {
                 return;
             }
-            if (!baseComment.getAllowNotification()) {
+            if (Boolean.FALSE.equals(baseComment.getAllowNotification())) {
                 return;
             }
 
@@ -183,9 +172,7 @@ public class CommentEventListener {
 
             JournalDTO journal = journalService.getById(commentDTO.getTargetId());
 
-            StrBuilder url = new StrBuilder(configService.getBlogBaseUrl())
-                    .append("/")
-                    .append(configService.getJournalsPrefix());
+            StrBuilder url = new StrBuilder(configService.getBlogBaseUrl()).append("/").append(configService.getJournalsPrefix());
             data.put("pageFullPath", url);
             data.put("pageTitle", journal.getContent());
             data.put("baseAuthor", baseComment.getAuthor());

@@ -48,19 +48,15 @@ public class PaginationTagDirective implements TemplateDirectiveModel {
             StringBuilder nextPageFullPath = new StringBuilder();
             StringBuilder prevPageFullPath = new StringBuilder();
 
-            if (configService.isEnabledAbsolutePath()) {
                 nextPageFullPath.append(configService.getBlogBaseUrl());
                 prevPageFullPath.append(configService.getBlogBaseUrl());
-            }
 
             int[] rainbow = PageUtil.rainbow(page, total, display);
 
             List<RainbowPage> rainbowPages = new ArrayList<>();
             StringBuilder fullPath = new StringBuilder();
 
-            if (configService.isEnabledAbsolutePath()) {
                 fullPath.append(configService.getBlogBaseUrl());
-            }
 
             String pathSuffix = configService.getPathSuffix();
 

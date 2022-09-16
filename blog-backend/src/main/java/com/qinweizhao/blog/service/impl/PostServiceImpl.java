@@ -294,7 +294,6 @@ public class PostServiceImpl implements PostService {
         }
     }
 
-
     @Override
     public long countByStatus(PostStatus published) {
         return postMapper.selectCountByStatus(published);
@@ -317,17 +316,10 @@ public class PostServiceImpl implements PostService {
         // 缓存预览文章(草稿状态)携带的 token
         cacheStore.putAny(token, token, 10, TimeUnit.MINUTES);
 
-        StringBuilder previewUrl = new StringBuilder();
 
-        if (!configService.isEnabledAbsolutePath()) {
-            previewUrl.append(configService.getBlogBaseUrl());
-        }
-
-        previewUrl.append(this.buildFullPath(postId));
-
-        previewUrl.append("&token=").append(token);
-
-        return previewUrl.toString();
+        return configService.getBlogBaseUrl() +
+                this.buildFullPath(postId) +
+                "&token=" + token;
     }
 
     @Override
@@ -612,17 +604,10 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public String buildFullPath(Integer postId) {
-        StringBuilder fullPath = new StringBuilder();
 
-        if (configService.isEnabledAbsolutePath()) {
-            fullPath.append(configService.getBlogBaseUrl());
-        }
-
-        fullPath.append(URL_SEPARATOR);
-
-        fullPath.append("?p=").append(postId);
-
-        return fullPath.toString();
+        return configService.getBlogBaseUrl() +
+                URL_SEPARATOR +
+                "?p=" + postId;
     }
 
 }

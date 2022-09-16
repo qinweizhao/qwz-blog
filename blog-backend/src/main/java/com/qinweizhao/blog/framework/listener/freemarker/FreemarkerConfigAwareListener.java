@@ -74,12 +74,11 @@ public class FreemarkerConfigAwareListener {
     private void loadOptionsConfig() throws TemplateModelException {
 
         final String blogBaseUrl = configService.getBlogBaseUrl();
-        final String context = configService.isEnabledAbsolutePath() ? blogBaseUrl + "/" : "/";
+        final String context = blogBaseUrl + "/";
 
         configuration.setSharedVariable("options", configService.listOptions());
         configuration.setSharedVariable("context", context);
         configuration.setSharedVariable("version", BlogConst.HALO_VERSION);
-        configuration.setSharedVariable("globalAbsolutePathEnabled", configService.isEnabledAbsolutePath());
         configuration.setSharedVariable("blog_title", configService.getBlogTitle());
         configuration.setSharedVariable("blog_url", blogBaseUrl);
         configuration.setSharedVariable("blog_logo", configService.getByPropertyOrDefault(BlogProperties.BLOG_LOGO, String.class, BlogProperties.BLOG_LOGO.defaultValue()));
@@ -97,7 +96,7 @@ public class FreemarkerConfigAwareListener {
     private void loadThemeConfig() {
         // 获取当前激活的主题
         themeService.fetchActivatedTheme().ifPresent(activatedTheme -> {
-            String themeBasePath = (configService.isEnabledAbsolutePath() ? configService.getBlogBaseUrl() : "") + "/themes/" + activatedTheme.getFolderName();
+            String themeBasePath = configService.getBlogBaseUrl() + "/themes/" + activatedTheme.getFolderName();
             try {
                 configuration.setSharedVariable("theme", activatedTheme);
 

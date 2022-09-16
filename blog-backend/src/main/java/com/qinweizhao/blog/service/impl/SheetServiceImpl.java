@@ -32,14 +32,7 @@ public class SheetServiceImpl implements SheetService {
     @Override
     public List<IndependentSheetDTO> listIndependentSheets() {
 
-        String context = (configService.isEnabledAbsolutePath() ? configService.getBlogBaseUrl() : "") + "/";
-//
-//        IndependentSheetDTO photoSheet = new IndependentSheetDTO();
-//        photoSheet.setId(2);
-//        photoSheet.setTitle("图库页面");
-//        photoSheet.setFullPath(context + configService.getPhotosPrefix());
-//        photoSheet.setRouteName("PhotoList");
-//        photoSheet.setAvailable(themeService.templateExists("photos.ftl"));
+        String context = configService.getBlogBaseUrl() + "/";
 
         IndependentSheetDTO journalSheet = new IndependentSheetDTO();
         journalSheet.setId(3);
@@ -48,7 +41,6 @@ public class SheetServiceImpl implements SheetService {
         journalSheet.setRouteName("JournalList");
         journalSheet.setAvailable(themeService.templateExists("journals.ftl"));
 
-//        return Arrays.asList(photoSheet, journalSheet);
         return Collections.singletonList(journalSheet);
     }
 

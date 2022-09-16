@@ -111,17 +111,6 @@
                 @onSave="onSaveOptions"
               />
             </a-tab-pane>
-            <a-tab-pane key="advanced-other">
-              <span slot="tab"> <a-icon type="align-left" />其他设置 </span>
-              <AdvancedOtherTab
-                :errored="errored"
-                :options="options"
-                :saving="saving"
-                @callback="errored = false"
-                @onChange="onOptionsChange"
-                @onSave="onSaveOptions"
-              />
-            </a-tab-pane>
           </a-tabs>
         </div>
       </a-col>
@@ -139,7 +128,6 @@ import SmtpTab from './optiontabs/SmtpTab'
 import OtherTab from './optiontabs/OtherTab'
 import PermalinkTab from './optiontabs/PermalinkTab'
 import ApiTab from './optiontabs/ApiTab'
-import AdvancedOtherTab from './optiontabs/AdvancedOtherTab'
 import configApi from '@/api/config'
 
 import { mapActions } from 'vuex'
@@ -155,8 +143,7 @@ export default {
     SmtpTab,
     OtherTab,
     PermalinkTab,
-    ApiTab,
-    AdvancedOtherTab
+    ApiTab
   },
   data() {
     return {

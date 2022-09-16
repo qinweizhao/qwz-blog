@@ -101,19 +101,15 @@ public class CategoryServiceImpl implements CategoryService {
      */
     @NotNull
     private CategoryDTO setFullPath(Category category, CategoryDTO categoryDTO) {
-        StringBuilder fullPath = new StringBuilder();
 
-        if (configService.isEnabledAbsolutePath()) {
-            fullPath.append(configService.getBlogBaseUrl());
-        }
+        String fullPath = configService.getBlogBaseUrl() +
+                URL_SEPARATOR +
+                configService.getCategoriesPrefix() +
+                URL_SEPARATOR +
+                category.getSlug() +
+                configService.getPathSuffix();
 
-        fullPath.append(URL_SEPARATOR)
-                .append(configService.getCategoriesPrefix())
-                .append(URL_SEPARATOR)
-                .append(category.getSlug())
-                .append(configService.getPathSuffix());
-
-        categoryDTO.setFullPath(fullPath.toString());
+        categoryDTO.setFullPath(fullPath);
 
         return categoryDTO;
     }
@@ -178,7 +174,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public boolean removeCategoryAndPostCategoryById(Integer categoryId) {
         List<Category> categories = listByParentId(categoryId);
-        if (null != categories && categories.size() > 0) {
+        if (null != categories && !categories.isEmpty()) {
             categories.forEach(category -> {
                 category.setParentId(0);
                 categoryMapper.updateById(category);
@@ -251,19 +247,14 @@ public class CategoryServiceImpl implements CategoryService {
                 parentCategory.setChildren(new LinkedList<>());
             }
 
-            StringBuilder fullPath = new StringBuilder();
+            String fullPath = configService.getBlogBaseUrl() +
+                    URL_SEPARATOR +
+                    configService.getCategoriesPrefix() +
+                    URL_SEPARATOR +
+                    child.getSlug() +
+                    configService.getPathSuffix();
 
-            if (configService.isEnabledAbsolutePath()) {
-                fullPath.append(configService.getBlogBaseUrl());
-            }
-
-            fullPath.append(URL_SEPARATOR)
-                    .append(configService.getCategoriesPrefix())
-                    .append(URL_SEPARATOR)
-                    .append(child.getSlug())
-                    .append(configService.getPathSuffix());
-
-            child.setFullPath(fullPath.toString());
+            child.setFullPath(fullPath);
 
             // Add child
             parentCategory.getChildren().add(child);

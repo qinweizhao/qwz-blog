@@ -104,51 +104,34 @@ public class CommentServiceImpl implements CommentService {
         CommentType type = param.getType();
         if (type.equals(CommentType.POST)) {
             Map<Integer, Post> postMap = ServiceUtils.convertToMap(postMapper.selectListByIds(targetIds), Post::getId);
-            collect = result.stream()
-                    .filter(comment -> postMap.containsKey(comment.getTargetId()))
-                    .peek(
-                            comment -> {
-                                Integer targetId = comment.getTargetId();
-                                Post post = postMap.get(targetId);
-                                Map<String, Object> map = new HashMap<>(3);
-                                map.put("title", post.getTitle());
-                                map.put("status", ValueEnum.valueToEnum(PostStatus.class, post.getStatus()));
-                                map.put("fullPath", this.buildFullPath(post.getId()));
-                                comment.setTarget(map);
-                            }
-                    ).collect(Collectors.toList());
+            collect = result.stream().filter(comment -> postMap.containsKey(comment.getTargetId())).peek(comment -> {
+                Integer targetId = comment.getTargetId();
+                Post post = postMap.get(targetId);
+                Map<String, Object> map = new HashMap<>(3);
+                map.put("title", post.getTitle());
+                map.put("status", ValueEnum.valueToEnum(PostStatus.class, post.getStatus()));
+                map.put("fullPath", this.buildFullPath(post.getId()));
+                comment.setTarget(map);
+            }).collect(Collectors.toList());
 
         } else {
             Map<Integer, Journal> journalMap = ServiceUtils.convertToMap(journalMapper.selectListByIds(targetIds), Journal::getId);
-            collect = result.stream()
-                    .filter(comment -> journalMap.containsKey(comment.getTargetId())).peek(
-                            comment -> {
-                                Integer targetId = comment.getTargetId();
-                                Journal journal = journalMap.get(targetId);
-                                Map<String, Object> map = new HashMap<>(2);
-                                map.put("content", journal.getContent());
-                                map.put("createTime", journal.getCreateTime());
-                                comment.setTarget(map);
-                            }
-                    ).collect(Collectors.toList());
+            collect = result.stream().filter(comment -> journalMap.containsKey(comment.getTargetId())).peek(comment -> {
+                Integer targetId = comment.getTargetId();
+                Journal journal = journalMap.get(targetId);
+                Map<String, Object> map = new HashMap<>(2);
+                map.put("content", journal.getContent());
+                map.put("createTime", journal.getCreateTime());
+                comment.setTarget(map);
+            }).collect(Collectors.toList());
         }
 
         return new PageResult<>(collect, commentResult.getTotal(), commentResult.hasPrevious(), commentResult.hasNext());
     }
 
     public String buildFullPath(Integer postId) {
-        StringBuilder fullPath = new StringBuilder();
 
-        if (configService.isEnabledAbsolutePath()) {
-            fullPath.append(configService.getBlogBaseUrl());
-        }
-
-        fullPath.append(URL_SEPARATOR);
-
-        fullPath.append("?p=")
-                .append(postId);
-
-        return fullPath.toString();
+        return configService.getBlogBaseUrl() + URL_SEPARATOR + "?p=" + postId;
     }
 
 
@@ -171,10 +154,10 @@ public class CommentServiceImpl implements CommentService {
             param.setAuthorUrl(configService.getBlogBaseUrl());
         }
 
-        if (authentication == null) {
-            if (userService.getByEmail(param.getEmail()).isPresent()) {
-                throw new BadRequestException("不能使用博主的邮箱，如果您是博主，请登录管理端进行回复。");
-            }
+        boolean present = userService.getByEmail(param.getEmail()).isPresent();
+
+        if (authentication == null && present) {
+            throw new BadRequestException("不能使用博主的邮箱，如果您是博主，请登录管理端进行回复。");
         }
 
         Comment comment = CommentConvert.INSTANCE.convert(param);
@@ -215,7 +198,7 @@ public class CommentServiceImpl implements CommentService {
             // 游客的评论
             // 处理评论状态
             Boolean needAudit = configService.getByPropertyOrDefault(CommentProperties.NEW_NEED_CHECK, Boolean.class, true);
-            comment.setStatus(needAudit ? CommentStatus.AUDITING.getValue() : CommentStatus.PUBLISHED.getValue());
+            comment.setStatus(Boolean.TRUE.equals(needAudit) ? CommentStatus.AUDITING.getValue() : CommentStatus.PUBLISHED.getValue());
         }
 
         // 设置类型
@@ -242,7 +225,7 @@ public class CommentServiceImpl implements CommentService {
         if (type.equals(CommentType.POST)) {
             Post post = postMapper.selectById(targetId);
             Assert.notNull(post, "查询不到该文章的信息");
-            if (post.getDisallowComment()) {
+            if (Boolean.TRUE.equals(post.getDisallowComment())) {
                 throw new BadRequestException("该文章已经被禁止评论").setErrorData(targetId);
             }
         } else {
@@ -281,7 +264,7 @@ public class CommentServiceImpl implements CommentService {
 
         List<Comment> children = this.listChildren(comment.getTargetId(), commentId);
 
-        if (children.size() > 0) {
+        if (!children.isEmpty()) {
             children.forEach(child -> commentMapper.deleteById(child.getId()));
         }
 
@@ -417,9 +400,7 @@ public class CommentServiceImpl implements CommentService {
             return;
         }
 
-        List<Comment> children = comments.stream()
-                .filter(comment -> Objects.equals(parentComment.getId(), comment.getParentId()))
-                .collect(Collectors.toList());
+        List<Comment> children = comments.stream().filter(comment -> Objects.equals(parentComment.getId(), comment.getParentId())).collect(Collectors.toList());
 
         children.forEach(comment -> {
             CommentDTO commentDTO = CommentConvert.INSTANCE.convert(comment);

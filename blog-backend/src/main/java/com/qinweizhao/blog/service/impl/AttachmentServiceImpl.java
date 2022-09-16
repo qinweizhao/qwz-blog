@@ -49,12 +49,9 @@ public class AttachmentServiceImpl implements AttachmentService {
 
         String blogBaseUrl = configService.getBlogBaseUrl();
 
-        boolean enabledAbsolutePath = configService.isEnabledAbsolutePath();
-
 
         result.getContent().forEach(item -> {
-            String fullPath = StringUtils
-                    .join(enabledAbsolutePath ? blogBaseUrl : "", "/", item.getPath());
+            String fullPath = StringUtils.join(blogBaseUrl, "/", item.getPath());
             item.setPath(fullPath);
             item.setThumbPath(fullPath);
         });
@@ -123,14 +120,12 @@ public class AttachmentServiceImpl implements AttachmentService {
         // 创建并返回
         String blogBaseUrl = configService.getBlogBaseUrl();
 
-        boolean enabledAbsolutePath = configService.isEnabledAbsolutePath();
-
 
         AttachmentDTO result = AttachmentConvert.INSTANCE.convert(attachment);
         if (Objects.equals(result.getType(), AttachmentType.LOCAL)) {
             // Append blog base url to path and thumbnail
-            String fullPath = StringUtils.join(enabledAbsolutePath ? blogBaseUrl : "", "/", result.getPath());
-            String fullThumbPath = StringUtils.join(enabledAbsolutePath ? blogBaseUrl : "", "/", result.getThumbPath());
+            String fullPath = StringUtils.join(blogBaseUrl, "/", result.getPath());
+            String fullThumbPath = StringUtils.join(blogBaseUrl, "/", result.getThumbPath());
 
             // Set full path and full thumb path
             result.setPath(fullPath);
