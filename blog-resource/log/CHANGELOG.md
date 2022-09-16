@@ -9,7 +9,7 @@
 - 修复后台文章摘要为空时未自动生成
 - 升级 SpringBoot 版本至 2.7.3
 - 升级 JacksonDataFormatsText 版本至 2.13.4
-- 升级 JacksonDatatypeJsr310 版本至 2.13.4
+- 升级 JacksonDataTypeJsr310 版本至 2.13.4
 
 
 ## [v3.0.3]
