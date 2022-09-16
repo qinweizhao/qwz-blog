@@ -16,14 +16,15 @@ import java.util.Map;
  * Json utilities.
  *
  * @author johnniang
- * @since 3/18/19
+ * @author qinweizhao
+ * @since 2019-03-18
  */
 public class JsonUtils {
 
     /**
      * Default json mapper.
      */
-    public final static ObjectMapper DEFAULT_JSON_MAPPER = createDefaultJsonMapper();
+    public static final ObjectMapper DEFAULT_JSON_MAPPER = createDefaultJsonMapper();
 
     private JsonUtils() {
     }
@@ -48,6 +49,7 @@ public class JsonUtils {
     public static ObjectMapper createDefaultJsonMapper(@Nullable PropertyNamingStrategy strategy) {
         // Create object mapper
         ObjectMapper mapper = new ObjectMapper();
+        mapper.findAndRegisterModules();
         // Configure
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         // Set property naming strategy

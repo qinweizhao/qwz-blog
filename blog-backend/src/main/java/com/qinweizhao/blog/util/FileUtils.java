@@ -79,6 +79,7 @@ public class FileUtils {
 
         log.info("Deleting [{}]", deletingPath);
 
+        // todo
         // Delete folder recursively
         org.eclipse.jgit.util.FileUtils.delete(deletingPath.toFile(),
                 org.eclipse.jgit.util.FileUtils.RECURSIVE | org.eclipse.jgit.util.FileUtils.RETRY);

@@ -1,5 +1,11 @@
 package com.qinweizhao.blog.config;
 
+import cn.hutool.core.date.DatePattern;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.ser.InstantSerializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalTimeSerializer;
 import com.qinweizhao.blog.config.properties.MyBlogProperties;
 import com.qinweizhao.blog.framework.factory.StringToEnumConverterFactory;
 import com.qinweizhao.blog.framework.security.resolver.AuthenticationArgumentResolver;
@@ -13,11 +19,13 @@ import org.jetbrains.annotations.NotNull;
 import org.springframework.boot.autoconfigure.web.servlet.MultipartProperties;
 import org.springframework.boot.autoconfigure.web.servlet.WebMvcRegistrations;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.boot.jackson.JsonComponentModule;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.http.CacheControl;
 import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.multipart.MultipartResolver;
@@ -31,6 +39,11 @@ import org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver;
 
 import javax.servlet.MultipartConfigElement;
 import java.io.IOException;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
@@ -56,6 +69,24 @@ public class MyWebMvcConfig implements WebMvcConfigurer {
     @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
         resolvers.add(new AuthenticationArgumentResolver());
+    }
+
+    @Override
+    public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
+        converters.stream().filter(MappingJackson2HttpMessageConverter.class::isInstance).findFirst().ifPresent(converter -> {
+            MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter = (MappingJackson2HttpMessageConverter) converter;
+            Jackson2ObjectMapperBuilder builder = Jackson2ObjectMapperBuilder.json();
+            JsonComponentModule module = new JsonComponentModule();
+            // 转换日期
+            module.addSerializer(LocalDateTime.class, new LocalDateTimeSerializer(DateTimeFormatter.ofPattern(DatePattern.NORM_DATETIME_PATTERN)));
+            module.addSerializer(LocalDate.class, new LocalDateSerializer(DateTimeFormatter.ISO_LOCAL_DATE));
+            module.addSerializer(LocalTime.class, new LocalTimeSerializer(DateTimeFormatter.ISO_LOCAL_TIME));
+            module.addSerializer(Instant.class, InstantSerializer.INSTANCE);
+
+            ObjectMapper objectMapper = builder.modules(module).build();
+            mappingJackson2HttpMessageConverter.setObjectMapper(objectMapper);
+
+        });
     }
 
 
@@ -92,34 +123,23 @@ public class MyWebMvcConfig implements WebMvcConfigurer {
 
         if (myBlogProperties.isProductionEnv()) {
             log.debug("当前环境为生产环境");
-            registry.addResourceHandler("/**")
-                    .addResourceLocations("classpath:/admin/")
-                    .addResourceLocations(workDir + "static/");
+            registry.addResourceHandler("/**").addResourceLocations("classpath:/admin/").addResourceLocations(workDir + "static/");
 
-            registry.addResourceHandler("/themes/**")
-                    .addResourceLocations(workDir + frontendDirName + "/");
+            registry.addResourceHandler("/themes/**").addResourceLocations(workDir + frontendDirName + "/");
 
-            registry.addResourceHandler(uploadUrlPattern)
-                    .setCacheControl(CacheControl.maxAge(7L, TimeUnit.DAYS))
-                    .addResourceLocations(workDir + "image/");
+            registry.addResourceHandler(uploadUrlPattern).setCacheControl(CacheControl.maxAge(7L, TimeUnit.DAYS)).addResourceLocations(workDir + "image/");
 
         } else {
             log.debug("当前环境为开发环境");
-            registry.addResourceHandler("/**")
-                    .addResourceLocations("classpath:/admin/")
-                    .addResourceLocations(workDir + "blog-resource/static/");
+            registry.addResourceHandler("/**").addResourceLocations("classpath:/admin/").addResourceLocations(workDir + "blog-resource/static/");
 
-            registry.addResourceHandler("/themes/**")
-                    .addResourceLocations(FILE_PROTOCOL + myBlogProperties.getWorkDir() + frontendDirName + "/");
+            registry.addResourceHandler("/themes/**").addResourceLocations(FILE_PROTOCOL + myBlogProperties.getWorkDir() + frontendDirName + "/");
 
             String imageUrlPattern = ensureBoth("blog-resource/image/", URL_SEPARATOR) + "**";
-            registry.addResourceHandler(imageUrlPattern)
-                    .setCacheControl(CacheControl.maxAge(7L, TimeUnit.DAYS))
-                    .addResourceLocations(workDir + "blog-resource/image/");
+            registry.addResourceHandler(imageUrlPattern).setCacheControl(CacheControl.maxAge(7L, TimeUnit.DAYS)).addResourceLocations(workDir + "blog-resource/image/");
 
         }
-        registry.addResourceHandler(adminPathPattern)
-                .addResourceLocations("classpath:/admin/");
+        registry.addResourceHandler(adminPathPattern).addResourceLocations("classpath:/admin/");
     }
 
 
