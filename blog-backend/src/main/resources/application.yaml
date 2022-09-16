@@ -7,11 +7,6 @@ spring:
   devtools:
     restart:
       eanbled: false
-  mvc:
-    path match:
-      matching-strategy: ant-path-matcher
-  jackson:
-    date-format: yyyy-MM-dd HH:mm:ss
   output:
     ansi:
       enabled: always
