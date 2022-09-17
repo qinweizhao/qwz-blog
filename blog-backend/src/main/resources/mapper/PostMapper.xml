@@ -114,19 +114,6 @@
         order by create_time desc
     </select>
 
-    <select id="selectExistsBySlug" resultType="java.lang.Boolean">
-        select count(0)
-        from post
-        where slug = #{slug} limit 1
-    </select>
-
-    <select id="selectExistsByIdNotAndSlug" resultType="java.lang.Boolean">
-        select count(1)
-        from post
-        where slug = #{slug}
-          and id = #{id} limit 1
-    </select>
-
     <select id="selectStatusById" resultType="com.qinweizhao.blog.model.enums.PostStatus">
         select status
         from post
@@ -145,6 +132,12 @@
         from post
         where id &gt; #{postId}
           and status = #{status}
+    </select>
+
+    <select id="selectIdBySlug" resultType="java.lang.Integer">
+        select id
+        from post
+        where slug = #{slug} limit 1
     </select>
 
 

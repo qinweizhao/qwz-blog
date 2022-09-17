@@ -288,14 +288,20 @@ public class PostServiceImpl implements PostService {
      */
     private void slugMustNotExist(Post post) {
 
-        boolean exist;
+        boolean exist = false;
 
-        if (ServiceUtils.isEmptyId(post.getId())) {
+        String slug = post.getSlug();
+        Integer id = post.getId();
+        Integer dbId = postMapper.selectIdBySlug(slug);
 
-            exist = postMapper.selectExistsBySlug(post.getSlug());
-        } else {
+        // 如果为 null 则一定不存在
+        if (dbId == null) {
+            return;
+        }
 
-            exist = !postMapper.selectExistsByIdNotAndSlug(post.getId(), post.getSlug());
+        // 更新时判断是否同属一个 id
+        if (!ObjectUtils.isEmpty(id)) {
+            exist = !Objects.equals(dbId, id);
         }
 
         if (exist) {

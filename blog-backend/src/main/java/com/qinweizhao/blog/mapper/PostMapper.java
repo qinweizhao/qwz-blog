@@ -220,23 +220,6 @@ public interface PostMapper extends BaseMapper<Post> {
     }
 
     /**
-     * 通过别名查询是否存在
-     *
-     * @param slug slug
-     * @return boolean
-     */
-    boolean selectExistsBySlug(String slug);
-
-    /**
-     * 通过别名和 id 查询是否存在
-     *
-     * @param id   id
-     * @param slug slug
-     * @return boolean
-     */
-    boolean selectExistsByIdNotAndSlug(@Param("id") Integer id, @Param("slug") String slug);
-
-    /**
      * 获取文章状态
      *
      * @param postId postId
@@ -261,5 +244,12 @@ public interface PostMapper extends BaseMapper<Post> {
      * @return Integer
      */
     Integer selectPrevIdByIdAndStatus(@Param("postId") Integer postId, @Param("status") PostStatus status);
+
+    /**
+     * 查询 id
+     * @param slug slug
+     * @return Integer
+     */
+    Integer selectIdBySlug(@Param("slug") String slug);
 
 }
