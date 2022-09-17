@@ -29,6 +29,7 @@ import com.qinweizhao.blog.service.*;
 import com.qinweizhao.blog.util.HaloUtils;
 import com.qinweizhao.blog.util.MarkdownUtils;
 import com.qinweizhao.blog.util.ServiceUtils;
+import com.qinweizhao.blog.util.SlugUtils;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -151,8 +152,16 @@ public class PostServiceImpl implements PostService {
     @Transactional(rollbackFor = Exception.class)
     public int save(PostParam param) {
         Post post = PostConvert.INSTANCE.convert(param);
-            this.slugMustNotExist(post);
 
+        String slug = post.getSlug();
+
+        if (ObjectUtils.isEmpty(slug)) {
+            post.setSlug(SlugUtils.slug(post.getTitle()));
+        } else {
+            post.setSlug(SlugUtils.slug(slug));
+        }
+
+        this.slugMustNotExist(post);
         Set<Integer> categoryIds = param.getCategoryIds();
         Set<Integer> tagIds = param.getTagIds();
         Set<MetaParam> metas = param.getMetas();
@@ -317,8 +326,7 @@ public class PostServiceImpl implements PostService {
         cacheStore.putAny(token, token, 10, TimeUnit.MINUTES);
 
 
-        return this.buildFullPath(postId) +
-                "&token=" + token;
+        return this.buildFullPath(postId) + "&token=" + token;
     }
 
     @Override
@@ -604,9 +612,7 @@ public class PostServiceImpl implements PostService {
     @Override
     public String buildFullPath(Integer postId) {
 
-        return configService.getBlogBaseUrl() +
-                URL_SEPARATOR +
-                "?p=" + postId;
+        return configService.getBlogBaseUrl() + URL_SEPARATOR + "?p=" + postId;
     }
 
 }
