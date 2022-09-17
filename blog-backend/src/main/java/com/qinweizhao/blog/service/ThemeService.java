@@ -27,11 +27,6 @@ public interface ThemeService {
     String[] CAN_EDIT_SUFFIX = {".ftl", ".css", ".js", ".yaml", ".yml", ".properties"};
 
     /**
-     * 主题截图名称
-     */
-    String THEME_SCREENSHOTS_NAME = "screenshot";
-
-    /**
      * 渲染模板
      */
     String RENDER_TEMPLATE = "%s/%s";
@@ -47,33 +42,13 @@ public interface ThemeService {
     String THEMES_CACHE_KEY = "themes";
 
     /**
-     * 自定义工作表模板前缀
-     */
-    String CUSTOM_SHEET_PREFIX = "sheet_";
-
-    /**
-     * Custom post template prefix.
-     */
-    String CUSTOM_POST_PREFIX = "post_";
-
-    /**
-     * Key to access the zip file url which is in the http response
-     */
-    String ZIP_FILE_KEY = "zipball_url";
-
-    /**
-     * Key to access the tag name which is in the http response
-     */
-    String TAG_KEY = "tag_name";
-
-    /**
      * 获取主题属性
      *
      * @return ThemeProperty
      */
     ThemeProperty getThemeProperty();
 
-    /**
+    /**sheet_prefix
      * 判断指定主题下是否存在模板
      *
      * @param template template

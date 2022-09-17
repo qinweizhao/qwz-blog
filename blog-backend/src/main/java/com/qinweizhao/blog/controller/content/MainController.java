@@ -27,7 +27,7 @@ public class MainController {
     /**
      * Index redirect uri.
      */
-    private final static String INDEX_REDIRECT_URI = "index.html";
+    private static final String INDEX_REDIRECT_URI = "index.html";
 
     @Resource
     private UserService userService;

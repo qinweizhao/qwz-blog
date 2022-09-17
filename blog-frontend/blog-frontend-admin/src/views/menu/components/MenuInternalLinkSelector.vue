@@ -142,19 +142,18 @@ export default {
     },
     otherInternalLinks() {
       const options = this.options
-      const pathSuffix = this.options.path_suffix ? this.options.path_suffix : ''
       return [
         {
           name: '分类目录',
-          url: `${options.blog_url}/${options.categories_prefix}${pathSuffix}`
+          url: `${options.blog_url}/${options.categories_prefix}`
         },
         {
           name: '标签',
-          url: `${options.blog_url}/${options.tags_prefix}${pathSuffix}`
+          url: `${options.blog_url}/${options.tags_prefix}`
         },
         {
           name: '文章归档',
-          url: `${options.blog_url}/${options.archives_prefix}${pathSuffix}`
+          url: `${options.blog_url}/${options.archives_prefix}`
         },
         {
           name: '网站地图',

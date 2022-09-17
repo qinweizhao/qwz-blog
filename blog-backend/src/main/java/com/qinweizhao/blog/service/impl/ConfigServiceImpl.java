@@ -320,12 +320,6 @@ public class ConfigServiceImpl implements ConfigService {
         return getByPropertyOrDefault(PermalinkProperties.TAGS_PREFIX, String.class, PermalinkProperties.TAGS_PREFIX.defaultValue());
     }
 
-    @Override
-    public String getPathSuffix() {
-        return getByPropertyOrDefault(PermalinkProperties.PATH_SUFFIX, String.class, PermalinkProperties.PATH_SUFFIX.defaultValue());
-    }
-
-
 
     @Override
     public long getBirthday() {

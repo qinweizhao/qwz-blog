@@ -290,12 +290,6 @@ public interface ConfigService {
      */
     String getTagsPrefix();
 
-    /**
-     * Get custom path suffix.
-     *
-     * @return path suffix.
-     */
-    String getPathSuffix();
 
     /**
      * 博客注册时间

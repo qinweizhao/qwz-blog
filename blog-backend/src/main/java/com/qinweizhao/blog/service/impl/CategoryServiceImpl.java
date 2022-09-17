@@ -71,25 +71,21 @@ public class CategoryServiceImpl implements CategoryService {
             Map<Integer, Long> categoryPostCountMap = ServiceUtils.convertToMap(postCategoryMapper.selectPostCount(), CategoryPostCountProjection::getCategoryId, CategoryPostCountProjection::getPostCount);
 
             // 转换并返回
-            return categories.stream()
-                    .map(category -> {
-                        // 创建类别帖子计数 dto
-                        CategoryDTO categoryDTO = CategoryConvert.INSTANCE.convert(category);
+            return categories.stream().map(category -> {
+                // 创建类别帖子计数 dto
+                CategoryDTO categoryDTO = CategoryConvert.INSTANCE.convert(category);
 
-                        categoryDTO.setPostCount(categoryPostCountMap.getOrDefault(category.getId(), 0L));
+                categoryDTO.setPostCount(categoryPostCountMap.getOrDefault(category.getId(), 0L));
 
-                        return setFullPath(category, categoryDTO);
-                    })
-                    .collect(Collectors.toList());
+                return setFullPath(category, categoryDTO);
+            }).collect(Collectors.toList());
         }
-        return categories.stream()
-                .map(category -> {
-                    // 创建类别帖子计数 dto
-                    CategoryDTO categoryDTO = CategoryConvert.INSTANCE.convert(category);
+        return categories.stream().map(category -> {
+            // 创建类别帖子计数 dto
+            CategoryDTO categoryDTO = CategoryConvert.INSTANCE.convert(category);
 
-                    return setFullPath(category, categoryDTO);
-                })
-                .collect(Collectors.toList());
+            return setFullPath(category, categoryDTO);
+        }).collect(Collectors.toList());
     }
 
     /**
@@ -102,12 +98,7 @@ public class CategoryServiceImpl implements CategoryService {
     @NotNull
     private CategoryDTO setFullPath(Category category, CategoryDTO categoryDTO) {
 
-        String fullPath = configService.getBlogBaseUrl() +
-                URL_SEPARATOR +
-                configService.getCategoriesPrefix() +
-                URL_SEPARATOR +
-                category.getSlug() +
-                configService.getPathSuffix();
+        String fullPath = configService.getBlogBaseUrl() + URL_SEPARATOR + configService.getCategoriesPrefix() + URL_SEPARATOR + category.getSlug();
 
         categoryDTO.setFullPath(fullPath);
 
@@ -194,9 +185,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public boolean updateInBatch(List<CategoryParam> params) {
-        params.stream()
-                .filter(categoryParam -> !ObjectUtils.isEmpty(categoryParam.getId()))
-                .forEach(categoryParam -> this.updateById(categoryParam.getId(), categoryParam));
+        params.stream().filter(categoryParam -> !ObjectUtils.isEmpty(categoryParam.getId())).forEach(categoryParam -> this.updateById(categoryParam.getId(), categoryParam));
         return true;
     }
 
@@ -234,36 +223,24 @@ public class CategoryServiceImpl implements CategoryService {
             return;
         }
 
-        // Get children for removing after
-        List<Category> children = categories.stream()
-                .filter(category -> ObjectUtils.nullSafeEquals(parentCategory.getId(), category.getParentId()))
-                .collect(Collectors.toList());
+        List<Category> children = categories.stream().filter(category -> ObjectUtils.nullSafeEquals(parentCategory.getId(), category.getParentId())).collect(Collectors.toList());
 
         children.forEach(category -> {
-            // Convert to child category vo
             CategoryDTO child = CategoryConvert.INSTANCE.convert(category);
-            // Init children if absent
+
             if (parentCategory.getChildren() == null) {
                 parentCategory.setChildren(new LinkedList<>());
             }
 
-            String fullPath = configService.getBlogBaseUrl() +
-                    URL_SEPARATOR +
-                    configService.getCategoriesPrefix() +
-                    URL_SEPARATOR +
-                    child.getSlug() +
-                    configService.getPathSuffix();
+            String fullPath = configService.getBlogBaseUrl() + URL_SEPARATOR + configService.getCategoriesPrefix() + URL_SEPARATOR + child.getSlug();
 
             child.setFullPath(fullPath);
 
-            // Add child
             parentCategory.getChildren().add(child);
         });
 
-        // Remove all child categories
         categories.removeAll(children);
 
-        // Foreach children vos
         if (!CollectionUtils.isEmpty(parentCategory.getChildren())) {
             parentCategory.getChildren().forEach(childCategory -> concreteTree(childCategory, categories));
         }

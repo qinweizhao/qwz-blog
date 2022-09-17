@@ -3,30 +3,28 @@
     <a-form-model ref="permalinkOptionsForm" :model="options" :rules="rules" :wrapperCol="wrapperCol" layout="vertical">
       <a-form-model-item label="归档前缀：">
         <template slot="help">
-          <span>{{ options.blog_url }}/{{ options.archives_prefix }}{{ options.path_suffix }}</span>
+          <span>{{ options.blog_url }}/{{ options.archives_prefix }}</span>
         </template>
         <a-input v-model="options.archives_prefix" />
       </a-form-model-item>
       <a-form-model-item label="分类前缀：">
         <template slot="help">
-          <span>{{ options.blog_url }}/{{ options.categories_prefix }}/{slug}{{ options.path_suffix }}</span>
+          <span>{{ options.blog_url }}/{{ options.categories_prefix }}/{slug}</span>
         </template>
         <a-input v-model="options.categories_prefix" />
       </a-form-model-item>
       <a-form-model-item label="标签前缀：">
         <template slot="help">
-          <span>{{ options.blog_url }}/{{ options.tags_prefix }}/{slug}{{ options.path_suffix }}</span>
+          <span>{{ options.blog_url }}/{{ options.tags_prefix }}/{slug}</span>
         </template>
         <a-input v-model="options.tags_prefix" />
       </a-form-model-item>
       <a-form-model-item label="自定义页面固定链接类型：">
         <template slot="help">
           <span v-if="options.sheet_permalink_type === 'SECONDARY'"
-            >{{ options.blog_url }}/{{ options.sheet_prefix }}/{slug}{{ options.path_suffix }}</span
+            >{{ options.blog_url }}/{{ options.sheet_prefix }}/{slug}</span
           >
-          <span v-else-if="options.sheet_permalink_type === 'ROOT'"
-            >{{ options.blog_url }}/{slug}{{ options.path_suffix }}</span
-          >
+          <span v-else-if="options.sheet_permalink_type === 'ROOT'">{{ options.blog_url }}/{slug}</span>
         </template>
         <a-select v-model="options.sheet_permalink_type">
           <a-select-option v-for="item in Object.keys(sheetPermalinkType)" :key="item" :value="item"
@@ -36,21 +34,15 @@
       </a-form-model-item>
       <a-form-model-item v-show="options.sheet_permalink_type === 'SECONDARY'" label="自定义页面前缀：">
         <template slot="help">
-          <span>{{ options.blog_url }}/{{ options.sheet_prefix }}/{slug}{{ options.path_suffix }}</span>
+          <span>{{ options.blog_url }}/{{ options.sheet_prefix }}/{slug}</span>
         </template>
         <a-input v-model="options.sheet_prefix" />
       </a-form-model-item>
       <a-form-model-item label="日志页面前缀：">
         <template slot="help">
-          <span>{{ options.blog_url }}/{{ options.journals_prefix }}{{ options.path_suffix }}</span>
+          <span>{{ options.blog_url }}/{{ options.journals_prefix }}</span>
         </template>
         <a-input v-model="options.journals_prefix" />
-      </a-form-model-item>
-      <a-form-model-item label="路径后缀：">
-        <template slot="help">
-          <span>* 格式为：<code>.{suffix}</code>，仅对内建路径有效</span>
-        </template>
-        <a-input v-model="options.path_suffix" />
       </a-form-model-item>
       <a-form-model-item>
         <ReactiveButton

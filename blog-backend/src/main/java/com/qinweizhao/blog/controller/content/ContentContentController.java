@@ -86,7 +86,7 @@ public class ContentContentController {
     }
 
     /**
-     * /xx/xx.html(分类或标签的具体所属文章渲染）
+     * /xx/xx(分类或标签的具体所属文章渲染）
      *
      * @param prefix prefix
      * @param slug   slug
@@ -105,7 +105,7 @@ public class ContentContentController {
     }
 
     /**
-     * /categories/os/page/2.html
+     * /categories/os/page/2
      *
      * @param prefix prefix
      * @param slug   slug

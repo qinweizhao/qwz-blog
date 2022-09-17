@@ -248,25 +248,8 @@ export default {
       }
     },
     fullPath() {
-      const { post_permalink_type, archives_prefix, blog_url, path_suffix: path_suffix = '' } = this.options
-      const { slug: slug = '{slug}', createTime: createTime = new Date(), id: id = '{id}' } = this.form.model
-
-      switch (post_permalink_type) {
-        case 'DEFAULT':
-          return `${blog_url}/${archives_prefix}/${slug}${path_suffix}`
-        case 'YEAR':
-          return `${blog_url}${datetimeFormat(createTime, '/YYYY/')}${slug}${path_suffix}`
-        case 'DATE':
-          return `${blog_url}${datetimeFormat(createTime, '/YYYY/MM/')}${slug}${path_suffix}`
-        case 'DAY':
-          return `${blog_url}${datetimeFormat(createTime, '/YYYY/MM/DD/')}${slug}${path_suffix}`
-        case 'ID':
-          return `${blog_url}/?p=${id}`
-        case 'ID_SLUG':
-          return `${blog_url}/${archives_prefix}/${id}${path_suffix}`
-        default:
-          return ''
-      }
+      const { id: id = '{id}' } = this.form.model
+      return `${blog_url}/?p=${id}`
     },
     hasId() {
       return !!this.form.model.id

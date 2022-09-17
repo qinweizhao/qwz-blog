@@ -58,12 +58,7 @@ public class TagServiceImpl implements TagService {
         result.forEach(item -> {
             item.setPostCount(tagPostCountMap.getOrDefault(item.getId(), 0L));
 
-            String fullPath = configService.getBlogBaseUrl() +
-                    URL_SEPARATOR +
-                    configService.getTagsPrefix() +
-                    URL_SEPARATOR +
-                    item.getSlug() +
-                    configService.getPathSuffix();
+            String fullPath = configService.getBlogBaseUrl() + URL_SEPARATOR + configService.getTagsPrefix() + URL_SEPARATOR + item.getSlug();
 
             item.setFullPath(fullPath);
 
@@ -103,12 +98,7 @@ public class TagServiceImpl implements TagService {
 
         TagDTO tagDTO = TagConvert.INSTANCE.convert(tag);
 
-        String fullPath = configService.getBlogBaseUrl() +
-                URL_SEPARATOR +
-                configService.getTagsPrefix() +
-                URL_SEPARATOR +
-                tag.getSlug() +
-                configService.getPathSuffix();
+        String fullPath = configService.getBlogBaseUrl() + URL_SEPARATOR + configService.getTagsPrefix() + URL_SEPARATOR + tag.getSlug();
 
         tagDTO.setFullPath(fullPath);
 

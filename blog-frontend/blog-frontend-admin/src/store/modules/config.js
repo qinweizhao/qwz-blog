@@ -8,11 +8,9 @@ const keys = [
   'attachment_upload_image_preview_enable',
   'attachment_upload_max_parallel_uploads',
   'attachment_upload_max_files',
-  'sheet_prefix',
   'post_permalink_type',
   'sheet_permalink_type',
   'archives_prefix',
-  'path_suffix',
   'default_editor',
   'default_menu_team'
 ]
