@@ -121,7 +121,7 @@
     </select>
 
     <select id="selectExistsByIdNotAndSlug" resultType="java.lang.Boolean">
-        select count(0)
+        select count(1)
         from post
         where slug = #{slug}
           and id = #{id} limit 1

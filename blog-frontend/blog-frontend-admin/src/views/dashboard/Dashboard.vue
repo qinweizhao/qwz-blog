@@ -201,7 +201,7 @@ export default {
     },
     handlePostPreview(postId) {
       postApi.preview(postId).then(response => {
-        window.open(response.data, '_blank')
+        window.open(response.data.data, '_blank')
       })
     }
   },

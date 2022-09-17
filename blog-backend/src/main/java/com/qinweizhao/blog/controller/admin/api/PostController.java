@@ -73,7 +73,7 @@ public class PostController {
      * @return Boolean
      */
     @PostMapping
-    public Boolean save(@Valid @RequestBody PostParam param) {
+    public Integer save(@Valid @RequestBody PostParam param) {
         return postService.save(param);
     }
 
@@ -154,7 +154,7 @@ public class PostController {
      * @param postId postId
      * @return String
      */
-    @GetMapping(value = {"preview/{postId:\\d+}", "{postId:\\d+}/preview"})
+    @GetMapping("preview/{postId:\\d+}")
     public String preview(@PathVariable("postId") Integer postId) {
         return postService.getPreviewUrl(postId);
     }

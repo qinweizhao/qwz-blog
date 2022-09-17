@@ -149,7 +149,7 @@ export default {
         this.postToStage.keepRaw = true
 
         const { data } = await postApi.create(this.postToStage)
-        this.postToStage = data
+        this.postToStage.id = data.data
         this.handleRestoreSavedStatus()
 
         // add params to url
@@ -185,7 +185,7 @@ export default {
     async handleOpenPreview() {
       try {
         const response = await postApi.preview(this.postToStage.id)
-        window.open(response.data, '_blank')
+        window.open(response.data.data, '_blank')
         this.handleRestoreSavedStatus()
       } catch (e) {
         this.$log.error('Failed to get preview link', e)

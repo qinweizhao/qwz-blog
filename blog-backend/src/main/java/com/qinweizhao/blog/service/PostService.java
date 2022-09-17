@@ -89,7 +89,7 @@ public interface PostService {
      * @param param param
      * @return boolean
      */
-    boolean save(PostParam param);
+    int save(PostParam param);
 
     /**
      * 更新

@@ -149,9 +149,9 @@ public class PostServiceImpl implements PostService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public boolean save(PostParam param) {
+    public int save(PostParam param) {
         Post post = PostConvert.INSTANCE.convert(param);
-        this.slugMustNotExist(post);
+            this.slugMustNotExist(post);
 
         Set<Integer> categoryIds = param.getCategoryIds();
         Set<Integer> tagIds = param.getTagIds();
@@ -178,7 +178,7 @@ public class PostServiceImpl implements PostService {
 
         this.savePostRelation(categoryIds, tagIds, metas, postId);
 
-        return true;
+        return postId;
     }
 
     /**
@@ -317,8 +317,7 @@ public class PostServiceImpl implements PostService {
         cacheStore.putAny(token, token, 10, TimeUnit.MINUTES);
 
 
-        return configService.getBlogBaseUrl() +
-                this.buildFullPath(postId) +
+        return this.buildFullPath(postId) +
                 "&token=" + token;
     }
 

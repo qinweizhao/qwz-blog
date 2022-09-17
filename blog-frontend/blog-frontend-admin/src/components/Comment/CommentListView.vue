@@ -62,15 +62,11 @@ export default {
     async handleOpenTarget(comment) {
       const target = comment
       if (target) {
-        const { status, fullPath, id } = target.target
+        const { status, fullPath } = target.target
         if (['PUBLISHED', 'INTIMATE'].includes(status)) {
           console.log(fullPath)
           window.open(fullPath, '_blank')
           return
-        }
-        if (status === 'DRAFT') {
-          const link = await postApi.preview(id)
-          window.open(link, '_blank')
         }
       }
     },
