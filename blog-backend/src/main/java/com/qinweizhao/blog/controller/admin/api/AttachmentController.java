@@ -47,7 +47,6 @@ public class AttachmentController {
      */
     @GetMapping("media_types")
     public List<String> listMediaTypes() {
-        System.out.println("请求已经收到");
         return attachmentService.listMediaType();
     }
 

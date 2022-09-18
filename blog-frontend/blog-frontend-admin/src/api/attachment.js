@@ -38,11 +38,13 @@ attachmentApi.deleteInBatch = attachmentIds => {
   })
 }
 
-attachmentApi.update = (attachmentId, attachment) => {
+attachmentApi.updateName = (attachmentId, attachment) => {
   return service({
     url: `${baseUrl}/${attachmentId}`,
     method: 'put',
-    data: attachment
+    data: {
+      name: attachment
+    }
   })
 }
 

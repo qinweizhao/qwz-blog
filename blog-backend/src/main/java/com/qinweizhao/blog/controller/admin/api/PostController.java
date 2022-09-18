@@ -80,12 +80,12 @@ public class PostController {
     /**
      * 更新
      *
-     * @param param  param
      * @param postId postId
+     * @param param  param
      * @return Boolean
      */
     @PutMapping("{postId:\\d+}")
-    public Boolean update(@Valid @RequestBody PostParam param, @PathVariable("postId") Integer postId) {
+    public Boolean update(@PathVariable("postId") Integer postId, @Valid @RequestBody PostParam param) {
         return postService.update(postId, param);
     }
 
@@ -109,8 +109,7 @@ public class PostController {
      * @return Boolean
      */
     @PutMapping("status/{status}")
-    public Boolean updateStatusInBatch(@PathVariable(name = "status") PostStatus status,
-                                       @RequestBody List<Integer> ids) {
+    public Boolean updateStatusInBatch(@PathVariable(name = "status") PostStatus status, @RequestBody List<Integer> ids) {
         return postService.updateStatusByIds(ids, status);
     }
 

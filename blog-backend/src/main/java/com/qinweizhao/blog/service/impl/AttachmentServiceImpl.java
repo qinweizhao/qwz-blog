@@ -139,7 +139,7 @@ public class AttachmentServiceImpl implements AttachmentService {
     public boolean updateById(Integer id, AttachmentParam param) {
         Attachment attachment = AttachmentConvert.INSTANCE.convert(param);
         attachment.setId(id);
-        return attachmentMapper.updateById(attachment) != 1;
+        return attachmentMapper.updateById(attachment) == 1;
     }
 
     /**
