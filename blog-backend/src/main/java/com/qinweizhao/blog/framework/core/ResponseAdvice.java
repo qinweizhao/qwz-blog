@@ -10,11 +10,14 @@ import org.springframework.http.converter.json.AbstractJackson2HttpMessageConver
 import org.springframework.http.converter.json.MappingJacksonValue;
 import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.ServerHttpResponse;
+import org.springframework.http.server.ServletServerHttpResponse;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
+
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * 统一封装返回
@@ -40,12 +43,7 @@ public class ResponseAdvice implements ResponseBodyAdvice<Object> {
 
     @Override
     @NonNull
-    public final Object beforeBodyWrite(@Nullable Object body,
-                                        @NotNull MethodParameter returnType,
-                                        @NotNull MediaType contentType,
-                                        @NotNull Class<? extends HttpMessageConverter<?>> converterType,
-                                        @NotNull ServerHttpRequest request,
-                                        @NotNull ServerHttpResponse response) {
+    public final Object beforeBodyWrite(@Nullable Object body, @NotNull MethodParameter returnType, @NotNull MediaType contentType, @NotNull Class<? extends HttpMessageConverter<?>> converterType, @NotNull ServerHttpRequest request, @NotNull ServerHttpResponse response) {
         MappingJacksonValue container = getOrCreateContainer(body);
 
         beforeBodyWriteInternal(container, response);
@@ -80,10 +78,18 @@ public class ResponseAdvice implements ResponseBodyAdvice<Object> {
             return;
         }
 
-        // 包装返回体
-        BaseResponse<?> baseResponse = BaseResponse.ok(returnBody);
+        // get status
+        HttpStatus status = HttpStatus.OK;
+        if (response instanceof ServletServerHttpResponse) {
+            HttpServletResponse servletResponse = ((ServletServerHttpResponse) response).getServletResponse();
+            status = HttpStatus.resolve(servletResponse.getStatus());
+            if (status == null) {
+                status = HttpStatus.INTERNAL_SERVER_ERROR;
+            }
+        }
+        BaseResponse<?> baseResponse = new BaseResponse<>(status.value(), status.getReasonPhrase(), returnBody);
         bodyContainer.setValue(baseResponse);
-        response.setStatusCode(HttpStatus.valueOf(baseResponse.getStatus()));
+
     }
 
 }

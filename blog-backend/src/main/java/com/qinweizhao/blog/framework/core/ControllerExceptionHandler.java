@@ -1,9 +1,11 @@
 package com.qinweizhao.blog.framework.core;
 
 import com.qinweizhao.blog.exception.BaseException;
+import com.qinweizhao.blog.exception.EmailException;
 import com.qinweizhao.blog.model.support.BaseResponse;
 import com.qinweizhao.blog.util.ExceptionUtils;
 import com.qinweizhao.blog.util.ValidationUtils;
+import com.sun.mail.util.MailConnectException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -20,7 +22,14 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
+import javax.mail.AuthenticationFailedException;
+import javax.mail.MessagingException;
+import javax.mail.NoSuchProviderException;
 import javax.validation.ConstraintViolationException;
+import java.net.ConnectException;
+import java.net.SocketException;
+import java.net.UnknownHostException;
+import java.sql.SQLException;
 import java.util.Map;
 
 /**
@@ -32,11 +41,11 @@ import java.util.Map;
 @Slf4j
 public class ControllerExceptionHandler {
 
-    @ExceptionHandler(DataIntegrityViolationException.class)
+    @ExceptionHandler(SQLException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public BaseResponse<?> handleDataIntegrityViolationException(DataIntegrityViolationException e) {
+    public BaseResponse<?> handleDataIntegrityViolationException(SQLException e) {
         BaseResponse<?> baseResponse = handleBaseException(e);
-        baseResponse.setMessage("字段验证错误，请完善后重试！");
+        baseResponse.setMessage("SQL 异常");
         return baseResponse;
     }
 
@@ -131,21 +140,44 @@ public class ControllerExceptionHandler {
         return baseResponse;
     }
 
+    @ExceptionHandler(EmailException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public BaseResponse<?> handleMessagingException(MessagingException e) {
+        BaseResponse<?> baseResponse = handleBaseException(e);
+        String message;
+        if (e instanceof MailConnectException) {
+            if (e.getCause() instanceof UnknownHostException) {
+                message = "SMTP 服务器解析错误，请检查 SMTP 服务器地址";
+            } else if (e.getCause() instanceof ConnectException) {
+                message = "无法连接至邮件服务器，请检查地址和端口号";
+            } else if (e.getCause() instanceof SocketException) {
+                message = "网络连接超时，请检查网络连通性";
+            } else {
+                message = "无法连接至邮件服务器，请检查地址和端口号";
+            }
+        } else if (e instanceof NoSuchProviderException) {
+            message = "发送协议配置错误，请检查发送协议";
+        } else if (e instanceof AuthenticationFailedException) {
+            message = "邮箱账号密码验证失败，请检查密码是否应为授权码";
+        } else {
+            message = "出现未知错误，请检查系统日志";
+        }
+        baseResponse.setMessage(message);
+        return baseResponse;
+    }
+
     private <T> BaseResponse<T> handleBaseException(Throwable t) {
         Assert.notNull(t, "Throwable must not be null");
 
         BaseResponse<T> baseResponse = new BaseResponse<>();
         baseResponse.setMessage(t.getMessage());
 
+        log.error("Captured an exception:", t);
+
         if (log.isDebugEnabled()) {
-            log.error("Captured an exception:", t);
             baseResponse.setDevMessage(ExceptionUtils.getStackTrace(t));
-        } else {
-            log.error("Captured an exception: [{}]", t.getMessage());
         }
 
         return baseResponse;
     }
-
 }
-

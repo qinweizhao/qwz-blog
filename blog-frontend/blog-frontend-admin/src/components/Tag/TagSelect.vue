@@ -72,7 +72,7 @@ export default {
   },
   methods: {
     handleListTags(callback) {
-      tagApi.list({ more: true }).then(response => {
+      tagApi.list(true).then(response => {
         this.tags = response.data.data
         if (callback) {
           callback()

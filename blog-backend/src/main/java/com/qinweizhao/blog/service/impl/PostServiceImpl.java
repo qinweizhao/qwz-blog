@@ -297,9 +297,11 @@ public class PostServiceImpl implements PostService {
         if (dbId == null) {
             return;
         }
-
-        // 更新时判断是否同属一个 id
-        if (!ObjectUtils.isEmpty(id)) {
+        // 新增
+        if (ObjectUtils.isEmpty(id)) {
+            exist = true;
+        } else {
+            // 更新
             exist = !Objects.equals(dbId, id);
         }
 
