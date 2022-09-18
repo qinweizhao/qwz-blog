@@ -92,6 +92,17 @@ postApi.preview = postId => {
   })
 }
 
+postApi.importMarkdown = (formData, uploadProgress, cancelToken) => {
+  return service({
+    url: `${baseUrl}/markdown/import`,
+    timeout: 8640000, // 24 hours
+    data: formData, // form data
+    onUploadProgress: uploadProgress,
+    cancelToken: cancelToken,
+    method: 'post'
+  })
+}
+
 postApi.postStatus = {
   PUBLISHED: {
     value: 'PUBLISHED',
@@ -110,12 +121,6 @@ postApi.postStatus = {
     color: 'red',
     status: 'error',
     text: '回收站'
-  },
-  INTIMATE: {
-    value: 'INTIMATE',
-    color: 'blue',
-    status: 'success',
-    text: '私密'
   }
 }
 

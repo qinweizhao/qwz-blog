@@ -17,7 +17,7 @@
             <a-icon type="file-markdown" />
             Markdown 文章导入
           </div>
-          <p style="min-height: 50px">支持 Hexo/Jekyll 文章导入并解析元数据</p>
+          <p style="min-height: 50px">导入规范待完善</p>
           <a-button class="float-right" type="primary" @click="markdownUpload = true">导入</a-button>
         </a-card>
       </a-col>
@@ -43,14 +43,14 @@
 import { PageView } from '@/layouts'
 
 import { mapGetters } from 'vuex'
-import apiClient from '@/utils/api-client'
+import postApi from '@/api/post'
 
 export default {
   components: { PageView },
   data() {
     return {
       markdownUpload: false,
-      uploadHandler: (file, options) => apiClient.backup.importMarkdown(file, options)
+      uploadHandler: (file, options) => postApi.importMarkdown(file, options)
     }
   },
   computed: {

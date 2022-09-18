@@ -278,4 +278,13 @@ public class HaloUtils {
         }
         return content.replaceAll(RE_HTML_MARK, StringUtils.EMPTY);
     }
+
+    public static String strip(String str, final String prefixStripChars,
+                               final String suffixStripChars) {
+        if (StringUtils.isEmpty(str)) {
+            return str;
+        }
+        str = StringUtils.stripStart(str, prefixStripChars);
+        return StringUtils.stripEnd(str, suffixStripChars);
+    }
 }

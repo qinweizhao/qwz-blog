@@ -9,6 +9,7 @@ import com.qinweizhao.blog.model.param.PostParam;
 import com.qinweizhao.blog.model.param.PostQueryParam;
 import com.qinweizhao.blog.model.vo.ArchiveMonthVO;
 import com.qinweizhao.blog.model.vo.ArchiveYearVO;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -243,4 +244,10 @@ public interface PostService {
     List<ArchiveMonthVO> listMonthArchives();
 
 
+    /**
+     * 导入文章
+     * @param file file
+     * @return boolean
+     */
+    boolean importMarkdown(MultipartFile file);
 }

@@ -101,31 +101,5 @@ public class MarkdownUtils {
         return RENDERER.render(document);
     }
 
-    /**
-     * Get front-matter
-     *
-     * @param markdown markdown
-     * @return Map
-     */
-    public static Map<String, List<String>> getFrontMatter(String markdown) {
-        AbstractYamlFrontMatterVisitor visitor = new AbstractYamlFrontMatterVisitor();
-        Node document = PARSER.parse(markdown);
-        visitor.visit(document);
-        return visitor.getData();
-    }
 
-    /**
-     * remove front matter
-     *
-     * @param markdown markdown
-     * @return markdown
-     */
-    public static String removeFrontMatter(String markdown) {
-        markdown = markdown.trim();
-        Matcher matcher = FRONT_MATTER.matcher(markdown);
-        if (matcher.find()) {
-            return markdown.replace(matcher.group(), "");
-        }
-        return markdown;
-    }
 }

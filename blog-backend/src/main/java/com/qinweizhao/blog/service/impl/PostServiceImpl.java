@@ -26,10 +26,7 @@ import com.qinweizhao.blog.model.properties.PostProperties;
 import com.qinweizhao.blog.model.vo.ArchiveMonthVO;
 import com.qinweizhao.blog.model.vo.ArchiveYearVO;
 import com.qinweizhao.blog.service.*;
-import com.qinweizhao.blog.util.HaloUtils;
-import com.qinweizhao.blog.util.MarkdownUtils;
-import com.qinweizhao.blog.util.ServiceUtils;
-import com.qinweizhao.blog.util.SlugUtils;
+import com.qinweizhao.blog.util.*;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -40,7 +37,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -591,6 +590,46 @@ public class PostServiceImpl implements PostService {
 
         return archives;
     }
+
+    @Override
+    @Transactional
+    public boolean importMarkdown(MultipartFile file) {
+        try {
+            String markdown = FileUtils.readString(file.getInputStream());
+            // 内容为空
+            if (ObjectUtils.isEmpty(markdown)) {
+                return false;
+            }
+
+            // 原始内容
+            String originalContent = HaloUtils.cleanHtmlTag(markdown);
+
+            Post post = new Post();
+            post.setTitle(String.valueOf(LocalDateTime.now()));
+            post.setSlug(String.valueOf(LocalDateTime.now()));
+            post.setSummary(generateSummary(MarkdownUtils.renderHtml(originalContent)));
+            post.setWordCount((long) originalContent.length());
+            post.setStatus(PostStatus.DRAFT.getValue());
+
+            postMapper.insert(post);
+
+            Integer id = post.getId();
+
+            Content content = new Content();
+            content.setPostId(id);
+            content.setContent(MarkdownUtils.renderHtml(originalContent));
+            content.setOriginalContent(originalContent);
+
+            contentMapper.insert(content);
+            // 保存文章
+        } catch (OutOfMemoryError error) {
+            throw new ServiceException("文件内容过大，无法导入。", error);
+        } catch (IOException e) {
+            throw new ServiceException("导入失败");
+        }
+        return true;
+    }
+
 
     @Override
     public List<PostSimpleDTO> listSimple(int top) {

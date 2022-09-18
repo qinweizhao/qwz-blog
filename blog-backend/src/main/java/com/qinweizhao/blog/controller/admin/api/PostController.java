@@ -1,5 +1,7 @@
 package com.qinweizhao.blog.controller.admin.api;
 
+import com.google.common.collect.Lists;
+import com.qinweizhao.blog.exception.BadRequestException;
 import com.qinweizhao.blog.model.core.PageResult;
 import com.qinweizhao.blog.model.dto.PostDTO;
 import com.qinweizhao.blog.model.dto.PostListDTO;
@@ -10,9 +12,13 @@ import com.qinweizhao.blog.model.param.PostParam;
 import com.qinweizhao.blog.model.param.PostQueryParam;
 import com.qinweizhao.blog.service.PostService;
 import lombok.AllArgsConstructor;
+import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -158,4 +164,19 @@ public class PostController {
         return postService.getPreviewUrl(postId);
     }
 
+    @PostMapping(value = "markdown/import")
+    public Boolean importMarkdowns(@RequestPart("file") MultipartFile file) {
+        List<String> supportType = Lists.newArrayList("md", "markdown", "mdown");
+        String filename = file.getOriginalFilename();
+        if (StringUtils.isEmpty(filename)) {
+            throw new BadRequestException("文件名不可为空").setErrorData(filename);
+        }
+        String extension = FilenameUtils.getExtension(filename).toLowerCase();
+        if (!supportType.contains(extension)) {
+            throw new BadRequestException(
+                    "不支持" + (StringUtils.isNotEmpty(extension) ? extension : "未知")
+                            + "格式的文件上传").setErrorData(filename);
+        }
+        return postService.importMarkdown(file);
+    }
 }

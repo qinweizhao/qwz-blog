@@ -8,6 +8,7 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.Arrays;
@@ -103,6 +104,19 @@ public class FileUtils {
         Files.move(pathToRename, newPath);
 
         log.info("Rename [{}] successfully", pathToRename);
+    }
+
+    /**
+     * Convert an InputStream to a String.
+     *
+     * @param inputStream input stream
+     * @return the string content read through the input stream without closing the InputStream
+     */
+    public static String readString(InputStream inputStream) {
+        return new BufferedReader(
+                new InputStreamReader(inputStream, StandardCharsets.UTF_8))
+                .lines()
+                .collect(Collectors.joining("\n"));
     }
 
     /**
