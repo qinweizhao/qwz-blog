@@ -36,28 +36,19 @@
         name="file"
       ></FilePondUpload>
     </a-modal>
-    <BackupWorkDirDrawer v-model="backupWorkDirDrawerVisible"></BackupWorkDirDrawer>
-    <ExportDataDrawer v-model="exportDataDrawerVisible"></ExportDataDrawer>
-    <ExportMarkdownDrawer v-model="exportMarkdownDrawerVisible"></ExportMarkdownDrawer>
   </page-view>
 </template>
 
 <script>
 import { PageView } from '@/layouts'
-import BackupWorkDirDrawer from './components/BackupWorkDirDrawer'
-import ExportDataDrawer from './components/ExportDataDrawer'
-import ExportMarkdownDrawer from './components/ExportMarkdownDrawer'
 
 import { mapGetters } from 'vuex'
 import apiClient from '@/utils/api-client'
 
 export default {
-  components: { PageView, BackupWorkDirDrawer, ExportDataDrawer, ExportMarkdownDrawer },
+  components: { PageView },
   data() {
     return {
-      backupWorkDirDrawerVisible: false,
-      exportDataDrawerVisible: false,
-      exportMarkdownDrawerVisible: false,
       markdownUpload: false,
       uploadHandler: (file, options) => apiClient.backup.importMarkdown(file, options)
     }
