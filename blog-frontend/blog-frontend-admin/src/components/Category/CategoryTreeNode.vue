@@ -52,7 +52,7 @@
 <script>
 // components
 import draggable from 'vuedraggable'
-import apiClient from '@/utils/api-client'
+import categoryApi from '@/api/category'
 
 export default {
   name: 'CategoryTreeNode',
@@ -92,7 +92,7 @@ export default {
         content: `确定要删除名为${item.name}的分类？`,
         async onOk() {
           try {
-            await apiClient.category.delete(item.id)
+            await categoryApi.delete(item.id)
             _this.$emit('reload')
           } catch (e) {
             _this.$log.error('Fail to delete category', e)

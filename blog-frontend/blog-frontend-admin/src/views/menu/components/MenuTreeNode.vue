@@ -72,7 +72,7 @@ import draggable from 'vuedraggable'
 import MenuForm from './MenuForm'
 
 // apis
-import apiClient from '@/utils/api-client'
+import menuApi from '@/api/menu'
 import { deepClone } from '@/utils/util'
 
 export default {
@@ -128,7 +128,7 @@ export default {
         title: '提示',
         content: '确定要删除当前菜单？',
         onOk() {
-          apiClient.menu.delete(id).finally(() => {
+          menuApi.delete(id).finally(() => {
             _this.onReloadEmit()
           })
         }
@@ -165,7 +165,7 @@ export default {
       this.$log.debug('menu list as flat list:', flatList)
 
       try {
-        await apiClient.menu.updateInBatch(flatList)
+        await menuApi.updateBatch(flatList)
         this.$emit('reload')
       } catch (e) {
         this.$log.error('Fail to update menu in batch', e)
