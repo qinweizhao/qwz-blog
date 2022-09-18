@@ -249,6 +249,7 @@ export default {
     },
     fullPath() {
       const { id: id = '{id}' } = this.form.model
+      const { blog_url } = this.options
       return `${blog_url}/?p=${id}`
     },
     hasId() {
