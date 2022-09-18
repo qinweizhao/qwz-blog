@@ -139,9 +139,9 @@ export default {
       try {
         this.list.loading = true
 
-        const { data } = await categoryApi.list({})
-        this.list.data = data
-        this.list.treeData = this.convertDataToTree(data)
+        const { data } = await categoryApi.list()
+        this.list.data = data.data
+        this.list.treeData = this.convertDataToTree(data.data)
       } catch (e) {
         this.$log.error('Failed to get categories', e)
       } finally {

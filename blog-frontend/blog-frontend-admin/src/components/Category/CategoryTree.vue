@@ -82,9 +82,9 @@ export default {
       try {
         this.categories.loading = true
 
-        const { data } = await categoryApi.list({ more: false })
+        const { data } = await categoryApi.list()
 
-        this.categories.data = data
+        this.categories.data = data.data
       } catch (error) {
         this.$log.error(error)
       } finally {

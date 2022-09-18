@@ -4,7 +4,7 @@ const baseUrl = '/api/admin/categories'
 
 const categoryApi = {}
 
-categoryApi.list = (more = false) => {
+categoryApi.list = more => {
   return service({
     url: `${baseUrl}`,
     params: {
