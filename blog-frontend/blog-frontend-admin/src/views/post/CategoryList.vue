@@ -86,7 +86,7 @@ import CategorySelectTree from '@/components/Category/CategorySelectTree'
 import CategoryTreeNode from '@/components/Category/CategoryTreeNode'
 
 // libs
-import apiClient from '@/utils/api-client'
+import categoryApi from '@/api/category'
 import { mixin, mixinDevice } from '@/mixins/mixin.js'
 
 export default {
@@ -139,7 +139,7 @@ export default {
       try {
         this.list.loading = true
 
-        const { data } = await apiClient.category.list({})
+        const { data } = await categoryApi.list({})
         this.list.data = data
         this.list.treeData = this.convertDataToTree(data)
       } catch (e) {
@@ -155,16 +155,6 @@ export default {
       categories.forEach(category => (hashMap[category.id] = { ...category, children: [] }))
       categories.forEach(category => {
         const current = hashMap[category.id]
-        // const parent = hashMap[category.parentId]
-
-        // if (current.password) {
-        //   current.hasPassword = true
-        // }
-        //
-        // if (parent && (parent.password || parent.hasPassword)) {
-        //   current.hasPassword = true
-        // }
-
         if (category.parentId) {
           hashMap[category.parentId].children.push(current)
         } else {
@@ -176,7 +166,7 @@ export default {
 
     async handleEdit(category) {
       try {
-        const { data } = await apiClient.category.get(category.id)
+        const { data } = await categoryApi.get(category.id)
         this.$refs.categoryForm.clearValidate()
         this.form.model = data
 
@@ -202,7 +192,7 @@ export default {
         if (valid) {
           _this.form.saving = true
           if (_this.isUpdateMode) {
-            apiClient.category
+            categoryApi
               .update(_this.form.model.id, _this.form.model)
               .catch(() => {
                 this.form.errored = true
@@ -213,7 +203,7 @@ export default {
                 }, 400)
               })
           } else {
-            apiClient.category
+            categoryApi
               .create(this.form.model)
               .catch(() => {
                 this.form.errored = true
@@ -244,7 +234,7 @@ export default {
 
       try {
         this.formBatch.saving = true
-        await apiClient.category.updateInBatch(categoriesToStage)
+        await categoryApi.updateInBatch(categoriesToStage)
       } catch (e) {
         this.formBatch.errored = true
         this.$log.error('Failed to update categories', e)
@@ -264,10 +254,6 @@ export default {
         _this.form.model = {}
         _this.handleListCategories()
       }
-    },
-
-    handleQueryCategoryPosts(category) {
-      this.$router.push({ name: 'PostList', query: { categoryId: category.id } })
     }
   }
 }

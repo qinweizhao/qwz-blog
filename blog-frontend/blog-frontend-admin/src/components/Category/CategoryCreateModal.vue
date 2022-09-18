@@ -45,7 +45,7 @@
 </template>
 <script>
 import CategorySelectTree from '@/components/Category/CategorySelectTree'
-import apiClient from '@/utils/api-client'
+import categoryApi from '@/api/category'
 
 export default {
   name: 'CategoryCreateModal',
@@ -107,7 +107,7 @@ export default {
       try {
         this.list.loading = true
 
-        const { data } = await apiClient.category.list({})
+        const { data } = await categoryApi.list({})
         this.list.data = data
       } catch (e) {
         this.$log.error('Failed to get categories', e)
@@ -122,7 +122,7 @@ export default {
           try {
             this.form.saving = true
 
-            await apiClient.category.create(this.form.model)
+            await categoryApi.create(this.form.model)
           } catch (e) {
             this.form.errored = true
             this.$log.error('Failed to create category', e)

@@ -19,7 +19,7 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
-import apiClient from '@/utils/api-client'
+import configApi from '@/api/config'
 import throttle from 'lodash.throttle'
 import { mixin } from '@/mixins/mixin'
 
@@ -40,7 +40,7 @@ export default {
       this.clickCount++
       if (this.clickCount === 10) {
         try {
-          await apiClient.option.saveMapView({ developer_mode: true })
+          await configApi.save({ developer_mode: true })
 
           await this.refreshOptionsCache()
           this.$message.success(`开发者选项已启用！`)

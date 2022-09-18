@@ -13,6 +13,7 @@
 
 <script>
 import apiClient from '@/utils/api-client'
+import categoryApi from '@/api/category'
 
 function concreteTree(parentCategory, categories) {
   categories.forEach(category => {
@@ -82,7 +83,7 @@ export default {
       try {
         this.categories.loading = true
 
-        const { data } = await apiClient.category.list({ sort: [], more: false })
+        const { data } = await categoryApi.list({ more: false })
 
         this.categories.data = data
       } catch (error) {
@@ -93,7 +94,7 @@ export default {
     },
 
     onCheck(checkedKeys, e) {
-      this.$log.debug('Chekced keys', checkedKeys)
+      this.$log.debug('Checked keys', checkedKeys)
       this.$log.debug('e', e)
 
       this.$emit('check', checkedKeys.checked)

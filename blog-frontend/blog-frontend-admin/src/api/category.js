@@ -51,6 +51,14 @@ categoryApi.update = (categoryId, category) => {
   })
 }
 
+categoryApi.updateInBatch = categoryList => {
+  return service({
+    url: `${baseUrl}/batch`,
+    data: categoryList,
+    method: 'put'
+  })
+}
+
 function concreteTree(parentCategory, categories) {
   categories.forEach(category => {
     if (parentCategory.key === category.parentId) {

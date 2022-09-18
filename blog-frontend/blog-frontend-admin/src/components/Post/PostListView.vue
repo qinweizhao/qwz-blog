@@ -441,7 +441,6 @@ import TargetCommentListModal from '@/components/Comment/TargetCommentListModal'
 // libs
 import { mixinDevice } from '@/mixins/mixin.js'
 import { normalPostStatuses, postStatuses } from '@/core/constant'
-import apiClient from '@/utils/api-client'
 import postApi from '@/api/post'
 import categoryApi from '@/api/category'
 
@@ -649,7 +648,7 @@ export default {
         cancelText: '取消',
         onOk: async () => {
           try {
-            await apiClient.post.updateStatusInBatch(this.selectedRowKeys, status)
+            await postApi.updateStatusInBatch(this.selectedRowKeys, status)
             this.selectedRowKeys = []
             this.$message.success('操作成功！')
           } catch (e) {
@@ -663,7 +662,7 @@ export default {
 
     async handleDelete(postId) {
       try {
-        await apiClient.post.delete(postId)
+        await postApi.delete(postId)
         this.$message.success('删除成功！')
       } catch (e) {
         this.$log.error('Failed to delete post', e)
@@ -685,7 +684,7 @@ export default {
         cancelText: '取消',
         onOk: async () => {
           try {
-            await apiClient.post.deleteInBatch(this.selectedRowKeys)
+            await postApi.deleteInBatch(this.selectedRowKeys)
             this.selectedRowKeys = []
             this.$message.success('删除成功！')
           } catch (e) {
@@ -710,7 +709,7 @@ export default {
         onOk: async () => {
           try {
             const postIds = this.list.data.map(post => post.id)
-            await apiClient.post.deleteInBatch(postIds)
+            await postApi.deleteInBatch(postIds)
             this.$message.success('删除成功！')
           } catch (e) {
             this.$log.error('Failed to delete posts in batch', e)
@@ -726,7 +725,7 @@ export default {
         this.postSettingVisible = true
         this.postSettingLoading = true
 
-        const { data } = await apiClient.post.get(post.id)
+        const { data } = await postApi.get(post.id)
         this.list.selected = data
       } catch (e) {
         this.$log.error('Failed to open post settings', e)
@@ -763,7 +762,7 @@ export default {
       const index = this.list.data.findIndex(post => post.id === this.list.selected.id)
       if (index > 0) {
         this.postSettingLoading = true
-        const response = await apiClient.post.get(this.list.data[index - 1].id)
+        const response = await postApi.get(this.list.data[index - 1].id)
         this.list.selected = response.data
         this.postSettingLoading = false
         return
@@ -772,7 +771,7 @@ export default {
         this.list.params.page--
         await this.handleListPosts()
         this.postSettingLoading = true
-        const response = await apiClient.post.get(this.list.data[this.list.data.length - 1].id)
+        const response = await postApi.get(this.list.data[this.list.data.length - 1].id)
         this.list.selected = response.data
         this.postSettingLoading = false
       }
@@ -785,7 +784,7 @@ export default {
       const index = this.list.data.findIndex(post => post.id === this.list.selected.id)
       if (index < this.list.data.length - 1) {
         this.postSettingLoading = true
-        const response = await apiClient.post.get(this.list.data[index + 1].id)
+        const response = await postApi.get(this.list.data[index + 1].id)
         this.list.selected = response.data
         this.postSettingLoading = false
         return
@@ -795,7 +794,7 @@ export default {
         await this.handleListPosts()
 
         this.postSettingLoading = true
-        const response = await apiClient.post.get(this.list.data[0].id)
+        const response = await postApi.get(this.list.data[0].id)
         this.list.selected = response.data
         this.postSettingLoading = false
       }

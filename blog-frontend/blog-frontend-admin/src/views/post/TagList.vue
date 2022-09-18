@@ -77,7 +77,7 @@
 
 <script>
 import { PageView } from '@/layouts'
-import apiClient from '@/utils/api-client'
+import tagApi from '@/api/tag'
 import { hexRegExp } from '@/utils/colorUtil'
 import Verte from 'verte'
 import 'verte/dist/verte.css'
@@ -129,7 +129,7 @@ export default {
     },
     handleListTags() {
       this.list.loading = true
-      apiClient.tag
+      tagApi
         .list({ more: true })
         .then(response => {
           this.list.data = response.data
@@ -139,7 +139,7 @@ export default {
         })
     },
     handleDeleteTag(tagId) {
-      apiClient.tag.delete(tagId).finally(() => {
+      tagApi.delete(tagId).finally(() => {
         this.form.model = {
           color: '#cfd3d7'
         }
@@ -152,7 +152,7 @@ export default {
         if (valid) {
           this.form.saving = true
           if (_this.isUpdateMode) {
-            apiClient.tag
+            tagApi
               .update(_this.form.model.id, _this.form.model)
               .catch(() => {
                 this.form.errored = true
@@ -163,7 +163,7 @@ export default {
                 }, 400)
               })
           } else {
-            apiClient.tag
+            tagApi
               .create(_this.form.model)
               .catch(() => {
                 this.form.errored = true

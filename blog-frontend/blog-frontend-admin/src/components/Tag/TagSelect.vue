@@ -14,6 +14,7 @@
 
 <script>
 import apiClient from '@/utils/api-client'
+import tagApi from '@/api/tag'
 import axios from 'axios'
 
 export default {
@@ -72,7 +73,7 @@ export default {
   },
   methods: {
     handleListTags(callback) {
-      apiClient.tag.list({ sort: 'name,asc', more: true }).then(response => {
+      tagApi.list({ more: true }).then(response => {
         this.tags = response.data
         if (callback) {
           callback()
@@ -90,7 +91,7 @@ export default {
         return
       }
 
-      const createPromises = tagNamesToCreate.map(tagName => apiClient.tag.create({ name: tagName }))
+      const createPromises = tagNamesToCreate.map(tagName => tagApi.create({ name: tagName }))
 
       axios.all(createPromises).then(
         axios.spread(() => {

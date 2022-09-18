@@ -162,7 +162,7 @@
   </a-modal>
 </template>
 <script>
-import apiClient from '@/utils/api-client'
+import attachmentApi from '@/api/attachment'
 import { attachmentTypes } from '@/core/constant'
 
 export default {
@@ -288,7 +288,7 @@ export default {
       try {
         this.list.loading = true
 
-        const response = await apiClient.attachment.list(this.list.params)
+        const response = await attachmentApi.query(this.list.params)
 
         this.list.data = response.data.content
         this.list.total = response.data.total
@@ -308,7 +308,7 @@ export default {
       try {
         this.mediaTypes.loading = true
 
-        const response = await apiClient.attachment.listMediaTypes()
+        const response = await attachmentApi.listMediaTypes()
 
         this.mediaTypes.data = response.data
       } catch (error) {
@@ -325,7 +325,7 @@ export default {
       try {
         this.types.loading = true
 
-        const response = await apiClient.attachment.listTypes()
+        const response = await attachmentApi.listTypes()
 
         this.types.data = response.data
       } catch (error) {
