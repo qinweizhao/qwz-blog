@@ -47,21 +47,20 @@ public class DefaultErrorViewResolver implements ErrorViewResolver {
     public ModelAndView resolveErrorView(HttpServletRequest request, HttpStatus status, Map<String, Object> model) {
 
 
-        // resolve with status code. eg: 400.ftl
+        //  400.ftl
         ModelAndView modelAndView = resolve(String.valueOf(status.value()), model);
 
-        // resolve with status series. eg: 4xx.ftl
+        //  4xx.ftl
         if (modelAndView == null && SERIES_VIEWS.containsKey(status.series())) {
             modelAndView = resolve(SERIES_VIEWS.get(status.series()), model);
         }
 
-        // resolve error template. eg: error.ftl
+        //  error.ftl
         if (modelAndView == null) {
             modelAndView = resolve("error", model);
         }
 
         if (modelAndView == null) {
-            // resolve common error template
             modelAndView = new ModelAndView("common/error/error", model);
         }
 
