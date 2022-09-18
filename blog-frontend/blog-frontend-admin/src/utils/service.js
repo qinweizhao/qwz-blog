@@ -146,7 +146,7 @@ service.interceptors.response.use(
           })
         }
       }
-      message.error(data.message || '服务器错误')
+      message.error(data.data.message || '服务器错误')
       return Promise.reject(error)
     }
 
