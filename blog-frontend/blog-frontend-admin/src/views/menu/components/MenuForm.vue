@@ -50,7 +50,7 @@
   </div>
 </template>
 <script>
-import apiClient from '@/utils/api-client'
+import menuApi from '@/api/menu'
 
 const targets = [
   {
@@ -117,7 +117,7 @@ export default {
         if (valid) {
           _this.form.saving = true
           if (_this.isUpdateMode) {
-            apiClient.menu
+            menuApi
               .update(_this.menuModel.id, _this.menuModel)
               .catch(() => {
                 _this.form.errored = true
@@ -128,7 +128,7 @@ export default {
                 }, 400)
               })
           } else {
-            apiClient.menu
+            menuApi
               .create(_this.menuModel)
               .catch(() => {
                 _this.form.errored = true

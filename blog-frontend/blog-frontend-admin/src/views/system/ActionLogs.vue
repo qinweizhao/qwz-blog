@@ -51,7 +51,7 @@
 import { PageView } from '@/layouts'
 
 // libs
-import apiClient from '@/utils/api-client'
+import logApi from '@/api/log'
 import { actionLogTypes } from '@/core/constant'
 
 const columns = [
@@ -120,10 +120,10 @@ export default {
       try {
         this.list.loading = true
 
-        const response = await apiClient.log.list(this.list.params)
+        const response = await logApi.pageBy(this.list.params)
 
-        this.list.data = response.data.content
-        this.list.total = response.data.total
+        this.list.data = response.data.data.content
+        this.list.total = response.data.data.total
       } catch (error) {
         this.$log.error(error)
       } finally {
@@ -151,7 +151,7 @@ export default {
         content: '是否确定要清空所有操作日志？',
         async onOk() {
           try {
-            await apiClient.log.clear()
+            await logApi.clear()
           } catch (e) {
             _this.$log.error('Failed to clear action logs.', e)
           } finally {
