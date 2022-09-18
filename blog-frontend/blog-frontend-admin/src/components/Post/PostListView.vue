@@ -726,7 +726,7 @@ export default {
         this.postSettingLoading = true
 
         const { data } = await postApi.get(post.id)
-        this.list.selected = data
+        this.list.selected = data.data
       } catch (e) {
         this.$log.error('Failed to open post settings', e)
       } finally {
@@ -763,7 +763,7 @@ export default {
       if (index > 0) {
         this.postSettingLoading = true
         const response = await postApi.get(this.list.data[index - 1].id)
-        this.list.selected = response.data
+        this.list.selected = response.data.data
         this.postSettingLoading = false
         return
       }
@@ -772,7 +772,7 @@ export default {
         await this.handleListPosts()
         this.postSettingLoading = true
         const response = await postApi.get(this.list.data[this.list.data.length - 1].id)
-        this.list.selected = response.data
+        this.list.selected = response.data.data
         this.postSettingLoading = false
       }
     },
@@ -785,7 +785,7 @@ export default {
       if (index < this.list.data.length - 1) {
         this.postSettingLoading = true
         const response = await postApi.get(this.list.data[index + 1].id)
-        this.list.selected = response.data
+        this.list.selected = response.data.data
         this.postSettingLoading = false
         return
       }
@@ -795,7 +795,7 @@ export default {
 
         this.postSettingLoading = true
         const response = await postApi.get(this.list.data[0].id)
-        this.list.selected = response.data
+        this.list.selected = response.data.data
         this.postSettingLoading = false
       }
     }

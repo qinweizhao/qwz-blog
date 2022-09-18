@@ -4,7 +4,7 @@ const baseUrl = '/api/admin/tags'
 
 const tagApi = {}
 
-tagApi.list = (more = false) => {
+tagApi.list = more => {
   return service({
     url: baseUrl,
     params: {

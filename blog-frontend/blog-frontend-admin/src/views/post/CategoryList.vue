@@ -168,7 +168,7 @@ export default {
       try {
         const { data } = await categoryApi.get(category.id)
         this.$refs.categoryForm.clearValidate()
-        this.form.model = data
+        this.form.model = data.data
 
         this.$refs.nameInput.focus()
       } catch (e) {

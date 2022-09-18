@@ -132,7 +132,7 @@ export default {
       tagApi
         .list({ more: true })
         .then(response => {
-          this.list.data = response.data
+          this.list.data = response.data.data
         })
         .finally(() => {
           this.list.loading = false
