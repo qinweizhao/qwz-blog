@@ -161,7 +161,6 @@ public class PostController {
      */
     @GetMapping("preview/{postId:\\d+}")
     public String preview(@PathVariable("postId") Integer postId) {
-        System.out.println(postId);
         return postService.getPreviewUrl(postId);
     }
 
