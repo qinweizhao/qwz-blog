@@ -12,7 +12,6 @@
 </template>
 
 <script>
-import apiClient from '@/utils/api-client'
 import categoryApi from '@/api/category'
 
 function concreteTree(parentCategory, categories) {
