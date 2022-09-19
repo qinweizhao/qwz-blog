@@ -20,21 +20,6 @@ import java.util.Optional;
 public interface UserService extends IService<User> {
 
     /**
-     * Login failure count key.
-     */
-    String LOGIN_FAILURE_COUNT_KEY = "login.failure.count";
-
-    /**
-     * Max login try count.
-     */
-    int MAX_LOGIN_TRY = 5;
-
-    /**
-     * Lock minutes.
-     */
-    int LOCK_MINUTES = 10;
-
-    /**
      * Gets current user.
      *
      * @return an optional user

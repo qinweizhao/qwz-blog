@@ -94,7 +94,7 @@ service.interceptors.response.use(
 
     if (data) {
       if (data.status === 400) {
-        const params = data.data
+        const params = data
 
         if (isObject(params)) {
           const paramMessages = Object.keys(params || {}).map(key => params[key])
@@ -146,7 +146,7 @@ service.interceptors.response.use(
           })
         }
       }
-      message.error(data.data.message || '服务器错误')
+      message.error(data.message || '服务器错误')
       return Promise.reject(error)
     }
 

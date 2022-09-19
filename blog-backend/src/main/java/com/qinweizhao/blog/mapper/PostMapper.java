@@ -137,7 +137,6 @@ public interface PostMapper extends BaseMapper<Post> {
      * @return PageResult
      */
     default PageResult<Post> selectPageSimple(PostQueryParam param) {
-        // 待改进，改进优先级：3
         IPage<Post> page = MyBatisUtils.buildPage(param);
 
         Map<String, Object> paramMap = new LinkedHashMap<>();

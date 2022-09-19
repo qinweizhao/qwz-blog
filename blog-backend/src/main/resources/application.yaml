@@ -26,7 +26,7 @@ spring:
       - classpath:/templates/
     expose-spring-macro-helpers: false
   profiles:
-    active: prod
+    active: dev
 management:
   endpoints:
     web:

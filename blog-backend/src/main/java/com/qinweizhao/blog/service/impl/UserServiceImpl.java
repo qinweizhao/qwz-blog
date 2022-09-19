@@ -4,9 +4,7 @@ import cn.hutool.crypto.digest.BCrypt;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.qinweizhao.blog.exception.BadRequestException;
 import com.qinweizhao.blog.exception.ForbiddenException;
-import com.qinweizhao.blog.exception.NotFoundException;
 import com.qinweizhao.blog.exception.ServiceException;
-import com.qinweizhao.blog.framework.cache.AbstractStringCacheStore;
 import com.qinweizhao.blog.framework.event.logger.LogEvent;
 import com.qinweizhao.blog.framework.event.user.UserUpdatedEvent;
 import com.qinweizhao.blog.framework.security.util.SecurityUtils;
@@ -19,15 +17,13 @@ import com.qinweizhao.blog.model.param.UserUpdateParam;
 import com.qinweizhao.blog.service.UserService;
 import com.qinweizhao.blog.util.DateUtils;
 import com.qinweizhao.blog.util.HaloUtils;
+import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 
-import javax.annotation.Resource;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -41,14 +37,10 @@ import java.util.concurrent.TimeUnit;
  * @since 2019-03-14
  */
 @Service
+@AllArgsConstructor
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
 
-
-    @Resource
-    private AbstractStringCacheStore stringCacheStore;
-
-    @Resource
-    private ApplicationEventPublisher eventPublisher;
+    private final ApplicationEventPublisher eventPublisher;
 
 
     @Override
@@ -92,7 +84,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             throw new BadRequestException("旧密码错误").setErrorData(oldPassword);
         }
 
-        setPassword(user, newPassword);
+        this.setPassword(user, newPassword);
 
         update(user);
 
@@ -113,7 +105,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     @Override
     public boolean passwordMatch(User user, String plainPassword) {
-        Assert.notNull(user, "User must not be null");
+        Assert.notNull(user, "用户不能为空");
 
         return !StringUtils.isBlank(plainPassword) && BCrypt.checkpw(plainPassword, user.getPassword());
     }
@@ -121,7 +113,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     public boolean update(User user) {
         boolean b = this.updateById(user);
-        // Log it
         eventPublisher.publishEvent(new LogEvent(this, user.getId().toString(), LogType.PROFILE_UPDATED, user.getUsername()));
         eventPublisher.publishEvent(new UserUpdatedEvent(this, user.getId()));
 
@@ -129,9 +120,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     }
 
     @Override
-    public void setPassword(@NonNull User user, @NonNull String plainPassword) {
-        Assert.notNull(user, "User must not be null");
-        Assert.hasText(plainPassword, "Plain password must not be blank");
+    public void setPassword(User user, String plainPassword) {
+        Assert.notNull(user, "用户不能为空");
+        Assert.hasText(plainPassword, "密码不能为空");
         user.setPassword(BCrypt.hashpw(plainPassword, BCrypt.gensalt()));
     }
 
