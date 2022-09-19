@@ -13,6 +13,9 @@ import java.util.Objects;
  */
 public class SecurityUtils {
 
+    private SecurityUtils() {
+    }
+
     public static Authentication getAuthentication() {
         return SecurityContextHolder.getContext().getAuthentication();
     }

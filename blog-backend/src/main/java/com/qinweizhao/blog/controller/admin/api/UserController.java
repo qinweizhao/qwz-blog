@@ -34,7 +34,6 @@ public class UserController {
         return UserConvert.INSTANCE.convert(SecurityUtils.getLoginUser());
     }
 
-
     /**
      * 更新用户资料
      *

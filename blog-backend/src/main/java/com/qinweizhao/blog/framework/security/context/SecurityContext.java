@@ -28,7 +28,7 @@ public interface SecurityContext {
     /**
      * Check if the current context has authenticated or not.
      *
-     * @return true if authenticate; false otherwise
+     * @return true if authenticated; false otherwise
      */
     default boolean isAuthenticated() {
         return getAuthentication() != null;

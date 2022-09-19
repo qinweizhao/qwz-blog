@@ -104,12 +104,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     @Override
     public void mustNotExpire(User user) {
-        Assert.notNull(user, "User must not be null");
-
         Date now = DateUtils.now();
         if (user.getExpireTime() != null && user.getExpireTime().after(now)) {
             long seconds = TimeUnit.MILLISECONDS.toSeconds(user.getExpireTime().getTime() - now.getTime());
-            // If expired
             throw new ForbiddenException("账号已被停用，请 " + HaloUtils.timeFormat(seconds) + " 后重试").setErrorData(seconds);
         }
     }

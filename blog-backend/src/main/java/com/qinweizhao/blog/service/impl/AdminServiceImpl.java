@@ -164,7 +164,7 @@ public class AdminServiceImpl implements AdminService {
 
         Boolean emailEnabled = configService.getByPropertyOrDefault(EmailProperties.ENABLED, Boolean.class, false);
 
-        if (!emailEnabled) {
+        if (Boolean.FALSE.equals(emailEnabled)) {
             throw new ServiceException("未启用 SMTP 服务，无法发送邮件，但是你可以通过系统日志找到验证码");
         }
 
@@ -210,7 +210,6 @@ public class AdminServiceImpl implements AdminService {
     public EnvironmentDTO getEnvironments() {
         EnvironmentDTO environmentDTO = new EnvironmentDTO();
 
-        // Get application start time.
         environmentDTO.setStartTime(ManagementFactory.getRuntimeMXBean().getStartTime());
 
         environmentDTO.setDatabase(DATABASE_PRODUCT_NAME);
@@ -271,6 +270,7 @@ public class AdminServiceImpl implements AdminService {
     public String getLogFiles(Long lines) {
         String workDir;
 
+        // 为了适配当前仓库结构
         if (myBlogProperties.isProductionEnv()) {
             workDir = myBlogProperties.getWorkDir();
         } else {

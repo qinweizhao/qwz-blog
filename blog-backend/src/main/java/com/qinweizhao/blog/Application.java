@@ -17,6 +17,11 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 public class Application extends SpringBootServletInitializer {
 
     public static void main(String[] args) {
+
+        // 生产环境设置配置文件存放地址
+        System.setProperty("spring.config.additional-location",
+                "optional:file:${user.home}/.blog/");
+
         SpringApplication.run(Application.class, args);
     }
 

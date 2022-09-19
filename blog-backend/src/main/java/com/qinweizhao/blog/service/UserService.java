@@ -102,7 +102,6 @@ public interface UserService extends IService<User> {
      */
     boolean verifyUser(String username, String password);
 
-
     /**
      * 更新用户资料
      *
