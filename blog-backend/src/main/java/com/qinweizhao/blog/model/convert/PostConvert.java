@@ -54,7 +54,7 @@ public interface PostConvert {
      * @param post post
      * @return PostListVO
      */
-    PostListDTO convertToListVO(PostSimpleDTO post);
+    PostListDTO convertToListDTO(PostSimpleDTO post);
 
     /**
      * convertToSimpleDTO
@@ -93,9 +93,6 @@ public interface PostConvert {
             case RECYCLE:
                 postStatus = 2;
                 break;
-            case INTIMATE:
-                postStatus = 3;
-                break;
             default:
                 postStatus = null;
         }
@@ -120,7 +117,7 @@ public interface PostConvert {
      * @param postList postList
      * @return List
      */
-    List<PostListDTO> convertToListVO(List<PostSimpleDTO> postList);
+    List<PostListDTO> convertToListDTO(List<PostSimpleDTO> postList);
 
 
     /**

@@ -83,8 +83,11 @@
             left join post_tag pt ON p.id = pt.post_id
         </if>
         <where>
-            <if test="param.status != null and param.status != ''">
+            <if test="param.status != null">
                 and p.status = #{param.status}
+            </if>
+            <if test="param.excludeStatus != null and param.excludeStatus != ''">
+                and p.status != #{param.excludeStatus}
             </if>
             <if test="param.keyword != null and param.keyword != ''">
                 and p.title like concat('%', #{param.keyword}, '%')

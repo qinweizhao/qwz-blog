@@ -1,9 +1,5 @@
 <template>
-  <page-view
-    :sub-title="postToStage.inProgress ? '当前内容已保存，但还未发布。' : ''"
-    :title="postToStage.title ? postToStage.title : '新文章'"
-    affix
-  >
+  <page-view :title="postToStage.title ? postToStage.title : '新文章'" affix>
     <template slot="extra">
       <a-space>
         <a-button :loading="previewSaving" @click="handlePreviewClick">预览</a-button>
@@ -120,13 +116,12 @@ export default {
       if (this.postToStage.id) {
         // Update the post content
         try {
-          const { data } = await postApi.updateDraft(
+          await postApi.updateDraft(
             this.postToStage.id,
             this.postToStage.originalContent,
             this.postToStage.content,
             true
           )
-          this.postToStage.inProgress = data.inProgress
           this.handleRestoreSavedStatus()
           this.$message.success({
             content: '内容已保存',
@@ -169,13 +164,7 @@ export default {
       this.previewSaving = true
       if (this.postToStage.id) {
         // Update the post content
-        const { data } = await postApi.updateDraft(
-          this.postToStage.id,
-          this.postToStage.originalContent,
-          this.postToStage.content,
-          true
-        )
-        this.postToStage.inProgress = data.inProgress
+        await postApi.updateDraft(this.postToStage.id, this.postToStage.originalContent, this.postToStage.content, true)
       } else {
         await this.handleCreatePost()
       }

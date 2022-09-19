@@ -12,6 +12,7 @@ import com.qinweizhao.blog.model.param.PostQueryParam;
 import com.qinweizhao.blog.util.LambdaQueryWrapperX;
 import com.qinweizhao.blog.util.MyBatisUtils;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.util.ObjectUtils;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -88,9 +89,7 @@ public interface PostMapper extends BaseMapper<Post> {
      * @return Long
      */
     default long selectCountByStatus(PostStatus published) {
-        return this.selectCount(new LambdaQueryWrapper<Post>()
-                .eq(Post::getStatus, published.getValue())
-        );
+        return this.selectCount(new LambdaQueryWrapper<Post>().eq(Post::getStatus, published.getValue()));
     }
 
     /**
@@ -125,6 +124,11 @@ public interface PostMapper extends BaseMapper<Post> {
         paramMap.put("tagId", param.getTagId());
         Integer status = PostConvert.INSTANCE.statusToInteger(param.getStatus());
         paramMap.put("status", status);
+        String.valueOf(status);
+        // 不显示的状态
+        if (ObjectUtils.isEmpty(status)) {
+            paramMap.put("excludeStatus", PostStatus.RECYCLE.getValue());
+        }
 
         Page<Post> postPage = this.selectPagePosts(page, paramMap);
         return MyBatisUtils.buildPageResult(postPage);
@@ -186,9 +190,7 @@ public interface PostMapper extends BaseMapper<Post> {
      * @return List
      */
     default List<Post> selectListByIds(Set<Integer> postIds) {
-        return selectList(new LambdaQueryWrapperX<Post>()
-                .inIfPresent(Post::getId, postIds)
-        );
+        return selectList(new LambdaQueryWrapperX<Post>().inIfPresent(Post::getId, postIds));
     }
 
     /**
@@ -198,10 +200,7 @@ public interface PostMapper extends BaseMapper<Post> {
      * @return List
      */
     default List<Post> selectListByStatus(PostStatus status) {
-        return this.selectList(new LambdaQueryWrapperX<Post>()
-                .eq(Post::getStatus, status)
-                .orderByDesc(Post::getCreateTime)
-        );
+        return this.selectList(new LambdaQueryWrapperX<Post>().eq(Post::getStatus, status).orderByDesc(Post::getCreateTime));
     }
 
     /**
@@ -211,11 +210,7 @@ public interface PostMapper extends BaseMapper<Post> {
      * @return List
      */
     default List<Post> selectListLatest(int top) {
-        return this.selectList(new LambdaQueryWrapper<Post>()
-                .orderByDesc(Post::getCreateTime)
-                .eq(Post::getStatus, PostStatus.PUBLISHED)
-                .last("limit " + top)
-        );
+        return this.selectList(new LambdaQueryWrapper<Post>().orderByDesc(Post::getCreateTime).eq(Post::getStatus, PostStatus.PUBLISHED).last("limit " + top));
     }
 
     /**
@@ -246,6 +241,7 @@ public interface PostMapper extends BaseMapper<Post> {
 
     /**
      * 查询 id
+     *
      * @param slug slug
      * @return Integer
      */

@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
-import java.io.IOException;
 import java.util.List;
 
 /**
@@ -173,9 +172,7 @@ public class PostController {
         }
         String extension = FilenameUtils.getExtension(filename).toLowerCase();
         if (!supportType.contains(extension)) {
-            throw new BadRequestException(
-                    "不支持" + (StringUtils.isNotEmpty(extension) ? extension : "未知")
-                            + "格式的文件上传").setErrorData(filename);
+            throw new BadRequestException("不支持" + (StringUtils.isNotEmpty(extension) ? extension : "未知") + "格式的文件上传").setErrorData(filename);
         }
         return postService.importMarkdown(file);
     }

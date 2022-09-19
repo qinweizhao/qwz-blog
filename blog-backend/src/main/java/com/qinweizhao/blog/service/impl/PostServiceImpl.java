@@ -89,6 +89,7 @@ public class PostServiceImpl implements PostService {
     @Override
     public PageResult<PostListDTO> page(PostQueryParam param) {
 
+
         PageResult<Post> pageResult = postMapper.selectPage(param);
         List<Post> pageContent = pageResult.getContent();
         List<PostSimpleDTO> posts = PostConvert.INSTANCE.convertToSimpleDTO(pageContent);
@@ -103,18 +104,12 @@ public class PostServiceImpl implements PostService {
 
 
         List<PostListDTO> collect = posts.stream().map(post -> {
-            PostListDTO postListDTO = PostConvert.INSTANCE.convertToListVO(post);
-
+            PostListDTO postListDTO = PostConvert.INSTANCE.convertToListDTO(post);
             postListDTO.setTags(new ArrayList<>(Optional.ofNullable(tagListMap.get(post.getId())).orElseGet(LinkedList::new)));
-
             postListDTO.setCategories(new ArrayList<>(Optional.ofNullable(categoryListMap.get(post.getId())).orElseGet(LinkedList::new)));
-
             postListDTO.setMetas(Optional.ofNullable(postMetaListMap.get(post.getId())).orElseGet(LinkedList::new));
-
             postListDTO.setCommentCount(commentCountMap.getOrDefault(post.getId(), 0L));
-
             postListDTO.setFullPath(buildFullPath(post.getId()));
-
             return postListDTO;
         }).collect(Collectors.toList());
 
@@ -134,13 +129,9 @@ public class PostServiceImpl implements PostService {
         Map<Integer, List<CategoryDTO>> categoryListMap = postCategoryService.listCategoryListMap(postIds);
 
         posts.forEach(post -> {
-
             post.setCategories(new ArrayList<>(Optional.ofNullable(categoryListMap.get(post.getId())).orElseGet(LinkedList::new)));
-
             post.setCommentCount(commentCountMap.getOrDefault(post.getId(), 0L));
-
             post.setFullPath(buildFullPath(post.getId()));
-
         });
 
         return new PageResult<>(posts, pageResult.getCurrent(), pageResult.getSize(), pageResult.getTotal(), pageResult.hasPrevious(), pageResult.hasNext());
@@ -287,7 +278,7 @@ public class PostServiceImpl implements PostService {
      */
     private void slugMustNotExist(Post post) {
 
-        boolean exist = false;
+        boolean exist;
 
         String slug = post.getSlug();
         Integer id = post.getId();

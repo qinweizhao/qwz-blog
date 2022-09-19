@@ -3,7 +3,7 @@
     <PostListView
       ref="postListView"
       :columns="postColumns"
-      :default-statuses="[postStatuses.PUBLISHED.value, postStatuses.DRAFT.value, postStatuses.INTIMATE.value]"
+      :default-statuses="[postStatuses.PUBLISHED.value, postStatuses.DRAFT.value]"
       @change:params="onChangeParams"
     >
       <template #operator-before>

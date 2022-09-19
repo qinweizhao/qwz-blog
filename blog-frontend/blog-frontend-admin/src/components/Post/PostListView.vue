@@ -103,13 +103,7 @@
                   <template #overlay>
                     <a-menu>
                       <a-menu-item
-                        v-if="
-                          [
-                            postStatuses.PUBLISHED.value,
-                            postStatuses.DRAFT.value,
-                            postStatuses.INTIMATE.value
-                          ].includes(item.status)
-                        "
+                        v-if="[postStatuses.PUBLISHED.value, postStatuses.DRAFT.value].includes(item.status)"
                         @click="handleEditClick(item)"
                       >
                         编辑
@@ -125,13 +119,7 @@
                         </a-popconfirm>
                       </a-menu-item>
                       <a-menu-item
-                        v-if="
-                          [
-                            postStatuses.PUBLISHED.value,
-                            postStatuses.DRAFT.value,
-                            postStatuses.INTIMATE.value
-                          ].includes(item.status)
-                        "
+                        v-if="[postStatuses.PUBLISHED.value, postStatuses.DRAFT.value].includes(item.status)"
                       >
                         <a-popconfirm
                           :title="'确定要删除【' + item.title + '】文章？'"
@@ -181,18 +169,8 @@
                       twoToneColor="red"
                       type="pushpin"
                     />
-                    <a-tooltip v-if="item.inProgress" placement="top" title="当前有内容已保存，但还未发布。">
-                      <a-icon
-                        class="cursor-pointer"
-                        style="margin-right: 3px"
-                        theme="twoTone"
-                        twoToneColor="#52c41a"
-                        type="info-circle"
-                        @click="handleEditClick(item)"
-                      />
-                    </a-tooltip>
                     <a-tooltip
-                      v-if="[postStatuses.PUBLISHED.value, postStatuses.INTIMATE.value].includes(item.status)"
+                      v-if="[postStatuses.PUBLISHED.value].includes(item.status)"
                       :title="'点击访问【' + item.title + '】'"
                       placement="top"
                     >
@@ -257,18 +235,8 @@
               twoToneColor="red"
               type="pushpin"
             />
-            <a-tooltip v-if="record.inProgress" placement="top" title="当前有内容已保存，但还未发布。">
-              <a-icon
-                class="cursor-pointer"
-                style="margin-right: 3px"
-                theme="twoTone"
-                twoToneColor="#52c41a"
-                type="info-circle"
-                @click="handleEditClick(record)"
-              />
-            </a-tooltip>
             <a-tooltip
-              v-if="[postStatuses.PUBLISHED.value, postStatuses.INTIMATE.value].includes(record.status)"
+              v-if="[postStatuses.PUBLISHED.value].includes(record.status)"
               :title="'点击访问【' + text + '】'"
               placement="top"
             >
@@ -336,11 +304,7 @@
 
           <template #action="text, post">
             <a-button
-              v-if="
-                [postStatuses.PUBLISHED.value, postStatuses.DRAFT.value, postStatuses.INTIMATE.value].includes(
-                  post.status
-                )
-              "
+              v-if="[postStatuses.PUBLISHED.value, postStatuses.DRAFT.value].includes(post.status)"
               class="!p-0"
               type="link"
               @click="handleEditClick(post)"
@@ -361,11 +325,7 @@
             <a-divider type="vertical" />
 
             <a-popconfirm
-              v-if="
-                [postStatuses.PUBLISHED.value, postStatuses.DRAFT.value, postStatuses.INTIMATE.value].includes(
-                  post.status
-                )
-              "
+              v-if="[postStatuses.PUBLISHED.value, postStatuses.DRAFT.value].includes(post.status)"
               :title="'确定要删除【' + post.title + '】文章？'"
               cancelText="取消"
               okText="确定"

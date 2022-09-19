@@ -29,7 +29,7 @@ public interface PostCategoryMapper extends BaseMapper<PostCategory> {
      * @return List
      */
     default List<PostCategory> selectListByPostIds(Collection<Integer> postIds) {
-        return this.selectList(new LambdaQueryWrapperX<PostCategory>()
+        return this.selectList(new LambdaQueryWrapper<PostCategory>()
                 .in(PostCategory::getPostId, postIds)
         );
     }

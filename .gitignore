@@ -36,3 +36,4 @@ build/
 
 /blog-frontend/blog-frontend-portal/source/*/min/*.min.*
 /blog-frontend/blog-frontend-admin/pnpm-lock.yaml
+/blog-backend/src/main/resources/application-prod.yaml

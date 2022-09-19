@@ -22,12 +22,7 @@ public enum PostStatus implements ValueEnum<Integer> {
     /**
      * 回收
      */
-    RECYCLE(2),
-
-    /**
-     * 隐私
-     */
-    INTIMATE(3);
+    RECYCLE(2);
 
     @EnumValue
     private final int value;

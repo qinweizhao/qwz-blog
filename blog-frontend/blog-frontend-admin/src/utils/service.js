@@ -95,24 +95,25 @@ service.interceptors.response.use(
     if (data) {
       if (data.status === 400) {
         const params = data
-
+        console.log('params')
+        console.log(params)
         if (isObject(params)) {
-          const paramMessages = Object.keys(params || {}).map(key => params[key])
+          // const paramMessages = Object.keys(params || {}).map(key => params[key])
           notification.error({
             message: data.message,
-            description: h => {
-              const errorNodes = paramMessages.map(errorDetail => {
-                return h('a-alert', {
-                  props: {
-                    message: errorDetail,
-                    banner: true,
-                    showIcon: false,
-                    type: 'error'
-                  }
-                })
-              })
-              return h('div', errorNodes)
-            },
+            // description: h => {
+            //   const errorNodes = paramMessages.map(errorDetail => {
+            //     return h('a-alert', {
+            //       props: {
+            //         message: errorDetail,
+            //         banner: true,
+            //         showIcon: false,
+            //         type: 'error'
+            //       }
+            //     })
+            //   })
+            //   return h('div', errorNodes)
+            // },
             duration: 10
           })
         } else {
