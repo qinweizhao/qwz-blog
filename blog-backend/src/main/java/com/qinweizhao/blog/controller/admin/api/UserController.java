@@ -6,7 +6,6 @@ import com.qinweizhao.blog.model.convert.UserConvert;
 import com.qinweizhao.blog.model.dto.UserDTO;
 import com.qinweizhao.blog.model.param.PasswordParam;
 import com.qinweizhao.blog.model.param.UserUpdateParam;
-import com.qinweizhao.blog.model.support.BaseResponse;
 import com.qinweizhao.blog.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.validation.annotation.Validated;
@@ -31,9 +30,8 @@ public class UserController {
      * @return UserDTO
      */
     @GetMapping("profiles")
-    public BaseResponse<UserDTO> getProfile() {
-        UserDTO userDTO = UserConvert.INSTANCE.convert(SecurityUtils.getLoginUser());
-        return BaseResponse.ok(userDTO);
+    public UserDTO getProfile() {
+        return UserConvert.INSTANCE.convert(SecurityUtils.getLoginUser());
     }
 
 
@@ -45,9 +43,8 @@ public class UserController {
      */
     @PutMapping("profiles")
     @DisableOnCondition
-    public BaseResponse<UserDTO> updateProfile(@RequestBody @Validated UserUpdateParam userParam) {
-        UserDTO userDTO = userService.updateProfile(userParam);
-        return BaseResponse.ok(userDTO);
+    public UserDTO updateProfile(@RequestBody @Validated UserUpdateParam userParam) {
+        return userService.updateProfile(userParam);
     }
 
     /**

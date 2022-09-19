@@ -154,7 +154,7 @@ public class CommentServiceImpl implements CommentService {
             param.setAuthorUrl(configService.getBlogBaseUrl());
         }
 
-        boolean present = userService.getByEmail(param.getEmail()).isPresent();
+        boolean present = !ObjectUtils.isEmpty(userService.getByEmail(param.getEmail()));
 
         if (authentication == null && present) {
             throw new BadRequestException("不能使用博主的邮箱，如果您是博主，请登录管理端进行回复。");

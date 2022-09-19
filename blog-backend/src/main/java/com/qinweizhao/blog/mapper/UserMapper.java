@@ -20,8 +20,8 @@ public interface UserMapper extends BaseMapper<User> {
      * @param username username
      * @return User
      */
-    default Optional<User> selectByUsername(String username) {
-        return Optional.of(this.selectOne(new LambdaQueryWrapper<User>().eq(User::getUsername, username)));
+    default User selectByUsername(String username) {
+        return this.selectOne(new LambdaQueryWrapper<User>().eq(User::getUsername, username));
     }
 
     /**
@@ -30,8 +30,8 @@ public interface UserMapper extends BaseMapper<User> {
      * @param email email
      * @return User
      */
-    default Optional<User> selectByByEmail(String email) {
-        return Optional.ofNullable(this.selectOne(new LambdaQueryWrapper<User>().eq(User::getEmail, email)));
+    default User selectByByEmail(String email) {
+        return this.selectOne(new LambdaQueryWrapper<User>().eq(User::getEmail, email));
     }
 
 }

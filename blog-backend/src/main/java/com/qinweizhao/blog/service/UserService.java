@@ -47,16 +47,7 @@ public interface UserService extends IService<User> {
      * @param username username must not be blank
      * @return an optional user
      */
-    Optional<User> getByUsername(String username);
-
-    /**
-     * Gets non null user by username.
-     *
-     * @param username username
-     * @return user info
-     * @throws NotFoundException throws when the username does not exist
-     */
-    User getByUsernameOfNonNull(String username);
+    User getByUsername(String username);
 
     /**
      * Gets user by email.
@@ -65,17 +56,7 @@ public interface UserService extends IService<User> {
      * @return an optional user
      */
 
-    Optional<User> getByEmail(String email);
-
-    /**
-     * Gets non null user by email.
-     *
-     * @param email email
-     * @return user info
-     * @throws NotFoundException throws when the username does not exist
-     */
-
-    User getByEmailOfNonNull(String email);
+    User getByEmail(String email);
 
     /**
      * Updates user password.
@@ -86,7 +67,6 @@ public interface UserService extends IService<User> {
      * @return updated user detail
      */
     boolean updatePassword(String oldPassword, String newPassword, Integer userId);
-
 
     /**
      * The user must not expire.

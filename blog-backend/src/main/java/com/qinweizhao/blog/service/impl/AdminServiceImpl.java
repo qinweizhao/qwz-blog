@@ -4,7 +4,6 @@ import cn.hutool.core.lang.Validator;
 import cn.hutool.core.util.RandomUtil;
 import com.qinweizhao.blog.config.properties.MyBlogProperties;
 import com.qinweizhao.blog.exception.BadRequestException;
-import com.qinweizhao.blog.exception.NotFoundException;
 import com.qinweizhao.blog.exception.ServiceException;
 import com.qinweizhao.blog.framework.cache.AbstractStringCacheStore;
 import com.qinweizhao.blog.framework.event.logger.LogEvent;
@@ -30,6 +29,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+import org.springframework.util.ObjectUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -76,12 +76,10 @@ public class AdminServiceImpl implements AdminService {
 
         String mismatchTip = "用户名或者密码不正确";
 
-        final User user;
+        // 通过用户名或电子邮件获取用户
+        final User user = Validator.isEmail(username) ? userService.getByEmail(username) : userService.getByUsername(username);
 
-        try {
-            // 通过用户名或电子邮件获取用户
-            user = Validator.isEmail(username) ? userService.getByEmailOfNonNull(username) : userService.getByUsernameOfNonNull(username);
-        } catch (NotFoundException e) {
+        if (ObjectUtils.isEmpty(user)) {
             log.error("查找用户失败: " + username);
             eventPublisher.publishEvent(new LogEvent(this, loginParam.getUsername(), LogType.LOGIN_FAILED, loginParam.getUsername()));
 

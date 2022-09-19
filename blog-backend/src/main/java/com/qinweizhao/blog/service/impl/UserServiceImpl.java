@@ -66,50 +66,36 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     }
 
     @Override
-    public @NotNull Optional<User> getByUsername(String username) {
+    public User getByUsername(String username) {
         return this.baseMapper.selectByUsername(username);
     }
 
-    @Override
-    public @NotNull User getByUsernameOfNonNull(@NotNull String username) {
-        return getByUsername(username).orElseThrow(() -> new NotFoundException("The username does not exist").setErrorData(username));
-    }
 
     @Override
-    public Optional<User> getByEmail(String email) {
+    public User getByEmail(String email) {
         return this.baseMapper.selectByByEmail(email);
     }
 
     @Override
-    public User getByEmailOfNonNull(String email) {
-        return getByEmail(email).orElseThrow(() -> new NotFoundException("The email does not exist").setErrorData(email));
-    }
-
-    @Override
     public boolean updatePassword(String oldPassword, String newPassword, Integer userId) {
-        Assert.hasText(oldPassword, "Old password must not be blank");
-        Assert.hasText(newPassword, "New password must not be blank");
-        Assert.notNull(userId, "User id must not be blank");
+        Assert.hasText(oldPassword, "旧密码不能为空");
+        Assert.hasText(newPassword, "新密码不能为空");
+        Assert.notNull(userId, "用户编号不能为空");
 
         if (oldPassword.equals(newPassword)) {
             throw new BadRequestException("新密码和旧密码不能相同");
         }
 
-        // Get the user
         User user = getById(userId);
 
-        // Check the user old password
         if (!BCrypt.checkpw(oldPassword, user.getPassword())) {
             throw new BadRequestException("旧密码错误").setErrorData(oldPassword);
         }
 
-        // Set new password
         setPassword(user, newPassword);
 
-        // Update this user
         update(user);
 
-        // Log it
         eventPublisher.publishEvent(new LogEvent(this, user.getId().toString(), LogType.PASSWORD_UPDATED, HaloUtils.desensitize(oldPassword, 2, 1)));
 
         return true;
