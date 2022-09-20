@@ -40,9 +40,8 @@ public class MainController {
 
 
     @GetMapping("${blog.admin-path:admin}")
-    public void admin(HttpServletResponse response) throws IOException {
-        String adminIndexRedirectUri = HaloUtils.ensureBoth(myBlogProperties.getAdminPath(), HaloUtils.URL_SEPARATOR) + INDEX_REDIRECT_URI;
-        response.sendRedirect(adminIndexRedirectUri);
+    public String admin() {
+        return HaloUtils.ensureBoth(myBlogProperties.getAdminPath(), HaloUtils.URL_SEPARATOR) + INDEX_REDIRECT_URI;
     }
 
     @GetMapping("avatar")

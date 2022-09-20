@@ -61,5 +61,5 @@ blog:
   mode: development
   work-dir: ${user.home}/Code/qwz/qwz-blog/
   cache: memory
-  admin-path: qwz
+  admin-path: dev
   productionEnv: false
