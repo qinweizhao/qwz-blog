@@ -12,6 +12,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.context.request.RequestAttributes;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 /**
  * @author ryanwang
@@ -61,9 +64,19 @@ public class ContentContentController {
             return journalModel.list(1, model);
         }
 
-        return null;
+        throw buildPathNotFoundException();
     }
 
+    private NotFoundException buildPathNotFoundException() {
+        RequestAttributes requestAttributes = RequestContextHolder.currentRequestAttributes();
+
+        String requestUri = "";
+        if (requestAttributes instanceof ServletRequestAttributes) {
+            requestUri =
+                    ((ServletRequestAttributes) requestAttributes).getRequest().getRequestURI();
+        }
+        return new NotFoundException("无法定位到该路径：" + requestUri);
+    }
     /**
      * 一级路径分页后
      *

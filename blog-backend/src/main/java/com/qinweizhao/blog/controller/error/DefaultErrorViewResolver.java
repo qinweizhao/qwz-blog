@@ -1,10 +1,8 @@
 package com.qinweizhao.blog.controller.error;
 
 import com.qinweizhao.blog.service.ThemeService;
-import org.springframework.boot.autoconfigure.template.TemplateAvailabilityProvider;
-import org.springframework.boot.autoconfigure.template.TemplateAvailabilityProviders;
+import lombok.AllArgsConstructor;
 import org.springframework.boot.autoconfigure.web.servlet.error.ErrorViewResolver;
-import org.springframework.context.ApplicationContext;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatus.Series;
 import org.springframework.stereotype.Component;
@@ -20,27 +18,20 @@ import java.util.Map;
  * @since 2022/09/15
  */
 @Component
+@AllArgsConstructor
 public class DefaultErrorViewResolver implements ErrorViewResolver {
 
     private static final Map<Series, String> SERIES_VIEWS;
+
+    private final ThemeService themeService;
+
 
     static {
         EnumMap<Series, String> views = new EnumMap<>(Series.class);
         views.put(Series.CLIENT_ERROR, "4xx");
         views.put(Series.SERVER_ERROR, "5xx");
         SERIES_VIEWS = Collections.unmodifiableMap(views);
-    }
 
-    private final ThemeService themeService;
-
-    private final TemplateAvailabilityProviders templateAvailabilityProviders;
-
-    private final ApplicationContext applicationContext;
-
-    public DefaultErrorViewResolver(ThemeService themeService, ApplicationContext applicationContext) {
-        this.themeService = themeService;
-        this.applicationContext = applicationContext;
-        this.templateAvailabilityProviders = new TemplateAvailabilityProviders(applicationContext);
     }
 
     @Override
@@ -68,9 +59,9 @@ public class DefaultErrorViewResolver implements ErrorViewResolver {
     }
 
     private ModelAndView resolve(String viewName, Map<String, Object> model) {
-        String errorViewName = this.themeService.render(viewName);
-        TemplateAvailabilityProvider provider = this.templateAvailabilityProviders.getProvider(errorViewName, this.applicationContext);
-        if (provider != null) {
+        boolean flag = themeService.templateExists(viewName + ".ftl");
+        if (flag) {
+            String errorViewName = themeService.render(viewName);
             return new ModelAndView(errorViewName, model);
         }
         return null;
