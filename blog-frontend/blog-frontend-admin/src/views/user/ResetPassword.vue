@@ -87,7 +87,7 @@ export default {
         if (valid) {
           const hideLoading = this.$message.loading('发送中...', 0)
           try {
-            await adminApi.sendResetPasswordCode(this.form.model)
+            await adminApi.sendResetCode(this.form.model)
             this.$message.success('邮件发送成功，五分钟内有效')
           } catch (e) {
             this.$log.error('Failed send code: ', e)

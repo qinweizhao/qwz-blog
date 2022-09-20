@@ -79,13 +79,13 @@ public interface UserService extends IService<User> {
     void setPassword(User user, String plainPassword);
 
     /**
-     * verify user's email and username
+     * 校验用户名和邮箱
      *
-     * @param username username must not be null
-     * @param password password must not be null
+     * @param username username
+     * @param email email
      * @return boolean
      */
-    boolean verifyUser(String username, String password);
+    boolean verifyUser(String username, String email);
 
     /**
      * 更新用户资料

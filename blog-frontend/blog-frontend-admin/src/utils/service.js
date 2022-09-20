@@ -133,7 +133,7 @@ service.interceptors.response.use(
 
             return axios(originalRequest)
           } catch (e) {
-            message.warning('当前登录状态已失效，请重新登录')
+            // message.warning('当前登录状态已失效，请重新登录')
             await store.dispatch('ToggleLoginModal', true)
             return Promise.reject(e)
           } finally {
@@ -154,76 +154,6 @@ service.interceptors.response.use(
     message.error('网络异常')
     return Promise.reject(error)
   }
-  // error => {
-  //   if (axios.isCancel(error)) {
-  //     Vue.$log.debug('Cancelled uploading by user.')
-  //     return Promise.reject(error)
-  //   }
-  //
-  //   Vue.$log.error('Response failed', error)
-  //
-  //   const response = error.response
-  //   const status = response ? response.status : -1
-  //   Vue.$log.error('Server response status', status)
-  //
-  //   const data = response ? response.data : null
-  //   if (data) {
-  //     let handled = false
-  //     // Business response
-  //     Vue.$log.error('Business response status', data.status)
-  //     if (data.status === 400) {
-  //       // TODO handle 400 status error
-  //       const errorDetails = getFieldValidationError(data)
-  //       if (errorDetails) {
-  //         handled = true
-  //
-  //         notification.error({
-  //           message: data.message,
-  //           description: h => {
-  //             const errorNodes = errorDetails.map(errorDetail => {
-  //               return h('a-alert', {
-  //                 props: {
-  //                   message: errorDetail,
-  //                   banner: true,
-  //                   showIcon: false,
-  //                   type: 'error'
-  //                 }
-  //               })
-  //             })
-  //             return h('div', errorNodes)
-  //           },
-  //           duration: 10
-  //         })
-  //       }
-  //     } else if (data.status === 401) {
-  //       // TODO handle 401 status error
-  //       if (store.getters.token && store.getters.token.access_token === data.data) {
-  //         const res = refreshToken(error)
-  //         if (res !== error) {
-  //           return res
-  //         }
-  //       } else {
-  //         // Login
-  //         message.warning('当前登录状态已失效，请重新登录')
-  //         store.dispatch('ToggleLoginModal', true)
-  //       }
-  //     } else if (data.status === 403) {
-  //       // TODO handle 403 status error
-  //     } else if (data.status === 404) {
-  //       // TODO handle 404 status error
-  //     } else if (data.status === 500) {
-  //       // TODO handle 500 status error
-  //     }
-  //
-  //     if (!handled) {
-  //       message.error(data.message)
-  //     }
-  //   } else {
-  //     message.error('网络异常')
-  //   }
-  //
-  //   return Promise.reject(error)
-  // }
 )
 
 export default service

@@ -23,6 +23,7 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.ObjectUtils;
 
 import java.util.Date;
 import java.util.List;
@@ -127,9 +128,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     }
 
     @Override
-    public boolean verifyUser(String username, String password) {
-        User user = getCurrentUser().orElseThrow(() -> new ServiceException("未查询到博主信息"));
-        return user.getUsername().equals(username) && user.getEmail().equals(password);
+    public boolean verifyUser(String username, String email) {
+        User user = this.getByUsername(username);
+        if (ObjectUtils.isEmpty(user)){
+            return false;
+        }
+        return user.getUsername().equals(username) && user.getEmail().equals(email);
     }
 
     @Override
