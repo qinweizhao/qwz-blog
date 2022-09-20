@@ -37,6 +37,7 @@ import MarkdownEditor from '@/components/Editor/MarkdownEditor'
 import { PageView } from '@/layouts'
 
 // libs
+import { postStatuses } from '@/core/constant'
 import { mixin, mixinDevice, mixinPostEdit } from '@/mixins/mixin.js'
 import { datetimeFormat } from '@/utils/datetime'
 import postApi from '@/api/post'
@@ -52,7 +53,10 @@ export default {
   data() {
     return {
       postSettingVisible: false,
-      postToStage: {},
+      postToStage: {
+        // tagIds: [],
+        // categoryIds: []
+      },
       contentChanges: 0,
       previewSaving: false
     }
@@ -114,7 +118,6 @@ export default {
 
     handleSaveDraft: debounce(async function () {
       if (this.postToStage.id) {
-        // Update the post content
         try {
           await postApi.updateDraft(
             this.postToStage.id,
@@ -139,12 +142,11 @@ export default {
       if (!this.postToStage.title) {
         this.postToStage.title = datetimeFormat(new Date(), 'YYYY-MM-DD-HH-mm-ss')
       }
-      // Create the post
+      // 创建文章
       try {
-        this.postToStage.keepRaw = true
-
         const { data } = await postApi.create(this.postToStage)
         this.postToStage.id = data.data
+        this.postToStage.status = postStatuses.DRAFT.value
         this.handleRestoreSavedStatus()
 
         // add params to url

@@ -124,7 +124,6 @@ public interface PostMapper extends BaseMapper<Post> {
         paramMap.put("tagId", param.getTagId());
         Integer status = PostConvert.INSTANCE.statusToInteger(param.getStatus());
         paramMap.put("status", status);
-        String.valueOf(status);
         // 不显示的状态
         if (ObjectUtils.isEmpty(status)) {
             paramMap.put("excludeStatus", PostStatus.RECYCLE.getValue());

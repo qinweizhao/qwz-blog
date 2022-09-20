@@ -244,7 +244,7 @@ public class PostServiceImpl implements PostService {
         contentMapper.updateById(content);
 
         // 标签
-        Set<Integer> tagIds = param.getTagIds();
+        Set<Integer> tagIds = CollUtil.emptyIfNull(param.getTagIds());
         Set<Integer> dbTagIds = postTagMapper.selectTagIdsByPostId(postId);
         Collection<Integer> addTagIds = CollUtil.subtract(tagIds, dbTagIds);
         Collection<Integer> removeTagIds = CollUtil.subtract(dbTagIds, tagIds);
@@ -253,7 +253,7 @@ public class PostServiceImpl implements PostService {
         }
 
         // 分类
-        Set<Integer> categoryIds = param.getCategoryIds();
+        Set<Integer> categoryIds = CollUtil.emptyIfNull(param.getCategoryIds());
         Set<Integer> dbCategoryIds = postCategoryMapper.selectSetCategoryIdsByPostId(postId);
         Collection<Integer> addCategoryIds = CollUtil.subtract(categoryIds, dbCategoryIds);
         Collection<Integer> removeCategoryIds = CollUtil.subtract(dbCategoryIds, categoryIds);

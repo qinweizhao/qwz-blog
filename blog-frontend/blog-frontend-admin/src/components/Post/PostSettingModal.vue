@@ -283,7 +283,7 @@ export default {
   },
   methods: {
     /**
-     * Creates or updates a post
+     * 新增或更新
      */
     async handleCreateOrUpdate() {
       if (!this.form.model.title) {
@@ -293,8 +293,6 @@ export default {
         })
         throw new Error('文章标题不能为空！')
       }
-
-      this.form.model.keepRaw = true
       try {
         if (this.hasId) {
           await postApi.update(this.form.model.id, this.form.model)
@@ -312,7 +310,6 @@ export default {
         this.form.saving = true
 
         const { status } = this.form.model
-
         if (!status) {
           this.form.model.status = this.postStatuses.PUBLISHED.value
         }
@@ -320,7 +317,7 @@ export default {
         await this.handleCreateOrUpdate()
       } catch (e) {
         this.form.saveErrored = true
-        this.$log.error('Failed to save post', e)
+        this.$log.error('保存文章错误', e)
       } finally {
         setTimeout(() => {
           this.form.saving = false
@@ -336,7 +333,7 @@ export default {
         await this.handleCreateOrUpdate()
       } catch (e) {
         this.form.publishErrored = true
-        this.$log.error('Failed to publish post', e)
+        this.$log.error('发布文章异常', e)
       } finally {
         setTimeout(() => {
           this.form.publishing = false
