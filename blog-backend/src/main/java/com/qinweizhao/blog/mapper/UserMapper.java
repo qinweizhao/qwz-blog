@@ -5,8 +5,6 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.qinweizhao.blog.model.entity.User;
 import org.apache.ibatis.annotations.Mapper;
 
-import java.util.Optional;
-
 /**
  * @author qinweizhao
  * @since 2022/7/4

@@ -4,7 +4,6 @@ import cn.hutool.crypto.digest.BCrypt;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.qinweizhao.blog.exception.BadRequestException;
 import com.qinweizhao.blog.exception.ForbiddenException;
-import com.qinweizhao.blog.exception.ServiceException;
 import com.qinweizhao.blog.framework.event.logger.LogEvent;
 import com.qinweizhao.blog.framework.event.user.UserUpdatedEvent;
 import com.qinweizhao.blog.framework.security.util.SecurityUtils;
@@ -130,7 +129,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Override
     public boolean verifyUser(String username, String email) {
         User user = this.getByUsername(username);
-        if (ObjectUtils.isEmpty(user)){
+        if (ObjectUtils.isEmpty(user)) {
             return false;
         }
         return user.getUsername().equals(username) && user.getEmail().equals(email);

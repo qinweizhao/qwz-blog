@@ -2,7 +2,6 @@ package com.qinweizhao.blog.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.qinweizhao.blog.exception.ForbiddenException;
-import com.qinweizhao.blog.exception.NotFoundException;
 import com.qinweizhao.blog.model.dto.UserDTO;
 import com.qinweizhao.blog.model.entity.User;
 import com.qinweizhao.blog.model.param.UserUpdateParam;
@@ -82,7 +81,7 @@ public interface UserService extends IService<User> {
      * 校验用户名和邮箱
      *
      * @param username username
-     * @param email email
+     * @param email    email
      * @return boolean
      */
     boolean verifyUser(String username, String email);
