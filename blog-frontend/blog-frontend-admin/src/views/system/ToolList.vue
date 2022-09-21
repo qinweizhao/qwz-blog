@@ -17,7 +17,7 @@
             <a-icon type="file-markdown" />
             Markdown 文章导入
           </div>
-          <p style="min-height: 50px">导入规范待完善</p>
+          <p style="min-height: 50px">解析文件并保存为草稿</p>
           <a-button class="float-right" type="primary" @click="markdownUpload = true">导入</a-button>
         </a-card>
       </a-col>
