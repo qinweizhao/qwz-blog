@@ -27,7 +27,7 @@
 </template>
 <script>
 import { mapGetters } from 'vuex'
-import { Axios } from '@halo-dev/admin-api'
+import axios from 'axios'
 
 import vueFilePond from 'vue-filepond'
 import 'filepond/dist/filepond.min.css'
@@ -108,7 +108,7 @@ export default {
           const formData = new FormData()
           formData.append(fieldName, file, file.name)
 
-          const CancelToken = Axios.CancelToken
+          const CancelToken = axios.CancelToken
           const source = CancelToken.source()
           this.uploadHandler(
             formData,

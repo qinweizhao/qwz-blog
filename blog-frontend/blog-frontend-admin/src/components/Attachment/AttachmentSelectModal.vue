@@ -290,10 +290,10 @@ export default {
 
         const response = await attachmentApi.query(this.list.params)
 
-        this.list.data = response.data.content
-        this.list.total = response.data.total
-        this.list.hasNext = response.data.hasNext
-        this.list.hasPrevious = response.data.hasPrevious
+        this.list.data = response.data.data.content
+        this.list.total = response.data.data.total
+        this.list.hasNext = response.data.data.hasNext
+        this.list.hasPrevious = response.data.data.hasPrevious
       } catch (error) {
         this.$log.error(error)
       } finally {
@@ -310,7 +310,7 @@ export default {
 
         const response = await attachmentApi.listMediaTypes()
 
-        this.mediaTypes.data = response.data
+        this.mediaTypes.data = response.data.data
       } catch (error) {
         this.$log.error(error)
       } finally {
@@ -327,7 +327,7 @@ export default {
 
         const response = await attachmentApi.listTypes()
 
-        this.types.data = response.data
+        this.types.data = response.data.data
       } catch (error) {
         this.$log.error(error)
       } finally {
