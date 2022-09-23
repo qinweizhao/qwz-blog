@@ -34,12 +34,12 @@
     </sql>
 
     <select id="selectCountVisits" resultType="java.lang.Long">
-        select ifnull(sum(p.visits),0)
+        select ifnull(sum(p.visits), 0)
         from post p
     </select>
 
     <select id="selectCountLikes" resultType="java.lang.Long">
-        select sum(p.likes)
+        select ifnull(sum(p.likes), 0)
         from post p
     </select>
 
