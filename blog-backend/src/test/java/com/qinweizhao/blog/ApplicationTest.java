@@ -1,5 +1,6 @@
 package com.qinweizhao.blog;
 
+import cn.hutool.crypto.digest.BCrypt;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -8,10 +9,13 @@ import org.springframework.boot.test.context.SpringBootTest;
  * @since 2022/8/12
  */
 @SpringBootTest
-public class ApplicationTest {
+class ApplicationTest {
+
 
     @Test
-    void run(){
-
+    void generatorPassword(){
+        String password= "admin";
+        System.out.println(BCrypt.hashpw(password, BCrypt.gensalt()));
     }
+
 }
