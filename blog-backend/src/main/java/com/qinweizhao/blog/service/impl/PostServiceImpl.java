@@ -328,6 +328,7 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
+    @Transactional
     public boolean removeById(Integer postId) {
         Assert.notNull(postId, "文章编号不能为空");
 
@@ -341,6 +342,10 @@ public class PostServiceImpl implements PostService {
         int i3 = commentMapper.deleteByPostId(postId);
 
         log.debug("删除和标签关联{}条，和分类{}条，评论{}条，删除元数据状态{}", i1, i2, i3, b);
+
+        int i = contentMapper.deleteById(postId);
+
+        log.debug("删除文章内容{}条", i);
 
         return postMapper.deleteById(postId) > 0;
     }
