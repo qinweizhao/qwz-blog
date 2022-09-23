@@ -33,36 +33,8 @@
         , p.disallow_comment, p.likes, p.meta_description, p.meta_keywords, p.slug, p.status, p.summary, p.thumbnail, p.title, p.top_priority, p.visits, p.word_count, p.create_time, p.update_time
     </sql>
 
-
-    <select id="selectByTimeAndSlug" resultType="com.qinweizhao.blog.model.entity.Post">
-        select
-        <include refid="Base_Column_List"/>
-        from Post p
-        where
-        <if test="year != null and year != ''">
-            and p.year (p.createTime) = #{year}
-        </if>
-
-        <if test="month != null and month != ''">
-            and p.month (p.createTime) = #{month}
-        </if>
-
-        <if test="day != null and day != ''">
-            and p.day (p.createTime) = #{day}
-        </if>
-
-        <if test="slug != null and slug != ''">
-            and p.slug = #{slug}
-        </if>
-
-        <if test="status != null and status != ''">
-            and p.status = #{status}
-        </if>
-    </select>
-
-
     <select id="selectCountVisits" resultType="java.lang.Long">
-        select sum(p.visits)
+        select ifnull(sum(p.visits),0)
         from post p
     </select>
 

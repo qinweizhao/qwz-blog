@@ -26,62 +26,6 @@ import java.util.Set;
  */
 public interface PostMapper extends BaseMapper<Post> {
 
-
-    /**
-     * 按条件查询
-     *
-     * @param year  year
-     * @param month month
-     * @param slug  slug
-     * @return Post
-     */
-    Post selectByTimeAndSlug(@Param("year") Integer year, @Param("month") Integer month, @Param("slug") String slug);
-
-    /**
-     * 按条件查询
-     *
-     * @param year post create year
-     * @param slug post slug
-     * @return Post
-     */
-    Post selectByTimeAndSlug(@Param("year") Integer year, @Param("slug") String slug);
-
-
-    /**
-     * 按条件查询
-     *
-     * @param year   create year
-     * @param month  create month
-     * @param slug   slug
-     * @param status status
-     * @return Post
-     */
-    Post selectByTimeAndSlug(@Param("year") Integer year, @Param("month") Integer month, @Param("slug") String slug, @Param("status") PostStatus status);
-
-    /**
-     * 按条件查询
-     *
-     * @param year  create year
-     * @param month create month
-     * @param day   create day
-     * @param slug  slug
-     * @return Post
-     */
-    Post selectByTimeAndSlug(@Param("year") Integer year, @Param("month") Integer month, @Param("day") Integer day, @Param("slug") String slug);
-
-    /**
-     * 按条件查询
-     *
-     * @param year   create year
-     * @param month  create month
-     * @param day    create day
-     * @param slug   slug
-     * @param status status
-     * @return Post
-     */
-    Post selectByTimeAndSlug(@Param("year") Integer year, @Param("month") Integer month, @Param("day") Integer day, @Param("slug") String slug, @Param("status") PostStatus status);
-
-
     /**
      * 统计文章个数
      *
