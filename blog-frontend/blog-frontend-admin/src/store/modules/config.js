@@ -9,7 +9,6 @@ const keys = [
   'attachment_upload_max_parallel_uploads',
   'attachment_upload_max_files',
   'post_permalink_type',
-  'sheet_permalink_type',
   'archives_prefix',
   'default_editor',
   'default_menu_team'

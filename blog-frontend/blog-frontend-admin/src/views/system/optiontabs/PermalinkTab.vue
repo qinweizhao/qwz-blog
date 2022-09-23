@@ -19,25 +19,6 @@
         </template>
         <a-input v-model="options.tags_prefix" />
       </a-form-model-item>
-      <a-form-model-item label="自定义页面固定链接类型：">
-        <template slot="help">
-          <span v-if="options.sheet_permalink_type === 'SECONDARY'"
-            >{{ options.blog_url }}/{{ options.sheet_prefix }}/{slug}</span
-          >
-          <span v-else-if="options.sheet_permalink_type === 'ROOT'">{{ options.blog_url }}/{slug}</span>
-        </template>
-        <a-select v-model="options.sheet_permalink_type">
-          <a-select-option v-for="item in Object.keys(sheetPermalinkType)" :key="item" :value="item"
-            >{{ sheetPermalinkType[item].text }}
-          </a-select-option>
-        </a-select>
-      </a-form-model-item>
-      <a-form-model-item v-show="options.sheet_permalink_type === 'SECONDARY'" label="自定义页面前缀：">
-        <template slot="help">
-          <span>{{ options.blog_url }}/{{ options.sheet_prefix }}/{slug}</span>
-        </template>
-        <a-input v-model="options.sheet_prefix" />
-      </a-form-model-item>
       <a-form-model-item label="日志页面前缀：">
         <template slot="help">
           <span>{{ options.blog_url }}/{{ options.journals_prefix }}</span>
@@ -78,16 +59,6 @@ export default {
   },
   data() {
     return {
-      sheetPermalinkType: {
-        SECONDARY: {
-          type: 'SECONDARY',
-          text: '二级路径'
-        },
-        ROOT: {
-          type: 'ROOT',
-          text: '根路径'
-        }
-      },
       wrapperCol: {
         xl: { span: 8 },
         lg: { span: 8 },

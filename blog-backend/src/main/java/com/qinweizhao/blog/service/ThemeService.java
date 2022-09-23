@@ -48,7 +48,7 @@ public interface ThemeService {
      */
     ThemeProperty getThemeProperty();
 
-    /**sheet_prefix
+    /**
      * 判断指定主题下是否存在模板
      *
      * @param template template
