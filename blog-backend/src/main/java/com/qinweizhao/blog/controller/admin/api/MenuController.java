@@ -51,7 +51,7 @@ public class MenuController {
      * @return List
      */
     @GetMapping("team/tree_view")
-    public List<MenuDTO> listDefaultsAsTreeByTeam(@RequestParam(name = "team") String team) {
+    public List<MenuDTO> listDefaultsAsTreeByTeam(@RequestParam(name = "team",defaultValue = "") String team) {
         return menuService.listByTeamAsTree(team);
     }
 
