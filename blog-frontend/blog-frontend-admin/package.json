@@ -12,7 +12,6 @@
   },
   "dependencies": {
     "axios": "^0.19.2",
-    "@halo-dev/admin-api": "^1.0.0",
     "@codemirror/basic-setup": "^0.19.1",
     "@codemirror/lang-html": "^0.19.4",
     "@codemirror/lang-java": "^0.19.1",
