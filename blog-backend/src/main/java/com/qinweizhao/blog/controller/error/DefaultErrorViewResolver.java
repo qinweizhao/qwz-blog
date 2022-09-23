@@ -1,5 +1,6 @@
 package com.qinweizhao.blog.controller.error;
 
+import com.qinweizhao.blog.model.support.BlogConst;
 import com.qinweizhao.blog.service.ThemeService;
 import lombok.AllArgsConstructor;
 import org.springframework.boot.autoconfigure.web.servlet.error.ErrorViewResolver;
@@ -59,7 +60,7 @@ public class DefaultErrorViewResolver implements ErrorViewResolver {
     }
 
     private ModelAndView resolve(String viewName, Map<String, Object> model) {
-        boolean flag = themeService.templateExists(viewName + ".ftl");
+        boolean flag = themeService.templateExists(viewName + BlogConst.SUFFIX_FTL);
         if (flag) {
             String errorViewName = themeService.render(viewName);
             return new ModelAndView(errorViewName, model);
