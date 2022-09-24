@@ -34,19 +34,22 @@ qwz-blog
 │  ├─blog-frontend-portal 前台门面
 │ 
 ├─blog-resource 项目资源
-│  ├─docker 容器部署
-│  ├─image 图片
-│  ├─jar 依赖包
-│  ├─logs 项目日志
-│  ├─nginx 配置
-│  ├─sql 数据库文件
+│
 ```
+
+## 开发指南
+
+https://www.qinweizhao.com/?p=145
+
+## 项目部署
+
+https://www.qinweizhao.com/?p=146
 
 ## 运行效果
 
 ### 前台：
 
-https://www.qinweizhao.com/
+https://www.qinweizhao.com
 
 ### 后台：
 
