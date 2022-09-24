@@ -15,7 +15,7 @@ public enum BlogProperties implements PropertyEnum {
     /**
      * Blog title.
      */
-    BLOG_TITLE("blog_title", String.class, ""),
+    BLOG_TITLE("blog_title", String.class, "Blog"),
 
     /**
      * Blog logo.
