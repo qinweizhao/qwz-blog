@@ -13,6 +13,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.ObjectUtils;
 
 import java.util.*;
 
@@ -45,7 +46,6 @@ public class MenuServiceImpl implements MenuService {
 
         MenuDTO topLevelMenu = createTopLevelMenu();
 
-        // Concrete the tree
         concreteTree(topLevelMenu, menus);
 
         return topLevelMenu.getChildren();
@@ -72,7 +72,7 @@ public class MenuServiceImpl implements MenuService {
     @Override
     public boolean removeById(Integer menuId) {
         List<Menu> menus = menuMapper.selectListByParentId(menuId);
-        if (null != menus && menus.size() > 0) {
+        if (ObjectUtils.isEmpty(menus)) {
             menus.forEach(menu -> {
                 menu.setParentId(0);
                 menuMapper.updateById(menu);

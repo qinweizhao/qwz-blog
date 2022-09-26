@@ -11,7 +11,6 @@ import org.springframework.context.annotation.Configuration;
  * @author qinweizhao
  * @since 2022/7/4
  */
-@MapperScan("com.qinweizhao.blog.mapper")
 @Configuration
 public class MybatisPlusConfig {
 

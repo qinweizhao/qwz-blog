@@ -6,6 +6,7 @@ import com.qinweizhao.blog.model.entity.PostCategory;
 import com.qinweizhao.blog.model.enums.PostStatus;
 import com.qinweizhao.blog.model.projection.CategoryPostCountProjection;
 import com.qinweizhao.blog.util.LambdaQueryWrapperX;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.Collection;
@@ -20,6 +21,7 @@ import java.util.Set;
  * @author qinweizhao
  * @since 2022-07-08
  */
+@Mapper
 public interface PostCategoryMapper extends BaseMapper<PostCategory> {
 
     /**

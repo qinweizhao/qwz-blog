@@ -7,6 +7,7 @@ import com.qinweizhao.blog.model.core.PageResult;
 import com.qinweizhao.blog.model.entity.Log;
 import com.qinweizhao.blog.model.param.LogQueryParam;
 import com.qinweizhao.blog.util.MyBatisUtils;
+import org.apache.ibatis.annotations.Mapper;
 
 /**
  * <p>
@@ -16,6 +17,7 @@ import com.qinweizhao.blog.util.MyBatisUtils;
  * @author qinweizhao
  * @since 2022-07-08
  */
+@Mapper
 public interface LogMapper extends BaseMapper<Log> {
 
 

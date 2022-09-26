@@ -10,6 +10,7 @@ import com.qinweizhao.blog.model.entity.Config;
 import com.qinweizhao.blog.model.param.ConfigQueryParam;
 import com.qinweizhao.blog.util.LambdaQueryWrapperX;
 import com.qinweizhao.blog.util.MyBatisUtils;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.binding.MapperMethod;
 import org.apache.ibatis.logging.Log;
 import org.apache.ibatis.logging.LogFactory;
@@ -20,7 +21,7 @@ import java.util.List;
  * @author qinweizhao
  * @since 2022/7/5
  */
-
+@Mapper
 public interface ConfigMapper extends BaseMapper<Config> {
 
     Log log = LogFactory.getLog(ConfigMapper.class);

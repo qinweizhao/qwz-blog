@@ -3,6 +3,7 @@ package com.qinweizhao.blog.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.qinweizhao.blog.model.entity.Meta;
 import com.qinweizhao.blog.util.LambdaQueryWrapperX;
+import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 import java.util.Set;
@@ -15,6 +16,7 @@ import java.util.Set;
  * @author qinweizhao
  * @since 2022-07-08
  */
+@Mapper
 public interface MetaMapper extends BaseMapper<Meta> {
 
 
