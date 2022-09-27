@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
 
 /**
  * @author johnniang
@@ -16,7 +17,8 @@ import javax.validation.constraints.Size;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class LogParam {
+public class LogParam implements Serializable {
+    private static final long serialVersionUID = 2405172041950251807L;
 
     @Size(max = 1023, message = "Length of log key must not be more than {max}")
     private String logKey;

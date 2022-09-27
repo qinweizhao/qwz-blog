@@ -6,6 +6,7 @@ import com.qinweizhao.blog.model.dto.LogDTO;
 import com.qinweizhao.blog.model.entity.Log;
 import com.qinweizhao.blog.model.enums.LogType;
 import com.qinweizhao.blog.model.enums.ValueEnum;
+import com.qinweizhao.blog.model.param.LogParam;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
@@ -27,7 +28,7 @@ public interface LogConvert {
     PageResult<LogDTO> convert(PageResult<Log> log);
 
     /**
-     * 状态转换
+     * convert
      *
      * @param type type
      * @return LogType
@@ -36,4 +37,50 @@ public interface LogConvert {
         return ValueEnum.valueToEnum(LogType.class, type);
     }
 
+    /**
+     * statusToInteger
+     *
+     * @param type type
+     * @return Integer
+     */
+    default Integer typeToInteger(LogType type) {
+        if (type == null) {
+            return null;
+        }
+        Integer logType;
+        switch (type) {
+            case POST_PUBLISHED:
+                logType = 5;
+                break;
+            case POST_EDITED:
+                logType = 15;
+                break;
+            case LOGGED_IN:
+                logType = 20;
+                break;
+            case LOGGED_OUT:
+                logType = 25;
+                break;
+            case LOGIN_FAILED:
+                logType = 30;
+                break;
+            case PASSWORD_UPDATED:
+                logType = 35;
+                break;
+            case PROFILE_UPDATED:
+                logType = 40;
+                break;
+            default:
+                logType = null;
+        }
+        return logType;
+    }
+
+    /**
+     * convert
+     *
+     * @param param param
+     * @return Log
+     */
+    Log convert(LogParam param);
 }

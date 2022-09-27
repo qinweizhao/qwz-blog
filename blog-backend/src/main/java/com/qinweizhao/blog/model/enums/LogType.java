@@ -7,10 +7,6 @@ package com.qinweizhao.blog.model.enums;
  */
 public enum LogType implements ValueEnum<Integer> {
 
-    /**
-     * 博客初始化
-     */
-    BLOG_INITIALIZED(0),
 
     /**
      * 发表文章
