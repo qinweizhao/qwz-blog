@@ -174,7 +174,8 @@ public class CategoryServiceImpl implements CategoryService {
 
         categoryMapper.deleteById(categoryId);
 
-        postCategoryMapper.deleteByCategoryId(categoryId);
+        int i = postCategoryMapper.deleteByCategoryId(categoryId);
+        log.debug("删除文章和分类关联记录{}条", i);
         return true;
     }
 

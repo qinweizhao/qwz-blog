@@ -32,9 +32,7 @@ public interface PostTagMapper extends BaseMapper<PostTag> {
      * @return List
      */
     default List<PostTag> listByPostId(Collection<Integer> postIds) {
-        return this.selectList(new LambdaQueryWrapperX<PostTag>()
-                .in(PostTag::getPostId, postIds)
-        );
+        return this.selectList(new LambdaQueryWrapperX<PostTag>().in(PostTag::getPostId, postIds));
     }
 
     /**
@@ -51,9 +49,7 @@ public interface PostTagMapper extends BaseMapper<PostTag> {
      * @return boolean
      */
     default int deleteByTagId(Integer tagId) {
-        return this.delete(new LambdaQueryWrapper<PostTag>()
-                .eq(PostTag::getTagId, tagId)
-        );
+        return this.delete(new LambdaQueryWrapper<PostTag>().eq(PostTag::getTagId, tagId));
     }
 
     /**
@@ -80,9 +76,7 @@ public interface PostTagMapper extends BaseMapper<PostTag> {
      * @return boolean
      */
     default int deleteByPostId(Integer postId) {
-        return this.delete(new LambdaQueryWrapper<PostTag>()
-                .eq(PostTag::getPostId, postId)
-        );
+        return this.delete(new LambdaQueryWrapper<PostTag>().eq(PostTag::getPostId, postId));
     }
 
     /**
@@ -93,9 +87,6 @@ public interface PostTagMapper extends BaseMapper<PostTag> {
      * @return int
      */
     default int deleteBatchByPostIdAndTagIds(Integer postId, Collection<Integer> removeTagIds) {
-        return this.delete(new LambdaQueryWrapperX<PostTag>()
-                .eq(PostTag::getPostId, postId)
-                .in(PostTag::getTagId, removeTagIds)
-        );
+        return this.delete(new LambdaQueryWrapperX<PostTag>().eq(PostTag::getPostId, postId).in(PostTag::getTagId, removeTagIds));
     }
 }

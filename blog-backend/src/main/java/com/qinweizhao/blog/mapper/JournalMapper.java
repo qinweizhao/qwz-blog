@@ -26,9 +26,7 @@ public interface JournalMapper extends BaseMapper<Journal> {
      * @return List
      */
     default List<Journal> selectListByIds(Set<Integer> journalIds) {
-        return selectList(new LambdaQueryWrapperX<Journal>()
-                .inIfPresent(Journal::getId, journalIds)
-        );
+        return selectList(new LambdaQueryWrapperX<Journal>().inIfPresent(Journal::getId, journalIds));
     }
 
     /**
@@ -47,11 +45,7 @@ public interface JournalMapper extends BaseMapper<Journal> {
      */
     default PageResult<Journal> selectPageJournals(JournalQueryParam param) {
         Page<Journal> page = MyBatisUtils.buildPage(param);
-        Page<Journal> result = this.selectPage(page, new LambdaQueryWrapperX<Journal>()
-                .eqIfPresent(Journal::getType, param.getType())
-                .likeIfPresent(Journal::getSourceContent, param.getKeyword())
-                .orderByDesc(Journal::getId)
-        );
+        Page<Journal> result = this.selectPage(page, new LambdaQueryWrapperX<Journal>().eqIfPresent(Journal::getType, param.getType()).likeIfPresent(Journal::getSourceContent, param.getKeyword()).orderByDesc(Journal::getId));
         return MyBatisUtils.buildSimplePageResult(result);
     }
 

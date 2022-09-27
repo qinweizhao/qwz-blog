@@ -20,9 +20,7 @@ public interface CommentBlackListMapper extends BaseMapper<CommentBlackList> {
      * @return CommentBlackList
      */
     default CommentBlackList selectByIpAddress(String ipAddress) {
-        return selectOne(
-                new LambdaQueryWrapper<CommentBlackList>()
-                        .eq(CommentBlackList::getIpAddress, ipAddress));
+        return selectOne(new LambdaQueryWrapper<CommentBlackList>().eq(CommentBlackList::getIpAddress, ipAddress));
     }
 
     /**
@@ -32,9 +30,7 @@ public interface CommentBlackListMapper extends BaseMapper<CommentBlackList> {
      * @return int
      */
     default int updateByIpAddress(CommentBlackList commentBlackList) {
-        return update(commentBlackList,
-                new LambdaUpdateWrapper<CommentBlackList>()
-                        .eq(CommentBlackList::getIpAddress, commentBlackList.getIpAddress()));
+        return update(commentBlackList, new LambdaUpdateWrapper<CommentBlackList>().eq(CommentBlackList::getIpAddress, commentBlackList.getIpAddress()));
 
     }
 }

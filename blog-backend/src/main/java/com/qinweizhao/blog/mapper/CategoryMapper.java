@@ -24,9 +24,7 @@ public interface CategoryMapper extends BaseMapper<Category> {
      * @return List
      */
     default List<Category> selectList() {
-        return selectList(new LambdaQueryWrapper<Category>()
-                .orderByAsc(Category::getPriority)
-        );
+        return selectList(new LambdaQueryWrapper<Category>().orderByAsc(Category::getPriority));
     }
 
     /**
@@ -66,10 +64,7 @@ public interface CategoryMapper extends BaseMapper<Category> {
      * @return List
      */
     default List<Category> selectListByParentId(Integer parentId) {
-        return selectList(new LambdaQueryWrapper<Category>()
-                .eq(Category::getParentId, parentId)
-                .orderByAsc(Category::getPriority)
-        );
+        return selectList(new LambdaQueryWrapper<Category>().eq(Category::getParentId, parentId).orderByAsc(Category::getPriority));
     }
 
     /**
@@ -82,8 +77,6 @@ public interface CategoryMapper extends BaseMapper<Category> {
         if (ObjectUtils.isEmpty(categoryIds)) {
             return new ArrayList<>();
         }
-        return this.selectList(new LambdaQueryWrapperX<Category>()
-                .inIfPresent(Category::getId, categoryIds)
-        );
+        return this.selectList(new LambdaQueryWrapperX<Category>().inIfPresent(Category::getId, categoryIds));
     }
 }

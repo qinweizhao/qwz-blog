@@ -16,41 +16,6 @@ import java.util.List;
 public interface MenuMapper extends BaseMapper<Menu> {
 
     /**
-     * 查询菜单名是否已经存在
-     *
-     * @param name name
-     * @return true or false
-     */
-    default boolean existsByName(String name) {
-        return exists(new LambdaQueryWrapper<Menu>()
-                .eq(Menu::getName, name));
-    }
-
-    /**
-     * 通过 id 和 name 查询菜单名称是否已经存在
-     *
-     * @param id   id
-     * @param name name
-     * @return boolean
-     */
-    default boolean existsByIdNotAndName(Integer id, String name) {
-        return exists(new LambdaQueryWrapper<Menu>()
-                .eq(Menu::getId, id)
-                .eq(Menu::getName, name));
-    }
-
-    /**
-     * Finds by menu parent id.
-     *
-     * @param parentId parentId
-     * @return List
-     */
-    default List<Menu> selectByParentId(Integer parentId) {
-        return selectList(new LambdaQueryWrapper<Menu>()
-                .eq(Menu::getParentId, parentId));
-    }
-
-    /**
      * 查找所有菜单 team
      *
      * @return List
@@ -64,9 +29,7 @@ public interface MenuMapper extends BaseMapper<Menu> {
      * @return List
      */
     default List<Menu> selectListByParentId(Integer parentIdId) {
-        return this.selectList(new LambdaQueryWrapper<Menu>()
-                .eq(Menu::getParentId, parentIdId)
-        );
+        return this.selectList(new LambdaQueryWrapper<Menu>().eq(Menu::getParentId, parentIdId));
     }
 
     /**
@@ -76,10 +39,7 @@ public interface MenuMapper extends BaseMapper<Menu> {
      * @return List
      */
     default List<Menu> selectListByTeam(String team) {
-        return this.selectList(new LambdaQueryWrapperX<Menu>()
-                .eq(Menu::getTeam, team)
-                .orderByAsc(Menu::getPriority)
-        );
+        return this.selectList(new LambdaQueryWrapperX<Menu>().eq(Menu::getTeam, team).orderByAsc(Menu::getPriority));
     }
 
 

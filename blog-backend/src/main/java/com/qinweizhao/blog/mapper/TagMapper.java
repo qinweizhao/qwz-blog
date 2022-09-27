@@ -26,9 +26,7 @@ public interface TagMapper extends BaseMapper<Tag> {
      * @return long
      */
     default long countByNameOrSlug(String name, String slug) {
-        return selectCount(new LambdaQueryWrapper<Tag>()
-                .eq(Tag::getName, name).or()
-                .eq(Tag::getSlug, slug));
+        return selectCount(new LambdaQueryWrapper<Tag>().eq(Tag::getName, name).or().eq(Tag::getSlug, slug));
     }
 
     /**
@@ -51,8 +49,6 @@ public interface TagMapper extends BaseMapper<Tag> {
         if (ObjectUtils.isEmpty(tagIds)) {
             return new ArrayList<>();
         }
-        return selectList(new LambdaQueryWrapperX<Tag>()
-                .inIfPresent(Tag::getId, tagIds)
-        );
+        return selectList(new LambdaQueryWrapperX<Tag>().inIfPresent(Tag::getId, tagIds));
     }
 }

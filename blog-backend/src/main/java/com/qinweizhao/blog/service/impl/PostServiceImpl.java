@@ -249,7 +249,8 @@ public class PostServiceImpl implements PostService {
         Collection<Integer> addTagIds = CollUtil.subtract(tagIds, dbTagIds);
         Collection<Integer> removeTagIds = CollUtil.subtract(dbTagIds, tagIds);
         if (!CollectionUtils.isEmpty(removeTagIds)) {
-            postTagMapper.deleteBatchByPostIdAndTagIds(postId, removeTagIds);
+            int i = postTagMapper.deleteBatchByPostIdAndTagIds(postId, removeTagIds);
+            log.debug("删除文章和标签关联记录{}条", i);
         }
 
         // 分类
@@ -258,7 +259,8 @@ public class PostServiceImpl implements PostService {
         Collection<Integer> addCategoryIds = CollUtil.subtract(categoryIds, dbCategoryIds);
         Collection<Integer> removeCategoryIds = CollUtil.subtract(dbCategoryIds, categoryIds);
         if (!CollectionUtils.isEmpty(removeCategoryIds)) {
-            postCategoryMapper.deleteBatchByPostIdAndTagIds(postId, removeCategoryIds);
+            int i = postCategoryMapper.deleteBatchByPostIdAndTagIds(postId, removeCategoryIds);
+            log.debug("删除文章和分类关联记录{}条", i);
         }
 
         // 元数据

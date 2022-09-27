@@ -31,9 +31,7 @@ public interface PostCategoryMapper extends BaseMapper<PostCategory> {
      * @return List
      */
     default List<PostCategory> selectListByPostIds(Collection<Integer> postIds) {
-        return this.selectList(new LambdaQueryWrapper<PostCategory>()
-                .in(PostCategory::getPostId, postIds)
-        );
+        return this.selectList(new LambdaQueryWrapper<PostCategory>().in(PostCategory::getPostId, postIds));
     }
 
     /**
@@ -51,9 +49,7 @@ public interface PostCategoryMapper extends BaseMapper<PostCategory> {
      * @return int
      */
     default int deleteByCategoryId(Integer categoryId) {
-        return this.delete(new LambdaQueryWrapper<PostCategory>()
-                .eq(PostCategory::getCategoryId, categoryId)
-        );
+        return this.delete(new LambdaQueryWrapper<PostCategory>().eq(PostCategory::getCategoryId, categoryId));
     }
 
     /**
@@ -81,9 +77,7 @@ public interface PostCategoryMapper extends BaseMapper<PostCategory> {
      * @return int
      */
     default int deleteByPostId(Integer postId) {
-        return this.delete(new LambdaQueryWrapper<PostCategory>()
-                .eq(PostCategory::getPostId, postId)
-        );
+        return this.delete(new LambdaQueryWrapper<PostCategory>().eq(PostCategory::getPostId, postId));
     }
 
     /**
@@ -94,9 +88,6 @@ public interface PostCategoryMapper extends BaseMapper<PostCategory> {
      * @return int
      */
     default int deleteBatchByPostIdAndTagIds(Integer postId, Collection<Integer> removeCategoryIds) {
-        return this.delete(new LambdaQueryWrapperX<PostCategory>()
-                .eq(PostCategory::getPostId, postId)
-                .in(PostCategory::getCategoryId, removeCategoryIds)
-        );
+        return this.delete(new LambdaQueryWrapperX<PostCategory>().eq(PostCategory::getPostId, postId).in(PostCategory::getCategoryId, removeCategoryIds));
     }
 }

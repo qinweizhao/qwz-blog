@@ -58,8 +58,7 @@ public interface CommentMapper extends BaseMapper<Comment> {
      * @return 评论次数
      */
     default long countByIpAndTime(String ipAddress, Date startTime, Date endTime) {
-        return selectCount(new LambdaQueryWrapper<Comment>().eq(Comment::getIpAddress, ipAddress)
-                .between(Comment::getUpdateTime, startTime, endTime));
+        return selectCount(new LambdaQueryWrapper<Comment>().eq(Comment::getIpAddress, ipAddress).between(Comment::getUpdateTime, startTime, endTime));
     }
 
     /**
@@ -69,9 +68,7 @@ public interface CommentMapper extends BaseMapper<Comment> {
      * @return long
      */
     default long selectCountByStatus(CommentStatus published) {
-        return selectCount(new LambdaQueryWrapper<Comment>()
-                .eq(Comment::getStatus, published.getValue())
-        );
+        return selectCount(new LambdaQueryWrapper<Comment>().eq(Comment::getStatus, published.getValue()));
     }
 
     /**
@@ -82,13 +79,7 @@ public interface CommentMapper extends BaseMapper<Comment> {
      */
     default PageResult<Comment> selectPageComments(CommentQueryParam param) {
         Page<Comment> page = MyBatisUtils.buildPage(param);
-        Page<Comment> commentPage = this.selectPage(page, new LambdaQueryWrapperX<Comment>()
-                .eq(Comment::getType, param.getType())
-                .eqIfPresent(Comment::getStatus, param.getStatus())
-                .likeIfPresent(Comment::getAuthor, param.getKeyword())
-                .likeIfPresent(Comment::getContent, param.getKeyword())
-                .likeIfPresent(Comment::getEmail, param.getKeyword())
-        );
+        Page<Comment> commentPage = this.selectPage(page, new LambdaQueryWrapperX<Comment>().eq(Comment::getType, param.getType()).eqIfPresent(Comment::getStatus, param.getStatus()).likeIfPresent(Comment::getAuthor, param.getKeyword()).likeIfPresent(Comment::getContent, param.getKeyword()).likeIfPresent(Comment::getEmail, param.getKeyword()));
         return MyBatisUtils.buildSimplePageResult(commentPage);
     }
 
@@ -109,10 +100,7 @@ public interface CommentMapper extends BaseMapper<Comment> {
      * @return List
      */
     default List<Comment> selectListByPostIdAndParentId(Integer postId, Long commentParentId) {
-        return this.selectList(new LambdaQueryWrapperX<Comment>()
-                .eq(Comment::getTargetId, postId)
-                .eq(Comment::getParentId, commentParentId)
-        );
+        return this.selectList(new LambdaQueryWrapperX<Comment>().eq(Comment::getTargetId, postId).eq(Comment::getParentId, commentParentId));
     }
 
     /**
@@ -122,9 +110,7 @@ public interface CommentMapper extends BaseMapper<Comment> {
      * @return List
      */
     default List<Comment> selectListByParentIds(Set<Long> commentIds) {
-        return this.selectList(new LambdaQueryWrapperX<Comment>()
-                .in(Comment::getParentId, commentIds)
-        );
+        return this.selectList(new LambdaQueryWrapperX<Comment>().in(Comment::getParentId, commentIds));
     }
 
     /**
@@ -134,9 +120,7 @@ public interface CommentMapper extends BaseMapper<Comment> {
      * @return List
      */
     default int deleteByPostId(Integer postId) {
-        return this.delete(new LambdaQueryWrapperX<Comment>()
-                .eq(Comment::getTargetId, postId)
-        );
+        return this.delete(new LambdaQueryWrapperX<Comment>().eq(Comment::getTargetId, postId));
     }
 
     /**
@@ -147,10 +131,7 @@ public interface CommentMapper extends BaseMapper<Comment> {
      * @return Long
      */
     default Long selectCountByPostIdAndStatus(Integer postId, CommentStatus status) {
-        return this.selectCount(new LambdaQueryWrapper<Comment>()
-                .eq(Comment::getTargetId, postId)
-                .eq(Comment::getStatus, status)
-        );
+        return this.selectCount(new LambdaQueryWrapper<Comment>().eq(Comment::getTargetId, postId).eq(Comment::getStatus, status));
     }
 
     /**
@@ -161,11 +142,7 @@ public interface CommentMapper extends BaseMapper<Comment> {
      * @return List
      */
     default List<Comment> selectListComment(CommentQueryParam param, Integer targetId) {
-        return this.selectList(new LambdaQueryWrapperX<Comment>()
-                .eqIfPresent(Comment::getTargetId, targetId)
-                .eqIfPresent(Comment::getType, param.getType())
-                .eqIfPresent(Comment::getStatus, param.getStatus())
-        );
+        return this.selectList(new LambdaQueryWrapperX<Comment>().eqIfPresent(Comment::getTargetId, targetId).eqIfPresent(Comment::getType, param.getType()).eqIfPresent(Comment::getStatus, param.getStatus()));
     }
 
 }

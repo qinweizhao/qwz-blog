@@ -21,8 +21,7 @@ public interface ThemeSettingMapper extends BaseMapper<ThemeSetting> {
      * @return long
      */
     default int deleteByKey(String key) {
-        return delete(new LambdaQueryWrapper<ThemeSetting>()
-                .eq(ThemeSetting::getSettingKey, key));
+        return delete(new LambdaQueryWrapper<ThemeSetting>().eq(ThemeSetting::getSettingKey, key));
     }
 
     /**
@@ -33,8 +32,7 @@ public interface ThemeSettingMapper extends BaseMapper<ThemeSetting> {
      */
 
     default ThemeSetting selectByKey(String key) {
-        return selectOne(new LambdaQueryWrapper<ThemeSetting>()
-                .eq(ThemeSetting::getSettingKey, key));
+        return selectOne(new LambdaQueryWrapper<ThemeSetting>().eq(ThemeSetting::getSettingKey, key));
     }
 
 
@@ -45,8 +43,7 @@ public interface ThemeSettingMapper extends BaseMapper<ThemeSetting> {
      * @return boolean
      */
     default boolean updateByKey(ThemeSetting themeSetting) {
-        return this.update(themeSetting, new LambdaQueryWrapperX<ThemeSetting>()
-                .eq(ThemeSetting::getSettingKey, themeSetting.getSettingKey())) > 0;
+        return this.update(themeSetting, new LambdaQueryWrapperX<ThemeSetting>().eq(ThemeSetting::getSettingKey, themeSetting.getSettingKey())) > 0;
     }
 
 

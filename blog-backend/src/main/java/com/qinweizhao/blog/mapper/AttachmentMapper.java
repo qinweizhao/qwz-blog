@@ -1,6 +1,5 @@
 package com.qinweizhao.blog.mapper;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.qinweizhao.blog.model.core.PageResult;
@@ -36,17 +35,6 @@ public interface AttachmentMapper extends BaseMapper<Attachment> {
      */
     List<AttachmentType> selectListType();
 
-    /**
-     * 通过路径统计
-     *
-     * @param path path
-     * @return long
-     */
-    default long countByPath(String path) {
-        return selectCount(new LambdaQueryWrapper<Attachment>()
-                .eq(Attachment::getPath, path)
-        );
-    }
 
     /**
      * 分页查询
@@ -63,12 +51,7 @@ public interface AttachmentMapper extends BaseMapper<Attachment> {
             typeValue = attachmentType.getValue();
         }
 
-        Page<Attachment> attachmentPage = selectPage(page, new LambdaQueryWrapperX<Attachment>()
-                .eqIfPresent(Attachment::getMediaType, param.getMediaType())
-                .likeIfPresent(Attachment::getName, param.getKeyword())
-                .eqIfPresent(Attachment::getType, typeValue)
-                .orderByDesc(Attachment::getCreateTime)
-        );
+        Page<Attachment> attachmentPage = selectPage(page, new LambdaQueryWrapperX<Attachment>().eqIfPresent(Attachment::getMediaType, param.getMediaType()).likeIfPresent(Attachment::getName, param.getKeyword()).eqIfPresent(Attachment::getType, typeValue).orderByDesc(Attachment::getCreateTime));
         return MyBatisUtils.buildSimplePageResult(attachmentPage);
     }
 }

@@ -27,9 +27,7 @@ public interface MetaMapper extends BaseMapper<Meta> {
      * @return List
      */
     default List<Meta> selectListByPostIds(Set<Integer> postIds) {
-        return this.selectList(new LambdaQueryWrapperX<Meta>()
-                .in(Meta::getPostId, postIds)
-        );
+        return this.selectList(new LambdaQueryWrapperX<Meta>().in(Meta::getPostId, postIds));
     }
 
     /**
@@ -39,9 +37,7 @@ public interface MetaMapper extends BaseMapper<Meta> {
      * @return List
      */
     default List<Meta> selectListByPostId(Integer postId) {
-        return this.selectList(new LambdaQueryWrapperX<Meta>()
-                .eq(Meta::getPostId, postId)
-        );
+        return this.selectList(new LambdaQueryWrapperX<Meta>().eq(Meta::getPostId, postId));
     }
 
     /**
@@ -51,9 +47,7 @@ public interface MetaMapper extends BaseMapper<Meta> {
      * @return boolean
      */
     default boolean deleteByPostId(Integer postId) {
-        return this.delete(new LambdaQueryWrapperX<Meta>()
-                .eq(Meta::getPostId, postId)
-        ) > 0;
+        return this.delete(new LambdaQueryWrapperX<Meta>().eq(Meta::getPostId, postId)) > 0;
     }
 
 }
