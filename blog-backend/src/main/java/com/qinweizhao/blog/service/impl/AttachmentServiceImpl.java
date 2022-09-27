@@ -50,7 +50,7 @@ public class AttachmentServiceImpl implements AttachmentService {
         String blogBaseUrl = configService.getBlogBaseUrl();
 
 
-        result.getContent().forEach(item -> {
+        result.getContent().stream().filter(item -> Objects.equals(item.getType(), AttachmentType.LOCAL.getValue())).forEach(item -> {
             String fullPath = StringUtils.join(blogBaseUrl, "/", item.getPath());
             item.setPath(fullPath);
             item.setThumbPath(fullPath);
@@ -123,11 +123,9 @@ public class AttachmentServiceImpl implements AttachmentService {
 
         AttachmentDTO result = AttachmentConvert.INSTANCE.convert(attachment);
         if (Objects.equals(result.getType(), AttachmentType.LOCAL)) {
-            // Append blog base url to path and thumbnail
             String fullPath = StringUtils.join(blogBaseUrl, "/", result.getPath());
             String fullThumbPath = StringUtils.join(blogBaseUrl, "/", result.getThumbPath());
 
-            // Set full path and full thumb path
             result.setPath(fullPath);
             result.setThumbPath(fullThumbPath);
         }
