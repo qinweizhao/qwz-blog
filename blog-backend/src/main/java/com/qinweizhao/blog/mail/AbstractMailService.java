@@ -82,7 +82,7 @@ public abstract class AbstractMailService implements MailService {
         // 检查邮件是否启用
         Boolean emailEnabled = configService.getByPropertyOrDefault(EmailProperties.ENABLED, Boolean.class);
 
-        if (!emailEnabled) {
+        if (Boolean.FALSE.equals(emailEnabled)) {
             log.info("电子邮件已被禁用，可以通过管理页面上的电子邮件设置重新启用它");
             return;
         }
@@ -105,10 +105,7 @@ public abstract class AbstractMailService implements MailService {
             // send email
             mailSender.send(mimeMessage);
 
-            log.info("发送电子邮件至 [{}] 成功， 标题: [{}]， 内容: [{}]",
-                    Arrays.toString(mimeMessage.getAllRecipients()),
-                    mimeMessage.getSubject(),
-                    mimeMessage.getSentDate());
+            log.info("发送电子邮件至 [{}] 成功， 标题: [{}]， 内容: [{}]", Arrays.toString(mimeMessage.getAllRecipients()), mimeMessage.getSubject(), mimeMessage.getSentDate());
         } catch (Exception e) {
             throw new EmailException("邮件发送失败，请检查 SMTP 服务配置是否正确", e);
         }
@@ -123,10 +120,10 @@ public abstract class AbstractMailService implements MailService {
     protected void sendMailTemplate(boolean tryToAsync, @Nullable Callback callback) {
         ExecutorService executorService = getExecutorService();
         if (tryToAsync) {
-            // send mail asynchronously
+            // 异步发送邮件
             executorService.execute(() -> sendMailTemplate(callback));
         } else {
-            // send mail synchronously
+            // 同步发送邮件
             sendMailTemplate(callback);
         }
     }
@@ -139,9 +136,9 @@ public abstract class AbstractMailService implements MailService {
     @NonNull
     private synchronized JavaMailSender getMailSender() {
         if (this.cachedMailSender == null) {
-            // create mail sender factory
+            // 创建邮件发件人工厂
             MailSenderFactory mailSenderFactory = new MailSenderFactory();
-            // get mail sender
+            // 获取邮件发件人
             this.cachedMailSender = mailSenderFactory.getMailSender(getMailProperties());
         }
 
@@ -183,10 +180,10 @@ public abstract class AbstractMailService implements MailService {
     @NonNull
     private synchronized MailProperties getMailProperties() {
         if (cachedMailProperties == null) {
-            // create mail properties
+            // 创建邮件属性
             MailProperties mailProperties = new MailProperties(log.isDebugEnabled());
 
-            // set properties
+            // 设置属性
             mailProperties.setHost(configService.getByPropertyOrDefault(EmailProperties.HOST, String.class));
             mailProperties.setPort(configService.getByPropertyOrDefault(EmailProperties.SSL_PORT, Integer.class));
             mailProperties.setUsername(configService.getByPropertyOrDefault(EmailProperties.USERNAME, String.class));
@@ -229,8 +226,7 @@ public abstract class AbstractMailService implements MailService {
          * Handle message set.
          *
          * @param messageHelper mime message helper
-         * @throws Exception if something goes wrong
          */
-        void handle(@NonNull MimeMessageHelper messageHelper) throws Exception;
+        void handle(@NonNull MimeMessageHelper messageHelper);
     }
 }

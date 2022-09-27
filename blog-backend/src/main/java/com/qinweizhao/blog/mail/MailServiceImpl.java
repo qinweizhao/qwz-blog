@@ -19,6 +19,7 @@ import java.util.Map;
  *
  * @author ryanwang
  * @author johnniang
+ * @author qinweizhao
  * @since 2019-03-17
  */
 @Slf4j
@@ -27,8 +28,7 @@ public class MailServiceImpl extends AbstractMailService implements ApplicationL
 
     private final FreeMarkerConfigurer freeMarker;
 
-    public MailServiceImpl(FreeMarkerConfigurer freeMarker,
-                           ConfigService configService) {
+    public MailServiceImpl(FreeMarkerConfigurer freeMarker, ConfigService configService) {
         super(configService);
         this.freeMarker = freeMarker;
     }
@@ -65,12 +65,6 @@ public class MailServiceImpl extends AbstractMailService implements ApplicationL
             messageHelper.addAttachment(attachmentPath.getFileName().toString(), attachmentPath.toFile());
         });
     }
-
-    @Override
-    public void testConnection() {
-        super.testConnection();
-    }
-
 
     @Override
     public void onApplicationEvent(@NotNull ConfigUpdatedEvent event) {

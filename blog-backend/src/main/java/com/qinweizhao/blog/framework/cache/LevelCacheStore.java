@@ -18,14 +18,14 @@ import java.util.*;
 
 /**
  * level-db cache store
- * Create by Pencilso on 2020/1/9 7:20 下午
+ * 2020/1/9 7:20
  */
 @Slf4j
 public class LevelCacheStore extends AbstractStringCacheStore {
     /**
      * Cleaner schedule period. (ms)
      */
-    private final static long PERIOD = 60 * 1000;
+    private static final long PERIOD = 60 * 1000;
 
     private static DB LEVEL_DB;
 

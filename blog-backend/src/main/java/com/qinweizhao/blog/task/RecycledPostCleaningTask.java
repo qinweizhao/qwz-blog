@@ -19,7 +19,7 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
- * @author Wh1te
+ * @author qinweizhao
  * @since 2020-10-19
  */
 @Slf4j
@@ -39,9 +39,9 @@ public class RecycledPostCleaningTask {
     public synchronized void run() {
         Boolean recycledPostCleaningEnabled = configService.getByPropertyOrDefault(PostProperties.RECYCLED_POST_CLEANING_ENABLED, Boolean.class, false);
 
-        log.debug("{} = {}", PostProperties.RECYCLED_POST_CLEANING_ENABLED.getValue(), recycledPostCleaningEnabled);
+        log.debug("启用自动清理回收状态文章 = {}", recycledPostCleaningEnabled);
 
-        if (!recycledPostCleaningEnabled) {
+        if (Boolean.FALSE.equals(recycledPostCleaningEnabled)) {
             return;
         }
 
