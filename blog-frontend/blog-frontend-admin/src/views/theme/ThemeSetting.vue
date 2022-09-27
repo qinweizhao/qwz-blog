@@ -15,7 +15,7 @@
 <script>
 // components
 import { PageView } from '@/layouts'
-import ThemeSettingForm from './components/ThemeSettingForm'
+import ThemeSettingForm from './ThemeSettingForm'
 
 // api
 import themeApi from '@/api/theme'

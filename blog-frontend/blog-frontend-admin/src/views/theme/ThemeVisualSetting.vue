@@ -25,7 +25,7 @@
 </template>
 <script>
 // components
-import ThemeSettingForm from './components/ThemeSettingForm'
+import ThemeSettingForm from './ThemeSettingForm'
 
 import themeApi from '@/api/theme'
 import { mapGetters } from 'vuex'
