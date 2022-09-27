@@ -64,6 +64,10 @@ public class PostServiceImpl implements PostService {
 
     private final Pattern summaryPattern = Pattern.compile("[\t\r\n]");
 
+    private static final String CHINESE_REGEX = "[^\\x00-\\xff]";
+
+    private static final String PUNCTUATION_REGEX = "[\\p{P}\\p{S}\\p{Z}\\s]+";
+
     private final PostMapper postMapper;
 
     private final ConfigService configService;
@@ -163,8 +167,7 @@ public class PostServiceImpl implements PostService {
             post.setSummary(generateSummary(MarkdownUtils.renderHtml(originalContent)));
         }
 
-        originalContent = HaloUtils.cleanHtmlTag(originalContent);
-        post.setWordCount((long) originalContent.length());
+        post.setWordCount(htmlFormatWordCount(originalContent));
 
         postMapper.insert(post);
         Integer postId = post.getId();
@@ -233,6 +236,7 @@ public class PostServiceImpl implements PostService {
             post.setSummary(generateSummary(MarkdownUtils.renderHtml(param.getOriginalContent())));
         }
 
+        post.setWordCount(htmlFormatWordCount(param.getOriginalContent()));
 
         postMapper.updateById(post);
 
@@ -270,6 +274,35 @@ public class PostServiceImpl implements PostService {
 
         this.savePostRelation(addCategoryIds, addTagIds, metas, postId);
         return true;
+    }
+
+
+    public long htmlFormatWordCount(String htmlContent) {
+        if (htmlContent == null) {
+            return 0;
+        }
+
+        String cleanContent = HaloUtils.cleanHtmlTag(htmlContent);
+
+        String tempString = cleanContent.replaceAll(CHINESE_REGEX, "");
+
+        String otherString = cleanContent.replaceAll(CHINESE_REGEX, " ");
+
+        int chineseWordCount = cleanContent.length() - tempString.length();
+
+        String[] otherWords = otherString.split(PUNCTUATION_REGEX);
+
+        long otherWordLength = otherWords.length;
+
+        if (otherWordLength > 0 && otherWords[0].length() == 0) {
+            otherWordLength--;
+        }
+
+        if (otherWords.length > 1 && otherWords[otherWords.length - 1].length() == 0) {
+            otherWordLength--;
+        }
+
+        return chineseWordCount + otherWordLength;
     }
 
 
@@ -608,7 +641,7 @@ public class PostServiceImpl implements PostService {
             post.setTitle(String.valueOf(LocalDateTime.now()));
             post.setSlug(String.valueOf(LocalDateTime.now()));
             post.setSummary(generateSummary(MarkdownUtils.renderHtml(originalContent)));
-            post.setWordCount((long) originalContent.length());
+            post.setWordCount(htmlFormatWordCount(originalContent));
             post.setStatus(PostStatus.DRAFT.getValue());
 
             postMapper.insert(post);
