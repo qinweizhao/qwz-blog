@@ -85,7 +85,7 @@ public class ContentFeedController {
     /**
      * 构建文章列表
      *
-     * @return list of post detail vo
+     * @return List
      */
     private List<PostDTO> buildPosts() {
         PostQueryParam param = new PostQueryParam();

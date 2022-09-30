@@ -3,6 +3,7 @@ package com.qinweizhao.blog.mail;
 import com.qinweizhao.blog.exception.EmailException;
 import com.qinweizhao.blog.model.properties.EmailProperties;
 import com.qinweizhao.blog.service.ConfigService;
+import freemarker.template.TemplateException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.lang.NonNull;
@@ -15,6 +16,7 @@ import org.springframework.util.Assert;
 import javax.mail.MessagingException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
 import java.util.concurrent.ExecutorService;
@@ -227,6 +229,6 @@ public abstract class AbstractMailService implements MailService {
          *
          * @param messageHelper mime message helper
          */
-        void handle(@NonNull MimeMessageHelper messageHelper);
+        void handle(@NonNull MimeMessageHelper messageHelper) throws MessagingException, IOException, TemplateException;
     }
 }
