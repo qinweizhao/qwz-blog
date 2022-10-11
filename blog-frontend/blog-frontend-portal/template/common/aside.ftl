@@ -15,15 +15,7 @@
         </div>
       </section>
     </#if>
-    <#if settings.enable_music_player && settings.music_id?? && settings.music_id!=''>
-      <section class="joe_aside__item timelife">
-        <div class="joe_aside__item-title">
-          <i class="joe-font joe-icon-yinfu"></i>
-          <span class="text">我的歌单</span>
-        </div>
-        <div id="aplayer" class="aplayer" data-id="${settings.music_id}" list-max-height="20px" data-server="netease" data-type="playlist" data-fixed="false" data-listfolded="true" data-order="random"  data-mode="#f3f3f7"></div>
-      </section>
-    </#if>
+<#--    aplayer-->
     <#if settings.enable_newest_post!true>
       <#import "../macro/latest.ftl" as np>
       <@np.newest/>

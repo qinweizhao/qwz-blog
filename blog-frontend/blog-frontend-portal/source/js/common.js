@@ -265,32 +265,9 @@ const commonContext = {
 		}
 		catch(err)  {
 			console.log(err);
-		};
+		}
 	},
-	/* 音乐播放器 */
-	initMusic() {
-		if (!ThemeConfig.enable_global_music_player) return;
-		Utils.request({
-			url: `${ThemeConfig.music_api}?server=${ThemeConfig.music_source}&type=${ThemeConfig.music_player_type}&id=${ThemeConfig.music_list_id}`,
-			type: "GET",
-			returnRaw: true,
-		})
-			.then((res) => {
-				new APlayer({
-					container: document.getElementById("global-aplayer"),
-					fixed: true,
-					lrcType: 0,
-					theme: ThemeConfig.music_player_theme,
-					autoplay: ThemeConfig.music_auto_play,
-					volume: ThemeConfig.music_player_volume,
-					loop: ThemeConfig.music_loop_play,
-					audio: res,
-				});
-			})
-			.catch((err) => {
-				console.log(err);
-			});
-	},
+
 	/* 渲染PDF */
 	initPDF() {
 		const $pdfs = $("joe-pdf");

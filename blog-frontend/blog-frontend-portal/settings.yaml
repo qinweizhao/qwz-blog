@@ -858,25 +858,6 @@ aside:
           label: 开启
         - value: false
           label: 关闭
-    enable_music_player:
-      name: enable_music_player
-      label: 展示音乐播放器
-      type: switch
-      data-type: bool
-      default: false
-      description: "在侧边栏展示音乐播放器模块，必须配置歌单ID（目前仅支持网易云歌单）"
-      options:
-        - value: true
-          label: 开启
-        - value: false
-          label: 关闭
-    music_id:
-      name: music_id
-      label: 歌单ID
-      type: text
-      default: ""
-      placeholder: "请输入网易云歌单ID"
-      description: "为音乐播放器配置歌单ID，大家在网页歌单页直接复制地址栏id参数后面那串数字即可，不填或填错将不会展示播放器（注意：仅支持网易云歌单ID，且不支持私密歌单）"
     enable_newest_post:
       name: enable_newest_post
       label: 展示最新文章

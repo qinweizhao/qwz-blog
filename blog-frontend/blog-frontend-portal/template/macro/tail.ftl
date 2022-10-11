@@ -20,16 +20,10 @@
     <script src="${BASE_RES_URL!}/source/lib/halo-comment/halo-comment.min.js?v=${theme.version!}"></script>
   </#if>
   <script src="${BASE_RES_URL!}/source/lib/fancybox/jquery.fancybox.min.js"></script>
-  <#if settings.enable_aside == true && settings.enable_music_player == true && settings.music_id?? && settings.music_id?trim!= ''>
-    <link rel="stylesheet" href="${BASE_RES_URL}/source/lib/APlayer/APlayer.min.css"> 
-    <script src="${BASE_RES_URL}/source/lib/APlayer/APlayer.min.js"></script>
-    <script src="${BASE_RES_URL}/source/lib/meting/meting.min.js"></script>
-  </#if>
   <#assign enable_katex = (metas?? && metas.enable_katex?? && metas.enable_katex?trim!='')?then(metas.enable_katex?trim,settings.enable_katex?then('true','false'))>
   <#if enable_katex == 'true' && (type == 'post' || type == 'journals' || type == 'sheet')>
     <link rel="stylesheet" href="${BASE_RES_URL}/source/lib/katex@0.13.18/katex.min.css">
   </#if>
-  <#--  <script src="${BASE_RES_URL!}/source/lib/smooth-scroll/smooth-scroll.min.js"></script>  -->
   <script src="${BASE_RES_URL}/source/js/min/custom.min.js?v=${theme.version!}"></script>
   <#if type == 'post' || type == 'journals' || type == 'sheet'>
     <script src="${BASE_RES_URL}/source/lib/clipboard/clipboard.min.js"></script>
@@ -43,8 +37,6 @@
   <#--  相册  -->
   <#if type == 'photos'>
     <script src="${BASE_RES_URL}/source/lib/justifiedGallery/justifiedGallery.min.js"></script>
-    <#--  <script src="https://unpkg.com/masonry-layout@4/dist/masonry.min.js"></script>  -->
-    <#--  <script src="https://unpkg.com/imagesloaded@4/imagesloaded.min.js"></script>  -->
   </#if>
 
   <#-- ===== 引入页面级js start ===== -->
@@ -78,10 +70,6 @@
   <#-- ===== 引入页面级js end ===== -->
 
   <#-- ===== 引入脚本 start ===== -->
-  <#if settings.enable_global_music_player!false>
-    <!-- 音乐播放器 -->
-    <div id="global-aplayer"></div>
-  </#if>
   <#if settings.enable_busuanzi!false>
     <!-- 卜算子 -->
     <script src="${BASE_RES_URL}/source/lib/busuanzi/busuanzi.min.js"></script>
