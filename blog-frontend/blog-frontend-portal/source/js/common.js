@@ -738,15 +738,7 @@ const commonContext = {
 			}
 		});
 	},
-	/* 总访问量 */
-	// initUV() {
-	// 	if (!ThemeConfig.enable_visit_number) return;
-	// 	Utils.request({
-	// 		url: "/api/content/statistics/user",
-	// 	}).then((res) => {
-	// 		res && $("#site-uv").text(res.visitCount || 0);
-	// 	});
-	// },
+
 	/* 初始化网站运行时间 */
 	initBirthday() {
 		if (!ThemeConfig.enable_birthday) return;
