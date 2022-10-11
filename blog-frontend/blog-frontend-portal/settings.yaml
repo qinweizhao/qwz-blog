@@ -894,17 +894,6 @@ aside:
       label: 最新文章条数
       default: 5
       description: "右侧最新文章展示条数，填写数字即可，默认展示最新的5篇文章（需开启最新文章）"
-    enable_lifetime:
-      name: enable_lifetime
-      label: 展示人生倒计时
-      type: switch
-      data-type: bool
-      default: true
-      options:
-        - value: true
-          label: 开启
-        - value: false
-          label: 关闭
     show_newreply:
       name: show_newreply
       label: 展示最新评论

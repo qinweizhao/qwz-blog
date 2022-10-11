@@ -28,15 +28,6 @@
       <#import "../macro/latest.ftl" as np>
       <@np.newest/>
     </#if>
-    <#if settings.enable_lifetime!true>
-      <section class="joe_aside__item timelife">
-        <div class="joe_aside__item-title">
-          <i class="joe-font joe-icon-shalou"></i>
-          <span class="text">人生倒计时</span>
-        </div>
-        <div class="joe_aside__item-contain"></div>
-      </section>
-    </#if>
     <#if settings.enable_clean_mode!=true && settings.show_newreply==true>
       <section class="joe_aside__item newreply">
         <div class="joe_aside__item-title">
@@ -44,7 +35,6 @@
           <span class="text">最新回复</span>
         </div>
         <@commentTag method="latest" top='${settings.newreply_page_size!5}'>
-<#--          <#if comments.content?size gt 0>-->
             <ul class="joe_aside__item-contain">
               <#list comments as comment>
                 <li class="item">
