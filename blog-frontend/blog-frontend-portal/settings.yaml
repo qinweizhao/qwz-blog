@@ -544,13 +544,6 @@ footer:
           label: 是
         - value: false
           label: 否
-    custome_cloud:
-      name: custome_cloud
-      label: 自定义云服务商
-      type: textarea
-      default: ""
-      placeholder: "请按描述文字规定的格式输入"
-      description: "自定义云服务商，支持自己定义图标和链接。格式要求：图标+链接（务必用换行隔开并按顺序输入，否则展示不了，仅在 “云服务商” 选项为 “自定义” 时生效）"
     enable_sitemap:
       name: enable_sitemap
       label: 展示站点地图
