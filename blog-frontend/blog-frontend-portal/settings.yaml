@@ -250,18 +250,6 @@ theme:
           label: 开启
         - value: false
           label: 关闭
-    enable_back2top_smooth:
-      name: enable_back2top_smooth
-      label: 平滑返回顶部
-      type: switch
-      data-type: bool
-      default: true
-      description: "点击返回顶部按钮后，是否平滑的返回顶部，关闭后则没有任何过渡效果"
-      options:
-        - value: true
-          label: 开启
-        - value: false
-          label: 关闭
     scrollbar_width:
       name: scrollbar_width
       label: 滚动条宽度

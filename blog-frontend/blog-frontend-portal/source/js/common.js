@@ -291,6 +291,7 @@ const commonContext = {
 			$(item).replaceWith(htmlStr);
 		});
 	},
+
 	/* 全局返回顶 */
 	back2Top() {
 		if (!ThemeConfig.enable_back2top) return;
@@ -310,7 +311,7 @@ const commonContext = {
 				{
 					scrollTop: 0,
 				},
-				ThemeConfig.enable_back2top_smooth ? 500 : 0
+				 500
 			);
 		});
 	},
