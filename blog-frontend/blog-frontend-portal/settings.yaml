@@ -893,18 +893,6 @@ blogger:
           label: 是
         - value: false
           label: 否
-    show_level:
-      name: show_level
-      label: 展示博主等级
-      type: switch
-      data-type: bool
-      default: true
-      description: "博主等级基于文章数和评论数计算得到"
-      options:
-        - value: true
-          label: 是
-        - value: false
-          label: 否
     enable_day_words:
       name: enable_day_words
       label: 开启每日一句

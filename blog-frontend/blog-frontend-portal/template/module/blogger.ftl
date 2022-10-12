@@ -11,7 +11,7 @@
       </#if>
     </div>
     <a class="link" href="${blog_url!}" target="_blank" rel="noopener noreferrer nofollow">
-      ${user.nickname!}<#compress><#include "level.ftl"></#compress>
+      ${user.nickname!}
     </a>
     <#if settings.motto??>
       <p class="motto joe_motto">${settings.motto!}</p>
@@ -24,12 +24,6 @@
     </#if>
   </div>
   <div class="count">
-    <#--  <@visitTag method="count">
-      <div class="item" title="累计访问数 ${count!'0'}">
-        <span class="num">${count!'0'}</span>
-        <span>访问量</span>
-      </div>
-    </@visitTag>  -->
     <#if settings.overview_type == 'A'>
       <@categoryTag method="count">
         <div class="item" title="累计分类数 ${count!'0'}">
