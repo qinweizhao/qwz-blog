@@ -5,7 +5,7 @@ import com.qinweizhao.blog.exception.NotFoundException;
 import com.qinweizhao.blog.framework.cache.AbstractStringCacheStore;
 import com.qinweizhao.blog.model.core.PageResult;
 import com.qinweizhao.blog.model.dto.PostDTO;
-import com.qinweizhao.blog.model.dto.PostSimpleDTO;
+import com.qinweizhao.blog.model.dto.PostListDTO;
 import com.qinweizhao.blog.model.dto.TagDTO;
 import com.qinweizhao.blog.model.enums.PostStatus;
 import com.qinweizhao.blog.model.param.PostQueryParam;
@@ -90,7 +90,7 @@ public class PostModel {
         PostQueryParam param = new PostQueryParam();
         param.setSize(pageSize);
         param.setPage(page);
-        PageResult<PostSimpleDTO> posts = postService.pageSimple(param);
+        PageResult<PostListDTO> posts = postService.page(param);
 
         model.addAttribute("is_index", true);
         model.addAttribute("posts", posts);
