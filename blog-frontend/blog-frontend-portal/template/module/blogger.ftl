@@ -3,9 +3,6 @@
   <div class="user">
     <div class="avatar_wrapper ${settings.avatar_type!}">
       <img class="avatar lazyload" data-src="${USER_AVATAR}" src="${settings.lazyload_avatar!}" onerror="Joe.errorImg(this)" alt="博主头像"/>
-      <#if settings.avatar_widget?? && settings.avatar_widget!="0">
-        <img class="avatar_widget ${settings.avatar_widget}" src="${BASE_RES_URL!}/source/widget/${settings.avatar_widget!}.gif" onerror="Joe.errorImg(this)" alt="相框"/>
-      </#if>
     </div>
     <a class="link" href="${blog_url!}" target="_blank" rel="noopener noreferrer nofollow">
       ${user.nickname!}
