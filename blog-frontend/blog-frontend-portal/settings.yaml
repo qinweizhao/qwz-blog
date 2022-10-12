@@ -1208,18 +1208,6 @@ home:
           label: 是
         - value: false
           label: 否
-    enabel_category_celcius:
-      name: enabel_category_celcius
-      label: 展示热度标签
-      type: switch
-      data-type: bool
-      default: false
-      description: "是否展示首页精品分类上的温度℃"
-      options:
-        - value: true
-          label: 是
-        - value: false
-          label: 否
     hot_category_source:
       name: hot_category_source
       label: 精品分类数据源

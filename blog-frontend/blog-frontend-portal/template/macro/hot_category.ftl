@@ -16,9 +16,6 @@
               <li class="item animated fadeIn">
                 <a class="link" target="_blank" href="${category.fullPath!}" title="${category.name!}">
                   <figure class="inner">
-                    <#if settings.enabel_category_celcius!true>
-                      <em class="post-nums">${category.postCount!}</em>
-                    </#if>
                     <#assign cover=(category.thumbnail?? && category.thumbnail!='')?then(category.thumbnail, BASE_RES_URL+'/source/img/hot_cover${category_index+1}.jpg')>
                     <img width="100%" height="120" class="image lazyload" data-src="${cover}" src="${LAZY_IMG}" onerror="Joe.errorImg(this)" alt="${category.name!}">
                     <figcaption class="title">${category.name!}</figcaption>
