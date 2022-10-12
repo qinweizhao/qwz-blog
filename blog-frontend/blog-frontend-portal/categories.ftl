@@ -18,7 +18,6 @@
                 <div class="joe_index__hot categories">
                     <@categoryTag method="list">
                         <#if categories?size gt 0>
-                            <#assign random_img_ok=settings.enable_random_img_api==true && settings.random_img_api!=''>
                             <ul class="joe_index__hot-list${(settings.categories_type!='card')?then('-tag','')} animated fadeIn">
                                 <#list categories as category>
                                     <#if settings.categories_type=='card'>
@@ -28,7 +27,7 @@
                                                     <#if settings.enable_categories_post_num!true>
                                                         <em class="post-nums">${category.postCount!}篇</em>
                                                     </#if>
-                                                    <#assign thumbnail=(category.thumbnail?? && category.thumbnail!='')?then(category.thumbnail,(random_img_ok==true)?then(settings.random_img_api + ((settings.random_img_api?index_of('?')!=-1)?then('&','?')) + '_r=' + category.id,'https://picsum.photos/id/2${category_index}/350/200')) >
+                                                    <#assign thumbnail=(category.thumbnail?? && category.thumbnail!='')?then(category.thumbnail,'') >
                                                     <img width="100%" height="120" class="image lazyload"
                                                          data-src="${thumbnail}" src="${LAZY_IMG}"
                                                          onerror="Joe.errorImg(this,'${settings.fallback_thumbnail!}')"

@@ -16,7 +16,6 @@
                     </ul>
                 </div>
                 <div class="joe_index__hot">
-                    <#assign random_img_ok=settings.enable_random_img_api==true && settings.random_img_api?trim!=''>
                     <ul class="joe_index__hot-list${(settings.tags_type!='card')?then('-tag','')} animated fadeIn"
                         style="padding-bottom: 10px;">
                         <@tagTag method="list">
@@ -28,7 +27,7 @@
                                                 <#if settings.enable_tags_post_num!true>
                                                     <em class="post-nums">${tag.postCount!}篇</em>
                                                 </#if>
-                                                <#assign thumbnail=(tag.thumbnail?? && tag.thumbnail!='')?then(tag.thumbnail,(random_img_ok==true)?then(settings.random_img_api + ((settings.random_img_api?index_of('?')!=-1)?then('&','?')) + '_r=' + tag.id,'https://picsum.photos/id/1${tag_index}/350/200')) >
+                                                <#assign thumbnail=(tag.thumbnail?? && tag.thumbnail!='')?then(tag.thumbnail,'') >
                                                 <img width="100%" height="120" class="image lazyload"
                                                      data-src="${thumbnail}" src="${LAZY_IMG}"
                                                      onerror="Joe.errorImg(this,'${settings.fallback_thumbnail!}')"

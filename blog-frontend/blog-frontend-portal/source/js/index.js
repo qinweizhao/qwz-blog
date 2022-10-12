@@ -40,7 +40,7 @@ const homeContext = {
 	},
 	/* 获取文章封面 */
 	getThumbnail(post) {
-		// 取值逻辑（文章封面 > 分类封面 > 标签封面 > 随机图(若开启) > 默认封面）
+		// 取值逻辑（文章封面 > 分类封面 > 标签封面 > 默认封面）
 		let thumbnail = post.thumbnail || "";
 		if (!thumbnail) {
 			if (post.categories.length) {
@@ -49,38 +49,28 @@ const homeContext = {
 					if (post.tags.length) {
 						thumbnail = post.tags[0].thumbnail;
 						if (!thumbnail) {
-							thumbnail = homeContext.getDefaultThumbnail(post.id);
+							thumbnail = homeContext.getDefaultThumbnail();
 						}
 					} else {
-						thumbnail = homeContext.getDefaultThumbnail(post.id);
+						thumbnail = homeContext.getDefaultThumbnail();
 					}
 				}
 			} else {
 				if (post.tags.length) {
 					thumbnail = post.tags[0].thumbnail;
 					if (!thumbnail) {
-						thumbnail = homeContext.getDefaultThumbnail(post.id);
+						thumbnail = homeContext.getDefaultThumbnail();
 					}
 				} else {
-					thumbnail = homeContext.getDefaultThumbnail(post.id);
+					thumbnail = homeContext.getDefaultThumbnail();
 				}
 			}
 		}
 		return thumbnail;
 	},
 	/* 获取默认封面 */
-	getDefaultThumbnail(postId) {
-		// 如果配置了随机图，则从随机图获取
-		if (
-			ThemeConfig.enable_random_img_api &&
-      ThemeConfig.random_img_api.trim()
-		) {
-			return `${ThemeConfig.random_img_api}${
-				ThemeConfig.random_img_api.includes("?") ? "&" : "?"
-			}_r=${postId}`;
-		} else {
-			return ThemeConfig.post_thumbnail;
-		}
+	getDefaultThumbnail() {
+		return ThemeConfig.post_thumbnail;
 	},
 	/* 初始化首页列表 */
 	initList() {
