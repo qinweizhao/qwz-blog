@@ -27,5 +27,5 @@
     </li>
   </ul>
   <#include "empty.ftl">
-  <@empty type="index" text="${settings.home_empty_text!'暂无文章数据'}" isAsync="true"/>
+  <@empty type="index" text="暂无文章数据" isAsync="true"/>
 </#macro>

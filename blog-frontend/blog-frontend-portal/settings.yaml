@@ -1196,12 +1196,6 @@ home:
           label: "slideOutRight"
         - value: "slideOutUp"
           label: "slideOutUp"
-    home_empty_text:
-      name: home_empty_text
-      label: 空白状态文案
-      default: "暂无文章数据"
-      placeholder: "请输入"
-      description: "修改无数据时展示的文案"
     enable_hot_category:
       name: enable_hot_category
       label: 展示精品分类
