@@ -54,7 +54,6 @@
   ThemeConfig['name'] = '${options.theme!"Joe2.0"}';
   ThemeConfig['version'] = '${theme.version!}';
   ThemeConfig['mode'] = '${mode!}';
-  ThemeConfig['birthday'] = '${(settings.custom_birthday?? && settings.custom_birthday?trim != "")?then(settings.custom_birthday?trim, options.birthday?replace(",",""))}';
   ThemeConfig['blog_title'] = '${blog_title?js_string!}';
   ThemeConfig['blog_url'] = '${blog_url!}';
   ThemeConfig['developer'] = 'M酷';

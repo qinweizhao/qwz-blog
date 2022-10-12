@@ -715,50 +715,6 @@ const commonContext = {
 		image.src = ThemeConfig.favicon;
 	},
 
-	/* 初始化网站运行时间 */
-	initBirthday() {
-		if (!ThemeConfig.enable_birthday) return;
-		if (
-			!/^\d+$/.test(ThemeConfig.birthday) &&
-            !/^(\d{4}\/\d{1,2}\/\d{1,2}\s\d{1,2}:\d{1,2}(:\d{0,2})?)$/.test(
-            	ThemeConfig.birthday
-            )
-		) {
-			Qmsg.error("“自定义博客起始时间” 格式错误，请检查！");
-			return;
-		}
-		const birthDay = new Date(
-			/^\d+$/g.test(ThemeConfig.birthday)
-				? +ThemeConfig.birthday
-				: ThemeConfig.birthday
-		);
-		const $day = $(".joe_run__day");
-		const $hour = $(".joe_run__hour");
-		const $minute = $(".joe_run__minute");
-		const $second = $(".joe_run__second");
-		const getRunTime = () => {
-			const today = +new Date();
-			const timePast = today - birthDay.getTime();
-			let day = timePast / (1000 * 24 * 60 * 60);
-			let dayPast = Math.floor(day);
-			let hour = (day - dayPast) * 24;
-			let hourPast = Math.floor(hour);
-			let minute = (hour - hourPast) * 60;
-			let minutePast = Math.floor(minute);
-			let second = (minute - minutePast) * 60;
-			let secondPast = Math.floor(second);
-			day = String(dayPast).padStart(2, 0);
-			hour = String(hourPast).padStart(2, 0);
-			minute = String(minutePast).padStart(2, 0);
-			second = String(secondPast).padStart(2, 0);
-			$day.html(day);
-			$hour.html(hour);
-			$minute.html(minute);
-			$second.html(second);
-		};
-		getRunTime();
-		setInterval(getRunTime, 1000);
-	},
 	/* 页面加载耗时（控制台） */
 	showLoadTime() {
 		if (Joe.isMobile || !ThemeConfig.show_loaded_time) return;

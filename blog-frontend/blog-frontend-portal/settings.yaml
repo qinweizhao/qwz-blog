@@ -467,25 +467,6 @@ footer:
           label: "后台页脚"
         - value: both
           label: "主题页脚 + 后台页脚"
-    enable_birthday:
-      name: enable_birthday
-      label: "展示博客运行时间"
-      type: switch
-      data-type: bool
-      default: false
-      description: "实时展示博客运行时长，以博客实际的安装时间为基准计算（默认关闭以节省性能）"
-      options:
-        - value: true
-          label: 是
-        - value: false
-          label: 否
-    custom_birthday:
-      name: custom_birthday
-      label: "自定义博客起始时间"
-      type: text
-      default: "2017/11/11 19:30"
-      placeholder: "示例：2021/11/11 06:30"
-      description: "自定义博客的起始时间/安装时间，作为计算博客运行时间的参照值，请严格按照示例格式填写，否则将导致报错（示例：2021/11/11 06:30）"
     enable_icp:
       name: enable_icp
       label: 展示 ICP
