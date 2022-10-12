@@ -225,30 +225,6 @@ theme:
       default: "5"
       placeholder: "请输入数字"
       description: "控制全局分页器展示的最大分页按钮个数，默认为5（可保证移动端正常展示）。每页的分页数请到 “首页-系统-博客设置-文章设置” 中配置"
-    enable_offscreen_tip:
-      name: enable_offscreen_tip
-      label: 开启离屏提示
-      type: switch
-      data-type: bool
-      default: false
-      description: "在切换到其它站点或后台时，通过页面title提示"
-      options:
-        - value: true
-          label: 开启
-        - value: false
-          label: 关闭
-    offscreen_title_leave:
-      name: offscreen_title_leave
-      label: "离屏文案（离开）"
-      default: "歪，你去哪里了？"
-      placeholder: "请输入"
-      description: "在切换到其它站点标签或后台时，页面title展示的文字（仅对首页生效）"
-    offscreen_title_back:
-      name: offscreen_title_back
-      label: "离屏文案（回来）"
-      default: "(つェ⊂)咦，又回来了!"
-      placeholder: "请输入"
-      description: "在返回到当前标签时，通过title展示的文字（仅对首页生效）"
     link_behavior:
       name: link_behavior
       label: 链接跳转行为（全局-内容区域）

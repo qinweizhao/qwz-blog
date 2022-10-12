@@ -2006,7 +2006,6 @@ const PDFViewerApplication = {
       });
     };
 
-    window.addEventListener("visibilitychange", webViewerVisibilityChange);
     window.addEventListener("wheel", webViewerWheel, {
       passive: false
     });
@@ -2124,7 +2123,6 @@ const PDFViewerApplication = {
     const {
       _boundEvents
     } = this;
-    window.removeEventListener("visibilitychange", webViewerVisibilityChange);
     window.removeEventListener("wheel", webViewerWheel, {
       passive: false
     });
@@ -2736,11 +2734,6 @@ function webViewerPageChanging({
   }
 }
 
-function webViewerVisibilityChange(evt) {
-  if (document.visibilityState === "visible") {
-    setZoomDisabledTimeout();
-  }
-}
 
 let zoomDisabledTimeout = null;
 

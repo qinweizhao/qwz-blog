@@ -714,30 +714,6 @@ const commonContext = {
 		};
 		image.src = ThemeConfig.favicon;
 	},
-	/* 首页离屏提示 */
-	offscreenTip() {
-		if (Joe.isMobile || !ThemeConfig.enable_offscreen_tip) return;
-		const OriginTitile = document.title;
-		let timer = null;
-		document.addEventListener("visibilitychange", function () {
-			if (
-				location.href.indexOf(ThemeConfig.blog_url) > 0 ||
-                location.pathname !== "/"
-			)
-				return;
-			if (document.hidden) {
-				document.title =
-                    ThemeConfig.offscreen_title_leave || "歪，你去哪里了？";
-				clearTimeout(timer);
-			} else {
-				document.title =
-                    ThemeConfig.offscreen_title_back || "(つェ⊂)咦，又回来了!";
-				timer = setTimeout(function () {
-					document.title = OriginTitile;
-				}, 2000);
-			}
-		});
-	},
 
 	/* 初始化网站运行时间 */
 	initBirthday() {
