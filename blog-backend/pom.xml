@@ -7,12 +7,12 @@
     <parent>
         <artifactId>qwz-blog</artifactId>
         <groupId>com.qinweizhao</groupId>
-        <version>3.0.7</version>
+        <version>3.0.8</version>
     </parent>
 
     <artifactId>blog-backend</artifactId>
     <name>a-backend</name>
-    <version>3.0.7</version>
+    <version>3.0.8</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
