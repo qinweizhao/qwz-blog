@@ -52,17 +52,6 @@
   <#if type == 'journals'>
     <script src="${BASE_RES_URL}/source/js/min/journals.min.js?v=${theme.version!}"></script>
   </#if>
-  <#if type == 'photos'>
-    <script src="${BASE_RES_URL}/source/js/min/photos.min.js?v=${theme.version!}"></script>
-  </#if>
-  <#if type == 'sheet' && subType != 'only_header_footer'>
-    <script src="${BASE_RES_URL}/source/lib/draggabilly/draggabilly.min.js"></script>
-    <script src="${BASE_RES_URL}/source/js/min/leaving.min.js?v=${theme.version!}"></script>
-  </#if>
-  <#--  <#if settings.enable_pjax!false>
-    <script src="${BASE_RES_URL}/source/lib/jquery-pjax/jquery.pjax.min.js"></script>
-    <script src="${BASE_RES_URL}/source/js/min/pjax.min.js?v=${theme.version!}"></script>
-  </#if>   -->
   <#-- ===== 引入页面级js end ===== -->
 
   <#-- ===== 引入脚本 start ===== -->
