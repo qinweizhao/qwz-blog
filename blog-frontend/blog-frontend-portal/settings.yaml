@@ -238,18 +238,6 @@ theme:
           label: 当前页
         - value: new
           label: 新标签
-    enable_back2top:
-      name: enable_back2top
-      label: 开启返回顶部
-      type: switch
-      data-type: bool
-      default: true
-      description: "是否开启返回顶部功能"
-      options:
-        - value: true
-          label: 开启
-        - value: false
-          label: 关闭
     scrollbar_width:
       name: scrollbar_width
       label: 滚动条宽度

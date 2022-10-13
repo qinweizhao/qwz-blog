@@ -294,7 +294,6 @@ const commonContext = {
 
 	/* 全局返回顶 */
 	back2Top() {
-		if (!ThemeConfig.enable_back2top) return;
 		const $el = $(".joe_action_item.back2top");
 		const handleScroll = () => {
 			const scrollTop =

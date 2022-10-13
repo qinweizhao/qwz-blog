@@ -16,6 +16,7 @@
 - 移除前台 JustifiedGallery 插件
 - 移除前台 Draggabilly 插件
 - 移除前台 Packery 插件
+- 移除前台返回顶部功能配置
 - 修复前台开启文章缩略图首页加载异常
 
 
