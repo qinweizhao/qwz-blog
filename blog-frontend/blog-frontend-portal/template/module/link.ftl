@@ -54,10 +54,6 @@
   <#if type == 'archives'>
     <link rel="preload stylesheet" as="style" href="${BASE_RES_URL}/source/css/min/archives.min.css?v=${theme.version!}">
   </#if>
-  <#if type == 'photos'>
-    <link rel="stylesheet" href="${BASE_RES_URL}/source/lib/justifiedGallery/justifiedGallery.min.css">
-    <link rel="preload stylesheet" as="style" href="${BASE_RES_URL}/source/css/min/photos.min.css?v=${theme.version!}">
-  </#if>
   <link rel="preload stylesheet" as="style" href="${BASE_RES_URL}/source/css/min/responsive.min.css?v=${theme.version!}">
   <link rel="stylesheet" href="${BASE_RES_URL}/source/lib/fancybox/jquery.fancybox.min.css">
   <#if settings.enable_clean_mode != true && settings.cursor_skin?? && settings.cursor_skin != 'off'>

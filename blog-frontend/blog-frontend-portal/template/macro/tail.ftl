@@ -34,10 +34,6 @@
   <#if type == 'post'>
     <script src="${BASE_RES_URL}/source/lib/jquery-qrcode/jquery.qrcode.min.js"></script>
   </#if>
-  <#--  相册  -->
-  <#if type == 'photos'>
-    <script src="${BASE_RES_URL}/source/lib/justifiedGallery/justifiedGallery.min.js"></script>
-  </#if>
 
   <#-- ===== 引入页面级js start ===== -->
   <script src="${BASE_RES_URL}/source/js/min/common.min.js?v=${theme.version!}"></script>
