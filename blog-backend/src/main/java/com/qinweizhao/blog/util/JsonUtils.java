@@ -10,7 +10,6 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
 import java.io.IOException;
-import java.util.Map;
 
 /**
  * Json utilities.
@@ -92,38 +91,6 @@ public class JsonUtils {
         return objectMapper.readValue(json, type);
     }
 
-    //    /**
-    //     * Converts input stream to object specified type.
-    //     *
-    //     * @param inputStream input stream must not be null
-    //     * @param type        object type must not be null
-    //     * @param <T>         target object type
-    //     * @return object specified type
-    //     * @throws IOException throws when fail to convert
-    //     */
-    //    @NonNull
-    //    public static <T> T inputStreamToObject(@NonNull InputStream inputStream, @NonNull Class<T> type) throws IOException {
-    //        return inputStreamToObject(inputStream, type, null);
-    //    }
-    //
-    //    /**
-    //     * Converts input stream to object specified type.
-    //     *
-    //     * @param inputStream  input stream must not be null
-    //     * @param type         object type must not be null
-    //     * @param objectMapper object mapper must not be null
-    //     * @param <T>          target object type
-    //     * @return object specified type
-    //     * @throws IOException throws when fail to convert
-    //     */
-    //    @NonNull
-    //    public static <T> T inputStreamToObject(@NonNull InputStream inputStream, @NonNull Class<T> type, @NonNull ObjectMapper objectMapper) throws IOException {
-    //        Assert.notNull(inputStream, "Input stream must not be null");
-    //
-    //        String json = IOUtils.toString(inputStream);
-    //        return jsonToObject(json, type, objectMapper);
-    //    }
-
     /**
      * Converts object to json format.
      *
@@ -152,69 +119,5 @@ public class JsonUtils {
         return objectMapper.writeValueAsString(source);
     }
 
-    /**
-     * Converts a map to the object specified type.
-     *
-     * @param sourceMap source map must not be empty
-     * @param type      object type must not be null
-     * @param <T>       target object type
-     * @return the object specified type
-     * @throws IOException throws when fail to convert
-     */
-    @NonNull
-    public static <T> T mapToObject(@NonNull Map<String, ?> sourceMap, @NonNull Class<T> type) throws IOException {
-        return mapToObject(sourceMap, type, DEFAULT_JSON_MAPPER);
-    }
-
-    /**
-     * Converts a map to the object specified type.
-     *
-     * @param sourceMap    source map must not be empty
-     * @param type         object type must not be null
-     * @param objectMapper object mapper must not be null
-     * @param <T>          target object type
-     * @return the object specified type
-     * @throws IOException throws when fail to convert
-     */
-    @NonNull
-    public static <T> T mapToObject(@NonNull Map<String, ?> sourceMap, @NonNull Class<T> type, @NonNull ObjectMapper objectMapper) throws IOException {
-        Assert.notEmpty(sourceMap, "Source map must not be empty");
-
-        // Serialize the map
-        String json = objectToJson(sourceMap, objectMapper);
-
-        // Deserialize the json format of the map
-        return jsonToObject(json, type, objectMapper);
-    }
-
-    /**
-     * Converts a source object to a map
-     *
-     * @param source source object must not be null
-     * @return a map
-     * @throws IOException throws when fail to convert
-     */
-    @NonNull
-    public static Map<?, ?> objectToMap(@NonNull Object source) throws IOException {
-        return objectToMap(source, DEFAULT_JSON_MAPPER);
-    }
-
-    /**
-     * Converts a source object to a map
-     *
-     * @param source       source object must not be null
-     * @param objectMapper object mapper must not be null
-     * @return a map
-     * @throws IOException throws when fail to convert
-     */
-    @NonNull
-    public static Map<?, ?> objectToMap(@NonNull Object source, @NonNull ObjectMapper objectMapper) throws IOException {
-
-        // Serialize the source object
-        String json = objectToJson(source, objectMapper);
-
-        // Deserialize the json
-        return jsonToObject(json, Map.class, objectMapper);
-    }
 
 }

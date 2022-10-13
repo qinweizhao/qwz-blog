@@ -93,18 +93,15 @@ public abstract class AbstractMailService implements MailService {
         JavaMailSender mailSender = getMailSender();
         printMailConfig();
 
-        // create mime message helper
         MimeMessageHelper messageHelper = new MimeMessageHelper(mailSender.createMimeMessage());
 
         try {
-            // set from-name
             messageHelper.setFrom(getFromAddress(mailSender));
-            // handle message set separately
+
             callback.handle(messageHelper);
 
-            // get mime message
             MimeMessage mimeMessage = messageHelper.getMimeMessage();
-            // send email
+
             mailSender.send(mimeMessage);
 
             log.info("发送电子邮件至 [{}] 成功， 标题: [{}]， 内容: [{}]", Arrays.toString(mimeMessage.getAllRecipients()), mimeMessage.getSubject(), mimeMessage.getSentDate());

@@ -133,14 +133,6 @@ const commonContext = {
 						});
 					return;
 				}
-				// 添加默认代码类型为纯文本（已在prism源码中处理）
-				// const $curCode = $codes.eq(0);
-				// if (
-				// 	!$curCode.attr("class") ||
-				//   $curCode.attr("class").indexOf("language-") === -1
-				// ) {
-				// 	$($curCode[0]).addClass("language-text");
-				// }
 				ThemeConfig.enable_code_title ? $item.addClass("c_title") : null;
 				ThemeConfig.enable_code_hr ? $item.addClass("c_hr") : null;
 				ThemeConfig.enable_code_macdot ? $item.addClass("c_macdot") : null;
@@ -148,9 +140,6 @@ const commonContext = {
 				ThemeConfig.show_tools_when_hover
 					? $item.addClass("c_hover_tools")
 					: null;
-				// ThemeConfig.enable_code_line_number
-				// 	? $item.addClass("line-numbers")
-				// 	: null;
 				// 代码折叠
 				if (ThemeConfig.enable_code_expander) {
 					$item
@@ -176,7 +165,6 @@ const commonContext = {
 						"<span class=\"copy-button\"><i class=\"joe-font joe-icon-copy\" title=\"复制代码\"></i></span>"
 					);
 					new ClipboardJS(span[0], {
-						// text: () => text + "\r\n\r\n" + ThemeConfig.copy_right_text,
 						text: () => text,
 					}).on("success", () => Qmsg.success("复制成功！"));
 					$item.addClass("c_copy").append(span);
@@ -209,14 +197,7 @@ const commonContext = {
 	initBaidu() {
 		if (!ThemeConfig.check_baidu_collect || !$("#joe_baidu_record").length)
 			return;
-		// Utils.request({
-		// 	url: "api/bd/iscollect",
-		// 	method: "GET",
-		// 	returnRaw: true,
-		// 	data: {
-		// 		url: window.location.href,
-		// 	},
-		// })
+
 		try {
 			// if (res.data && res.data.collected) {
 			// 	$("#joe_baidu_record").css("color", "#67c23a").html("已收录");

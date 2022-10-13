@@ -17,45 +17,6 @@ function setTokenToHeader(config) {
     config.headers['Admin-Authorization'] = token.access_token
   }
 }
-
-async function reRequest(error) {
-  const config = error.response.config
-  setTokenToHeader(config)
-  return await axios.request(config)
-}
-
-let refreshTask = null
-
-async function refreshToken(error) {
-  const refreshToken = store.getters.token.refresh_token
-  try {
-    if (refreshTask === null) {
-      refreshTask = store.dispatch('refreshToken', refreshToken)
-    }
-
-    await refreshTask
-  } catch (err) {
-    if (err.response && err.response.data && err.response.data.data === refreshToken) {
-      message.warning('当前登录状态已失效，请重新登录')
-      await store.dispatch('ToggleLoginModal', true)
-    }
-    Vue.$log.error('Failed to refresh token', err)
-  } finally {
-    refreshTask = null
-  }
-  return reRequest(error)
-}
-
-function getFieldValidationError(data) {
-  if (!isObject(data) || !isObject(data.data)) {
-    return null
-  }
-
-  const errorDetail = data.data
-
-  return Object.keys(errorDetail).map(key => errorDetail[key])
-}
-
 service.interceptors.request.use(
   config => {
     config.baseURL = store.getters.apiUrl
@@ -98,22 +59,8 @@ service.interceptors.response.use(
         console.log('params')
         console.log(params)
         if (isObject(params)) {
-          // const paramMessages = Object.keys(params || {}).map(key => params[key])
           notification.error({
             message: data.message,
-            // description: h => {
-            //   const errorNodes = paramMessages.map(errorDetail => {
-            //     return h('a-alert', {
-            //       props: {
-            //         message: errorDetail,
-            //         banner: true,
-            //         showIcon: false,
-            //         type: 'error'
-            //       }
-            //     })
-            //   })
-            //   return h('div', errorNodes)
-            // },
             duration: 10
           })
         } else {

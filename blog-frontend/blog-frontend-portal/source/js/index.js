@@ -292,11 +292,4 @@ const homeContext = {
 		);
 	});
 
-	// window.addEventListener("load", function () {
-	//   if (omits.length === 1) {
-	//     homeContext[omits[0]]();
-	//   } else {
-	//     omits.forEach((c) => homeContext[c]());
-	//   }
-	// });
 })();

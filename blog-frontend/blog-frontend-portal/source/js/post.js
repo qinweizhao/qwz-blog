@@ -260,14 +260,6 @@ const postContext = {
 					$html.removeClass("disable-scroll");
 					$mobile_toc.removeClass("active");
 					$mask.removeClass("active slideout");
-					// if (location.hash) {
-					// 	$("html,body").animate(
-					// 		{
-					// 			scrollTop: $(decodeURIComponent(location.hash)).offset().top,
-					// 		},
-					// 		0
-					// 	);
-					// }
 				}
 
 				window.tocPhase = true;
@@ -408,49 +400,7 @@ const postContext = {
 		} catch (error) {
 			console.info(error);
 		}
-	},
-	/* TODO:密码保护文章，输入密码访问 */
-	// initArticleProtect() {
-	//   const cid = $(".joe_detail").attr("data-cid");
-	//   let isSubmit = false;
-	//   $(".joe_detail__article-protected").on("submit", function (e) {
-	//     e.preventDefault();
-	//     const url = $(this).attr("action") + "&time=" + new Date();
-	//     const protectPassword = $(this).find("input[type=\"password\"]").val();
-	//     if (protectPassword.trim() === "") return Qmsg.info("请输入访问密码！");
-	//     if (isSubmit) return;
-	//     isSubmit = true;
-
-	// 		Utils.request({
-	// 			url: url,
-	// 			method: "POST",
-	// 			data: {
-	//     			cid,
-	//     			protectCID: cid,
-	//     			protectPassword,
-	//     		}
-	// 		})
-	// 			.then((_res) => {
-	//         let arr = [],
-	//           str = "";
-	//         arr = $(res).contents();
-	//         Array.from(arr).forEach((_) => {
-	//           if (_.parentNode.className === "container") str = _;
-	//         });
-	//         if (!/Joe/.test(res)) {
-	//           Qmsg.warning(str.textContent.trim() || "");
-	//           isSubmit = false;
-	//           $(".joe_comment__respond-form .foot .submit button").html(
-	//             "发表评论"
-	//           );
-	//         } else {
-	//           location.reload();
-	//         }
-	//       }).catch(err=>{
-	// 				isSubmit = false;
-	// 			});
-	//   });
-	// },
+	}
 };
 
 !(function () {
