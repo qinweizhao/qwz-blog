@@ -56,14 +56,11 @@
   ThemeConfig['mode'] = '${mode!}';
   ThemeConfig['blog_title'] = '${blog_title?js_string!}';
   ThemeConfig['blog_url'] = '${blog_url!}';
-  ThemeConfig['developer'] = 'M酷';
   ThemeConfig['theme_path'] = '${theme_path}';
   ThemeConfig['BASE_RES_URL'] = '${BASE_RES_URL}';
   ThemeConfig['LAZY_IMG'] = '${LAZY_IMG}';
   ThemeConfig['post_index_page_size'] = '${options.post_index_page_size!15}';
   ThemeConfig['post_index_sort'] = '${options.post_index_sort!}';
-  ThemeConfig['gravatar_source_url'] = '${options.gravatar_source!}';
-  ThemeConfig['gravatar_type'] = '${options.comment_gravatar_default!"mm"}';
 </script>
 
 <script id="metas-getter" type="text/javascript">
