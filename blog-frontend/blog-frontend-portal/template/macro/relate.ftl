@@ -1,4 +1,3 @@
-
 <#macro relate postData>
   <#if postData.categories?size gt 0>
     <#assign type = 'category'>
