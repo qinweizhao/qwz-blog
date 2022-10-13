@@ -64,11 +64,6 @@
         <@sp.search_part/>
         <i class="joe-font joe-icon-search joe_header__above-searchicon"></i>
       </#if>
-      <#--  <div class="joe_header__below-sign">
-        <div class="item">
-          <a href="${blog_url!}/admin" target="_blank" rel="noopener noreferrer nofollow">登录</a>
-        </div>
-      </div>  -->
     </div>
   </div>
 
@@ -105,9 +100,6 @@
         </li>
       </ul>
       <ul class="joe_header__slideout-menu panel-box">
-        <#--  <li>
-          <a class="link" href="/" title="首页"><span>首页</span></a>
-        </li>  -->
         <li>
           <a class="link panel" href="#" rel="nofollow">
           <span>栏目</span>
