@@ -51,7 +51,7 @@
       ThemeConfig['${key}'] = handleValue('${valueString?js_string}');
     </#if>
   </#list>
-  ThemeConfig['name'] = '${options.theme!"Joe2.0"}';
+  ThemeConfig['name'] = '${options.theme!"blog-frontend-portal"}';
   ThemeConfig['version'] = '${theme.version!}';
   ThemeConfig['mode'] = '${mode!}';
   ThemeConfig['blog_title'] = '${blog_title?js_string!}';
@@ -78,7 +78,7 @@
 
 <script id="theme-config-getter" type="text/javascript">
   if (ThemeConfig.mode === "development") {
-    console.log("Joe2.0主题配置：", ThemeConfig);
+    console.log("主题配置：", ThemeConfig);
     console.log("资源根路径：", ThemeConfig.BASE_RES_URL);
   }
   // 读取主题模式

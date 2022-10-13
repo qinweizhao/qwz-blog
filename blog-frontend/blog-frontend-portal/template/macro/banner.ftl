@@ -20,7 +20,7 @@
                 <#assign cur_img = (banner[2]?? && banner[2]!='')?then(banner[2]?replace('\n','')?replace('\r','')?trim,'')>
                 <#assign cur_link = (banner[3]?? && banner[3]!='')?then(banner[3]?replace('\n','')?replace('\r','')?trim,'')>
                 <#assign clickable = cur_link != '' && cur_link != '#'>
-                <#if cur_title?index_of('欢迎使用Joe2.0主题') == -1>
+                <#if cur_title?index_of('欢迎使用') == -1>
                   <div class="swiper-slide">
                     <a class="item${clickable?then(' clickable','')}" href="${clickable?then(cur_link,'javascript:;')}" ${clickable?then('target="_blank"','')} rel="noopener noreferrer nofollow">
                       <img width="100%" height="100%" class="thumbnail lazyload" data-src="${cur_img!}" src="${settings.banner_lazyload_img}" onerror="Joe.errorImg(this)" alt="${cur_title!'banner'}">
