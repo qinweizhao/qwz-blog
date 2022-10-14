@@ -79,7 +79,7 @@
               <#assign enable_copy = (metas?? && metas.enable_copy?? && metas.enable_copy?trim!='')?then(metas.enable_copy?trim,'true')>
               <#assign img_align = (metas?? && metas.img_align?? && metas.img_align?trim!='')?then(metas.img_align?trim,settings.post_img_align!'center')>
               <#assign enable_read_limit = (metas?? && metas.enable_read_limit?? && metas.enable_read_limit?trim!='')?then(metas.enable_read_limit?trim,'false')>
-              <article class="joe_detail__article animated fadeIn ${img_align+'-img'}${(enable_read_limit=='true')?then(' limited','')}${(enable_copy!='true' || settings.enable_copy!=true)?then(' uncopy', '')}${settings.enable_indent?then(' indent','')}${(settings.enable_code_line_number==true && settings.enable_code_newline!=true)?then(' line-numbers','')}${settings.enable_single_code_select?then(' single_code_select','')}">
+              <article class="joe_detail__article animated fadeIn ${img_align+'-img'}${(enable_read_limit=='true')?then(' limited','')}${(enable_copy!='true' || settings.enable_copy!=true)?then(' uncopy', '')}${(settings.enable_code_line_number==true && settings.enable_code_newline!=true)?then(' line-numbers','')}${settings.enable_single_code_select?then(' single_code_select','')}">
                 <div id="post-inner">
                   <#if use_raw_content == 'false'>
                     ${post.formatContent!}

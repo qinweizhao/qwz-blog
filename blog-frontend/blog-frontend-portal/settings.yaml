@@ -1383,18 +1383,6 @@ post:
           label: 开启
         - value: false
           label: 关闭
-    enable_indent:
-      name: enable_indent
-      label: 首行缩进
-      type: switch
-      data-type: bool
-      default: false
-      description: "开启后，文章页中的p标签将首行缩进2个字符，可通过元数据 enable_indent 为某篇文章单独配置（由于文章内容格式不可控，无法保证展示效果，不建议开启）"
-      options:
-        - value: true
-          label: 开启
-        - value: false
-          label: 关闭
     enable_copy_right_text:
       name: enable_copy_right_text
       label: 复制时追加版权信息
