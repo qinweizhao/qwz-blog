@@ -14,7 +14,6 @@ require: ^3.0.8
 # 文章页 meta 变量
 postMetaField:
   - enable_aside
-  - enable_page_meta
   - enable_passage_tips
   - enable_collect_check
   - enable_read_limit
@@ -30,15 +29,4 @@ postMetaField:
   - enable_like
   - code_theme
   - enable_fold_long_code
-  - enable_katex
-
-# 自定义页 meta 变量
-sheetMetaField:
-  - enable_aside
-  - enable_page_meta
-  - enable_collect_check
-  - use_raw_content
-  - enable_comment
-  - img_align
-  - img_max_width
   - enable_katex

@@ -25,8 +25,6 @@
             </#if>
             <div class="joe_detail-wrapper">
               <h1 class="joe_detail__title txt-shadow">${post.title!}</h1>
-              <#assign enable_page_meta = (metas?? && metas.enable_page_meta?? && metas.enable_page_meta?trim!='')?then(metas.enable_page_meta?trim,'true')>
-              <#if settings.enable_page_meta && enable_page_meta=='true'>
                 <div class="joe_detail__count">
                   <div class="joe_detail__count-information">
                     <img width="35" height="35" class="avatar lazyload" src="${settings.lazyload_avatar!}" data-src="${USER_AVATAR}" onerror="Joe.errorImg(this)" alt="${user.nickname!}">
@@ -41,7 +39,7 @@
                         <span class="line">/</span>
                         <span class="text">${post.likes} 点赞</span>
                         <span class="line">/</span>
-                        <span class="text" >${post.visits} 阅读</span>  
+                        <span class="text" >${post.visits} 阅读</span>
                         <span class="line">/</span>
                         <span class="text">${post.wordCount!0} 字</span>
                         <#assign enable_collect_check = (metas?? && metas.enable_collect_check?? && metas.enable_collect_check?trim!='')?then(metas.enable_collect_check?trim,'true')>
@@ -54,7 +52,6 @@
                   </div>
                   <time class="joe_detail__count-created" datetime="${post.createTime?date('yyyy-MM-dd')}">${post.createTime?date('yyyy-MM-dd')}</time>
                 </div>
-              </#if>
               <div class="joe_detail__overdue">
               <#assign enable_passage_tips = (metas?? && metas.enable_passage_tips?? && metas.enable_passage_tips?trim!='')?then(metas.enable_passage_tips?trim,'true')>
                 <#if settings.enable_passage_tips && enable_passage_tips == 'true'>
