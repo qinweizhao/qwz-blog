@@ -1224,18 +1224,6 @@ archives:
 post:
   label: 文章页
   items:
-    enable_title_shadow:
-      name: enable_title_shadow
-      label: 标题阴影
-      type: switch
-      data-type: bool
-      default: true
-      description: "是否为文章页标题应用文字阴影"
-      options:
-        - value: true
-          label: 开启
-        - value: false
-          label: 关闭
     enable_page_meta:
       name: enable_page_meta
       label: 页面元数据

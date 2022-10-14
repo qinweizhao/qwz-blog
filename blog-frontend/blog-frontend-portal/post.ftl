@@ -24,7 +24,7 @@
               <span class="joe_raw" title="原始内容"></span>
             </#if>
             <div class="joe_detail-wrapper">
-              <h1 class="joe_detail__title${settings.enable_title_shadow?string(' txt-shadow', '')}">${post.title!}</h1>
+              <h1 class="joe_detail__title txt-shadow">${post.title!}</h1>
               <#assign enable_page_meta = (metas?? && metas.enable_page_meta?? && metas.enable_page_meta?trim!='')?then(metas.enable_page_meta?trim,'true')>
               <#if settings.enable_page_meta && enable_page_meta=='true'>
                 <div class="joe_detail__count">
