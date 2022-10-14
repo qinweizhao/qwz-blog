@@ -319,11 +319,6 @@ navbar:
           label: 展示
         - value: false
           label: 不展示
-    logo_link:
-      name: logo_link
-      label: LOGO跳转链接
-      placeholder: "请输入"
-      description: "点击LOGO时跳转的链接，不填默认跳转博客主页（不想跳转请填入#）"
     logo_radius:
       name: logo_radius
       label: LOGO圆角值

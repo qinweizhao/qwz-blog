@@ -1,12 +1,11 @@
 <#import "../macro/search_part.ftl" as sp>
 <header class="joe_header">
-  <#assign logo_link=(settings.logo_link?? && settings.logo_link!='')?then((settings.logo_link=='#')?then('javascript:;',settings.logo_link), blog_url)>
   <#--  web菜单  -->
   <div class="joe_header__above${settings.enable_show_in_up?then(' topInDown','')}${settings.enable_fixed_header?then(' fixed','')}${(settings.enable_fixed_header && settings.enable_glass_blur)?then(' glass','')}">
     <div class="joe_container joe_header_container${settings.enable_full_header?then(' full','')}">
       <i class="joe-font joe-icon-caidan joe_header__above-slideicon"></i>
       <#if settings.show_logo>
-        <a title="${blog_title!}" class="joe_header__above-logo" href="${logo_link}">
+        <a title="${blog_title!}" class="joe_header__above-logo" href="/">
           <img style="border-radius:${settings.logo_radius!}" src="${LOGO}" onerror="Joe.errorImg(this)" alt="${blog_title!}">
         </a>
       </#if>
@@ -74,7 +73,7 @@
       <div class="joe_header__slideout-author">
         <img width="50" height="50" class="avatar lazyload" data-src="${USER_AVATAR}" src="${settings.lazyload_avatar!}" onerror="Joe.errorImg(this)" alt="博主头像"/>
         <div class="info">
-          <a class="link" href="${logo_link}" target="_blank" rel="noopener noreferrer nofollow">${user.nickname!}</a>
+          <a class="link" href="/" target="_blank" rel="noopener noreferrer nofollow">${user.nickname!}</a>
           <#if settings.motto??>
             <p class="motto joe_motto">${settings.motto!}</p>
           <#else>
