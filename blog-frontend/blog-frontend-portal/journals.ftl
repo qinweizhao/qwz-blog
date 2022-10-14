@@ -18,7 +18,7 @@
                              src="${settings.lazyload_avatar!}" onerror="Joe.errorImg(this)" alt="${user.nickname!}">
                         <div class="meta">
                             <div class="author">
-                                <a class="link" href="${blog_url}/s/about"
+                                <a class="link" href="#"
                                    title="${user.nickname!}">${user.nickname!}</a>
                             </div>
                             <div class="item">
