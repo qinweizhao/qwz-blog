@@ -71,7 +71,7 @@
                 and pt.tag_id = #{param.tagId}
             </if>
         </where>
-        order by p.create_time desc
+        order by p.top_priority desc , p.create_time desc
     </select>
 
     <select id="selectPageSimplePosts" resultType="com.qinweizhao.blog.model.entity.Post">
@@ -86,7 +86,7 @@
                 and CONCAT(title,slug,summary) like concat('%', #{param.keyword}, '%')
             </if>
         </where>
-        order by create_time desc
+        order by p.top_priority desc , p.create_time desc
     </select>
 
     <select id="selectStatusById" resultType="com.qinweizhao.blog.model.enums.PostStatus">
