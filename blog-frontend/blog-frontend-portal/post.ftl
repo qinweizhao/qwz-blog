@@ -33,11 +33,7 @@
                         <a class="link" href="#" title="${user.nickname!}">${user.nickname!}</a>
                       </div>
                       <div class="item">
-                        <span class="text">${post.createTime?date('yyyy-MM-dd')}</span>
-                        <span class="line">/</span>
-                        <span class="text">${post.commentCount} 评论</span>
-                        <span class="line">/</span>
-                        <span class="text">${post.likes} 点赞</span>
+                        <span class="text">更新于 ${post.updateTime?date('yyyy-MM-dd')}</span>
                         <span class="line">/</span>
                         <span class="text" >${post.visits} 阅读</span>
                         <span class="line">/</span>
