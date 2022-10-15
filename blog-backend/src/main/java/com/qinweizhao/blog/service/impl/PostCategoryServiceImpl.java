@@ -63,7 +63,6 @@ public class PostCategoryServiceImpl extends ServiceImpl<PostCategoryMapper, Pos
         // 查询所有分类
         List<CategoryDTO> categories = CategoryConvert.INSTANCE.convertToDTO(categoryMapper.selectBatchIds(categoryIds));
 
-
         // 转换为 map
         Map<Integer, CategoryDTO> categoryMap = ServiceUtils.convertToMap(categories, CategoryDTO::getId);
 

@@ -11,7 +11,6 @@ import com.qinweizhao.blog.model.convert.ConfigConvert;
 import com.qinweizhao.blog.model.core.PageResult;
 import com.qinweizhao.blog.model.dto.ConfigSimpleDTO;
 import com.qinweizhao.blog.model.entity.Config;
-import com.qinweizhao.blog.model.enums.ValueEnum;
 import com.qinweizhao.blog.model.param.ConfigParam;
 import com.qinweizhao.blog.model.param.ConfigQueryParam;
 import com.qinweizhao.blog.model.properties.*;
@@ -57,10 +56,7 @@ public class ConfigServiceImpl implements ConfigService {
     @Override
     public String buildFullPath(Integer postId) {
 
-        return this.getBlogBaseUrl() +
-                URL_SEPARATOR +
-                "?p=" +
-                postId;
+        return this.getBlogBaseUrl() + URL_SEPARATOR + "?p=" + postId;
     }
 
 
@@ -91,18 +87,15 @@ public class ConfigServiceImpl implements ConfigService {
 
             Map<String, Object> result = new HashMap<>(userDefinedOptionMap);
 
-            propertyEnumMap.keySet()
-                    .stream()
-                    .filter(key -> !keys.contains(key))
-                    .forEach(key -> {
-                        PropertyEnum propertyEnum = propertyEnumMap.get(key);
+            propertyEnumMap.keySet().stream().filter(key -> !keys.contains(key)).forEach(key -> {
+                PropertyEnum propertyEnum = propertyEnumMap.get(key);
 
-                        if (StringUtils.isBlank(propertyEnum.defaultValue())) {
-                            return;
-                        }
+                if (StringUtils.isBlank(propertyEnum.defaultValue())) {
+                    return;
+                }
 
-                        result.put(key, PropertyEnum.convertTo(propertyEnum.defaultValue(), propertyEnum));
-                    });
+                result.put(key, PropertyEnum.convertTo(propertyEnum.defaultValue(), propertyEnum));
+            });
 
             // 补充博客地址属性
             result.put("blog_url", this.getBlogBaseUrl());
@@ -122,9 +115,7 @@ public class ConfigServiceImpl implements ConfigService {
 
         Map<String, Object> result = new HashMap<>(keys.size());
 
-        keys.stream()
-                .filter(optionMap::containsKey)
-                .forEach(key -> result.put(key, optionMap.get(key)));
+        keys.stream().filter(optionMap::containsKey).forEach(key -> result.put(key, optionMap.get(key)));
 
         return result;
     }
@@ -174,7 +165,6 @@ public class ConfigServiceImpl implements ConfigService {
     }
 
 
-
     @Override
     public <T> Optional<T> getByKey(String key, Class<T> valueType) {
         return getByKey(key).map(value -> PropertyEnum.convertTo(value.toString(), valueType));
@@ -189,12 +179,6 @@ public class ConfigServiceImpl implements ConfigService {
     public <T extends Enum<T>> T getEnumByPropertyOrDefault(PropertyEnum property, Class<T> valueType, T defaultValue) {
         return getEnumByProperty(property, valueType).orElse(defaultValue);
     }
-
-    @Override
-    public <V, E extends ValueEnum<V>> Optional<E> getValueEnumByProperty(PropertyEnum property, Class<V> valueType, Class<E> enumType) {
-        return getByProperty(property).map(value -> ValueEnum.valueToEnum(enumType, PropertyEnum.convertTo(value.toString(), valueType)));
-    }
-
 
 
     @Override

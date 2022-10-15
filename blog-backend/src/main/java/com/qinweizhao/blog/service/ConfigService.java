@@ -4,7 +4,6 @@ import com.qiniu.storage.Region;
 import com.qinweizhao.blog.exception.MissingPropertyException;
 import com.qinweizhao.blog.model.core.PageResult;
 import com.qinweizhao.blog.model.dto.ConfigSimpleDTO;
-import com.qinweizhao.blog.model.enums.ValueEnum;
 import com.qinweizhao.blog.model.param.ConfigParam;
 import com.qinweizhao.blog.model.param.ConfigQueryParam;
 import com.qinweizhao.blog.model.properties.PropertyEnum;
@@ -72,8 +71,6 @@ public interface ConfigService {
      * @return a map of option
      */
     Map<String, Object> listOptions(@Nullable List<String> keys);
-
-
 
 
     /**
@@ -180,20 +177,6 @@ public interface ConfigService {
      */
     @Nullable
     <T extends Enum<T>> T getEnumByPropertyOrDefault(PropertyEnum property, Class<T> valueType, @Nullable T defaultValue);
-
-    /**
-     * Gets value enum by property.
-     *
-     * @param property  property must not be blank
-     * @param valueType enum value type must not be null
-     * @param enumType  enum type must not be null
-     * @param <V>       enum value type
-     * @param <E>       value enum type
-     * @return an optional value enum value
-     */
-
-    <V, E extends ValueEnum<V>> Optional<E> getValueEnumByProperty(PropertyEnum property, Class<V> valueType, Class<E> enumType);
-
 
     /**
      * Gets post page size.

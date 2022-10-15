@@ -79,15 +79,9 @@ public class ThemeServiceImpl implements ThemeService {
      */
     public Path getBasePath() {
         String frontendDirName = myBlogProperties.getFrontendDirName();
-        if (myBlogProperties.isProductionEnv()) {
-            Path frontend = Paths.get(myBlogProperties.getWorkDir(), frontendDirName);
-            log.debug("将要扫描的目录为：{}", frontend);
-            return frontend;
-        } else {
-            Path frontend = Paths.get(myBlogProperties.getWorkDir(), frontendDirName);
-            log.debug("将要扫描的目录为：{}", frontend);
-            return frontend;
-        }
+        Path frontend = Paths.get(myBlogProperties.getWorkDir(), frontendDirName);
+        log.debug("将要扫描的目录为：{}", frontend);
+        return frontend;
     }
 
     @Override
@@ -144,9 +138,7 @@ public class ThemeServiceImpl implements ThemeService {
 
     @Override
     public String render(String pageName) {
-        return fetchActivatedTheme()
-                .map(themeProperty -> String.format(RENDER_TEMPLATE, themeProperty.getFolderName(), pageName))
-                .orElse(DEFAULT_ERROR_PATH);
+        return fetchActivatedTheme().map(themeProperty -> String.format(RENDER_TEMPLATE, themeProperty.getFolderName(), pageName)).orElse(DEFAULT_ERROR_PATH);
     }
 
     @Override
