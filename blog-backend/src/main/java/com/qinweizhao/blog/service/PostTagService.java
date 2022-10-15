@@ -20,15 +20,6 @@ import java.util.Map;
  */
 public interface PostTagService extends IService<PostTag> {
 
-//    /**
-//     * Lists tags by post id.
-//     *
-//     * @param postId post id must not be null
-//     * @return a list of tag
-//     */
-//    List<Tag> listTagsBy(@NonNull Integer postId);
-//
-
     /**
      * 按帖子 ID 列出标签列表映射
      *
@@ -52,103 +43,6 @@ public interface PostTagService extends IService<PostTag> {
      * @return List
      */
     List<TagDTO> listTagsByPostId(Integer postId);
-
-
-//
-//    /**
-//     * Lists posts by tag id.
-//     *
-//     * @param tagId tag id must not be null
-//     * @return a list of post
-//     */
-//    @NonNull
-//    List<Post> listPostsBy(@NonNull Integer tagId);
-//
-//    /**
-//     * Lists posts by tag id and post status.
-//     *
-//     * @param tagId  tag id must not be null
-//     * @param status post status
-//     * @return a list of post
-//     */
-//    @NonNull
-//    List<Post> listPostsBy(@NonNull Integer tagId, @NonNull PostStatus status);
-//
-//    /**
-//     * Lists posts by tag slug and post status.
-//     *
-//     * @param slug   tag slug must not be null
-//     * @param status post status
-//     * @return a list of post
-//     */
-//    @NonNull
-//    List<Post> listPostsBy(@NonNull String slug, @NonNull PostStatus status);
-//
-//    /**
-//     * Pages posts by tag id.
-//     *
-//     * @param tagId    must not be null
-//     * @param pageable must not be null
-//     * @return a page of post
-//     */
-//    Page<Post> pagePostsBy(@NonNull Integer tagId, Pageable pageable);
-//
-//    /**
-//     * Pages posts by tag id and post status.
-//     *
-//     * @param tagId    must not be null
-//     * @param status   post status
-//     * @param pageable must not be null
-//     * @return a page of post
-//     */
-//    Page<Post> pagePostsBy(@NonNull Integer tagId, @NonNull PostStatus status, Pageable pageable);
-//
-//    /**
-//     * Merges or creates post tags by post id and tag id set if absent.
-//     *
-//     * @param postId post id must not be null
-//     * @param tagIds tag id set
-//     * @return a list of post tag
-//     */
-//    @NonNull
-//    List<PostTag> mergeOrCreateByIfAbsent(@NonNull Integer postId, @Nullable Set<Integer> tagIds);
-//
-//    /**
-//     * Lists post tags by post id.
-//     *
-//     * @param postId post id must not be null
-//     * @return a list of post tag
-//     */
-//    @NonNull
-//    List<PostTag> listByPostId(@NonNull Integer postId);
-//
-//    /**
-//     * Lists post tags by tag id.
-//     *
-//     * @param tagId tag id must not be null
-//     * @return a list of post tag
-//     */
-//    @NonNull
-//    List<PostTag> listByTagId(@NonNull Integer tagId);
-//
-//    /**
-//     * Lists tag id set by post id.
-//     *
-//     * @param postId post id must not be null
-//     * @return a set of tag id
-//     */
-//    @NonNull
-//    Set<Integer> listTagIdsByPostId(@NonNull Integer postId);
-//
-//    /**
-//     * Removes post tags by post id.
-//     *
-//     * @param postId post id must not be null
-//     * @return a list of post tag
-//     */
-//    @NonNull
-//    @Transactional
-//    List<PostTag> removeByPostId(@NonNull Integer postId);
 
     /**
      * 列表

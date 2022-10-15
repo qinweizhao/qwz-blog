@@ -67,7 +67,7 @@ public class PostTagDirective implements TemplateDirectiveModel {
                     break;
                 case "listByTagId":
                     Integer tagId = Integer.parseInt(params.get("tagId").toString());
-                    env.setVariable("posteditTimes", builder.build().wrap(postTagService.listPostsByTagIdAndPostStatus(tagId, PostStatus.PUBLISHED)));
+                    env.setVariable("posts", builder.build().wrap(postTagService.listPostsByTagIdAndPostStatus(tagId, PostStatus.PUBLISHED)));
                     break;
                 case "listByTagSlug":
                     String tagSlug = params.get("tagSlug").toString();

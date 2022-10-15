@@ -18,6 +18,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
@@ -120,12 +121,14 @@ public class TagServiceImpl implements TagService {
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public boolean removeById(Integer tagId) {
 
         int i = tagMapper.deleteById(tagId);
 
-        postTagService.removeByTagId(tagId);
+        boolean b = postTagService.removeByTagId(tagId);
 
+        log.debug("删除文章与标签的关联结果{}", b);
         return i > 0;
     }
 
