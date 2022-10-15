@@ -31,10 +31,8 @@ public class LogFilter extends OncePerRequestFilter {
         log.debug("");
         log.debug("Starting url: [{}], method: [{}], ip: [{}]", request.getRequestURL(), request.getMethod(), remoteAddr);
 
-        // Set start time
         long startTime = System.currentTimeMillis();
 
-        // Do filter
         filterChain.doFilter(request, response);
 
         log.debug("Ending   url: [{}], method: [{}], ip: [{}], status: [{}], usage: [{}] ms", request.getRequestURL(), request.getMethod(), remoteAddr, response.getStatus(), System.currentTimeMillis() - startTime);

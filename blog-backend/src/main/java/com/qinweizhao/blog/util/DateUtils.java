@@ -3,7 +3,6 @@ package com.qinweizhao.blog.util;
 import org.springframework.lang.NonNull;
 import org.springframework.util.Assert;
 
-import java.util.Calendar;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
@@ -28,20 +27,6 @@ public class DateUtils {
         return new Date();
     }
 
-    /**
-     * Converts from date into a calendar instance.
-     *
-     * @param date date instance must not be null
-     * @return calendar instance
-     */
-    @NonNull
-    public static Calendar convertTo(@NonNull Date date) {
-        Assert.notNull(date, "Date must not be null");
-
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(date);
-        return calendar;
-    }
 
     /**
      * Adds date.

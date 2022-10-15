@@ -21,7 +21,6 @@ public interface ThemeConfigResolver {
      * @return a list of group
      * @throws IOException throws when content conversion fails
      */
-    @NonNull
-    List<Group> resolve(@NonNull String content) throws IOException;
+    List<Group> resolve(String content) throws IOException;
 
 }

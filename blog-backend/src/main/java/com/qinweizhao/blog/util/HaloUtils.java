@@ -4,11 +4,8 @@ import cn.hutool.core.util.URLUtil;
 import com.qinweizhao.blog.model.support.BlogConst;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.util.UUID;
 
 import static com.qinweizhao.blog.model.support.BlogConst.FILE_SEPARATOR;
@@ -67,31 +64,6 @@ public class HaloUtils {
         return StringUtils.removeEnd(string, suffix) + suffix;
     }
 
-    /**
-     * Composites partial url to full http url.
-     *
-     * @param partUrls partial urls must not be empty
-     * @return full url
-     */
-    public static String compositeHttpUrl(String... partUrls) {
-        Assert.notEmpty(partUrls, "Partial url must not be blank");
-
-        StringBuilder builder = new StringBuilder();
-        for (int i = 0; i < partUrls.length; i++) {
-            String partUrl = partUrls[i];
-            if (StringUtils.isBlank(partUrl)) {
-                continue;
-            }
-            partUrl = StringUtils.removeStart(partUrl, URL_SEPARATOR);
-            partUrl = StringUtils.removeEnd(partUrl, URL_SEPARATOR);
-            if (i != 0) {
-                builder.append(URL_SEPARATOR);
-            }
-            builder.append(partUrl);
-        }
-
-        return builder.toString();
-    }
 
     /**
      * Desensitizes the plain text.
@@ -220,20 +192,6 @@ public class HaloUtils {
     }
 
     /**
-     * Initialize url if blank.
-     *
-     * @param url url can be blank
-     * @return initial url
-     */
-
-    public static String initializeUrlIfBlank(@Nullable String url) {
-        if (!StringUtils.isBlank(url)) {
-            return url;
-        }
-        return String.valueOf(System.currentTimeMillis());
-    }
-
-    /**
      * Normalize url
      *
      * @param originalUrl original url
@@ -243,28 +201,13 @@ public class HaloUtils {
     public static String normalizeUrl(String originalUrl) {
         Assert.hasText(originalUrl, "Original Url must not be blank");
 
-        if (StringUtils.startsWithAny(originalUrl, URL_SEPARATOR, BlogConst.PROTOCOL_HTTPS, BlogConst.PROTOCOL_HTTP)
-                && !StringUtils.startsWith(originalUrl, "//")) {
+        if (StringUtils.startsWithAny(originalUrl, URL_SEPARATOR, BlogConst.PROTOCOL_HTTPS, BlogConst.PROTOCOL_HTTP) && !StringUtils.startsWith(originalUrl, "//")) {
             return originalUrl;
         }
 
         return URLUtil.normalize(originalUrl);
     }
 
-    /**
-     * Gets machine IP address.
-     *
-     * @return current machine IP address.
-     */
-    public static String getMachineIp() {
-        InetAddress machineAddress;
-        try {
-            machineAddress = InetAddress.getLocalHost();
-        } catch (UnknownHostException e) {
-            machineAddress = InetAddress.getLoopbackAddress();
-        }
-        return machineAddress.getHostAddress();
-    }
 
     /**
      * Clean all html tag
@@ -279,12 +222,4 @@ public class HaloUtils {
         return content.replaceAll(RE_HTML_MARK, StringUtils.EMPTY);
     }
 
-    public static String strip(String str, final String prefixStripChars,
-                               final String suffixStripChars) {
-        if (StringUtils.isEmpty(str)) {
-            return str;
-        }
-        str = StringUtils.stripStart(str, prefixStripChars);
-        return StringUtils.stripEnd(str, suffixStripChars);
-    }
 }

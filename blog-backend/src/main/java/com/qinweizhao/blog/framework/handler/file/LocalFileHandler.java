@@ -17,7 +17,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import java.awt.image.BufferedImage;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -42,7 +41,7 @@ import static com.qinweizhao.blog.model.support.BlogConst.FILE_SEPARATOR;
 public class LocalFileHandler implements FileHandler {
 
     /**
-     * Upload sub directory.
+     * 存储文件夹
      */
     private final static String UPLOAD_SUB_DIR = "image/";
 
@@ -61,8 +60,7 @@ public class LocalFileHandler implements FileHandler {
     @Resource
     private MyBlogProperties myBlogProperties;
 
-    public LocalFileHandler(ConfigService configService,
-                            MyBlogProperties myBlogProperties) {
+    public LocalFileHandler(ConfigService configService, MyBlogProperties myBlogProperties) {
         this.configService = configService;
 
         workDir = FileHandler.normalizeDirectory(myBlogProperties.getWorkDir());
@@ -151,7 +149,7 @@ public class LocalFileHandler implements FileHandler {
             // Check file type
             if (FileHandler.isImageType(uploadResult.getMediaType()) && !isSvg) {
                 lock.lock();
-                try (InputStream uploadFileInputStream = new FileInputStream(uploadPath.toFile())) {
+                try (InputStream uploadFileInputStream = Files.newInputStream(uploadPath.toFile().toPath())) {
                     // Upload a thumbnail
                     String thumbnailBasename = basename + THUMBNAIL_SUFFIX;
                     String thumbnailSubFilePath = subDir + thumbnailBasename + '.' + extension;
@@ -179,7 +177,7 @@ public class LocalFileHandler implements FileHandler {
                 uploadResult.setThumbPath(subFilePath);
             }
 
-            log.info("Uploaded file: [{}] to directory: [{}] successfully", file.getOriginalFilename(), uploadPath.toString());
+            log.info("Uploaded file: [{}] to directory: [{}] successfully", file.getOriginalFilename(), uploadPath);
             return uploadResult;
         } catch (IOException e) {
             throw new FileOperationException("上传附件失败").setErrorData(uploadPath);

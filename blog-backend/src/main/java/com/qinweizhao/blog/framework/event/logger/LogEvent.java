@@ -23,10 +23,8 @@ public class LogEvent extends ApplicationEvent {
     public LogEvent(Object source, LogParam logParam) {
         super(source);
 
-        // Validate the log param
         ValidationUtils.validate(logParam);
 
-        // Set ip address
         logParam.setIpAddress(ServletUtils.getRequestIp());
 
         this.logParam = logParam;

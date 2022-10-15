@@ -31,11 +31,6 @@ import java.util.Objects;
  */
 public class HttpClientUtils {
 
-    /**
-     * Timeout (Default is 5s).
-     */
-    private final static int TIMEOUT = 5000;
-
     private HttpClientUtils() {
     }
 
@@ -50,15 +45,9 @@ public class HttpClientUtils {
      */
     @NonNull
     public static CloseableHttpClient createHttpsClient(int timeout) throws KeyStoreException, NoSuchAlgorithmException, KeyManagementException {
-        SSLContext sslContext = new SSLContextBuilder()
-                .loadTrustMaterial(null, (certificate, authType) -> true)
-                .build();
+        SSLContext sslContext = new SSLContextBuilder().loadTrustMaterial(null, (certificate, authType) -> true).build();
 
-        return resolveProxySetting(HttpClients.custom())
-                .setSSLContext(sslContext)
-                .setSSLHostnameVerifier(new NoopHostnameVerifier())
-                .setDefaultRequestConfig(getRequestConfig(timeout))
-                .build();
+        return resolveProxySetting(HttpClients.custom()).setSSLContext(sslContext).setSSLHostnameVerifier(new NoopHostnameVerifier()).setDefaultRequestConfig(getRequestConfig(timeout)).build();
     }
 
     /**
@@ -76,8 +65,7 @@ public class HttpClientUtils {
             if (httpProxy.getMembers().length == 3) {
                 //set proxy credentials
                 final CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
-                credentialsProvider.setCredentials(new AuthScope(httpHost.getHostName(), httpHost.getPort()),
-                        new UsernamePasswordCredentials(httpProxy.get(1), httpProxy.get(2)));
+                credentialsProvider.setCredentials(new AuthScope(httpHost.getHostName(), httpHost.getPort()), new UsernamePasswordCredentials(httpProxy.get(1), httpProxy.get(2)));
                 httpClientBuilder.setDefaultCredentialsProvider(credentialsProvider);
             }
         }
@@ -125,11 +113,7 @@ public class HttpClientUtils {
      * @return request config
      */
     private static RequestConfig getRequestConfig(int timeout) {
-        return RequestConfig.custom()
-                .setConnectTimeout(timeout)
-                .setConnectionRequestTimeout(timeout)
-                .setSocketTimeout(timeout)
-                .build();
+        return RequestConfig.custom().setConnectTimeout(timeout).setConnectionRequestTimeout(timeout).setSocketTimeout(timeout).build();
     }
 
 
