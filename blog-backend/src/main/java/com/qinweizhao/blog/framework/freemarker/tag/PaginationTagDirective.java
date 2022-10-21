@@ -65,7 +65,7 @@ public class PaginationTagDirective implements TemplateDirectiveModel {
                     if (page == 1) {
                         prevPageFullPath.append(URL_SEPARATOR);
                     } else {
-                        prevPageFullPath.append("/page/").append(page);
+                        prevPageFullPath.append("/page/").append(page - 1);
                     }
 
                     fullPath.append("/page/");
@@ -86,8 +86,7 @@ public class PaginationTagDirective implements TemplateDirectiveModel {
                     nextPageFullPath.append("/page/").append(page + 1);
 
                     if (page != 1) {
-
-                        prevPageFullPath.append("/page/").append(page);
+                        prevPageFullPath.append("/page/").append(page - 1);
                     }
 
                     fullPath.append(URL_SEPARATOR).append(configService.getArchivesPrefix());
@@ -113,7 +112,7 @@ public class PaginationTagDirective implements TemplateDirectiveModel {
                     if (page == 1) {
                         prevPageFullPath.append("?keyword=").append(keyword);
                     } else {
-                        prevPageFullPath.append("/page/").append(page).append("?keyword=").append(keyword);
+                        prevPageFullPath.append("/page/").append(page - 1).append("?keyword=").append(keyword);
                     }
 
                     fullPath.append(URL_SEPARATOR).append("search");
@@ -138,7 +137,7 @@ public class PaginationTagDirective implements TemplateDirectiveModel {
 
                     if (page != 1) {
 
-                        prevPageFullPath.append("/page/").append(page);
+                        prevPageFullPath.append("/page/").append(page - 1);
                     }
 
                     fullPath.append(URL_SEPARATOR).append(configService.getTagsPrefix()).append(URL_SEPARATOR).append(tagSlug);
@@ -163,7 +162,7 @@ public class PaginationTagDirective implements TemplateDirectiveModel {
 
                     if (page != 1) {
 
-                        prevPageFullPath.append("/page/").append(page);
+                        prevPageFullPath.append("/page/").append(page - 1);
                     }
 
                     fullPath.append(URL_SEPARATOR).append(configService.getCategoriesPrefix()).append(URL_SEPARATOR).append(categorySlug);
@@ -186,7 +185,7 @@ public class PaginationTagDirective implements TemplateDirectiveModel {
                     nextPageFullPath.append("/page/").append(page + 1);
 
                     if (page != 1) {
-                        prevPageFullPath.append("/page/").append(page);
+                        prevPageFullPath.append("/page/").append(page - 1);
                     }
 
                     fullPath.append(URL_SEPARATOR).append(configService.getJournalsPrefix());
