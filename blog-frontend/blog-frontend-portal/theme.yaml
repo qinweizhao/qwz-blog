@@ -8,8 +8,8 @@ description: 博客门面
 logo: https://www.qinweizhao.com/image/2022/05/logo.png
 website: https://www.qinweizhao.com
 repo: https://github.com/qinweizhao/qwz-blog
-version: 3.0.8
-require: ^3.0.8
+version: 3.0.9
+require: ^3.0.9
 
 # 文章页 meta 变量
 postMetaField:
