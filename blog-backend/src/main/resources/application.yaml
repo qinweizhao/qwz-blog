@@ -24,6 +24,7 @@ spring:
     template-loader-path:
       - file:///${blog.work-dir}/templates/
       - classpath:/templates/
+      - classpath:/ftl/
     expose-spring-macro-helpers: false
   profiles:
     active: dev

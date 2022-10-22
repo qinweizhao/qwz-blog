@@ -52,10 +52,6 @@ public class DefaultErrorViewResolver implements ErrorViewResolver {
             modelAndView = resolve("error", model);
         }
 
-        if (modelAndView == null) {
-            modelAndView = new ModelAndView("common/error/error", model);
-        }
-
         return modelAndView;
     }
 

@@ -24,8 +24,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-import static com.qinweizhao.blog.model.support.BlogConst.DEFAULT_ERROR_PATH;
-
 /**
  * Theme service implementation.
  *
@@ -138,7 +136,7 @@ public class ThemeServiceImpl implements ThemeService {
 
     @Override
     public String render(String pageName) {
-        return fetchActivatedTheme().map(themeProperty -> String.format(RENDER_TEMPLATE, themeProperty.getFolderName(), pageName)).orElse(DEFAULT_ERROR_PATH);
+        return fetchActivatedTheme().map(themeProperty -> String.format(RENDER_TEMPLATE, themeProperty.getFolderName(), pageName)).orElse("");
     }
 
     @Override

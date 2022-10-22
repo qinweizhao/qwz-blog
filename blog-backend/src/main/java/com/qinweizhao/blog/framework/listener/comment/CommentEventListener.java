@@ -104,11 +104,7 @@ public class CommentEventListener {
             subject.append("您的博客日志有了新的评论");
         }
 
-        String template = "common/mail_template/mail_notice.ftl";
-
-        if (themeService.templateExists("mail_template/mail_notice.ftl")) {
-            template = themeService.renderWithSuffix("mail_template/mail_notice");
-        }
+        String template = themeService.renderWithSuffix("mail_template/mail_notice");
 
         mailService.sendTemplateMail(user.getEmail(), subject.toString(), data, template);
     }
@@ -183,10 +179,7 @@ public class CommentEventListener {
             subject.append("您在【").append(blogTitle).append("】评论的日志").append("有了新的评论。");
         }
 
-        String template = "common/mail_template/mail_reply.ftl";
-        if (themeService.templateExists("mail_template/mail_reply.ftl")) {
-            template = themeService.renderWithSuffix("mail_template/mail_reply");
-        }
+        String template = themeService.renderWithSuffix("mail_template/mail_reply");
 
         mailService.sendTemplateMail(baseAuthorEmail, subject.toString(), data, template);
     }

@@ -34,11 +34,6 @@ public class BlogConst {
     public static final String URL_SEPARATOR = "/";
 
     /**
-     * 默认错误路径
-     */
-    public static final String DEFAULT_ERROR_PATH = "common/error/error";
-
-    /**
      * 路径分隔符
      */
     public static final String FILE_SEPARATOR = File.separator;

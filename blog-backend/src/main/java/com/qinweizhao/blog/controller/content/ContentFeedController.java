@@ -52,7 +52,7 @@ public class ContentFeedController {
     @ResponseBody
     public String sitemapXml(Model model) throws IOException, TemplateException {
         model.addAttribute("posts", buildPosts());
-        Template template = freeMarker.getConfiguration().getTemplate("common/web/sitemap_xml.ftl");
+        Template template = freeMarker.getConfiguration().getTemplate("sitemap_xml.ftl");
         return FreeMarkerTemplateUtils.processTemplateIntoString(template, model);
     }
 
@@ -65,7 +65,7 @@ public class ContentFeedController {
     @GetMapping(value = "sitemap.html")
     public String sitemapHtml(Model model) {
         model.addAttribute("posts", buildPosts());
-        return "common/web/sitemap_html";
+        return "sitemap_html";
     }
 
     /**
@@ -78,7 +78,7 @@ public class ContentFeedController {
     @GetMapping(value = "robots.txt", produces = MediaType.TEXT_PLAIN_VALUE)
     @ResponseBody
     public String robots(Model model) throws IOException, TemplateException {
-        Template template = freeMarker.getConfiguration().getTemplate("common/web/robots.ftl");
+        Template template = freeMarker.getConfiguration().getTemplate("robots.ftl");
         return FreeMarkerTemplateUtils.processTemplateIntoString(template, model);
     }
 
