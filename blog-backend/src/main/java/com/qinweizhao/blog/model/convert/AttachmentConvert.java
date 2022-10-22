@@ -75,9 +75,6 @@ public interface AttachmentConvert {
             case QINIUOSS:
                 attachmentType = 2;
                 break;
-            case SMMS:
-                attachmentType = 3;
-                break;
             case ALIOSS:
                 attachmentType = 4;
                 break;

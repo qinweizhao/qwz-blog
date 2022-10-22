@@ -27,11 +27,6 @@ public enum AttachmentType implements ValueEnum<Integer> {
     QINIUOSS(2),
 
     /**
-     * sm.ms
-     */
-    SMMS(3),
-
-    /**
      * 阿里云
      */
     ALIOSS(4),

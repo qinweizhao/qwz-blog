@@ -23,15 +23,6 @@
           </a-select-option>
         </a-select>
       </a-form-model-item>
-      <div v-show="options.attachment_type === 'SMMS'" id="smmsForm">
-        <a-form-model-item label="Secret Token：">
-          <a-input-password
-            v-model="options.smms_api_secret_token"
-            autocomplete="new-password"
-            placeholder="需要到 sm.ms 官网注册后获取"
-          />
-        </a-form-model-item>
-      </div>
       <div v-show="options.attachment_type === 'UPOSS'" id="upOssForm">
         <a-form-model-item label="绑定域名协议：">
           <a-select v-model="options.oss_upyun_domain_protocol">
@@ -365,15 +356,6 @@ export default {
     handleSaveOptions() {
       // 附件配置验证
       switch (this.options.attachment_type) {
-        case 'SMMS':
-          if (!this.options.smms_api_secret_token) {
-            this.$notification['error']({
-              message: '提示',
-              description: 'Secret Token 不能为空！'
-            })
-            return
-          }
-          break
         case 'UPOSS':
           if (!this.options.oss_upyun_domain) {
             this.$notification['error']({

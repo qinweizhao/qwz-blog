@@ -60,7 +60,7 @@ public class ContentFeedController {
      * sitemap.html.
      *
      * @param model model
-     * @return template path: common/web/sitemap_html
+     * @return template path: ftl/sitemap_html
      */
     @GetMapping(value = "sitemap.html")
     public String sitemapHtml(Model model) {

@@ -92,10 +92,6 @@ attachmentApi.type = {
     type: 'LOCAL',
     text: '本地'
   },
-  SMMS: {
-    type: 'SMMS',
-    text: 'SM.MS'
-  },
   UPOSS: {
     type: 'UPOSS',
     text: '又拍云'
