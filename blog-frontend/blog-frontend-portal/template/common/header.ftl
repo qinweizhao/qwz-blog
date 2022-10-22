@@ -27,6 +27,5 @@
         ${settings.custom_js_head!}
       </script>
     </#if>
-    <@global.head />
   </head>
 </#macro>

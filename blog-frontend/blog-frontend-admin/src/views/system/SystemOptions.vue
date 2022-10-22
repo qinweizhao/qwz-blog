@@ -75,17 +75,6 @@
                 @onSave="onSaveOptions"
               />
             </a-tab-pane>
-            <a-tab-pane key="other">
-              <span slot="tab"> <a-icon type="align-left" />其他设置 </span>
-              <OtherTab
-                :errored="errored"
-                :options="options"
-                :saving="saving"
-                @callback="errored = false"
-                @onChange="onOptionsChange"
-                @onSave="onSaveOptions"
-              />
-            </a-tab-pane>
           </a-tabs>
 
           <a-tabs v-else class="advanced" type="card">
@@ -125,7 +114,6 @@ import PostTab from './optiontabs/PostTab'
 import CommentTab from './optiontabs/CommentTab'
 import AttachmentTab from './optiontabs/AttachmentTab'
 import SmtpTab from './optiontabs/SmtpTab'
-import OtherTab from './optiontabs/OtherTab'
 import PermalinkTab from './optiontabs/PermalinkTab'
 import ApiTab from './optiontabs/ApiTab'
 import configApi from '@/api/config'
@@ -141,7 +129,6 @@ export default {
     CommentTab,
     AttachmentTab,
     SmtpTab,
-    OtherTab,
     PermalinkTab,
     ApiTab
   },

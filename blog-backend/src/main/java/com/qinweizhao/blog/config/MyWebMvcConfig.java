@@ -166,13 +166,8 @@ public class MyWebMvcConfig implements WebMvcConfigurer {
     public FreeMarkerConfigurer freemarkerConfig(MyBlogProperties myBlogProperties) throws IOException, TemplateException {
         FreeMarkerConfigurer configurer = new FreeMarkerConfigurer();
         String frontendDirName = myBlogProperties.getFrontendDirName();
-        configurer.setTemplateLoaderPaths(FILE_PROTOCOL + myBlogProperties.getWorkDir() + frontendDirName + "/", "classpath:/templates/","classpath:/ftl/");
+        configurer.setTemplateLoaderPaths(FILE_PROTOCOL + myBlogProperties.getWorkDir() + frontendDirName + "/","classpath:/ftl/");
         configurer.setDefaultEncoding("UTF-8");
-
-        Properties properties = new Properties();
-        properties.setProperty("auto_import", "/common/macro/common_macro.ftl as common,/common/macro/global_macro.ftl as global");
-
-        configurer.setFreemarkerSettings(properties);
 
         // 预定义配置
         freemarker.template.Configuration configuration = configurer.createConfiguration();

@@ -73,7 +73,4 @@
     <!-- vconsole -->
     <script src="${BASE_RES_URL}/source/lib/vconsole/vconsole.min.js"></script>
   </#if>
-  <#if mode != "development">
-    <@global.statistics />
-  </#if>
 </#macro>

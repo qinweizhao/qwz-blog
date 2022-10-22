@@ -31,8 +31,5 @@
       </div>
       </div>
     </#if>
-    <#if settings.footer_source=='both' || settings.footer_source=='backend'>
-      <@global.footer />
-    </#if>
   </footer>
 </#if>
