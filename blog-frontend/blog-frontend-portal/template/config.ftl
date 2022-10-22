@@ -84,23 +84,8 @@
   // 读取主题模式
   var initThemeMode = function() {
     try {
-      var curMode = ""; 
-      if (ThemeConfig.theme_mode === "auto") {
-        var light_scope = ThemeConfig.light_time_scope.split("~");
-        var now = new Date();
-        var today = now.toLocaleString().split(" ")[0];
-        var curMode = now >= new Date(today + " " + light_scope[0]) && now <= new Date(today + " " + light_scope[1]) ? "light" : "dark";
-        localStorage.removeItem("data-mode");
-      } else if (ThemeConfig.theme_mode === "user") {
-        // 用户模式下优先从本地取主题模式，默认为浅色
-        curMode = localStorage.getItem("data-mode") || "light";
-        localStorage.setItem("data-mode", curMode);
-      } else {
-        // 非用户模式下直接取后台配置的模式
-        curMode = ThemeConfig.theme_mode;
-        localStorage.removeItem("data-mode");
-      }
-      document.querySelector("html").setAttribute("data-mode", curMode);
+      // 可选 dark light
+      document.querySelector("html").setAttribute("data-mode", "light");
     } catch(e) {
       console.log(e);
     }
@@ -110,7 +95,7 @@
     BASE_API: "",
     isMobile: /windows phone|iphone|android/gi.test(window.navigator.userAgent),
     errorImg: function(target, src) {
-      target.setAttribute('src', src || '${EMPTY_IMG}'); 
+      target.setAttribute('src', src || '${EMPTY_IMG}');
       setTimeout(function () {
         target.setAttribute('onerror', null);
         }, 1000)

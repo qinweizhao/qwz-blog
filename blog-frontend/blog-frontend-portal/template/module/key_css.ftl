@@ -44,11 +44,6 @@
     font-family: "Joe Font", "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, "sans-serif";
     --res-url: '${BASE_RES_URL}';
   }
-  html[data-mode='dark'] body {
-    --theme: ${settings.mode_color_dark!"#9999ff"};
-    --scroll-bar: ${sbar_dark_color!"#666"};
-    --loading-bar: ${lbar_dark_color!"var(--theme)"};
-  }
   ::-webkit-scrollbar {
     width: ${settings.scrollbar_width!"8px"};
   }
@@ -65,19 +60,6 @@
     }
   <#else>
     html[data-mode="light"] body {
-      background-image: none;
-    }
-  </#if>
-  <#if settings.enable_background_dark == true && settings.background_dark_mode?? && settings.background_dark_mode != "">
-    html[data-mode="dark"] body {
-      background-position: top center;
-      background-attachment: fixed;
-      background-repeat: no-repeat;
-      background-size: cover;
-      background-image: url(${settings.background_dark_mode!});
-    }
-  <#else>
-    html[data-mode="dark"] body {
       background-image: none;
     }
   </#if>

@@ -3,50 +3,7 @@ window.encryption = (str) => window.btoa(unescape(encodeURIComponent(str)));
 window.decrypt = (str) => decodeURIComponent(escape(window.atob(str)));
 
 const commonContext = {
-	/* 初始化主题模式（仅用户模式） */
-	initMode() {
-		// 取消Chrome浏览器默认滚动到上次浏览位置
-		if ("scrollRestoration" in history) {
-			history.scrollRestoration = "manual";
-		}
 
-		if (ThemeConfig.theme_mode !== "user") return;
-		const $html = $("html");
-		const $icon_light = $(".mode-light");
-		const $icon_dark = $(".mode-dark");
-		let local_theme = localStorage.getItem("data-mode");
-
-		// 图标状态
-		$icon_light[`${local_theme === "light" ? "remove" : "add"}Class`]("active");
-		$icon_dark[`${local_theme === "light" ? "add" : "remove"}Class`]("active");
-
-		// 手动切换
-		$(".joe_action_item.mode").on("click", function (e) {
-			e.stopPropagation();
-			try {
-				local_theme = localStorage.getItem("data-mode");
-				let theme = "";
-				if (local_theme) {
-					theme = local_theme === "light" ? "dark" : "light";
-					$icon_light[`${local_theme === "light" ? "add" : "remove"}Class`](
-						"active"
-					);
-					$icon_dark[`${local_theme === "light" ? "remove" : "add"}Class`](
-						"active"
-					);
-				} else {
-					theme = "dark";
-					$icon_light.removeClass("active");
-					$icon_dark.addClass("active");
-				}
-				$html.attr("data-mode", theme);
-				localStorage.setItem("data-mode", theme);
-				commonContext.initCommentTheme();
-			} catch (err) {
-				console.log(err);
-			}
-		});
-	},
 	/* 加载条 */
 	loadingBar: {
 		show() {
@@ -96,6 +53,7 @@ const commonContext = {
 			return;
 		$("#Joe").css("margin-bottom", $(".joe_footer").height() + 30);
 	},
+
 	/* 初始化评论主题 */
 	initCommentTheme() {
 		const comments = document.getElementsByTagName("halo-comment");
@@ -108,7 +66,6 @@ const commonContext = {
 	},
 	/* 初始化代码区域，高亮 + 行号 + 折叠 + 复制 */
 	initCode(isRefresh) {
-		// const isPost = $(".page-post").length > 0;
 		const $codeElms = $(".page-post pre, .page-journals pre, .page-sheet pre");
 		if (!$codeElms.length) return;
 

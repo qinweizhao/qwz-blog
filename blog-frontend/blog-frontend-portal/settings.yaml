@@ -34,48 +34,19 @@ genernal:
 theme:
   label: 主题相关
   items:
-    theme_mode:
-      name: theme_mode
-      label: 主题模式
-      type: select
-      data-type: text
-      default: user
-      description: "设置博客的主题模式（用户/自动/浅色/暗黑），默认为用户模式，仅在用户模式下页面才有主题切换按钮，自动模式下根据时间自动切换"
-      options:
-        - value: user
-          label: 用户模式
-        - value: auto
-          label: 自动模式
-        - value: light
-          label: 浅色模式
-        - value: dark
-          label: 暗黑模式
-    light_time_scope:
-      name: light_time_scope
-      label: 浅色模式生效时间范围
-      type: text
-      default: "5:00~19:00"
-      placeholder: "输入格式如：5:00~19:00"
-      description: "设置浅色模式自动生效的时间范围，范围之外为暗黑模式（仅在主题模式为 “自动模式” 下生效），请严格按照规定格式设置，否则会导致报错"
     mode_color_light:
       name: mode_color_light
-      label: 主题色（浅色）
+      label: 主题色
       type: text
       default: "#fb6c28"
-      placeholder: "浅色主题色色值，默认#fb6c28"
-    mode_color_dark:
-      name: mode_color_dark
-      label: 主题色（暗黑）
-      type: text
-      default: "#9999ff"
-      placeholder: "暗黑主题色色值，默认#9999ff"
+      placeholder: "色值，默认#fb6c28"
     enable_background_light:
       name: enable_background_light
-      label: 开启浅色模式背景图
+      label: 开启背景图
       type: switch
       data-type: bool
       default: false
-      description: "需要配置好浅色模式背景图后才有效"
+      description: "需要配置好背景图后才有效"
       options:
         - value: true
           label: 是
@@ -83,28 +54,10 @@ theme:
           label: 否
     background_light_mode:
       name: background_light_mode
-      label: 背景图（浅色模式）
+      label: 背景图
       type: attachment
       default: ""
-      description: "设置浅色模式下的背景图（建议webp格式），为空则只显示默认背景色"
-    enable_background_dark:
-      name: enable_background_dark
-      label: 开启暗黑模式背景图
-      type: switch
-      data-type: bool
-      default: false
-      description: "需要配置好暗黑模式背景图后才有效"
-      options:
-        - value: true
-          label: 是
-        - value: false
-          label: 否
-    background_dark_mode:
-      name: background_dark_mode
-      label: 背景图（暗黑模式）
-      type: attachment
-      default: ""
-      description: "设置暗黑模式下的背景图（建议webp格式），为空则只显示默认背景色"
+      description: "设置背景图（建议webp格式），为空则只显示默认背景色"
     content_max_width:
       name: content_max_width
       label: 内容区最大宽度
@@ -140,8 +93,6 @@ theme:
           label: 简洁卡通-蓝
         - value: simple_sunset_light
           label: 简单日落(浅色)
-        - value: simple_sunset_dark
-          label: 简单日落(暗黑)
         - value: crystallize
           label: 简约水晶
         - value: emoji_zip
