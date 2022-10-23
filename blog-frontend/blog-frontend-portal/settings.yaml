@@ -196,13 +196,6 @@ theme:
       default: "8px"
       placeholder: "请输入宽度，单位px"
       description: "设置全局滚动条的宽度，默认为 8px，填 0 相当于不显示"
-    scrollbar_color:
-      name: scrollbar_color
-      label: 滚动条颜色
-      type: text
-      default: ""
-      placeholder: "请输入有效的颜色值"
-      description: "设置全局滚动条背景色，默认跟随系统色。如需分别设置浅色/暗黑模式下的颜色，请严格按照 【浅色模式颜色|深色模式颜色】 这种格式，用 “|” 隔开"
     enable_loading_bar:
       name: enable_loading_bar
       label: 开启页面加载条

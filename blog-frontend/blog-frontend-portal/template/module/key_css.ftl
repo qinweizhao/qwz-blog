@@ -25,11 +25,6 @@
     <#else>
     </#if>
   }
-  <#if settings.scrollbar_color?trim != "">
-    <#assign sbar_colors = settings.scrollbar_color?trim?split("|")>
-    <#assign sbar_light_color = sbar_colors[0]?trim>
-    <#assign sbar_dark_color = (sbar_colors[1]?? && sbar_colors[1]?trim != "")?then(sbar_colors[1]?trim, sbar_light_color)>
-  </#if>
   <#if settings.loading_bar_color?trim != "">
     <#assign lbar_colors = settings.loading_bar_color?trim?split("|")>
     <#assign lbar_light_color = lbar_colors[0]?trim>
@@ -38,7 +33,7 @@
   <#assign img_max_width = (metas?? && metas.img_max_width?? && metas.img_max_width?trim != "")?then(metas.img_max_width?trim, settings.img_max_width!"100%")>
   html body {
     --theme: ${settings.mode_color_light!"#fb6c28"};
-    --scroll-bar: ${sbar_light_color!"#c0c4cc"};
+    --scroll-bar: #c0c4cc;
     --loading-bar: ${lbar_light_color!"var(--theme)"};
     --img-max-width: ${img_max_width};
     font-family: "Joe Font", "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, "sans-serif";
