@@ -38,8 +38,7 @@
                         <span class="text" >${post.visits} 阅读</span>
                         <span class="line">/</span>
                         <span class="text">${post.wordCount!0} 字</span>
-                        <#assign enable_collect_check = (metas?? && metas.enable_collect_check?? && metas.enable_collect_check?trim!='')?then(metas.enable_collect_check?trim,'true')>
-                        <#if post.status=='PUBLISHED' && settings.check_baidu_collect==true && enable_collect_check == 'true'>
+                        <#if post.status=='PUBLISHED' && settings.check_baidu_collect==true>
                           <span class="line">/</span>
                           <#include "template/module/baidu_push.ftl">
                         </#if>
@@ -49,8 +48,7 @@
                   <time class="joe_detail__count-created" datetime="${post.createTime?date('yyyy-MM-dd')}">${post.createTime?date('yyyy-MM-dd')}</time>
                 </div>
               <div class="joe_detail__overdue">
-              <#assign enable_passage_tips = (metas?? && metas.enable_passage_tips?? && metas.enable_passage_tips?trim!='')?then(metas.enable_passage_tips?trim,'true')>
-                <#if settings.enable_passage_tips && enable_passage_tips == 'true'>
+                <#if settings.enable_passage_tips>
                   <div class="joe_detail__overdue-wrapper">
                     <div class="title">
                       <svg class="icon" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="20" height="20">
@@ -85,6 +83,7 @@
                     </joe-raw-content>
                   </#if>
                 </div>
+                <#-- 评论后可见-->
                 <#if enable_read_limit == 'true'>
                   <joe-read-limited></joe-read-limited>
                 </#if>
@@ -135,8 +134,7 @@
             </div>
           </#if>
         </div>
-        <#assign enable_aside = (metas?? && metas.enable_aside?? && metas.enable_aside?trim!='')?then(metas.enable_aside?trim,'true')>
-        <#if settings.enable_post_aside == true && enable_aside == 'true'>
+        <#if settings.enable_post_aside == true>
           <#include "template/common/aside_post.ftl">
         </#if>
       </div>

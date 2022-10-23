@@ -20,7 +20,7 @@
     <script src="${BASE_RES_URL!}/source/lib/halo-comment/halo-comment.min.js?v=${theme.version!}"></script>
   </#if>
   <script src="${BASE_RES_URL!}/source/lib/fancybox/jquery.fancybox.min.js"></script>
-  <#assign enable_katex = (metas?? && metas.enable_katex?? && metas.enable_katex?trim!='')?then(metas.enable_katex?trim,settings.enable_katex?then('true','false'))>
+  <#assign enable_katex = settings.enable_katex?then('true','false')>
   <#if enable_katex == 'true' && (type == 'post' || type == 'journals' || type == 'sheet')>
     <link rel="stylesheet" href="${BASE_RES_URL}/source/lib/katex@0.13.18/katex.min.css">
   </#if>
