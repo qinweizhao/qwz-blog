@@ -31,13 +31,7 @@ public enum PermalinkProperties implements PropertyEnum {
      * Journals page prefix
      * default is journals
      */
-    JOURNALS_PREFIX("journals_prefix", String.class, "journals"),
-
-    /**
-     * about page prefix
-     * default is journals
-     */
-    ABOUT_PREFIX("about_prefix", String.class, "about");
+    JOURNALS_PREFIX("journals_prefix", String.class, "journals");
 
     private final String value;
 

@@ -33,6 +33,7 @@
   <#assign img_max_width = (metas?? && metas.img_max_width?? && metas.img_max_width?trim != "")?then(metas.img_max_width?trim, settings.img_max_width!"100%")>
   html body {
     --theme: ${settings.mode_color_light!"#fb6c28"};
+    /*滚动条颜色*/
     --scroll-bar: #c0c4cc;
     --loading-bar: ${lbar_light_color!"var(--theme)"};
     --img-max-width: ${img_max_width};

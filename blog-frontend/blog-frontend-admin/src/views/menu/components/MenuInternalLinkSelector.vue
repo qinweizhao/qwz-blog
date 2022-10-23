@@ -144,7 +144,7 @@ export default {
       const options = this.options
       return [
         {
-          name: '分类目录',
+          name: '分类',
           url: `${options.blog_url}/${options.categories_prefix}`
         },
         {
@@ -152,7 +152,7 @@ export default {
           url: `${options.blog_url}/${options.tags_prefix}`
         },
         {
-          name: '文章归档',
+          name: '归档',
           url: `${options.blog_url}/${options.archives_prefix}`
         },
         {
