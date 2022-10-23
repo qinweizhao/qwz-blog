@@ -54,16 +54,6 @@ const commonContext = {
 		$("#Joe").css("margin-bottom", $(".joe_footer").height() + 30);
 	},
 
-	/* 初始化评论主题 */
-	initCommentTheme() {
-		const comments = document.getElementsByTagName("halo-comment");
-		const curMode = document.querySelector("html").getAttribute("data-mode");
-		// 黑夜模式下
-		for (let i = 0; i < comments.length; i++) {
-			const shadowDom = comments[i].shadowRoot.getElementById("halo-comment");
-			$(shadowDom)[`${curMode === "light" ? "remove" : "add"}Class`]("dark");
-		}
-	},
 	/* 初始化代码区域，高亮 + 行号 + 折叠 + 复制 */
 	initCode(isRefresh) {
 		const $codeElms = $(".page-post pre, .page-journals pre, .page-sheet pre");
@@ -696,11 +686,6 @@ const commonContext = {
 
 	document.addEventListener("DOMContentLoaded", function () {
 		commonContext.loadingBar.show();
-		// window.lazySizesConfig = window.lazySizes.cfg || {};
-		// window.lazySizesConfig.init = false;
-		// window.lazySizesConfig.loadMode = 1;
-		// window.lazySizesConfig.loadHidden = false;
-		// lazySizes.init();
 		Object.keys(commonContext).forEach(
 			(c) => !omits.includes(c) && commonContext[c]()
 		);
