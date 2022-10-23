@@ -18,7 +18,7 @@
         <a-spin :spinning="loading">
           <div class="custom-tab-wrapper">
             <a-tabs :animated="{ inkBar: true, tabPane: false }" default-active-key="1">
-              <a-tab-pane key="1" force-render tab="分类目录">
+              <a-tab-pane key="1" force-render tab="分类">
                 <a-list item-layout="horizontal">
                   <a-list-item v-for="(category, index) in categories" :key="index">
                     <a-list-item-meta :description="category.fullPath" :title="category.name" />
@@ -36,18 +36,6 @@
                     <a-list-item-meta :description="tag.fullPath" :title="tag.name" />
                     <template slot="actions">
                       <a-button class="!p-0" type="link" @click="handleInsertPre(tag.name, tag.fullPath)">
-                        <a-icon type="plus-circle" />
-                      </a-button>
-                    </template>
-                  </a-list-item>
-                </a-list>
-              </a-tab-pane>
-              <a-tab-pane key="3" tab="独立页面">
-                <a-list item-layout="horizontal">
-                  <a-list-item v-for="(item, index) in sheet.independents" :key="index">
-                    <a-list-item-meta :description="item.fullPath" :title="item.title" />
-                    <template slot="actions">
-                      <a-button class="!p-0" type="link" @click="handleInsertPre(item.title, item.fullPath)">
                         <a-icon type="plus-circle" />
                       </a-button>
                     </template>
@@ -95,7 +83,6 @@
 import menuApi from '@/api/menu'
 import categoryApi from '@/api/category'
 import tagApi from '@/api/tag'
-import sheetApi from '@/api/sheet'
 import configApi from '@/api/config'
 
 export default {
@@ -116,16 +103,6 @@ export default {
       categories: [],
       tags: [],
       menus: [],
-      sheet: {
-        independents: [],
-        customs: {
-          queryParam: {
-            page: 1,
-            size: 10,
-            sort: null
-          }
-        }
-      },
       loading: false,
       saving: false,
       saveErrored: false
@@ -146,6 +123,10 @@ export default {
         {
           name: '分类',
           url: `${options.blog_url}/${options.categories_prefix}`
+        },
+        {
+          name: '日志',
+          url: `${options.blog_url}/${options.journals_prefix}`
         },
         {
           name: '标签',
@@ -176,12 +157,11 @@ export default {
   methods: {
     handleFetchAll() {
       this.loading = true
-      Promise.all([configApi.list(), categoryApi.list(), tagApi.list(), sheetApi.listIndependent()])
+      Promise.all([configApi.list(), categoryApi.list(), tagApi.list()])
         .then(response => {
           this.options = response[0].data.data
           this.categories = response[1].data.data
           this.tags = response[2].data.data
-          this.sheet.independents = response[3].data.data
         })
         .finally(() => {
           this.loading = false
