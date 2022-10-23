@@ -21,7 +21,7 @@
   </#if>
   <script src="${BASE_RES_URL!}/source/lib/fancybox/jquery.fancybox.min.js"></script>
   <#assign enable_katex = settings.enable_katex?then('true','false')>
-  <#if enable_katex == 'true' && (type == 'post' || type == 'journals' || type == 'sheet')>
+  <#if enable_katex == 'true' && (type == 'post' || type == 'journals')>
     <link rel="stylesheet" href="${BASE_RES_URL}/source/lib/katex@0.13.18/katex.min.css">
   </#if>
   <script src="${BASE_RES_URL}/source/js/min/custom.min.js?v=${theme.version!}"></script>

@@ -1,6 +1,5 @@
 <ul class="aside_operations">
-  <#assign enable_like = (metas?? && metas.enable_like?? && metas.enable_like?trim!='')?then(metas.enable_like?trim,'true')>
-  <#if enable_like=='true' && settings.enable_like==true && post.status!='DRAFT'>
+  <#if settings.enable_like==true && post.status!='DRAFT'>
     <#import "favorite.ftl" as nsp>
     <@nsp.favorite post=post type="aside" />
   </#if>

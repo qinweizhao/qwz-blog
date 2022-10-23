@@ -124,8 +124,7 @@ const commonContext = {
 		if (!$(".page-post").length) return; // 仅针对文章页
 		if (
 			ThemeConfig.enable_code_expander &&
-            ThemeConfig.enable_fold_long_code &&
-            PageAttrs.metas.enable_fold_long_code !== "false"
+            ThemeConfig.enable_fold_long_code
 		) {
 			$(".page-post pre[class*='language-']").each(function (_index, item) {
 				const $item = $(item);

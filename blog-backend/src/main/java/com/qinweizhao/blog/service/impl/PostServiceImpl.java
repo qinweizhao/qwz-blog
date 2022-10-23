@@ -515,7 +515,7 @@ public class PostServiceImpl implements PostService {
 
         Content content = contentMapper.selectById(postId);
         String originalContent = content.getOriginalContent();
-        postDTO.setFormatContent(MarkdownUtils.renderHtml(originalContent));
+        postDTO.setFormatContent(content.getContent());
         postDTO.setOriginalContent(originalContent);
 
         Set<Integer> tagIds = ServiceUtils.fetchProperty(tags, TagDTO::getId);

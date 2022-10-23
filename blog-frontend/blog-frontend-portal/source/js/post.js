@@ -133,8 +133,7 @@ const postContext = {
 	/* 文章点赞 */
 	initLike() {
 		if (
-			PageAttrs.metas.enable_like === "false" ||
-      !ThemeConfig.enable_like ||
+			!ThemeConfig.enable_like ||
       !$(".joe_detail__agree").length
 		)
 			return;

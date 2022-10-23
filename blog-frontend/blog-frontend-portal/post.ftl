@@ -88,8 +88,7 @@
                   <joe-read-limited></joe-read-limited>
                 </#if>
               </article>
-              <#assign enable_like = (metas?? && metas.enable_like?? && metas.enable_like?trim!='')?then(metas.enable_like?trim,'true')>
-              <#if enable_like=='true' && settings.enable_like==true && post.status!='DRAFT'>
+              <#if settings.enable_like==true && post.status!='DRAFT'>
                 <#import "template/module/favorite.ftl" as nsp>
                 <@nsp.favorite post=post type="bottom" />
               </#if>

@@ -15,7 +15,7 @@
     "@codemirror/basic-setup": "^0.19.1",
     "@codemirror/lang-html": "^0.19.4",
     "@codemirror/lang-java": "^0.19.1",
-    "@halo-dev/editor": "^3.0.0",
+    "@halo-dev/editor": "^3.0.5",
     "ant-design-vue": "^1.7.8",
     "dayjs": "^1.11.0",
     "enquire.js": "^2.1.6",
