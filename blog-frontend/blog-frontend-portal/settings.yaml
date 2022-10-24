@@ -1233,7 +1233,7 @@ post:
       type: switch
       data-type: bool
       default: true
-      description: "可通过后台配置文章元属性 enable_toc 来启用/关闭单个文章的 Toc 目录，参见 theme.yaml 中的 postMetaField"
+      description: ""
       options:
         - value: true
           label: 开启
@@ -1245,7 +1245,7 @@ post:
       type: switch
       data-type: bool
       default: false
-      description: "是否启用移动端的TOC目录，可通过后台配置文章元属性 enable_mobile_toc 来启用/关闭单个文章的 Toc 目录，参见 theme.yaml 中的 postMetaField"
+      description: ""
       options:
         - value: true
           label: 开启

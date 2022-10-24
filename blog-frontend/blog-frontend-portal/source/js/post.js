@@ -199,12 +199,9 @@ const postContext = {
 	},
 	/* 文章目录 */
 	initToc(reload) {
-		if (
-			!ThemeConfig.enable_toc ||
-      !$(".toc-container").length
-		)
+		if (!ThemeConfig.enable_toc || !$(".toc-container").length){
 			return;
-
+		}
 		// 原始内容的文章不支持TOC
 		// if (PageAttrs.metas.use_raw_content === "true") {
 		// 	$("#js-toc").html(
@@ -213,13 +210,9 @@ const postContext = {
 		// 	$(".toc-container").show();
 		// 	return;
 		// }
-
 		// 回复可见的文章首次不渲染TOC
 		if (
-			ThemeConfig.enable_read_limit === "true" &&
-      !reload &&
-      postContext.limited
-		) {
+			ThemeConfig.enable_read_limit && !reload && postContext.limited) {
 			$("#js-toc").html(
 				"<div class=\"toc-nodata\">文章内容不完整，目录仅评论后可见</div>"
 			);

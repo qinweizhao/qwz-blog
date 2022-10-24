@@ -10,6 +10,3 @@ website: https://www.qinweizhao.com
 repo: https://github.com/qinweizhao/qwz-blog
 version: 3.0.9
 require: ^3.0.9
-
-# 文章页 meta 变量
-postMetaField:

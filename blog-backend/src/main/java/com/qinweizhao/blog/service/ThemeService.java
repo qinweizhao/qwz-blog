@@ -22,11 +22,6 @@ public interface ThemeService {
     String[] SETTINGS_NAMES = {"settings.yaml", "settings.yml"};
 
     /**
-     * 可以修改的文件类型
-     */
-    String[] CAN_EDIT_SUFFIX = {".ftl", ".css", ".js", ".yaml", ".yml", ".properties"};
-
-    /**
      * 渲染模板
      */
     String RENDER_TEMPLATE = "%s/%s";
