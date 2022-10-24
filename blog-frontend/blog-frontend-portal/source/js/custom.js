@@ -137,38 +137,6 @@ document.addEventListener("DOMContentLoaded", () => {
 	);
 
 	customElements.define(
-		"joe-read-limited",
-		class JoeReadLimited extends HTMLElement {
-			constructor() {
-				super();
-				this.render();
-			}
-			render() {
-				this.innerHTML =
-          "<div class=\"joe_read_limited\"><p><i class=\"joe-font joe-icon-locker\" style=\"color:#f5840d;\"></i>&nbsp;此处内容仅 <span class=\"joe_read_limited__button\">评论</span> 后可见</p></div>";
-				this.$button = this.querySelector(".joe_read_limited__button");
-				const $comment = document.querySelector(".joe_comment");
-				const $header = document.querySelector(".joe_header");
-				if (!$comment || !$header) return;
-				this.$button.addEventListener("click", (e) => {
-					e.stopPropagation();
-					if (!document.getElementsByTagName("halo-comment").length) {
-						Qmsg.warning("评论功能不可用！");
-						return;
-					}
-					const scrollTop = $comment.offsetTop - $header.offsetHeight - 15;
-					$("html,body").animate(
-						{
-							scrollTop,
-						},
-						500
-					);
-				});
-			}
-		}
-	);
-
-	customElements.define(
 		"joe-card-default",
 		class JoeCardDefault extends HTMLElement {
 			constructor() {

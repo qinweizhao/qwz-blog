@@ -67,14 +67,10 @@
               <#import "template/ads/ads_post.ftl" as adpost>
               <@adpost.ads_post type="top" />
               <#assign img_align = settings.post_img_align!'center'>
-              <article class="joe_detail__article animated fadeIn ${img_align+'-img'}${(settings.enable_read_limit==true)?then(' limited','')}${(settings.enable_copy!=true)?then(' uncopy', '')}${(settings.enable_code_line_number==true && settings.enable_code_newline!=true)?then(' line-numbers','')}${settings.enable_single_code_select?then(' single_code_select','')}">
+              <article class="joe_detail__article animated fadeIn ${img_align+'-img'}${(settings.enable_copy!=true)?then(' uncopy', '')}${(settings.enable_code_line_number==true && settings.enable_code_newline!=true)?then(' line-numbers','')}${settings.enable_single_code_select?then(' single_code_select','')}">
                 <div id="post-inner">
                     ${post.formatContent!}
                 </div>
-                <#-- 评论后可见-->
-                <#if settings.enable_read_limit==true>
-                  <joe-read-limited></joe-read-limited>
-                </#if>
               </article>
               <#if settings.enable_like==true && post.status!='DRAFT'>
                 <#import "template/module/favorite.ftl" as nsp>

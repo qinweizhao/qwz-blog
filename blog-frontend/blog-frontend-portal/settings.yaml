@@ -1293,17 +1293,6 @@ post:
           label: 开启
         - value: false
           label: 关闭
-    enable_read_limit:
-      name: enable_read_limit
-      label: 评论后可见
-      type: switch
-      data-type: bool
-      default: true
-      options:
-        - value: true
-          label: 开启
-        - value: false
-          label: 关闭
     enable_like:
       name: enable_like
       label: 文章点赞
