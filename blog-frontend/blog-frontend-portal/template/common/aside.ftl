@@ -34,13 +34,11 @@
                     <img width="35" height="35" class="avatar lazyload" data-src="${avatar}" src="${settings.lazyload_avatar!}" onerror="Joe.errorImg(this)" alt="头像">
                     <div class="info">
                       <div class="author">${comment.author!}</div>
-                      <span class="date">${comment.createTime?string("yyyy-MM-dd")}</span>
+                      <span class="date">${comment.createTime?date("yyyy-MM-dd")}</span>
                     </div>
                   </div>
                   <div class="reply">
-                    <#assign tmp = comment.post.fullPath?ends_with('/')?then(comment.post.fullPath?replace('/$','','ri'), comment.post.fullPath)>
-                    <#assign basePath = (tmp?index_of('?')!=-1)?then(tmp + '&', tmp + '?')>
-                    <a class="link aside-reply-content" href="${basePath}cid=${comment.id?c}">${comment.content!}</a>
+                    <a class="link aside-reply-content" href="${comment.target.fullPath}">${comment.content!}</a>
                   </div>
                 </li>
               </#list>

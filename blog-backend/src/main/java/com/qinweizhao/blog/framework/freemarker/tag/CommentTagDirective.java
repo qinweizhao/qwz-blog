@@ -1,5 +1,6 @@
 package com.qinweizhao.blog.framework.freemarker.tag;
 
+import com.qinweizhao.blog.model.enums.CommentStatus;
 import com.qinweizhao.blog.model.enums.CommentType;
 import com.qinweizhao.blog.model.param.CommentQueryParam;
 import com.qinweizhao.blog.model.support.BlogConst;
@@ -39,7 +40,8 @@ public class CommentTagDirective implements TemplateDirectiveModel {
                     int top = Integer.parseInt(params.get("top").toString());
                     CommentQueryParam param = new CommentQueryParam();
                     param.setType(CommentType.POST);
-                    param.setPage(top);
+                    param.setSize(top);
+                    param.setStatus(CommentStatus.PUBLISHED);
                     env.setVariable("comments", builder.build().wrap(commentService.listLatest(param)));
                     break;
                 case "count":
