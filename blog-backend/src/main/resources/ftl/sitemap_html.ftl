@@ -133,7 +133,7 @@
             <div class="clear"></div>
             <li>
                 <div class="T1 pull-left"><a href="${blog_url!}" title="${blog_title!}">${blog_title!}</a></div>
-                <div class="T2 pull-right">${(options.birthday)?number_to_date} </div>
+                <div class="T2 pull-right">${.now?string('yyyy-MM-dd')}</div>
                 <div class="T3 pull-right">daily</div>
                 <div class="T4 pull-right">1</div>
             </li>

@@ -10,6 +10,14 @@
         </analysis-card>
       </a-col>
       <a-col :lg="6" :md="12" :sm="12" :xl="6" :xs="12" class="mb-3">
+        <analysis-card :number="statisticsData.journalCount" title="日志">
+          <router-link slot="action" :to="{ name: 'JournalList' }">
+            <a-icon v-if="statisticsLoading" type="loading" />
+            <a-icon v-else type="calendar" />
+          </router-link>
+        </analysis-card>
+      </a-col>
+      <a-col :lg="6" :md="12" :sm="12" :xl="6" :xs="12" class="mb-3">
         <analysis-card :number="statisticsData.commentCount" title="评论">
           <router-link slot="action" :to="{ name: 'Comments' }">
             <a-icon v-if="statisticsLoading" type="loading" />
@@ -21,17 +29,6 @@
         <analysis-card :number="statisticsData.visitCount" title="阅读量">
           <a-tooltip slot="action">
             <template slot="title"> 文章阅读共 {{ statisticsData.visitCount }} 次</template>
-            <a-button class="!p-0" type="link">
-              <a-icon v-if="statisticsLoading" type="loading" />
-              <a-icon v-else type="info-circle-o" />
-            </a-button>
-          </a-tooltip>
-        </analysis-card>
-      </a-col>
-      <a-col :lg="6" :md="12" :sm="12" :xl="6" :xs="12" class="mb-3">
-        <analysis-card :number="statisticsData.establishDays" title="建立天数">
-          <a-tooltip slot="action">
-            <template slot="title">博客建立于 {{ statisticsData.birthday | moment }}</template>
             <a-button class="!p-0" type="link">
               <a-icon v-if="statisticsLoading" type="loading" />
               <a-icon v-else type="info-circle-o" />

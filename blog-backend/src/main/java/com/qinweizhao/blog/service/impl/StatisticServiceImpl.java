@@ -49,10 +49,6 @@ public class StatisticServiceImpl implements StatisticService {
         statisticDTO.setCategoryCount(categoryService.count());
         statisticDTO.setJournalCount(journalService.count());
 
-        long birthday = configService.getBirthday();
-        long days = (System.currentTimeMillis() - birthday) / (1000 * 24 * 3600);
-        statisticDTO.setEstablishDays(days);
-        statisticDTO.setBirthday(birthday);
         statisticDTO.setVisitCount(postService.countVisit());
         statisticDTO.setLikeCount(postService.countLike());
         return statisticDTO;

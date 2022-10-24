@@ -273,14 +273,6 @@ public interface ConfigService {
      */
     String getTagsPrefix();
 
-
-    /**
-     * 博客注册时间
-     *
-     * @return long
-     */
-    long getBirthday();
-
     /**
      * 分页列表
      *

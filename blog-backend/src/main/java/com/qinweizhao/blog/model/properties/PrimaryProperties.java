@@ -10,11 +10,6 @@ package com.qinweizhao.blog.model.properties;
 public enum PrimaryProperties implements PropertyEnum {
 
     /**
-     * blog birthday
-     */
-    BIRTHDAY("birthday", Long.class, ""),
-
-    /**
      * developer mode.
      */
     DEV_MODE("developer_mode", Boolean.class, "false"),

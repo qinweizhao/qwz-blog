@@ -26,15 +26,12 @@
               <a-icon class="mr-3" type="mail" />
               {{ userForm.model.email }}
             </p>
-            <p class="mb-3">
-              <a-icon class="mr-3" type="calendar" />
-              {{ statistics.data.establishDays || 0 }} 天
-            </p>
           </div>
           <a-divider />
           <div>
             <a-list :loading="statistics.loading" itemLayout="horizontal">
               <a-list-item>累计发表了 {{ statistics.data.postCount || 0 }} 篇文章。</a-list-item>
+              <a-list-item>累计发表了 {{ statistics.data.journalCount || 0 }} 篇日志。</a-list-item>
               <a-list-item>累计创建了 {{ statistics.data.categoryCount || 0 }} 个分类。</a-list-item>
               <a-list-item>累计创建了 {{ statistics.data.tagCount || 0 }} 个标签。</a-list-item>
               <a-list-item>累计获得了 {{ statistics.data.commentCount || 0 }} 条评论。</a-list-item>

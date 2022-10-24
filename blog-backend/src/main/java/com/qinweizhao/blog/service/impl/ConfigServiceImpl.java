@@ -15,7 +15,6 @@ import com.qinweizhao.blog.model.param.ConfigParam;
 import com.qinweizhao.blog.model.param.ConfigQueryParam;
 import com.qinweizhao.blog.model.properties.*;
 import com.qinweizhao.blog.service.ConfigService;
-import com.qinweizhao.blog.util.DateUtils;
 import com.qinweizhao.blog.util.ServiceUtils;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -304,15 +303,6 @@ public class ConfigServiceImpl implements ConfigService {
         return getByPropertyOrDefault(PermalinkProperties.TAGS_PREFIX, String.class, PermalinkProperties.TAGS_PREFIX.defaultValue());
     }
 
-
-    @Override
-    public long getBirthday() {
-        return getByProperty(PrimaryProperties.BIRTHDAY, Long.class).orElseGet(() -> {
-            long currentTime = DateUtils.now().getTime();
-            this.saveProperty(PrimaryProperties.BIRTHDAY, String.valueOf(currentTime));
-            return currentTime;
-        });
-    }
 
     @Override
     public PageResult<ConfigSimpleDTO> pageSimple(ConfigQueryParam param) {

@@ -22,12 +22,6 @@ public class StatisticDTO {
 
     private Long journalCount;
 
-    private Long birthday;
-
-    private Long establishDays;
-
-    private Long linkCount;
-
     private Long visitCount;
 
     private Long likeCount;

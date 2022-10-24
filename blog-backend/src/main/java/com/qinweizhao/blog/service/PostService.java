@@ -117,7 +117,7 @@ public interface PostService {
     long countVisit();
 
     /**
-     * 阅读次数
+     * 点赞量
      *
      * @return long
      */
