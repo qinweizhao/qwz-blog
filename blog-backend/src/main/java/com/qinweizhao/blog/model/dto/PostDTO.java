@@ -60,7 +60,4 @@ public class PostDTO {
 
     private List<CategoryDTO> categories;
 
-    private Set<Long> metaIds;
-
-    private List<MetaDTO> metas;
 }

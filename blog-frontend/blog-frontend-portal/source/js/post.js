@@ -4,10 +4,11 @@ const postContext = {
 	/* 初始化评论后可见 */
 	initReadLimit() {
 		if (
-			PageAttrs.metas.enable_read_limit &&
-      PageAttrs.metas.enable_read_limit.trim() !== "true"
-		)
+			!ThemeConfig.enable_read_limit
+		){
 			return;
+		}
+
 		postContext.limited = true;
 		const $article = $(".page-post .joe_detail__article");
 		const $content = $("#post-inner");
@@ -15,13 +16,13 @@ const postContext = {
 		const clientHeight =
       document.documentElement.clientHeight || document.body.clientHeight;
 		const cid = $(".joe_detail").attr("data-cid");
-
 		// 移除限制
 		const removeLimit = () => {
 			postContext.limited = false;
 			$hideMark.parent().remove();
 			$article.removeClass("limited");
-			postContext.initToc(true); // 重新渲染TOC
+			// 重新渲染TOC
+			postContext.initToc(true);
 		};
 
 		// 如果文章内容高度小于等于屏幕高度，则自动忽略限制
@@ -76,7 +77,7 @@ const postContext = {
 	},
 	/* 文章复制 + 版权文字 */
 	initCopy() {
-		if (PageAttrs.metas.enable_copy === "false" || !ThemeConfig.enable_copy)
+		if (!ThemeConfig.enable_copy)
 			return;
 		const curl = location.href;
 		const author = $(".joe_detail").attr("data-author");
@@ -108,7 +109,7 @@ const postContext = {
 	},
 	/* 初始化文章分享 */
 	initShare() {
-		if (PageAttrs.metas.enable_share === "false" || !ThemeConfig.enable_share)
+		if (!ThemeConfig.enable_share)
 			return;
 		if (ThemeConfig.enable_share_link && $(".icon-share-link").length) {
 			$(".icon-share-link").each((_index, item) => {
@@ -199,24 +200,23 @@ const postContext = {
 	/* 文章目录 */
 	initToc(reload) {
 		if (
-			PageAttrs.metas.enable_toc === "false" ||
-      !ThemeConfig.enable_toc ||
+			!ThemeConfig.enable_toc ||
       !$(".toc-container").length
 		)
 			return;
 
 		// 原始内容的文章不支持TOC
-		if (PageAttrs.metas.use_raw_content === "true") {
-			$("#js-toc").html(
-				"<div class=\"toc-nodata\">暂不支持解析原始内容目录</div>"
-			);
-			$(".toc-container").show();
-			return;
-		}
+		// if (PageAttrs.metas.use_raw_content === "true") {
+		// 	$("#js-toc").html(
+		// 		"<div class=\"toc-nodata\">暂不支持解析原始内容目录</div>"
+		// 	);
+		// 	$(".toc-container").show();
+		// 	return;
+		// }
 
 		// 回复可见的文章首次不渲染TOC
 		if (
-			PageAttrs.metas.enable_read_limit === "true" &&
+			ThemeConfig.enable_read_limit === "true" &&
       !reload &&
       postContext.limited
 		) {
@@ -241,7 +241,7 @@ const postContext = {
 			contentSelector: ".joe_detail__article",
 			ignoreSelector: ".js-toc-ignore",
 			headingSelector: "h1,h2,h3,h4,h5,h6",
-			collapseDepth: +(PageAttrs.metas.toc_depth || ThemeConfig.toc_depth || 0),
+			collapseDepth: +(ThemeConfig.toc_depth || 0),
 			scrollSmooth: true,
 			includeTitleTags: true,
 			// scrollSmoothDuration: 400,
@@ -251,9 +251,7 @@ const postContext = {
 			positionFixedSelector: ".toc-container", // 固定类添加的容器
 			positionFixedClass: "is-position-fixed", // 固定类名称
 			fixedSidebarOffset: "auto",
-			// disableTocScrollSync: false,
 			onClick: function (e) {
-				// console.log(e);
 				if (Joe.isMobile) {
 					// 更新移动端toc文章滚动位置
 					$html.removeClass("disable-scroll");
@@ -264,7 +262,6 @@ const postContext = {
 				window.tocPhase = true;
 			},
 			scrollEndCallback: function (e) {
-				// console.log(e);
 				window.tocPhase = null;
 			},
 		});
@@ -367,8 +364,7 @@ const postContext = {
 	async jumpToComment() {
 		if (
 			ThemeConfig.enable_clean_mode ||
-      !ThemeConfig.enable_comment ||
-      PageAttrs.metas.enable_comment === "false"
+      !ThemeConfig.enable_comment
 		)
 			return;
 		const { cid: commentId = "", p: postId = "" } = Utils.getUrlParams();

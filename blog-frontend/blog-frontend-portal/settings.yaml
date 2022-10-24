@@ -1193,7 +1193,7 @@ post:
       type: select
       data-type: text
       default: center
-      description: "设置文章内容区域图片的对齐方式（默认为 “居中”，也可通过页面元数据 img_align 配置）"
+      description: "设置文章内容区域图片的对齐方式（默认为 “居中”）"
       options:
         - value: left
           label: 左对齐
@@ -1285,6 +1285,17 @@ post:
     enable_comment:
       name: enable_comment
       label: 文章评论
+      type: switch
+      data-type: bool
+      default: true
+      options:
+        - value: true
+          label: 开启
+        - value: false
+          label: 关闭
+    enable_read_limit:
+      name: enable_read_limit
+      label: 评论后可见
       type: switch
       data-type: bool
       default: true

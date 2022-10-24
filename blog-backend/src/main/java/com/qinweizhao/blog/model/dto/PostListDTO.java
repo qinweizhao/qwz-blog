@@ -15,6 +15,4 @@ public class PostListDTO extends PostSimpleDTO {
 
     private List<TagDTO> tags;
 
-    private List<MetaDTO> metas;
-
 }

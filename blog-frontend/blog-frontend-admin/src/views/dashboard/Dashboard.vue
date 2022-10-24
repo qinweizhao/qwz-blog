@@ -42,7 +42,7 @@
     </a-row>
     <a-row :gutter="12">
       <a-col :lg="12" :md="12" :sm="24" :xl="12" :xs="24" class="mb-3">
-        <a-card :bodyStyle="{ padding: 0 }" :bordered="false" title="新动态">
+        <a-card :bodyStyle="{ padding: 0 }" :bordered="false" title="动态">
           <div class="card-container">
             <a-tabs type="card">
               <a-tab-pane key="1" tab="最近文章">

@@ -3,7 +3,6 @@ package com.qinweizhao.blog.framework.handler.theme.config.support;
 import lombok.Data;
 
 import java.util.Objects;
-import java.util.Set;
 
 /**
  * Theme property.
@@ -85,16 +84,6 @@ public class ThemeProperty {
      * Screenshots url.
      */
     private String screenshots;
-
-    /**
-     * Post preset metas.
-     */
-    private Set<String> postMetaField;
-
-    /**
-     * Sheet preset metas.
-     */
-    private Set<String> sheetMetaField;
 
     @Override
     public boolean equals(Object o) {

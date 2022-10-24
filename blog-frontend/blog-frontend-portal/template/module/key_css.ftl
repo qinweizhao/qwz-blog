@@ -30,7 +30,7 @@
     <#assign lbar_light_color = lbar_colors[0]?trim>
     <#assign lbar_dark_color = (lbar_colors[1]?? && lbar_colors[1]?trim != "")?then(lbar_colors[1]?trim, lbar_light_color)>
   </#if>
-  <#assign img_max_width = (metas?? && metas.img_max_width?? && metas.img_max_width?trim != "")?then(metas.img_max_width?trim, settings.img_max_width!"100%")>
+  <#assign img_max_width = settings.img_max_width!"100%">
   html body {
     --theme: ${settings.mode_color_light!"#fb6c28"};
     /*滚动条颜色*/

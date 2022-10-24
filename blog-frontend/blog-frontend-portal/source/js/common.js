@@ -662,8 +662,6 @@ const commonContext = {
 		// 移除无用标签
 		$("#compatiable-checker").remove();
 		$("#theme-config-getter").remove();
-		$("#metas-getter").remove();
-		$("#theme-config-getter").remove();
 		// 重置操作
 		commonContext.loadingBar.hide();
 	},

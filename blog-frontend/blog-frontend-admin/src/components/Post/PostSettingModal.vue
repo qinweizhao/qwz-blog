@@ -71,9 +71,6 @@
                 @ok="onCreateTimeSelect"
               />
             </a-form-item>
-            <a-form-item label="访问密码：">
-              <a-input-password v-model="form.model.password" autocomplete="new-password" />
-            </a-form-item>
             <a-form-item label="封面图：">
               <a-space direction="vertical">
                 <img
@@ -111,9 +108,6 @@
               />
             </a-form-item>
           </a-form>
-        </a-tab-pane>
-        <a-tab-pane key="meta" tab="元数据">
-          <MetaEditor :metas.sync="form.model.metas" :targetId="form.model.id" />
         </a-tab-pane>
       </a-tabs>
     </div>
@@ -163,7 +157,6 @@
 // components
 import CategoryTree from '../Category/CategoryTree'
 import TagSelect from '../Tag/TagSelect'
-import MetaEditor from '@/components/Post/MetaEditor'
 import CategoryCreateModal from '@/components/Category/CategoryCreateModal'
 
 // libs
@@ -182,7 +175,6 @@ export default {
   components: {
     CategoryTree,
     TagSelect,
-    MetaEditor,
     CategoryCreateModal
   },
   props: {

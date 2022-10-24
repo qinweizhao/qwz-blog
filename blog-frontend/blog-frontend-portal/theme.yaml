@@ -13,13 +13,3 @@ require: ^3.0.9
 
 # 文章页 meta 变量
 postMetaField:
-  - enable_read_limit
-  - use_raw_content
-  - enable_comment
-  - enable_toc
-  - toc_depth
-  - img_align
-  - img_max_width
-  - enable_copy
-  - enable_donate
-  - enable_share

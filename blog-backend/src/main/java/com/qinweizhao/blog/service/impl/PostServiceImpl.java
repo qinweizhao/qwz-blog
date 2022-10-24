@@ -8,7 +8,6 @@ import com.qinweizhao.blog.exception.ServiceException;
 import com.qinweizhao.blog.framework.cache.AbstractStringCacheStore;
 import com.qinweizhao.blog.framework.event.post.PostVisitEvent;
 import com.qinweizhao.blog.mapper.*;
-import com.qinweizhao.blog.model.convert.MetaConvert;
 import com.qinweizhao.blog.model.convert.PostConvert;
 import com.qinweizhao.blog.model.core.PageResult;
 import com.qinweizhao.blog.model.dto.*;
@@ -19,7 +18,6 @@ import com.qinweizhao.blog.model.entity.PostTag;
 import com.qinweizhao.blog.model.enums.CommentStatus;
 import com.qinweizhao.blog.model.enums.CommentType;
 import com.qinweizhao.blog.model.enums.PostStatus;
-import com.qinweizhao.blog.model.param.MetaParam;
 import com.qinweizhao.blog.model.param.PostParam;
 import com.qinweizhao.blog.model.param.PostQueryParam;
 import com.qinweizhao.blog.model.properties.PostProperties;
@@ -84,8 +82,6 @@ public class PostServiceImpl implements PostService {
 
     private final PostCategoryService postCategoryService;
 
-    private final MetaService metaService;
-
     private final AbstractStringCacheStore cacheStore;
 
     private final ApplicationEventPublisher eventPublisher;
@@ -103,7 +99,6 @@ public class PostServiceImpl implements PostService {
 
         Map<Integer, List<TagDTO>> tagListMap = postTagService.listTagListMapBy(postIds);
         Map<Integer, List<CategoryDTO>> categoryListMap = postCategoryService.listCategoryListMap(postIds);
-        Map<Integer, List<MetaDTO>> postMetaListMap = metaService.getListMetaAsMapByPostIds(postIds);
         Map<Integer, Long> commentCountMap = commentService.countByTypeAndTargetIds(CommentType.POST, postIds);
 
 
@@ -111,7 +106,6 @@ public class PostServiceImpl implements PostService {
             PostListDTO postListDTO = PostConvert.INSTANCE.convertToListDTO(post);
             postListDTO.setTags(new ArrayList<>(Optional.ofNullable(tagListMap.get(post.getId())).orElseGet(LinkedList::new)));
             postListDTO.setCategories(new ArrayList<>(Optional.ofNullable(categoryListMap.get(post.getId())).orElseGet(LinkedList::new)));
-            postListDTO.setMetas(Optional.ofNullable(postMetaListMap.get(post.getId())).orElseGet(LinkedList::new));
             postListDTO.setCommentCount(commentCountMap.getOrDefault(post.getId(), 0L));
             postListDTO.setFullPath(buildFullPath(post.getId()));
             return postListDTO;
@@ -158,7 +152,6 @@ public class PostServiceImpl implements PostService {
         this.slugMustNotExist(post);
         Set<Integer> categoryIds = param.getCategoryIds();
         Set<Integer> tagIds = param.getTagIds();
-        Set<MetaParam> metas = param.getMetas();
 
         String originalContent = param.getOriginalContent();
 
@@ -178,20 +171,19 @@ public class PostServiceImpl implements PostService {
         content.setPostId(postId);
         contentMapper.insert(content);
 
-        this.savePostRelation(categoryIds, tagIds, metas, postId);
+        this.savePostRelation(categoryIds, tagIds, postId);
 
         return postId;
     }
 
     /**
-     * 保存文章和分类/标签/元数据 关联关系
+     * 保存文章和分类/标签 关联关系
      *
      * @param categoryIds categoryIds
      * @param tagIds      tagIds
-     * @param metas       metas
      * @param postId      postId
      */
-    private void savePostRelation(Collection<Integer> categoryIds, Collection<Integer> tagIds, Set<MetaParam> metas, Integer postId) {
+    private void savePostRelation(Collection<Integer> categoryIds, Collection<Integer> tagIds, Integer postId) {
         if (!CollectionUtils.isEmpty(categoryIds)) {
             // 保存 文章-分类 关联
             List<PostCategory> postCategories = categoryIds.stream().map(categoryId -> {
@@ -213,13 +205,6 @@ public class PostServiceImpl implements PostService {
             }).collect(Collectors.toList());
             postTagService.saveBatch(postTags);
         }
-
-        if (!CollectionUtils.isEmpty(metas)) {
-            metas.forEach(item -> item.setPostId(postId));
-            // 保存 文章元数据 关联
-            metaService.saveBatch(MetaConvert.INSTANCE.convert(metas));
-        }
-
 
     }
 
@@ -267,12 +252,7 @@ public class PostServiceImpl implements PostService {
             log.debug("删除文章和分类关联记录{}条", i);
         }
 
-        // 元数据
-        Set<MetaParam> metas = param.getMetas();
-        // 删除所有元数据
-        metaService.removeByPostId(postId);
-
-        this.savePostRelation(addCategoryIds, addTagIds, metas, postId);
+        this.savePostRelation(addCategoryIds, addTagIds, postId);
         return true;
     }
 
@@ -371,12 +351,11 @@ public class PostServiceImpl implements PostService {
         int i1 = postTagMapper.deleteByPostId(postId);
         // 分类
         int i2 = postCategoryMapper.deleteByPostId(postId);
-        // 元数据
-        boolean b = metaService.removeByPostId(postId);
+
         // 评论
         int i3 = commentMapper.deleteByPostId(postId);
 
-        log.debug("删除和标签关联{}条，和分类{}条，评论{}条，删除元数据状态{}", i1, i2, i3, b);
+        log.debug("删除和标签关联{}条，和分类{}条，评论{}条。", i1, i2, i3);
 
         int i = contentMapper.deleteById(postId);
 
@@ -511,8 +490,6 @@ public class PostServiceImpl implements PostService {
 
         List<CategoryDTO> categories = postCategoryService.listByPostId(post.getId());
 
-        List<MetaDTO> metas = metaService.listByPostId(post.getId());
-
         Content content = contentMapper.selectById(postId);
         String originalContent = content.getOriginalContent();
         postDTO.setFormatContent(content.getContent());
@@ -520,7 +497,6 @@ public class PostServiceImpl implements PostService {
 
         Set<Integer> tagIds = ServiceUtils.fetchProperty(tags, TagDTO::getId);
 
-        Set<Long> metaIds = ServiceUtils.fetchProperty(metas, MetaDTO::getId);
 
         Set<Integer> categoryIds = ServiceUtils.fetchProperty(categories, CategoryDTO::getId);
 
@@ -529,9 +505,6 @@ public class PostServiceImpl implements PostService {
 
         postDTO.setCategoryIds(categoryIds);
         postDTO.setCategories(categories);
-
-        postDTO.setMetaIds(metaIds);
-        postDTO.setMetas(metas);
 
         postDTO.setFullPath(buildFullPath(post.getId()));
 

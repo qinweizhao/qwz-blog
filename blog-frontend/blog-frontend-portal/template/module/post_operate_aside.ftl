@@ -3,13 +3,11 @@
     <#import "favorite.ftl" as nsp>
     <@nsp.favorite post=post type="aside" />
   </#if>
-  <#assign enable_comment = (metas?? && metas.enable_comment?? && metas.enable_comment?trim!='')?then(metas.enable_comment?trim,'true')>
   <#if settings.enable_clean_mode!=true && settings.enable_comment==true && post.status!='DRAFT'>
     <li class="post-operate-comment"><i class="joe-font joe-icon-message"></i><#if post.commentCount gt 0><span class="visible">${post.commentCount!}</span></#if></li>
   </#if>
   <#assign post_url = (post.fullPath?starts_with('http'))?then(post.fullPath, blog_url + post.fullPath)>
-  <#assign enable_share = (metas?? && metas.enable_share?? && metas.enable_share?trim!='')?then(metas.enable_share?trim,'true')>
-  <#if enable_share=='true' && settings.enable_share==true && post.status!='DRAFT'>
+  <#if settings.enable_share==true && post.status!='DRAFT'>
     <li class="post-operate-share">
       <i class="joe-font joe-icon-huifu"></i>
       <div class="share-icon-list">
@@ -56,8 +54,7 @@
       </div>
     </li>
   </#if>
-  <#assign enable_donate = (metas?? && metas.enable_donate?? && metas.enable_donate?trim!='')?then(metas.enable_donate?trim,'true')>
-  <#if enable_donate=='true' && settings.enable_donate==true && post.status!='DRAFT'>
+  <#if settings.enable_donate==true && post.status!='DRAFT'>
     <li class="post-operate-donate">
       <i class="joe-font joe-icon-shang"></i>
       <#import "donate.ftl" as nsd>

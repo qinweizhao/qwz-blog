@@ -1,7 +1,7 @@
 import router from '@/router'
 import store from '@/store'
 import NProgress from 'nprogress'
-import { domTitle, setDocumentTitle } from '@/utils/domUtil'
+import { setDocumentTitle } from '@/utils/domUtil'
 
 NProgress.configure({ showSpinner: false, speed: 500 })
 
@@ -16,14 +16,14 @@ router.beforeEach(async (to, from, next) => {
   }, 250)
 
   // set title meta
-  to.meta && typeof to.meta.title !== 'undefined' && setDocumentTitle(`${to.meta.title} - ${domTitle}`)
+  to.meta && typeof to.meta.title !== 'undefined' && setDocumentTitle(`${to.meta.title}`)
 
   if (store.getters.token) {
     if (!store.getters.options) {
       await store.dispatch('refreshOptionsCache').then()
     }
 
-    if (['Login', 'Install'].includes(to.name)) {
+    if (['Login'].includes(to.name)) {
       next({
         name: 'Dashboard'
       })
