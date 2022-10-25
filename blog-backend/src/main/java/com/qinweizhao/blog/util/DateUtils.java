@@ -48,7 +48,7 @@ public class DateUtils {
         if (time > Integer.MAX_VALUE) {
             timeIntValue = Integer.MAX_VALUE;
         } else {
-            timeIntValue = Long.valueOf(time).intValue();
+            timeIntValue = (int) time;
         }
 
         // Calc the expiry time

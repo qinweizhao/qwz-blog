@@ -1,7 +1,7 @@
 package com.qinweizhao.blog.util;
 
 
-import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.collection.CollUtil;
 import com.baomidou.mybatisplus.core.metadata.OrderItem;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.qinweizhao.blog.model.core.PageParam;
@@ -17,6 +17,9 @@ import java.util.stream.Collectors;
  */
 public class MyBatisUtils {
 
+    private MyBatisUtils() {
+    }
+
     /**
      * 构建分页
      *
@@ -29,10 +32,8 @@ public class MyBatisUtils {
         Page<T> page = new Page<>(pageParam.getPage(), pageParam.getSize());
         // 排序字段
         List<PageParam.Sort> sorts = pageParam.getSorts();
-        if (!CollectionUtil.isEmpty(sorts)) {
-            page.addOrder(sorts.stream().map(sortingField -> sortingField.isAsc() ?
-                            OrderItem.asc(sortingField.getField()) : OrderItem.desc(sortingField.getField()))
-                    .collect(Collectors.toList()));
+        if (!CollUtil.isEmpty(sorts)) {
+            page.addOrder(sorts.stream().map(sortingField -> sortingField.isAsc() ? OrderItem.asc(sortingField.getField()) : OrderItem.desc(sortingField.getField())).collect(Collectors.toList()));
         }
         return page;
     }
@@ -46,7 +47,7 @@ public class MyBatisUtils {
      * @return T
      */
     public static <T> PageResult<T> buildSimplePageResult(Page<T> page) {
-        return new PageResult<T>(page.getRecords(), page.getTotal(), page.hasPrevious(), page.hasNext());
+        return new PageResult<>(page.getRecords(), page.getTotal(), page.hasPrevious(), page.hasNext());
     }
 
 

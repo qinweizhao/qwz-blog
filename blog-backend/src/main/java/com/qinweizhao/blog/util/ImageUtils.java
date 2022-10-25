@@ -21,6 +21,8 @@ public class ImageUtils {
 
     public static final String EXTENSION_ICO = "ico";
 
+    private ImageUtils(){}
+
     public static BufferedImage getImageFromFile(InputStream is, String extension) throws IOException {
         log.debug("Current File type is : [{}]", extension);
 

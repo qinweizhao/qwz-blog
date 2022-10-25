@@ -353,12 +353,6 @@ public class ConfigServiceImpl implements ConfigService {
     }
 
     @Override
-    public void saveProperty(PropertyEnum property, String value) {
-        this.save(Collections.singletonMap(property.getValue(), value));
-
-    }
-
-    @Override
     public void save(Map<String, Object> optionMap) {
         if (CollectionUtils.isEmpty(optionMap)) {
             return;

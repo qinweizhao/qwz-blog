@@ -41,14 +41,6 @@ public interface ConfigService {
     String buildFullPath(Integer postId);
 
     /**
-     * 保存属性
-     *
-     * @param property property
-     * @param value    value
-     */
-    void saveProperty(PropertyEnum property, String value);
-
-    /**
      * Save multiple options
      *
      * @param options options

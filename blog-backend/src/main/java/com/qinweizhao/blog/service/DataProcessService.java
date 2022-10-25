@@ -1,7 +1,5 @@
 package com.qinweizhao.blog.service;
 
-import org.springframework.lang.NonNull;
-
 /**
  * Data process service interface.
  *
@@ -16,5 +14,5 @@ public interface DataProcessService {
      * @param oldUrl old url must not be null.
      * @param newUrl new url must not be null.
      */
-    void replaceAllUrl(@NonNull String oldUrl, @NonNull String newUrl);
+    void replaceAllUrl(String oldUrl, String newUrl);
 }
