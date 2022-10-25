@@ -28,8 +28,8 @@ public interface ConfigConvert {
      * @return ConfigDTO
      */
     @Mappings({
-            @Mapping(source = "optionKey", target = "key"),
-            @Mapping(source = "optionValue", target = "value")
+            @Mapping(source = "configKey", target = "key"),
+            @Mapping(source = "configValue", target = "value")
     })
     ConfigDTO convert(Config config);
 
@@ -40,8 +40,8 @@ public interface ConfigConvert {
      * @return ConfigDTO
      */
     @Mappings({
-            @Mapping(source = "optionKey", target = "key"),
-            @Mapping(source = "optionValue", target = "value")
+            @Mapping(source = "configKey", target = "key"),
+            @Mapping(source = "configValue", target = "value")
     })
     ConfigSimpleDTO convertSimpleDTO(Config config);
 
@@ -76,8 +76,8 @@ public interface ConfigConvert {
             return null;
         }
         Config config = new Config();
-        config.setOptionKey(param.getKey());
-        config.setOptionValue(param.getValue());
+        config.setConfigKey(param.getKey());
+        config.setConfigValue(param.getValue());
         config.setType(param.getType().getValue());
         return config;
     }

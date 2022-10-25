@@ -7,15 +7,15 @@
         <id column="id" property="id"/>
         <result column="create_time" property="createTime"/>
         <result column="update_time" property="updateTime"/>
-        <result column="option_key" property="optionKey"/>
+        <result column="config_key" property="configKey"/>
         <result column="type" property="type"/>
-        <result column="option_value" property="optionValue"/>
+        <result column="config_value" property="configValue"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id
-        , create_time, update_time, option_key, type, option_value
+        , create_time, update_time, config_key, type, config_value
     </sql>
 
 </mapper>

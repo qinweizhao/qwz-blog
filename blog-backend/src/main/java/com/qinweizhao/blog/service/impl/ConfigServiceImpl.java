@@ -77,18 +77,18 @@ public class ConfigServiceImpl implements ConfigService {
         return cacheStore.getAny(OPTIONS_KEY, Map.class).orElseGet(() -> {
             List<Config> configs = configMapper.selectList(Wrappers.emptyWrapper());
 
-            Set<String> keys = ServiceUtils.fetchProperty(configs, Config::getOptionKey);
+            Set<String> keys = ServiceUtils.fetchProperty(configs, Config::getConfigKey);
 
-            Map<String, Object> userDefinedOptionMap = ServiceUtils.convertToMap(configs, Config::getOptionKey, config -> {
-                String key = config.getOptionKey();
+            Map<String, Object> userDefinedOptionMap = ServiceUtils.convertToMap(configs, Config::getConfigKey, config -> {
+                String key = config.getConfigKey();
 
                 PropertyEnum propertyEnum = propertyEnumMap.get(key);
 
                 if (propertyEnum == null) {
-                    return config.getOptionValue();
+                    return config.getConfigValue();
                 }
 
-                return PropertyEnum.convertTo(config.getOptionValue(), propertyEnum);
+                return PropertyEnum.convertTo(config.getConfigValue(), propertyEnum);
             });
 
             Map<String, Object> result = new HashMap<>(userDefinedOptionMap);
@@ -328,7 +328,7 @@ public class ConfigServiceImpl implements ConfigService {
             this.publishOptionUpdatedEvent();
             return true;
         } else {
-            if (dbConfig.getOptionValue().equals(value)) {
+            if (dbConfig.getConfigValue().equals(value)) {
                 return true;
             } else {
                 Config config = ConfigConvert.INSTANCE.convert(param);
@@ -365,7 +365,7 @@ public class ConfigServiceImpl implements ConfigService {
             return;
         }
 
-        Map<String, Config> optionKeyMap = ServiceUtils.convertToMap(configMapper.selectList(Wrappers.emptyWrapper()), Config::getOptionKey);
+        Map<String, Config> optionKeyMap = ServiceUtils.convertToMap(configMapper.selectList(Wrappers.emptyWrapper()), Config::getConfigValue);
 
         List<Config> optionsToCreate = new LinkedList<>();
         List<Config> optionsToUpdate = new LinkedList<>();
@@ -377,15 +377,15 @@ public class ConfigServiceImpl implements ConfigService {
             }
 
             Config oldConfig = optionKeyMap.get(key);
-            if (oldConfig == null || !StringUtils.equals(oldConfig.getOptionValue(), value.toString())) {
+            if (oldConfig == null || !StringUtils.equals(oldConfig.getConfigValue(), value.toString())) {
 
                 Config config = new Config();
-                config.setOptionKey(key);
-                config.setOptionValue(String.valueOf(value));
+                config.setConfigKey(key);
+                config.setConfigValue(String.valueOf(value));
 
                 if (oldConfig == null) {
                     optionsToCreate.add(config);
-                } else if (!StringUtils.equals(oldConfig.getOptionValue(), value.toString())) {
+                } else if (!StringUtils.equals(oldConfig.getConfigValue(), value.toString())) {
                     config.setId(oldConfig.getId());
                     optionsToUpdate.add(config);
                 }
@@ -439,7 +439,7 @@ public class ConfigServiceImpl implements ConfigService {
 
         // 从用户定义的构建设置
         themeSettings.forEach(themeSetting -> {
-            String key = themeSetting.getOptionKey();
+            String key = themeSetting.getConfigKey();
 
             Item item = itemMap.get(key);
 
@@ -447,8 +447,8 @@ public class ConfigServiceImpl implements ConfigService {
                 return;
             }
 
-            Object convertedValue = item.getDataType().convertTo(themeSetting.getOptionValue());
-            log.debug("将用户定义的数据从 [{}] 转换为 [{}], 类型: [{}]", themeSetting.getOptionValue(), convertedValue, item.getDataType());
+            Object convertedValue = item.getDataType().convertTo(themeSetting.getConfigValue());
+            log.debug("将用户定义的数据从 [{}] 转换为 [{}], 类型: [{}]", themeSetting.getConfigValue(), convertedValue, item.getDataType());
 
             result.put(key, convertedValue);
         });
@@ -506,8 +506,8 @@ public class ConfigServiceImpl implements ConfigService {
         Config dbThemeSetting = configMapper.selectByKey(key);
 
         Config themeSetting = new Config();
-        themeSetting.setOptionKey(key);
-        themeSetting.setOptionValue(value);
+        themeSetting.setConfigKey(key);
+        themeSetting.setConfigValue(value);
         themeSetting.setType(type.getValue());
 
         if (ObjectUtils.isEmpty(dbThemeSetting)) {
@@ -518,7 +518,7 @@ public class ConfigServiceImpl implements ConfigService {
             configMapper.insert(themeSetting);
         } else {
             // 存在，判断是否已经需要更新，然后执行过更新。
-            String settingValue = dbThemeSetting.getOptionValue();
+            String settingValue = dbThemeSetting.getConfigValue();
             if (!settingValue.equals(value)) {
                 boolean b = configMapper.updateByKey(themeSetting);
                 log.debug("主题配置");

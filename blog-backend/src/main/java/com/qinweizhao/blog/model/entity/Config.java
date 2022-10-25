@@ -19,10 +19,10 @@ public class Config extends BaseEntity {
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
-    private String optionKey;
+    private String configKey;
 
     private Integer type;
 
-    private String optionValue;
+    private String configValue;
 
 }

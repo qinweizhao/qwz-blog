@@ -34,7 +34,7 @@ public interface ConfigMapper extends BaseMapper<Config> {
      * @return Option
      */
     default Config selectByKey(String key) {
-        return selectOne(new LambdaQueryWrapper<Config>().eq(Config::getOptionKey, key));
+        return selectOne(new LambdaQueryWrapper<Config>().eq(Config::getConfigKey, key));
     }
 
     /**
@@ -44,7 +44,7 @@ public interface ConfigMapper extends BaseMapper<Config> {
      * @return int
      */
     default int deleteByKey(String key) {
-        return delete(new LambdaQueryWrapper<Config>().eq(Config::getOptionKey, key));
+        return delete(new LambdaQueryWrapper<Config>().eq(Config::getConfigKey, key));
     }
 
     /**
@@ -55,7 +55,7 @@ public interface ConfigMapper extends BaseMapper<Config> {
      */
     default PageResult<Config> selectPage(ConfigQueryParam param) {
         Page<Config> page = MyBatisUtils.buildPage(param);
-        this.selectPage(page, new LambdaQueryWrapperX<Config>().likeIfPresent(Config::getOptionKey, param.getKeyword()).eqIfPresent(Config::getType, param.getType()).orderByDesc(Config::getCreateTime));
+        this.selectPage(page, new LambdaQueryWrapperX<Config>().likeIfPresent(Config::getConfigKey, param.getKeyword()).eqIfPresent(Config::getType, param.getType()).orderByDesc(Config::getCreateTime));
         return MyBatisUtils.buildSimplePageResult(page);
     }
 
@@ -103,6 +103,6 @@ public interface ConfigMapper extends BaseMapper<Config> {
      * @return boolean
      */
     default boolean updateByKey(Config config) {
-        return this.update(config, new LambdaQueryWrapper<Config>().eq(Config::getOptionKey, config.getOptionKey())) > 0;
+        return this.update(config, new LambdaQueryWrapper<Config>().eq(Config::getConfigKey, config.getConfigKey())) > 0;
     }
 }
