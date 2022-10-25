@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.qinweizhao.blog.model.core.PageResult;
 import com.qinweizhao.blog.model.entity.Config;
+import com.qinweizhao.blog.model.enums.ConfigType;
 import com.qinweizhao.blog.model.param.ConfigQueryParam;
 import com.qinweizhao.blog.util.LambdaQueryWrapperX;
 import com.qinweizhao.blog.util.MyBatisUtils;
@@ -86,4 +87,22 @@ public interface ConfigMapper extends BaseMapper<Config> {
         return SqlHelper.executeBatch(Config.class, log, options, 1000, (sqlSession, entity) -> sqlSession.insert(sqlStatement, entity));
     }
 
+    /**
+     * 查询前台设置
+     *
+     * @param type type
+     * @return List
+     */
+    default List<Config> selectListByType(ConfigType type) {
+        return selectList(new LambdaQueryWrapper<Config>().eq(Config::getType, type));
+    }
+
+    /**
+     * 更新前台主题设置
+     * @param config config
+     * @return boolean
+     */
+    default boolean updateByKey(Config config) {
+        return this.update(config, new LambdaQueryWrapper<Config>().eq(Config::getOptionKey, config.getOptionKey())) > 0;
+    }
 }

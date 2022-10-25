@@ -4,18 +4,25 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.qiniu.storage.Region;
 import com.qinweizhao.blog.config.properties.MyBlogProperties;
 import com.qinweizhao.blog.exception.MissingPropertyException;
+import com.qinweizhao.blog.exception.ServiceException;
 import com.qinweizhao.blog.framework.cache.AbstractStringCacheStore;
 import com.qinweizhao.blog.framework.event.config.ConfigUpdatedEvent;
+import com.qinweizhao.blog.framework.handler.theme.config.support.Group;
+import com.qinweizhao.blog.framework.handler.theme.config.support.Item;
 import com.qinweizhao.blog.mapper.ConfigMapper;
 import com.qinweizhao.blog.model.convert.ConfigConvert;
 import com.qinweizhao.blog.model.core.PageResult;
 import com.qinweizhao.blog.model.dto.ConfigSimpleDTO;
 import com.qinweizhao.blog.model.entity.Config;
+import com.qinweizhao.blog.model.enums.ConfigType;
 import com.qinweizhao.blog.model.param.ConfigParam;
 import com.qinweizhao.blog.model.param.ConfigQueryParam;
 import com.qinweizhao.blog.model.properties.*;
 import com.qinweizhao.blog.service.ConfigService;
+import com.qinweizhao.blog.service.ThemeService;
 import com.qinweizhao.blog.util.ServiceUtils;
+import freemarker.template.Configuration;
+import freemarker.template.TemplateModelException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -414,5 +421,127 @@ public class ConfigServiceImpl implements ConfigService {
         log.debug("配置变动，清除缓存完成。");
         eventPublisher.publishEvent(new ConfigUpdatedEvent(this));
     }
+    // =================== start===========================//
+
+    private final ThemeService themeService;
+
+    private final Configuration configuration;
+
+    @Override
+    public Map<String, Object> getSettings() {
+
+        Map<String, Item> itemMap = getConfigItemMap();
+
+        // 获取主题配置
+        List<Config> themeSettings = configMapper.selectListByType(ConfigType.PORTAL);
+
+        Map<String, Object> result = new LinkedHashMap<>();
+
+        // 从用户定义的构建设置
+        themeSettings.forEach(themeSetting -> {
+            String key = themeSetting.getOptionKey();
+
+            Item item = itemMap.get(key);
+
+            if (item == null) {
+                return;
+            }
+
+            Object convertedValue = item.getDataType().convertTo(themeSetting.getOptionValue());
+            log.debug("将用户定义的数据从 [{}] 转换为 [{}], 类型: [{}]", themeSetting.getOptionValue(), convertedValue, item.getDataType());
+
+            result.put(key, convertedValue);
+        });
+
+        // 从预定义的构建设置
+        itemMap.forEach((name, item) -> {
+            log.debug("Name: [{}], item: [{}]", name, item);
+
+            if (item.getDefaultValue() == null || result.containsKey(name)) {
+                return;
+            }
+
+            // 设置默认值
+            Object convertedDefaultValue = item.getDataType().convertTo(item.getDefaultValue());
+            log.debug("将预定义数据来自 [{}] 转换为 [{}], 类型: [{}]", item.getDefaultValue(), convertedDefaultValue, item.getDataType());
+
+            result.put(name, convertedDefaultValue);
+        });
+
+        return result;
+    }
+
+    @Override
+    public boolean save(Map<String, Object> settings,ConfigType type) {
+
+        if (CollectionUtils.isEmpty(settings)) {
+            return false;
+        }
+        // 保存配置
+        settings.forEach((key, value) -> this.saveItem(key, String.valueOf(value),type));
+
+        try {
+            configuration.setSharedVariable("settings", this.getSettings());
+        } catch (TemplateModelException e) {
+            throw new ServiceException("主题设置保存失败", e);
+        }
+
+        return true;
+    }
+
+    /**
+     * 保存配置
+     *
+     * @param key   key
+     * @param value value
+     */
+    private void saveItem(String key, String value,ConfigType type) {
+        if (ObjectUtils.isEmpty(value)) {
+            log.debug("主题配置");
+            int i = configMapper.deleteByKey(key);
+            log.debug("删除主题配置{}条，key:{}", i, key);
+            return;
+        }
+
+        Config dbThemeSetting = configMapper.selectByKey(key);
+
+        Config themeSetting = new Config();
+        themeSetting.setOptionKey(key);
+        themeSetting.setOptionValue(value);
+        themeSetting.setType(type.getValue());
+
+        if (ObjectUtils.isEmpty(dbThemeSetting)) {
+            log.debug("主题配置");
+            log.debug("保存主题配置，key:{}", key);
+
+            // 不存在，执行保存
+            configMapper.insert(themeSetting);
+        } else {
+            // 存在，判断是否已经需要更新，然后执行过更新。
+            String settingValue = dbThemeSetting.getOptionValue();
+            if (!settingValue.equals(value)) {
+                boolean b = configMapper.updateByKey(themeSetting);
+                log.debug("主题配置");
+                log.debug("更新主题配置：key：{}，更新结果：{}", key, b);
+            }
+        }
+
+    }
+
+    /**
+     * 获取配置项映射。 （键：项目名称，值：项目）
+     *
+     * @return config item map
+     */
+    private Map<String, Item> getConfigItemMap() {
+
+        List<Group> groups = themeService.listConfig();
+
+        Set<Item> items = new LinkedHashSet<>();
+        groups.forEach(group -> items.addAll(group.getItems()));
+
+        return ServiceUtils.convertToMap(items, Item::getName);
+    }
+//==============end=============//
 }
 

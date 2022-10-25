@@ -65,15 +65,4 @@ configApi.update = (configId, config) => {
   })
 }
 
-configApi.type = {
-  INTERNAL: {
-    value: 'INTERNAL',
-    text: '系统'
-  },
-  CUSTOM: {
-    value: 'CUSTOM',
-    text: '自定义'
-  }
-}
-
 export default configApi

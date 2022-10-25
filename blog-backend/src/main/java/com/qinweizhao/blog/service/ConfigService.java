@@ -4,6 +4,7 @@ import com.qiniu.storage.Region;
 import com.qinweizhao.blog.exception.MissingPropertyException;
 import com.qinweizhao.blog.model.core.PageResult;
 import com.qinweizhao.blog.model.dto.ConfigSimpleDTO;
+import com.qinweizhao.blog.model.enums.ConfigType;
 import com.qinweizhao.blog.model.param.ConfigParam;
 import com.qinweizhao.blog.model.param.ConfigQueryParam;
 import com.qinweizhao.blog.model.properties.PropertyEnum;
@@ -296,5 +297,23 @@ public interface ConfigService {
      * @return boolean
      */
     boolean removeById(Integer optionId);
+
+
+
+    /**
+     * 列出主题设置（前台）
+     *
+     * @return Map
+     */
+    Map<String, Object> getSettings();
+
+    /**
+     * 保存主题配置（前台）
+     *
+     * @param settings settings
+     * @param type type
+     * @return boolean
+     */
+    boolean save(Map<String, Object> settings,ConfigType type);
 
 }

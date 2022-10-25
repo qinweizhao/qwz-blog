@@ -2,8 +2,9 @@ package com.qinweizhao.blog.controller.admin.api;
 
 import com.qinweizhao.blog.framework.handler.theme.config.support.Group;
 import com.qinweizhao.blog.framework.handler.theme.config.support.ThemeProperty;
+import com.qinweizhao.blog.model.enums.ConfigType;
+import com.qinweizhao.blog.service.ConfigService;
 import com.qinweizhao.blog.service.ThemeService;
-import com.qinweizhao.blog.service.ThemeSettingService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,7 +24,7 @@ public class ThemeController {
 
     private final ThemeService themeService;
 
-    private final ThemeSettingService themeSettingService;
+    private final ConfigService configService;
 
     /**
      * 获取主题属性
@@ -52,7 +53,7 @@ public class ThemeController {
      */
     @GetMapping("settings")
     public Map<String, Object> setting() {
-        return themeSettingService.getSettings();
+        return configService.getSettings();
     }
 
     /**
@@ -62,7 +63,7 @@ public class ThemeController {
      */
     @PostMapping("settings")
     public Boolean saveSettings(@RequestBody Map<String, Object> settings) {
-        return themeSettingService.save(settings);
+        return configService.save(settings, ConfigType.PORTAL);
     }
 
 }

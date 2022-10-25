@@ -102,7 +102,7 @@
         ></ReactiveButton>
       </template>
       <a-alert
-        v-if="form.model.type === optionType.INTERNAL.value"
+        v-if="form.model.type === optionType.ADMIN.value"
         banner
         closable
         message="注意：在不知道系统变量的具体用途时，请不要随意修改！"
@@ -165,13 +165,13 @@ export default {
   data() {
     return {
       optionType: {
-        INTERNAL: {
-          value: 'INTERNAL',
-          text: '系统'
+        ADMIN: {
+          value: 'ADMIN',
+          text: '后台'
         },
-        CUSTOM: {
-          value: 'CUSTOM',
-          text: '自定义'
+        PORTAL: {
+          value: 'PORTAL',
+          text: '前台'
         }
       },
       columns: columns,
@@ -293,7 +293,7 @@ export default {
                 }, 400)
               })
           } else {
-            _this.form.model.type = _this.optionType.CUSTOM.value
+            _this.form.model.type = _this.optionType.PORTAL.value
             configApi
               .create(_this.form.model)
               .catch(() => {

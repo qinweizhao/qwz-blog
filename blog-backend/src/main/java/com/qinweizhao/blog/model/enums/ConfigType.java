@@ -12,14 +12,14 @@ import com.baomidou.mybatisplus.annotation.EnumValue;
 public enum ConfigType implements ValueEnum<Integer> {
 
     /**
-     * 内部
+     * 后台
      */
-    INTERNAL(0),
+    ADMIN(0),
 
     /**
-     * 自定义
+     * 前台
      */
-    CUSTOM(1);
+    PORTAL(1);
 
     @EnumValue
     private final Integer value;

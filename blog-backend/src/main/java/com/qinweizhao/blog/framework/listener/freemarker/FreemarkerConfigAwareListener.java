@@ -7,7 +7,6 @@ import com.qinweizhao.blog.model.properties.SeoProperties;
 import com.qinweizhao.blog.model.support.BlogConst;
 import com.qinweizhao.blog.service.ConfigService;
 import com.qinweizhao.blog.service.ThemeService;
-import com.qinweizhao.blog.service.ThemeSettingService;
 import com.qinweizhao.blog.service.UserService;
 import freemarker.template.Configuration;
 import freemarker.template.TemplateModelException;
@@ -33,8 +32,6 @@ public class FreemarkerConfigAwareListener {
     private final Configuration configuration;
 
     private final ThemeService themeService;
-
-    private final ThemeSettingService themeSettingService;
 
     private final UserService userService;
 
@@ -105,7 +102,7 @@ public class FreemarkerConfigAwareListener {
 
                 configuration.setSharedVariable("theme_base", themeBasePath);
 
-                configuration.setSharedVariable("settings", themeSettingService.getSettings());
+                configuration.setSharedVariable("settings", configService.getSettings());
 
                 log.debug("加载主题和设置");
             } catch (TemplateModelException e) {
