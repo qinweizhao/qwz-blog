@@ -72,7 +72,7 @@
   var initThemeMode = function() {
     try {
       // 可选 dark light
-      document.querySelector("html").setAttribute("data-mode", "dark");
+      document.querySelector("html").setAttribute("data-mode", "light");
     } catch(e) {
       console.log(e);
     }

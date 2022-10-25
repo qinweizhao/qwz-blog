@@ -82,6 +82,7 @@ public interface CommentMapper extends BaseMapper<Comment> {
         Page<Comment> commentPage = this.selectPage(page, new LambdaQueryWrapperX<Comment>()
                 .eq(Comment::getType, param.getType())
                 .eqIfPresent(Comment::getStatus, param.getStatus())
+                .orderByDesc(Comment::getCreateTime)
                 .likeIfPresent(Comment::getAuthor, param.getKeyword())
                 .likeIfPresent(Comment::getContent, param.getKeyword())
                 .likeIfPresent(Comment::getEmail, param.getKeyword()));
