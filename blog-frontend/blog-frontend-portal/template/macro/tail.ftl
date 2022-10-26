@@ -5,9 +5,6 @@
   </#if>
   <script src="${BASE_RES_URL!}/source/lib/lazysizes/lazysizes.min.js"></script>
   <script src="${BASE_RES_URL!}/source/lib/qmsg/qmsg.js"></script>
-  <#if settings.show_newreply == true || type == 'sheet'>
-    <script src="${BASE_RES_URL}/source/lib/j-marked/marked.min.js"></script>
-  </#if>
   <script src="${BASE_RES_URL}/source/js/min/utils.min.js?v=${theme.version!}"></script>
   <#if type == 'index' && settings.enable_banner == true>
     <script src="${BASE_RES_URL!}/source/lib/swiper/swiper.min.js"></script>
