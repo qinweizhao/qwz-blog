@@ -1,17 +1,36 @@
 <template>
-  <transition name="loading-fade" mode="in-out">
-    <div class="comment-loader-container">
-      <div class="comment-loader">
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-      </div>
+  <div class="comment-loader-container">
+    <div
+      v-if="configs.loadingStyle==='default'"
+      class="comment-loader-default"
+    >
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
     </div>
-  </transition>
+    <div
+      v-else-if="configs.loadingStyle==='circle'"
+      class="comment-loader-circle"
+    ></div>
+    <div
+      v-else-if="configs.loadingStyle==='balls'"
+      class="comment-loader-balls"
+    >
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+  </div>
 </template>
 <script>
 export default {
-  name: 'CommentLoading'
-}
+  name: "CommentLoading",
+  props: {
+    configs: {
+      type: Object,
+      required: true
+    }
+  }
+};
 </script>

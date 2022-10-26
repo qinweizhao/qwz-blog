@@ -1,48 +1,42 @@
-/** based on https://github.com/joaoeudes7/V-Emoji-Picker */
 <template>
-  <div id="Categories">
-    <div
-      :class="['category', { active: index === active }]"
-      v-for="(category, index) in categories"
-      :key="index"
-      @click="onSelect(index)"
-    >
-      <VSvg :name="category.icon" />
-    </div>
-  </div>
+  <transition name="category">
+    <table class="motion-switcher-table">
+      <tbody>
+        <tr>
+          <th
+            v-for="(categorie, index) in categories"
+            :class="[
+              'category',
+              categorie.name + '-box',
+              { active: index === active },
+              { 'on-hover': index === active },
+            ]"
+            :key="index"
+            @click="onSelect(index)"
+          >
+            {{ categorie.title }}
+          </th>
+        </tr>
+      </tbody>
+    </table>
+  </transition>
 </template>
 
 <script>
-import VSvg from './VSvg'
-
 export default {
-  name: 'Categories',
-  components: {
-    VSvg
-  },
+  name: "Categories",
   data: () => ({
     categories: [
-      { name: 'Frequenty', icon: 'frequenty' },
-      { name: 'Peoples', icon: 'peoples' },
-      { name: 'Nature', icon: 'nature' },
-      { name: 'Foods', icon: 'foods' },
-      { name: 'Activity', icon: 'activity' },
-      { name: 'Objects', icon: 'objects' },
-      { name: 'Places', icon: 'places' },
-      { name: 'Symbols', icon: 'symbols' },
-      { name: 'Flags', icon: 'flags' }
+      { name: 'haha', title: '泡泡' }
     ],
-    active: 1
+    active: 0,
   }),
   methods: {
     onSelect(index) {
-      this.active = index
-
-      const _category = this.categories[index]
-      this.$emit('select', _category)
-    }
-  }
-}
+      this.active = index;
+      const _category = this.categories[index];
+      this.$emit("select", _category);
+    },
+  },
+};
 </script>
-
-<style></style>

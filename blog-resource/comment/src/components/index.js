@@ -1,26 +1,23 @@
 // Register components
-import Vue from 'vue'
+import Vue from "vue";
 
-import CommentPlaceholder from './CommentPlaceholder'
-import CommentBody from './CommentBody'
-import CommentNode from './CommentNode'
-import CommentEditor from './CommentEditor'
-import CommentLoading from './CommentLoading'
-import Pagination from './Pagination'
+// pro components
+import CommentEditor from "./CommentEditor";
+import CommentNode from "./CommentNode";
+import CommentLoading from "./CommentLoading";
+import Pagination from "./Pagination";
 
 const _components = {
-  CommentPlaceholder,
-  CommentBody,
-  CommentNode,
   CommentEditor,
+  CommentNode,
   CommentLoading,
-  Pagination
-}
+  Pagination,
+};
 
-const components = {}
+const components = {};
 
-Object.keys(_components).forEach(key => {
-  components[key] = Vue.component(key, _components[key])
-})
+Object.keys(_components).forEach((key) => {
+  components[key] = Vue.component(key, _components[key]);
+});
 
-export default components
+export default components;

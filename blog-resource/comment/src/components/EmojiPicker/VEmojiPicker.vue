@@ -1,43 +1,36 @@
-/** based on https://github.com/joaoeudes7/V-Emoji-Picker */
 <template>
-  <div id="EmojiPicker">
-    <Categories v-if="showCategory" @select="onChangeCategory($event)" />
-    <InputSearch v-if="showSearch" v-model="filterEmoji" :placeholder="labelSearch" />
+  <div class="emotion-box no-select">
+    <Categories
+      v-if="showCategory"
+      @select="onChangeCategory($event)"
+    />
+    <keep-alive>
     <EmojiList
       :data="emojis"
       :category="category"
-      :filter="filterEmoji"
-      :emojisByRow="emojisByRow"
-      :continuousList="continuousList"
-      @select="onSelectEmoji($event)"
+      @select="onSelectEmoji(arguments)"
     />
+    </keep-alive>
   </div>
 </template>
 
 <script>
 import Categories from './Categories'
 import EmojiList from './EmojiList'
-import InputSearch from './InputSearch'
 
 export default {
   name: 'VEmojiPicker',
   props: {
     pack: { type: Array, required: true },
-    labelSearch: { type: String, default: 'Pesquisar...' },
     showCategory: { type: Boolean, default: true },
-    emojisByRow: { type: Number, default: 5 },
-    showSearch: { type: Boolean, default: () => true },
-    continuousList: { type: Boolean, default: () => false }
   },
   components: {
     Categories,
-    EmojiList,
-    InputSearch
+    EmojiList
   },
   data: () => ({
     mapEmojis: {},
-    category: 'Peoples',
-    filterEmoji: ''
+    category: 'haha'
   }),
   created() {
     this.mapperData(this.pack)
@@ -47,19 +40,12 @@ export default {
       this.category = category.name
       this.$emit('changeCategory', this.category)
     },
-    onSelectEmoji(emoji) {
-      this.updateFrequenty(emoji)
-      this.$emit('select', emoji)
-    },
-    updateFrequenty(emoji) {
-      this.mapEmojis['Frequenty'] = [...new Set([...this.mapEmojis['Frequenty'], emoji])]
+    onSelectEmoji(data) {
+      this.$emit('select', data)
     },
     mapperData(dataEmojis) {
-      this.$set(this.mapEmojis, 'Frequenty', [])
-
       dataEmojis.forEach(emoji => {
         const _category = emoji['category']
-
         if (!this.mapEmojis[_category]) {
           this.$set(this.mapEmojis, _category, [emoji])
         } else {
@@ -78,5 +64,3 @@ export default {
   }
 }
 </script>
-
-<style></style>

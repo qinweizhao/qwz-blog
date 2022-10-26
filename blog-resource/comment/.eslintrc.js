@@ -1,14 +1,19 @@
+const isProd = ["production","wc"].includes(process.env.NODE_ENV);
+
 module.exports = {
   root: true,
   env: {
-    node: true
+    node: true,
   },
-  extends: ['plugin:vue/essential', 'eslint:recommended', '@vue/prettier'],
-  parserOptions: {
-    parser: 'babel-eslint'
-  },
+  extends: ["plugin:vue/essential", "eslint:recommended"],
   rules: {
-    'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
-    'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off'
-  }
-}
+    "no-console": isProd ? 2 : 0,
+    "no-debugger": isProd ? 2 : 0,
+    "no-console": 0,
+    // 'no-debugger': 0
+    // 'no-unused-vars': 0
+  },
+  parserOptions: {
+    parser: "babel-eslint",
+  },
+};

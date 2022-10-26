@@ -1,152 +1,248 @@
 <template>
-  <div :id="comment.id" class="comment-item">
-    <img
-      v-if="options.comment_gravatar_default"
-      :alt="comment.author"
-      :src="avatar"
-      class="comment-item-author-avatar"
-    />
-    <div class="comment-item-main">
-      <div class="comment-item-header">
-        <span class="header-author">
-          <a v-if="urlValid" :href="comment.authorUrl" target="_blank" v-text="comment.author" />
-          <a v-else href="javascript:void(0)" v-text="comment.author" />
-        </span>
-        <span v-if="comment.isAdmin" class="header-admin">博主</span>
-        <span class="header-time">{{ createTimeAgo }}</span>
-        <a :href="'#' + comment.id">
-          <span :id="comment.id" class="header-id"> #{{ comment.id }} </span>
-        </a>
+  <div class="comment-wrp">
+    <li
+        :id="'comment-' + comment.id"
+        class="comment"
+        :class="commentClass"
+        itemtype="http://schema.org/Comment"
+        itemprop="comment"
+    >
+      <div class="contents">
+        <div class="main shadow">
+          <div class="profile">
+            <a
+                :class="{ disabled: invalidUrl(comment.authorUrl) }"
+                :href="comment.authorUrl"
+                rel="nofollow noopener noreferrer"
+                target="_blank"
+            >
+              <img
+                  v-lazy="comment.isAdmin ? options.blog_logo : avatar"
+                  class="avatar"
+                  height="80"
+                  width="80"
+                  :alt="comment.author"
+                  @error="handleAvatarError"
+              />
+            </a>
+          </div>
+          <div class="commentinfo">
+            <section class="commeta">
+              <div class="left">
+                <h4 class="author">
+                  <a
+                      :class="{ disabled: invalidUrl(comment.authorUrl) }"
+                      :href="comment.authorUrl"
+                      rel="nofollow noopener noreferrer"
+                      target="_blank"
+                  >
+                    <img
+                        :alt="comment.author"
+                        v-lazy="comment.isAdmin ? options.blog_logo : avatar"
+                        class="avatar"
+                        height="24"
+                        width="24"
+                        @error="handleAvatarError"
+                    />
+                    <span
+                        v-if="comment.isAdmin"
+                        class="bb-comment isauthor"
+                        title="博主"
+                    >博主</span
+                    >
+                    {{ comment.author }}
+                  </a>
+                </h4>
+              </div>
+              <a
+                  class="comment-reply-link"
+                  :style="editing ? 'display:block;' : ''"
+                  href="javascript:;"
+                  @click="handleReplyClick"
+              >回复</a
+              >
+              <div class="right">
+                <div class="info">
+                  <time
+                      class="comment-time"
+                      itemprop="datePublished"
+                      :datetime="comment.createTime"
+                  >发布于 {{ createTimeAgo }}
+                  </time>
+                </div>
+              </div>
+            </section>
+          </div>
+          <div class="body markdown-body">
+            <!-- 将所有的评论内容约束为一段 -->
+            <div class="markdown-content" v-html="compileContent"></div>
+          </div>
+        </div>
       </div>
-      <div class="comment-item-content">
-        <a v-if="hasParent" :href="'#' + comment.parentId">
-          <span class="content-at-id"> #{{ comment.parentId }} </span>
-        </a>
-        <p v-html="compileContent"></p>
-      </div>
-      <div class="comment-item-controls">
-        <ul>
-          <li v-if="comment.hasChildren">
-            <button :class="{ active: hasChildrenBody }" class="item-control-more" @click="handleMoreClick">
-              更多
-            </button>
-          </li>
-          <li>
-            <button class="item-control-reply" @click="handleReplyClick">回复</button>
-          </li>
-        </ul>
-      </div>
-    </div>
-    <div v-if="hasChildrenBody" class="comment-item-children">
-      <section class="loading">
-        <comment-loading v-show="commentLoading" />
-      </section>
-      <comment-body
-        v-show="!commentLoading"
-        :comments="children"
-        :options="options"
-        :target="target"
+      <ul v-if="comment.children" class="children">
+        <template v-for="(children, index) in comment.children">
+          <CommentNode
+              :isChild="true"
+              :targetId="targetId"
+              :target="target"
+              :comment="children"
+              :options="options"
+              :configs="configs"
+              :key="index"
+              :depth="selfAddDepth"
+              :parent="comment"
+          />
+        </template>
+      </ul>
+    </li>
+    <CommentEditor
         :targetId="targetId"
-        @reply="handleChildReply"
-      />
-    </div>
+        :target="target"
+        :replyComment="comment"
+        :options="options"
+        :configs="configs"
+    />
   </div>
 </template>
 
 <script>
-import { isUrl, timeAgo } from '../utils/util'
-import apiClient from '../plugins/api-client'
-import { marked } from 'marked'
+/* eslint-disable no-unused-vars */
+import "./index";
+import { timeAgo, return2Br } from "@/utils/util";
+import marked from "@/libs/marked.js";
+import { renderedEmojiHtml } from "@/utils/emojiutil";
+import CommentEditor from "./CommentEditor.vue";
+import globals from "@/utils/globals.js";
 
 export default {
-  name: 'CommentNode',
+  name: "CommentNode",
+  components: {
+    CommentEditor,
+  },
   props: {
-    comment: {
+    parent: {
       type: Object,
       required: false,
-      default: () => {}
+      default: undefined,
+    },
+    depth: {
+      type: Number,
+      required: false,
+      default: 1,
+    },
+    isChild: {
+      type: Boolean,
+      required: false,
+      default: false,
     },
     targetId: {
       type: Number,
       required: false,
-      default: 0
+      default: 0,
     },
     target: {
       type: String,
       required: false,
-      default: 'posts',
-      validator: function(value) {
-        // The value must match one of these strings
-        return ['posts', 'sheets', 'journals'].indexOf(value) !== -1
-      }
+      default: "posts",
+      validator: function (value) {
+        return ["posts", "journals", "sheets"].includes(value);
+      },
+    },
+    comment: {
+      type: Object,
+      required: false,
+      default: () => {},
     },
     options: {
+      type: Object,
       required: false,
-      default: []
-    }
+      default: () => {},
+    },
+    configs: {
+      type: Object,
+      required: true,
+    },
   },
   data() {
     return {
-      children: [],
-      commentLoading: false
-    }
+      editing: false,
+      globalData: globals,
+      error_img: `${process.env.BASE_URL}assets/svg/img_error.svg`,
+      unknow_ua: `${process.env.BASE_URL}assets/ua/unknow.svg`,
+      empty_img: "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==",
+    };
+  },
+  created() {
+    const renderer = {
+      // eslint-disable-next-line no-unused-vars
+      image(href, title) {
+        return `<a data-fancybox target="_blank" rel="noopener noreferrer nofollow" href="${href}"><img src="${href}" class="lazyload comment_inline_img" onerror="this.src='${this.error_img}'"></a>`;
+      },
+      link(href, title, text) {
+        return `<a href="${href}" title="${text}" target="_blank" rel="noopener noreferrer nofollow">${text}</a>`;
+      },
+    };
+    marked.use({ renderer });
   },
   computed: {
     avatar() {
-      const gravatarDefault = this.options.comment_gravatar_default
-      const gravatarSource = this.options.gravatar_source || '//cn.gravatar.com/avatar/'
-      if (this.comment.avatar) {
-        return this.comment.avatar
-      }
-      return `${gravatarSource}${this.comment.gravatarMd5}?s=256&d=${gravatarDefault}`
-    },
-    createTimeAgo() {
-      return timeAgo(this.comment.createTime)
+      // if (this.comment.avatar) {
+      //   return this.comment.avatar;
+      // } else {
+      // !!优先从主题配置取，取不到才从后台配置取
+      const gravatarSource =
+          this.configs.gravatarSource ||
+          this.options.gravatar_source ||
+          this.configs.gravatarSourceDefault;
+
+      return `${gravatarSource}/${this.comment.gravatarMd5}?s=256&d=${this.options.comment_gravatar_default || 'mm'}`;
+      // }
     },
     compileContent() {
-      return marked.parse(this.comment.content)
+      var at = "";
+      if (this.parent != undefined) {
+        // at =
+        //   '<a href="' +
+        //   this.parent.authorUrl +
+        //   '" class="comment-at" rel="noopener noreferrer nofollow"> @' +
+        //   this.parent.author +
+        //   " </a>";
+        at =
+            '<a href="javascript:;" class="comment-at"> @' +
+            this.parent.author +
+            " </a>";
+      }
+      // 获取转换后的marked
+      const markedHtml = marked(at + this.comment.content);
+      // 处理其中的表情包
+      const emoji = renderedEmojiHtml(markedHtml);
+      // 将回车转换为br
+      return return2Br(emoji);
     },
-    urlValid() {
-      return isUrl(this.comment.authorUrl)
+    createTimeAgo() {
+      return timeAgo(this.comment.createTime);
     },
-    hasChildrenBody() {
-      return this.comment.hasChildren && this.children !== null && this.children.length > 0
+    selfAddDepth() {
+      return this.depth + 1;
     },
-    hasParent() {
-      return this.comment.parentId !== null && this.comment.parentId > 0
-    }
+    commentClass() {
+      return "depth-" + this.depth + " comment-" + this.comment.id;
+    },
   },
   methods: {
-    handleMoreClick() {
-      if (this.hasChildrenBody) {
-        this.children = []
-        return
-      }
-
-      // Get children
-      this.children = []
-      this.commentLoading = true
-
-      apiClient.comment
-        .listChildren(this.target, this.targetId, this.comment.id)
-        .then(response => {
-          this.children = response.data
-        })
-        .finally(() => {
-          this.commentLoading = false
-        })
+    invalidUrl(url) {
+      return !/^http(s)?:\/\//.test(url);
     },
-    handleReplyClick() {
-      this.$emit('reply', this.comment, this.repliedSuccess)
+    handleReplyClick(e) {
+      e.stopPropagation();
+      // 设置状态为回复状态
+      this.globalData.replyId = this.comment.id;
     },
-    handleChildReply(comment, repliedSuccess) {
-      this.$emit('reply', comment, repliedSuccess)
+    handleAvatarError(e) {
+      const img = e.target || e.srcElement;
+      img.src = this.configs.avatarError;
+      img.onerror = null;
     },
-    repliedSuccess() {
-      // DO NOTHING...
-    }
-  }
-}
+  },
+};
 </script>
-
-<style></style>

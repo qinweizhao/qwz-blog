@@ -1,237 +1,236 @@
 <template>
-  <div class='halo-comment'>
-    <section class='header' @click='handleOpenEditor()'>
-      <comment-placeholder :comment='editingComment' :options='options' />
-    </section>
-    <section
-      class='
-        comment-alert'
+  <div
+    :class="[
+      'halo-comment',
+      { 'halo-comment__small': mergedConfigs.size === 'small' },
+    ]"
+    id="halo-comment"
+  >
+    <comment-editor
+      v-if="isReply"
+      :targetId="id"
+      :target="target"
+      :options="mergedOptions"
+      :configs="mergedConfigs"
+      class="bottom-comment"
+    />
+    <div class="comment-load-button" v-if="!mergedConfigs.autoLoad && !loaded">
+      <a
+        class="button-load"
+        href="javascript:void(0)"
+        rel="nofollow noopener"
+        @click="loadComments"
+        >加载评论</a
+      >
+    </div>
+    <comment-loading v-show="commentLoading" :configs="mergedConfigs" />
+    <ul class="commentwrap" v-if="comments.length >= 1">
+      <template v-for="(comment, index) in comments">
+        <CommentNode
+          :targetId="id"
+          :target="target"
+          :comment="comment"
+          :options="mergedOptions"
+          :configs="mergedConfigs"
+          :key="index"
+          :depth="1"
+        />
+      </template>
+    </ul>
+    <div
+      v-if="loaded && !commentLoading && comments.length <= 0"
+      class="comment-empty"
     >
-      <!-- Info -->
-      <div v-for='(info, index) in infoes' :key='index' class='alert info'>
-        <span class='closebtn' @click='clearAlertClose'>&times;</span>
-        <strong>{{ info }}</strong>
-      </div>
-
-      <!-- Success -->
-      <div v-for='(success, index) in successes' :key='index' class='alert success'>
-        <span class='closebtn' @click='clearAlertClose'>&times;</span>
-        <strong>{{ success }}</strong>
-      </div>
-
-      <!-- Warning -->
-      <div v-for='(warning, index) in warnings' :key='index' class='alert warning'>
-        <span class='closebtn' @click='clearAlertClose'>&times;</span>
-        <strong>{{ warning }}</strong>
-      </div>
-    </section>
-
-    <section class='loading'>
-      <comment-loading v-show='comments.loading' />
-    </section>
-
-    <section class='body'>
-      <comment-body
-        v-show='!comments.loading'
-        :comments='comments.data'
-        :options='options'
-        :target='target'
-        :targetId='id'
-        @reply='handleReply'
-      />
-    </section>
-
-    <section class='pagination'>
+      {{ mergedConfigs.notComment || "暂无评论" }}
+    </div>
+    <div v-if="pagination.pages > 1" class="comment-page">
       <pagination
-        :page='comments.params.page'
-        :size='comments.params.size'
-        :total='comments.total'
-        @change='handlePaginationChange'
+        :page="pagination.page"
+        :size="pagination.size"
+        :total="pagination.total"
+        @change="handlePaginationChange"
       />
-    </section>
-
-    <section class='footer-editor'>
-      <comment-editor
-        v-if='editor.visible'
-        :options='options'
-        :replyingComment='replyingComment'
-        :target='target'
-        :targetId='id'
-        @close='handleEditorClose'
-        @created='handleCommentCreated'
-        @exit='handleEditorExit'
-        @failed='handleFailedToCreateComment'
-        @input='handleEditorInput'
-      />
-    </section>
+    </div>
+    <!-- <img-previewer :visible.sync="showImgPreviewer" :url="previewImgUrl" /> -->
   </div>
 </template>
-
 <script>
-import './index'
-import { isObject } from '../utils/util'
-import apiClient from '@/plugins/api-client'
+/* eslint-disable no-unused-vars */
+import Vue from "vue";
+// import $ from "jquery";
+import "./index";
+import defaultConfig from "@/config/default_config";
+import defaultOption from "@/config/default_option";
+import commentApi from "../api/comment";
+// import ImgPreviewer from "./ImgPreviewer";
+// import optionApi from "../api/option";
+import globals from "@/utils/globals.js";
+import VueLazyload from "vue-lazyload";
+import Tips from "@/plugins/Tips";
+import { removeJsonEmpty, sleep } from "@/utils/util";
+Vue.use(Tips);
 
 export default {
-  name: 'Comment',
+  name: "Comment",
   props: {
     id: {
       type: Number,
       required: false,
-      default: 0
+      default: 0,
     },
     type: {
       type: String,
       required: false,
-      default: 'post',
-      validator: function(value) {
-        // The value must match one of these strings
-        return ['post', 'sheet', 'journal'].indexOf(value) !== -1
-      }
-    }
+      default: "post",
+      validator: function (value) {
+        return ["post", "sheet", "journal", "links"].indexOf(value) !== -1;
+      },
+    },
+    configs: {
+      type: Object,
+      required: false,
+      default: () => defaultConfig,
+    },
+    options: {
+      type: Object,
+      required: false,
+      default: () => defaultOption,
+    },
   },
+  // components: { ImgPreviewer },
   data() {
     return {
-      comments: {
-        data: [],
-        loading: false,
+      comments: [],
+      pagination: {
+        pages: 0,
+        page: 0,
+        sort: "",
+        size: 5,
         total: 0,
-        params: {
-          page: 0,
-          size: 10
-        }
       },
-
-      options: [],
-
-      editor: {
-        visible: false
-      },
-
-      editingComment: {},
-      infoes: [],
-      warnings: [],
-      successes: [],
+      commentLoading: false,
+      loaded: false,
       repliedSuccess: null,
-      replyingComment: null
-    }
+      replyingComment: null,
+      // options: {},
+      globalData: globals,
+      showImgPreviewer: false,
+      previewImgUrl: "",
+    };
   },
   computed: {
     target() {
-      // pluralize it
-      return `${this.type}s`
+      return `${this.type}s`;
+    },
+    mergedConfigs() {
+      var jsonConfig;
+      // 归一化配置数据
+      if (typeof this.configs === "string") {
+        const raws = JSON.parse(this.configs);
+        const tmpObj = {};
+        // 把字符串布尔值转为真实布尔值
+        for (const key in raws) {
+          const cur = raws[key];
+          tmpObj[key] = /^(true|false)$/.test(cur) ? JSON.parse(cur) : cur;
+        }
+        jsonConfig = tmpObj;
+      } else if (typeof this.configs === "object") {
+        jsonConfig = this.configs;
+      } else {
+        throw new TypeError("config参数类型错误");
+      }
+      // 移除值为空的
+      removeJsonEmpty(jsonConfig);
+
+      return Object.assign(defaultConfig, jsonConfig);
+    },
+    mergedOptions() {
+      var jsonOptions;
+      // 归一化options数据
+      if (typeof this.options === "string") {
+        const raws = JSON.parse(this.options);
+        const tmpObj = {};
+        // 把字符串布尔值转为真实布尔值
+        for (const key in raws) {
+          const cur = raws[key];
+          tmpObj[key] = /^(true|false)$/.test(cur) ? JSON.parse(cur) : cur;
+        }
+        jsonOptions = tmpObj;
+      } else if (typeof this.options === "object") {
+        jsonOptions = this.options;
+      } else {
+        throw new TypeError("options参数类型错误");
+      }
+      // 移除值为空的
+      removeJsonEmpty(jsonOptions);
+
+      return Object.assign(defaultOption, jsonOptions);
+    },
+    isReply() {
+      return this.globalData.replyId == 0;
+    },
+  },
+  beforeMount() {
+    // await this.loadOptions();
+    this.$nextTick(() => {
+      Vue.use(VueLazyload, {
+        error:
+          this.mergedConfigs.avatarError,
+        loading:
+          this.mergedConfigs.avatarLoading,
+        attempt: 1,
+      });
+    });
+    if (this.mergedConfigs.autoLoad) {
+      this.loadComments();
     }
   },
-  created() {
-    this.handleListComments()
-    this.handleListOptions()
-  },
+  // mounted() {
+  //   $("[data-fancybox]").on("click", (e) => {
+  //     this.previewImgUrl = e.target.src;
+  //     this.showImgPreviewer = true;
+  //   });
+  // },
   methods: {
-    /**
-     * List top comments.
-     */
-    handleListComments() {
-      this.comments.data = []
-      this.comments.loading = true
-      apiClient.comment
-        .listTopComments(this.target, this.id, this.comments.params)
-        .then(response => {
-          this.comments.data = response.data.content
-          this.comments.total = response.data.total
+    loadComments() {
+      this.comments = [];
+      this.commentLoading = true;
+      commentApi
+        .listComments(this.target, this.id, "tree_view", this.pagination)
+        .then(async (response) => {
+          this.comments = response.data.data.content;
+          this.pagination.size = response.data.data.rpp;
+          this.pagination.total = response.data.data.total;
+          this.pagination.pages = response.data.data.pages;
         })
         .finally(() => {
-          this.comments.loading = false
-        })
+          this.commentLoading = false;
+          this.loaded = true;
+        });
     },
-
-    /**
-     * List comment options.
-     */
-    handleListOptions() {
-      apiClient.option.comment().then(response => {
-        this.options = response.data
-      })
+    // 现在直接从模板中获取了，不需要请求配置了
+    // loadOptions() {
+    //   return new Promise((resolve, reject) => {
+    //     optionApi
+    //       .list()
+    //       .then((response) => {
+    //         const resD = response.data.data;
+    //         this.options = resD;
+    //         resolve(resD);
+    //       })
+    //       .catch((err) => reject(err));
+    //   });
+    // },
+    async handlePaginationChange(page) {
+      this.pagination.page = page;
+      await sleep(300);
+      this.loadComments();
     },
-
-    /**
-     * Open comment editor.
-     */
-    handleOpenEditor() {
-      this.editor.visible = true
-      this.replyingComment = null
-      this.repliedSuccess = null
-    },
-
-    handlePaginationChange(page) {
-      this.comments.params.page = page
-      this.handleListComments()
-    },
-    handleEditorClose() {
-      this.editor.visible = false
-    },
-    handleEditorExit() {
-      this.handleEditorClose()
-      this.editingComment.content = null
-    },
-    handleEditorInput(comment) {
-      this.editingComment = comment
-    },
-    handleCommentCreated(createdComment) {
-      this.clearAlertClose()
-
-      if (createdComment.status === 'PUBLISHED') {
-        this.handleListComments()
-        if (this.repliedSuccess) {
-          this.repliedSuccess()
-        }
-        this.successes.push('评论成功')
-      } else {
-        // Show tips
-        this.infoes.push('您的评论已经投递至博主，等待博主审核！')
-      }
-
-      this.repliedSuccess = null
-    },
-    handleFailedToCreateComment(response) {
-      this.clearAlertClose()
-      this.repliedSuccess = null
-
-      if (response.status === 400) {
-        this.warnings.push(response.data.message)
-        if (response.data) {
-          const errorDetail = response.data.data
-          if (isObject(errorDetail)) {
-            Object.keys(errorDetail).forEach(key => {
-              this.warnings.push(errorDetail[key])
-            })
-          }
-        }
-      }
-    },
-    handleReply(comment, repliedSuccess) {
-      this.replyingComment = comment
-      this.repliedSuccess = repliedSuccess
-      this.editor.visible = true
-    },
-    clearAlertClose() {
-      this.infoes = []
-      this.warnings = []
-      this.successes = []
-    }
-  }
-}
+  },
+};
 </script>
-
-<style lang='scss'>
-@import '../styles/global';
-
-.modal-fade-enter,
-.modal-fade-leave-active {
-  opacity: 0;
-}
-
-.modal-fade-enter-active,
-.modal-fade-leave-active {
-  transition: opacity 0.2s ease;
-}
+<style lang="scss">
+$color: var(--theme);
+@import "../styles/github-markdown";
+@import "../styles/global";
 </style>
