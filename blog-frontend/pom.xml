@@ -24,6 +24,7 @@
     <modules>
         <module>blog-frontend-admin</module>
         <module>blog-frontend-portal</module>
+        <module>blog-frontend-comment</module>
     </modules>
 
 

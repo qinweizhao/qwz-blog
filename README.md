@@ -31,6 +31,7 @@ qwz-blog
 │
 ├─blog-frontend 前端源码
 │  ├─blog-frontend-admin 后台管理
+│  ├─blog-frontend-comment 评论组件
 │  ├─blog-frontend-portal 前台门面
 │ 
 ├─blog-resource 项目资源
