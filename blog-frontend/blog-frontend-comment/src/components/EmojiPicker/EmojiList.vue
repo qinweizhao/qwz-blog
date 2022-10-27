@@ -20,7 +20,7 @@ export default {
   },
   data: () => ({
     categories: [
-      { name: 'haha', title: '泡泡' }
+      { name: 'haha', title: '' }
     ]
   }),
   props: {

@@ -27,7 +27,7 @@ export default {
   name: "Categories",
   data: () => ({
     categories: [
-      { name: 'haha', title: '泡泡' }
+      { name: 'haha', title: '' }
     ],
     active: 0,
   }),

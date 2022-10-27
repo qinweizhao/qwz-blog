@@ -5,13 +5,13 @@
  Source Server Type    : MySQL
  Source Server Version : 80029
  Source Host           : 43.142.101.91:3306
- Source Schema         : qwz-blog-3
+ Source Schema         : qwz-blog
 
  Target Server Type    : MySQL
  Target Server Version : 80029
  File Encoding         : 65001
 
- Date: 24/08/2022 18:02:44
+ Date: 27/10/2022 13:59:56
 */
 
 SET NAMES utf8mb4;
@@ -38,7 +38,7 @@ CREATE TABLE `attachment` (
   PRIMARY KEY (`id`) USING BTREE,
   KEY `attachments_media_type` (`media_type`) USING BTREE,
   KEY `attachments_create_time` (`create_time`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=99 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=107 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
 -- Table structure for category
@@ -58,7 +58,7 @@ CREATE TABLE `category` (
   UNIQUE KEY `UK_oul14ho7bctbefv8jywp5v3i2` (`slug`) USING BTREE,
   KEY `categories_name` (`name`) USING BTREE,
   KEY `categories_parent_id` (`parent_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=50 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=50 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
 -- Table structure for comment
@@ -86,7 +86,7 @@ CREATE TABLE `comment` (
   KEY `comments_post_id` (`target_id`) USING BTREE,
   KEY `comments_type_status` (`type`,`status`) USING BTREE,
   KEY `comments_parent_id` (`parent_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=140 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=153 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
 -- Table structure for comment_black_list
@@ -99,7 +99,7 @@ CREATE TABLE `comment_black_list` (
   `ban_time` datetime(6) DEFAULT NULL,
   `ip_address` varchar(127) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
 -- Table structure for config
@@ -109,11 +109,11 @@ CREATE TABLE `config` (
   `id` int NOT NULL AUTO_INCREMENT,
   `create_time` datetime(6) DEFAULT NULL,
   `update_time` datetime(6) DEFAULT NULL,
-  `option_key` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+  `config_key` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
   `type` int DEFAULT '0',
-  `option_value` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+  `config_value` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=88 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=248 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
 -- Table structure for content
@@ -126,8 +126,8 @@ CREATE TABLE `content` (
   `content` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
   `original_content` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
   `status` int DEFAULT '1',
-  PRIMARY KEY (`post_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  PRIMARY KEY (`post_id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
 -- Table structure for journal
@@ -142,7 +142,7 @@ CREATE TABLE `journal` (
   `source_content` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
   `type` int DEFAULT '0',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
 -- Table structure for log
@@ -158,7 +158,7 @@ CREATE TABLE `log` (
   `type` int NOT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   KEY `logs_create_time` (`create_time`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=825 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=872 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
 -- Table structure for menu
@@ -178,22 +178,7 @@ CREATE TABLE `menu` (
   PRIMARY KEY (`id`) USING BTREE,
   KEY `menus_parent_id` (`parent_id`) USING BTREE,
   KEY `menus_name` (`name`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
--- ----------------------------
--- Table structure for meta
--- ----------------------------
-DROP TABLE IF EXISTS `meta`;
-CREATE TABLE `meta` (
-  `type` int NOT NULL DEFAULT '0',
-  `id` bigint NOT NULL AUTO_INCREMENT,
-  `create_time` datetime(6) DEFAULT NULL,
-  `update_time` datetime(6) DEFAULT NULL,
-  `meta_key` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
-  `post_id` int NOT NULL,
-  `meta_value` varchar(1023) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=57 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
 -- Table structure for post
@@ -219,7 +204,7 @@ CREATE TABLE `post` (
   UNIQUE KEY `UK_qmmso8qxjpbxwegdtp0l90390` (`slug`) USING BTREE,
   KEY `posts_type_status` (`status`) USING BTREE,
   KEY `posts_create_time` (`create_time`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=125 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=152 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
 -- Table structure for post_category
@@ -234,7 +219,7 @@ CREATE TABLE `post_category` (
   PRIMARY KEY (`id`) USING BTREE,
   KEY `post_categories_post_id` (`post_id`) USING BTREE,
   KEY `post_categories_category_id` (`category_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=498 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=509 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
 -- Table structure for post_tag
@@ -249,7 +234,7 @@ CREATE TABLE `post_tag` (
   PRIMARY KEY (`id`) USING BTREE,
   KEY `post_tags_post_id` (`post_id`) USING BTREE,
   KEY `post_tags_tag_id` (`tag_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=465 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=476 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
 -- Table structure for tag
@@ -266,21 +251,7 @@ CREATE TABLE `tag` (
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE KEY `UK_sn0d91hxu700qcw0n4pebp5vc` (`slug`) USING BTREE,
   KEY `tags_name` (`name`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=54 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
--- ----------------------------
--- Table structure for theme_setting
--- ----------------------------
-DROP TABLE IF EXISTS `theme_setting`;
-CREATE TABLE `theme_setting` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `setting_key` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
-  `setting_value` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
-  `create_time` datetime(6) DEFAULT NULL,
-  `update_time` datetime(6) DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE,
-  KEY `theme_settings_setting_key` (`setting_key`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=2447 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=59 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
 -- Table structure for user

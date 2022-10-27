@@ -7,7 +7,6 @@ module.exports = {
     port: 8080,
     open: false,
     proxy: {
-      // purchaseitem: https://cli.vuejs.org/config/#devserver-proxy
       ['/']: {
         ws: false,
         target: `http://localhost:8090`,
