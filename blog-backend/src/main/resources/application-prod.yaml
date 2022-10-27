@@ -1,17 +1,9 @@
 server:
   port: 8090
-  forward-headers-strategy: native
-  compression:
-    enabled: true
+
 spring:
-  jackson:
-    # json 序列化排除值为 null 的属性
-    default-property-inclusion: non_null
-  output:
-    ansi:
-      enabled: always
   datasource:
-    # MySQL database configuration.
+    # 数据库配置
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://43.142.101.91:3306/qwz-blog-3?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai&zeroDateTimeBehavior=convertToNull
     username: root
@@ -31,18 +23,6 @@ spring:
       # 从池返回的连接的默认自动提交行为。默认值为true。
       auto-commit: true
 
-  servlet:
-    multipart:
-      max-file-size: 10240MB
-      max-request-size: 10240MB
-  cache:
-    type: none
-management:
-  endpoints:
-    web:
-      base-path: /api/admin/actuator
-      exposure:
-        include: [ 'httptrace', 'metrics','env','logfile','health' ]
 logging:
   level:
     com.qinweizhao.blog: DEBUG

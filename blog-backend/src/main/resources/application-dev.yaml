@@ -1,20 +1,14 @@
 server:
   port: 8090
-  forward-headers-strategy: native
-  compression:
-    enabled: true
+
 spring:
-  jackson:
-    # json 序列化排除值为 null 的属性
-    default-property-inclusion: non_null
-  output:
-    ansi:
-      enabled: always
-  devtools:
-    restart:
-      enabled: true
+  # 数据源配置
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/qwz-blog?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai&zeroDateTimeBehavior=convertToNull
+    username: root
+    password: Qwz#1201
     hikari:
       # 客户端等待连接池连接的最大毫秒数
       connection-timeout: 20000
@@ -28,24 +22,8 @@ spring:
       max-lifetime: 1200000
       # 从池返回的连接的默认自动提交行为。默认值为true。
       auto-commit: true
-    # MySQL database configuration.
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1:3306/qwz-blog?useUnicode=true&characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai&zeroDateTimeBehavior=convertToNull
-    username: root
-    password: Qwz#1201
 
-  servlet:
-    multipart:
-      max-file-size: 10240MB
-      max-request-size: 10240MB
-  cache:
-    type: none
-management:
-  endpoints:
-    web:
-      base-path: /api/admin/actuator
-      exposure:
-        include: [ 'httptrace', 'metrics','env','logfile','health' ]
+# 日志配置
 logging:
   level:
     com.qinweizhao.blog: DEBUG
