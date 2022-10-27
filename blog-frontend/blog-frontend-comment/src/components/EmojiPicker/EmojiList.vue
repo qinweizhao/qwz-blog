@@ -40,10 +40,13 @@ export default {
       return this.category + "Emoji";
     },
     type() {
-      if(this.category === "bilibili") {
-        return "Math";
-      } else if(["haha","gulu","tieba"].includes(this.category)) {
-        return "BBCode"
+      // if(this.category === "bilibili") {
+      //   return "Math";
+      // } else if(["haha","gulu","tieba"].includes(this.category)) {
+      //   return "BBCode"
+      // }
+      if(this.category === "haha") {
+        return "BBCode";
       }
       return "";
     }

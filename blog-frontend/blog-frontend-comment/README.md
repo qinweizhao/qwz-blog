@@ -1,6 +1,4 @@
 
-> 仅适用于 `halo-theme-joe2.0` 主题的评论组件，基于 `LIlGG` 开发的 [halo-comment-sakura](https://github.com/LIlGG/halo-comment-sakura) 定制而成，在此感谢原作者。
-
 ### 自定义配置
 
 如果你需要自定义该评论组件，下面提供了一些属性，默认配置文件见 `src/config/default_config.js`：
@@ -178,8 +176,7 @@ comment:
 
 #### 说明
 
-1. configs 可以不用配置。
-2. 具体主题开发文档请参考：<https://halo.run/develop/theme/ready.html>。
+configs 可以不用配置。
 
 ### 样式自定义
 
@@ -218,15 +215,9 @@ for (var i = 0; i < comments.length; i++) {
 
 <font color="red">注：使用上述方法注入 CSS，需要保证 Shadow DOM 的 mode 处于 open 状态，否则无法使用 JS 进行修改。</font>
 
-### 关于emoji
-
-项目中的 emoji 解析依赖了 [j-marked](https://github.com/qinhua/j-marked) 这个包。
-
 ### 打包
 
-开发完毕后，你可以执行 `npm run build:wc` 编译出用于生产环境的 `webcomponent` 组件
-
-
+开发完毕后，你可以执行 `npm run build-wc` 编译出用于生产环境的 `webcomponent` 组件
 
 
 ## 评论组件开发流程
@@ -269,6 +260,3 @@ rules: {
     'no-debugger': 0
 },
 ```
-
-
-但在提交 PR 时，务必保证禁用 `console` 及 `debugger`

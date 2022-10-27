@@ -145,7 +145,7 @@ export default {
       required: false,
       default: "posts",
       validator: function (value) {
-        return ["posts", "journals", "sheets"].includes(value);
+        return ["posts", "journals"].includes(value);
       },
     },
     comment: {
@@ -168,7 +168,6 @@ export default {
       editing: false,
       globalData: globals,
       error_img: `${process.env.BASE_URL}assets/svg/img_error.svg`,
-      unknow_ua: `${process.env.BASE_URL}assets/ua/unknow.svg`,
       empty_img: "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==",
     };
   },
