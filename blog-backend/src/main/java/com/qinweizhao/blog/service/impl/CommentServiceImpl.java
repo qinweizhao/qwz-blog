@@ -45,8 +45,6 @@ import org.springframework.util.ObjectUtils;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static com.qinweizhao.blog.model.support.BlogConst.URL_SEPARATOR;
-
 /**
  * PostCommentService implementation class
  *
@@ -110,7 +108,7 @@ public class CommentServiceImpl implements CommentService {
                 Map<String, Object> map = new HashMap<>(3);
                 map.put("title", post.getTitle());
                 map.put("status", ValueEnum.valueToEnum(PostStatus.class, post.getStatus()));
-                map.put("fullPath", this.buildFullPath(post.getId()));
+                map.put("fullPath", configService.buildFullPath(post.getId()));
                 comment.setTarget(map);
             }).collect(Collectors.toList());
 
@@ -127,11 +125,6 @@ public class CommentServiceImpl implements CommentService {
         }
 
         return new PageResult<>(collect, commentResult.getTotal(), commentResult.hasPrevious(), commentResult.hasNext());
-    }
-
-    public String buildFullPath(Integer postId) {
-
-        return configService.getBlogBaseUrl() + URL_SEPARATOR + "?p=" + postId;
     }
 
 

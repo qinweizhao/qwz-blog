@@ -45,7 +45,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-import static com.qinweizhao.blog.model.support.BlogConst.URL_SEPARATOR;
 
 /**
  * 文章管理
@@ -107,7 +106,7 @@ public class PostServiceImpl implements PostService {
             postListDTO.setTags(new ArrayList<>(Optional.ofNullable(tagListMap.get(post.getId())).orElseGet(LinkedList::new)));
             postListDTO.setCategories(new ArrayList<>(Optional.ofNullable(categoryListMap.get(post.getId())).orElseGet(LinkedList::new)));
             postListDTO.setCommentCount(commentCountMap.getOrDefault(post.getId(), 0L));
-            postListDTO.setFullPath(buildFullPath(post.getId()));
+            postListDTO.setFullPath(configService.buildFullPath(post.getId()));
             return postListDTO;
         }).collect(Collectors.toList());
 
@@ -129,7 +128,7 @@ public class PostServiceImpl implements PostService {
         posts.forEach(post -> {
             post.setCategories(new ArrayList<>(Optional.ofNullable(categoryListMap.get(post.getId())).orElseGet(LinkedList::new)));
             post.setCommentCount(commentCountMap.getOrDefault(post.getId(), 0L));
-            post.setFullPath(buildFullPath(post.getId()));
+            post.setFullPath(configService.buildFullPath(post.getId()));
         });
 
         return new PageResult<>(posts, pageResult.getCurrent(), pageResult.getSize(), pageResult.getTotal(), pageResult.hasPrevious(), pageResult.hasNext());
@@ -339,7 +338,7 @@ public class PostServiceImpl implements PostService {
         cacheStore.putAny(token, token, 10, TimeUnit.MINUTES);
 
 
-        return this.buildFullPath(postId) + "&token=" + token;
+        return configService.buildFullPath(postId) + "?token=" + token;
     }
 
     @Override
@@ -506,7 +505,7 @@ public class PostServiceImpl implements PostService {
         postDTO.setCategoryIds(categoryIds);
         postDTO.setCategories(categories);
 
-        postDTO.setFullPath(buildFullPath(post.getId()));
+        postDTO.setFullPath(configService.buildFullPath(post.getId()));
 
         postDTO.setCommentCount(commentMapper.selectCountByPostIdAndStatus(postId, CommentStatus.PUBLISHED));
 
@@ -517,7 +516,7 @@ public class PostServiceImpl implements PostService {
     public PostSimpleDTO getSimpleById(Integer postId) {
         Post post = postMapper.selectById(postId);
         PostSimpleDTO result = PostConvert.INSTANCE.convertSimpleDTO(post);
-        result.setFullPath(buildFullPath(post.getId()));
+        result.setFullPath(configService.buildFullPath(post.getId()));
         return result;
     }
 
@@ -547,7 +546,7 @@ public class PostServiceImpl implements PostService {
 
         postSimples.forEach(post -> {
             LocalDateTime createTime = post.getCreateTime();
-            post.setFullPath(buildFullPath(post.getId()));
+            post.setFullPath(configService.buildFullPath(post.getId()));
             yearPostMap.computeIfAbsent(createTime.getYear(), year -> new LinkedList<>()).add(post);
         });
 
@@ -577,7 +576,7 @@ public class PostServiceImpl implements PostService {
 
         postSimples.forEach(post -> {
             LocalDateTime createTime = post.getCreateTime();
-            post.setFullPath(buildFullPath(post.getId()));
+            post.setFullPath(configService.buildFullPath(post.getId()));
             yearMonthPostMap.computeIfAbsent(createTime.getYear(), year -> new LinkedHashMap<>()).computeIfAbsent(createTime.getMonthValue(), month -> new LinkedList<>()).add(post);
         });
 
@@ -659,11 +658,5 @@ public class PostServiceImpl implements PostService {
         return StringUtils.substring(text, 0, summaryLength);
     }
 
-
-    @Override
-    public String buildFullPath(Integer postId) {
-
-        return configService.getBlogBaseUrl() + URL_SEPARATOR + "?p=" + postId;
-    }
 
 }

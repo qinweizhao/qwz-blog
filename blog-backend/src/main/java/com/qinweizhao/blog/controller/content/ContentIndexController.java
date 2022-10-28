@@ -1,16 +1,12 @@
 package com.qinweizhao.blog.controller.content;
 
 import com.qinweizhao.blog.controller.content.model.PostModel;
-import com.qinweizhao.blog.model.enums.PostStatus;
-import com.qinweizhao.blog.service.PostService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-
-import java.util.Objects;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * Blog index page controller
@@ -24,38 +20,18 @@ import java.util.Objects;
 @AllArgsConstructor
 public class ContentIndexController {
 
-    private final PostService postService;
-
     private final PostModel postModel;
 
-
     /**
-     * Render blog index
+     * 渲染主页
      *
-     * @param p     post id
+     * @param page  page
      * @param model model
-     * @return template path: themes/{theme}/index.ftl
+     * @return template : index.ftl
      */
     @GetMapping
-    public String index(Integer p, String token, Model model) {
-
-        if (!Objects.isNull(p)) {
-            PostStatus status = postService.getStatusById(p);
-            return postModel.content(p, status, token, model);
-        }
-
-        return this.index(model, 1);
-    }
-
-    /**
-     * 首页
-     *
-     * @param model model
-     * @param page  current page number
-     * @return template path: themes/{theme}/index.ftl
-     */
-    @GetMapping(value = "page/{page}")
-    public String index(Model model, @PathVariable(value = "page") Integer page) {
+    public String index(@RequestParam(required = false, defaultValue = "1") Integer page, Model model) {
         return postModel.list(page, model);
     }
+
 }

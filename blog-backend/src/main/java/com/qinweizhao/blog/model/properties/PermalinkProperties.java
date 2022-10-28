@@ -22,6 +22,11 @@ public enum PermalinkProperties implements PropertyEnum {
     TAGS_PREFIX("tags_prefix", String.class, "tags"),
 
     /**
+     * Article prefix
+     */
+    ARTICLE_PREFIX("article_prefix", String.class, "article"),
+
+    /**
      * Archives prefix.
      * such as: /archives
      */

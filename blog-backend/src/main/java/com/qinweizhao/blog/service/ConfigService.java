@@ -267,6 +267,13 @@ public interface ConfigService {
     String getTagsPrefix();
 
     /**
+     * Get tags custom prefix.
+     *
+     * @return tags prefix.
+     */
+    String getArticlePrefix();
+
+    /**
      * 分页列表
      *
      * @param configQueryParam optionQuery

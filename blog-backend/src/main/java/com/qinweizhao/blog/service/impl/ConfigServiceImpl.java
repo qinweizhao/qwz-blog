@@ -40,7 +40,7 @@ import java.util.*;
 import static com.qinweizhao.blog.model.support.BlogConst.URL_SEPARATOR;
 
 /**
- * OptionService implementation class
+ * OptionService 实现类
  *
  * @author ryanwang
  * @author qinweizhao
@@ -59,10 +59,10 @@ public class ConfigServiceImpl implements ConfigService {
     private final ConfigMapper configMapper;
     private Map<String, PropertyEnum> propertyEnumMap;
 
+
     @Override
     public String buildFullPath(Integer postId) {
-
-        return this.getBlogBaseUrl() + URL_SEPARATOR + "?p=" + postId;
+        return this.getBlogBaseUrl() + URL_SEPARATOR + this.getArticlePrefix() + URL_SEPARATOR + postId;
     }
 
 
@@ -141,7 +141,7 @@ public class ConfigServiceImpl implements ConfigService {
 
     @Override
     public Object getByPropertyOfNonNull(PropertyEnum property) {
-        Assert.notNull(property, "Blog property must not be null");
+        Assert.notNull(property, "属性不能为空");
 
         return getByKeyOfNonNull(property.getValue());
     }
@@ -192,7 +192,7 @@ public class ConfigServiceImpl implements ConfigService {
         try {
             return getByPropertyOrDefault(PostProperties.INDEX_PAGE_SIZE, Integer.class, DEFAULT_POST_PAGE_SIZE);
         } catch (NumberFormatException e) {
-            log.error(PostProperties.INDEX_PAGE_SIZE.getValue() + " option is not a number format", e);
+            log.error(PostProperties.INDEX_PAGE_SIZE.getValue() + "配置不是数字格式", e);
             return DEFAULT_POST_PAGE_SIZE;
         }
     }
@@ -239,7 +239,7 @@ public class ConfigServiceImpl implements ConfigService {
                     region = Region.regionAs0();
                     break;
                 default:
-                    // Default is detecting zone automatically
+                    // 默认是自动检测区域
                     region = Region.autoRegion();
             }
             return region;
@@ -310,6 +310,12 @@ public class ConfigServiceImpl implements ConfigService {
         return getByPropertyOrDefault(PermalinkProperties.TAGS_PREFIX, String.class, PermalinkProperties.TAGS_PREFIX.defaultValue());
     }
 
+    @Override
+    public String getArticlePrefix() {
+        return getByPropertyOrDefault(PermalinkProperties.ARTICLE_PREFIX, String.class, PermalinkProperties.TAGS_PREFIX.defaultValue());
+
+    }
+
 
     @Override
     public PageResult<ConfigSimpleDTO> pageSimple(ConfigQueryParam param) {
@@ -319,6 +325,7 @@ public class ConfigServiceImpl implements ConfigService {
 
     @Override
     public boolean save(ConfigParam param) {
+        boolean flag = false;
         String key = param.getKey();
         String value = param.getValue();
         Config dbConfig = configMapper.selectByKey(key);
@@ -326,10 +333,10 @@ public class ConfigServiceImpl implements ConfigService {
             Config config = ConfigConvert.INSTANCE.convert(param);
             configMapper.insert(config);
             this.publishOptionUpdatedEvent();
-            return true;
+            flag = true;
         } else {
             if (dbConfig.getConfigValue().equals(value)) {
-                return true;
+                flag = true;
             } else {
                 Config config = ConfigConvert.INSTANCE.convert(param);
                 config.setId(dbConfig.getId());
@@ -337,7 +344,7 @@ public class ConfigServiceImpl implements ConfigService {
             }
         }
         this.publishOptionUpdatedEvent();
-        return true;
+        return flag;
     }
 
     @Override
@@ -472,13 +479,13 @@ public class ConfigServiceImpl implements ConfigService {
     }
 
     @Override
-    public boolean save(Map<String, Object> settings,ConfigType type) {
+    public boolean save(Map<String, Object> settings, ConfigType type) {
 
         if (CollectionUtils.isEmpty(settings)) {
             return false;
         }
         // 保存配置
-        settings.forEach((key, value) -> this.saveItem(key, String.valueOf(value),type));
+        settings.forEach((key, value) -> this.saveItem(key, String.valueOf(value), type));
 
         try {
             configuration.setSharedVariable("settings", this.getSettings());
@@ -495,7 +502,7 @@ public class ConfigServiceImpl implements ConfigService {
      * @param key   key
      * @param value value
      */
-    private void saveItem(String key, String value,ConfigType type) {
+    private void saveItem(String key, String value, ConfigType type) {
         if (ObjectUtils.isEmpty(value)) {
             log.debug("主题配置");
             int i = configMapper.deleteByKey(key);

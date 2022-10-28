@@ -23,6 +23,8 @@ import static com.qinweizhao.blog.model.support.BlogConst.URL_SEPARATOR;
 @Component
 public class PaginationTagDirective implements TemplateDirectiveModel {
 
+    private static final String URL_PAGE_PARAM = "?page=";
+
     private final ConfigService configService;
 
     public PaginationTagDirective(Configuration configuration, ConfigService configService) {
@@ -60,43 +62,18 @@ public class PaginationTagDirective implements TemplateDirectiveModel {
             switch (method) {
                 case "index":
 
-                    nextPageFullPath.append("/page/").append(page + 1);
+                    nextPageFullPath.append(URL_PAGE_PARAM).append(page + 1);
 
                     if (page == 1) {
                         prevPageFullPath.append(URL_SEPARATOR);
                     } else {
-                        prevPageFullPath.append("/page/").append(page - 1);
+                        prevPageFullPath.append(URL_PAGE_PARAM).append(page - 1);
                     }
-
-                    fullPath.append("/page/");
 
                     for (int current : rainbow) {
                         RainbowPage rainbowPage = new RainbowPage();
                         rainbowPage.setPage(current);
-                        rainbowPage.setFullPath(fullPath.toString() + current);
-                        rainbowPage.setIsCurrent(page == current);
-                        rainbowPages.add(rainbowPage);
-                    }
-                    break;
-                case "archives":
-
-                    nextPageFullPath.append(URL_SEPARATOR).append(configService.getArchivesPrefix());
-                    prevPageFullPath.append(URL_SEPARATOR).append(configService.getArchivesPrefix());
-
-                    nextPageFullPath.append("/page/").append(page + 1);
-
-                    if (page != 1) {
-                        prevPageFullPath.append("/page/").append(page - 1);
-                    }
-
-                    fullPath.append(URL_SEPARATOR).append(configService.getArchivesPrefix());
-
-                    fullPath.append("/page/");
-
-                    for (int current : rainbow) {
-                        RainbowPage rainbowPage = new RainbowPage();
-                        rainbowPage.setPage(current);
-                        rainbowPage.setFullPath(fullPath.toString() + current);
+                        rainbowPage.setFullPath(URL_PAGE_PARAM + current);
                         rainbowPage.setIsCurrent(page == current);
                         rainbowPages.add(rainbowPage);
                     }
@@ -107,22 +84,22 @@ public class PaginationTagDirective implements TemplateDirectiveModel {
                     nextPageFullPath.append(URL_SEPARATOR).append("search");
                     prevPageFullPath.append(URL_SEPARATOR).append("search");
 
-                    nextPageFullPath.append("/page/").append(page).append("?keyword=").append(keyword);
+                    nextPageFullPath.append(URL_PAGE_PARAM).append(page+1).append("&keyword=").append(keyword);
 
                     if (page == 1) {
                         prevPageFullPath.append("?keyword=").append(keyword);
                     } else {
-                        prevPageFullPath.append("/page/").append(page - 1).append("?keyword=").append(keyword);
+                        prevPageFullPath.append(URL_PAGE_PARAM).append(page - 1).append("&keyword=").append(keyword);
                     }
 
                     fullPath.append(URL_SEPARATOR).append("search");
 
-                    fullPath.append("/page/");
+                    fullPath.append(URL_PAGE_PARAM);
 
                     for (int current : rainbow) {
                         RainbowPage rainbowPage = new RainbowPage();
                         rainbowPage.setPage(current);
-                        rainbowPage.setFullPath(fullPath.toString() + current + "?keyword=" + keyword);
+                        rainbowPage.setFullPath(fullPath.toString() + current + "&keyword=" + keyword);
                         rainbowPage.setIsCurrent(page == current);
                         rainbowPages.add(rainbowPage);
                     }
@@ -133,16 +110,16 @@ public class PaginationTagDirective implements TemplateDirectiveModel {
                     nextPageFullPath.append(URL_SEPARATOR).append(configService.getTagsPrefix()).append(URL_SEPARATOR).append(tagSlug);
                     prevPageFullPath.append(URL_SEPARATOR).append(configService.getTagsPrefix()).append(URL_SEPARATOR).append(tagSlug);
 
-                    nextPageFullPath.append("/page/").append(page + 1);
+                    nextPageFullPath.append(URL_PAGE_PARAM).append(page + 1);
 
                     if (page != 1) {
 
-                        prevPageFullPath.append("/page/").append(page - 1);
+                        prevPageFullPath.append(URL_PAGE_PARAM).append(page - 1);
                     }
 
                     fullPath.append(URL_SEPARATOR).append(configService.getTagsPrefix()).append(URL_SEPARATOR).append(tagSlug);
 
-                    fullPath.append("/page/");
+                    fullPath.append(URL_PAGE_PARAM);
 
                     for (int current : rainbow) {
                         RainbowPage rainbowPage = new RainbowPage();
@@ -158,16 +135,16 @@ public class PaginationTagDirective implements TemplateDirectiveModel {
                     nextPageFullPath.append(URL_SEPARATOR).append(configService.getCategoriesPrefix()).append(URL_SEPARATOR).append(categorySlug);
                     prevPageFullPath.append(URL_SEPARATOR).append(configService.getCategoriesPrefix()).append(URL_SEPARATOR).append(categorySlug);
 
-                    nextPageFullPath.append("/page/").append(page + 1);
+                    nextPageFullPath.append(URL_PAGE_PARAM).append(page + 1);
 
                     if (page != 1) {
 
-                        prevPageFullPath.append("/page/").append(page - 1);
+                        prevPageFullPath.append(URL_PAGE_PARAM).append(page - 1);
                     }
 
                     fullPath.append(URL_SEPARATOR).append(configService.getCategoriesPrefix()).append(URL_SEPARATOR).append(categorySlug);
 
-                    fullPath.append("/page/");
+                    fullPath.append(URL_PAGE_PARAM);
 
                     for (int current : rainbow) {
                         RainbowPage rainbowPage = new RainbowPage();
@@ -182,15 +159,15 @@ public class PaginationTagDirective implements TemplateDirectiveModel {
                     nextPageFullPath.append(URL_SEPARATOR).append(configService.getJournalsPrefix());
                     prevPageFullPath.append(URL_SEPARATOR).append(configService.getJournalsPrefix());
 
-                    nextPageFullPath.append("/page/").append(page + 1);
+                    nextPageFullPath.append(URL_PAGE_PARAM).append(page + 1);
 
                     if (page != 1) {
-                        prevPageFullPath.append("/page/").append(page - 1);
+                        prevPageFullPath.append(URL_PAGE_PARAM).append(page - 1);
                     }
 
                     fullPath.append(URL_SEPARATOR).append(configService.getJournalsPrefix());
 
-                    fullPath.append("/page/");
+                    fullPath.append(URL_PAGE_PARAM);
 
                     for (int current : rainbow) {
                         RainbowPage rainbowPage = new RainbowPage();
@@ -207,7 +184,7 @@ public class PaginationTagDirective implements TemplateDirectiveModel {
             pagination.setPrevPageFullPath(prevPageFullPath.toString());
             pagination.setRainbowPages(rainbowPages);
             pagination.setHasNext(total != page);
-            pagination.setHasPrev(page != 0);
+            pagination.setHasPrev(page != 1);
             env.setVariable("pagination", builder.build().wrap(pagination));
         }
         body.render(env.getOut());

@@ -39,7 +39,7 @@ public class RecycledPostCleaningTask {
     public synchronized void run() {
         Boolean recycledPostCleaningEnabled = configService.getByPropertyOrDefault(PostProperties.RECYCLED_POST_CLEANING_ENABLED, Boolean.class, false);
 
-        log.debug("启用自动清理回收状态文章 = {}", recycledPostCleaningEnabled);
+        log.debug("{}自动清理回收状态文章", Boolean.TRUE.equals(recycledPostCleaningEnabled) ? "启用" : "禁用");
 
         if (Boolean.FALSE.equals(recycledPostCleaningEnabled)) {
             return;

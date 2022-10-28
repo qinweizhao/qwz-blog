@@ -32,12 +32,12 @@ public class JournalModel {
     private ThemeService themeService;
 
 
-    public String list(Integer page, Model model) {
+    public String list( Model model) {
 
         int pageSize = configService.getByPropertyOrDefault(SheetProperties.JOURNALS_PAGE_SIZE, Integer.class, Integer.parseInt(SheetProperties.JOURNALS_PAGE_SIZE.defaultValue()));
 
         JournalQueryParam param = new JournalQueryParam();
-        param.setPage(page);
+        param.setPage(1);
         param.setSize(pageSize);
         param.setType(JournalType.PUBLIC);
 

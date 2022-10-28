@@ -10,10 +10,8 @@ import com.qinweizhao.blog.service.ThemeService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.util.HtmlUtils;
 
 import javax.annotation.Resource;
 
@@ -47,19 +45,7 @@ public class ContentSearchController {
      * @return template path : themes/{theme}/search.ftl
      */
     @GetMapping
-    public String search(Model model, @RequestParam(value = "keyword") String keyword) {
-        return this.search(model, HtmlUtils.htmlEscape(keyword), 1);
-    }
-
-    /**
-     * 渲染文章搜索页面
-     *
-     * @param model   model
-     * @param keyword keyword
-     * @return template path :themes/{theme}/search.ftl
-     */
-    @GetMapping(value = "page/{page}")
-    public String search(Model model, @RequestParam(value = "keyword") String keyword, @PathVariable(value = "page") Integer page) {
+    public String search(Model model, @RequestParam(value = "keyword") String keyword, @RequestParam(value = "page", required = false, defaultValue = "1") Integer page) {
 
         final PostQueryParam param = new PostQueryParam();
         param.setPage(page);
@@ -74,4 +60,5 @@ public class ContentSearchController {
         model.addAttribute("meta_description", configService.getSeoDescription());
         return themeService.render("search");
     }
+
 }
