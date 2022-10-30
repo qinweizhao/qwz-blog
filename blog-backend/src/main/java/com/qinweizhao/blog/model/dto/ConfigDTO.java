@@ -1,8 +1,7 @@
 package com.qinweizhao.blog.model.dto;
 
-import lombok.AllArgsConstructor;
+
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 /**
  * Option output dto.
@@ -11,9 +10,9 @@ import lombok.NoArgsConstructor;
  * @since 3/20/19
  */
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 public class ConfigDTO {
+
+    private Integer id;
 
     private String key;
 

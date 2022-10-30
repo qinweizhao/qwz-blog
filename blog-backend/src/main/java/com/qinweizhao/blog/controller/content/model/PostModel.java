@@ -62,18 +62,25 @@ public class PostModel {
         model.addAttribute("prevPost", postService.getPrevPost(postId));
         model.addAttribute("nextPost", postService.getNextPost(postId));
 
+        String metaKeywords;
+
         if (StringUtils.isNotEmpty(post.getMetaKeywords())) {
-            model.addAttribute("meta_keywords", post.getMetaKeywords());
+            metaKeywords = post.getMetaKeywords();
         } else {
             List<TagDTO> tags = post.getTags();
-            model.addAttribute("meta_keywords", tags.stream().map(TagDTO::getName).collect(Collectors.joining(",")));
+            metaKeywords = tags.stream().map(TagDTO::getName).collect(Collectors.joining(","));
         }
 
+        String metaDescription;
+
         if (StringUtils.isNotEmpty(post.getMetaDescription())) {
-            model.addAttribute("meta_description", post.getMetaDescription());
+            metaDescription = post.getMetaDescription();
         } else {
-            model.addAttribute("meta_description", postService.generateDescription(post.getFormatContent()));
+            metaDescription = postService.generateDescription(post.getFormatContent());
         }
+
+        model.addAttribute("meta_keywords", metaKeywords);
+        model.addAttribute("meta_description", metaDescription);
 
         model.addAttribute("is_post", true);
         model.addAttribute("post", post);

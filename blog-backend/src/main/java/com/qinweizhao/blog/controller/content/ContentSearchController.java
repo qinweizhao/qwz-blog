@@ -7,13 +7,11 @@ import com.qinweizhao.blog.model.param.PostQueryParam;
 import com.qinweizhao.blog.service.ConfigService;
 import com.qinweizhao.blog.service.PostService;
 import com.qinweizhao.blog.service.ThemeService;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
-import javax.annotation.Resource;
 
 
 /**
@@ -24,17 +22,14 @@ import javax.annotation.Resource;
  * @since 2019-04-21
  */
 @Controller
-@RequestMapping(value = "/search")
+@AllArgsConstructor
 public class ContentSearchController {
 
-    @Resource
-    private PostService postService;
+    private final PostService postService;
 
-    @Resource
-    private ConfigService configService;
+    private final ConfigService configService;
 
-    @Resource
-    private ThemeService themeService;
+    private final ThemeService themeService;
 
 
     /**
@@ -44,7 +39,7 @@ public class ContentSearchController {
      * @param keyword keyword
      * @return template path : themes/{theme}/search.ftl
      */
-    @GetMapping
+    @GetMapping(value = "/search")
     public String search(Model model, @RequestParam(value = "keyword") String keyword, @RequestParam(value = "page", required = false, defaultValue = "1") Integer page) {
 
         final PostQueryParam param = new PostQueryParam();

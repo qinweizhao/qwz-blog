@@ -75,7 +75,7 @@ public class ConfigServiceImpl implements ConfigService {
     @Override
     public @NotNull Map<String, Object> listOptions() {
         return cacheStore.getAny(OPTIONS_KEY, Map.class).orElseGet(() -> {
-            List<Config> configs = configMapper.selectList(Wrappers.emptyWrapper());
+            List<Config> configs = configMapper.selectListByType(ConfigType.ADMIN);
 
             Set<String> keys = ServiceUtils.fetchProperty(configs, Config::getConfigKey);
 
