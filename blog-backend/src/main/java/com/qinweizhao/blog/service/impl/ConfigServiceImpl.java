@@ -12,7 +12,7 @@ import com.qinweizhao.blog.framework.handler.theme.config.support.Item;
 import com.qinweizhao.blog.mapper.ConfigMapper;
 import com.qinweizhao.blog.model.convert.ConfigConvert;
 import com.qinweizhao.blog.model.core.PageResult;
-import com.qinweizhao.blog.model.dto.ConfigSimpleDTO;
+import com.qinweizhao.blog.model.dto.ConfigDTO;
 import com.qinweizhao.blog.model.entity.Config;
 import com.qinweizhao.blog.model.enums.ConfigType;
 import com.qinweizhao.blog.model.param.ConfigParam;
@@ -318,7 +318,7 @@ public class ConfigServiceImpl implements ConfigService {
 
 
     @Override
-    public PageResult<ConfigSimpleDTO> pageSimple(ConfigQueryParam param) {
+    public PageResult<ConfigDTO> pageSimple(ConfigQueryParam param) {
         PageResult<Config> page = configMapper.selectPage(param);
         return ConfigConvert.INSTANCE.convert(page);
     }

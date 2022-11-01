@@ -2,7 +2,6 @@ package com.qinweizhao.blog.model.convert;
 
 import com.qinweizhao.blog.model.core.PageResult;
 import com.qinweizhao.blog.model.dto.ConfigDTO;
-import com.qinweizhao.blog.model.dto.ConfigSimpleDTO;
 import com.qinweizhao.blog.model.entity.Config;
 import com.qinweizhao.blog.model.enums.ConfigType;
 import com.qinweizhao.blog.model.enums.ValueEnum;
@@ -34,24 +33,12 @@ public interface ConfigConvert {
     ConfigDTO convert(Config config);
 
     /**
-     * convert
-     *
-     * @param config config
-     * @return ConfigDTO
-     */
-    @Mappings({
-            @Mapping(source = "configKey", target = "key"),
-            @Mapping(source = "configValue", target = "value")
-    })
-    ConfigSimpleDTO convertSimpleDTO(Config config);
-
-    /**
      * 转换分页
      *
      * @param page page
      * @return PageResult
      */
-    PageResult<ConfigSimpleDTO> convert(PageResult<Config> page);
+    PageResult<ConfigDTO> convert(PageResult<Config> page);
 
 
     /**
@@ -81,4 +68,5 @@ public interface ConfigConvert {
         config.setType(param.getType().getValue());
         return config;
     }
+
 }

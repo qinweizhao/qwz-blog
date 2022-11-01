@@ -1,12 +1,6 @@
 <template>
   <div>
     <a-form-model ref="postOptionsForm" :model="options" :rules="rules" :wrapperCol="wrapperCol" layout="vertical">
-      <!-- <a-form-model-item label="默认编辑器：">
-        <a-select v-model="options.default_editor">
-          <a-select-config value="MARKDOWN">Markdown 编辑器</a-select-config>
-          <a-select-config value="RICHTEXT">富文本编辑器</a-select-config>
-        </a-select>
-      </a-form-model-item> -->
       <a-form-model-item label="首页文章排序：">
         <a-select v-model="options.post_index_sort">
           <a-select-option value="createTime">创建时间</a-select-option>

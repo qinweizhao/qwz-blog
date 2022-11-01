@@ -3,7 +3,7 @@ package com.qinweizhao.blog.service;
 import com.qiniu.storage.Region;
 import com.qinweizhao.blog.exception.MissingPropertyException;
 import com.qinweizhao.blog.model.core.PageResult;
-import com.qinweizhao.blog.model.dto.ConfigSimpleDTO;
+import com.qinweizhao.blog.model.dto.ConfigDTO;
 import com.qinweizhao.blog.model.enums.ConfigType;
 import com.qinweizhao.blog.model.param.ConfigParam;
 import com.qinweizhao.blog.model.param.ConfigQueryParam;
@@ -279,7 +279,7 @@ public interface ConfigService {
      * @param configQueryParam optionQuery
      * @return PageResult
      */
-    PageResult<ConfigSimpleDTO> pageSimple(ConfigQueryParam configQueryParam);
+    PageResult<ConfigDTO> pageSimple(ConfigQueryParam configQueryParam);
 
     /**
      * 新增
@@ -322,5 +322,6 @@ public interface ConfigService {
      * @return boolean
      */
     boolean save(Map<String, Object> settings,ConfigType type);
+
 
 }

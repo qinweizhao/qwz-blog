@@ -2,7 +2,7 @@ package com.qinweizhao.blog.controller.admin.api;
 
 import com.qinweizhao.blog.framework.annotation.DisableOnCondition;
 import com.qinweizhao.blog.model.core.PageResult;
-import com.qinweizhao.blog.model.dto.ConfigSimpleDTO;
+import com.qinweizhao.blog.model.dto.ConfigDTO;
 import com.qinweizhao.blog.model.param.ConfigParam;
 import com.qinweizhao.blog.model.param.ConfigQueryParam;
 import com.qinweizhao.blog.service.ConfigService;
@@ -56,7 +56,7 @@ public class ConfigController {
      * @return PageResult
      */
     @GetMapping("list_view")
-    public PageResult<ConfigSimpleDTO> listAllWithListView(ConfigQueryParam configQueryParam) {
+    public PageResult<ConfigDTO> listAllWithListView(ConfigQueryParam configQueryParam) {
         return configService.pageSimple(configQueryParam);
     }
 
