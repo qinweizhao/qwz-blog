@@ -51,19 +51,16 @@
         @change="handlePaginationChange"
       />
     </div>
-    <!-- <img-previewer :visible.sync="showImgPreviewer" :url="previewImgUrl" /> -->
   </div>
 </template>
 <script>
 /* eslint-disable no-unused-vars */
 import Vue from "vue";
-// import $ from "jquery";
 import "./index";
 import defaultConfig from "@/config/default_config";
 import defaultOption from "@/config/default_option";
 import commentApi from "../api/comment";
-// import ImgPreviewer from "./ImgPreviewer";
-// import optionApi from "../api/option";
+
 import globals from "@/utils/globals.js";
 import VueLazyload from "vue-lazyload";
 import Tips from "@/plugins/Tips";
@@ -97,7 +94,6 @@ export default {
       default: () => defaultOption,
     },
   },
-  // components: { ImgPreviewer },
   data() {
     return {
       comments: [],
@@ -123,7 +119,7 @@ export default {
       return `${this.type}s`;
     },
     mergedConfigs() {
-      var jsonConfig;
+      let jsonConfig;
       // 归一化配置数据
       if (typeof this.configs === "string") {
         const raws = JSON.parse(this.configs);
@@ -145,7 +141,7 @@ export default {
       return Object.assign(defaultConfig, jsonConfig);
     },
     mergedOptions() {
-      var jsonOptions;
+      let jsonOptions;
       // 归一化options数据
       if (typeof this.options === "string") {
         const raws = JSON.parse(this.options);
@@ -171,7 +167,6 @@ export default {
     },
   },
   beforeMount() {
-    // await this.loadOptions();
     this.$nextTick(() => {
       Vue.use(VueLazyload, {
         error:
@@ -185,12 +180,6 @@ export default {
       this.loadComments();
     }
   },
-  // mounted() {
-  //   $("[data-fancybox]").on("click", (e) => {
-  //     this.previewImgUrl = e.target.src;
-  //     this.showImgPreviewer = true;
-  //   });
-  // },
   methods: {
     loadComments() {
       this.comments = [];
@@ -208,19 +197,7 @@ export default {
           this.loaded = true;
         });
     },
-    // 现在直接从模板中获取了，不需要请求配置了
-    // loadOptions() {
-    //   return new Promise((resolve, reject) => {
-    //     optionApi
-    //       .list()
-    //       .then((response) => {
-    //         const resD = response.data.data;
-    //         this.options = resD;
-    //         resolve(resD);
-    //       })
-    //       .catch((err) => reject(err));
-    //   });
-    // },
+
     async handlePaginationChange(page) {
       this.pagination.page = page;
       await sleep(300);

@@ -1,6 +1,9 @@
 {
   "name": "blog-frontend-comment",
   "version": "1.0.0",
+  "author": "blog-frontend-admin",
+  "description": "Blog admin client.",
+  "license": "MIT",
   "private": false,
   "scripts": {
     "emoji": "node src/utils/emoji-generator/run.js",
@@ -34,17 +37,6 @@
   "browserslist": [
     "> 1%",
     "last 2 versions"
-  ],
-  "description": "<h1 align=\"center\"><a href=\"https://github.com/qinhua\" target=\"_blank\">halo-comment-joe2.0</a></h1> > 适用于 halo-theme-joe2.0 的评论组件。",
-  "main": "babel.config.js",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/qinhua/halo-comment-joe2.0.git"
-  },
-  "author": "qinhua",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/qinhua/halo-comment-joe2.0/issues"
-  },
-  "homepage": "https://github.com/qinhua/halo-comment-joe2.0#readme"
+  ]
+
 }

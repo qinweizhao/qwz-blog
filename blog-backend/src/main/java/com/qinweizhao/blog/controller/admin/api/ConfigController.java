@@ -23,7 +23,7 @@ import java.util.Map;
  */
 @RestController
 @AllArgsConstructor
-@RequestMapping("/api/admin/options")
+@RequestMapping("/api/admin/config")
 public class ConfigController {
 
     private final ConfigService configService;
