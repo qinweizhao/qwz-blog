@@ -58,7 +58,7 @@ public class RecycledPostCleaningTask {
                 break;
             case DAY:
             default:
-                expiredIn = recycledPostRetentionTime * 24;
+                expiredIn = recycledPostRetentionTime * 24L;
                 break;
         }
         List<Post> recyclePost = postMapper.selectListByStatus(PostStatus.RECYCLE);

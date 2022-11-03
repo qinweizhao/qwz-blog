@@ -52,12 +52,12 @@ public class ConfigController {
     /**
      * 开发者选项->系统变量
      *
-     * @param configQueryParam optionQuery
+     * @param param param
      * @return PageResult
      */
     @GetMapping("list_view")
-    public PageResult<ConfigDTO> listAllWithListView(ConfigQueryParam configQueryParam) {
-        return configService.pageSimple(configQueryParam);
+    public PageResult<ConfigDTO> listAllWithListView(ConfigQueryParam param) {
+        return configService.pageSimple(param);
     }
 
     /**

@@ -16,10 +16,10 @@ public interface JournalService {
     /**
      * 分页
      *
-     * @param journalQueryParam journalQuery
+     * @param param param
      * @return PageResult
      */
-    PageResult<JournalDTO> page(JournalQueryParam journalQueryParam);
+    PageResult<JournalDTO> page(JournalQueryParam param);
 
     /**
      * 新增

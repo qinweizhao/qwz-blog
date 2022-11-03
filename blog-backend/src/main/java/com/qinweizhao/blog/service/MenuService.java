@@ -41,10 +41,10 @@ public interface MenuService {
     /**
      * 新增菜单
      *
-     * @param menuParam menuParam
+     * @param param param
      * @return boolean
      */
-    boolean save(MenuParam menuParam);
+    boolean save(MenuParam param);
 
     /**
      * 批量保存
@@ -89,10 +89,10 @@ public interface MenuService {
     /**
      * 批量更新
      *
-     * @param menuParams menuParams
+     * @param param param
      * @return boolean¬
      */
-    boolean updateBatchById(List<MenuParam> menuParams);
+    boolean updateBatchById(List<MenuParam> param);
 
     /**
      * 分组树

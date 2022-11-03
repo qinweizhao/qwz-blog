@@ -428,6 +428,10 @@ public class ConfigServiceImpl implements ConfigService {
         log.debug("配置变动，清除缓存完成。");
         eventPublisher.publishEvent(new ConfigUpdatedEvent(this));
     }
+
+
+
+
     // =================== start===========================//
 
     private final ThemeService themeService;
