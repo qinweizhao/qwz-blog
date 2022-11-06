@@ -4,24 +4,19 @@ const baseUrl = '/api/admin/config'
 
 const configApi = {}
 
-configApi.list = () => {
+configApi.list = keys => {
   return service({
     url: `${baseUrl}/map`,
+    params: {
+      keys: keys
+    },
     method: 'get'
   })
 }
 
-configApi.listAllByKeys = keys => {
+configApi.page = params => {
   return service({
-    url: `${baseUrl}/map_view/keys`,
-    data: keys,
-    method: 'post'
-  })
-}
-
-configApi.query = params => {
-  return service({
-    url: `${baseUrl}/list_view`,
+    url: `${baseUrl}/page`,
     params: params,
     method: 'get'
   })
@@ -29,7 +24,7 @@ configApi.query = params => {
 
 configApi.save = configs => {
   return service({
-    url: `${baseUrl}/map_view/saving`,
+    url: `${baseUrl}/map`,
     method: 'post',
     data: configs
   })

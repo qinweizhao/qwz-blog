@@ -2,7 +2,7 @@ import Vue from 'vue'
 import { OPTIONS } from '@/store/mutation-types'
 import configApi from '@/api/config'
 
-const keys = [
+const keys = `
   'blog_url',
   'developer_mode',
   'attachment_upload_image_preview_enable',
@@ -12,7 +12,7 @@ const keys = [
   'archives_prefix',
   'default_editor',
   'default_menu_team'
-]
+`
 const config = {
   state: {
     options: undefined
@@ -27,7 +27,7 @@ const config = {
     refreshOptionsCache({ commit }) {
       return new Promise((resolve, reject) => {
         configApi
-          .listAllByKeys(keys)
+          .list(keys)
           .then(response => {
             commit('SET_OPTIONS', response.data.data)
             resolve(response)

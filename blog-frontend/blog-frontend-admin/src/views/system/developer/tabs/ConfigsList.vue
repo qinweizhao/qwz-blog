@@ -224,8 +224,7 @@ export default {
       this.queryParam.page = this.pagination.page
       this.queryParam.size = this.pagination.size
       this.queryParam.sort = this.pagination.sort
-      configApi
-        .query(this.queryParam)
+      configApi.page(this.queryParam)
         .then(response => {
           this.configs = response.data.data.content
           this.pagination.total = response.data.data.total

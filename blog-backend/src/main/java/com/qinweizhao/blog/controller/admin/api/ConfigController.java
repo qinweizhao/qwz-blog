@@ -7,6 +7,7 @@ import com.qinweizhao.blog.model.param.ConfigParam;
 import com.qinweizhao.blog.model.param.ConfigQueryParam;
 import com.qinweizhao.blog.service.ConfigService;
 import lombok.AllArgsConstructor;
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -34,20 +35,22 @@ public class ConfigController {
      * @return Map
      */
     @GetMapping("map")
-    public Map<String, Object> map() {
-        return configService.getMap();
+    public Map<String, Object> map(@RequestParam(required = false) List<String> keys) {
+        if (ObjectUtils.isEmpty(keys)){
+            return configService.getMap();
+        }
+        return configService.listOptions(keys);
     }
 
-
     /**
-     * 配置
+     * 保存
      *
-     * @param keys keys
-     * @return Map
+     * @param configMap optionMap
      */
-    @PostMapping("map_view/keys")
-    public Map<String, Object> listAsMapView(@RequestBody List<String> keys) {
-        return configService.listOptions(keys);
+    @PostMapping("map")
+    @DisableOnCondition
+    public void saveOptionsWithMapView(@RequestBody Map<String, Object> configMap) {
+        configService.save(configMap);
     }
 
     /**
@@ -56,13 +59,13 @@ public class ConfigController {
      * @param param param
      * @return PageResult
      */
-    @GetMapping("list_view")
+    @GetMapping("page")
     public PageResult<ConfigDTO> listAllWithListView(ConfigQueryParam param) {
         return configService.pageSimple(param);
     }
 
     /**
-     * 新增
+     * 开发者选项->系统变量
      *
      * @param param param
      */
@@ -96,18 +99,6 @@ public class ConfigController {
     @DisableOnCondition
     public Boolean remove(@PathVariable("configId") Integer configId) {
         return configService.removeById(configId);
-    }
-
-
-    /**
-     * 保存
-     *
-     * @param configMap optionMap
-     */
-    @PostMapping("map_view/saving")
-    @DisableOnCondition
-    public void saveOptionsWithMapView(@RequestBody Map<String, Object> configMap) {
-        configService.save(configMap);
     }
 
 }
