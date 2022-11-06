@@ -70,7 +70,6 @@ public class PostController {
     @PostMapping("comments")
     @CacheLock(autoDelete = false, traceRequest = true)
     public Boolean comment(@RequestBody CommentParam param) {
-        param.setTargetId(param.getPostId());
         commentService.validateCommentBlackListStatus();
         param.setType(CommentType.POST);
         // 转义内容

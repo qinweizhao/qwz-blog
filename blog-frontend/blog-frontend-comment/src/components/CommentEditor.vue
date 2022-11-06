@@ -290,7 +290,7 @@ export default {
       // Submit the comment
       // this.comment.authorUrl = this.avatar; //后台目前没提供头像字段，暂时用authorUrl来存
       // this.comment.avatar = this.avatar;
-      this.comment.postId = this.targetId;
+      this.comment.targetId = this.targetId;
       if (this.replyComment) {
         // Set parent id if available
         this.comment.parentId = this.replyComment.id;

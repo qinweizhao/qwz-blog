@@ -50,7 +50,6 @@ public class JournalController {
     @PostMapping("comments")
     @CacheLock(autoDelete = false, traceRequest = true)
     public Boolean comment(@RequestBody CommentParam param) {
-        param.setTargetId(param.getPostId());
         commentService.validateCommentBlackListStatus();
         param.setType(CommentType.JOURNAL);
         // 转义内容
