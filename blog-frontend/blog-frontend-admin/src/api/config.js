@@ -6,7 +6,7 @@ const configApi = {}
 
 configApi.list = () => {
   return service({
-    url: `${baseUrl}/map_view`,
+    url: `${baseUrl}/map`,
     method: 'get'
   })
 }

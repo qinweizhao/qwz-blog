@@ -162,7 +162,7 @@ export default {
       required: false,
       default: "posts",
       validator: function(value) {
-        return ["posts", "sheets", "journals"].indexOf(value) !== -1;
+        return ["posts", "journals"].indexOf(value) !== -1;
       },
     },
     replyComment: {

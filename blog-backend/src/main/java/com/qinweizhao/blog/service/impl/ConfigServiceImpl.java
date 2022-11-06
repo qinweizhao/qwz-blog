@@ -1,6 +1,5 @@
 package com.qinweizhao.blog.service.impl;
 
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.qiniu.storage.Region;
 import com.qinweizhao.blog.config.properties.MyBlogProperties;
 import com.qinweizhao.blog.exception.MissingPropertyException;
@@ -71,9 +70,9 @@ public class ConfigServiceImpl implements ConfigService {
         propertyEnumMap = Collections.unmodifiableMap(PropertyEnum.getValuePropertyEnumMap());
     }
 
-    @SuppressWarnings("all")
+
     @Override
-    public @NotNull Map<String, Object> listOptions() {
+    public @NotNull Map<String, Object> getMap() {
         return cacheStore.getAny(OPTIONS_KEY, Map.class).orElseGet(() -> {
             List<Config> configs = configMapper.selectListByType(ConfigType.ADMIN);
 
@@ -117,7 +116,7 @@ public class ConfigServiceImpl implements ConfigService {
             return Collections.emptyMap();
         }
 
-        Map<String, Object> optionMap = listOptions();
+        Map<String, Object> optionMap = getMap();
 
         Map<String, Object> result = new HashMap<>(keys.size());
 
@@ -136,7 +135,7 @@ public class ConfigServiceImpl implements ConfigService {
     public Optional<Object> getByKey(String key) {
         Assert.hasText(key, "Option key must not be blank");
 
-        return Optional.ofNullable(listOptions().get(key));
+        return Optional.ofNullable(getMap().get(key));
     }
 
     @Override
@@ -372,7 +371,7 @@ public class ConfigServiceImpl implements ConfigService {
             return;
         }
 
-        Map<String, Config> optionKeyMap = ServiceUtils.convertToMap(configMapper.selectList(Wrappers.emptyWrapper()), Config::getConfigValue);
+        Map<String, Config> optionKeyMap = ServiceUtils.convertToMap(configMapper.selectListByType(ConfigType.ADMIN), Config::getConfigKey);
 
         List<Config> optionsToCreate = new LinkedList<>();
         List<Config> optionsToUpdate = new LinkedList<>();
@@ -428,8 +427,6 @@ public class ConfigServiceImpl implements ConfigService {
         log.debug("配置变动，清除缓存完成。");
         eventPublisher.publishEvent(new ConfigUpdatedEvent(this));
     }
-
-
 
 
     // =================== start===========================//
@@ -499,6 +496,8 @@ public class ConfigServiceImpl implements ConfigService {
 
         return true;
     }
+
+
 
     /**
      * 保存配置

@@ -53,9 +53,8 @@ public interface ConfigService {
      *
      * @return Map
      */
-
     @Transactional
-    Map<String, Object> listOptions();
+    Map<String, Object> getMap();
 
     /**
      * Lists options by key list.

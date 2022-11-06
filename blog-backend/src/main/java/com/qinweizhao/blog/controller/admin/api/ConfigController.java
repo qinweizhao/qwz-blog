@@ -33,10 +33,11 @@ public class ConfigController {
      *
      * @return Map
      */
-    @GetMapping("map_view")
-    public Map<String, Object> listAsMapView() {
-        return configService.listOptions();
+    @GetMapping("map")
+    public Map<String, Object> map() {
+        return configService.getMap();
     }
+
 
     /**
      * 配置
@@ -80,8 +81,7 @@ public class ConfigController {
      */
     @PutMapping("{configId:\\d+}")
     @DisableOnCondition
-    public Boolean updateBy(@PathVariable("configId") Integer configId,
-                            @RequestBody @Valid ConfigParam param) {
+    public Boolean update(@PathVariable("configId") Integer configId, @RequestBody @Valid ConfigParam param) {
         param.setId(configId);
         return configService.updateById(param);
     }
@@ -89,13 +89,13 @@ public class ConfigController {
     /**
      * 删除
      *
-     * @param optionId optionId
+     * @param configId configId
      * @return Boolean
      */
-    @DeleteMapping("{optionId:\\d+}")
+    @DeleteMapping("{configId:\\d+}")
     @DisableOnCondition
-    public Boolean deletePermanently(@PathVariable("optionId") Integer optionId) {
-        return configService.removeById(optionId);
+    public Boolean remove(@PathVariable("configId") Integer configId) {
+        return configService.removeById(configId);
     }
 
 
