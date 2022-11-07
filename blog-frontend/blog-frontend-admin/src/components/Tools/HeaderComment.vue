@@ -96,11 +96,11 @@ export default {
       const { name } = this.$router.currentRoute
 
       this.$router.push({
-        name: 'Comments',
+        name: 'Comment',
         query: { activeKey: target.dataKey, defaultStatus: commentStatuses.AUDITING.value }
       })
 
-      if (name === 'Comments') {
+      if (name === 'Comment') {
         this.$router.go(0)
       }
     }

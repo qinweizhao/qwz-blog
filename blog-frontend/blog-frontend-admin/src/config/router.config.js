@@ -17,7 +17,7 @@ export const asyncRouterMap = [
         meta: { title: '首页', icon: 'dashboard', hiddenHeaderContent: false, keepAlive: false }
       },
 
-      // posts
+      // post
       {
         path: '/post',
         name: 'Post',
@@ -52,7 +52,7 @@ export const asyncRouterMap = [
         ]
       },
 
-      // journals
+      // journal
       {
         path: '/journal',
         name: 'JournalList',

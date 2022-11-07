@@ -144,10 +144,10 @@
               <a-list-item-meta>
                 <template #description>
                   发表在
-                  <a v-if="targetName === 'posts'" :href="item.target.fullPath" target="_blank">
+                  <a v-if="targetName === 'post'" :href="item.target.fullPath" target="_blank">
                     《{{ item.target.title }}》
                   </a>
-                  <a v-if="targetName === 'journals'" href="javascript:void(0);">
+                  <a v-if="targetName === 'journal'" href="javascript:void(0);">
                     《{{ item.target.content | moment }}》
                   </a>
                 </template>
@@ -201,12 +201,12 @@
           <template #status="status">
             <a-badge :status="commentStatuses[status].status" :text="status | statusText" />
           </template>
-          <template v-if="targetName === 'posts'" #post="target">
+          <template v-if="targetName === 'post'" #post="target">
             <a :href="target.fullPath" target="_blank">
               {{ target.title }}
             </a>
           </template>
-          <template v-if="targetName === 'journals'" #journal="target">
+          <template v-if="targetName === 'journal'" #journal="target">
             <p class="comment-content-wrapper" v-html="target.content"></p>
           </template>
 
@@ -372,7 +372,7 @@ const journalColumns = [
   {
     title: '评论日志',
     dataIndex: 'target',
-    width: '400px',
+    width: '300px',
     ellipsis: true,
     scopedSlots: { customRender: 'journal' }
   },
@@ -452,13 +452,7 @@ export default {
       if (Object.keys(this.selectedComment).length === 0) {
         return 0
       }
-      // if (this.targetName === 'posts') {
       return this.selectedComment.targetId
-      // }
-      // if (this.targetName === 'journals') {
-      //   return this.selectedComment.target.id
-      // }
-      // return 0
     }
   },
   watch: {
