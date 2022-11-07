@@ -19,32 +19,32 @@ export const asyncRouterMap = [
 
       // posts
       {
-        path: '/posts',
-        name: 'Posts',
-        redirect: '/posts/list',
+        path: '/post',
+        name: 'Post',
+        redirect: '/post/list',
         component: BlankLayout,
         meta: { title: '文章', icon: 'form' },
         children: [
           {
-            path: '/posts/list',
+            path: '/post/list',
             name: 'PostList',
             component: () => import('@/views/post/PostList'),
             meta: { title: '全部', hiddenHeaderContent: false }
           },
           {
-            path: '/posts/write',
+            path: '/post/write',
             name: 'PostEdit',
             component: () => import('@/views/post/PostEdit'),
             meta: { title: '新增', hiddenHeaderContent: false, keepAlive: false }
           },
           {
-            path: '/categories',
+            path: '/category',
             name: 'CategoryList',
             component: () => import('@/views/post/CategoryList'),
             meta: { title: '分类', hiddenHeaderContent: false }
           },
           {
-            path: '/tags',
+            path: '/tag',
             name: 'TagList',
             component: () => import('@/views/post/TagList'),
             meta: { title: '标签', hiddenHeaderContent: false }
@@ -54,7 +54,7 @@ export const asyncRouterMap = [
 
       // journals
       {
-        path: '/journals',
+        path: '/journal',
         name: 'JournalList',
         component: () => import('@/views/journal/JournalList'),
         meta: { title: '日志', icon: 'read' }
@@ -62,23 +62,23 @@ export const asyncRouterMap = [
 
       // comments
       {
-        path: '/comments',
-        name: 'Comments',
+        path: '/comment',
+        name: 'Comment',
         component: () => import('@/views/comment/CommentList'),
         meta: { title: '评论', icon: 'message', hiddenHeaderContent: false }
       },
 
       // attachments
       {
-        path: '/attachments',
-        name: 'Attachments',
+        path: '/attachment',
+        name: 'Attachment',
         component: () => import('@/views/attachment/AttachmentList'),
         meta: { title: '附件', icon: 'picture', hiddenHeaderContent: false }
       },
 
       // menu
       {
-        path: '/menus',
+        path: '/menu',
         name: 'MenuList',
         component: () => import('@/views/menu/MenuList'),
         meta: { title: '菜单', icon: 'menu', hiddenHeaderContent: false }
@@ -115,18 +115,18 @@ export const asyncRouterMap = [
         path: '/system',
         name: 'System',
         component: BlankLayout,
-        redirect: '/system/options',
+        redirect: '/system/config',
         meta: { title: '系统', icon: 'setting' },
         children: [
           {
-            path: '/system/developer/options',
+            path: '/system/developer/config',
             name: 'DeveloperOptions',
             hidden: true,
             component: () => import('@/views/system/developer/DeveloperOptions'),
             meta: { title: '开发者选项', hiddenHeaderContent: false }
           },
           {
-            path: '/system/options',
+            path: '/system/config',
             name: 'SystemOptions',
             component: () => import('@/views/system/SystemOptions'),
             meta: { title: '设置', hiddenHeaderContent: false }

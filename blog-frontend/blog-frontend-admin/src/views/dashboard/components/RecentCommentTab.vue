@@ -11,9 +11,9 @@ export default {
     type: {
       type: String,
       required: false,
-      default: 'posts',
+      default: 'post',
       validator: function (value) {
-        return ['posts', 'journals'].indexOf(value) !== -1
+        return ['post', 'journal'].indexOf(value) !== -1
       }
     }
   },

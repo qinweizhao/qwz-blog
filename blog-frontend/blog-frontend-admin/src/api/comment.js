@@ -69,14 +69,6 @@ commentApi.create = (target, comment) => {
   })
 }
 
-commentApi.update = (target, commentId, comment) => {
-  return service({
-    url: `${baseUrl}/${target}/comment/${commentId}`,
-    data: comment,
-    method: 'put'
-  })
-}
-
 // Creation api
 commentApi.commentStatus = {
   PUBLISHED: {

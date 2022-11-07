@@ -121,7 +121,7 @@ export default {
   methods: {
     async handleChangeStatus(status) {
       try {
-        await commentApi.updateStatus(`${this.target}s`, this.comment.id, status)
+        await commentApi.updateStatus(`${this.target}`, this.comment.id, status)
       } catch (e) {
         this.$log.error('Failed to change comment status', e)
       } finally {
@@ -136,7 +136,7 @@ export default {
 
     async handleDelete() {
       try {
-        await commentApi.delete(`${this.target}s`, this.comment.id)
+        await commentApi.delete(`${this.target}`, this.comment.id)
       } catch (e) {
         this.$log.error('Failed to delete comment', e)
       } finally {

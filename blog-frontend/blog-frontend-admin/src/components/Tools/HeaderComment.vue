@@ -39,12 +39,12 @@ import { commentStatuses } from '@/core/constant'
 
 const targets = [
   {
-    key: 'posts',
+    key: 'post',
     dataKey: 'post',
     label: '文章'
   },
   {
-    key: 'journals',
+    key: 'journal',
     dataKey: 'journal',
     label: '日志'
   }
@@ -55,7 +55,7 @@ export default {
   data() {
     return {
       targets: targets,
-      activeKey: 'posts',
+      activeKey: 'post',
       comments: {
         post: [],
         journal: [],

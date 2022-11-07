@@ -120,7 +120,7 @@ export default {
       try {
         this.list.loading = true
 
-        const response = await commentApi.commentTree(`${this.target}s`, this.targetId, this.list.params)
+        const response = await commentApi.commentTree(`${this.target}`, this.targetId, this.list.params)
         this.list.data = response.data.data.content
         this.list.total = response.data.data.total
       } catch (e) {

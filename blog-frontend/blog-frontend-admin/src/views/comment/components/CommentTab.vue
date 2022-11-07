@@ -441,12 +441,12 @@ export default {
       }
     },
     columns() {
-      if (this.targetName === 'posts') return postColumns
-      if (this.targetName === 'journals') return journalColumns
+      if (this.targetName === 'post') return postColumns
+      if (this.targetName === 'journal') return journalColumns
       return {}
     },
     targetName() {
-      return `${this.target}s`
+      return `${this.target}`
     },
     targetId() {
       if (Object.keys(this.selectedComment).length === 0) {

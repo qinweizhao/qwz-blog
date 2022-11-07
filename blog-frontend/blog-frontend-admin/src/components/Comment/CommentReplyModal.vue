@@ -88,7 +88,7 @@ export default {
               _this.model.parentId = _this.comment.id
             }
 
-            await commentApi.create(`${_this.target}s`, _this.model)
+            await commentApi.create(`${_this.target}`, _this.model)
           } catch (e) {
             _this.submitErrored = true
           } finally {
