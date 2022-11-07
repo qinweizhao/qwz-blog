@@ -3,6 +3,9 @@
   <#if (type == 'index' && settings.enable_index_list_effect == true) || ( type == 'journals' && settings.enable_journal_effect == true)>
     <script src="${BASE_RES_URL!}/source/lib/wowjs/wow.min.js"></script>
   </#if>
+  <#if settings.show_newreply == true>
+    <script src="${BASE_RES_URL}/source/lib/j-marked/marked.min.js"></script>
+  </#if>
   <script src="${BASE_RES_URL!}/source/lib/lazysizes/lazysizes.min.js"></script>
   <script src="${BASE_RES_URL!}/source/lib/qmsg/qmsg.js"></script>
   <script src="${BASE_RES_URL}/source/js/min/utils.min.js?v=${theme.version!}"></script>
@@ -41,13 +44,13 @@
     <script src="${BASE_RES_URL}/source/js/min/index.min.js?v=${theme.version!}"></script>
   </#if>
   <#if type == 'archives'>
-    <script src="${BASE_RES_URL}/source/js/min/archives.min.js?v=${theme.version!}"></script>
+    <script src="${BASE_RES_URL}/source/js/min/archive.min.js?v=${theme.version!}"></script>
   </#if>
   <#if type == 'post'>
     <script src="${BASE_RES_URL}/source/js/min/post.min.js?v=${theme.version!}"></script>
   </#if>
   <#if type == 'journals'>
-    <script src="${BASE_RES_URL}/source/js/min/journals.min.js?v=${theme.version!}"></script>
+    <script src="${BASE_RES_URL}/source/js/min/journal.min.js?v=${theme.version!}"></script>
   </#if>
   <#-- ===== 引入页面级js end ===== -->
 

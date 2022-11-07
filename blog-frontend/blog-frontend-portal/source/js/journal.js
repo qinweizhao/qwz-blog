@@ -58,9 +58,8 @@ const journalContext = {
 						)
 						: [];
 					flag = agreeArr.includes(cid);
-
 					Utils.request({
-						url: "/api/content/journals/" + cid + "/likes",
+						url: "/api/content/journal/" + cid + "/likes",
 						method: "POST",
 						data: {
 							type: flag ? "disagree" : "agree",

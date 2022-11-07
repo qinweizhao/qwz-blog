@@ -90,7 +90,7 @@ const postContext = {
 			flag = agreeArr.includes(cid);
 
 			Utils.request({
-				url: "/api/content/posts/" + cid + "/likes",
+				url: "/api/content/post/" + cid + "/likes",
 				method: "POST",
 				data: {
 					type: flag ? "disagree" : "agree",
@@ -269,6 +269,7 @@ const postContext = {
 			$(".joe_detail__article-video .episodes .item").first().click();
 		}
 	},
+	// todo
 	/*跳转到指定评论 */
 	async jumpToComment() {
 		if (
@@ -294,6 +295,7 @@ const postContext = {
 			el_comment.addClass("blink");
 			await Utils.sleep(2000);
 			el_comment.removeClass("blink");
+			console.log("postId ? `?p=${postId}` : location.origin + location.pathname postFile");
 			// 清除url参数
 			window.history.replaceState(
 				null,

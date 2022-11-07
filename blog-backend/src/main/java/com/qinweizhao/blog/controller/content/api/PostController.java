@@ -27,7 +27,7 @@ import java.nio.charset.StandardCharsets;
  */
 @RestController("ApiContentPostController")
 @AllArgsConstructor
-@RequestMapping("/api/content/posts")
+@RequestMapping("/api/content/post")
 public class PostController {
 
     private final PostService postService;
@@ -53,7 +53,7 @@ public class PostController {
      * @param postId postId
      * @return PageResult
      */
-    @GetMapping("{postId:\\d+}/comments/tree_view")
+    @GetMapping("{postId:\\d+}/comment/tree_view")
     public PageResult<CommentDTO> listCommentsTree(@PathVariable("postId") Integer postId, CommentQueryParam param) {
         param.setType(CommentType.POST);
         param.setStatus(CommentStatus.PUBLISHED);
@@ -67,7 +67,7 @@ public class PostController {
      * @param param param
      * @return Boolean
      */
-    @PostMapping("comments")
+    @PostMapping("comment")
     @CacheLock(autoDelete = false, traceRequest = true)
     public Boolean comment(@RequestBody CommentParam param) {
         commentService.validateCommentBlackListStatus();

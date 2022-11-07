@@ -18,22 +18,7 @@
       "eslint --fix"
     ]
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/qinhua/halo-theme-joe2.0.git"
-  },
-  "keywords": [
-    "blog",
-    "qwz",
-    "qinweizhao",
-    "YVKG",
-    "Monday_1201"
-  ],
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/qinhua/halo-theme-joe2.0/issues"
-  },
-  "homepage": "https://github.com/qinhua/halo-theme-joe2.0#readme",
   "devDependencies": {
     "@babel/core": "^7.15.5",
     "@babel/plugin-transform-runtime": "^7.15.0",

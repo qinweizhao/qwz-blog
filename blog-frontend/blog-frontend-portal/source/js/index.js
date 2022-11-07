@@ -123,7 +123,7 @@ const homeContext = {
 
 			return new Promise((reslove, reject) => {
 				Utils.request({
-					url: "/api/content/posts",
+					url: "/api/content/post",
 					method: "GET",
 					data: queryData,
 				})

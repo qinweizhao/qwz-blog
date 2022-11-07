@@ -91,5 +91,12 @@ public class JournalServiceImpl implements JournalService {
         return JournalConvert.INSTANCE.convert(journal);
     }
 
+    @Override
+    public boolean increaseLike(Integer postId) {
+        Journal journal = journalMapper.selectById(postId);
+        journal.setLikes(journal.getLikes() + 1);
+        return journalMapper.updateById(journal) > 0;
+    }
+
 
 }

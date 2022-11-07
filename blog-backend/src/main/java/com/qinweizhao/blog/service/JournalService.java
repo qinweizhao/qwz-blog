@@ -62,4 +62,12 @@ public interface JournalService {
      * @return JournalDTO
      */
     JournalDTO getById(Integer targetId);
+
+
+    /**
+     * 点赞
+     * @param postId
+     * @return
+     */
+    boolean increaseLike(Integer postId);
 }

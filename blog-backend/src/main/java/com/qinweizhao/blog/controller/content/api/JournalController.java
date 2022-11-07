@@ -8,6 +8,7 @@ import com.qinweizhao.blog.model.enums.CommentType;
 import com.qinweizhao.blog.model.param.CommentParam;
 import com.qinweizhao.blog.model.param.CommentQueryParam;
 import com.qinweizhao.blog.service.CommentService;
+import com.qinweizhao.blog.service.JournalService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.HtmlUtils;
@@ -22,10 +23,12 @@ import java.nio.charset.StandardCharsets;
  */
 @RestController("ApiContentJournalController")
 @AllArgsConstructor
-@RequestMapping("/api/content/journals")
+@RequestMapping("/api/content/journal")
 public class JournalController {
 
     private final CommentService commentService;
+
+    private final JournalService journalService;
 
     /**
      * 树
@@ -34,7 +37,7 @@ public class JournalController {
      * @param param     param
      * @return PageResult
      */
-    @GetMapping("{journalId:\\d+}/comments/tree_view")
+    @GetMapping("{journalId:\\d+}/comment/tree_view")
     public PageResult<CommentDTO> listCommentsTree(@PathVariable("journalId") Integer journalId, CommentQueryParam param) {
         param.setType(CommentType.JOURNAL);
         param.setStatus(CommentStatus.PUBLISHED);
@@ -47,7 +50,7 @@ public class JournalController {
      * @param param param
      * @return Boolean
      */
-    @PostMapping("comments")
+    @PostMapping("comment")
     @CacheLock(autoDelete = false, traceRequest = true)
     public Boolean comment(@RequestBody CommentParam param) {
         commentService.validateCommentBlackListStatus();
@@ -56,4 +59,17 @@ public class JournalController {
         param.setContent(HtmlUtils.htmlEscape(param.getContent(), StandardCharsets.UTF_8.displayName()));
         return commentService.save(param);
     }
+
+
+    /**
+     * 点赞
+     *
+     * @param postId postId
+     * @return Boolean
+     */
+    @PostMapping("{postId:\\d+}/likes")
+    public Boolean like(@PathVariable("postId") Integer postId) {
+        return journalService.increaseLike(postId);
+    }
+
 }

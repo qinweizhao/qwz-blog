@@ -50,9 +50,8 @@ public class ApiAuthenticationFilter extends AbstractAuthenticationFilter {
         addUrlPatterns("/api/content/**");
 
         addExcludeUrlPatterns(
-                "/api/content/**/comments",
-                "/api/content/**/comments/**",
-                "/api/content/options/comment"
+                "/api/content/**/comment",
+                "/api/content/**/comment/**"
         );
 
         // set failure handler
