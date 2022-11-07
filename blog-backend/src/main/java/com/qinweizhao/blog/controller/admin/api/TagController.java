@@ -19,7 +19,7 @@ import java.util.List;
 @Slf4j
 @RestController
 @AllArgsConstructor
-@RequestMapping("/api/admin/tags")
+@RequestMapping("/api/admin/tag")
 public class TagController {
 
     private final TagService tagService;

@@ -21,7 +21,7 @@ import java.util.List;
  */
 @RestController
 @AllArgsConstructor
-@RequestMapping("/api/admin/journals")
+@RequestMapping("/api/admin/journal")
 public class JournalController {
 
     private final JournalService journalService;

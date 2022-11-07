@@ -31,7 +31,7 @@ import java.util.List;
  */
 @RestController
 @AllArgsConstructor
-@RequestMapping("/api/admin/posts")
+@RequestMapping("/api/admin/post")
 public class PostController {
 
     private final PostService postService;

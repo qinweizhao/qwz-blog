@@ -20,7 +20,7 @@ import java.util.List;
  */
 @RestController
 @AllArgsConstructor
-@RequestMapping("/api/admin/posts/comments")
+@RequestMapping("/api/admin/posts/comment")
 public class PostCommentController {
 
 

@@ -62,7 +62,7 @@ export default {
       }
     },
     handleRouteToThemeSetting() {
-      this.$router.push({ name: 'ThemeSetting'})
+      this.$router.push({ name: 'ThemeSetting' })
     },
     onSettingsSaved() {
       document.getElementById('themeViewIframe').contentWindow.location.reload()

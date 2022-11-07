@@ -1,8 +1,23 @@
 import service from '@/utils/service'
 
-const baseUrl = '/api/admin/themes'
+const baseUrl = '/api/admin/theme'
 
 const themeApi = {}
+
+themeApi.getMap = () => {
+  return service({
+    url: `${baseUrl}/map`,
+    method: 'get'
+  })
+}
+
+themeApi.saveMap = configs => {
+  return service({
+    url: `${baseUrl}/map`,
+    method: 'post',
+    data: configs
+  })
+}
 
 themeApi.getProperty = () => {
   return service({
@@ -15,31 +30,6 @@ themeApi.listConfigurations = () => {
   return service({
     url: `${baseUrl}/configurations`,
     method: 'get'
-  })
-}
-
-themeApi.getSettings = () => {
-  return service({
-    url: `${baseUrl}/settings`,
-    method: 'get'
-  })
-}
-
-themeApi.saveSettings = settings => {
-  return service({
-    url: `${baseUrl}/settings`,
-    data: settings,
-    method: 'post'
-  })
-}
-
-themeApi.exists = template => {
-  return service({
-    url: `${baseUrl}/activation/template/exists`,
-    method: 'get',
-    params: {
-      template: template
-    }
   })
 }
 

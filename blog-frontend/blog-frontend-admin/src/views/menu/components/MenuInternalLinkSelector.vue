@@ -157,7 +157,7 @@ export default {
   methods: {
     handleFetchAll() {
       this.loading = true
-      Promise.all([configApi.list(), categoryApi.list(), tagApi.list()])
+      Promise.all([configApi.getMap(), categoryApi.list(), tagApi.list()])
         .then(response => {
           this.options = response[0].data.data
           this.categories = response[1].data.data

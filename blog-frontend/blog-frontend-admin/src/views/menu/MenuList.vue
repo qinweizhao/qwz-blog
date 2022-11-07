@@ -355,7 +355,7 @@ export default {
     handleSetDefaultTeam() {
       this.teams.default.saving = true
       configApi
-        .save({
+        .saveMap({
           default_menu_team: this.teams.selected
         })
         .catch(() => {
@@ -396,7 +396,7 @@ export default {
         )
 
         if (this.teams.selected === this.defaultMenuTeam) {
-          await configApi.save({
+          await configApi.saveMap( {
             default_menu_team: this.updateTeamForm.team
           })
 

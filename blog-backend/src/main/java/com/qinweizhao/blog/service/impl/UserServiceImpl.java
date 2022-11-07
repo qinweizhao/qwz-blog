@@ -12,7 +12,7 @@ import com.qinweizhao.blog.model.convert.UserConvert;
 import com.qinweizhao.blog.model.dto.UserDTO;
 import com.qinweizhao.blog.model.entity.User;
 import com.qinweizhao.blog.model.enums.LogType;
-import com.qinweizhao.blog.model.param.UserUpdateParam;
+import com.qinweizhao.blog.model.param.UserParam;
 import com.qinweizhao.blog.service.UserService;
 import com.qinweizhao.blog.util.DateUtils;
 import com.qinweizhao.blog.util.HaloUtils;
@@ -136,7 +136,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     }
 
     @Override
-    public UserDTO updateProfile(UserUpdateParam userParam) {
+    public UserDTO updateProfile(UserParam userParam) {
         User user = UserConvert.INSTANCE.convert(userParam);
         user.setId(SecurityUtils.getUserId());
         this.updateById(user);

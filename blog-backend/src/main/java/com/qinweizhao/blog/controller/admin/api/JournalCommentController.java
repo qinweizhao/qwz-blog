@@ -22,7 +22,7 @@ import java.util.List;
  */
 @RestController
 @AllArgsConstructor
-@RequestMapping("/api/admin/journals/comments")
+@RequestMapping("/api/admin/journals/comment")
 public class JournalCommentController {
 
     private final CommentService commentService;

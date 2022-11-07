@@ -40,7 +40,7 @@ export default {
       this.clickCount++
       if (this.clickCount === 10) {
         try {
-          await configApi.save({ developer_mode: true })
+          await configApi.saveMap({ developer_mode: true })
 
           await this.refreshOptionsCache()
           this.$message.success(`开发者选项已启用！`)

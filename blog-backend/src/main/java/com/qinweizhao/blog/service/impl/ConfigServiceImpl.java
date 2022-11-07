@@ -3,11 +3,14 @@ package com.qinweizhao.blog.service.impl;
 import com.qiniu.storage.Region;
 import com.qinweizhao.blog.config.properties.MyBlogProperties;
 import com.qinweizhao.blog.exception.MissingPropertyException;
+import com.qinweizhao.blog.exception.NotFoundException;
 import com.qinweizhao.blog.exception.ServiceException;
 import com.qinweizhao.blog.framework.cache.AbstractStringCacheStore;
 import com.qinweizhao.blog.framework.event.config.ConfigUpdatedEvent;
+import com.qinweizhao.blog.framework.handler.theme.config.ThemeConfigResolver;
 import com.qinweizhao.blog.framework.handler.theme.config.support.Group;
 import com.qinweizhao.blog.framework.handler.theme.config.support.Item;
+import com.qinweizhao.blog.framework.handler.theme.config.support.ThemeProperty;
 import com.qinweizhao.blog.mapper.ConfigMapper;
 import com.qinweizhao.blog.model.convert.ConfigConvert;
 import com.qinweizhao.blog.model.core.PageResult;
@@ -19,9 +22,8 @@ import com.qinweizhao.blog.model.param.ConfigQueryParam;
 import com.qinweizhao.blog.model.properties.*;
 import com.qinweizhao.blog.service.ConfigService;
 import com.qinweizhao.blog.service.ThemeService;
+import com.qinweizhao.blog.theme.ThemePropertyScanner;
 import com.qinweizhao.blog.util.ServiceUtils;
-import freemarker.template.Configuration;
-import freemarker.template.TemplateModelException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -31,9 +33,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;
+import org.springframework.web.bind.annotation.GetMapping;
 
 import javax.annotation.PostConstruct;
 import javax.validation.constraints.NotNull;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 
 import static com.qinweizhao.blog.model.support.BlogConst.URL_SEPARATOR;
@@ -57,6 +65,10 @@ public class ConfigServiceImpl implements ConfigService {
     private final MyBlogProperties myBlogProperties;
     private final ConfigMapper configMapper;
     private Map<String, PropertyEnum> propertyEnumMap;
+
+
+
+    private final ThemeConfigResolver themeConfigResolver;
 
 
     @Override
@@ -108,6 +120,18 @@ public class ConfigServiceImpl implements ConfigService {
 
             return result;
         });
+    }
+
+    @Override
+    public Map<String, Object> getMap(ConfigType type, List<String> keys) {
+        if (ObjectUtils.isEmpty(keys) && !ObjectUtils.isEmpty(type)) {
+            if (ConfigType.ADMIN.equals(type)) {
+                return this.getMap();
+            } else if (ConfigType.PORTAL.equals(type)) {
+                return this.getSettings();
+            }
+        }
+        return this.listOptions(keys);
     }
 
     @Override
@@ -366,17 +390,18 @@ public class ConfigServiceImpl implements ConfigService {
     }
 
     @Override
-    public void save(Map<String, Object> optionMap) {
-        if (CollectionUtils.isEmpty(optionMap)) {
+    public void save(ConfigType type, Map<String, Object> configMap) {
+        if (CollectionUtils.isEmpty(configMap)) {
             return;
         }
 
-        Map<String, Config> optionKeyMap = ServiceUtils.convertToMap(configMapper.selectListByType(ConfigType.ADMIN), Config::getConfigKey);
+
+        Map<String, Config> optionKeyMap = ServiceUtils.convertToMap(configMapper.selectListByType(type), Config::getConfigKey);
 
         List<Config> optionsToCreate = new LinkedList<>();
         List<Config> optionsToUpdate = new LinkedList<>();
 
-        optionMap.forEach((key, value) -> {
+        configMap.forEach((key, value) -> {
             if (ObjectUtils.isEmpty(value)) {
                 int i = configMapper.deleteByKey(key);
                 log.debug("删除配置，key 为：{}，结果是否成功{}", key, i > 0);
@@ -388,6 +413,7 @@ public class ConfigServiceImpl implements ConfigService {
                 Config config = new Config();
                 config.setConfigKey(key);
                 config.setConfigValue(String.valueOf(value));
+                config.setType(type.getValue());
 
                 if (oldConfig == null) {
                     optionsToCreate.add(config);
@@ -433,7 +459,6 @@ public class ConfigServiceImpl implements ConfigService {
 
     private final ThemeService themeService;
 
-    private final Configuration configuration;
 
     @Override
     public Map<String, Object> getSettings() {
@@ -479,65 +504,6 @@ public class ConfigServiceImpl implements ConfigService {
         return result;
     }
 
-    @Override
-    public boolean save(Map<String, Object> settings, ConfigType type) {
-
-        if (CollectionUtils.isEmpty(settings)) {
-            return false;
-        }
-        // 保存配置
-        settings.forEach((key, value) -> this.saveItem(key, String.valueOf(value), type));
-
-        try {
-            configuration.setSharedVariable("settings", this.getSettings());
-        } catch (TemplateModelException e) {
-            throw new ServiceException("主题设置保存失败", e);
-        }
-
-        return true;
-    }
-
-
-
-    /**
-     * 保存配置
-     *
-     * @param key   key
-     * @param value value
-     */
-    private void saveItem(String key, String value, ConfigType type) {
-        if (ObjectUtils.isEmpty(value)) {
-            log.debug("主题配置");
-            int i = configMapper.deleteByKey(key);
-            log.debug("删除主题配置{}条，key:{}", i, key);
-            return;
-        }
-
-        Config dbThemeSetting = configMapper.selectByKey(key);
-
-        Config themeSetting = new Config();
-        themeSetting.setConfigKey(key);
-        themeSetting.setConfigValue(value);
-        themeSetting.setType(type.getValue());
-
-        if (ObjectUtils.isEmpty(dbThemeSetting)) {
-            log.debug("主题配置");
-            log.debug("保存主题配置，key:{}", key);
-
-            // 不存在，执行保存
-            configMapper.insert(themeSetting);
-        } else {
-            // 存在，判断是否已经需要更新，然后执行过更新。
-            String settingValue = dbThemeSetting.getConfigValue();
-            if (!settingValue.equals(value)) {
-                boolean b = configMapper.updateByKey(themeSetting);
-                log.debug("主题配置");
-                log.debug("更新主题配置：key：{}，更新结果：{}", key, b);
-            }
-        }
-
-    }
-
     /**
      * 获取配置项映射。 （键：项目名称，值：项目）
      *
@@ -552,6 +518,85 @@ public class ConfigServiceImpl implements ConfigService {
 
         return ServiceUtils.convertToMap(items, Item::getName);
     }
+
+
+    @Override
+    public ThemeProperty getThemeProperty() {
+        return Optional.of(getThemes()).orElseThrow(() -> new NotFoundException(" 主题不存在或已删除！"));
+    }
+
+    /**
+     * 获取主题配置
+     *
+     * @return List
+     */
+    public ThemeProperty getThemes() {
+        String themeDirName = myBlogProperties.getThemeDirName();
+
+
+        return cacheStore.getAny(THEMES_CACHE_KEY, ThemeProperty.class).orElseGet(() -> {
+            // 扫描配置，为防止报异常，如果存在多个只会取扫描的第一个。
+            ThemeProperty properties = ThemePropertyScanner.INSTANCE.scan(getBasePath(), themeDirName);
+            // 缓存主题配置
+            log.debug("主题配置{}", properties);
+            cacheStore.putAny(THEMES_CACHE_KEY, properties);
+            return properties;
+        });
+    }
+
+    /**
+     * @return Path
+     */
+    public Path getBasePath() {
+        String frontendDirName = myBlogProperties.getFrontendDirName();
+        Path frontend = Paths.get(myBlogProperties.getWorkDir(), frontendDirName);
+        log.debug("将要扫描的目录为：{}", frontend);
+        return frontend;
+    }
+
+
+
+
+
+
+    @Override
+    public List<Group> listConfig() {
+
+        // 获取主题属性
+        ThemeProperty themeProperty = getThemeProperty();
+
+        if (!themeProperty.isHasOptions()) {
+            // If this theme dose not has an option, then return empty list
+            return Collections.emptyList();
+        }
+
+        try {
+            for (String optionsName : SETTINGS_NAMES) {
+                // Resolve the options path
+                Path optionsPath = Paths.get(themeProperty.getThemePath(), optionsName);
+
+                log.debug("Finding options in: [{}]", optionsPath);
+
+                // Check existence
+                if (!Files.exists(optionsPath)) {
+                    continue;
+                }
+
+                // Read the yaml file
+                String optionContent = new String(Files.readAllBytes(optionsPath), StandardCharsets.UTF_8);
+
+                // Resolve it
+                return themeConfigResolver.resolve(optionContent);
+            }
+
+            return Collections.emptyList();
+        } catch (IOException e) {
+            throw new ServiceException("读取主题配置文件失败", e);
+        }
+    }
+
+
+
 //==============end=============//
 }
 

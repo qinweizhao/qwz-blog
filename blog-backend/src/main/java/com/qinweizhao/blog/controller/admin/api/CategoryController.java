@@ -19,7 +19,7 @@ import java.util.List;
  */
 @RestController
 @AllArgsConstructor
-@RequestMapping("/api/admin/categories")
+@RequestMapping("/api/admin/category")
 public class CategoryController {
 
     private final CategoryService categoryService;

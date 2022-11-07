@@ -128,6 +128,7 @@ import 'verte/dist/verte.css'
 
 // api
 import themeApi from '@/api/theme'
+import configApi from '@/api/config'
 
 export default {
   name: 'ThemeSettingForm',
@@ -181,7 +182,7 @@ export default {
     },
     async handleGetSettings() {
       try {
-        const { data } = await themeApi.getSettings(this.theme.id)
+        const { data } = await themeApi.getMap()
         this.form.settings = data.data
       } catch (error) {
         this.$log.error(error)
@@ -190,7 +191,8 @@ export default {
     async handleSaveSettings() {
       try {
         this.form.saving = true
-        await themeApi.saveSettings(this.form.settings)
+        // await themeApi.saveSettings(this.form.settings)
+        await themeApi.saveMap(this.form.settings)
       } catch (error) {
         this.$log.error(error)
         this.form.saveErrored = true

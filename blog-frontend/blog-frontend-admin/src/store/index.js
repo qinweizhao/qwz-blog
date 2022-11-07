@@ -12,7 +12,7 @@ export default new Vuex.Store({
   modules: {
     app,
     user,
-    option: config
+    config
   },
   state: {},
   mutations: {},

@@ -19,7 +19,7 @@ import java.util.List;
  */
 @RestController
 @AllArgsConstructor
-@RequestMapping("/api/admin/menus")
+@RequestMapping("/api/admin/menu")
 public class MenuController {
 
     private final MenuService menuService;

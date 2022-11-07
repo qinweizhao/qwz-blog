@@ -24,7 +24,7 @@ import java.util.List;
  */
 @RestController
 @AllArgsConstructor
-@RequestMapping("/api/admin/attachments")
+@RequestMapping("/api/admin/attachment")
 public class AttachmentController {
 
     private final AttachmentService attachmentService;

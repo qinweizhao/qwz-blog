@@ -278,7 +278,7 @@ export default {
       }
     },
     handleListOptions() {
-      configApi.list().then(response => {
+      configApi.getMap().then(response => {
         this.optionModal.options = response.data.data
       })
     },
@@ -387,7 +387,7 @@ export default {
 
     handleSaveOptions() {
       configApi
-        .save(this.optionModal.options)
+        .saveMap(this.optionModal.options)
         .then(() => {
           this.$message.success('保存成功！')
           this.optionModal.visible = false

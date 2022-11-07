@@ -4,7 +4,7 @@ const baseUrl = '/api/admin/config'
 
 const configApi = {}
 
-configApi.list = keys => {
+configApi.getMap = keys => {
   return service({
     url: `${baseUrl}/map`,
     params: {
@@ -14,19 +14,19 @@ configApi.list = keys => {
   })
 }
 
+configApi.saveMap = configs => {
+  return service({
+    url: `${baseUrl}/map`,
+    method: 'post',
+    data: configs
+  })
+}
+
 configApi.page = params => {
   return service({
     url: `${baseUrl}/page`,
     params: params,
     method: 'get'
-  })
-}
-
-configApi.save = configs => {
-  return service({
-    url: `${baseUrl}/map`,
-    method: 'post',
-    data: configs
   })
 }
 

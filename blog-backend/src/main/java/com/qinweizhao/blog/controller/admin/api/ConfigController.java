@@ -1,13 +1,15 @@
 package com.qinweizhao.blog.controller.admin.api;
 
 import com.qinweizhao.blog.framework.annotation.DisableOnCondition;
+import com.qinweizhao.blog.framework.handler.theme.config.support.Group;
+import com.qinweizhao.blog.framework.handler.theme.config.support.ThemeProperty;
 import com.qinweizhao.blog.model.core.PageResult;
 import com.qinweizhao.blog.model.dto.ConfigDTO;
+import com.qinweizhao.blog.model.enums.ConfigType;
 import com.qinweizhao.blog.model.param.ConfigParam;
 import com.qinweizhao.blog.model.param.ConfigQueryParam;
 import com.qinweizhao.blog.service.ConfigService;
 import lombok.AllArgsConstructor;
-import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -34,23 +36,20 @@ public class ConfigController {
      *
      * @return Map
      */
-    @GetMapping("map")
+    @GetMapping("/map")
     public Map<String, Object> map(@RequestParam(required = false) List<String> keys) {
-        if (ObjectUtils.isEmpty(keys)){
-            return configService.getMap();
-        }
-        return configService.listOptions(keys);
+        return configService.getMap(ConfigType.ADMIN, keys);
     }
 
     /**
      * 保存
      *
-     * @param configMap optionMap
+     * @param configs configs
      */
-    @PostMapping("map")
+    @PostMapping("/map")
     @DisableOnCondition
-    public void saveOptionsWithMapView(@RequestBody Map<String, Object> configMap) {
-        configService.save(configMap);
+    public void map(@RequestBody Map<String, Object> configs) {
+        configService.save(ConfigType.ADMIN, configs);
     }
 
     /**
@@ -60,7 +59,7 @@ public class ConfigController {
      * @return PageResult
      */
     @GetMapping("page")
-    public PageResult<ConfigDTO> listAllWithListView(ConfigQueryParam param) {
+    public PageResult<ConfigDTO> page(ConfigQueryParam param) {
         return configService.pageSimple(param);
     }
 
@@ -101,4 +100,25 @@ public class ConfigController {
         return configService.removeById(configId);
     }
 
+
+    /**
+     * 获取主题属性
+     *
+     * @return ThemeProperty
+     */
+    @GetMapping
+    public ThemeProperty getProperty() {
+        return configService.getThemeProperty();
+    }
+
+
+    /**
+     * 主题配置
+     *
+     * @return List
+     */
+    @GetMapping("configurations")
+    public List<Group> listConfigurations() {
+        return configService.listConfig();
+    }
 }

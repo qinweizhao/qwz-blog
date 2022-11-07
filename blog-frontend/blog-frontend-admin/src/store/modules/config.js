@@ -3,15 +3,15 @@ import { OPTIONS } from '@/store/mutation-types'
 import configApi from '@/api/config'
 
 const keys = `
-  'blog_url',
-  'developer_mode',
-  'attachment_upload_image_preview_enable',
-  'attachment_upload_max_parallel_uploads',
-  'attachment_upload_max_files',
-  'post_permalink_type',
-  'archives_prefix',
-  'default_editor',
-  'default_menu_team'
+  blog_url,
+  developer_mode,
+  attachment_upload_image_preview_enable,
+  attachment_upload_max_parallel_uploads,
+  attachment_upload_max_files,
+  post_permalink_type,
+  archives_prefix,
+  default_editor,
+  default_menu_team
 `
 const config = {
   state: {
@@ -27,7 +27,7 @@ const config = {
     refreshOptionsCache({ commit }) {
       return new Promise((resolve, reject) => {
         configApi
-          .list(keys)
+          .getMap(keys)
           .then(response => {
             commit('SET_OPTIONS', response.data.data)
             resolve(response)

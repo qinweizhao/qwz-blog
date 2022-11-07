@@ -1,5 +1,6 @@
 package com.qinweizhao.blog.controller.admin.api;
 
+import com.qinweizhao.blog.framework.annotation.DisableOnCondition;
 import com.qinweizhao.blog.framework.handler.theme.config.support.Group;
 import com.qinweizhao.blog.framework.handler.theme.config.support.ThemeProperty;
 import com.qinweizhao.blog.model.enums.ConfigType;
@@ -19,7 +20,7 @@ import java.util.Map;
  */
 @RestController
 @AllArgsConstructor
-@RequestMapping("/api/admin/themes")
+@RequestMapping("/api/admin/theme")
 public class ThemeController {
 
     private final ThemeService themeService;
@@ -27,7 +28,7 @@ public class ThemeController {
     private final ConfigService configService;
 
     /**
-     * 获取主题属性
+     * 获取主题(about)
      *
      * @return ThemeProperty
      */
@@ -37,7 +38,7 @@ public class ThemeController {
     }
 
     /**
-     * 主题配置
+     * 主题配置（yaml)
      *
      * @return List
      */
@@ -46,24 +47,28 @@ public class ThemeController {
         return themeService.listConfig();
     }
 
+
     /**
-     * 主题设置
+     * 配置(db)
      *
      * @return Map
      */
-    @GetMapping("settings")
-    public Map<String, Object> setting() {
-        return configService.getSettings();
+    @GetMapping("/map")
+    public Map<String, Object> map(@RequestParam(required = false) List<String> keys) {
+        return configService.getMap(ConfigType.PORTAL, keys);
     }
 
+
     /**
-     * 保存主题设置
+     * 保存
      *
-     * @param settings settings
+     * @param configs configs
      */
-    @PostMapping("settings")
-    public Boolean saveSettings(@RequestBody Map<String, Object> settings) {
-        return configService.save(settings, ConfigType.PORTAL);
+    @PostMapping("/map")
+    @DisableOnCondition
+    public void map(@RequestBody Map<String, Object> configs) {
+        configService.save(ConfigType.PORTAL, configs);
     }
+
 
 }

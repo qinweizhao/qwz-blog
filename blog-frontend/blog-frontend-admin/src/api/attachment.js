@@ -1,7 +1,7 @@
 import axios from 'axios'
 import service from '@/utils/service'
 
-const baseUrl = '/api/admin/attachments'
+const baseUrl = '/api/admin/attachment'
 
 const attachmentApi = {}
 

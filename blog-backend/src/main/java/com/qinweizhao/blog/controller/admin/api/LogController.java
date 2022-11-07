@@ -22,7 +22,7 @@ import java.util.List;
  */
 @RestController
 @AllArgsConstructor
-@RequestMapping("/api/admin/logs")
+@RequestMapping("/api/admin/log")
 public class LogController {
 
     private final LogService logService;

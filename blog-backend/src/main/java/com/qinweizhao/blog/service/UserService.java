@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.qinweizhao.blog.exception.ForbiddenException;
 import com.qinweizhao.blog.model.dto.UserDTO;
 import com.qinweizhao.blog.model.entity.User;
-import com.qinweizhao.blog.model.param.UserUpdateParam;
+import com.qinweizhao.blog.model.param.UserParam;
 import org.springframework.lang.Nullable;
 
 import java.util.Optional;
@@ -92,5 +92,5 @@ public interface UserService extends IService<User> {
      * @param userParam userParam
      * @return UserDTO
      */
-    UserDTO updateProfile(UserUpdateParam userParam);
+    UserDTO updateProfile(UserParam userParam);
 }

@@ -20,7 +20,7 @@ import javax.validation.Valid;
  */
 @RestController
 @AllArgsConstructor
-@RequestMapping("/api/admin/mails")
+@RequestMapping("/api/admin/mail")
 public class MailController {
 
     private final MailService mailService;

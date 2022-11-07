@@ -158,7 +158,7 @@ export default {
      */
     async handleListOptions() {
       try {
-        const response = await configApi.list()
+        const response = await configApi.getMap()
         this.options = response.data.data
       } catch (e) {
         this.$log.error(e)
@@ -182,7 +182,7 @@ export default {
     async onSaveOptions() {
       try {
         this.saving = true
-        await configApi.save(this.options)
+        await configApi.saveMap(this.options)
       } catch (e) {
         this.errored = true
         this.$log.error(e)

@@ -2,6 +2,8 @@ package com.qinweizhao.blog.service;
 
 import com.qiniu.storage.Region;
 import com.qinweizhao.blog.exception.MissingPropertyException;
+import com.qinweizhao.blog.framework.handler.theme.config.support.Group;
+import com.qinweizhao.blog.framework.handler.theme.config.support.ThemeProperty;
 import com.qinweizhao.blog.model.core.PageResult;
 import com.qinweizhao.blog.model.dto.ConfigDTO;
 import com.qinweizhao.blog.model.enums.ConfigType;
@@ -33,6 +35,30 @@ public interface ConfigService {
 
     String OPTIONS_KEY = "options";
 
+
+
+
+    /**
+     * 配置文件名
+     */
+    String[] SETTINGS_NAMES = {"settings.yaml", "settings.yml"};
+
+    /**
+     * 渲染模板
+     */
+    String RENDER_TEMPLATE = "%s/%s";
+
+    /**
+     * 渲染模板和后缀
+     */
+    String RENDER_TEMPLATE_SUFFIX = "%s/%s.ftl";
+
+    /**
+     * 主题缓存 key
+     */
+    String THEMES_CACHE_KEY = "themes";
+
+
     /**
      * 构建完整路径
      *
@@ -42,11 +68,12 @@ public interface ConfigService {
     String buildFullPath(Integer postId);
 
     /**
-     * Save multiple options
      *
-     * @param options options
+     *
+     * @param type type
+     * @param configs configs
      */
-    void save(Map<String, Object> options);
+    void save(ConfigType type,Map<String, Object> configs);
 
     /**
      * Get all options
@@ -55,6 +82,15 @@ public interface ConfigService {
      */
     @Transactional
     Map<String, Object> getMap();
+
+
+    /**
+     *
+     * @param type type-区分前后台配置
+     * @param keys keys-
+     * @return Map
+     */
+    Map<String, Object> getMap(ConfigType type,List<String> keys);
 
     /**
      * Lists options by key list.
@@ -313,14 +349,18 @@ public interface ConfigService {
      */
     Map<String, Object> getSettings();
 
+
     /**
-     * 保存主题配置（前台）
+     * 获取主题属性
      *
-     * @param settings settings
-     * @param type type
-     * @return boolean
+     * @return ThemeProperty
      */
-    boolean save(Map<String, Object> settings,ConfigType type);
+    ThemeProperty getThemeProperty();
 
-
+    /**
+     * 获取配置
+     *
+     * @return List
+     */
+    List<Group> listConfig();
 }

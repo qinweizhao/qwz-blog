@@ -7,7 +7,7 @@ const getters = {
   loginModal: state => state.app.loginModal,
   token: state => state.user.token,
   user: state => state.user.user,
-  options: state => state.option.options
+  options: state => state.config.options
 }
 
 export default getters

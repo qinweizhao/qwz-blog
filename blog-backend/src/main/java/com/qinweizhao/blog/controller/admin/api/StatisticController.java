@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @AllArgsConstructor
-@RequestMapping("/api/admin/statistics")
+@RequestMapping("/api/admin/statistic")
 public class StatisticController {
 
     private final StatisticService statisticService;

@@ -5,7 +5,7 @@ import com.qinweizhao.blog.framework.security.util.SecurityUtils;
 import com.qinweizhao.blog.model.convert.UserConvert;
 import com.qinweizhao.blog.model.dto.UserDTO;
 import com.qinweizhao.blog.model.param.PasswordParam;
-import com.qinweizhao.blog.model.param.UserUpdateParam;
+import com.qinweizhao.blog.model.param.UserParam;
 import com.qinweizhao.blog.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.validation.annotation.Validated;
@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 @AllArgsConstructor
-@RequestMapping("/api/admin/users")
+@RequestMapping("/api/admin/user")
 public class UserController {
 
     private final UserService userService;
@@ -42,7 +42,7 @@ public class UserController {
      */
     @PutMapping("profiles")
     @DisableOnCondition
-    public UserDTO updateProfile(@RequestBody @Validated UserUpdateParam userParam) {
+    public UserDTO updateProfile(@RequestBody @Validated UserParam userParam) {
         return userService.updateProfile(userParam);
     }
 

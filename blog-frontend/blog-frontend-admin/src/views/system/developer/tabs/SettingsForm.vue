@@ -43,7 +43,7 @@ export default {
     ...mapActions(['refreshOptionsCache']),
     async handleListOptions() {
       try {
-        const { data } = await configApi.map(['developer_mode'])
+        const { data } = await configApi.getMap('developer_mode')
         this.options = data.data
       } catch (e) {
         this.$log.error(e)
@@ -52,7 +52,7 @@ export default {
     async handleSaveOptions() {
       try {
         this.saving = true
-        await configApi.save(this.options)
+        await configApi.saveMap(this.options)
       } catch (e) {
         this.errored = false
         this.$log.error(e)
