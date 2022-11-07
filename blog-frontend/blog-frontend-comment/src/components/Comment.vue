@@ -80,7 +80,7 @@ export default {
       required: false,
       default: "post",
       validator: function (value) {
-        return ["post", "sheet", "journal", "links"].indexOf(value) !== -1;
+        return ["post", "journal"].indexOf(value) !== -1;
       },
     },
     configs: {
@@ -116,7 +116,7 @@ export default {
   },
   computed: {
     target() {
-      return `${this.type}s`;
+      return `${this.type}`;
     },
     mergedConfigs() {
       let jsonConfig;

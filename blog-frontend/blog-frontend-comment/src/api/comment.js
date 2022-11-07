@@ -5,7 +5,7 @@ const commentApi = {}
 
 commentApi.createComment = (target, comment) => {
     return service({
-        url: `${baseUrl}/${target}/comments`,
+        url: `${baseUrl}/${target}/comment`,
         method: 'post',
         data: comment
     })
@@ -13,7 +13,7 @@ commentApi.createComment = (target, comment) => {
 
 commentApi.listComments = (target, targetId, view = 'tree_view', pagination) => {
     return service({
-        url: `${baseUrl}/${target}/${targetId}/comments/${view}`,
+        url: `${baseUrl}/${target}/${targetId}/comment/${view}`,
         params: pagination,
         method: 'get'
     })
