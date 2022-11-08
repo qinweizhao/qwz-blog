@@ -33,7 +33,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;
-import org.springframework.web.bind.annotation.GetMapping;
 
 import javax.annotation.PostConstruct;
 import javax.validation.constraints.NotNull;
@@ -64,24 +63,19 @@ public class ConfigServiceImpl implements ConfigService {
     private final ApplicationEventPublisher eventPublisher;
     private final MyBlogProperties myBlogProperties;
     private final ConfigMapper configMapper;
-    private Map<String, PropertyEnum> propertyEnumMap;
-
-
-
     private final ThemeConfigResolver themeConfigResolver;
-
+    private final ThemeService themeService;
+    private Map<String, PropertyEnum> propertyEnumMap;
 
     @Override
     public String buildFullPath(Integer postId) {
         return this.getBlogBaseUrl() + URL_SEPARATOR + this.getArticlePrefix() + URL_SEPARATOR + postId;
     }
 
-
     @PostConstruct
     private void init() {
         propertyEnumMap = Collections.unmodifiableMap(PropertyEnum.getValuePropertyEnumMap());
     }
-
 
     @Override
     public @NotNull Map<String, Object> getMap() {
@@ -149,7 +143,6 @@ public class ConfigServiceImpl implements ConfigService {
         return result;
     }
 
-
     @Override
     public Object getByKeyOfNonNull(String key) {
         return getByKey(key).orElseThrow(() -> new MissingPropertyException("You have to config " + key + " setting"));
@@ -193,7 +186,6 @@ public class ConfigServiceImpl implements ConfigService {
         return getByProperty(property).map(propertyValue -> PropertyEnum.convertTo(propertyValue.toString(), propertyType));
     }
 
-
     @Override
     public <T> Optional<T> getByKey(String key, Class<T> valueType) {
         return getByKey(key).map(value -> PropertyEnum.convertTo(value.toString(), valueType));
@@ -208,7 +200,6 @@ public class ConfigServiceImpl implements ConfigService {
     public <T extends Enum<T>> T getEnumByPropertyOrDefault(PropertyEnum property, Class<T> valueType, T defaultValue) {
         return getEnumByProperty(property, valueType).orElse(defaultValue);
     }
-
 
     @Override
     public int getPostPageSize() {
@@ -312,7 +303,6 @@ public class ConfigServiceImpl implements ConfigService {
         return getByProperty(SeoProperties.DESCRIPTION).orElse("").toString();
     }
 
-
     @Override
     public String getJournalsPrefix() {
         return getByPropertyOrDefault(PermalinkProperties.JOURNALS_PREFIX, String.class, PermalinkProperties.JOURNALS_PREFIX.defaultValue());
@@ -338,7 +328,6 @@ public class ConfigServiceImpl implements ConfigService {
         return getByPropertyOrDefault(PermalinkProperties.ARTICLE_PREFIX, String.class, PermalinkProperties.TAGS_PREFIX.defaultValue());
 
     }
-
 
     @Override
     public PageResult<ConfigDTO> pageSimple(ConfigQueryParam param) {
@@ -444,6 +433,9 @@ public class ConfigServiceImpl implements ConfigService {
         cacheStore.delete(OPTIONS_KEY);
     }
 
+
+    // =================== start===========================//
+
     /**
      * 发布配置更新事件
      */
@@ -453,12 +445,6 @@ public class ConfigServiceImpl implements ConfigService {
         log.debug("配置变动，清除缓存完成。");
         eventPublisher.publishEvent(new ConfigUpdatedEvent(this));
     }
-
-
-    // =================== start===========================//
-
-    private final ThemeService themeService;
-
 
     @Override
     public Map<String, Object> getSettings() {
@@ -555,10 +541,6 @@ public class ConfigServiceImpl implements ConfigService {
     }
 
 
-
-
-
-
     @Override
     public List<Group> listConfig() {
 
@@ -594,7 +576,6 @@ public class ConfigServiceImpl implements ConfigService {
             throw new ServiceException("读取主题配置文件失败", e);
         }
     }
-
 
 
 //==============end=============//

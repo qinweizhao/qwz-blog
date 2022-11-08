@@ -145,7 +145,7 @@ public class CommentEventListener {
             baseAuthorEmail = baseComment.getEmail();
             PostSimpleDTO postSimpleDTO = postService.getSimpleById(commentDTO.getTargetId());
 
-            data.put("pageFullPath",  postSimpleDTO.getFullPath());
+            data.put("pageFullPath", postSimpleDTO.getFullPath());
             data.put("pageTitle", postSimpleDTO.getTitle());
             data.put("baseAuthor", baseComment.getAuthor());
             data.put("baseContent", baseComment.getContent());

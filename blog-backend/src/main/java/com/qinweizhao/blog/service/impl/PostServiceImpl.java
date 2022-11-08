@@ -57,14 +57,10 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class PostServiceImpl implements PostService {
 
-    private final ContentMapper contentMapper;
-
-    private final Pattern summaryPattern = Pattern.compile("[\t\r\n]");
-
     private static final String CHINESE_REGEX = "[^\\x00-\\xff]";
-
     private static final String PUNCTUATION_REGEX = "[\\p{P}\\p{S}\\p{Z}\\s]+";
-
+    private final ContentMapper contentMapper;
+    private final Pattern summaryPattern = Pattern.compile("[\t\r\n]");
     private final PostMapper postMapper;
 
     private final ConfigService configService;

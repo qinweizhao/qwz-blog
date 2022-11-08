@@ -99,6 +99,7 @@ public interface ConfigMapper extends BaseMapper<Config> {
 
     /**
      * 更新前台主题设置
+     *
      * @param config config
      * @return boolean
      */

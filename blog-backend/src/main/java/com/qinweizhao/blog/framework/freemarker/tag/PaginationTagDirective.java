@@ -84,7 +84,7 @@ public class PaginationTagDirective implements TemplateDirectiveModel {
                     nextPageFullPath.append(URL_SEPARATOR).append("search");
                     prevPageFullPath.append(URL_SEPARATOR).append("search");
 
-                    nextPageFullPath.append(URL_PAGE_PARAM).append(page+1).append("&keyword=").append(keyword);
+                    nextPageFullPath.append(URL_PAGE_PARAM).append(page + 1).append("&keyword=").append(keyword);
 
                     if (page == 1) {
                         prevPageFullPath.append("?keyword=").append(keyword);

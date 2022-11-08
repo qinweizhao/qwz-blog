@@ -7,7 +7,6 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 /**
- *
  * @author qinweizhao
  * @since 2019-03-20
  */

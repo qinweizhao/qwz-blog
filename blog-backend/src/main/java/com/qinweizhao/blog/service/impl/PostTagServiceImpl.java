@@ -89,7 +89,7 @@ public class PostTagServiceImpl extends ServiceImpl<PostTagMapper, PostTag> impl
 
         List<Post> posts = postMapper.selectListByIds(postIds);
         List<PostSimpleDTO> result = PostConvert.INSTANCE.convertToSimpleDTO(posts);
-        result.forEach(item-> item.setFullPath(configService.buildFullPath(item.getId())));
+        result.forEach(item -> item.setFullPath(configService.buildFullPath(item.getId())));
         return result;
     }
 

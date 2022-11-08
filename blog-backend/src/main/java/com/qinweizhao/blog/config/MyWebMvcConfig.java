@@ -49,7 +49,6 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
 import static com.qinweizhao.blog.model.support.BlogConst.FILE_SEPARATOR;
@@ -166,7 +165,7 @@ public class MyWebMvcConfig implements WebMvcConfigurer {
     public FreeMarkerConfigurer freemarkerConfig(MyBlogProperties myBlogProperties) throws IOException, TemplateException {
         FreeMarkerConfigurer configurer = new FreeMarkerConfigurer();
         String frontendDirName = myBlogProperties.getFrontendDirName();
-        configurer.setTemplateLoaderPaths(FILE_PROTOCOL + myBlogProperties.getWorkDir() + frontendDirName + "/","classpath:/ftl/");
+        configurer.setTemplateLoaderPaths(FILE_PROTOCOL + myBlogProperties.getWorkDir() + frontendDirName + "/", "classpath:/ftl/");
         configurer.setDefaultEncoding("UTF-8");
 
         // 预定义配置

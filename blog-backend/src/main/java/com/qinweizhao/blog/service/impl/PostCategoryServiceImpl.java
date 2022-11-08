@@ -90,7 +90,7 @@ public class PostCategoryServiceImpl extends ServiceImpl<PostCategoryMapper, Pos
         Set<Integer> postIds = postCategoryMapper.selectSetPostIdByCategoryIdAndPostStatus(categoryId, status);
         List<Post> posts = postMapper.selectListByIds(postIds);
         List<PostSimpleDTO> result = PostConvert.INSTANCE.convertToSimpleDTO(posts);
-        result.forEach(item-> item.setFullPath(configService.buildFullPath(item.getId())));
+        result.forEach(item -> item.setFullPath(configService.buildFullPath(item.getId())));
         return result;
     }
 

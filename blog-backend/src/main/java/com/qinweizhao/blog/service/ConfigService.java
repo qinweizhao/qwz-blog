@@ -36,8 +36,6 @@ public interface ConfigService {
     String OPTIONS_KEY = "options";
 
 
-
-
     /**
      * 配置文件名
      */
@@ -68,12 +66,10 @@ public interface ConfigService {
     String buildFullPath(Integer postId);
 
     /**
-     *
-     *
-     * @param type type
+     * @param type    type
      * @param configs configs
      */
-    void save(ConfigType type,Map<String, Object> configs);
+    void save(ConfigType type, Map<String, Object> configs);
 
     /**
      * Get all options
@@ -85,12 +81,11 @@ public interface ConfigService {
 
 
     /**
-     *
      * @param type type-区分前后台配置
      * @param keys keys-
      * @return Map
      */
-    Map<String, Object> getMap(ConfigType type,List<String> keys);
+    Map<String, Object> getMap(ConfigType type, List<String> keys);
 
     /**
      * Lists options by key list.
@@ -339,7 +334,6 @@ public interface ConfigService {
      * @return boolean
      */
     boolean removeById(Integer optionId);
-
 
 
     /**

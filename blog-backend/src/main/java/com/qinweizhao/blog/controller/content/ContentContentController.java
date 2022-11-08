@@ -67,7 +67,7 @@ public class ContentContentController {
         }
         // 日志
         if (configService.getJournalsPrefix().equals(prefix)) {
-            return journalModel.list( model);
+            return journalModel.list(model);
         }
 
         throw buildPathNotFoundException();

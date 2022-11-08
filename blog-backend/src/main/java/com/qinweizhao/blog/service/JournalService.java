@@ -66,6 +66,7 @@ public interface JournalService {
 
     /**
      * 点赞
+     *
      * @param postId
      * @return
      */

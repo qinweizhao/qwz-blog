@@ -24,9 +24,6 @@ public class DefaultErrorViewResolver implements ErrorViewResolver {
 
     private static final Map<Series, String> SERIES_VIEWS;
 
-    private final ThemeService themeService;
-
-
     static {
         EnumMap<Series, String> views = new EnumMap<>(Series.class);
         views.put(Series.CLIENT_ERROR, "4xx");
@@ -34,6 +31,8 @@ public class DefaultErrorViewResolver implements ErrorViewResolver {
         SERIES_VIEWS = Collections.unmodifiableMap(views);
 
     }
+
+    private final ThemeService themeService;
 
     @Override
     public ModelAndView resolveErrorView(HttpServletRequest request, HttpStatus status, Map<String, Object> model) {

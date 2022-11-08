@@ -7,7 +7,6 @@ import com.qinweizhao.blog.util.ExceptionUtils;
 import com.qinweizhao.blog.util.ValidationUtils;
 import com.sun.mail.util.MailConnectException;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
