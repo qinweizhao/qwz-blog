@@ -3,7 +3,6 @@ package com.qinweizhao.blog.theme;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
-import org.springframework.lang.NonNull;
 
 /**
  * Yaml resolver.
@@ -30,7 +29,6 @@ public enum YamlResolver {
      *
      * @return non-null yaml mapper
      */
-    @NonNull
     public ObjectMapper getYamlMapper() {
         return yamlMapper;
     }

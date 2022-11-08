@@ -1,13 +1,13 @@
 <template>
   <div>
     <a-form-model ref="postOptionsForm" :model="options" :rules="rules" :wrapperCol="wrapperCol" layout="vertical">
-      <a-form-model-item label="首页文章排序：">
-        <a-select v-model="options.post_index_sort">
-          <a-select-option value="createTime">创建时间</a-select-option>
-          <a-select-option value="editTime">最后编辑时间</a-select-option>
-          <a-select-option value="visits">点击量</a-select-option>
-        </a-select>
-      </a-form-model-item>
+<!--      <a-form-model-item label="首页文章排序：">-->
+<!--        <a-select v-model="options.post_index_sort">-->
+<!--          <a-select-option value="createTime">创建时间</a-select-option>-->
+<!--          <a-select-option value="editTime">最后编辑时间</a-select-option>-->
+<!--          <a-select-option value="visits">点击量</a-select-option>-->
+<!--        </a-select>-->
+<!--      </a-form-model-item>-->
       <a-form-model-item label="首页每页文章条数：">
         <a-input-number v-model="options.post_index_page_size" :min="1" style="width: 100%" />
       </a-form-model-item>
