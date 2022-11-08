@@ -11,7 +11,7 @@
  Target Server Version : 80029
  File Encoding         : 65001
 
- Date: 27/10/2022 13:59:56
+ Date: 08/11/2022 21:39:32
 */
 
 SET NAMES utf8mb4;
@@ -23,8 +23,8 @@ SET FOREIGN_KEY_CHECKS = 0;
 DROP TABLE IF EXISTS `attachment`;
 CREATE TABLE `attachment` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `create_time` datetime(6) DEFAULT NULL,
-  `update_time` datetime(6) DEFAULT NULL,
+  `create_time` datetime DEFAULT NULL,
+  `update_time` datetime DEFAULT NULL,
   `file_key` varchar(2047) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
   `height` int DEFAULT '0',
   `media_type` varchar(127) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
@@ -46,8 +46,8 @@ CREATE TABLE `attachment` (
 DROP TABLE IF EXISTS `category`;
 CREATE TABLE `category` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `create_time` datetime(6) DEFAULT NULL,
-  `update_time` datetime(6) DEFAULT NULL,
+  `create_time` datetime DEFAULT NULL,
+  `update_time` datetime DEFAULT NULL,
   `description` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
   `priority` int DEFAULT '0',
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
@@ -67,8 +67,8 @@ DROP TABLE IF EXISTS `comment`;
 CREATE TABLE `comment` (
   `type` int NOT NULL DEFAULT '0',
   `id` bigint NOT NULL AUTO_INCREMENT,
-  `create_time` datetime(6) DEFAULT NULL,
-  `update_time` datetime(6) DEFAULT NULL,
+  `create_time` datetime DEFAULT NULL,
+  `update_time` datetime DEFAULT NULL,
   `allow_notification` bit(1) DEFAULT b'1',
   `author` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
   `author_url` varchar(511) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
@@ -86,7 +86,7 @@ CREATE TABLE `comment` (
   KEY `comments_post_id` (`target_id`) USING BTREE,
   KEY `comments_type_status` (`type`,`status`) USING BTREE,
   KEY `comments_parent_id` (`parent_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=153 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=157 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
 -- Table structure for comment_black_list
@@ -94,9 +94,9 @@ CREATE TABLE `comment` (
 DROP TABLE IF EXISTS `comment_black_list`;
 CREATE TABLE `comment_black_list` (
   `id` bigint NOT NULL AUTO_INCREMENT,
-  `create_time` datetime(6) DEFAULT NULL,
-  `update_time` datetime(6) DEFAULT NULL,
-  `ban_time` datetime(6) DEFAULT NULL,
+  `create_time` datetime DEFAULT NULL,
+  `update_time` datetime DEFAULT NULL,
+  `ban_time` datetime DEFAULT NULL,
   `ip_address` varchar(127) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC;
@@ -107,13 +107,13 @@ CREATE TABLE `comment_black_list` (
 DROP TABLE IF EXISTS `config`;
 CREATE TABLE `config` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `create_time` datetime(6) DEFAULT NULL,
-  `update_time` datetime(6) DEFAULT NULL,
+  `create_time` datetime DEFAULT NULL,
+  `update_time` datetime DEFAULT NULL,
   `config_key` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
   `type` int DEFAULT '0',
   `config_value` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=248 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=423 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
 -- Table structure for content
@@ -121,8 +121,8 @@ CREATE TABLE `config` (
 DROP TABLE IF EXISTS `content`;
 CREATE TABLE `content` (
   `post_id` int NOT NULL,
-  `create_time` datetime(6) DEFAULT NULL,
-  `update_time` datetime(6) DEFAULT NULL,
+  `create_time` datetime DEFAULT NULL,
+  `update_time` datetime DEFAULT NULL,
   `content` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
   `original_content` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
   `status` int DEFAULT '1',
@@ -135,8 +135,8 @@ CREATE TABLE `content` (
 DROP TABLE IF EXISTS `journal`;
 CREATE TABLE `journal` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `create_time` datetime(6) DEFAULT NULL,
-  `update_time` datetime(6) DEFAULT NULL,
+  `create_time` datetime DEFAULT NULL,
+  `update_time` datetime DEFAULT NULL,
   `content` text CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
   `likes` bigint DEFAULT '0',
   `source_content` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
@@ -150,15 +150,15 @@ CREATE TABLE `journal` (
 DROP TABLE IF EXISTS `log`;
 CREATE TABLE `log` (
   `id` bigint NOT NULL AUTO_INCREMENT,
-  `create_time` datetime(6) DEFAULT NULL,
-  `update_time` datetime(6) DEFAULT NULL,
+  `create_time` datetime DEFAULT NULL,
+  `update_time` datetime DEFAULT NULL,
   `content` varchar(1023) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
   `ip_address` varchar(127) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
   `log_key` varchar(1023) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
   `type` int NOT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   KEY `logs_create_time` (`create_time`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=872 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=895 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
 -- Table structure for menu
@@ -166,8 +166,8 @@ CREATE TABLE `log` (
 DROP TABLE IF EXISTS `menu`;
 CREATE TABLE `menu` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `create_time` datetime(6) DEFAULT NULL,
-  `update_time` datetime(6) DEFAULT NULL,
+  `create_time` datetime DEFAULT NULL,
+  `update_time` datetime DEFAULT NULL,
   `icon` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
   `name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
   `parent_id` int DEFAULT '0',
@@ -212,8 +212,8 @@ CREATE TABLE `post` (
 DROP TABLE IF EXISTS `post_category`;
 CREATE TABLE `post_category` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `create_time` datetime(6) DEFAULT NULL,
-  `update_time` datetime(6) DEFAULT NULL,
+  `create_time` datetime DEFAULT NULL,
+  `update_time` datetime DEFAULT NULL,
   `category_id` int DEFAULT NULL,
   `post_id` int DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
@@ -229,8 +229,8 @@ CREATE TABLE `post_tag` (
   `id` int NOT NULL AUTO_INCREMENT,
   `post_id` int NOT NULL,
   `tag_id` int NOT NULL,
-  `create_time` datetime(6) DEFAULT NULL,
-  `update_time` datetime(6) DEFAULT NULL,
+  `create_time` datetime DEFAULT NULL,
+  `update_time` datetime DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   KEY `post_tags_post_id` (`post_id`) USING BTREE,
   KEY `post_tags_tag_id` (`tag_id`) USING BTREE
@@ -246,8 +246,8 @@ CREATE TABLE `tag` (
   `slug` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
   `color` varchar(25) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `thumbnail` varchar(1023) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
-  `create_time` datetime(6) DEFAULT NULL,
-  `update_time` datetime(6) DEFAULT NULL,
+  `create_time` datetime DEFAULT NULL,
+  `update_time` datetime DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE KEY `UK_sn0d91hxu700qcw0n4pebp5vc` (`slug`) USING BTREE,
   KEY `tags_name` (`name`) USING BTREE
@@ -266,8 +266,8 @@ CREATE TABLE `user` (
   `description` varchar(1023) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
   `expire_time` datetime(6) DEFAULT NULL,
   `nickname` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
-  `create_time` datetime(6) DEFAULT NULL,
-  `update_time` datetime(6) DEFAULT NULL,
+  `create_time` datetime DEFAULT NULL,
+  `update_time` datetime DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
