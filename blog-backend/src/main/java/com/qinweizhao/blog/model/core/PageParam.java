@@ -1,19 +1,11 @@
 package com.qinweizhao.blog.model.core;
 
-
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * 分页查询参数
  *
  * @author qinweizhao
  */
 public abstract class PageParam {
-
-    public static final String ASC = "ASC";
-
-    public static final String DESC = "DESC";
 
     private static final int DEFAULT_PAGE_NUM = 1;
 
@@ -23,22 +15,10 @@ public abstract class PageParam {
 
     private int page = DEFAULT_PAGE_NUM;
 
-    private String orderDirection = DESC;
+    private String group;
 
-    private String groupBy;
+    private String sort;
 
-    private boolean needTotalCount = true;
-
-
-    private List<Sort> sorts = new ArrayList<>();
-
-    public List<Sort> getSorts() {
-        return sorts;
-    }
-
-    public void setSorts(List<Sort> sorts) {
-        this.sorts = sorts;
-    }
 
     public int getPage() {
         return Math.max(page, 1);
@@ -68,60 +48,19 @@ public abstract class PageParam {
         return (getPage() - 1) * getSize();
     }
 
-    public String getOrderDirection() {
-        return orderDirection;
+    public String getGroup() {
+        return group;
     }
 
-    public PageParam setOrderDirection(String orderDirection) {
-        if (ASC.equalsIgnoreCase(orderDirection) || DESC.equalsIgnoreCase(orderDirection)) {
-            this.orderDirection = orderDirection;
-        }
-        return this;
+    public void setGroup(String group) {
+        this.group = group;
     }
 
-    public String getGroupBy() {
-        return groupBy;
+    public String getSort() {
+        return sort;
     }
 
-    public void setGroupBy(String groupBy) {
-        this.groupBy = groupBy;
+    public void setSort(String sort) {
+        this.sort = sort;
     }
-
-    public boolean isNeedTotalCount() {
-        return needTotalCount;
-    }
-
-    public void setNeedTotalCount(boolean needTotalCount) {
-        this.needTotalCount = needTotalCount;
-    }
-
-    public static class Sort {
-
-        /**
-         * 属性
-         */
-        private String field;
-
-        /**
-         * 是否正序排序
-         */
-        private boolean asc;
-
-        public String getField() {
-            return field;
-        }
-
-        public void setField(String field) {
-            this.field = field;
-        }
-
-        public boolean isAsc() {
-            return asc;
-        }
-
-        public void setAsc(boolean asc) {
-            this.asc = asc;
-        }
-    }
-
 }

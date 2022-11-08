@@ -76,9 +76,9 @@ const homeContext = {
 	initList() {
 		if (!ThemeConfig.enable_index_list_ajax) return;
 		const MapTypes = {
-			1: "createTime",
+			1: "create_time",
 			2: "visits",
-			3: "updateTime",
+			3: "update_time",
 			4: "likes",
 		};
 		const pageSize = ThemeConfig.post_index_page_size;
@@ -98,7 +98,7 @@ const homeContext = {
 			page: 0,
 			size: pageSize,
 			keyword: "",
-			sort: "topPriority,createTime,desc", // 默认为置顶优先+创建时间+倒序
+			sort:"top_priority,create_time-desc"
 		};
 
 		// 初始化Dom
@@ -243,7 +243,7 @@ const homeContext = {
 			queryData = {
 				page: 0,
 				size: pageSize,
-				sort: `topPriority,${typeName},desc`,
+				sort: `top_priority,${typeName}-desc`,
 			};
 			initDom(typeId);
 			getDate();

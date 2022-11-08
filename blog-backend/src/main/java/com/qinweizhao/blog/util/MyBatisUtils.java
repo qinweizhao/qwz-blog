@@ -1,14 +1,11 @@
 package com.qinweizhao.blog.util;
 
 
-import cn.hutool.core.collection.CollUtil;
 import com.baomidou.mybatisplus.core.metadata.OrderItem;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.qinweizhao.blog.model.core.PageParam;
 import com.qinweizhao.blog.model.core.PageResult;
-
-import java.util.List;
-import java.util.stream.Collectors;
+import org.springframework.util.ObjectUtils;
 
 
 /**
@@ -23,17 +20,26 @@ public class MyBatisUtils {
     /**
      * 构建分页
      *
-     * @param pageParam pageParam
-     * @param <T>       T
+     * @param param param
+     * @param <T>   T
      * @return T
      */
-    public static <T> Page<T> buildPage(PageParam pageParam) {
+    public static <T> Page<T> buildPage(PageParam param) {
         // 页码 + 数量
-        Page<T> page = new Page<>(pageParam.getPage(), pageParam.getSize());
+        Page<T> page = new Page<>(param.getPage(), param.getSize());
         // 排序字段
-        List<PageParam.Sort> sorts = pageParam.getSorts();
-        if (!CollUtil.isEmpty(sorts)) {
-            page.addOrder(sorts.stream().map(sortingField -> sortingField.isAsc() ? OrderItem.asc(sortingField.getField()) : OrderItem.desc(sortingField.getField())).collect(Collectors.toList()));
+        String sort = param.getSort();
+        if (sort != null) {
+            String[] split = sort.split("-");
+            if (!ObjectUtils.isEmpty(split) && split.length == 2) {
+                String[] columns = split[0].split(",");
+                String order = split[1].toLowerCase();
+                for (String column:columns){
+                    OrderItem orderItem = order.equals("asc") ? OrderItem.asc(column) : OrderItem.desc(column);
+                    page.addOrder(orderItem);
+                }
+
+            }
         }
         return page;
     }
