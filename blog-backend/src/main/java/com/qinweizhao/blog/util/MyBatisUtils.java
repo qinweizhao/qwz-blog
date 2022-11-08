@@ -27,18 +27,19 @@ public class MyBatisUtils {
     public static <T> Page<T> buildPage(PageParam param) {
         // 页码 + 数量
         Page<T> page = new Page<>(param.getPage(), param.getSize());
-        // 排序字段
-        String sort = param.getSort();
-        if (sort != null) {
-            String[] split = sort.split("-");
-            if (!ObjectUtils.isEmpty(split) && split.length == 2) {
-                String[] columns = split[0].split(",");
-                String order = split[1].toLowerCase();
-                for (String column:columns){
+        // 示例：sort:"top_priority-desc,create_time-desc"
+        String sorts = param.getSort();
+        if (!ObjectUtils.isEmpty(sorts)) {
+
+            String[] sort = sorts.split(",");
+            for (String item : sort) {
+                String[] split = item.split("-");
+                if (split.length == 2) {
+                    String column = split[0];
+                    String order = split[1].toLowerCase();
                     OrderItem orderItem = order.equals("asc") ? OrderItem.asc(column) : OrderItem.desc(column);
                     page.addOrder(orderItem);
                 }
-
             }
         }
         return page;

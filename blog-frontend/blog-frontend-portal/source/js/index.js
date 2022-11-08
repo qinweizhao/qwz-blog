@@ -98,7 +98,7 @@ const homeContext = {
 			page: 0,
 			size: pageSize,
 			keyword: "",
-			sort:"top_priority,create_time-desc"
+			sort:"top_priority-desc,create_time-desc"
 		};
 
 		// 初始化Dom
@@ -243,7 +243,7 @@ const homeContext = {
 			queryData = {
 				page: 0,
 				size: pageSize,
-				sort: `top_priority,${typeName}-desc`,
+				sort: `top_priority-desc,${typeName}-desc`,
 			};
 			initDom(typeId);
 			getDate();
