@@ -78,9 +78,6 @@ export default {
             return commentApi.queryComment(target.key, params)
           })
         )
-
-        console.log('content')
-        console.log(responses[0].data.data.content)
         this.comments.post = responses[0].data.data.content
         this.comments.journal = responses[1].data.data.content
       } catch (e) {

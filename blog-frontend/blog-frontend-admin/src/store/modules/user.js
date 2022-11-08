@@ -28,8 +28,6 @@ const user = {
         userApi
           .getProfile()
           .then(response => {
-            console.log('response.data.data')
-            console.log(response.data.data)
             commit('SET_USER', response.data.data)
             resolve(response)
           })

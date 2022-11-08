@@ -19,7 +19,7 @@
             <a-form-item label="文章标题">
               <a-input v-model="form.model.title" />
             </a-form-item>
-            <a-form-item :help="fullPath" label="文章别名">
+            <a-form-item label="文章别名">
               <a-input v-model="form.model.slug">
                 <template #addonAfter>
                   <a-popconfirm
@@ -238,11 +238,6 @@ export default {
       set(value) {
         this.form.model.topPriority = value ? 1 : 0
       }
-    },
-    fullPath() {
-      const { id: id = '{id}' } = this.form.model
-      const { blog_url } = this.options
-      return `${blog_url}/?p=${id}`
     },
     hasId() {
       return !!this.form.model.id
