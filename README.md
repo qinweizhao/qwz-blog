@@ -40,11 +40,11 @@ qwz-blog
 
 ## 开发指南
 
-https://www.qinweizhao.com/?p=145
+https://www.qinweizhao.com/article/145
 
 ## 项目部署
 
-https://www.qinweizhao.com/?p=146
+https://www.qinweizhao.com/article/146
 
 ## 运行效果
 
