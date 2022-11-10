@@ -3,8 +3,6 @@ package com.qinweizhao.blog.model.properties;
 /**
  * Comment properties.
  *
- * @author johnniang
- * @author ryanwang
  * @since 2019-04-01
  */
 public enum CommentProperties implements PropertyEnum {

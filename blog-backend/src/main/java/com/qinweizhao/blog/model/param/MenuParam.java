@@ -9,8 +9,6 @@ import javax.validation.constraints.Size;
 /**
  * Menu param.
  *
- * @author johnniang
- * @author ryanwang
  * @author qinweizhao
  * @since 4/3/19
  */

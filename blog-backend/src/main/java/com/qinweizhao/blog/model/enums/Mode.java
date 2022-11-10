@@ -7,7 +7,6 @@ import org.springframework.lang.Nullable;
 /**
  * 运行模式
  *
- * @author johnniang
  * @since 19-6-10
  */
 public enum Mode {

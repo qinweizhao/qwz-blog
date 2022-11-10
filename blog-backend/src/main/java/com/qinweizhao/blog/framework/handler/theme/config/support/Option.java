@@ -5,7 +5,6 @@ import lombok.Data;
 /**
  * Theme configuration: option entity.
  *
- * @author johnniang
  * @since 4/10/19
  */
 @Data

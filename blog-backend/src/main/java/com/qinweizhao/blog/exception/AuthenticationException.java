@@ -4,8 +4,6 @@ import org.springframework.http.HttpStatus;
 
 /**
  * Authentication exception.
- *
- * @author johnniang
  */
 public class AuthenticationException extends BaseException {
 

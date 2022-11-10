@@ -25,8 +25,6 @@ import java.util.Set;
 /**
  * Journal service implementation.
  *
- * @author johnniang
- * @author ryanwang
  * @author qinweizhao
  * @since 2019-04-24
  */

@@ -17,7 +17,6 @@ import java.io.IOException;
 /**
  * Main controller.
  *
- * @author ryanwang
  * @author qinweizhao
  * @since 2019-04-23
  */

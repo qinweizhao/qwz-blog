@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 /**
  * Blog index page controller
  *
- * @author ryanwang
  * @author qinweizhao
  * @since 2019-03-17
  */

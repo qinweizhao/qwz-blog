@@ -10,7 +10,6 @@ import java.io.IOException;
 /**
  * 内容认证失败处理程序
  *
- * @author johnniang
  * @since 19-5-6
  */
 public class ContentAuthenticationFailureHandler implements AuthenticationFailureHandler {

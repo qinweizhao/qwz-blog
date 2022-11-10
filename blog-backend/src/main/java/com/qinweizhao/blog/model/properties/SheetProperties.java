@@ -5,7 +5,6 @@ import org.springframework.lang.NonNull;
 /**
  * Sheet properties.
  *
- * @author ryanwang
  * @since 2020-02-11
  */
 public enum SheetProperties implements PropertyEnum {

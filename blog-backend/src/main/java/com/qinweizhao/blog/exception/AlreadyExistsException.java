@@ -2,8 +2,6 @@ package com.qinweizhao.blog.exception;
 
 /**
  * Exception caused by entity existence already.
- *
- * @author johnniang
  */
 public class AlreadyExistsException extends BadRequestException {
 

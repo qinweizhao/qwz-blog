@@ -4,8 +4,6 @@ import org.springframework.http.HttpStatus;
 
 /**
  * Exception caused by service.
- *
- * @author johnniang
  */
 public class ServiceException extends BaseException {
 

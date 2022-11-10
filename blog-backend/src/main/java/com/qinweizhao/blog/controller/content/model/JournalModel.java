@@ -15,7 +15,6 @@ import javax.annotation.Resource;
 
 
 /**
- * @author ryanwang
  * @author qinweizhao
  * @since 2020-02-11
  */

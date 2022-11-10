@@ -17,7 +17,6 @@ import java.io.IOException;
 /**
  * Content filter
  *
- * @author johnniang
  * @since 19-5-6
  */
 @Component

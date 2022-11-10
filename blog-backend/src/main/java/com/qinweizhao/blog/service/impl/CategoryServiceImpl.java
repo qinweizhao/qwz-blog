@@ -35,8 +35,6 @@ import static com.qinweizhao.blog.model.support.BlogConst.URL_SEPARATOR;
 /**
  * CategoryService implementation class.
  *
- * @author ryanwang
- * @author johnniang
  * @author qinweizhao
  * @since 2019-03-14
  */

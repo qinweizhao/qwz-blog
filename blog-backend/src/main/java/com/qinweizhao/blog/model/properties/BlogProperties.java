@@ -1,7 +1,6 @@
 package com.qinweizhao.blog.model.properties;
 
 /**
- * @author ryanwang
  * @since 2019-03-17
  */
 public enum BlogProperties implements PropertyEnum {

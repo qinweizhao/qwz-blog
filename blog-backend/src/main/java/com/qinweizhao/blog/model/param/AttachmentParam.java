@@ -8,7 +8,6 @@ import javax.validation.constraints.Size;
 /**
  * Attachment params.
  *
- * @author ryanwang
  * @since 2019/04/20
  */
 @Data

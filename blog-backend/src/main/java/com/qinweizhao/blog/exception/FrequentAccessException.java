@@ -3,7 +3,6 @@ package com.qinweizhao.blog.exception;
 /**
  * Frequent access exception.
  *
- * @author johnniang
  * @since 3/28/19
  */
 public class FrequentAccessException extends BadRequestException {

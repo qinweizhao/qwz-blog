@@ -12,8 +12,6 @@ import java.util.Set;
 /**
  * Post param.
  *
- * @author johnniang
- * @author ryanwang
  * @author guqing
  * @author qinweizhao
  * @since 2019-03-21

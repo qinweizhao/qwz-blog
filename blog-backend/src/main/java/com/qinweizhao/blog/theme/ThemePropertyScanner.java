@@ -22,8 +22,6 @@ import static com.qinweizhao.blog.service.ThemeService.SETTINGS_NAMES;
 
 /**
  * Theme property scanner.
- *
- * @author johnniang
  */
 @Slf4j
 public enum ThemePropertyScanner {

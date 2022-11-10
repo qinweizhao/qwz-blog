@@ -32,7 +32,6 @@ import static com.qinweizhao.blog.model.support.BlogConst.ONE_TIME_TOKEN_QUERY_N
 /**
  * Abstract authentication filter.
  *
- * @author johnniang
  * @since 19-4-16
  */
 @Slf4j

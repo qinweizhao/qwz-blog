@@ -7,7 +7,6 @@ import javax.validation.constraints.NotBlank;
 /**
  * Reset password params.
  *
- * @author ryanwang
  * @since 2019-09-05
  */
 @Data

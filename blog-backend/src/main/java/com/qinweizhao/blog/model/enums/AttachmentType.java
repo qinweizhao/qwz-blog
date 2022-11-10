@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.annotation.EnumValue;
 /**
  * Attach origin.
  *
- * @author ryanwang
  * @author qinweizhao
  * @since 2019-03-12
  */

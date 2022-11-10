@@ -31,8 +31,6 @@ import static com.qinweizhao.blog.model.support.BlogConst.FILE_SEPARATOR;
 /**
  * Local file handler.
  *
- * @author johnniang
- * @author ryanwang
  * @author qinweizhao
  * @since 2019-03-27
  */

@@ -5,8 +5,6 @@ import org.springframework.lang.Nullable;
 
 /**
  * Security context interface.
- *
- * @author johnniang
  */
 public interface SecurityContext {
 

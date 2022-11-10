@@ -11,7 +11,6 @@ import java.util.List;
 /**
  * Filename utilities.
  *
- * @author johnniang
  * @since 3/26/19
  */
 public class FilenameUtils {

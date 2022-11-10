@@ -5,8 +5,6 @@ import com.qinweizhao.blog.model.support.BlogConst;
 /**
  * Upyun oss properties.
  *
- * @author johnniang
- * @author ryanwang
  * @since 2019-03-27
  */
 public enum UpOssProperties implements PropertyEnum {

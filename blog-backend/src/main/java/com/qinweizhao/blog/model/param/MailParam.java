@@ -8,7 +8,6 @@ import javax.validation.constraints.NotBlank;
 /**
  * Journal query params.
  *
- * @author ryanwang
  * @since 2019/05/07
  */
 @Data

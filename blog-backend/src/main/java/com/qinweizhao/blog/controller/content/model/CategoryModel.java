@@ -15,7 +15,6 @@ import javax.annotation.Resource;
 /**
  * Category Model.
  *
- * @author ryanwang
  * @author qinweizhao
  * @since 2020-01-11
  */

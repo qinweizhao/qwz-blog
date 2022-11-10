@@ -16,7 +16,6 @@ import static com.qinweizhao.blog.util.HaloUtils.URL_SEPARATOR;
 import static com.qinweizhao.blog.util.HaloUtils.ensureBoth;
 
 /**
- * @author ryanwang
  * @author qinweizhao
  * @since 2020-03-24
  */

@@ -8,7 +8,6 @@ import java.io.IOException;
 /**
  * Theme file resolver.
  *
- * @author johnniang
  * @since 2019-04-11
  */
 public interface ThemePropertyResolver {

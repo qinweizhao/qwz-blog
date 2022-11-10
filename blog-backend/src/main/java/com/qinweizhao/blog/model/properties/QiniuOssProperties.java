@@ -5,8 +5,6 @@ import com.qinweizhao.blog.model.support.BlogConst;
 /**
  * Qiniu oss properties.
  *
- * @author johnniang
- * @author ryanwang
  * @since 2019-03-26
  */
 public enum QiniuOssProperties implements PropertyEnum {

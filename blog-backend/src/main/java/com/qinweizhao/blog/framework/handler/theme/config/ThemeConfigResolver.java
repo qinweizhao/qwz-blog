@@ -8,7 +8,6 @@ import java.util.List;
 /**
  * Theme config resolver interface.
  *
- * @author johnniang
  * @since 2019-04-10
  */
 public interface ThemeConfigResolver {

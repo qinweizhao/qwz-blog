@@ -5,7 +5,6 @@ import java.lang.annotation.*;
 /**
  * Cache parameter annotation.
  *
- * @author johnniang
  * @since 3/28/19
  */
 @Target(ElementType.PARAMETER)

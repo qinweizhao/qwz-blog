@@ -19,7 +19,6 @@ import java.lang.annotation.Annotation;
 /**
  * Interceptor for cache lock annotation.
  *
- * @author johnniang
  * @since 3/28/19
  */
 @Slf4j

@@ -17,7 +17,6 @@ import org.springframework.ui.Model;
 /**
  * Tag Model.
  *
- * @author ryanwang
  * @author qinweizhao
  * @since 2020-01-11
  */

@@ -11,8 +11,6 @@ import java.util.regex.Pattern;
 /**
  * Slugify utilities.
  *
- * @author johnniang
- * @author ryanwang
  * @since 2019-03-20
  */
 public class SlugUtils {

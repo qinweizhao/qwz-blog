@@ -4,8 +4,6 @@ import org.springframework.http.HttpStatus;
 
 /**
  * Exception caused by accessing forbidden resources.
- *
- * @author johnniang
  */
 public class ForbiddenException extends BaseException {
 

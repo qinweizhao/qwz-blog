@@ -13,8 +13,6 @@ import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * In-memory cache store.
- *
- * @author johnniang
  */
 @Slf4j
 public class InMemoryCacheStore extends AbstractStringCacheStore {
@@ -108,7 +106,6 @@ public class InMemoryCacheStore extends AbstractStringCacheStore {
     /**
      * Cache cleaner.
      *
-     * @author johnniang
      * @since 03/28/19
      */
     private class CacheExpiryCleaner extends TimerTask {

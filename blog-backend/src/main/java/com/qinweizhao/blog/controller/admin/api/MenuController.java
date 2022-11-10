@@ -12,8 +12,6 @@ import java.util.List;
 /**
  * 菜单
  *
- * @author johnniang
- * @author ryanwang
  * @author qinweizhao
  * @since 2019-04-03
  */

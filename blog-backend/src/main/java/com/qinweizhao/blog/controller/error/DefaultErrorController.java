@@ -17,7 +17,6 @@ import java.util.List;
 /**
  * 错误处理
  *
- * @author johnniang
  * @author qinweizhao
  * @since 2022/09/15
  */

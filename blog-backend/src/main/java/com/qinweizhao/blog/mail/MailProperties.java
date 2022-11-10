@@ -8,8 +8,6 @@ import java.util.Map;
 
 /**
  * Mail properties.
- *
- * @author johnniang
  */
 public class MailProperties extends org.springframework.boot.autoconfigure.mail.MailProperties {
 

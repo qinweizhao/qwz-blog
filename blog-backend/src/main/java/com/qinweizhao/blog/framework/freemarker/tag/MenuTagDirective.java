@@ -15,7 +15,6 @@ import java.util.Map;
 /**
  * Freemarker custom tag of menu.
  *
- * @author ryanwang
  * @since 2019-03-22
  */
 @Component

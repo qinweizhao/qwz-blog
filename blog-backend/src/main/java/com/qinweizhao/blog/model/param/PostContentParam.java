@@ -4,8 +4,6 @@ import lombok.Data;
 
 /**
  * Post content param.
- *
- * @author johnniang
  */
 @Data
 public class PostContentParam {

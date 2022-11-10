@@ -13,8 +13,6 @@ import java.util.Map;
 /**
  * Post category service interface.
  *
- * @author johnniang
- * @author ryanwang
  * @since 2019-03-19
  */
 public interface PostCategoryService extends IService<PostCategory> {

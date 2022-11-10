@@ -17,7 +17,6 @@ import java.io.IOException;
 /**
  * Default AuthenticationFailureHandler.
  *
- * @author johnniang
  * @since 12/12/18
  */
 @Slf4j

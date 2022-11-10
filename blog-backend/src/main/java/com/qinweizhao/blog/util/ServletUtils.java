@@ -12,7 +12,6 @@ import java.util.Optional;
 /**
  * Servlet utilities.
  *
- * @author johnniang
  * @since 19-4-21
  */
 public class ServletUtils {

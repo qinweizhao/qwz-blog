@@ -8,8 +8,6 @@ import java.time.LocalDateTime;
 /**
  * Journal dto.
  *
- * @author johnniang
- * @author ryanwang
  * @since 2019-04-24
  */
 @Data

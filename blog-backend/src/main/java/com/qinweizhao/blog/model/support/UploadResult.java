@@ -7,7 +7,6 @@ import org.springframework.http.MediaType;
 /**
  * Upload result dto.
  *
- * @author johnniang
  * @since 3/26/19
  */
 @Data

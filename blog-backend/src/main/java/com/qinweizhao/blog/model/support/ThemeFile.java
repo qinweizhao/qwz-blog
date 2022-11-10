@@ -9,7 +9,6 @@ import java.util.List;
 /**
  * Theme file.
  *
- * @author ryanwang
  * @since 2019/04/02
  */
 @Data

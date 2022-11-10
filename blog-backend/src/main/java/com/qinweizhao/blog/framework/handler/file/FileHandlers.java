@@ -20,7 +20,6 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * 文件处理器管理
  *
- * @author johnniang
  * @since 2019-03-27
  */
 @Slf4j

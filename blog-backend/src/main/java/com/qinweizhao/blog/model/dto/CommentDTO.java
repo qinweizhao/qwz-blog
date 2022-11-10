@@ -11,8 +11,6 @@ import java.time.LocalDateTime;
 /**
  * Base comment output dto.
  *
- * @author johnniang
- * @author ryanwang
  * @author qinweizhao
  * @since 2019-03-20
  */

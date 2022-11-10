@@ -13,7 +13,6 @@ import java.io.InputStream;
 import java.util.Iterator;
 
 /**
- * @author ryanwang
  * @since 2019-12-10
  */
 @Slf4j

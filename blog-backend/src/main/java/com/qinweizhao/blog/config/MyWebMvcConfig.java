@@ -55,7 +55,6 @@ import static com.qinweizhao.blog.model.support.BlogConst.FILE_SEPARATOR;
 import static com.qinweizhao.blog.util.HaloUtils.*;
 
 /**
- * @author ryanwang
  * @author qinweizhao
  * @since 2018-01-02
  */

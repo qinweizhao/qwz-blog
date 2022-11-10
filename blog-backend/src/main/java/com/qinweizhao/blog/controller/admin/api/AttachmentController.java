@@ -18,7 +18,6 @@ import java.util.List;
 /**
  * 附件
  *
- * @author johnniang
  * @author qinweizhao
  * @since 2019-03-21
  */
@@ -45,7 +44,7 @@ public class AttachmentController {
      *
      * @return List
      */
-    @GetMapping("media_types")
+    @GetMapping("media-types")
     public List<String> listMediaTypes() {
         return attachmentService.listMediaType();
     }

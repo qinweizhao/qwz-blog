@@ -5,7 +5,6 @@ import lombok.Data;
 /**
  * Category post count projection.
  *
- * @author johnniang
  * @since 19-4-23
  */
 @Data

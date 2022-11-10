@@ -15,8 +15,6 @@ import java.io.IOException;
 
 /**
  * Filter for logging.
- *
- * @author johnniang
  */
 @Slf4j
 @Component

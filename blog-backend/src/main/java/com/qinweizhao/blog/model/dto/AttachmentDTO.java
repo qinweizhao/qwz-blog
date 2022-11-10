@@ -8,7 +8,6 @@ import java.time.LocalDateTime;
 /**
  * Attachment output dto.
  *
- * @author johnniang
  * @since 3/21/19
  */
 @Data

@@ -9,8 +9,6 @@ import java.io.IOException;
 
 /**
  * Authentication failure handler.
- *
- * @author johnniang
  */
 public interface AuthenticationFailureHandler {
 

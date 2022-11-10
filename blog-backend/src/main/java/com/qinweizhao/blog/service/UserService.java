@@ -12,8 +12,6 @@ import java.util.Optional;
 /**
  * User service interface.
  *
- * @author johnniang
- * @author ryanwang
  * @since 2019-03-14
  */
 public interface UserService extends IService<User> {

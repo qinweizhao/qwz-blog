@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 /**
  * PostComment count projection
  *
- * @author johnniang
  * @since 3/22/19
  */
 @Data

@@ -3,7 +3,6 @@ package com.qinweizhao.blog.framework.event.post;
 /**
  * Sheet visit event.
  *
- * @author johnniang
  * @since 19-4-24
  */
 public class SheetVisitEvent extends AbstractVisitEvent {

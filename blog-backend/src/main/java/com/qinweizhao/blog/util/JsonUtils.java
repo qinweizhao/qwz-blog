@@ -14,7 +14,6 @@ import java.io.IOException;
 /**
  * Json utilities.
  *
- * @author johnniang
  * @author qinweizhao
  * @since 2019-03-18
  */

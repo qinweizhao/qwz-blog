@@ -7,8 +7,6 @@ import java.util.Date;
 
 /**
  * Cache wrapper.
- *
- * @author johnniang
  */
 @Data
 @ToString

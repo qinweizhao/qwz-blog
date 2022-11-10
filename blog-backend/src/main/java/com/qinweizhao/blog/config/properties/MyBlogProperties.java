@@ -14,8 +14,6 @@ import static com.qinweizhao.blog.util.HaloUtils.ensureSuffix;
 /**
  * 配置属性
  *
- * @author johnniang
- * @author ryanwang
  * @author qinweizhao
  * @since 2019-03-15
  */

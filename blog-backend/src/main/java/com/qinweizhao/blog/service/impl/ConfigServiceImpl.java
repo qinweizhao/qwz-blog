@@ -48,7 +48,6 @@ import static com.qinweizhao.blog.model.support.BlogConst.URL_SEPARATOR;
 /**
  * OptionService 实现类
  *
- * @author ryanwang
  * @author qinweizhao
  * @since 2019-03-14
  */

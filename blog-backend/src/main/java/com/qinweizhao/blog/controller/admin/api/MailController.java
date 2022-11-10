@@ -14,7 +14,6 @@ import javax.validation.Valid;
 /**
  * Mail controller.
  *
- * @author johnniang
  * @author qinweizhao
  * @since 2019-05-07
  */

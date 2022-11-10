@@ -8,7 +8,6 @@ import lombok.EqualsAndHashCode;
 /**
  * Option query params.
  *
- * @author ryanwang
  * @author qinweizhao
  * @since 2019-12-02
  */

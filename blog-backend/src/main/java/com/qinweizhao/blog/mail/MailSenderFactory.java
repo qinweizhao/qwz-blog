@@ -12,7 +12,6 @@ import java.util.Properties;
 /**
  * Java mail sender factory.
  *
- * @author johnniang
  * @author qinweizhao
  */
 public class MailSenderFactory {

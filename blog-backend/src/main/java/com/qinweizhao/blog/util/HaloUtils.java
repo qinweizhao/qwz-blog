@@ -13,8 +13,6 @@ import static com.qinweizhao.blog.model.support.BlogConst.FILE_SEPARATOR;
 /**
  * Common utils
  *
- * @author ryanwang
- * @author johnniang
  * @since 2017-12-22
  */
 @Slf4j

@@ -28,8 +28,6 @@ import static com.qinweizhao.blog.model.support.BlogConst.URL_SEPARATOR;
 /**
  * TagService implementation class.
  *
- * @author johnniang
- * @author ryanwang
  * @since 2019-03-14
  */
 @Slf4j

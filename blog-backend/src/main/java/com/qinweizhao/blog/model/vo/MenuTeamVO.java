@@ -9,7 +9,6 @@ import java.util.List;
 /**
  * Menu team vo.
  *
- * @author ryanwang
  * @since 2019/8/28
  */
 @Data

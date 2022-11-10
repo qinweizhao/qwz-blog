@@ -6,7 +6,6 @@ import com.qinweizhao.blog.model.support.BlogConst;
  * Baidu bos properties.
  *
  * @author wangya
- * @author ryanwang
  * @since 2019-07-19
  */
 public enum BaiduBosProperties implements PropertyEnum {

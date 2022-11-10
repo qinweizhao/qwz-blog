@@ -16,7 +16,6 @@ import java.util.List;
 /**
  * Log controller.
  *
- * @author johnniang
  * @author qinweizhao
  * @since 2019-03-19
  */

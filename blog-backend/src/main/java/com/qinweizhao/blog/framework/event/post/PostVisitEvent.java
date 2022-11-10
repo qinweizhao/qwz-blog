@@ -7,7 +7,6 @@ import org.springframework.util.Assert;
 /**
  * Post visit event.
  *
- * @author johnniang
  * @since 19-4-22
  */
 public class PostVisitEvent extends AbstractVisitEvent {

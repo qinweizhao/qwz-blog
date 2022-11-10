@@ -8,7 +8,6 @@ import java.util.Comparator;
 /**
  * Month archive vo.
  *
- * @author johnniang
  * @author qinweizhao
  * @since 4/2/19
  */

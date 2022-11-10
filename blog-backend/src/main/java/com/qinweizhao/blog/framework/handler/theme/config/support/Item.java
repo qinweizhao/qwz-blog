@@ -10,8 +10,6 @@ import java.util.Objects;
 /**
  * Theme configuration: item entity
  *
- * @author johnniang
- * @author ryanwang
  * @since 2019-04-10
  */
 @Data

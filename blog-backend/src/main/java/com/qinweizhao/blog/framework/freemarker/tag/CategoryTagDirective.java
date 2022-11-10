@@ -16,7 +16,6 @@ import java.util.Map;
 /**
  * Freemarker custom tag of category.
  *
- * @author ryanwang
  * @author qinweizhao
  * @since 2019-03-22
  */

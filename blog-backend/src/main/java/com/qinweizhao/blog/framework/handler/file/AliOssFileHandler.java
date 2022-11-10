@@ -28,7 +28,6 @@ import static com.qinweizhao.blog.model.support.BlogConst.URL_SEPARATOR;
  * Ali oss file handler.
  *
  * @author MyFaith
- * @author ryanwang
  * @since 2019-04-04
  */
 @Slf4j

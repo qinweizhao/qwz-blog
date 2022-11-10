@@ -46,8 +46,6 @@ import static com.qinweizhao.blog.model.support.BlogConst.DATABASE_PRODUCT_NAME;
 /**
  * Admin service implementation.
  *
- * @author johnniang
- * @author ryanwang
  * @author qinweizhao
  * @since 2019-04-29
  */

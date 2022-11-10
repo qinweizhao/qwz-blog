@@ -5,7 +5,6 @@ import lombok.Data;
 import java.util.List;
 
 /**
- * @author ryanwang
  * @since 2020-03-06
  */
 @Data

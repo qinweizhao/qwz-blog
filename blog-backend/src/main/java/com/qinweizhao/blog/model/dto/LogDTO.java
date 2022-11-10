@@ -8,7 +8,6 @@ import lombok.ToString;
 import java.time.LocalDateTime;
 
 /**
- * @author johnniang
  * @since 3/19/19
  */
 @Data

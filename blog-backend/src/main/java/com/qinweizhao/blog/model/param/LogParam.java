@@ -11,7 +11,6 @@ import javax.validation.constraints.Size;
 import java.io.Serializable;
 
 /**
- * @author johnniang
  * @since 19-4-21
  */
 @Data

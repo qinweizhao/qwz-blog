@@ -17,7 +17,6 @@ import java.util.Map;
 import static com.qinweizhao.blog.model.support.BlogConst.URL_SEPARATOR;
 
 /**
- * @author ryanwang
  * @since 2020-03-07
  */
 @Component

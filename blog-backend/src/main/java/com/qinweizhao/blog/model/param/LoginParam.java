@@ -9,7 +9,6 @@ import javax.validation.constraints.Size;
 /**
  * Login param.
  *
- * @author johnniang
  * @since 3/28/19
  */
 @Data

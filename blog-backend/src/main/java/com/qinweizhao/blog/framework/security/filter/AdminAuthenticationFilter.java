@@ -32,8 +32,6 @@ import static com.qinweizhao.blog.model.support.BlogConst.ADMIN_TOKEN_QUERY_NAME
 
 /**
  * Admin authentication filter.
- *
- * @author johnniang
  */
 @Slf4j
 @Component

@@ -24,8 +24,6 @@ import java.util.concurrent.Executors;
 
 /**
  * Abstract mail service.
- *
- * @author johnniang
  */
 @Slf4j
 public abstract class AbstractMailService implements MailService {

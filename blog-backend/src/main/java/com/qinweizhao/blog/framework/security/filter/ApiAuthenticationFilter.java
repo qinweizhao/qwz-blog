@@ -29,8 +29,6 @@ import static com.qinweizhao.blog.model.support.BlogConst.API_ACCESS_KEY_QUERY_N
 
 /**
  * Api authentication Filter
- *
- * @author johnniang
  */
 @Slf4j
 @Component

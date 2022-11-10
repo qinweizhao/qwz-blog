@@ -5,8 +5,6 @@ import org.springframework.lang.NonNull;
 
 /**
  * Authentication.
- *
- * @author johnniang
  */
 public interface Authentication {
 

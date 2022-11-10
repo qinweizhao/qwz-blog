@@ -4,8 +4,6 @@ import org.springframework.http.HttpStatus;
 
 /**
  * Exception caused by bad request.
- *
- * @author johnniang
  */
 public class BadRequestException extends BaseException {
 

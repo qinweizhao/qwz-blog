@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 /**
  * Search controller.
  *
- * @author ryanwang
  * @author qinweizhao
  * @since 2019-04-21
  */

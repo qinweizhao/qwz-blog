@@ -8,8 +8,6 @@ import java.util.List;
 /**
  * Tag service interface.
  *
- * @author johnniang
- * @author ryanwang
  * @since 2019-03-14
  */
 public interface TagService {

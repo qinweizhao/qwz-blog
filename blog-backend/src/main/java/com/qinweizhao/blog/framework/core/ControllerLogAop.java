@@ -22,7 +22,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.Objects;
 
 /**
- * @author johnniang
  * @author qinweizhao
  */
 @Aspect

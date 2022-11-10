@@ -3,8 +3,6 @@ package com.qinweizhao.blog.model.properties;
 /**
  * SEO properties.
  *
- * @author johnniang
- * @author ryanwang
  * @since 4/1/19
  */
 public enum SeoProperties implements PropertyEnum {

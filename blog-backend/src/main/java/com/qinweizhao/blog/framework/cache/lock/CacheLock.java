@@ -8,7 +8,6 @@ import java.util.concurrent.TimeUnit;
 /**
  * Cache lock annotation.
  *
- * @author johnniang
  * @since 3/28/19
  */
 @Target(ElementType.METHOD)

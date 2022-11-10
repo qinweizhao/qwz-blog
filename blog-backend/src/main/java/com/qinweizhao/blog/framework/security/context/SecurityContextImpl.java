@@ -8,8 +8,6 @@ import lombok.ToString;
 
 /**
  * Security context implementation.
- *
- * @author johnniang
  */
 @ToString
 @EqualsAndHashCode

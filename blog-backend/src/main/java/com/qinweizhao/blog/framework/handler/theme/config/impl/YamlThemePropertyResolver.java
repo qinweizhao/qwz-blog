@@ -12,7 +12,6 @@ import java.io.IOException;
 /**
  * Yaml theme file resolver.
  *
- * @author johnniang
  * @since 2019-04-11
  */
 @Service

@@ -8,7 +8,6 @@ import lombok.EqualsAndHashCode;
 /**
  * Journal query params.
  *
- * @author ryanwang
  * @since 2019/04/26
  */
 @Data

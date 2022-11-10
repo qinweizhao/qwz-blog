@@ -4,8 +4,6 @@ import java.util.Optional;
 
 /**
  * One-time-token service interface.
- *
- * @author johnniang
  */
 public interface OneTimeTokenService {
 

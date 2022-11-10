@@ -21,7 +21,6 @@ import java.nio.file.Paths;
 /**
  * 应用程序启动后执行的方法。
  *
- * @author ryanwang
  * @author guqing
  * @author qinweizhao
  * @since 2018-12-05

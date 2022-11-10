@@ -26,7 +26,6 @@ import java.util.Objects;
 /**
  * Http client utilities.
  *
- * @author johnniang
  * @since 3/29/19
  */
 public class HttpClientUtils {
@@ -119,8 +118,6 @@ public class HttpClientUtils {
 
     /**
      * Multipart file resource.
-     *
-     * @author johnniang
      */
     public static class MultipartFileResource extends ByteArrayResource {
 

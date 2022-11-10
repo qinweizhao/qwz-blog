@@ -5,7 +5,6 @@ import org.springframework.http.HttpStatus;
 /**
  * Base exception of the project.
  *
- * @author johnniang
  * @author ryan0up
  * @since 2019-03-15
  */

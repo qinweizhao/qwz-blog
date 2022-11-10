@@ -15,8 +15,6 @@ import java.util.Map;
 /**
  * Mail service implementation.
  *
- * @author ryanwang
- * @author johnniang
  * @author qinweizhao
  * @since 2019-03-17
  */

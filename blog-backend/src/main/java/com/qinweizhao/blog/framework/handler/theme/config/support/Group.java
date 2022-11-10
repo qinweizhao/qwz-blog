@@ -7,7 +7,6 @@ import java.util.List;
 /**
  * Theme configuration: group entity.
  *
- * @author johnniang
  * @since 4/10/19
  */
 @Data

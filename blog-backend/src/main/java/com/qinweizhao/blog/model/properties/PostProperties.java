@@ -5,8 +5,6 @@ import com.qinweizhao.blog.model.enums.TimeUnit;
 /**
  * Post properties.
  *
- * @author johnniang
- * @author ryanwang
  * @since 2019-04-01
  */
 public enum PostProperties implements PropertyEnum {

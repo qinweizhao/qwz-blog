@@ -19,7 +19,6 @@ import java.util.Optional;
  * todo remove
  * Authentication argument resolver.
  *
- * @author johnniang
  * @since 12/11/18
  */
 @Slf4j

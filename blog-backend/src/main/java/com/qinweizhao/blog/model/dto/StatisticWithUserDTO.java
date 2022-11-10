@@ -6,7 +6,6 @@ import lombok.EqualsAndHashCode;
 /**
  * Statistic with user info DTO.
  *
- * @author ryanwang
  * @since 2019-12-16
  */
 @Data

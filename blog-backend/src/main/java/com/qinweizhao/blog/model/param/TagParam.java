@@ -8,8 +8,6 @@ import javax.validation.constraints.Size;
 /**
  * Tag param.
  *
- * @author johnniang
- * @author ryanwang
  * @since 2019-03-20
  */
 @Data

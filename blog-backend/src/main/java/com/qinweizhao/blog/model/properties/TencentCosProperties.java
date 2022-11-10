@@ -6,7 +6,6 @@ import com.qinweizhao.blog.model.support.BlogConst;
  * Tencent cos properties.
  *
  * @author wangya
- * @author ryanwang
  * @since 2019-07-25
  */
 public enum TencentCosProperties implements PropertyEnum {

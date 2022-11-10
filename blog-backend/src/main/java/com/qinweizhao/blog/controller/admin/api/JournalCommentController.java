@@ -16,7 +16,6 @@ import java.util.List;
 /**
  * 日志评论
  *
- * @author johnniang
  * @author qinweizhao
  * @since 2019-04-25
  */

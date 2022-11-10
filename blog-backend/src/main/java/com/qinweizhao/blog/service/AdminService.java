@@ -9,8 +9,6 @@ import com.qinweizhao.blog.model.param.ResetPasswordParam;
 /**
  * Admin service interface.
  *
- * @author johnniang
- * @author ryanwang
  * @author qinweizhao
  * @since 2019-04-29
  */

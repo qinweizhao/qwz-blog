@@ -22,9 +22,8 @@ import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 
 /**
- * Blog configuration.
- *
- * @author johnniang
+ * @author qinweizhao
+ * @since 2022/7/4
  */
 @Slf4j
 @Configuration
@@ -41,11 +40,9 @@ public class MyBlogConfiguration {
     }
 
     @Bean
-    public RestTemplate httpsRestTemplate(RestTemplateBuilder builder)
-            throws NoSuchAlgorithmException, KeyStoreException, KeyManagementException {
+    public RestTemplate httpsRestTemplate(RestTemplateBuilder builder) throws NoSuchAlgorithmException, KeyStoreException, KeyManagementException {
         RestTemplate httpsRestTemplate = builder.build();
-        httpsRestTemplate.setRequestFactory(new HttpComponentsClientHttpRequestFactory(HttpClientUtils.createHttpsClient(
-                (int) myBlogProperties.getDownloadTimeout().toMillis())));
+        httpsRestTemplate.setRequestFactory(new HttpComponentsClientHttpRequestFactory(HttpClientUtils.createHttpsClient((int) myBlogProperties.getDownloadTimeout().toMillis())));
         return httpsRestTemplate;
     }
 

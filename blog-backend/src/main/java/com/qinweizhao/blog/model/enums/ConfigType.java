@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.annotation.EnumValue;
 /**
  * Option Type.
  *
- * @author ryanwang
  * @author qinweizhao
  * @since 2019-12-02
  */

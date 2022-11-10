@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 /**
  * 统计
  *
- * @author ryanwang
  * @author qinweizhao
  * @since 2019-12-16
  */

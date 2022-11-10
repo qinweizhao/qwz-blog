@@ -21,8 +21,6 @@ import static com.qinweizhao.blog.model.support.BlogConst.API_ACCESS_KEY_HEADER_
 
 /**
  * Filter for CORS.
- *
- * @author johnniang
  */
 @Component
 @Order(Ordered.HIGHEST_PRECEDENCE + 10)

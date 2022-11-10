@@ -9,7 +9,6 @@ import org.springframework.stereotype.Component;
 /**
  * Visit event listener.
  *
- * @author johnniang
  * @since 19-4-22
  */
 @Component

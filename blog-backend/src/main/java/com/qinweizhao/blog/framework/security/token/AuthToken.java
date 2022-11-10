@@ -6,7 +6,6 @@ import lombok.Data;
 /**
  * Access token.
  *
- * @author johnniang
  * @since 19-4-29
  */
 @Data

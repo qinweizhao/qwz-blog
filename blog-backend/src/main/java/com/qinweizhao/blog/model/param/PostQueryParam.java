@@ -8,7 +8,6 @@ import lombok.EqualsAndHashCode;
 /**
  * Post query.
  *
- * @author johnniang
  * @author qinweizhao
  * @since 4/10/19
  */

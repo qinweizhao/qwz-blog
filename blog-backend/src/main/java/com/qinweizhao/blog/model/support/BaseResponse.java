@@ -9,8 +9,6 @@ import org.springframework.lang.Nullable;
 
 /**
  * Global response entity.
- *
- * @author johnniang
  */
 @Data
 @AllArgsConstructor

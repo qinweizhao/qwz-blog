@@ -9,7 +9,6 @@ import java.util.List;
 /**
  * Year archive vo.
  *
- * @author johnniang
  * @author qinweizhao
  * @since 4/2/19
  */

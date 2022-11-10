@@ -21,7 +21,6 @@ import java.nio.charset.StandardCharsets;
 /**
  * 前台-文章
  *
- * @author johnniang
  * @author qinweizhao
  * @since 2019-04-02
  */

@@ -5,7 +5,6 @@ import java.util.Map;
 /**
  * Mail service interface.
  *
- * @author ryanwang
  * @since 2019-03-17
  */
 public interface MailService {

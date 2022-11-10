@@ -27,7 +27,6 @@ import java.util.Optional;
 /**
  * Theme service implementation.
  *
- * @author ryanwang
  * @author qinweizhao
  * @since 2019-03-26
  */

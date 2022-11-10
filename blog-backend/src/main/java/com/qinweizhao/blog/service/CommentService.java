@@ -14,8 +14,6 @@ import java.util.Set;
 /**
  * Post comment service interface.
  *
- * @author johnniang
- * @author ryanwang
  * @author qinweizhao
  * @since 2019-03-14
  */

@@ -13,7 +13,6 @@ import java.util.List;
 /**
  * Attachment service.
  *
- * @author johnniang
  * @since 2019-03-14
  */
 public interface AttachmentService {

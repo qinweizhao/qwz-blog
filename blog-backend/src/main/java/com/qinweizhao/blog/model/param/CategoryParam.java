@@ -8,8 +8,6 @@ import javax.validation.constraints.Size;
 /**
  * Category param.
  *
- * @author johnniang
- * @author ryanwang
  * @author qinweizhao
  * @since 2019-03-21
  */

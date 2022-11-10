@@ -7,7 +7,6 @@ import java.time.LocalDateTime;
 /**
  * Base meta Dto.
  *
- * @author ryanwang
  * @author qinweizhao
  * @since 2019-12-10
  */

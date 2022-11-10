@@ -8,7 +8,6 @@ import java.util.stream.Stream;
  * Interface for value enum.
  *
  * @param <T> value type
- * @author johnniang
  */
 public interface ValueEnum<T> {
 

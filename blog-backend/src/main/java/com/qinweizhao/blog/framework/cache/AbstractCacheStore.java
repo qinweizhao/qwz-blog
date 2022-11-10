@@ -13,7 +13,6 @@ import java.util.concurrent.TimeUnit;
 /**
  * Abstract cache store.
  *
- * @author johnniang
  * @since 3/28/19
  */
 @Slf4j

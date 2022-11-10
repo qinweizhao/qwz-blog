@@ -32,8 +32,6 @@ import java.util.concurrent.TimeUnit;
 /**
  * UserService implementation class.
  *
- * @author ryanwang
- * @author johnniang
  * @since 2019-03-14
  */
 @Service

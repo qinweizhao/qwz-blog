@@ -3,7 +3,6 @@ package com.qinweizhao.blog.model.properties;
 /**
  * Email properties.
  *
- * @author johnniang
  * @since 3/27/19
  */
 public enum EmailProperties implements PropertyEnum {

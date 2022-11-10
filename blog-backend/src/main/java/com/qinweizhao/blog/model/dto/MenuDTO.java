@@ -7,8 +7,6 @@ import lombok.EqualsAndHashCode;
 /**
  * Menu output dto.
  *
- * @author johnniang
- * @author ryanwang
  * @since 4/3/19
  */
 @Data

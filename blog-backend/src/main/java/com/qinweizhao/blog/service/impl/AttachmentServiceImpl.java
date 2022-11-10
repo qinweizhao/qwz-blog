@@ -27,8 +27,6 @@ import java.util.Objects;
 /**
  * AttachmentService implementation
  *
- * @author ryanwang
- * @author johnniang
  * @author qinweizhao
  * @since 2019-03-14
  */

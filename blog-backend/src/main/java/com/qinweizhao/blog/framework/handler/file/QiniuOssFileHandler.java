@@ -38,8 +38,6 @@ import static com.qinweizhao.blog.util.HaloUtils.ensureSuffix;
 /**
  * Qiniu oss file handler.
  *
- * @author johnniang
- * @author ryanwang
  * @since 2019-03-27
  */
 @Slf4j

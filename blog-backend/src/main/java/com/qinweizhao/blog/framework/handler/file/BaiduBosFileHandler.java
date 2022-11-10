@@ -26,7 +26,6 @@ import java.util.Objects;
  * Baidu bos file handler.
  *
  * @author wangya
- * @author ryanwang
  * @since 2019-07-20
  */
 @Slf4j

@@ -4,8 +4,6 @@ import com.qinweizhao.blog.framework.security.support.UserDetail;
 
 /**
  * Authentication implementation.
- *
- * @author johnniang
  */
 public class AuthenticationImpl implements Authentication {
 

@@ -9,7 +9,6 @@ import org.springframework.util.Assert;
 /**
  * Data type enum.
  *
- * @author johnniang
  * @since 4/9/19
  */
 @Slf4j

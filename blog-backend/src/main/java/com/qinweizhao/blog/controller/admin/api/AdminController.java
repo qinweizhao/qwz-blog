@@ -16,8 +16,6 @@ import javax.validation.Valid;
 /**
  * Admin controller.
  *
- * @author johnniang
- * @author ryanwang
  * @author qinweizhao
  * @since 2019-03-19
  */

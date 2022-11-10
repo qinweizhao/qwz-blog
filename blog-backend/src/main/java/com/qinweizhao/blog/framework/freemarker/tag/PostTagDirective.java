@@ -17,7 +17,6 @@ import java.util.Map;
 /**
  * Freemarker custom tag of post.
  *
- * @author ryanwang
  * @since 2018-04-26
  */
 @Component

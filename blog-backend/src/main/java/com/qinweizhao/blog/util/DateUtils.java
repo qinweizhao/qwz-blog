@@ -9,7 +9,6 @@ import java.util.concurrent.TimeUnit;
 /**
  * Date utilities.
  *
- * @author johnniang
  * @since 3/18/19
  */
 public class DateUtils {

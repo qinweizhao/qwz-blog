@@ -14,7 +14,7 @@ import java.util.List;
 /**
  * Category controller.
  *
- * @author johnniang
+ * @author qinweizhao
  * @since 2019-03-21
  */
 @RestController

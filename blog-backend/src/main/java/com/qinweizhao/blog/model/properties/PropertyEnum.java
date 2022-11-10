@@ -14,7 +14,6 @@ import java.util.Map;
 /**
  * Property enum.
  *
- * @author johnniang
  * @since 3/26/19
  */
 public interface PropertyEnum extends ValueEnum<String> {

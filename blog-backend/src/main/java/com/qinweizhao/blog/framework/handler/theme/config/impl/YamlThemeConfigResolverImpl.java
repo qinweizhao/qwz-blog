@@ -21,8 +21,6 @@ import java.util.Map;
 /**
  * Theme configuration resolver.
  *
- * @author johnniang
- * @author ryanwang
  * @since 2019-04-10
  */
 @Slf4j

@@ -13,7 +13,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 /**
  * Object validation utilities.
  *
- * @author johnniang
  * @since 03/29/19
  */
 public class ValidationUtils {

@@ -9,7 +9,6 @@ import com.qinweizhao.blog.model.param.LogQueryParam;
 /**
  * Log service interface.
  *
- * @author johnniang
  * @since 2019-03-14
  */
 public interface LogService extends IService<Log> {

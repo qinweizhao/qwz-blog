@@ -4,8 +4,6 @@ import com.baomidou.mybatisplus.annotation.EnumValue;
 
 /**
  * Post status.
- *
- * @author johnniang
  */
 public enum PostStatus implements ValueEnum<Integer> {
 

@@ -8,8 +8,8 @@ import java.util.concurrent.TimeUnit;
  *
  * @param <K> cache key type
  * @param <V> cache value type
- * @author johnniang
- * *
+ *            <p>
+ *            *
  */
 public interface CacheStore<K, V> {
 

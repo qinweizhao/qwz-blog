@@ -14,7 +14,6 @@ import static com.qinweizhao.blog.model.support.BlogConst.FILE_SEPARATOR;
 /**
  * File handler interface.
  *
- * @author johnniang
  * @since 2019-03-27
  */
 public interface FileHandler {

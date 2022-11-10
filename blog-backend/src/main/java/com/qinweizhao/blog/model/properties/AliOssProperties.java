@@ -6,7 +6,6 @@ import com.qinweizhao.blog.model.support.BlogConst;
  * Ali yun oss properties.
  *
  * @author MyFaith
- * @author ryanwang
  * @since 2019-04-04
  */
 public enum AliOssProperties implements PropertyEnum {

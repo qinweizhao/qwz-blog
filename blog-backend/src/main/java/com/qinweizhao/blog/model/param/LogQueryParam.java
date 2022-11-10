@@ -7,7 +7,6 @@ import lombok.EqualsAndHashCode;
 /**
  * Comment query params.
  *
- * @author ryanwang
  * @author qinweizhao
  * @since 2019/04/18
  */

@@ -12,7 +12,6 @@ import java.util.concurrent.*;
 /**
  * Abstract visit event listener.
  *
- * @author johnniang
  * @author qinweizhao
  * @since 19-4-24
  */

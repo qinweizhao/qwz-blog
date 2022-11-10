@@ -31,7 +31,6 @@ import static com.qinweizhao.blog.model.support.BlogConst.URL_SEPARATOR;
  * Tencent cos file handler.
  *
  * @author wangya
- * @author ryanwang
  * @since 2019-07-25
  */
 @Slf4j

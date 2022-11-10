@@ -4,8 +4,6 @@ import org.springframework.http.HttpStatus;
 
 /**
  * Exception of entity not found.
- *
- * @author johnniang
  */
 public class NotFoundException extends BaseException {
 

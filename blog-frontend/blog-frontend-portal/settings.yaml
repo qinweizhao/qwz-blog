@@ -1257,7 +1257,7 @@ post:
       type: text
       default: "0"
       placeholder: "请填写标题层级（只能是数字）"
-      description: "TOC目录自动展开的标题层级（1~6级标题，仅对有多级目录的文章生效），默认为 0，不展开子目录（可通过后台配置文章元数据 toc_depth 来设置单个文章的目录展开层级，参见 theme.yaml 中的 postMetaField）"
+      description: "TOC目录自动展开的标题层级（1~6级标题，仅对有多级目录的文章生效），默认为 0，不展开子目录"
     enable_relate_post:
       name: enable_relate_post
       label: 展示相关文章
@@ -1451,7 +1451,7 @@ journals:
     journals_title:
       name: journals_title
       label: 日志页标题
-      default: "我的动态"
+      default: "日志"
       placeholder: "请输入"
       description: "修改日志页顶部展示的标题"
     journals_empty_text:

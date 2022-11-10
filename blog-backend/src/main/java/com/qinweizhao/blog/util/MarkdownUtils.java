@@ -29,7 +29,6 @@ import java.util.regex.Pattern;
 /**
  * Markdown utils.
  *
- * @author ryanwang
  * @since 2019-06-27
  */
 public class MarkdownUtils {

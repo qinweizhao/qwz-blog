@@ -9,8 +9,6 @@ import java.time.LocalDateTime;
 /**
  * Category output dto.
  *
- * @author johnniang
- * @author ryanwang
  * @author qinweizhao
  * @since 2019-03-19
  */

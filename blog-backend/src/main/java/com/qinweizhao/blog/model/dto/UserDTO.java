@@ -7,7 +7,6 @@ import java.time.LocalDateTime;
 /**
  * User output dto.
  *
- * @author johnniang
  * @since 3/16/19
  */
 @Data
