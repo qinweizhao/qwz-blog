@@ -2018,18 +2018,6 @@ comment:
           label: 开启
         - value: false
           label: 关闭
-    enable_comment_ua:
-      name: enable_comment_ua
-      label: 展示评论者UA信息
-      type: switch
-      data-type: bool
-      default: false
-      description: "用来控制全局评论组件中是否展示评论者的UA信息（浏览器、操作系统等）"
-      options:
-        - value: true
-          label: 开启
-        - value: false
-          label: 关闭
     comment_loading_style:
       name: comment_loading_style
       label: 评论加载样式
