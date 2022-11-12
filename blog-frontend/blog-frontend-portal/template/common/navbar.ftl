@@ -59,10 +59,8 @@
           </#list>
         </@menuTag>
       </nav>
-      <#if settings.enable_search>
         <@sp.search_part/>
         <i class="joe-font joe-icon-search joe_header__above-searchicon"></i>
-      </#if>
     </div>
   </div>
 
@@ -163,7 +161,6 @@
   </div>
 
   <#--  mobile搜索  -->
-  <#if settings.enable_search>
     <div class="joe_header__searchout">
       <div class="joe_container">
         <div class="joe_header__searchout-inner">
@@ -191,7 +188,6 @@
         </div>
       </div>
     </div>
-  </#if>
 
   <#--  mobile TOC  -->
   <div class="joe_header__toc">

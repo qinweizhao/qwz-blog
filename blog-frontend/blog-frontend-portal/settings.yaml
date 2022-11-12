@@ -293,18 +293,6 @@ navbar:
           label: 是
         - value: false
           label: 否
-    enable_search:
-      name: enable_search
-      label: 搜索功能
-      type: switch
-      data-type: bool
-      default: true
-      description: "是否开启博客的搜索功能"
-      options:
-        - value: true
-          label: 开启
-        - value: false
-          label: 关闭
     enable_active_shadow:
       name: enable_active_shadow
       label: "文字阴影效果"
