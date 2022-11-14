@@ -10,14 +10,6 @@
       <a-form-model-item label="Favicon：" prop="blog_favicon">
         <AttachmentInput v-model="options.blog_favicon" title="选择 Favicon" />
       </a-form-model-item>
-      <a-form-model-item label="页脚信息：" prop="blog_footer_info">
-        <a-input
-          v-model="options.blog_footer_info"
-          :autoSize="{ minRows: 5 }"
-          placeholder="支持 HTML 格式的文本"
-          type="textarea"
-        />
-      </a-form-model-item>
       <a-form-model-item>
         <ReactiveButton
           :errored="errored"
@@ -65,8 +57,7 @@ export default {
           { max: 1023, message: '* 字符数不能超过 1023', trigger: ['change'] }
         ],
         blog_logo: [{ max: 1023, message: '* 字符数不能超过 1023', trigger: ['change'] }],
-        blog_favicon: [{ max: 1023, message: '* 字符数不能超过 1023', trigger: ['change'] }],
-        blog_footer_info: [{ max: 1023, message: '* 字符数不能超过 1023', trigger: ['change'] }]
+        blog_favicon: [{ max: 1023, message: '* 字符数不能超过 1023', trigger: ['change'] }]
       }
     }
   },

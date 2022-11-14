@@ -24,12 +24,7 @@ public enum BlogProperties implements PropertyEnum {
     /**
      * Blog favicon.
      */
-    BLOG_FAVICON("blog_favicon", String.class, ""),
-
-    /**
-     * Blog footer info.
-     */
-    BLOG_FOOTER_INFO("blog_footer_info", String.class, "");
+    BLOG_FAVICON("blog_favicon", String.class, "");
 
     private final String value;
 
