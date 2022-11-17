@@ -3,7 +3,7 @@
     <#if settings.show_blogger!true>
       <#include "../module/blogger.ftl">
     </#if>
-    <#if settings.enable_notice && settings.site_notice??>
+    <#if settings.site_notice??>
       <section class="joe_aside__item notice">
         <div class="joe_aside__item-title">
           <#include "../module/speaker.ftl">
@@ -14,7 +14,7 @@
         </div>
       </section>
     </#if>
-<#--    aplayer-->
+  <#-- aplayer-->
     <#if settings.enable_newest_post!true>
       <#import "../macro/latest.ftl" as np>
       <@np.newest/>
