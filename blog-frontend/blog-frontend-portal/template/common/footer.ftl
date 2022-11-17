@@ -1,6 +1,5 @@
 <#if settings.enable_footer!true>
   <footer class="joe_footer${(settings.footer_position=='fixed')?then(' fixed','')}${settings.enable_full_footer?then(' full','')}">
-    <#if settings.footer_source=='both' || settings.footer_source=='theme'>
       <div class="joe_container${(settings.enable_sitemap==false)?then(' central','')}">
         <div class="item">
           <p>
@@ -27,9 +26,7 @@
             <#if settings.enable_sitemap><a href="${sitemap_xml_url!}" target="_blank" rel="noopener noreferrer">站点地图</a></#if>
           </div>
         </#if>
-
       </div>
       </div>
-    </#if>
   </footer>
 </#if>
