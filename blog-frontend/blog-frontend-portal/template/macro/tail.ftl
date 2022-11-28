@@ -60,15 +60,6 @@
     <script src="${BASE_RES_URL}/source/lib/busuanzi/busuanzi.min.js"></script>
   </#if>
   <#-- ===== 引入脚本 end ===== -->
-
-  <#if settings.custom_external_js_body??>
-    <!-- 自定义外部js -->
-    <script src="${settings.custom_external_js_body!}"></script>
-  </#if>
-  <#if settings.custom_js_body??>
-    <!-- 自定义js -->
-    <script type="text/javascript">${settings.custom_js_body!}</script>
-  </#if>
   <#if settings.enable_debug>
     <!-- vconsole -->
     <script src="${BASE_RES_URL}/source/lib/vconsole/vconsole.min.js"></script>

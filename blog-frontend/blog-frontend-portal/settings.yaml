@@ -2138,30 +2138,6 @@ custom:
       type: text
       placeholder: 请输入
       description: "填入iconfont生成的图标链接，无需link标签，将插入head标签尾部"
-    custom_external_js_head:
-      name: custom_external_js_head
-      label: "外部JS链接（head）"
-      type: textarea
-      placeholder: 请输入
-      description: "填入外部JS链接，需要script标签，可按情况指定async和defer属性，将插入head标签尾部"
-    custom_js_head:
-      name: custom_js_head
-      label: "自定义JS（head）"
-      type: textarea
-      placeholder: 请输入
-      description: "填入JS代码，无需script标签，将插入head标签尾部"
-    custom_external_js_body:
-      name: custom_external_js_body
-      label: "外部JS链接（body）"
-      type: text
-      placeholder: 请输入
-      description: "填入外部JS链接，无需script标签，将插入body标签尾部（可用于添加插件等）"
-    custom_js_body:
-      name: custom_js_body
-      label: "自定义JS（body）"
-      type: textarea
-      placeholder: 请输入
-      description: "填入JS代码，无需script标签，将插入body标签尾部"
 
 # 其它
 others:
