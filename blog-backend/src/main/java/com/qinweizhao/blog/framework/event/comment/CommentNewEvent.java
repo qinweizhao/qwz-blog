@@ -4,7 +4,7 @@ import org.springframework.lang.NonNull;
 
 /**
  * PostComment new event.
- *
+ * @author qinweizhao
  * @since 19-4-23
  */
 public class CommentNewEvent extends AbstractCommentBaseEvent {

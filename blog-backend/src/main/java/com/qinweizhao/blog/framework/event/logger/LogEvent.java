@@ -7,6 +7,7 @@ import com.qinweizhao.blog.util.ValidationUtils;
 import org.springframework.context.ApplicationEvent;
 
 /**
+ * @author qinweizhao
  * @since 19-4-20
  */
 public class LogEvent extends ApplicationEvent {

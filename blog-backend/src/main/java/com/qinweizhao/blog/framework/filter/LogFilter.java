@@ -2,6 +2,7 @@ package com.qinweizhao.blog.framework.filter;
 
 import cn.hutool.extra.servlet.ServletUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
@@ -15,6 +16,7 @@ import java.io.IOException;
 
 /**
  * Filter for logging.
+ * @author qinweizhao
  */
 @Slf4j
 @Component
@@ -22,18 +24,18 @@ import java.io.IOException;
 public class LogFilter extends OncePerRequestFilter {
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(@NotNull HttpServletRequest request, @NotNull HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
         String remoteAddr = ServletUtil.getClientIP(request);
 
         log.debug("");
-        log.debug("Starting url: [{}], method: [{}], ip: [{}]", request.getRequestURL(), request.getMethod(), remoteAddr);
+        log.debug("请求路径: [{}], 方法: [{}], IP: [{}]", request.getRequestURL(), request.getMethod(), remoteAddr);
 
         long startTime = System.currentTimeMillis();
 
         filterChain.doFilter(request, response);
 
-        log.debug("Ending   url: [{}], method: [{}], ip: [{}], status: [{}], usage: [{}] ms", request.getRequestURL(), request.getMethod(), remoteAddr, response.getStatus(), System.currentTimeMillis() - startTime);
+        log.debug("请求路径: [{}], 方法: [{}], IP: [{}], 状态: [{}], 耗时: [{}] ms", request.getRequestURL(), request.getMethod(), remoteAddr, response.getStatus(), System.currentTimeMillis() - startTime);
         log.debug("");
     }
 }

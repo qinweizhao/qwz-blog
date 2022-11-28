@@ -7,6 +7,7 @@ import org.springframework.util.Assert;
 /**
  * PostComment new event.
  *
+ * @author qinweizhao
  * @since 19-4-23
  */
 public abstract class AbstractCommentBaseEvent extends ApplicationEvent {

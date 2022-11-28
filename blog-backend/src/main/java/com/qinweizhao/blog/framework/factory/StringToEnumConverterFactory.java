@@ -7,6 +7,7 @@ import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 
 /**
+ * @author qinweizhao
  * @since 2019-3-14
  */
 @Component
