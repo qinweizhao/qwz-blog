@@ -6,6 +6,7 @@ import org.springframework.util.Assert;
 
 /**
  * Visit event.
+ *
  * @author qinweizhao
  * @since 19-4-22
  */

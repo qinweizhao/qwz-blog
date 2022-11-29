@@ -24,7 +24,6 @@ import java.util.*;
 /**
  * Post category service implementation.
  *
- * @author guqing
  * @author qinweizhao
  * @since 2019-03-19
  */

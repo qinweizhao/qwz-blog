@@ -4,6 +4,7 @@ import org.springframework.lang.NonNull;
 
 /**
  * PostComment reply event.
+ *
  * @author qinweizhao
  * @since 19-4-23
  */

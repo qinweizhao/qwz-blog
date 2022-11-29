@@ -23,7 +23,6 @@ import java.util.List;
 /**
  * Post controller.
  *
- * @author guqing
  * @author qinweizhao
  * @since 2019-03-19
  */
