@@ -5,7 +5,7 @@ spring:
   datasource:
     # 数据库配置
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://43.142.101.91:3306/qwz-blog-3?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai&zeroDateTimeBehavior=convertToNull
+    url: jdbc:mysql://43.142.101.91:3306/qwz-blog??useUnicode=true&characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai&zeroDateTimeBehavior=convertToNull
     username: root
     password: 123456
     type: com.zaxxer.hikari.HikariDataSource
