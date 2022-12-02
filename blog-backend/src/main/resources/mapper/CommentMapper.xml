@@ -36,7 +36,8 @@
     </update>
 
 
-    <select id="selectListCommentCountProjection" resultType="com.qinweizhao.blog.model.projection.CommentCountProjection">
+    <select id="selectListCommentCountProjection"
+            resultType="com.qinweizhao.blog.model.projection.CommentCountProjection">
         select count(id) as count, target_id
         from comment
         <where>

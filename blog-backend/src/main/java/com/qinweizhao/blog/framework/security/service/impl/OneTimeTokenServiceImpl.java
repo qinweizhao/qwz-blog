@@ -11,6 +11,9 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * One-time token service implementation.
+ *
+ * @author qinweizhao
+ * @since 2019-03-19
  */
 @Service
 public class OneTimeTokenServiceImpl implements OneTimeTokenService {

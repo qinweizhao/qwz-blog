@@ -13,8 +13,8 @@ class ApplicationTest {
 
 
     @Test
-    void generatorPassword(){
-        String password= "admin";
+    void generatorPassword() {
+        String password = "admin";
         System.out.println(BCrypt.hashpw(password, BCrypt.gensalt()));
     }
 

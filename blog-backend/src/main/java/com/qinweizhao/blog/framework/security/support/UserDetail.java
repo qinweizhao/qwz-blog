@@ -10,6 +10,9 @@ import org.springframework.lang.NonNull;
 
 /**
  * User detail.
+ *
+ * @author qinweizhao
+ * @since 2019-03-19
  */
 @ToString
 @EqualsAndHashCode

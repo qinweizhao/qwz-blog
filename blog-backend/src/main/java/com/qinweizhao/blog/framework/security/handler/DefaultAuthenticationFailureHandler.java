@@ -15,9 +15,10 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * Default AuthenticationFailureHandler.
+ * 默认 身份验证失败处理程序
  *
- * @since 12/12/18
+ * @author qinweizhao
+ * @since 2019-03-19
  */
 @Slf4j
 public class DefaultAuthenticationFailureHandler implements AuthenticationFailureHandler {

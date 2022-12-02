@@ -10,13 +10,13 @@ import java.io.IOException;
 /**
  * 内容认证失败处理程序
  *
- * @since 19-5-6
+ * @author qinweizhao
+ * @since 2019-03-19
  */
 public class ContentAuthenticationFailureHandler implements AuthenticationFailureHandler {
 
     @Override
     public void onFailure(HttpServletRequest request, HttpServletResponse response, BaseException exception) throws IOException, ServletException {
-
         // Forward to error
         request.getRequestDispatcher(request.getContextPath() + "/error").forward(request, response);
     }

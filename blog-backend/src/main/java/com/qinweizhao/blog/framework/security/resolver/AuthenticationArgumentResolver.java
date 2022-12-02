@@ -19,7 +19,8 @@ import java.util.Optional;
  * todo remove
  * Authentication argument resolver.
  *
- * @since 12/11/18
+ * @author qinweizhao
+ * @since 2019-03-19
  */
 @Slf4j
 public class AuthenticationArgumentResolver implements HandlerMethodArgumentResolver {

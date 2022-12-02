@@ -18,6 +18,11 @@ import static com.qinweizhao.blog.util.HaloUtils.ensureSuffix;
 @SpringBootTest
 public class OutputTest {
 
+    @Autowired
+    MyBlogProperties myBlogProperties;
+    @Autowired
+    StartedListener startedListener;
+
     @Test
     void test1() {
         String property = System.getProperty("user.dir");
@@ -31,11 +36,8 @@ public class OutputTest {
         System.out.println(property);
     }
 
-    @Autowired
-    MyBlogProperties myBlogProperties;
-
     @Test
-    void test3(){
+    void test3() {
         System.out.println(USER_HOME);
         System.out.println(FILE_SEPARATOR);
         System.out.println(ensureSuffix(USER_HOME, FILE_SEPARATOR));
@@ -50,32 +52,24 @@ public class OutputTest {
         String userDir = System.getProperty("user.home");
         System.out.println(userDir);
         System.out.println(
-                FILE_PROTOCOL+userDir + "/Code/qwz/qwz-blog/blog-frontend/"
+                FILE_PROTOCOL + userDir + "/Code/qwz/qwz-blog/blog-frontend/"
         );
     }
 
-    @Autowired
-    StartedListener startedListener;
-
     @Test
     void testPaths() throws Exception {
-        String path = ResourceUtils.CLASSPATH_URL_PREFIX+ "templates/common";
+        String path = ResourceUtils.CLASSPATH_URL_PREFIX + "templates/common";
         URI uri = ResourceUtils.getURL(path).toURI();
         System.out.println("Paths = " + uri);
 
     }
 
 
-
     @Test
-    void print(){
+    void print() {
         List<Object> objects = Collections.emptyList();
         System.out.println(objects);
     }
-
-
-
-
 
 
 }
