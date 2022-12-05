@@ -65,19 +65,6 @@ theme:
       default: "1320px"
       placeholder: "请输入"
       description: "限制内容区域的宽度，像素或百分比，默认1320px"
-    web_font:
-      name: web_font
-      label: 网站字体
-      type: select
-      default: "off"
-      description: "配置网站的字体，暂时提供 2 种供选择，也可以在 “自定义” 一栏中自定义字体来源，如果两边同时配置，优先使用自定义配置中的字体（请注意：中文字体并不能保证所有文字展示正确，请慎用！！！）"
-      options:
-        - value: "off"
-          label: 默认
-        - value: "joe_slate.woff2"
-          label: "Joe Slate"
-        - value: "joe_future.woff2"
-          label: "Joe Future"
     cursor_skin:
       name: cursor_skin
       label: 鼠标皮肤

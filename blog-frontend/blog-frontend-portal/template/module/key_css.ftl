@@ -20,9 +20,6 @@
         <#assign fontFormat="xxx">
       </#if>
       src: url("${settings.custom_font}") format("${fontFormat}");
-    <#elseif settings.web_font?? && settings.web_font != "off">
-      src: url(${BASE_RES_URL + "/source/font/" + settings.web_font}) format("${settings.web_font?split('.')[1]}");
-    <#else>
     </#if>
   }
   <#if settings.loading_bar_color?trim != "">
