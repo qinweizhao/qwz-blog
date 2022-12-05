@@ -208,7 +208,7 @@ theme:
       type: text
       default: ""
       placeholder: "请输入有效的颜色值"
-      description: "设置全局加载条背景色，默认跟随主题色。如需分别设置浅色/暗黑模式下的颜色，请严格按照 【浅色模式颜色|深色模式颜色】 这种格式，用 “|” 隔开"
+      description: "设置全局加载条背景色，默认跟随主题色。"
 
 # 导航
 navbar:
@@ -244,7 +244,7 @@ navbar:
       type: switch
       data-type: bool
       default: true
-      description: "导航条是否展示博客LOGO，LOGO图标请到 '后台管理设置-博客设置-常规设置' 中配置"
+      description: "导航条是否展示博客LOGO"
       options:
         - value: true
           label: 展示
@@ -814,18 +814,6 @@ blogger:
       data-type: bool
       default: true
       description: "是否展示社交账号，具体账号类型请到 “社交” 一栏配置"
-      options:
-        - value: true
-          label: 是
-        - value: false
-          label: 否
-    enable_mobile_social:
-      name: enable_mobile_social
-      label: 展示社交账号（移动端）
-      type: switch
-      data-type: bool
-      default: false
-      description: "是否在移动端展示社交账号，默认关闭"
       options:
         - value: true
           label: 是
@@ -1762,7 +1750,7 @@ code_block:
       type: switch
       data-type: bool
       default: false
-      description: "自动折叠 <文章页> 中内容很长的代码块，提高阅读效率，此操作会出现布局偏移，可能带来一些滚动相关问题，如无必要不建议开启（必须先开启“代码折叠”选项，否则无效，也可以通过元数据 enable_fold_long_code 单独控制）"
+      description: "自动折叠 <文章页> 中内容很长的代码块，提高阅读效率，此操作会出现布局偏移，可能带来一些滚动相关问题，如无必要不建议开启（必须先开启“代码折叠”选项，否则无效）"
       options:
         - value: true
           label: 开启

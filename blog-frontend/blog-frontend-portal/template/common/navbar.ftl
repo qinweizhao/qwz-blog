@@ -79,7 +79,7 @@
           </#if>
         </div>
       </div>
-        <#if settings.enable_mobile_social!false>
+        <#if settings.enable_social!false>
           <#include "../module/social.ftl">
         </#if>
       <ul class="joe_header__slideout-count">
