@@ -1684,18 +1684,6 @@ code_block:
           label: 开启
         - value: false
           label: 关闭
-    enable_code_macdot:
-      name: enable_code_macdot
-      label: mac彩点
-      type: switch
-      data-type: bool
-      default: true
-      description: "是否展示左上角的mac风格彩点"
-      options:
-        - value: true
-          label: 开启
-        - value: false
-          label: 关闭
     enable_code_copy:
       name: enable_code_copy
       label: 代码复制

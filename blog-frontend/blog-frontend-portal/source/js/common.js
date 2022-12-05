@@ -82,7 +82,6 @@ const commonContext = {
 				}
 				ThemeConfig.enable_code_title ? $item.addClass("c_title") : null;
 				ThemeConfig.enable_code_hr ? $item.addClass("c_hr") : null;
-				ThemeConfig.enable_code_macdot ? $item.addClass("c_macdot") : null;
 				ThemeConfig.enable_code_newline ? $item.addClass("c_newline") : null;
 				ThemeConfig.show_tools_when_hover
 					? $item.addClass("c_hover_tools")
