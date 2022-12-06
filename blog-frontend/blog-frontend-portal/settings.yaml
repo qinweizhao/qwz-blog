@@ -70,7 +70,7 @@ theme:
       label: 鼠标皮肤
       type: select
       default: "off"
-      description: "配置鼠标光标的皮肤（部分皮肤在暗黑模式下可能不明显），更多皮肤请前往 https://zhutix.com/tag/cursors/"
+      description: "配置鼠标光标的皮肤，更多皮肤请前往 https://zhutix.com/tag/cursors/"
       options:
         - value: "off"
           label: 无（默认）
@@ -124,14 +124,10 @@ theme:
       label: 背景特效
       type: select
       default: "off"
-      description: "配置页面背景的特效，其中部分效果为顶层特效，会展示在页面最顶层，还有一部分仅在暗黑模式下生效。特效会消耗一定系统性能，请谨慎配置（为了保证显示效果，尽量不要同时开启背景图和背景特效）"
+      description: "配置页面背景的特效，其中部分效果为顶层特效，会展示在页面最顶层。特效会消耗一定系统性能，请谨慎配置（为了保证显示效果，尽量不要同时开启背景图和背景特效）"
       options:
         - value: "off"
           label: 无（默认）
-        - value: universe
-          label: 宇宙空间（仅暗黑）
-        - value: rain
-          label: 粒子雨（顶层+仅暗黑）
         - value: plexus
           label: 自动吸附的线段
         - value: petals
