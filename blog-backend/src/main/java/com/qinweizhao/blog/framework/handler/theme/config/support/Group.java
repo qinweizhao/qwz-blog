@@ -6,7 +6,7 @@ import java.util.List;
 
 /**
  * Theme configuration: group entity.
- *
+ * @author qinweizhoa
  * @since 4/10/19
  */
 @Data

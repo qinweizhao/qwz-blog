@@ -7,7 +7,7 @@ import java.io.IOException;
 
 /**
  * Theme file resolver.
- *
+ * @author qinweizhoa
  * @since 2019-04-11
  */
 public interface ThemePropertyResolver {

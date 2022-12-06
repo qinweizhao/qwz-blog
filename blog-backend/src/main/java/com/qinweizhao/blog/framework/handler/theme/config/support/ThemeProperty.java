@@ -6,7 +6,7 @@ import java.util.Objects;
 
 /**
  * Theme property.
- *
+ * @author qinweizhoa
  * @author qinweizhao
  * @since 2019-03-22
  */

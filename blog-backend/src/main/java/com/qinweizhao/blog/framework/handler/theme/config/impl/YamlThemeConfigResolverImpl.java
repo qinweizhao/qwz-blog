@@ -20,7 +20,7 @@ import java.util.Map;
 
 /**
  * Theme configuration resolver.
- *
+ * @author qinweizhoa
  * @since 2019-04-10
  */
 @Slf4j

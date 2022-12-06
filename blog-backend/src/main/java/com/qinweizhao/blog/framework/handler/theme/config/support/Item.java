@@ -9,7 +9,7 @@ import java.util.Objects;
 
 /**
  * Theme configuration: item entity
- *
+ * @author qinweizhoa
  * @since 2019-04-10
  */
 @Data

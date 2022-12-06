@@ -11,7 +11,7 @@ import java.util.List;
 
 /**
  * Freemarker template random method.
- *
+ * @author qinweizhoa
  * @since 2018-12-21
  */
 @Component
