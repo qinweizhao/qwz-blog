@@ -138,61 +138,6 @@ const commonContext = {
 			});
 		}
 	},
-	/* 获取页面百度收录情况 */
-	initBaidu() {
-		if (!ThemeConfig.check_baidu_collect || !$("#joe_baidu_record").length)
-			return;
-
-		try {
-			// if (res.data && res.data.collected) {
-			// 	$("#joe_baidu_record").css("color", "#67c23a").html("已收录");
-			// } else { todo
-			/* 如果填写了Token，则自动推送给百度 */
-			if (ThemeConfig.baidu_token) {
-				$("#joe_baidu_record").html(
-					"<span style=\"color: #e6a23c\">未收录，推送中...</span>"
-				);
-				let _timer = setTimeout(function () {
-					Utils.request({
-						url: "api/bd/push",
-						method: "POST",
-						returnRaw: true,
-						data: {
-							site: ThemeConfig.blog_url,
-							token: ThemeConfig.baidu_token,
-							urls: window.location.href,
-						},
-					})
-						.then((res) => {
-							if (res.data.success === 0) {
-								$("#joe_baidu_record").html(
-									"<span style=\"color: #f56c6c\">推送失败，请检查！</span>"
-								);
-							} else {
-								$("#joe_baidu_record").html(
-									"<span style=\"color: #67c23a\">推送成功！</span>"
-								);
-							}
-						})
-						.catch((err) => {
-							console.log(err);
-						});
-					clearTimeout(_timer);
-					_timer = null;
-				}, 1000);
-			} else {
-				const url = `https://ziyuan.baidu.com/linksubmit/url?sitename=${encodeURI(
-					window.location.href
-				)}`;
-				$("#joe_baidu_record").html(
-					`<a target="_blank" href="${url}" rel="noopener noreferrer nofollow" style="color: #f56c6c">未收录，提交收录</a>`
-				);
-			}
-		}
-		catch(err)  {
-			console.log(err);
-		}
-	},
 
 	/* 渲染PDF */
 	initPDF() {

@@ -23,10 +23,6 @@
                             </div>
                             <div class="item">
                                 <span class="text">${(settings.motto?? && settings.motto!='')?then(settings.motto, user.description!'一句话介绍自己吧！')}</span>
-                                <#if settings.check_baidu_collect!false>
-                                    <span class="line">/</span>
-                                    <#include "template/module/baidu_push.ftl">
-                                </#if>
                             </div>
                         </div>
                     </div>

@@ -34,10 +34,6 @@
                         <span class="text" >${post.visits} 阅读</span>
                         <span class="line">/</span>
                         <span class="text">${post.wordCount!0} 字</span>
-                        <#if post.status=='PUBLISHED' && settings.check_baidu_collect==true>
-                          <span class="line">/</span>
-                          <#include "template/module/baidu_push.ftl">
-                        </#if>
                       </div>
                     </div>
                   </div>

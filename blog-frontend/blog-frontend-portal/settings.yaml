@@ -2108,30 +2108,18 @@ others:
       type: switch
       data-type: bool
       default: false
-      description: "启用后，全局评论、留言、特效和广告位将会屏蔽（通常在网站备案期间开启，平时不要忘了关闭哦）"
+      description: "启用后，全局评论、留言、特效和广告位将会屏蔽"
       options:
         - value: true
           label: 开启
         - value: false
           label: 关闭
-    check_baidu_collect:
-      name: check_baidu_collect
-      label: 检查百度收录情况
-      type: switch
-      data-type: bool
-      default: false
-      description: "启用后，文章页打开时会自动检测百度收录情况，并显示状态文字（目前相关api为M酷自己搭建的服务，不能保证稳定性）"
-      options:
-        - value: true
-          label: 开启
-        - value: false
-          label: 关闭
-    baidu_token:
-      name: baidu_token
-      label: 百度推送Token
-      default: "9CXqeR4GBvGpU0tc"
-      placeholder: "请填入token"
-      description: "文章页未收录时会自动将当前链接推送给百度加快收录，Token在百度收录平台注册账号获取（必须启用“检查百度收录”并填入token才生效），https://ziyuan.baidu.com/linksubmit"
+#    baidu_token:
+#      name: baidu_token
+#      label: 百度推送Token
+#      default: "9CXqeR4GBvGpU0tc"
+#      placeholder: "请填入token"
+#      description: "文章页未收录时会自动将当前链接推送给百度加快收录，Token在百度收录平台注册账号获取（必须启用“检查百度收录”并填入token才生效），https://ziyuan.baidu.com/linksubmit"
     cdn_type:
       name: cdn_type
       label: CDN 域名类型
