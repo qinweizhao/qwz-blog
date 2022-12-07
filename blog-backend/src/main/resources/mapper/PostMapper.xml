@@ -62,7 +62,7 @@
                 and p.status != #{param.excludeStatus}
             </if>
             <if test="param.keyword != null and param.keyword != ''">
-                and p.title like concat('%', #{param.keyword}, '%')
+                and CONCAT(p.title,p.slug,p.summary) like concat('%', #{param.keyword}, '%')
             </if>
             <if test="param.categoryId != null and param.categoryId != ''">
                 and pc.category_id = #{param.categoryId}

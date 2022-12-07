@@ -110,6 +110,7 @@ public interface PostMapper extends BaseMapper<Post> {
      * @param param param
      * @return PageResult
      */
+    @Deprecated
     Page<Post> selectPageSimplePosts(IPage<Post> page, @Param("param") Map<String, Object> param);
 
     /**
