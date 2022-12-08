@@ -22,7 +22,7 @@ import java.nio.charset.StandardCharsets;
  * 前台-文章
  *
  * @author qinweizhao
- * @since 2019-04-02
+ * @since 2019/04/02
  */
 @RestController("ApiContentPostController")
 @AllArgsConstructor

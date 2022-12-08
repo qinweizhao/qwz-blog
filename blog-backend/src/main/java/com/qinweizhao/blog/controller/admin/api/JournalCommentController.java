@@ -17,7 +17,7 @@ import java.util.List;
  * 日志评论
  *
  * @author qinweizhao
- * @since 2019-04-25
+ * @since 2019/04/25
  */
 @RestController
 @AllArgsConstructor

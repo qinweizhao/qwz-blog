@@ -17,7 +17,7 @@ import javax.validation.Valid;
  * Admin controller.
  *
  * @author qinweizhao
- * @since 2019-03-19
+ * @since 2019/03/19
  */
 @Slf4j
 @RestController

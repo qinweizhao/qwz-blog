@@ -15,7 +15,7 @@
   <#if type == 'post' && settings.enable_toc == true>
     <script src="${BASE_RES_URL!}/source/lib/tocbot/tocbot.min.js"></script>
   </#if>
-  <#if settings.enable_clean_mode != true && ( type == 'post' || type == 'journals' || type == 'sheet') && subType != 'only_header_footer'>
+  <#if settings.enable_clean_mode != true && ( type == 'post' || type == 'journals') && subType != 'only_header_footer'>
     <script src="${BASE_RES_URL!}/source/lib/vue@2.6.10/vue.min.js"></script>
     <script src="${BASE_RES_URL!}/source/lib/halo-comment/halo-comment.min.js?v=${theme.version!}"></script>
   </#if>
@@ -24,8 +24,9 @@
   <#if enable_katex == 'true' && (type == 'post' || type == 'journals')>
     <link rel="stylesheet" href="${BASE_RES_URL}/source/lib/katex@0.13.18/katex.min.css">
   </#if>
+  <#-- 自定义 -->
   <script src="${BASE_RES_URL}/source/js/min/custom.min.js?v=${theme.version!}"></script>
-  <#if type == 'post' || type == 'journals' || type == 'sheet'>
+  <#if type == 'post' || type == 'journals'>
     <script src="${BASE_RES_URL}/source/lib/clipboard/clipboard.min.js"></script>
   </#if>
   <#if settings.favicon?? && settings.favicon?trim!=''>
@@ -37,7 +38,7 @@
 
   <#-- ===== 引入页面级js start ===== -->
   <script src="${BASE_RES_URL}/source/js/min/common.min.js?v=${theme.version!}"></script>
-  <#if type == 'post' || type == 'journals' || type == 'sheet'>
+  <#if type == 'post' || type == 'journals'>
     <script src="${BASE_RES_URL!}/source/lib/prism/prism.min.js"></script>
   </#if>
   <#if type == 'index'>

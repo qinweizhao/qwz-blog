@@ -15,7 +15,7 @@ import java.util.List;
  * Journal controller.
  *
  * @author qinweizhao
- * @since 2019-04-25
+ * @since 2019/04/25
  */
 @RestController
 @AllArgsConstructor
