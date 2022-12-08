@@ -1089,25 +1089,6 @@ archives:
 post:
   label: 文章页
   items:
-    enable_passage_tips:
-      name: enable_passage_tips
-      label: 温馨提示
-      type: switch
-      data-type: bool
-      default: false
-      description: "是否展示文章页顶部的温馨提示"
-      options:
-        - value: true
-          label: 开启
-        - value: false
-          label: 关闭
-    passage_tips_content:
-      name: passage_tips_content
-      label: 温馨提示文案
-      type: textarea
-      default: ""
-      placeholder: "请输入文案内容"
-      description: "自定义温馨提示的文案，为空则使用默认文案，一般不用设置"
     post_img_align:
       name: post_img_align
       label: 图片对齐方式

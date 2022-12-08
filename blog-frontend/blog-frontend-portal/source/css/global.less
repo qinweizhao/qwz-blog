@@ -4018,41 +4018,6 @@ body {
     }
   }
 
-  &__overdue {
-    padding-top: 5px;
-
-    &-wrapper {
-      padding: 15px;
-      color: #db7c22;
-      border: 1px solid var(--overdue-border);
-      background: var(--overdue-background);
-      border-radius: var(--radius-inner);
-      animation: overdue 1.5s ease-in-out;
-
-      .title {
-        display: flex;
-        align-items: center;
-        margin-bottom: 10px;
-        font-size: 15px;
-        font-weight: 500;
-
-        .icon {
-          width: 20px;
-          height: 20px;
-          margin-right: 8px;
-        }
-      }
-
-      .content {
-        padding-left: 28px;
-      }
-
-      &:hover {
-        clip-path: circle(75%);
-      }
-    }
-  }
-
   &__article {
     padding: 10px 0;
     font-size: 15px;
@@ -6540,16 +6505,6 @@ body {
   0%,
   100% {
     transform: translate(0px) rotate(0deg);
-  }
-}
-
-@keyframes overdue {
-  0% {
-    clip-path: circle(0 at 0 0);
-  }
-
-  100% {
-    clip-path: circle(100%);
   }
 }
 
