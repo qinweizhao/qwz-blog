@@ -25,7 +25,7 @@
     <link rel="stylesheet" href="${BASE_RES_URL}/source/lib/katex@0.13.18/katex.min.css">
   </#if>
   <#-- 自定义 -->
-  <script src="${BASE_RES_URL}/source/js/min/custom.min.js?v=${theme.version!}"></script>
+<#--  <script src="${BASE_RES_URL}/source/js/min/custom.min.js?v=${theme.version!}"></script>-->
   <#if type == 'post' || type == 'journals'>
     <script src="${BASE_RES_URL}/source/lib/clipboard/clipboard.min.js"></script>
   </#if>
