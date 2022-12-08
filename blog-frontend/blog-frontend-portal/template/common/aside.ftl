@@ -15,10 +15,10 @@
       </section>
     </#if>
   <#-- aplayer-->
-    <#if settings.enable_newest_post!true>
-      <#import "../macro/latest.ftl" as np>
-      <@np.newest/>
-    </#if>
+<#--    <#if settings.enable_newest_post!true>-->
+<#--      <#import "../macro/latest.ftl" as np>-->
+<#--      <@np.newest/>-->
+<#--    </#if>-->
     <#if settings.enable_clean_mode!=true && settings.show_newreply==true>
       <section class="joe_aside__item newreply">
         <div class="joe_aside__item-title">

@@ -645,18 +645,18 @@ aside:
           label: 是
         - value: false
           label: 否
-    enable_newest_post:
-      name: enable_newest_post
-      label: 展示最新文章
-      type: switch
-      data-type: bool
-      default: true
-      description: "在侧边栏展示最新文章"
-      options:
-        - value: true
-          label: 开启
-        - value: false
-          label: 关闭
+#    enable_newest_post:
+#      name: enable_newest_post
+#      label: 展示最新文章
+#      type: switch
+#      data-type: bool
+#      default: true
+#      description: "在侧边栏展示最新文章"
+#      options:
+#        - value: true
+#          label: 开启
+#        - value: false
+#          label: 关闭
     newest_page_size:
       name: newest_page_size
       label: 最新文章条数
