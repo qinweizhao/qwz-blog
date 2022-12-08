@@ -8,5 +8,5 @@ description: 博客门面
 logo: https://www.qinweizhao.com/image/2022/05/logo.png
 website: https://www.qinweizhao.com
 repo: https://github.com/qinweizhao/qwz-blog
-version: 3.1.1
-require: ^3.1.1
+version: 3.1.2
+require: ^3.1.2
