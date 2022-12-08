@@ -169,44 +169,44 @@ export const postColumns = [
   {
     title: '标题',
     dataIndex: 'title',
-    width: '200px',
+    width: '180px',
     ellipsis: true,
     scopedSlots: { customRender: 'postTitle' }
   },
   {
     title: '状态',
     dataIndex: 'status',
-    width: '100px',
+    width: '70px',
     scopedSlots: { customRender: 'status' }
   },
   {
     title: '分类',
     dataIndex: 'categories',
-    width: '70px',
+    width: '100px',
     scopedSlots: { customRender: 'categories' }
   },
   {
     title: '标签',
     dataIndex: 'tags',
-    width: '100px',
+    width: '170px',
     scopedSlots: { customRender: 'tags' }
   },
   {
     title: '评论',
-    width: '70px',
+    width: '60px',
     dataIndex: 'commentCount',
     scopedSlots: { customRender: 'commentCount' }
   },
   {
     title: '访问',
-    width: '70px',
+    width: '60px',
     dataIndex: 'visits',
     scopedSlots: { customRender: 'visits' }
   },
   {
     title: '发布时间',
     dataIndex: 'createTime',
-    width: '170px',
+    width: '140px',
     scopedSlots: { customRender: 'createTime' }
   },
   {
