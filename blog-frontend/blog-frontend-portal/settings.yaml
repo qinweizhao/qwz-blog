@@ -1568,12 +1568,6 @@ journals:
 categories:
   label: 分类页
   items: 
-    categories_title:
-      name: categories_title
-      label: 分类页标题
-      default: "全部分类"
-      placeholder: "请输入"
-      description: "修改分类页顶部的标题"
     categories_type:
       name: categories_type
       label: 展示形式
