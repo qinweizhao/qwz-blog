@@ -1597,12 +1597,6 @@ categories:
 tags:
   label: 标签页
   items: 
-    tags_title:
-      name: tags_title
-      label: 标签页标题
-      default: "全部标签"
-      placeholder: "请输入"
-      description: "修改标签页顶部的标题"
     tags_type:
       name: tags_type
       label: 展示形式

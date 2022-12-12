@@ -11,7 +11,7 @@
             <div class="joe_index">
                 <div class="joe_index__title">
                     <ul class="joe_index__title-title pl-15">
-                        <li class="item active">${settings.tags_title!}<@tagTag method="count"><span
+                        <li class="item active">全部标签<@tagTag method="count"><span
                                     class="totals">${count!0}</span></@tagTag></li>
                     </ul>
                 </div>
