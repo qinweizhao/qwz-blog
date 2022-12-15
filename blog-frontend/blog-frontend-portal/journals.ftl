@@ -82,7 +82,7 @@
                     <@pager method="journals" postsData=journals display="${settings.max_pager_number!5}" />
                 <#else>
                     <#include "template/macro/empty.ftl">
-                    <@empty type="journals" text="${settings.journals_empty_text!'暂无日志数据'}"/>
+                    <@empty type="journals" text="暂无日志数据"/>
                 </#if>
             </div>
         </div>

@@ -1344,12 +1344,6 @@ journals:
       default: "日志"
       placeholder: "请输入"
       description: "修改日志页顶部展示的标题"
-    journals_empty_text:
-      name: journals_empty_text
-      label: 空白状态文案
-      default: "暂无日志数据"
-      placeholder: "请输入"
-      description: "修改无数据时展示的文案"
     enable_journal_effect:
       name: enable_journal_effect
       label: 开启缓入动画
