@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-<#assign title=settings.archives_title!'文章归档'>
+<#assign title="文章归档">
 <#import "template/common/header.ftl" as headInfo>
 <@headInfo.head title="${title}" type="archives"/>
 <#import "template/macro/tail.ftl" as tailInfo>

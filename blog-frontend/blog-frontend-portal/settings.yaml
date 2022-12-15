@@ -1055,12 +1055,6 @@ home:
 archives:
   label: 归档页
   items:
-    archives_title:
-      name: archives_title
-      label: 归档页标题
-      default: "文章归档"
-      placeholder: "请输入"
-      description: "修改归档页顶部展示的标题"
     archives_timeline_metric:
       name: archives_timeline_metric
       label: 时间轴展示维度
