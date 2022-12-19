@@ -5,15 +5,11 @@ import org.springframework.lang.NonNull;
 /**
  * Sheet properties.
  *
+ * @author qinweizhao
  * @since 2020-02-11
  */
 public enum SheetProperties implements PropertyEnum {
 
-
-    /**
-     * Journals page title.
-     */
-    JOURNALS_TITLE("journals_title", String.class, "日志"),
 
     /**
      * Journals page size.

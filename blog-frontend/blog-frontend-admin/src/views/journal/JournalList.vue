@@ -116,9 +116,6 @@
         <a-button key="submit" type="primary" @click="handleSaveOptions()">保存</a-button>
       </template>
       <a-form layout="vertical">
-        <a-form-item help="* 需要主题进行适配" label="页面标题：">
-          <a-input v-model="optionModal.options.journals_title" />
-        </a-form-item>
         <a-form-item label="每页显示条数：">
           <a-input-number v-model="optionModal.options.journals_page_size" style="width: 100%" />
         </a-form-item>

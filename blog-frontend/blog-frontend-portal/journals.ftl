@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-<#assign title=settings.journals_title!'我的动态'>
+<#assign title="我的动态">
 <#import "template/common/header.ftl" as headInfo>
 <@headInfo.head title="${title}" type="journals"/>
 <#import "template/macro/tail.ftl" as tailInfo>
