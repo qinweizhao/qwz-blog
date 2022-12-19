@@ -7,7 +7,8 @@ import lombok.NoArgsConstructor;
 /**
  * Tag post count projection.
  *
- * @since 3/26/19
+ * @author qinweizhao
+ * @since 2022-07-08
  */
 @Data
 @AllArgsConstructor

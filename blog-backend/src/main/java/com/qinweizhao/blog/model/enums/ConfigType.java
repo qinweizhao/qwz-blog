@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.annotation.EnumValue;
  * Option Type.
  *
  * @author qinweizhao
- * @since 2019-12-02
+ * @since 2022-07-08
  */
 public enum ConfigType implements ValueEnum<Integer> {
 

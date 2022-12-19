@@ -5,8 +5,8 @@ import com.baomidou.mybatisplus.annotation.EnumValue;
 /**
  * 日志类型
  *
- * @author ryanwnag
  * @author qinweizhao
+ * @since 2022-07-08
  */
 public enum JournalType implements ValueEnum<Integer> {
 

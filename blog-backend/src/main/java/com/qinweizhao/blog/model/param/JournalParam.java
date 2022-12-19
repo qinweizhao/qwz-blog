@@ -9,7 +9,8 @@ import javax.validation.constraints.Size;
 /**
  * Journal param.
  *
- * @since 2019-4-25
+ * @author qinweizhao
+ * @since 2022-07-08
  */
 @Data
 public class JournalParam {

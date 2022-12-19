@@ -8,7 +8,8 @@ import java.time.LocalDateTime;
 /**
  * Attachment output dto.
  *
- * @since 3/21/19
+ * @author qinweizhao
+ * @since 2022-07-08
  */
 @Data
 public class AttachmentDTO {

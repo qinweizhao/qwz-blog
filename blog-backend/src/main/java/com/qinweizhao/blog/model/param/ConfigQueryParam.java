@@ -9,7 +9,7 @@ import lombok.EqualsAndHashCode;
  * Option query params.
  *
  * @author qinweizhao
- * @since 2019-12-02
+ * @since 2022-07-08
  */
 @Data
 @EqualsAndHashCode(callSuper = true)

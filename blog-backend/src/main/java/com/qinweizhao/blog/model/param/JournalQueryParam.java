@@ -8,7 +8,8 @@ import lombok.EqualsAndHashCode;
 /**
  * Journal query params.
  *
- * @since 2019/04/26
+ * @author qinweizhao
+ * @since 2022-07-08
  */
 @Data
 @EqualsAndHashCode(callSuper = true)

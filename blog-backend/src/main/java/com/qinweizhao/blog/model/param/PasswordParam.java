@@ -9,7 +9,7 @@ import javax.validation.constraints.Size;
  * User password param.
  *
  * @author qinweizhao
- * @since 2022/7/31
+ * @since 2022-07-08
  */
 @Data
 public class PasswordParam {

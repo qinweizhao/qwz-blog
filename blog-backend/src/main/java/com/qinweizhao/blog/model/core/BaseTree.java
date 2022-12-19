@@ -5,7 +5,7 @@ import java.util.List;
 
 /**
  * @author qinweizhao
- * @since 2022/7/6
+ * @since 2022-07-06
  */
 public abstract class BaseTree<T> implements Serializable {
 

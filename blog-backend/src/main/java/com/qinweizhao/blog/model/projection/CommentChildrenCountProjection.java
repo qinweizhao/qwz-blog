@@ -7,7 +7,8 @@ import lombok.NoArgsConstructor;
 /**
  * Comment children count projection.
  *
- * @since 19-5-14
+ * @author qinweizhao
+ * @since 2022-07-08
  */
 @Data
 @AllArgsConstructor

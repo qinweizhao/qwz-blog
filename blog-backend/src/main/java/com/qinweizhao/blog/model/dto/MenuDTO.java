@@ -7,7 +7,8 @@ import lombok.EqualsAndHashCode;
 /**
  * Menu output dto.
  *
- * @since 4/3/19
+ * @author qinweizhao
+ * @since 2022-07-08
  */
 @Data
 @EqualsAndHashCode(callSuper = true)

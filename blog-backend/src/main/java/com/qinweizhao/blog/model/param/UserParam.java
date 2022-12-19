@@ -10,7 +10,7 @@ import javax.validation.constraints.Size;
 
 /**
  * @author qinweizhao
- * @since 2022/7/12
+ * @since 2022-07-08
  */
 @Data
 public class UserParam {

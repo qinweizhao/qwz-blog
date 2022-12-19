@@ -4,6 +4,7 @@ package com.qinweizhao.blog.model.core;
  * 分页查询参数
  *
  * @author qinweizhao
+ * @since 2022-07-08
  */
 public abstract class PageParam {
 

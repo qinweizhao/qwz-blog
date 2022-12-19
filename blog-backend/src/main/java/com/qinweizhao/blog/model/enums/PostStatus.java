@@ -3,7 +3,8 @@ package com.qinweizhao.blog.model.enums;
 import com.baomidou.mybatisplus.annotation.EnumValue;
 
 /**
- * Post status.
+ * @author qinweizhao
+ * @since 2022-07-08
  */
 public enum PostStatus implements ValueEnum<Integer> {
 

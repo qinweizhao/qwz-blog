@@ -8,6 +8,7 @@ import java.util.List;
  * 分页返回结果
  *
  * @author qinweizhao
+ * @since 2022-07-08
  */
 public class PageResult<T> {
 

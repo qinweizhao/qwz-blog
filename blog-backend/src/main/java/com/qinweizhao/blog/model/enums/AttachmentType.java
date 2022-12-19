@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.annotation.EnumValue;
  * Attach origin.
  *
  * @author qinweizhao
- * @since 2019-03-12
+ * @since 2022-07-08
  */
 public enum AttachmentType implements ValueEnum<Integer> {
 

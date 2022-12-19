@@ -8,7 +8,8 @@ import lombok.EqualsAndHashCode;
 /**
  * Attachment query params.
  *
- * @since 2019/04/18
+ * @author qinweizhao
+ * @since 2022-07-08
  */
 @Data
 @EqualsAndHashCode(callSuper = true)

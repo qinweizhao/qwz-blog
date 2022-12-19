@@ -1,8 +1,8 @@
 package com.qinweizhao.blog.model.enums;
 
 /**
- * @author Wh1te
- * @since 2020-10-19
+ * @author qinweizhao
+ * @since 2022-07-08
  */
 public enum TimeUnit implements ValueEnum<Integer> {
 

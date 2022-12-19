@@ -8,7 +8,8 @@ import javax.validation.constraints.NotBlank;
 /**
  * Journal query params.
  *
- * @since 2019/05/07
+ * @author qinweizhao
+ * @since 2022-07-08
  */
 @Data
 public class MailParam {

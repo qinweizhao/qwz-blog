@@ -8,7 +8,8 @@ import java.time.LocalDateTime;
 /**
  * Journal dto.
  *
- * @since 2019-04-24
+ * @author qinweizhao
+ * @since 2022-07-08
  */
 @Data
 public class JournalDTO {

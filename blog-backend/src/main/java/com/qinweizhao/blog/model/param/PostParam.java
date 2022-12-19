@@ -13,7 +13,7 @@ import java.util.Set;
  * Post param.
  *
  * @author qinweizhao
- * @since 2019-03-21
+ * @since 2022-07-08
  */
 @Data
 public class PostParam {

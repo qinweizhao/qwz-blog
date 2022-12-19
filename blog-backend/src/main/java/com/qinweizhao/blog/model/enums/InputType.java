@@ -5,7 +5,8 @@ import org.springframework.lang.Nullable;
 /**
  * Input type enum.
  *
- * @since 4/10/19
+ * @author qinweizhao
+ * @since 2022-07-08
  */
 public enum InputType {
 

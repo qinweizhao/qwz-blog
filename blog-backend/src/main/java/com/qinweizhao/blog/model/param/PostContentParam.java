@@ -3,7 +3,8 @@ package com.qinweizhao.blog.model.param;
 import lombok.Data;
 
 /**
- * Post content param.
+ * @author qinweizhao
+ * @since 2022-07-08
  */
 @Data
 public class PostContentParam {

@@ -8,7 +8,7 @@ import lombok.EqualsAndHashCode;
  * Comment query params.
  *
  * @author qinweizhao
- * @since 2019/04/18
+ * @since 2022-07-08
  */
 @Data
 @EqualsAndHashCode(callSuper = true)

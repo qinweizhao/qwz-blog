@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
  * Tag output dto.
  *
  * @author qinweizhao
- * @since 2019-03-19
+ * @since 2022-07-08
  */
 @Data
 public class TagDTO {

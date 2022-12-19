@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 
 /**
  * @author qinweizhao
- * @since 2019-03-20
+ * @since 2022-07-08
  */
 @Data
 public class ConfigDTO {

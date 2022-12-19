@@ -5,7 +5,8 @@ import lombok.Data;
 /**
  * Statistic DTO.
  *
- * @since 2019-03-19
+ * @author qinweizhao
+ * @since 2022-07-08
  */
 @Data
 public class StatisticDTO {

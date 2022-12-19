@@ -7,7 +7,8 @@ import org.springframework.lang.Nullable;
 /**
  * 运行模式
  *
- * @since 19-6-10
+ * @author qinweizhao
+ * @since 2022-07-08
  */
 public enum Mode {
 

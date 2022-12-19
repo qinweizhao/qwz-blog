@@ -9,7 +9,7 @@ import javax.validation.constraints.Size;
  * Category param.
  *
  * @author qinweizhao
- * @since 2019-03-21
+ * @since 2022-07-08
  */
 @Data
 public class CategoryParam {

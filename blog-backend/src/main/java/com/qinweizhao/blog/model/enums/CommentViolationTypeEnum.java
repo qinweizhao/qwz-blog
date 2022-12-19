@@ -6,8 +6,8 @@ import lombok.Getter;
 /**
  * 评论违规类型
  *
- * @author Lei XinXin
- * @since 2020/1/4
+ * @author qinweizhao
+ * @since 2022-07-08
  */
 @Getter
 public enum CommentViolationTypeEnum {

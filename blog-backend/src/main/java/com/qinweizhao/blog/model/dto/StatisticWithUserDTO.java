@@ -6,7 +6,8 @@ import lombok.EqualsAndHashCode;
 /**
  * Statistic with user info DTO.
  *
- * @since 2019-12-16
+ * @author qinweizhao
+ * @since 2022-07-08
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
