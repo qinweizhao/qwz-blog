@@ -26,7 +26,7 @@ import java.util.Objects;
 /**
  * Http client utilities.
  *
- * @since 3/29/19
+ * @since 2022-03-15
  */
 public class HttpClientUtils {
 

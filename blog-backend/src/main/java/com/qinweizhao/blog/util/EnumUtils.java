@@ -9,7 +9,7 @@ import java.util.Objects;
 
 /**
  * @author qinweizhao
- * @since 2022/7/18
+ * @since 2022-03-15
  */
 public class EnumUtils {
     /**

@@ -1905,7 +1905,7 @@ comment:
       name: comment_email_poptext
       label: "提示文案（输入邮箱时）"
       type: text
-      default: "你将收到回复通知"。
+      default: "你将收到回复通知"
       placeholder: 请输入
       description: "填写邮箱时的提示文字"
     comment_avatar_error:
