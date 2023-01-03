@@ -1085,13 +1085,6 @@ post:
           label: 居中
         - value: right
           label: 右对齐
-    img_max_width:
-      name: img_max_width
-      label: 图片最大宽度
-      type: text
-      default: "100%"
-      placeholder: "请输入宽度值"
-      description: "设置文章内容区域图片的最大宽度，接受一切有效的宽度值，需带单位（默认为 100%，也可通过页面元数据 img_max_width 配置，但小屏幕下最大宽度会被强制设为 100%）"
     enable_progress_bar:
       name: enable_progress_bar
       label: 启用文章浏览进度条
