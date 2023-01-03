@@ -1104,37 +1104,6 @@ post:
       placeholder: "请输入"
       default: ""
       description: "浏览进度条的背景色，接受任何合法的颜色值（为空将使用默认背景色）"
-    enable_toc:
-      name: enable_toc
-      label: 文章TOC目录
-      type: switch
-      data-type: bool
-      default: true
-      description: ""
-      options:
-        - value: true
-          label: 开启
-        - value: false
-          label: 关闭
-    enable_mobile_toc:
-      name: enable_mobile_toc
-      label: 移动端文章TOC目录
-      type: switch
-      data-type: bool
-      default: false
-      description: ""
-      options:
-        - value: true
-          label: 开启
-        - value: false
-          label: 关闭
-    toc_depth:
-      name: toc_depth
-      label: TOC目录默认展开层级
-      type: text
-      default: "0"
-      placeholder: "请填写标题层级（只能是数字）"
-      description: "TOC目录自动展开的标题层级（1~6级标题，仅对有多级目录的文章生效），默认为 0，不展开子目录"
     enable_relate_post:
       name: enable_relate_post
       label: 展示相关文章

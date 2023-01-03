@@ -124,7 +124,7 @@ const postContext = {
 	},
 	/* 文章目录 */
 	initToc(reload) {
-		if (!ThemeConfig.enable_toc || !$(".toc-container").length){
+		if (!$(".toc-container").length){
 			return;
 		}
 		// 原始内容的文章不支持TOC
@@ -150,7 +150,8 @@ const postContext = {
 			contentSelector: ".joe_detail__article",
 			ignoreSelector: ".js-toc-ignore",
 			headingSelector: "h1,h2,h3,h4,h5,h6",
-			collapseDepth: +(ThemeConfig.toc_depth || 0),
+			// TOC目录默认展开层级,1~6 级标题
+			collapseDepth: +0,
 			scrollSmooth: true,
 			includeTitleTags: true,
 			// scrollSmoothDuration: 400,
