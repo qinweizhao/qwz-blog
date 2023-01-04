@@ -91,9 +91,7 @@
             </div>
           </#if>
         </div>
-        <#if settings.enable_post_aside == true>
           <#include "template/common/aside_post.ftl">
-        </#if>
       </div>
       <#if settings.enable_progress_bar!true>
         <div class="joe_progress_bar" ${(settings.progress_bar_bgc?? && settings.progress_bar_bgc!='')?then('style="background:${settings.progress_bar_bgc}"','')}></div>
