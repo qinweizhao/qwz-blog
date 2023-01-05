@@ -621,18 +621,18 @@ aside:
 #          label: 是
 #        - value: false
 #          label: 否
-    enable_tags_aside:
-      name: enable_tags_aside
-      label: 标签页侧边栏
-      type: switch
-      data-type: bool
-      default: true
-      description: "标签页右侧是否展示侧边栏"
-      options:
-        - value: true
-          label: 是
-        - value: false
-          label: 否
+#    enable_tags_aside:
+#      name: enable_tags_aside
+#      label: 标签页侧边栏
+#      type: switch
+#      data-type: bool
+#      default: true
+#      description: "标签页右侧是否展示侧边栏"
+#      options:
+#        - value: true
+#          label: 是
+#        - value: false
+#          label: 否
 #    enable_newest_post:
 #      name: enable_newest_post
 #      label: 展示最新文章
