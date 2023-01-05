@@ -44,9 +44,9 @@
                 </div>
             </div>
         </div>
-        <#if settings.enable_archives_aside!false>
+<#--        <#if settings.enable_archives_aside!false>-->
             <#include "template/common/aside.ftl">
-        </#if>
+<#--        </#if>-->
     </div>
     <#include "template/common/actions.ftl">
     <#include "template/common/footer.ftl">
