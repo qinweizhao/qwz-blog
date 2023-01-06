@@ -434,7 +434,7 @@ carousel:
       label: 手动配置数据
       type: textarea
       default: "xxx-|||-xxx|||-xxx-|||-xxx=====xxx-|||-xxx-|||-xxx#"
-      description: "（默认配置了演示数据）。【多个轮播图之间用 '=====' 隔开，属性之间用 '-|||-' 隔开】(为了美观，允许换行)，【具体示例】标题-|||-副标题-|||-图片链接-|||-跳转链接，不需要跳转写 '#' 即可（请严格按照此格式或默认示例进行配置，否则可能导致网站崩溃）"
+      description: "【多个轮播图之间用 '=====' 隔开，属性之间用 '-|||-' 隔开】(为了美观，允许换行)，【具体示例】标题-|||-副标题-|||-图片链接-|||-跳转链接，不需要跳转写 '#' 即可（请严格按照此格式或默认示例进行配置，否则可能导致网站崩溃）"
     banner_amount_limit:
       name: banner_amount_limit
       label: 最大个数
@@ -442,7 +442,7 @@ carousel:
       data-type: long
       default: 5
       placeholder: "请输入从 0 至 10 的整数"
-      description: "设置轮播图展示的最大个数，默认为 5，主题内最大限制为 10，填 0 相当于 10（对手动配置模式同样生效）"
+      description: "设置轮播图展示的最大个数，默认为 5，主题内最大限制为 10，填 0 相当于 10"
     banner_direction:
       name: banner_direction
       label: 轮播方向
