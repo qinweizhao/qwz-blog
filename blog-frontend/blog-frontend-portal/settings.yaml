@@ -550,12 +550,12 @@ carousel:
           label: 开启
         - value: false
           label: 关闭
-    banner_lazyload_img:
-      name: banner_lazyload_img
-      label: 图片预载图
-      type: attachment
-      default: "/themes/blog-frontend-portal/source/img/lazyload_h.gif"
-      description: "轮播图默认为懒加载，这里可以为banner图设置加载完之前的加载图（体积尽可能的小）"
+#    banner_lazyload_img:
+#      name: banner_lazyload_img
+#      label: 图片预载图
+#      type: attachment
+#      default: "/themes/blog-frontend-portal/source/img/lazyload_h.gif"
+#      description: "轮播图默认为懒加载，这里可以为banner图设置加载完之前的加载图（体积尽可能的小）"
     
 # 侧边栏
 aside:
