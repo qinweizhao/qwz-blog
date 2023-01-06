@@ -400,41 +400,41 @@ carousel:
           label: 开启
         - value: false
           label: 关闭
-    banner_source:
-      name: banner_source
-      label: 数据来源
-      type: select
-      data-type: text
-      default: manual
-      description: "主题提供了 7 种数据来源，默认手动配置（需要自己在下面配置轮播数据），其它几种会自动去获取数据，但是请注意相应文章数据及封面要规范，否则可能不美观或展示异常（文章封面取值逻辑和首页列表一致【文章封面 > 分类封面 > 标签封面 > 默认封面】，当获取的数据为空时，则默认展示 “欢迎使用”）"
-      options:
-        - value: manual
-          label: 手动配置
-        - value: latest
-          label: 最新文章
-        - value: topped
-          label: 置顶文章
-        - value: visits
-          label: 阅读量排行文章
-        - value: likes
-          label: 点赞排行文章
-        - value: specify_category
-          label: 特定分类文章
-        - value: specify_tag
-          label: 特定标签文章
-    banner_specify_keyword:
-      name: banner_specify_keyword
-      label: 特定关键词
-      type: text
-      default: ""
-      placeholder: "请输入"
-      description: "当数据源为 “特定关键词/分类/标签” 文章时，需要在这里设置【关键词/分类别名/标签别名】进行匹配，相关别名请到 “后台管理-文章” 菜单下获取。（填写错误的别名可能导致网站无法渲染，别名或内容为空时展示 “欢迎使用”） "
+#    banner_source:
+#      name: banner_source
+#      label: 数据来源
+#      type: select
+#      data-type: text
+#      default: manual
+#      description: "主题提供了 7 种数据来源，默认手动配置（需要自己在下面配置轮播数据），其它几种会自动去获取数据，但是请注意相应文章数据及封面要规范，否则可能不美观或展示异常（文章封面取值逻辑和首页列表一致【文章封面 > 分类封面 > 标签封面 > 默认封面】，当获取的数据为空时，则默认展示 “欢迎使用”）"
+#      options:
+#        - value: manual
+#          label: 手动配置
+#        - value: latest
+#          label: 最新文章
+#        - value: topped
+#          label: 置顶文章
+#        - value: visits
+#          label: 阅读量排行文章
+#        - value: likes
+#          label: 点赞排行文章
+#        - value: specify_category
+#          label: 特定分类文章
+#        - value: specify_tag
+#          label: 特定标签文章
+#    banner_specify_keyword:
+#      name: banner_specify_keyword
+#      label: 特定关键词
+#      type: text
+#      default: ""
+#      placeholder: "请输入"
+#      description: "当数据源为 “特定关键词/分类/标签” 文章时，需要在这里设置【关键词/分类别名/标签别名】进行匹配，相关别名请到 “后台管理-文章” 菜单下获取。（填写错误的别名可能导致网站无法渲染，别名或内容为空时展示 “欢迎使用”） "
     banner_data:
       name: banner_data
       label: 手动配置数据
       type: textarea
       default: "xxx-|||-xxx|||-xxx-|||-xxx=====xxx-|||-xxx-|||-xxx#"
-      description: "手动配置首页的轮播图数据，仅当数据来源为 “手动配置” 时生效（注意：主题内默认配置了演示数据）。【多个轮播图之间用 '=====' 隔开，属性之间用 '-|||-' 隔开】(为了美观，允许换行)，【具体示例】标题-|||-副标题-|||-图片链接-|||-跳转链接，不需要跳转写 '#' 即可（请严格按照此格式或默认示例进行配置，否则可能导致网站崩溃）"
+      description: "（默认配置了演示数据）。【多个轮播图之间用 '=====' 隔开，属性之间用 '-|||-' 隔开】(为了美观，允许换行)，【具体示例】标题-|||-副标题-|||-图片链接-|||-跳转链接，不需要跳转写 '#' 即可（请严格按照此格式或默认示例进行配置，否则可能导致网站崩溃）"
     banner_amount_limit:
       name: banner_amount_limit
       label: 最大个数
