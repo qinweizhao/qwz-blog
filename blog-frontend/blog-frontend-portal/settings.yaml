@@ -1059,20 +1059,6 @@ archives:
 post:
   label: 文章页
   items:
-    post_img_align:
-      name: post_img_align
-      label: 图片对齐方式
-      type: select
-      data-type: text
-      default: center
-      description: "设置文章内容区域图片的对齐方式（默认为 “居中”）"
-      options:
-        - value: left
-          label: 左对齐
-        - value: center
-          label: 居中
-        - value: right
-          label: 右对齐
     enable_progress_bar:
       name: enable_progress_bar
       label: 启用文章浏览进度条

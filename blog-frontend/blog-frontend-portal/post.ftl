@@ -41,8 +41,9 @@
                 </div>
               <#import "template/ads/ads_post.ftl" as adpost>
               <@adpost.ads_post type="top" />
-              <#assign img_align = settings.post_img_align!'center'>
-              <article class="joe_detail__article animated fadeIn ${img_align+'-img'}${(settings.enable_copy!=true)?then(' uncopy', '')}${(settings.enable_code_line_number==true && settings.enable_code_newline!=true)?then(' line-numbers','')}${settings.enable_single_code_select?then(' single_code_select','')}">
+<#--              <#assign img_align = settings.post_img_align!'center'>-->
+<#--              ${img_align+'-img'}-->
+              <article class="joe_detail__article animated fadeIn center-img ${(settings.enable_copy!=true)?then(' uncopy', '')}${(settings.enable_code_line_number==true && settings.enable_code_newline!=true)?then(' line-numbers','')}${settings.enable_single_code_select?then(' single_code_select','')}">
                 <div id="post-inner">
                     ${post.formatContent!}
                 </div>
