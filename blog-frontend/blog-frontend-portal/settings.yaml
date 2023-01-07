@@ -1136,17 +1136,17 @@ post:
           label: 开启
         - value: false
           label: 关闭
-    enable_copy:
-      name: enable_copy
-      label: 文章可复制
-      type: switch
-      data-type: bool
-      default: true
-      options:
-        - value: true
-          label: 开启
-        - value: false
-          label: 关闭
+#    enable_copy:
+#      name: enable_copy
+#      label: 文章可复制
+#      type: switch
+#      data-type: bool
+#      default: true
+#      options:
+#        - value: true
+#          label: 开启
+#        - value: false
+#          label: 关闭
     enable_copy_right_text:
       name: enable_copy_right_text
       label: 复制时追加版权信息

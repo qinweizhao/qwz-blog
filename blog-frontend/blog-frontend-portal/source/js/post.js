@@ -2,8 +2,8 @@
 const postContext = {
 	/* 文章复制 + 版权文字 */
 	initCopy() {
-		if (!ThemeConfig.enable_copy)
-			return;
+		// if (!ThemeConfig.enable_copy)
+		// 	return;
 		const curl = location.href;
 		const author = $(".joe_detail").attr("data-author");
 		$(".joe_detail__article").on("copy", function (e) {
