@@ -43,7 +43,8 @@ const postContext = {
 				}).on("success", () => Qmsg.success("文章链接已复制"));
 			});
 		}
-		if (ThemeConfig.enable_share_weixin && $(".qrcode_wx").length) {
+		// if (ThemeConfig.enable_share_weixin && $(".qrcode_wx").length) {
+		if ($(".qrcode_wx").length) {
 			$(".qrcode_wx").qrcode({
 				width: 140,
 				height: 140,

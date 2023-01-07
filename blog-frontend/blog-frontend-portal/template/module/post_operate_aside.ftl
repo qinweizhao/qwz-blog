@@ -11,7 +11,7 @@
     <li class="post-operate-share">
       <i class="joe-font joe-icon-huifu"></i>
       <div class="share-icon-list">
-        <#if settings.enable_share_weixin>
+<#--        <#if settings.enable_share_weixin>-->
           <a id="share_to_weixin" href="javascript:;" title="分享到微信">
             <svg class="icon" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="26" height="26">
               <path d="M334.848 334.336a33.792 33.792 0 0 0-36.352 30.72 33.792 33.792 0 0 0 36.352 30.72 28.672 28.672 0 0 0 30.208-30.72 28.672 28.672 0 0 0-30.208-30.72zM581.12 512a24.576 24.576 0 0 0 0 51.2 27.648 27.648 0 0 0 30.208-24.576 27.648 27.648 0 0 0-30.208-26.624zM502.784 395.776a28.672 28.672 0 0 0 30.208-30.72 28.672 28.672 0 0 0-30.208-30.72 33.792 33.792 0 0 0-35.84 30.72 33.792 33.792 0 0 0 35.84 30.72zM713.216 512a24.576 24.576 0 0 0 0 51.2 27.648 27.648 0 0 0 30.208-24.576 27.648 27.648 0 0 0-30.208-26.624z" fill="#3db214"></path>
@@ -22,7 +22,7 @@
               <p>微信扫一扫</p>
             </div>
           </a>
-        </#if>
+<#--        </#if>-->
         <#if settings.enable_share_weibo>
           <a href="http://service.weibo.com/share/share.php?sharesource=weibo&title=分享：${post.title!}，原文链接：${post_url}&pic=${post.thumbnail!}" target="_blank" rel="noopener noreferrer" title="分享到新浪微博">
             <svg class="icon" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="30" height="30">

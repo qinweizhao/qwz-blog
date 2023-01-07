@@ -1178,17 +1178,17 @@ post:
           label: 开启
         - value: false
           label: 关闭
-    enable_share_weixin:
-      name: enable_share_weixin
-      label: 微信分享
-      type: switch
-      data-type: bool
-      default: true
-      options:
-        - value: true
-          label: 开启
-        - value: false
-          label: 关闭
+#    enable_share_weixin:
+#      name: enable_share_weixin
+#      label: 微信分享
+#      type: switch
+#      data-type: bool
+#      default: true
+#      options:
+#        - value: true
+#          label: 开启
+#        - value: false
+#          label: 关闭
     enable_share_qq:
       name: enable_share_qq
       label: QQ分享
