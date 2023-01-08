@@ -339,17 +339,17 @@ footer:
           label: 是
         - value: false
           label: 否
-    enable_icp:
-      name: enable_icp
-      label: 展示 ICP
-      type: switch
-      data-type: bool
-      default: true
-      options:
-        - value: true
-          label: 是
-        - value: false
-          label: 否
+#    enable_icp:
+#      name: enable_icp
+#      label: 展示 ICP
+#      type: switch
+#      data-type: bool
+#      default: true
+#      options:
+#        - value: true
+#          label: 是
+#        - value: false
+#          label: 否
     enable_police:
       name: enable_police
       label: 展示公网安备
