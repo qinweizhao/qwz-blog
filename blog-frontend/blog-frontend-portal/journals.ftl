@@ -86,9 +86,7 @@
                 </#if>
             </div>
         </div>
-<#--        <#if settings.enable_journals_aside!true>-->
             <#include "template/common/aside.ftl">
-<#--        </#if>-->
     </div>
     <#include "template/common/actions.ftl">
     <#include "template/common/footer.ftl">

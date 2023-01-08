@@ -56,9 +56,7 @@
                 </div>
             </div>
         </div>
-<#--        <#if settings.enable_categories_aside!true>-->
             <#include "template/common/aside.ftl">
-<#--        </#if>-->
     </div>
     <#include "template/common/actions.ftl">
     <#include "template/common/footer.ftl">

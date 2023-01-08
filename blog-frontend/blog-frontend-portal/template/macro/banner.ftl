@@ -1,8 +1,6 @@
 <#macro banner>
   <#import "banner_item.ftl" as bitem>
-<#--  <#assign source_type = settings.banner_source>-->
   <#assign limit = (settings.banner_amount_limit!=0)?then(settings.banner_amount_limit,10)>
-<#--  <#assign keyword = settings.banner_specify_keyword?trim!>-->
   <#assign is_empty = false>
 
   <#--  关键字或数据为空时显示欢迎图  -->
