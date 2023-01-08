@@ -1,15 +1,12 @@
 <#macro banner>
-  <#import "banner_item.ftl" as bitem>
   <#assign limit = (settings.banner_amount_limit!=0)?then(settings.banner_amount_limit,10)>
   <#assign is_empty = false>
 
-  <#--  关键字或数据为空时显示欢迎图  -->
+  <#-- 数据为空时显示欢迎图  -->
   <div class="joe_index__banner">
     <div class="swiper-container">  
       <div class="swiper-wrapper">
 
-        <#--  手动配置  -->
-<#--        <#if source_type == 'manual'>-->
           <#if settings.banner_data?? && settings.banner_data != ''>
             <#list settings.banner_data?split('=====') as banners>
               <#if (banners_index + 1) lte limit>
@@ -43,92 +40,6 @@
             <#assign is_empty = true>
             <#include "../module/banner_item_default.ftl">
           </#if>
-<#--        &lt;#&ndash;  最新文章  &ndash;&gt;-->
-<#--        <#elseif source_type == 'latest'>-->
-<#--          <@postTag method="latest" top="${limit}">-->
-<#--            <#if posts?size gt 0>-->
-<#--              <#list posts as post>-->
-<#--                <@bitem.banner_item post=post index=post_index max=limit />-->
-<#--              </#list>-->
-<#--            <#else>-->
-<#--              <#assign is_empty = true>-->
-<#--              <#include "../module/banner_item_default.ftl">-->
-<#--            </#if>-->
-<#--          </@postTag>-->
-<#--        &lt;#&ndash;  置顶文章  &ndash;&gt;-->
-<#--        <#elseif source_type == 'topped'>-->
-<#--          <@postTag method="latest" top="${limit}">-->
-<#--            <#if posts?size gt 0>-->
-<#--              <#list posts as post>-->
-<#--                <#if post.topped == true>-->
-<#--                  <@bitem.banner_item post=post index=post_index max=limit />-->
-<#--                </#if>-->
-<#--              </#list>-->
-<#--            <#else>-->
-<#--              <#assign is_empty = true>-->
-<#--              <#include "../module/banner_item_default.ftl">-->
-<#--            </#if>-->
-<#--          </@postTag>-->
-<#--        &lt;#&ndash;  阅读量排行文章  &ndash;&gt;-->
-<#--        <#elseif source_type == 'visits'>-->
-<#--          <@postTag method="latest" top="${limit}">-->
-<#--            <#if posts?size gt 0>-->
-<#--              <#list posts?sort_by("visits")?reverse as post>-->
-<#--                <@bitem.banner_item post=post index=post_index max=limit />-->
-<#--              </#list>-->
-<#--            <#else>-->
-<#--              <#assign is_empty = true>-->
-<#--              <#include "../module/banner_item_default.ftl">-->
-<#--            </#if>-->
-<#--          </@postTag>-->
-<#--        &lt;#&ndash;  点赞排行文章  &ndash;&gt;-->
-<#--        <#elseif source_type == 'likes'>-->
-<#--          <@postTag method="latest" top="${limit}">-->
-<#--            <#if posts?size gt 0>-->
-<#--              <#list posts?sort_by("likes")?reverse as post>-->
-<#--                <@bitem.banner_item post=post index=post_index max=limit />-->
-<#--              </#list>-->
-<#--            <#else>-->
-<#--              <#assign is_empty = true>-->
-<#--              <#include "../module/banner_item_default.ftl">-->
-<#--            </#if>-->
-<#--          </@postTag>-->
-<#--        &lt;#&ndash;  特定分类文章  &ndash;&gt;-->
-<#--        <#elseif source_type == 'specify_category'>-->
-<#--          <#if keyword != ''>-->
-<#--            <@postTag method="listByCategorySlug" categorySlug="${keyword}">-->
-<#--              <#if posts?size gt 0>-->
-<#--                <#list posts as post>-->
-<#--                  <@bitem.banner_item post=post index=post_index max=limit />-->
-<#--                </#list>-->
-<#--              <#else>-->
-<#--                <#assign is_empty = true>-->
-<#--                <#include "../module/banner_item_default.ftl">-->
-<#--              </#if>-->
-<#--            </@postTag>-->
-<#--          <#else>-->
-<#--            <#assign is_empty = true>-->
-<#--            <#include "../module/banner_item_default.ftl">-->
-<#--          </#if>-->
-<#--        &lt;#&ndash;  特定标签文章  &ndash;&gt;-->
-<#--        <#elseif source_type == 'specify_tag'>-->
-<#--          <#if keyword != ''>-->
-<#--            <@postTag method="listByTagSlug" tagSlug="${keyword}">-->
-<#--              <#if posts?size gt 0>-->
-<#--                <#list posts as post>-->
-<#--                  <@bitem.banner_item post=post index=post_index max=limit />-->
-<#--                </#list>-->
-<#--              <#else>-->
-<#--                <#assign is_empty = true>-->
-<#--                <#include "../module/banner_item_default.ftl">-->
-<#--              </#if>-->
-<#--            </@postTag>-->
-<#--          <#else>-->
-<#--            <#assign is_empty = true>-->
-<#--            <#include "../module/banner_item_default.ftl">-->
-<#--          </#if>-->
-<#--        </#if>-->
-
       </div>
       <#if settings.enable_banner_pagination == true && is_empty != true>
         <div class="swiper-pagination"></div>
