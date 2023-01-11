@@ -7,6 +7,7 @@ import java.util.List;
 
 /**
  * Theme config resolver interface.
+ *
  * @author qinweizhoa
  * @since 2019-04-10
  */

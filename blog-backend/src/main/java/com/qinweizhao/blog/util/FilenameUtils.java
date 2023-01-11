@@ -10,6 +10,7 @@ import java.util.List;
 
 /**
  * Filename utilities.
+ *
  * @since 2022-03-15
  */
 public class FilenameUtils {

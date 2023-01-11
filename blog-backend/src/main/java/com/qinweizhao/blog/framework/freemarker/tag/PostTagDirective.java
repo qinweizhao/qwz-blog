@@ -16,6 +16,7 @@ import java.util.Map;
 
 /**
  * Freemarker custom tag of post.
+ *
  * @author qinweizhoa
  * @since 2018-04-26
  */
