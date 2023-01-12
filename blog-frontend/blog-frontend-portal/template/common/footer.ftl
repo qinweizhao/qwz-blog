@@ -6,7 +6,7 @@
             ${.now?string("yyyy")} ©<a href="${blog_url!}" target="_blank" rel="noopener noreferrer">${user.nickname!}</a>
               - <a class="icp" href="https://beian.miit.gov.cn" target="_blank" rel="noopener noreferrer nofollow">${settings.icp}</a>
           </p>
-          <#if settings.enable_police && settings.police?? && settings.police?trim!=''>
+          <#if settings.police?? && settings.police?trim!=''>
             <#assign recordcode=settings.police?replace('[^\\d]','','ri')>
             <p class="site_police">
               <a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=${recordcode}" target="_blank" rel="noopener noreferrer nofollow">${settings.police}</a>
