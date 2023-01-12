@@ -1,8 +1,9 @@
 <#if settings.enable_aside>
   <aside class="joe_aside${(settings.aside_position=='left')?then(' pos_left','')}">
-    <#if settings.show_blogger!true>
+<#--    <#if settings.show_blogger!true>-->
+      <#-- 展示博主信息 -->
       <#include "../module/blogger.ftl">
-    </#if>
+<#--    </#if>-->
     <#if settings.site_notice??>
       <section class="joe_aside__item notice">
         <div class="joe_aside__item-title">
