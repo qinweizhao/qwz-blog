@@ -22,7 +22,7 @@ genernal:
       type: text
       default: ""
       placeholder: "请填写公网安备号信息"
-      description: "展示在页脚，不填不展示，也可在 “页脚” 一栏中单独关闭"
+      description: "展示在页脚，不填不展示"
     site_notice:
       name: site_notice
       label: 网站公告
@@ -356,7 +356,7 @@ footer:
       type: switch
       data-type: bool
       default: false
-      description: "开启后将启用卜算子对站点进行统计，并展示访问量、访客量等数据"
+      description: "卜算子对站点进行统计，并展示访问量、访客量等数据"
       options:
         - value: true
           label: 是
@@ -1369,18 +1369,6 @@ tags:
 code_block:
   label: 代码块
   items:
-    enable_code_title:
-      name: enable_code_title
-      label: 代码标题
-      type: switch
-      data-type: bool
-      default: true
-      description: "开启代码块的标题，默认显示语言类型，也可自定义标题"
-      options:
-        - value: true
-          label: 开启
-        - value: false
-          label: 关闭
     enable_code_hr:
       name: enable_code_hr
       label: 标题分隔线

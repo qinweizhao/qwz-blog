@@ -80,7 +80,8 @@ const commonContext = {
 						});
 					return;
 				}
-				ThemeConfig.enable_code_title ? $item.addClass("c_title") : null;
+				// 代码标题
+				$item.addClass("c_title");
 				ThemeConfig.enable_code_hr ? $item.addClass("c_hr") : null;
 				ThemeConfig.enable_code_newline ? $item.addClass("c_newline") : null;
 				ThemeConfig.show_tools_when_hover
