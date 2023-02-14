@@ -1,4 +1,4 @@
-package com.qinweizhao.blog.controller.error;
+package com.qinweizhao.blog.config.error;
 
 import com.qinweizhao.blog.model.support.BlogConst;
 import com.qinweizhao.blog.service.ThemeService;

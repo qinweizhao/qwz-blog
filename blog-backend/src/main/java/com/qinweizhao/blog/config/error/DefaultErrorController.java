@@ -1,4 +1,4 @@
-package com.qinweizhao.blog.controller.error;
+package com.qinweizhao.blog.config.error;
 
 import com.qinweizhao.blog.exception.BaseException;
 import lombok.extern.slf4j.Slf4j;
