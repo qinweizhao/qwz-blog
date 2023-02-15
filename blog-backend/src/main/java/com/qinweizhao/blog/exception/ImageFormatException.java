@@ -3,8 +3,8 @@ package com.qinweizhao.blog.exception;
 /**
  * Image format exception.
  *
- * @author ZhiXiang Yuan
- * @since 2020/08/10 02:11
+ * @author qinweizhao
+ * @since 2019-03-17
  */
 public class ImageFormatException extends BadRequestException {
 

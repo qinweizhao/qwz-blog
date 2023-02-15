@@ -23,7 +23,7 @@ import javax.servlet.http.HttpServletResponse;
  * 统一封装返回
  *
  * @author qinweizhao
- * @since 2022/7/31
+ * @since 2019-03-17
  */
 @ControllerAdvice("com.qinweizhao.blog.controller")
 public class ResponseAdvice implements ResponseBodyAdvice<Object> {

@@ -9,7 +9,8 @@ import java.util.concurrent.TimeUnit;
  * @param <K> cache key type
  * @param <V> cache value type
  *            <p>
- *            *
+ * @author qinweizhao
+ * @since 2019-03-17
  */
 public interface CacheStore<K, V> {
 

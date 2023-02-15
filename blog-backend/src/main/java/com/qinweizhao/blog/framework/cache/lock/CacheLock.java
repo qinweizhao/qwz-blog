@@ -8,7 +8,8 @@ import java.util.concurrent.TimeUnit;
 /**
  * Cache lock annotation.
  *
- * @since 3/28/19
+ * @author qinweizhao
+ * @since 2019-03-17
  */
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)

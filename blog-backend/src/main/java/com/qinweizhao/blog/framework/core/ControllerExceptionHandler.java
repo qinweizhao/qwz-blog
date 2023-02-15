@@ -33,6 +33,8 @@ import java.util.Map;
 
 /**
  * Exception handler of controller.
+ * @author qinweizhao
+ * @since 2019-03-17
  */
 @RestControllerAdvice(value = {"com.qinweizhao.blog.controller.admin.api", "com.qinweizhao.blog.controller.content.api"})
 @Slf4j

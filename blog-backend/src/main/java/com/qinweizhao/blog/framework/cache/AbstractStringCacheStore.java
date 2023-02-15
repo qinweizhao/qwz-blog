@@ -13,6 +13,8 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * String cache store.
+ * @author qinweizhao
+ * @since 2019-03-17
  */
 @Slf4j
 public abstract class AbstractStringCacheStore extends AbstractCacheStore<String, String> {

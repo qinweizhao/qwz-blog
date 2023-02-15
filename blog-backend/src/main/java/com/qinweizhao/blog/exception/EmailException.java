@@ -3,7 +3,8 @@ package com.qinweizhao.blog.exception;
 /**
  * Email exception.
  *
- * @since 19-4-23
+ * @author qinweizhao
+ * @since 2019-03-17
  */
 public class EmailException extends ServiceException {
 

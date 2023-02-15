@@ -13,6 +13,8 @@ import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * In-memory cache store.
+ * @author qinweizhao
+ * @since 2019-03-17
  */
 @Slf4j
 public class InMemoryCacheStore extends AbstractStringCacheStore {

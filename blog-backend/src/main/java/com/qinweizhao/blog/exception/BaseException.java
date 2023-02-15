@@ -5,8 +5,8 @@ import org.springframework.http.HttpStatus;
 /**
  * Base exception of the project.
  *
- * @author ryan0up
- * @since 2019-03-15
+ * @author qinweizhao
+ * @since 2019-03-17
  */
 public abstract class BaseException extends RuntimeException {
 
