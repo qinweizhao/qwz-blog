@@ -5,22 +5,6 @@
     font-weight: 400;
     font-style: normal;
     font-display: swap;
-    <#if settings.custom_font?? && settings.custom_font != "">
-      <#if settings.custom_font?ends_with(".woff")>
-        <#assign fontFormat="woff">
-      <#elseif settings.custom_font?ends_with(".woff2")>
-        <#assign fontFormat="woff2">
-      <#elseif settings.custom_font?ends_with(".ttf")>
-        <#assign fontFormat="truetype">
-      <#elseif settings.custom_font?ends_with(".eot")>
-        <#assign fontFormat="embedded-opentype">
-      <#elseif settings.custom_font?ends_with(".svg")>
-        <#assign fontFormat="svg">
-      <#else>
-        <#assign fontFormat="xxx">
-      </#if>
-      src: url("${settings.custom_font}") format("${fontFormat}");
-    </#if>
   }
   <#if settings.loading_bar_color?trim != "">
     <#assign lbar_colors = settings.loading_bar_color?trim?split("|")>
