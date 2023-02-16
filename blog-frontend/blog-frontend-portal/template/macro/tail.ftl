@@ -27,9 +27,6 @@
   <#if type == 'post' || type == 'journals'>
     <script src="${BASE_RES_URL}/source/lib/clipboard/clipboard.min.js"></script>
   </#if>
-  <#if settings.favicon?? && settings.favicon?trim!=''>
-    <script src="${BASE_RES_URL}/source/lib/favico/favico.min.js"></script>
-  </#if>
   <#if type == 'post'>
     <script src="${BASE_RES_URL}/source/lib/jquery-qrcode/jquery.qrcode.min.js"></script>
   </#if>

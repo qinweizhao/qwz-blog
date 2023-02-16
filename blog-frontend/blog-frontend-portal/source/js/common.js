@@ -576,17 +576,6 @@ const commonContext = {
 			`${ThemeConfig.BASE_RES_URL}/source/effect/backdrop/${ThemeConfig.backdrop}.js`
 		);
 	},
-	/* 自定义favicon */
-	setFavicon() {
-		if (!ThemeConfig.favicon) return;
-		const favicon = new Favico();
-		const image = new Image();
-		image.onload = function () {
-			favicon.image(image);
-		};
-		image.src = ThemeConfig.favicon;
-	},
-
 	/* 页面加载耗时（控制台） */
 	showLoadTime() {
 		if (Joe.isMobile || !ThemeConfig.show_loaded_time) return;
@@ -619,7 +608,6 @@ const commonContext = {
 		"foldCode",
 		"loadMouseEffect",
 		"loadBackdropEffect",
-		"setFavicon",
 		"initUV",
 		"showLoadTime",
 		"debug",

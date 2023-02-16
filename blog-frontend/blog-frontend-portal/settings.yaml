@@ -1776,12 +1776,6 @@ advertise:
 custom:
   label: 自定义
   items:
-    favicon:
-      name: favicon
-      label: 自定义favicon
-      type: attachment
-      default: ""
-      description: "覆盖博客默认的favicon图标，尺寸64*64，格式jpg、png等"
     custom_font:
       name: custom_font
       label: "自定义网站字体"
