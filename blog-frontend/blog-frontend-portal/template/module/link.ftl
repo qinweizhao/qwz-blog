@@ -23,9 +23,6 @@
   <link rel="preload stylesheet" as="style" href="${BASE_RES_URL}/source/css/min/normalize.min.css?v=${theme.version!}"> 
   <link rel="preload stylesheet" as="style" href="${BASE_RES_URL}/source/lib/font-awesome/css/font-awesome.min.css?v=${theme.version!}"> 
   <link rel="preload stylesheet" as="style" href="//at.alicdn.com/t/font_2788564_crkap1ed9j5.css">
-  <#if settings.iconfont??>
-    <link rel="stylesheet" href="${settings.iconfont!}">
-  </#if>
   <link rel="preload stylesheet" as="style" href="${BASE_RES_URL}/source/css/min/theme.min.css?v=${theme.version!}">
   <style>
     #Joe .joe_container {

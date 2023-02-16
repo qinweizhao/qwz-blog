@@ -1771,18 +1771,6 @@ advertise:
       default: ""
       placeholder: 请输入
       description: "和 “广告图片URL” 组合生效，不填不展示"
-
-# 自定义
-custom:
-  label: 自定义
-  items:
-    iconfont:
-      name: iconfont
-      label: "字体图标链接"
-      type: text
-      placeholder: 请输入
-      description: "填入iconfont生成的图标链接，无需link标签，将插入head标签尾部"
-
 # 其它
 others:
   label: 其它
