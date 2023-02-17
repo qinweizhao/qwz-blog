@@ -7,7 +7,7 @@
     <parent>
         <artifactId>qwz-blog</artifactId>
         <groupId>com.qinweizhao</groupId>
-        <version>3.1.4</version>
+        <version>3.1.5</version>
     </parent>
 
     <artifactId>blog-backend</artifactId>
