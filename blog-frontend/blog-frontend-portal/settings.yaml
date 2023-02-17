@@ -1417,14 +1417,6 @@ code_block:
           label: 开启
         - value: false
           label: 关闭
-    long_code_height:
-      name: long_code_height
-      label: 自动折叠的高度
-      type: text
-      data-type: long
-      default: 800
-      placeholder: "请输入数字"
-      description: "触发长代码块自动折叠的高度（单位px），只填数字即可（默认800），填 0 将折叠所有代码块"
     code_theme:
       name: code_theme
       label: 代码主题
