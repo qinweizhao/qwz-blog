@@ -118,26 +118,6 @@ const commonContext = {
 			}
 		});
 	},
-	/*自动折叠长代码 <仅针对文章页>*/
-	foldCode() {
-		if (!$(".page-post").length) return; // 仅针对文章页
-		if (
-			ThemeConfig.enable_code_expander &&
-            ThemeConfig.enable_fold_long_code
-		) {
-			$(".page-post pre[class*='language-']").each(function (_index, item) {
-				const $item = $(item);
-				if ($item.height() > ThemeConfig.long_code_height) {
-					const $title = $item
-						.siblings(".toolbar")
-						.find(".toolbar-item span")
-						.eq(0);
-					$title.append("<em class=\"autofold-tip\"><已自动折叠></em>");
-					$item.addClass("close");
-				}
-			});
-		}
-	},
 
 	/* 渲染PDF */
 	// initPDF() {
@@ -604,7 +584,6 @@ const commonContext = {
 	const omits = [
 		"loadingBar",
 		"init3dTag",
-		"foldCode",
 		"loadMouseEffect",
 		"loadBackdropEffect",
 		"initUV",

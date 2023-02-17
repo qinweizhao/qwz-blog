@@ -1417,18 +1417,6 @@ code_block:
           label: 开启
         - value: false
           label: 关闭
-    enable_fold_long_code:
-      name: enable_fold_long_code
-      label: 自动折叠长代码块
-      type: switch
-      data-type: bool
-      default: false
-      description: "自动折叠 <文章页> 中内容很长的代码块，提高阅读效率，此操作会出现布局偏移，可能带来一些滚动相关问题，如无必要不建议开启（必须先开启“代码折叠”选项，否则无效）"
-      options:
-        - value: true
-          label: 开启
-        - value: false
-          label: 关闭
     long_code_height:
       name: long_code_height
       label: 自动折叠的高度
