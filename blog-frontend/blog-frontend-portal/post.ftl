@@ -41,7 +41,7 @@
                 </div>
               <#import "template/ads/ads_post.ftl" as adpost>
               <@adpost.ads_post type="top" />
-              <article class="joe_detail__article animated fadeIn center-img ${(settings.enable_code_line_number==true && settings.enable_code_newline!=true)?then(' line-numbers','')}${settings.enable_single_code_select?then(' single_code_select','')}">
+              <article class="joe_detail__article animated fadeIn center-img ${(settings.enable_code_line_number==true)?then(' line-numbers','')}${settings.enable_single_code_select?then(' single_code_select','')}">
                 <div id="post-inner">
                     ${post.formatContent!}
                 </div>

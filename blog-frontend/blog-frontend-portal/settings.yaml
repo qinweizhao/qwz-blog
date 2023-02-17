@@ -1405,18 +1405,6 @@ code_block:
           label: 开启
         - value: false
           label: 关闭
-    enable_code_newline:
-      name: enable_code_newline
-      label: 自动换行
-      type: switch
-      data-type: bool
-      default: false
-      description: "当代码长度超过容器宽度时是否自动换行，开启后将不会出现横向滚动条，且不会展示代码行号（代码自动换行后看起来可能不会很美观，请根据个人需要配置）"
-      options:
-        - value: true
-          label: 开启
-        - value: false
-          label: 关闭
     enable_code_expander:
       name: enable_code_expander
       label: 代码折叠

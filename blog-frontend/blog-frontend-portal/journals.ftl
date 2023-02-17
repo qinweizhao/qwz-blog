@@ -38,7 +38,7 @@
                                     <em class="joe_journal-posttime">${journal.createTime?date('yyyy-MM-dd')}</em>
                                 </p>
                                 <div class="joe_journal_block">
-                                    <div class="joe_journal_body${(settings.enable_code_line_number==true && settings.enable_code_newline!=true)?then(' line-numbers','')}"
+                                    <div class="joe_journal_body${(settings.enable_code_line_number==true)?then(' line-numbers','')}"
                                          style="max-height:${settings.journal_block_height!300}px">
                                         <div class="content-wrp">${journal.content!}</div>
                                         <span class="joe_journal_operate_item journal_content_expander"><i
