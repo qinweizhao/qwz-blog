@@ -1497,18 +1497,6 @@ code_block:
           label: "xonokai"
         - value: "z-touch"
           label: "z-touch"
-    show_tools_when_hover:
-      name: show_tools_when_hover
-      label: 仅悬浮时显示操作按钮
-      type: switch
-      data-type: bool
-      default: true
-      description: "是否仅在鼠标悬浮到当前代码块时才显示相关操作按钮，不显示时会更加简洁"
-      options:
-        - value: true
-          label: 开启
-        - value: false
-          label: 关闭
     enable_single_code_select:
       name: enable_single_code_select
       label: 点击行内代码自动全选

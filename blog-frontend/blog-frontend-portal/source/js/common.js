@@ -83,9 +83,8 @@ const commonContext = {
 				// 代码标题
 				$item.addClass("c_title");
 				ThemeConfig.enable_code_hr ? $item.addClass("c_hr") : null;
-				ThemeConfig.show_tools_when_hover
-					? $item.addClass("c_hover_tools")
-					: null;
+				// 代码块显示操作按钮
+				$item.addClass("c_hover_tools");
 				// 代码折叠
 				if (ThemeConfig.enable_code_expander) {
 					$item
@@ -135,9 +134,9 @@ const commonContext = {
 	// 			htmlStr = "<p>pdf地址未填写！</p>";
 	// 		} else {
 	// 			htmlStr = `
-    //   <div class="joe_pdf">
-    //     <iframe src="${ThemeConfig.BASE_RES_URL}/source/lib/pdfjs/web/viewer.html?file=${options.src}" style="width:${options.width};height:${options.height}"></iframe>
-    //   </div>`;
+	//   <div class="joe_pdf">
+	//     <iframe src="${ThemeConfig.BASE_RES_URL}/source/lib/pdfjs/web/viewer.html?file=${options.src}" style="width:${options.width};height:${options.height}"></iframe>
+	//   </div>`;
 	// 		}
 	// 		$(item).replaceWith(htmlStr);
 	// 	});
