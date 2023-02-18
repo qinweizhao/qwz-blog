@@ -21,9 +21,6 @@
                                 <a class="link" href="#"
                                    title="${user.nickname!}">${user.nickname!}</a>
                             </div>
-                            <div class="item">
-                                <span class="text">${(settings.motto?? && settings.motto!='')?then(settings.motto, user.description!'一句话介绍自己吧！')}</span>
-                            </div>
                         </div>
                     </div>
                 </div>

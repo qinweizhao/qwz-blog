@@ -7,15 +7,9 @@
     <a class="link" href="${blog_url!}" target="_blank" rel="noopener noreferrer nofollow">
       ${user.nickname!}
     </a>
-    <#if settings.motto??>
-      <p class="motto joe_motto">${settings.motto!}</p>
-    <#else>
       <#if settings.enable_day_words!false>
         <img class="motto_day_words" height="14" src="https://v2.jinrishici.com/one.svg?font-size=146&spacing=2&color=grey" onerror="Joe.errorImg(this)"/>
-      <#else>
-        <p class="motto joe_motto">${user.description!'一句话介绍自己吧！'}</p>
       </#if>
-    </#if>
   </div>
   <div class="count">
     <#if settings.overview_type == 'A'>
