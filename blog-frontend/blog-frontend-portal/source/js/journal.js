@@ -93,8 +93,9 @@ const journalContext = {
 	},
 	/* 评论及折叠 */
 	initComment() {
-		if (ThemeConfig.enable_clean_mode || !ThemeConfig.enable_comment_journal)
+		if (ThemeConfig.enable_clean_mode){
 			return;
+		}
 		$(".journal_comment_expander,.journal-comment").on("click", function (e) {
 			e.stopPropagation();
 			const $this = $(this);

@@ -1281,18 +1281,6 @@ journals:
           label: 是
         - value: false
           label: 否
-    enable_comment_journal:
-      name: enable_comment_journal
-      label: 开启日志评论
-      type: switch
-      data-type: bool
-      default: true
-      description: "是否开启对单条日志的评论功能"
-      options:
-        - value: true
-          label: 是
-        - value: false
-          label: 否
     journal_block_height:
       name: journal_block_height
       label: 日志块内容最大高度
