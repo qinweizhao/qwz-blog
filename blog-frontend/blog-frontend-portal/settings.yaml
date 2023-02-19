@@ -600,12 +600,6 @@ blogger:
           label: 开启
         - value: false
           label: 关闭
-    motto:
-      name: motto
-      label: 个人独白
-      type: text
-      placeholder: "请输入"
-      description: "将覆盖每日一句，若为空则展示每日一句或博客描述"
     lazyload_avatar:
       name: lazyload_avatar
       label: 头像预载图
