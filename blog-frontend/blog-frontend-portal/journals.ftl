@@ -44,13 +44,13 @@
 
                                     <div class="joe_journal_footer">
                                         <div class="footer-wrap">
-                                            <#if settings.enable_like_journal!true>
-                                                <span class="joe_journal_operate_item like">
-                                <i class="joe-font joe-icon-xihuan journal-like"></i>
-                                <i class="joe-font joe-icon-xihuan-fill journal-unlike"></i>
-                                <em class="journal-likes-num">${journal.likes!0}</em>
-                              </span>
-                                            </#if>
+                                            <#-- 日志点赞 -->
+                                            <span class="joe_journal_operate_item like">
+                                                <i class="joe-font joe-icon-xihuan journal-like"></i>
+                                                <i class="joe-font joe-icon-xihuan-fill journal-unlike"></i>
+                                                <em class="journal-likes-num">${journal.likes!0}</em>
+                                              </span>
+
                                             <#if settings.enable_clean_mode!=true>
                                                 <span class="joe_journal_operate_item comment"><i
                                                             class="joe-font joe-icon-message journal-comment"></i><em>${journal.commentCount!0}</em></span>

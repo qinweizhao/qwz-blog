@@ -23,7 +23,6 @@ const journalContext = {
 	},
 	/* 点赞 */
 	initLike() {
-		if (!ThemeConfig.enable_like_journal) return;
 		const $allItems = $(".joe_journal__item");
 		if ($allItems.length) {
 			$allItems.each(function (_, item) {
