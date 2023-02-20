@@ -102,7 +102,7 @@
         <#include "template/common/aside_post.ftl">
     </div>
     <#-- 启用文章浏览进度条-->
-    <div class="joe_progress_bar" ${(settings.progress_bar_bgc?? && settings.progress_bar_bgc!='')?then('style="background:${settings.progress_bar_bgc}"','')}></div>
+    <div class="joe_progress_bar"></div>
     <#include "template/common/actions.ftl">
     <#include "template/common/footer.ftl">
 </div>
