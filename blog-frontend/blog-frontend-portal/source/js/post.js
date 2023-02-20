@@ -238,7 +238,6 @@ const postContext = {
 	},
 	/* 阅读进度条 */
 	initProgress() {
-		if (!ThemeConfig.enable_progress_bar) return;
 		$(window).off("scroll");
 		const progress_bar = $(".joe_progress_bar");
 		let win_h, body_h, sHeight;
