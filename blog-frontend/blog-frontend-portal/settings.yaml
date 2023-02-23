@@ -1024,17 +1024,6 @@ post:
           label: 开启
         - value: false
           label: 关闭
-    enable_share_link:
-      name: enable_share_link
-      label: 链接分享
-      type: switch
-      data-type: bool
-      default: true
-      options:
-        - value: true
-          label: 开启
-        - value: false
-          label: 关闭
     passage_rights_content:
       name: passage_rights_content
       label: 许可协议文案

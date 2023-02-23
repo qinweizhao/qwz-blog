@@ -36,7 +36,7 @@ const postContext = {
 	initShare() {
 		if (!ThemeConfig.enable_share)
 			return;
-		if (ThemeConfig.enable_share_link && $(".icon-share-link").length) {
+		if ($(".icon-share-link").length) {
 			$(".icon-share-link").each((_index, item) => {
 				new ClipboardJS($(item)[0], {
 					text: () => location.href,
