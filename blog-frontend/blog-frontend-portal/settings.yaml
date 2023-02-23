@@ -1013,17 +1013,6 @@ post:
           label: 开启
         - value: false
           label: 关闭
-    enable_share_qzone:
-      name: enable_share_qzone
-      label: QQ空间分享
-      type: switch
-      data-type: bool
-      default: true
-      options:
-        - value: true
-          label: 开启
-        - value: false
-          label: 关闭
     passage_rights_content:
       name: passage_rights_content
       label: 许可协议文案
