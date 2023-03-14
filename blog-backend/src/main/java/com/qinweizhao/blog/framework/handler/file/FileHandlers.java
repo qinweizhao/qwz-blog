@@ -20,6 +20,7 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * 文件处理器管理
  *
+ * @author qinweizhao
  * @since 2019-03-27
  */
 @Slf4j
@@ -27,25 +28,23 @@ import java.util.concurrent.ConcurrentHashMap;
 public class FileHandlers {
 
     /**
-     * File handler container.
+     * 文件处理器容器
      */
-    private final ConcurrentHashMap<AttachmentType, FileHandler> fileHandlers = new ConcurrentHashMap<>(16);
+    private final ConcurrentHashMap<AttachmentType, FileHandler> fileHandlerMap = new ConcurrentHashMap<>(16);
 
     public FileHandlers(ApplicationContext applicationContext) {
         // 添加所有文件处理器
         addFileHandlers(applicationContext.getBeansOfType(FileHandler.class).values());
-        log.info("Registered {} file handler(s)", fileHandlers.size());
+        log.info("已添加{}个文件处理器", fileHandlerMap.size());
     }
 
     /**
      * 上传文件
      *
-     * @param file           multipart file must not be null
-     * @param attachmentType attachment type must not be null
+     * @param file           file
+     * @param attachmentType attachmentType
      * @return upload result
-     * @throws FileOperationException throws when fail to delete attachment or no available file handler to upload it
      */
-
     public UploadResult upload(MultipartFile file, AttachmentType attachmentType) {
         return getSupportedType(attachmentType).upload(file);
     }
@@ -55,36 +54,36 @@ public class FileHandlers {
      * 删除附件
      *
      * @param attachment attachment
-     * @throws FileOperationException 当无法删除附件或没有可用的文件处理程序删除它时抛出
      */
     public void delete(Attachment attachment) {
         Assert.notNull(attachment, "附件不能为空");
         AttachmentType attachmentType = ValueEnum.valueToEnum(AttachmentType.class, attachment.getType());
-        getSupportedType(attachmentType)
-                .delete(attachment.getFileKey());
+        getSupportedType(attachmentType).delete(attachment.getFileKey());
     }
 
     /**
      * 添加文件处理器
      *
-     * @param fileHandlers file handler collection
-     * @return current file handlers
+     * @param fileHandlers fileHandlers
      */
-
-    public FileHandlers addFileHandlers(@Nullable Collection<FileHandler> fileHandlers) {
+    public void addFileHandlers(@Nullable Collection<FileHandler> fileHandlers) {
         if (!CollectionUtils.isEmpty(fileHandlers)) {
             for (FileHandler handler : fileHandlers) {
-                if (this.fileHandlers.containsKey(handler.getAttachmentType())) {
-                    throw new RepeatTypeException("Same attachment type implements must be unique");
+                if (this.fileHandlerMap.containsKey(handler.getAttachmentType())) {
+                    throw new RepeatTypeException("该类型的文件处理器已经存在");
                 }
-                this.fileHandlers.put(handler.getAttachmentType(), handler);
+                this.fileHandlerMap.put(handler.getAttachmentType(), handler);
             }
         }
-        return this;
     }
 
+    /**
+     * 获取对应类型的文件处理器
+     * @param type 类型
+     * @return FileHandler
+     */
     private FileHandler getSupportedType(AttachmentType type) {
-        FileHandler handler = fileHandlers.getOrDefault(type, fileHandlers.get(AttachmentType.LOCAL));
+        FileHandler handler = fileHandlerMap.getOrDefault(type, fileHandlerMap.get(AttachmentType.LOCAL));
         if (handler == null) {
             throw new FileOperationException("没有可用的文件处理器来处理文件").setErrorData(type);
         }
