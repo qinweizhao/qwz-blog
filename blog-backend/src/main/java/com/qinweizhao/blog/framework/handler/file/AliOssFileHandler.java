@@ -119,7 +119,7 @@ public class AliOssFileHandler implements FileHandler {
                 }
             }
 
-            log.info("Uploaded file: [{}] successfully", file.getOriginalFilename());
+            log.info("上传文件: [{}] 成功", file.getOriginalFilename());
             return uploadResult;
         } catch (Exception e) {
             throw new FileOperationException("上传附件 " + file.getOriginalFilename() + " 到阿里云失败 ", e).setErrorData(file.getOriginalFilename());
@@ -129,8 +129,8 @@ public class AliOssFileHandler implements FileHandler {
     }
 
     @Override
-    public void delete(@NotNull String key) {
-        Assert.notNull(key, "File key must not be blank");
+    public void delete(String key) {
+        Assert.notNull(key, "文件 key 不能为空");
 
         // Get config
         String endPoint = configService.getByPropertyOfNonNull(AliOssProperties.OSS_ENDPOINT).toString();
