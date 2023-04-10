@@ -7,7 +7,7 @@
     <li class="post-operate-comment"><i class="joe-font joe-icon-message"></i><#if post.commentCount gt 0><span class="visible">${post.commentCount!}</span></#if></li>
   </#if>
   <#assign post_url = (post.fullPath?starts_with('http'))?then(post.fullPath, blog_url + post.fullPath)>
-  <#if settings.enable_share==true && post.status!='DRAFT'>
+  <#if post.status!='DRAFT'>
     <li class="post-operate-share">
       <i class="joe-font joe-icon-huifu"></i>
       <div class="share-icon-list">

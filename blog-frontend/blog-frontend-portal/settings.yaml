@@ -958,18 +958,6 @@ post:
           label: 开启
         - value: false
           label: 关闭
-    enable_share:
-      name: enable_share
-      label: 文章分享
-      type: switch
-      data-type: bool
-      default: true
-      description: "是否开启文章分享功能，可单独配置分享渠道"
-      options:
-        - value: true
-          label: 开启
-        - value: false
-          label: 关闭
     enable_copy_right_text:
       name: enable_copy_right_text
       label: 复制时追加版权信息

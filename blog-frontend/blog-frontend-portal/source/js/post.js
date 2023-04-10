@@ -34,8 +34,6 @@ const postContext = {
 	},
 	/* 初始化文章分享 */
 	initShare() {
-		if (!ThemeConfig.enable_share)
-			return;
 		if ($(".icon-share-link").length) {
 			$(".icon-share-link").each((_index, item) => {
 				new ClipboardJS($(item)[0], {
@@ -43,7 +41,6 @@ const postContext = {
 				}).on("success", () => Qmsg.success("文章链接已复制"));
 			});
 		}
-		// if (ThemeConfig.enable_share_weixin && $(".qrcode_wx").length) {
 		if ($(".qrcode_wx").length) {
 			$(".qrcode_wx").qrcode({
 				width: 140,

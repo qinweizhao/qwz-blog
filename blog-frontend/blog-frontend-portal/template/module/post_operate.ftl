@@ -7,7 +7,7 @@
     </@tagTag>
   </div>
   <#assign post_url = (post.fullPath?starts_with('http'))?then(post.fullPath, blog_url + post.fullPath)>
-  <#if settings.enable_share==true && post.status!='DRAFT'>
+  <#if post.status!='DRAFT'>
     <div class="joe_detail__operate-share">
       <i class="joe-font joe-icon-share"></i>
       <div class="share-icon-list">
