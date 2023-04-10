@@ -924,18 +924,6 @@ archives:
 post:
   label: 文章页
   items:
-    enable_relate_post:
-      name: enable_relate_post
-      label: 展示相关文章
-      type: switch
-      data-type: bool
-      default: true
-      description: "在右侧展示相关文章模块"
-      options:
-        - value: true
-          label: 开启
-        - value: false
-          label: 关闭
     relate_post_max:
       name: relate_post_max
       label: 相关文章最大条数

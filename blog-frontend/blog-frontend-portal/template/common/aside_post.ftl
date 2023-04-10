@@ -8,10 +8,10 @@
         <h3 class="toc-header"><i class="joe-font joe-icon-xiaoxi" title="文章目录"></i>文章目录</h3>
         <div id="js-toc" class="toc"></div>
       </div>
-    <#if settings.enable_relate_post!true>
+      <#-- 展示相关文章 -->
       <#import "../macro/relate.ftl" as np>
       <@np.relate postData=post />
-    </#if>
+
     <#if settings.enable_clean_mode!=true && settings.enable_aside_ads==true>
       <#include "../ads/ads_aside.ftl">
     </#if>
