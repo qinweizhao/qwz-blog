@@ -51,10 +51,10 @@
   <#-- ===== 引入页面级js end ===== -->
 
   <#-- ===== 引入脚本 start ===== -->
-  <#if settings.enable_busuanzi!false>
+
     <!-- 卜算子 -->
     <script src="${BASE_RES_URL}/source/lib/busuanzi/busuanzi.min.js"></script>
-  </#if>
+
   <#-- ===== 引入脚本 end ===== -->
   <#if settings.enable_debug>
     <!-- vconsole -->
