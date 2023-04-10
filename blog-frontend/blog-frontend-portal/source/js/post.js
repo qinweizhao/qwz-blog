@@ -56,11 +56,9 @@ const postContext = {
 	},
 	/* 文章点赞 */
 	initLike() {
-		if (
-			!ThemeConfig.enable_like ||
-      !$(".joe_detail__agree").length
-		)
+		if (!$(".joe_detail__agree").length){
 			return;
+		}
 		const cid = $(".joe_detail").attr("data-cid");
 		const clikes = +($(".joe_detail").attr("data-clikes") || 0);
 		let agreeArr = localStorage.getItem(encryption("agree"))

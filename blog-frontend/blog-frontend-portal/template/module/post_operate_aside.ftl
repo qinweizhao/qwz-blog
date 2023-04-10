@@ -1,5 +1,5 @@
 <ul class="aside_operations">
-  <#if settings.enable_like==true && post.status!='DRAFT'>
+  <#if post.status!='DRAFT'>
     <#import "favorite.ftl" as nsp>
     <@nsp.favorite post=post type="aside" />
   </#if>

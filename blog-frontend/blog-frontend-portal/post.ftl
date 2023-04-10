@@ -51,7 +51,7 @@
                             ${post.formatContent!}
                         </div>
                     </article>
-                    <#if settings.enable_like==true && post.status!='DRAFT'>
+                    <#if post.status!='DRAFT'>
                         <#import "template/module/favorite.ftl" as nsp>
                         <@nsp.favorite post=post type="bottom" />
                     </#if>
