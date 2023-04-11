@@ -881,25 +881,6 @@ post:
           label: 开启
         - value: false
           label: 关闭
-    enable_katex:
-      name: enable_katex
-      label: "数学公式支持"
-      type: switch
-      data-type: bool
-      default: false
-      description: "若文章中插入了数学公式，请开启此选项，保证公式正常渲染"
-      options:
-        - value: true
-          label: 开启
-        - value: false
-          label: 关闭
-    passage_rights_content:
-      name: passage_rights_content
-      label: 许可协议文案
-      type: textarea
-      default: ""
-      placeholder: "请输入内容"
-      description: "自定义文章页底部版权模块中的“作品采用”文案，为空则使用默认文案，一般不用设置"
     enable_donate:
       name: enable_donate
       label: 开启打赏
