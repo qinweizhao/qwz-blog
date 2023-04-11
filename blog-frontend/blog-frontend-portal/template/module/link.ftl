@@ -53,7 +53,4 @@
   </#if>
   <link rel="preload stylesheet" as="style" href="${BASE_RES_URL}/source/css/min/responsive.min.css?v=${theme.version!}">
   <link rel="stylesheet" href="${BASE_RES_URL}/source/lib/fancybox/jquery.fancybox.min.css">
-  <#if settings.enable_clean_mode != true && settings.cursor_skin?? && settings.cursor_skin != 'off'>
-    <link rel="stylesheet" href="${BASE_RES_URL}/source/cursor/style/min/${settings.cursor_skin!}.min.css?v=${theme.version!}">
-  </#if>
 </#macro>

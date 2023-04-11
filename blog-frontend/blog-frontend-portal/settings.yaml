@@ -65,27 +65,6 @@ theme:
       default: "1320px"
       placeholder: "请输入"
       description: "限制内容区域的宽度，像素或百分比，默认1320px"
-    cursor_skin:
-      name: cursor_skin
-      label: 鼠标皮肤
-      type: select
-      default: "off"
-      description: "配置鼠标光标的皮肤，更多皮肤请前往 https://zhutix.com/tag/cursors/"
-      options:
-        - value: "off"
-          label: 无（默认）
-        - value: simple_cursor
-          label: 简洁卡通
-        - value: simple_cursor_blue
-          label: 简洁卡通-蓝
-        - value: simple_sunset_light
-          label: 简单日落(浅色)
-        - value: crystallize
-          label: 简约水晶
-        - value: emoji_zip
-          label: 魔力表情
-        - value: black_cat
-          label: 小黑猫
     cursor_effect:
       name: cursor_effect
       label: 鼠标特效
