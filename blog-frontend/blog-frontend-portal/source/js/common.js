@@ -530,18 +530,7 @@ const commonContext = {
 			}
 		}
 	},
-	/* 加载鼠标特效 */
-	loadMouseEffect() {
-		if (
-			Joe.isMobile ||
-            ThemeConfig.enable_clean_mode ||
-            ThemeConfig.cursor_effect === "off"
-		)
-			return;
-		$.getScript(
-			`${ThemeConfig.BASE_RES_URL}/source/effect/cursor/${ThemeConfig.cursor_effect}.js`
-		);
-	},
+
 	/* 加载背景特效 */
 	loadBackdropEffect() {
 		if (

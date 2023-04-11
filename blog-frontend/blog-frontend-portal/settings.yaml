@@ -65,39 +65,6 @@ theme:
       default: "1320px"
       placeholder: "请输入"
       description: "限制内容区域的宽度，像素或百分比，默认1320px"
-    cursor_effect:
-      name: cursor_effect
-      label: 鼠标特效
-      type: select
-      default: "off"
-      description: "配置鼠标“点击”或“移动”时的canvas特效"
-      options:
-        - value: "off"
-          label: 无（默认）
-        - value: cursor0
-          label: 樱花+颜文字
-        - value: cursor1
-          label: 小粒子
-        - value: cursor2
-          label: 大粒子
-        - value: cursor3
-          label: 社会主义价值观
-        - value: cursor4
-          label: 大爱心
-        - value: cursor5
-          label: 小爱心+颜文字
-        - value: cursor6
-          label: 多彩星星（移动）
-        - value: cursor7
-          label: 光标残影（移动）
-        - value: cursor8
-          label: 弹性表情（移动）
-        - value: cursor9
-          label: 表情雨（移动）
-        - value: cursor10
-          label: 上升气泡（移动）
-        - value: cursor11
-          label: 雪花雨（移动）
     backdrop:
       name: backdrop
       label: 背景特效
