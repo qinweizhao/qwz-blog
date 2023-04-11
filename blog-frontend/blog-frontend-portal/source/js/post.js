@@ -1,33 +1,23 @@
 /**文章页逻辑 */
 const postContext = {
-	/* 文章复制 + 版权文字 */
+	/* 文章复制 */
 	initCopy() {
-		// if (!ThemeConfig.enable_copy)
-		// 	return;
-		const curl = location.href;
-		const author = $(".joe_detail").attr("data-author");
 		$(".joe_detail__article").on("copy", function (e) {
 			const selection = window.getSelection();
 			const selectionText = selection.toString().replace(/<已自动折叠>/g, "");
-			const appendLink = ThemeConfig.enable_copy_right_text
-				? ThemeConfig.copy_right_text ||
-          `\r\n\r\n====================================\r\n文章作者： ${author}\r\n文章来源： ${ThemeConfig.blog_title}\r\n文章链接： ${curl}\r\n版权声明： 内容遵循 CC 4.0 BY-SA 版权协议，转载请附上原文出处链接及本声明。`
-				: "";
 			if (window.clipboardData) {
-				const copytext = selectionText + appendLink;
-				window.clipboardData.setData("Text", copytext);
+				window.clipboardData.setData("Text", selectionText);
 				return false;
 			} else {
 				const body_element = document.body;
-				const copytext = selectionText + appendLink;
-				const newdiv = document.createElement("pre");
-				newdiv.style.position = "absolute";
-				newdiv.style.left = "-99999px";
-				body_element.appendChild(newdiv);
-				newdiv.innerText = copytext;
-				selection.selectAllChildren(newdiv);
+				const newDiv = document.createElement("pre");
+				newDiv.style.position = "absolute";
+				newDiv.style.left = "-99999px";
+				body_element.appendChild(newDiv);
+				newDiv.innerText = selectionText;
+				selection.selectAllChildren(newDiv);
 				setTimeout(function () {
-					body_element.removeChild(newdiv);
+					body_element.removeChild(newDiv);
 				}, 0);
 			}
 		});

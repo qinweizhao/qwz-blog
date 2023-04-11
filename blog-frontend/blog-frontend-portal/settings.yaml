@@ -881,25 +881,6 @@ post:
           label: 开启
         - value: false
           label: 关闭
-    enable_copy_right_text:
-      name: enable_copy_right_text
-      label: 复制时追加版权信息
-      type: switch
-      data-type: bool
-      default: false
-      description: "目前仅对文章页生效"
-      options:
-        - value: true
-          label: 开启
-        - value: false
-          label: 关闭
-    copy_right_text:
-      name: copy_right_text
-      label: 自定义版权文案
-      type: textarea
-      placeholder: 请输入版权文案
-      default: ""
-      description: "文章页复制内容时追加的自定义版权文字（如无特殊需要不建议设置，使用默认的即可。若真的要设置，请不要填写表情等特殊内容，否则可能导致网站崩溃）"
     enable_katex:
       name: enable_katex
       label: "数学公式支持"
