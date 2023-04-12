@@ -186,18 +186,6 @@ navbar:
       default: "4px"
       placeholder: "请输入"
       description: "导航栏博客LOGO的圆角值，像素或百分比，默认4px"
-    enable_navbar_icon:
-      name: enable_navbar_icon
-      label: 开启菜单图标
-      type: switch
-      data-type: bool
-      default: true
-      description: "导航条菜单默认展示后台配置的图标，若不需要可以在这里统一关闭"
-      options:
-        - value: true
-          label: 开启
-        - value: false
-          label: 关闭
     enable_icon_animate:
       name: enable_icon_animate
       label: "菜单图标悬浮动画"
