@@ -2,7 +2,7 @@
 <header class="joe_header">
   <#--  web菜单  -->
   <div class="joe_header__above${settings.enable_show_in_up?then(' topInDown','')}${settings.enable_fixed_header?then(' fixed','')}${(settings.enable_fixed_header && settings.enable_glass_blur)?then(' glass','')}">
-    <div class="joe_container joe_header_container${settings.enable_full_header?then(' full','')}">
+    <div class="joe_container joe_header_container">
       <i class="joe-font joe-icon-caidan joe_header__above-slideicon"></i>
       <#if settings.show_logo>
         <a title="${blog_title!}" class="joe_header__above-logo" href="/">
