@@ -180,12 +180,6 @@ navbar:
           label: 展示
         - value: false
           label: 不展示
-    logo_radius:
-      name: logo_radius
-      label: LOGO圆角值
-      default: "4px"
-      placeholder: "请输入"
-      description: "导航栏博客LOGO的圆角值，像素或百分比，默认4px"
     enable_icon_animate:
       name: enable_icon_animate
       label: "菜单图标悬浮动画"

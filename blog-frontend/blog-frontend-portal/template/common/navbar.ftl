@@ -6,7 +6,7 @@
       <i class="joe-font joe-icon-caidan joe_header__above-slideicon"></i>
       <#if settings.show_logo>
         <a title="${blog_title!}" class="joe_header__above-logo" href="/">
-          <img style="border-radius:${settings.logo_radius!}" src="${LOGO}" onerror="Joe.errorImg(this)" alt="${blog_title!}">
+          <img style="border-radius:4px" src="${LOGO}" onerror="Joe.errorImg(this)" alt="${blog_title!}">
         </a>
       </#if>
       <nav class="joe_header__above-nav${settings.enable_active_shadow?then(' active-shadow','')}${settings.enable_icon_animate?then(' active-animate','')}">
