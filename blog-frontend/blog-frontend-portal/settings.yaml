@@ -98,13 +98,6 @@ theme:
       default: "5"
       placeholder: "请输入数字"
       description: "控制全局分页器展示的最大分页按钮个数，默认为5（可保证移动端正常展示）。每页的分页数请到 “首页-系统-博客设置-文章设置” 中配置"
-    scrollbar_width:
-      name: scrollbar_width
-      label: 滚动条宽度
-      type: text
-      default: "8px"
-      placeholder: "请输入宽度，单位px"
-      description: "设置全局滚动条的宽度，默认为 8px，填 0 相当于不显示"
     enable_loading_bar:
       name: enable_loading_bar
       label: 开启页面加载条

@@ -22,7 +22,7 @@
     --res-url: '${BASE_RES_URL}';
   }
   ::-webkit-scrollbar {
-    width: ${settings.scrollbar_width!"8px"};
+    width: 8px;
   }
   ::-webkit-scrollbar-thumb {
     background: var(--scroll-bar);
