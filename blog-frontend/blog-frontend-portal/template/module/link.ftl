@@ -11,7 +11,7 @@
       <link rel="stylesheet" href="${BASE_RES_URL}/source/lib/nprogress/nprogress.min.css">
       <style>
           #nprogress .bar {
-            height: ${settings.loading_bar_height!};
+            height: 3px;
             background: var(--loading-bar);
           }
           #nprogress .peg {

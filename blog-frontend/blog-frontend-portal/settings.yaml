@@ -137,13 +137,6 @@ theme:
           label: 是
         - value: false
           label: 否
-    loading_bar_height:
-      name: loading_bar_height
-      label: 加载条高度
-      type: text
-      default: "3px"
-      placeholder: "请输入高度，单位px"
-      description: "设置全局加载条的高度，默认为 3px，填 0 相当于不显示"
     loading_bar_color:
       name: loading_bar_color
       label: 加载条颜色
