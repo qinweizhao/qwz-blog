@@ -163,12 +163,7 @@ const homeContext = {
 		// 渲染Dom节点
 		const getListNode = (post, index) => {
 			const thumbnail = homeContext.getThumbnail(post);
-			const link_behavior =
-        ThemeConfig.link_behavior !== "default"
-        	? ThemeConfig.link_behavior === "new"
-        		? "_blank"
-        		: ""
-        	: "_blank";
+			const link_behavior = "_blank";
 
 			return `<li class="joe_list__item default animated wow" data-wow-delay="0.${index}s">
             ${
