@@ -25,8 +25,9 @@
   <link rel="preload stylesheet" as="style" href="//at.alicdn.com/t/font_2788564_crkap1ed9j5.css">
   <link rel="preload stylesheet" as="style" href="${BASE_RES_URL}/source/css/min/theme.min.css?v=${theme.version!}">
   <style>
+    /*todo*/
     #Joe .joe_container {
-      max-width: ${settings.content_max_width!"1320px"};
+      max-width: 1320px;
     }
   </style>
   <link rel="stylesheet" href="${BASE_RES_URL}/source/lib/qmsg/qmsg.css">
