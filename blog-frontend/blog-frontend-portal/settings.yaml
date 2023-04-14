@@ -98,13 +98,6 @@ theme:
           label: 是
         - value: false
           label: 否
-    loading_bar_color:
-      name: loading_bar_color
-      label: 加载条颜色
-      type: text
-      default: ""
-      placeholder: "请输入有效的颜色值"
-      description: "设置全局加载条背景色，默认跟随主题色。"
 
 # 导航
 navbar:
