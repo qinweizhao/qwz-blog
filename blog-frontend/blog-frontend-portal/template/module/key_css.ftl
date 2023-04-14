@@ -27,7 +27,7 @@
   ::-webkit-scrollbar-thumb {
     background: var(--scroll-bar);
   }
-  <#if settings.enable_background_light == true && settings.background_light_mode?? && settings.background_light_mode != "">
+  <#if settings.background_light_mode?? && settings.background_light_mode != "">
     html[data-mode="light"] body {
       background-position: top center;
       background-attachment: fixed;
