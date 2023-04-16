@@ -66,6 +66,7 @@ public class FreemarkerConfigAwareListener {
 
         loadOptionsConfig();
         loadThemeConfig();
+        loadUserConfig();
     }
 
     private void loadOptionsConfig() throws TemplateModelException {

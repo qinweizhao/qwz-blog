@@ -4,6 +4,8 @@ import cn.hutool.crypto.digest.BCrypt;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.qinweizhao.blog.exception.BadRequestException;
 import com.qinweizhao.blog.exception.ForbiddenException;
+import com.qinweizhao.blog.framework.cache.AbstractStringCacheStore;
+import com.qinweizhao.blog.framework.event.config.ConfigUpdatedEvent;
 import com.qinweizhao.blog.framework.event.logger.LogEvent;
 import com.qinweizhao.blog.framework.event.user.UserUpdatedEvent;
 import com.qinweizhao.blog.framework.security.util.SecurityUtils;
@@ -29,6 +31,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
+import static com.qinweizhao.blog.service.ConfigService.OPTIONS_KEY;
+
 /**
  * UserService implementation class.
  *
@@ -40,6 +44,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     private final ApplicationEventPublisher eventPublisher;
 
+    private final AbstractStringCacheStore cacheStore;
 
     @Override
     public Optional<User> getCurrentUser() {
@@ -138,6 +143,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         User user = UserConvert.INSTANCE.convert(userParam);
         user.setId(SecurityUtils.getUserId());
         this.updateById(user);
+        // todo
+        log.debug("配置变动，清除缓存开始。");
+        cacheStore.delete(OPTIONS_KEY);
+        log.debug("配置变动，清除缓存完成。");
+        eventPublisher.publishEvent(new ConfigUpdatedEvent(this));
         return UserConvert.INSTANCE.convert(user);
     }
 
