@@ -438,12 +438,6 @@ blogger:
       type: attachment
       default: "/themes/blog-frontend-portal/source/svg/spinner-preloader.svg"
       description: "头像加载出来之前展示的图片"
-    default_avatar:
-      name: default_avatar
-      label: 默认头像
-      type: attachment
-      default: "/themes/blog-frontend-portal/source/img/default_avatar.jpg"
-      description: "用于头像未设置或加载出错时显示的图片（注意：主题优先使用后台配置的头像，当后台未配置头像或头像加载出错才会用这里设置的图片。此处是有默认值的）"
     author_bg:
       name: author_bg
       label: 博主栏背景图
