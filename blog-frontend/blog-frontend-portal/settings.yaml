@@ -432,12 +432,6 @@ blogger:
           label: 开启
         - value: false
           label: 关闭
-    lazyload_avatar:
-      name: lazyload_avatar
-      label: 头像预载图
-      type: attachment
-      default: "/themes/blog-frontend-portal/source/svg/spinner-preloader.svg"
-      description: "头像加载出来之前展示的图片"
     author_bg:
       name: author_bg
       label: 博主栏背景图
