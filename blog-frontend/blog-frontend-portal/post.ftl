@@ -25,7 +25,7 @@
                     <h1 class="joe_detail__title txt-shadow">${post.title!}</h1>
                     <div class="joe_detail__count">
                         <div class="joe_detail__count-information">
-                            <img width="35" height="35" class="avatar lazyload" src="${settings.lazyload_avatar!}"
+                            <img width="35" height="35" class="avatar lazyload" src="${USER_AVATAR_LAZYLOAD}"
                                  data-src="${USER_AVATAR}" onerror="Joe.errorImg(this)" alt="${user.nickname!}">
                             <div class="meta">
                                 <div class="author">

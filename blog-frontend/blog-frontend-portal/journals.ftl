@@ -15,7 +15,7 @@
                 <div class="joe_detail__count">
                     <div class="joe_detail__count-information">
                         <img width="35" height="35" class="avatar lazyload" data-src="${USER_AVATAR}"
-                             src="${settings.lazyload_avatar!}" onerror="Joe.errorImg(this)" alt="${user.nickname!}">
+                             src="${USER_AVATAR_LAZYLOAD}" onerror="Joe.errorImg(this)" alt="${user.nickname!}">
                         <div class="meta">
                             <div class="author">
                                 <a class="link" href="#"

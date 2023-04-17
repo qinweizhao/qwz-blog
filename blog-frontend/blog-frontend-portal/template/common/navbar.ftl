@@ -69,7 +69,7 @@
     <div class="joe_header__slideout-wrap">
       <img width="100%" height="150" class="joe_header__slideout-image" src="${settings.author_bg!BASE_RES_URL+'/source/img/author_bg.jpg'}" onerror="Joe.errorImg(this)" alt="侧边栏壁纸" />
       <div class="joe_header__slideout-author">
-        <img width="50" height="50" class="avatar lazyload" data-src="${USER_AVATAR}" src="${settings.lazyload_avatar!}" onerror="Joe.errorImg(this)" alt="博主头像"/>
+        <img width="50" height="50" class="avatar lazyload" data-src="${USER_AVATAR}" src="${USER_AVATAR_LAZYLOAD}" onerror="Joe.errorImg(this)" alt="博主头像"/>
         <div class="info">
           <a class="link" href="/" target="_blank" rel="noopener noreferrer nofollow">${user.nickname!}</a>
         </div>
