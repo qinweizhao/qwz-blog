@@ -3,9 +3,9 @@ name: blog-frontend-portal
 author:
   name: YVKG
   website: https://www.qinweizhao.com
-  avatar: https://www.qinweizhao.com/image/2022/05/logo.png
+  avatar: https://blog.qinweizhao.com/image/2022/05/logo.png
 description: 博客门面
-logo: https://www.qinweizhao.com/image/2022/05/logo.png
+logo: https://blog.qinweizhao.com/image/2022/05/logo.png
 website: https://www.qinweizhao.com
 repo: https://github.com/qinweizhao/qwz-blog
 version: 3.1.7
