@@ -3,9 +3,6 @@
   <#if (type == 'index' && settings.enable_index_list_effect == true) || ( type == 'journals' && settings.enable_journal_effect == true)>
     <script src="${BASE_RES_URL!}/source/lib/wowjs/wow.min.js"></script>
   </#if>
-  <#if settings.show_newreply == true>
-    <script src="${BASE_RES_URL}/source/lib/j-marked/marked.min.js"></script>
-  </#if>
   <script src="${BASE_RES_URL!}/source/lib/lazysizes/lazysizes.min.js"></script>
   <script src="${BASE_RES_URL!}/source/lib/qmsg/qmsg.js"></script>
   <script src="${BASE_RES_URL}/source/js/min/utils.min.js?v=${theme.version!}"></script>

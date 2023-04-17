@@ -1,9 +1,8 @@
 <#if settings.enable_aside>
   <aside class="joe_aside${(settings.aside_position=='left')?then(' pos_left','')}">
-<#--    <#if settings.show_blogger!true>-->
       <#-- 展示博主信息 -->
       <#include "../module/blogger.ftl">
-<#--    </#if>-->
+
     <#if settings.site_notice??>
       <section class="joe_aside__item notice">
         <div class="joe_aside__item-title">
@@ -13,33 +12,6 @@
         <div class="joe_aside__item-contain">
           <div class="notice_content">${settings.site_notice!}</div>
         </div>
-      </section>
-    </#if>
-    <#if settings.enable_clean_mode!=true && settings.show_newreply==true>
-      <section class="joe_aside__item newreply">
-        <div class="joe_aside__item-title">
-          <i class="joe-font joe-icon-message"></i>
-          <span class="text">最新回复</span>
-        </div>
-        <@commentTag method="latest" top='${settings.newreply_page_size!5}'>
-            <ul class="joe_aside__item-contain">
-              <#list comments as comment>
-                <li class="item">
-                  <div class="user">
-                    <#assign avatar=(comment.avatar?? && comment.avatar!='')?then(comment.avatar,settings.default_avatar!)>
-                    <img width="35" height="35" class="avatar lazyload" data-src="${avatar}" src="${settings.lazyload_avatar!}" onerror="Joe.errorImg(this)" alt="头像">
-                    <div class="info">
-                      <div class="author">${comment.author!}</div>
-                      <span class="date">${comment.createTime?date("yyyy-MM-dd")}</span>
-                    </div>
-                  </div>
-                  <div class="reply">
-                    <a class="link aside-reply-content" href="${comment.target.fullPath}">${comment.content!}</a>
-                  </div>
-                </li>
-              </#list>
-            </ul>
-        </@commentTag>
       </section>
     </#if>
     <#if settings.enable_tag_cloud!true>

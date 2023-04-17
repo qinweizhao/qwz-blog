@@ -384,25 +384,6 @@ aside:
       label: 最新文章条数
       default: 5
       description: "右侧最新文章展示条数，填写数字即可，默认展示最新的5篇文章（需开启最新文章）"
-    show_newreply:
-      name: show_newreply
-      label: 展示最新评论
-      type: switch
-      data-type: bool
-      default: true
-      description: "在侧边栏展示最新的评论"
-      options:
-        - value: true
-          label: 开启
-        - value: false
-          label: 关闭
-    newreply_page_size:
-      name: newreply_page_size
-      label: 最新评论条数
-      type: text
-      data-type: long
-      default: 5
-      description: "右侧最新评论展示条数，填写数字即可，默认展示最新的5条评论（需开启最新评论）"
     enable_tag_cloud:
       name: enable_tag_cloud
       label: 展示标签云
