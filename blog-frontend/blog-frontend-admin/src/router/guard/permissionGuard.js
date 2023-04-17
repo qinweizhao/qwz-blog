@@ -5,7 +5,7 @@ import { setDocumentTitle } from '@/utils/domUtil'
 
 NProgress.configure({ showSpinner: false, speed: 500 })
 
-const whiteList = ['Login', 'Install', 'NotFound', 'ResetPassword'] // no redirect whitelist
+const whiteList = ['Login', 'NotFound', 'ResetPassword'] // no redirect whitelist
 
 let progressTimer = null
 router.beforeEach(async (to, from, next) => {

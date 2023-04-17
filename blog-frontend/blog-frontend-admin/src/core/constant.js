@@ -47,10 +47,6 @@ export const simpleEditorToolbars = {
 }
 
 export const actionLogTypes = {
-  BLOG_INITIALIZED: {
-    value: 0,
-    text: '博客初始化'
-  },
   POST_PUBLISHED: {
     value: 5,
     text: '文章发布'
@@ -86,18 +82,6 @@ export const actionLogTypes = {
   SHEET_PUBLISHED: {
     value: 50,
     text: '页面发布'
-  },
-  SHEET_EDITED: {
-    value: 55,
-    text: '页面修改'
-  },
-  SHEET_DELETED: {
-    value: 60,
-    text: '页面删除'
-  },
-  MFA_UPDATED: {
-    value: 65,
-    text: '两步验证'
   },
   LOGGED_PRE_CHECK: {
     value: 70,
