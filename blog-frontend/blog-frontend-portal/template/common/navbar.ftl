@@ -9,7 +9,7 @@
           <img style="border-radius:4px" src="${LOGO}" onerror="Joe.errorImg(this)" alt="${blog_title!}">
         </a>
       </#if>
-      <nav class="joe_header__above-nav${settings.enable_active_shadow?then(' active-shadow','')}${settings.enable_icon_animate?then(' active-animate','')}">
+      <nav class="joe_header__above-nav${settings.enable_active_shadow?then(' active-shadow','')}}">
         <@menuTag method="tree">
           <#list menus?sort_by('priority') as menu>
             <#if menu.children?? && menu.children?size gt 0>
