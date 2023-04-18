@@ -1034,18 +1034,6 @@ tags:
 code_block:
   label: 代码块
   items:
-    enable_code_hr:
-      name: enable_code_hr
-      label: 标题分隔线
-      type: switch
-      data-type: bool
-      default: true
-      description: "是否展示标题和内容之间的分割线，不展示时会更加简洁"
-      options:
-        - value: true
-          label: 开启
-        - value: false
-          label: 关闭
     enable_code_copy:
       name: enable_code_copy
       label: 代码复制

@@ -82,7 +82,7 @@ const commonContext = {
 				}
 				// 代码标题
 				$item.addClass("c_title");
-				ThemeConfig.enable_code_hr ? $item.addClass("c_hr") : null;
+				$item.addClass("c_hr");
 				// 代码块显示操作按钮
 				$item.addClass("c_hover_tools");
 				// 代码折叠
