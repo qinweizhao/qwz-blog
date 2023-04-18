@@ -1070,18 +1070,6 @@ code_block:
           label: 开启
         - value: false
           label: 关闭
-    enable_code_expander:
-      name: enable_code_expander
-      label: 代码折叠
-      type: switch
-      data-type: bool
-      default: false
-      description: "开启代码块折叠功能"
-      options:
-        - value: true
-          label: 开启
-        - value: false
-          label: 关闭
     code_theme:
       name: code_theme
       label: 代码主题

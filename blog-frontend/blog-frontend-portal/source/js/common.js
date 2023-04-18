@@ -86,23 +86,19 @@ const commonContext = {
 				// 代码块显示操作按钮
 				$item.addClass("c_hover_tools");
 				// 代码折叠
-				if (ThemeConfig.enable_code_expander) {
-					$item
-						.prepend(
-							"<i class=\"joe-font joe-icon-arrow-downb code-expander\" title=\"折叠/展开\"></i>"
-						)
-						.addClass("c_expander");
-					$item.find(".code-expander").on("click", function (e) {
-						e.stopPropagation();
-						const $this = $(this);
-						const $auto_fold = $this
-							.parent("pre")
-							.siblings(".toolbar")
-							.find(".autofold-tip");
-						$auto_fold && $auto_fold.remove();
-						$this.parent("pre").toggleClass("close");
-					});
-				}
+				$item
+					.prepend("<i class=\"joe-font joe-icon-arrow-downb code-expander\" title=\"折叠/展开\"></i>")
+					.addClass("c_expander");
+				$item.find(".code-expander").on("click", function (e) {
+					e.stopPropagation();
+					const $this = $(this);
+					const $auto_fold = $this
+						.parent("pre")
+						.siblings(".toolbar")
+						.find(".autofold-tip");
+					$auto_fold && $auto_fold.remove();
+					$this.parent("pre").toggleClass("close");
+				});
 				// 代码复制
 				if (ThemeConfig.enable_code_copy) {
 					const text = $item.find("code[class*='language-']").text();
