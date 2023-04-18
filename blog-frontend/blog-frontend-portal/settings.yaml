@@ -127,18 +127,6 @@ navbar:
           label: 展示
         - value: false
           label: 不展示
-    enable_active_shadow:
-      name: enable_active_shadow
-      label: "文字阴影效果"
-      type: switch
-      data-type: bool
-      default: false
-      description: "是否开启当前选中项的文字阴影效果（默认关闭以节省性能）"
-      options:
-        - value: true
-          label: 是
-        - value: false
-          label: 否
     enable_glass_blur:
       name: enable_glass_blur
       label: "毛玻璃效果"
