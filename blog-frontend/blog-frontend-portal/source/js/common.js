@@ -7,7 +7,6 @@ const commonContext = {
 	/* 加载条 */
 	loadingBar: {
 		show() {
-			if (!ThemeConfig.enable_loading_bar) return;
 			NProgress.configure({
 				easing: "ease",
 				speed: 500,
@@ -16,7 +15,6 @@ const commonContext = {
 			NProgress.start();
 		},
 		hide() {
-			if (!ThemeConfig.enable_loading_bar) return;
 			NProgress.done(true);
 		},
 	},

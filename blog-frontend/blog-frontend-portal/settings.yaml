@@ -86,18 +86,6 @@ theme:
       default: "5"
       placeholder: "请输入数字"
       description: "控制全局分页器展示的最大分页按钮个数，默认为5（可保证移动端正常展示）。每页的分页数请到 “首页-系统-博客设置-文章设置” 中配置"
-    enable_loading_bar:
-      name: enable_loading_bar
-      label: 开启页面加载条
-      type: switch
-      data-type: bool
-      default: true
-      description: "是否开启页面顶部的加载条"
-      options:
-        - value: true
-          label: 是
-        - value: false
-          label: 否
 
 # 导航
 navbar:

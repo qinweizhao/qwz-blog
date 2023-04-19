@@ -6,7 +6,7 @@
   </#if>
   <link rel="apple-touch-icon" sizes="180x180" href="${options.blog_favicon!}">
   <#include "key_css.ftl">
-  <#if settings.enable_loading_bar!true>
+
       <!-- 加载条 -->
       <link rel="stylesheet" href="${BASE_RES_URL}/source/lib/nprogress/nprogress.min.css">
       <style>
@@ -19,7 +19,7 @@
           }
       </style>
       <script src="${BASE_RES_URL}/source/lib/nprogress/nprogress.min.js"></script>
-    </#if>
+
   <link rel="preload stylesheet" as="style" href="${BASE_RES_URL}/source/css/min/normalize.min.css?v=${theme.version!}"> 
   <link rel="preload stylesheet" as="style" href="${BASE_RES_URL}/source/lib/font-awesome/css/font-awesome.min.css?v=${theme.version!}"> 
   <link rel="preload stylesheet" as="style" href="//at.alicdn.com/t/font_2788564_crkap1ed9j5.css">
