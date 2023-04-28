@@ -51,23 +51,23 @@
                                                 <em class="journal-likes-num">${journal.likes!0}</em>
                                               </span>
 
-                                            <#if settings.enable_clean_mode!=true>
-                                                <span class="joe_journal_operate_item comment"><i
-                                                            class="joe-font joe-icon-message journal-comment"></i><em>${journal.commentCount!0}</em></span>
-                                                <#if journal.commentCount gt 0>
-                                                    <span class="joe_journal_operate_item journal_comment_expander"><em
-                                                                class="journal_comment_expander_txt">查看评论</em><i
-                                                                class="joe-font joe-icon-arrow-downb"></i></span>
-                                                </#if>
-                                            </#if>
-                                            <#if settings.enable_clean_mode!=true>
-                                                <div class="joe_journal_comment">
-                                                    <#assign sys_options = '{"blog_logo": "${options.blog_logo!}", "gravatar_source": "${options.gravatar_source!}", "comment_gravatar_default": "${options.comment_gravatar_default!}"}'>
-                                                    <#assign configs = '{"size": "small", "autoLoad": false, "gravatarSource": "${options.gravatar_source!}", "loadingStyle": "${settings.comment_loading_style!}", "authorPopup": "${settings.comment_author_poptext!}", "emailPopup": "${settings.comment_email_poptext!}", "aWord": "${settings.comment_aword!}", "avatarLoading": "${settings.comment_avatar_loading!}", "avatarError": "${settings.comment_avatar_error!}", "notComment": "${settings.comment_empty_text!}"}'>
-                                                    <halo-comment id="${journal.id?c}" type="journal"
-                                                                  configs='${configs}' options='${sys_options}'/>
-                                                </div>
-                                            </#if>
+<#--                                            <#if settings.enable_clean_mode!=true>-->
+<#--                                                <span class="joe_journal_operate_item comment"><i-->
+<#--                                                            class="joe-font joe-icon-message journal-comment"></i><em>${journal.commentCount!0}</em></span>-->
+<#--                                                <#if journal.commentCount gt 0>-->
+<#--                                                    <span class="joe_journal_operate_item journal_comment_expander"><em-->
+<#--                                                                class="journal_comment_expander_txt">查看评论</em><i-->
+<#--                                                                class="joe-font joe-icon-arrow-downb"></i></span>-->
+<#--                                                </#if>-->
+<#--                                            </#if>-->
+<#--                                            <#if settings.enable_clean_mode!=true>-->
+<#--                                                <div class="joe_journal_comment">-->
+<#--                                                    <#assign sys_options = '{"blog_logo": "${options.blog_logo!}", "gravatar_source": "${options.gravatar_source!}", "comment_gravatar_default": "${options.comment_gravatar_default!}"}'>-->
+<#--                                                    <#assign configs = '{"size": "small", "autoLoad": false, "gravatarSource": "${options.gravatar_source!}", "loadingStyle": "${settings.comment_loading_style!}", "authorPopup": "${settings.comment_author_poptext!}", "emailPopup": "${settings.comment_email_poptext!}", "aWord": "${settings.comment_aword!}", "avatarLoading": "${settings.comment_avatar_loading!}", "avatarError": "${settings.comment_avatar_error!}", "notComment": "${settings.comment_empty_text!}"}'>-->
+<#--                                                    <halo-comment id="${journal.id?c}" type="journal"-->
+<#--                                                                  configs='${configs}' options='${sys_options}'/>-->
+<#--                                                </div>-->
+<#--                                            </#if>-->
                                         </div>
                                     </div>
 
