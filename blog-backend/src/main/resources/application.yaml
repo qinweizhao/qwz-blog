@@ -7,8 +7,6 @@ spring:
   devtools:
     restart:
       enabled: false
-  jackson:
-    date-format: yyyy-MM-dd HH:mm:ss
   output:
     ansi:
       enabled: always

@@ -34,12 +34,6 @@ public class MyBlogConfiguration {
     private MyBlogProperties myBlogProperties;
 
     @Bean
-    public ObjectMapper objectMapper(Jackson2ObjectMapperBuilder builder) {
-        builder.failOnEmptyBeans(false);
-        return builder.build();
-    }
-
-    @Bean
     public RestTemplate httpsRestTemplate(RestTemplateBuilder builder) throws NoSuchAlgorithmException, KeyStoreException, KeyManagementException {
         RestTemplate httpsRestTemplate = builder.build();
         httpsRestTemplate.setRequestFactory(new HttpComponentsClientHttpRequestFactory(HttpClientUtils.createHttpsClient((int) myBlogProperties.getDownloadTimeout().toMillis())));

@@ -73,29 +73,47 @@ public class MyWebMvcConfig implements WebMvcConfigurer {
         resolvers.add(new AuthenticationArgumentResolver());
     }
 
-    @Override
-    public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
-        converters.stream().filter(MappingJackson2HttpMessageConverter.class::isInstance).findFirst().ifPresent(converter -> {
-            MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter = (MappingJackson2HttpMessageConverter) converter;
-            Jackson2ObjectMapperBuilder builder = Jackson2ObjectMapperBuilder.json();
-            JsonComponentModule module = new JsonComponentModule();
-            // 转换日期
-            module.addSerializer(LocalDateTime.class, new LocalDateTimeSerializer(DateTimeFormatter.ofPattern(DatePattern.NORM_DATETIME_PATTERN)));
-            module.addSerializer(LocalDate.class, new LocalDateSerializer(DateTimeFormatter.ISO_LOCAL_DATE));
-            module.addSerializer(LocalTime.class, new LocalTimeSerializer(DateTimeFormatter.ISO_LOCAL_TIME));
-            module.addSerializer(Instant.class, InstantSerializer.INSTANCE);
+//    @Override
+//    public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
+//        converters.stream().filter(MappingJackson2HttpMessageConverter.class::isInstance).findFirst().ifPresent(converter -> {
+//            MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter = (MappingJackson2HttpMessageConverter) converter;
+//            Jackson2ObjectMapperBuilder builder = Jackson2ObjectMapperBuilder.json();
+//            JsonComponentModule module = new JsonComponentModule();
+//            // 转换日期
+//            module.addSerializer(LocalDateTime.class, new LocalDateTimeSerializer(DateTimeFormatter.ofPattern(DatePattern.NORM_DATETIME_PATTERN)));
+//            module.addSerializer(LocalDate.class, new LocalDateSerializer(DateTimeFormatter.ISO_LOCAL_DATE));
+//            module.addSerializer(LocalTime.class, new LocalTimeSerializer(DateTimeFormatter.ISO_LOCAL_TIME));
+//            module.addSerializer(Instant.class, InstantSerializer.INSTANCE);
+//
+//            module.addDeserializer(LocalDateTime.class, new LocalDateTimeDeserializer(DateTimeFormatter.ofPattern(DatePattern.NORM_DATETIME_PATTERN)));
+//            module.addDeserializer(LocalDate.class, new LocalDateDeserializer(DateTimeFormatter.ISO_LOCAL_DATE));
+//            module.addDeserializer(LocalTime.class, new LocalTimeDeserializer(DateTimeFormatter.ISO_LOCAL_TIME));
+//            module.addDeserializer(Instant.class, InstantDeserializer.INSTANT);
+//
+//            ObjectMapper objectMapper = builder.modules(module).build();
+//            mappingJackson2HttpMessageConverter.setObjectMapper(objectMapper);
+//
+//        });
+//    }
 
-            module.addDeserializer(LocalDateTime.class, new LocalDateTimeDeserializer(DateTimeFormatter.ofPattern(DatePattern.NORM_DATETIME_PATTERN)));
-            module.addDeserializer(LocalDate.class, new LocalDateDeserializer(DateTimeFormatter.ISO_LOCAL_DATE));
-            module.addDeserializer(LocalTime.class, new LocalTimeDeserializer(DateTimeFormatter.ISO_LOCAL_TIME));
-            module.addDeserializer(Instant.class, InstantDeserializer.INSTANT);
-
-            ObjectMapper objectMapper = builder.modules(module).build();
-            mappingJackson2HttpMessageConverter.setObjectMapper(objectMapper);
-
-        });
-    }
-
+//    @Bean
+//    ObjectMapper objectMapper(){
+//        Jackson2ObjectMapperBuilder builder = Jackson2ObjectMapperBuilder.json();
+//        JsonComponentModule module = new JsonComponentModule();
+//        // 转换日期
+//        module.addSerializer(LocalDateTime.class, new LocalDateTimeSerializer(DateTimeFormatter.ofPattern(DatePattern.NORM_DATETIME_PATTERN)));
+//        module.addSerializer(LocalDate.class, new LocalDateSerializer(DateTimeFormatter.ISO_LOCAL_DATE));
+//        module.addSerializer(LocalTime.class, new LocalTimeSerializer(DateTimeFormatter.ISO_LOCAL_TIME));
+//        module.addSerializer(Instant.class, InstantSerializer.INSTANCE);
+//
+//        module.addDeserializer(LocalDateTime.class, new LocalDateTimeDeserializer(DateTimeFormatter.ofPattern(DatePattern.NORM_DATETIME_PATTERN)));
+//        module.addDeserializer(LocalDate.class, new LocalDateDeserializer(DateTimeFormatter.ISO_LOCAL_DATE));
+//        module.addDeserializer(LocalTime.class, new LocalTimeDeserializer(DateTimeFormatter.ISO_LOCAL_TIME));
+//        module.addDeserializer(Instant.class, InstantDeserializer.INSTANT);
+//
+//        return builder.modules(module).build();
+//
+//    }
 
     /**
      * 交换MappingJackson2HttpMessageConverter与第一位元素
