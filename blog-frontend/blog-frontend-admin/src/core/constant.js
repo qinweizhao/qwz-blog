@@ -175,12 +175,12 @@ export const postColumns = [
     width: '170px',
     scopedSlots: { customRender: 'tags' }
   },
-  {
-    title: '评论',
-    width: '60px',
-    dataIndex: 'commentCount',
-    scopedSlots: { customRender: 'commentCount' }
-  },
+  // {
+  //   title: '评论',
+  //   width: '60px',
+  //   dataIndex: 'commentCount',
+  //   scopedSlots: { customRender: 'commentCount' }
+  // },
   {
     title: '访问',
     width: '60px',

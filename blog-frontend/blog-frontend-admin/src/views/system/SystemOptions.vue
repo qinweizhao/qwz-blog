@@ -42,17 +42,17 @@
                 @onSave="onSaveOptions"
               />
             </a-tab-pane>
-            <a-tab-pane key="comment">
-              <span slot="tab"> <a-icon type="message" />评论设置 </span>
-              <CommentTab
-                :errored="errored"
-                :options="options"
-                :saving="saving"
-                @callback="errored = false"
-                @onChange="onOptionsChange"
-                @onSave="onSaveOptions"
-              />
-            </a-tab-pane>
+<!--            <a-tab-pane key="comment">-->
+<!--              <span slot="tab"> <a-icon type="message" />评论设置 </span>-->
+<!--              <CommentTab-->
+<!--                :errored="errored"-->
+<!--                :options="options"-->
+<!--                :saving="saving"-->
+<!--                @callback="errored = false"-->
+<!--                @onChange="onOptionsChange"-->
+<!--                @onSave="onSaveOptions"-->
+<!--              />-->
+<!--            </a-tab-pane>-->
             <a-tab-pane key="attachment">
               <span slot="tab"> <a-icon type="picture" />附件设置 </span>
               <AttachmentTab

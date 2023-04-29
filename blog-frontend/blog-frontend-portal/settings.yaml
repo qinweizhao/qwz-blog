@@ -422,12 +422,12 @@ blogger:
       options:
         - value: A
           label: 分类+标签+文章
-        - value: B
-          label: 分类+标签+评论
-        - value: C
-          label: 分类+文章+评论
-        - value: D
-          label: 标签+文章+评论
+#        - value: B
+#          label: 分类+标签+评论
+#        - value: C
+#          label: 分类+文章+评论
+#        - value: D
+#          label: 标签+文章+评论
     enable_social:
       name: enable_social
       label: 展示社交账号
@@ -720,17 +720,17 @@ post:
           label: 开启
         - value: false
           label: 关闭
-    enable_comment:
-      name: enable_comment
-      label: 文章评论
-      type: switch
-      data-type: bool
-      default: true
-      options:
-        - value: true
-          label: 开启
-        - value: false
-          label: 关闭
+#    enable_comment:
+#      name: enable_comment
+#      label: 文章评论
+#      type: switch
+#      data-type: bool
+#      default: true
+#      options:
+#        - value: true
+#          label: 开启
+#        - value: false
+#          label: 关闭
     enable_donate:
       name: enable_donate
       label: 开启打赏

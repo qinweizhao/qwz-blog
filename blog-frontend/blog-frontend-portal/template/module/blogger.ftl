@@ -44,12 +44,12 @@
           <span>标签数</span>
         </div>
       </@tagTag>
-      <@commentTag method="count">
-        <div class="item" title="累计评论数 ${count!'0'}">
-          <span class="num">${count!'0'}</span>
-          <span>评论数</span>
-        </div>
-      </@commentTag>
+<#--      <@commentTag method="count">-->
+<#--        <div class="item" title="累计评论数 ${count!'0'}">-->
+<#--          <span class="num">${count!'0'}</span>-->
+<#--          <span>评论数</span>-->
+<#--        </div>-->
+<#--      </@commentTag>-->
     <#elseif settings.overview_type == 'C'>
       <@categoryTag method="count">
         <div class="item" title="累计分类数 ${count!'0'}">
@@ -63,12 +63,12 @@
           <span>文章数</span>
         </div>
       </@postTag>
-      <@commentTag method="count">
-        <div class="item" title="累计评论数 ${count!'0'}">
-          <span class="num">${count!'0'}</span>
-          <span>评论数</span>
-        </div>
-      </@commentTag>
+<#--      <@commentTag method="count">-->
+<#--        <div class="item" title="累计评论数 ${count!'0'}">-->
+<#--          <span class="num">${count!'0'}</span>-->
+<#--          <span>评论数</span>-->
+<#--        </div>-->
+<#--      </@commentTag>-->
     <#elseif settings.overview_type == 'D'>
       <@tagTag method="count">
         <div class="item" title="累计标签数 ${count!'0'}">
@@ -82,12 +82,12 @@
           <span>文章数</span>
         </div>
       </@postTag>
-      <@commentTag method="count">
-        <div class="item" title="累计评论数 ${count!'0'}">
-          <span class="num">${count!'0'}</span>
-          <span>评论数</span>
-        </div>
-      </@commentTag>
+<#--      <@commentTag method="count">-->
+<#--        <div class="item" title="累计评论数 ${count!'0'}">-->
+<#--          <span class="num">${count!'0'}</span>-->
+<#--          <span>评论数</span>-->
+<#--        </div>-->
+<#--      </@commentTag>-->
     <#else>
     </#if>
   </div>

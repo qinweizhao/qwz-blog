@@ -45,10 +45,10 @@
                       <a-icon type="like-o" />
                       {{ item.likes }}
                     </a-button>
-                    <a-button class="!p-0" type="link" @click="handleOpenJournalCommentsDrawer(item)">
-                      <a-icon type="message" />
-                      {{ item.commentCount }}
-                    </a-button>
+<!--                    <a-button class="!p-0" type="link" @click="handleOpenJournalCommentsDrawer(item)">-->
+<!--                      <a-icon type="message" />-->
+<!--                      {{ item.commentCount }}-->
+<!--                    </a-button>-->
                     <a-button v-if="item.type === 'INTIMATE'" class="!p-0" disabled type="link">
                       <a-icon type="lock" />
                     </a-button>
@@ -154,25 +154,25 @@
       </a-form-model>
     </a-modal>
 
-    <TargetCommentListModal
-      :target-id="list.selected.id"
-      :title="`「${$options.filters.moment(list.selected.createTime)}」的评论`"
-      :visible.sync="journalCommentDrawer.visible"
-      target="journal"
-      @close="onJournalCommentsDrawerClose"
-    >
-      <template #extraFooter>
-        <a-button :disabled="selectPreviousButtonDisabled" @click="handleSelectPrevious"> 上一篇</a-button>
-        <a-button :disabled="selectNextButtonDisabled" @click="handleSelectNext"> 下一篇</a-button>
-      </template>
-    </TargetCommentListModal>
+<!--    <TargetCommentListModal-->
+<!--      :target-id="list.selected.id"-->
+<!--      :title="`「${$options.filters.moment(list.selected.createTime)}」的评论`"-->
+<!--      :visible.sync="journalCommentDrawer.visible"-->
+<!--      target="journal"-->
+<!--      @close="onJournalCommentsDrawerClose"-->
+<!--    >-->
+<!--      <template #extraFooter>-->
+<!--        <a-button :disabled="selectPreviousButtonDisabled" @click="handleSelectPrevious"> 上一篇</a-button>-->
+<!--        <a-button :disabled="selectNextButtonDisabled" @click="handleSelectNext"> 下一篇</a-button>-->
+<!--      </template>-->
+<!--    </TargetCommentListModal>-->
   </page-view>
 </template>
 
 <script>
 // components
 import { PageView } from '@/layouts'
-import TargetCommentListModal from '@/components/Comment/TargetCommentListModal'
+// import TargetCommentListModal from '@/components/Comment/TargetCommentListModal'
 
 // libs
 import { mixin, mixinDevice } from '@/mixins/mixin.js'
@@ -185,7 +185,8 @@ import MarkdownEditor from '@/components/Editor/MarkdownEditor'
 
 export default {
   mixins: [mixin, mixinDevice],
-  components: { MarkdownEditor, PageView, TargetCommentListModal },
+  components: { MarkdownEditor, PageView },
+  // components: { MarkdownEditor, PageView, TargetCommentListModal },
   data() {
     return {
       simpleEditorToolbars,

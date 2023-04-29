@@ -61,12 +61,12 @@ export const asyncRouterMap = [
       },
 
       // comments
-      {
-        path: '/comment',
-        name: 'Comment',
-        component: () => import('@/views/comment/CommentList'),
-        meta: { title: '评论', icon: 'message', hiddenHeaderContent: false }
-      },
+      // {
+      //   path: '/comment',
+      //   name: 'Comment',
+      //   component: () => import('@/views/comment/CommentList'),
+      //   meta: { title: '评论', icon: 'message', hiddenHeaderContent: false }
+      // },
 
       // attachments
       {
