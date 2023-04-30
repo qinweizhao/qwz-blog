@@ -3,9 +3,9 @@
     <#import "favorite.ftl" as nsp>
     <@nsp.favorite post=post type="aside" />
   </#if>
-  <#if settings.enable_clean_mode!=true && settings.enable_comment==true && post.status!='DRAFT'>
+<#--  <#if settings.enable_clean_mode!=true && settings.enable_comment==true && post.status!='DRAFT'>-->
     <li class="post-operate-comment"><i class="joe-font joe-icon-message"></i><#if post.commentCount gt 0><span class="visible">${post.commentCount!}</span></#if></li>
-  </#if>
+<#--  </#if>-->
   <#assign post_url = (post.fullPath?starts_with('http'))?then(post.fullPath, blog_url + post.fullPath)>
   <#if post.status!='DRAFT'>
     <li class="post-operate-share">
