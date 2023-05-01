@@ -10,12 +10,16 @@
         </analysis-card>
       </a-col>
       <a-col :lg="6" :md="12" :sm="12" :xl="6" :xs="12" class="mb-3">
-        <analysis-card :number="statisticsData.journalCount" title="日志">
-          <router-link slot="action" :to="{ name: 'JournalList' }">
+        <analysis-card :number="statisticsData.categoryCount" title="分类">
+          <a-tooltip slot="action">
+            <template slot="title"> 共有 {{ statisticsData.categoryCount }} 分类</template>
             <!--    评论 unordered-list-->
-            <a-icon v-if="statisticsLoading" type="loading" />
-            <a-icon v-else type="calendar" />
-          </router-link>
+            <a-button class="!p-0" type="link">
+              <a-icon v-if="statisticsLoading" type="loading" />
+              <!-- <a-icon v-else type="calendar" />-->
+              <a-icon v-else type="info-circle-o" />
+            </a-button>
+          </a-tooltip>
         </analysis-card>
       </a-col>
       <a-col :lg="6" :md="12" :sm="12" :xl="6" :xs="12" class="mb-3">
