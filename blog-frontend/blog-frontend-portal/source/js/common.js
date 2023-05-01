@@ -54,7 +54,7 @@ const commonContext = {
 
 	/* 初始化代码区域，高亮 + 行号 + 折叠 + 复制 */
 	initCode(isRefresh) {
-		const $codeElms = $(".page-post pre, .page-journals pre, .page-sheet pre");
+		const $codeElms = $(".page-post pre");
 		if (!$codeElms.length) return;
 
 		$codeElms.each(function (_index, item) {
