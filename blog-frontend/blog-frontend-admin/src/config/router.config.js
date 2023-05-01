@@ -53,12 +53,12 @@ export const asyncRouterMap = [
       },
 
       // journal
-      {
-        path: '/journal',
-        name: 'JournalList',
-        component: () => import('@/views/journal/JournalList'),
-        meta: { title: '日志', icon: 'read' }
-      },
+      // {
+      //   path: '/journal',
+      //   name: 'JournalList',
+      //   component: () => import('@/views/journal/JournalList'),
+      //   meta: { title: '日志', icon: 'read' }
+      // },
 
       // comments
       // {
