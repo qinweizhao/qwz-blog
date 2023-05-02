@@ -42,12 +42,13 @@ const targets = [
     key: 'post',
     dataKey: 'post',
     label: '文章'
-  },
-  {
-    key: 'journal',
-    dataKey: 'journal',
-    label: '日志'
   }
+  // ,
+  // {
+  //   key: 'journal',
+  //   dataKey: 'journal',
+  //   label: '日志'
+  // }
 ]
 
 export default {
