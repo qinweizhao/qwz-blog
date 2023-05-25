@@ -6,7 +6,6 @@ import com.qinweizhao.blog.model.convert.UserConvert;
 import com.qinweizhao.blog.model.dto.StatisticDTO;
 import com.qinweizhao.blog.model.dto.StatisticWithUserDTO;
 import com.qinweizhao.blog.model.entity.User;
-import com.qinweizhao.blog.model.enums.CommentStatus;
 import com.qinweizhao.blog.model.enums.PostStatus;
 import com.qinweizhao.blog.service.*;
 import lombok.AllArgsConstructor;
@@ -24,12 +23,6 @@ public class StatisticServiceImpl implements StatisticService {
 
     private final PostService postService;
 
-    private final JournalService journalService;
-
-    private final CommentService commentService;
-
-    private final ConfigService configService;
-
     private final CategoryService categoryService;
 
     private final TagService tagService;
@@ -41,13 +34,8 @@ public class StatisticServiceImpl implements StatisticService {
         // 文章个数
         statisticDTO.setPostCount(postService.countByStatus(PostStatus.PUBLISHED));
 
-        // 评论个数
-        long commentCount = commentService.countByStatus(CommentStatus.PUBLISHED);
-
-        statisticDTO.setCommentCount(commentCount);
         statisticDTO.setTagCount(tagService.count());
         statisticDTO.setCategoryCount(categoryService.count());
-        statisticDTO.setJournalCount(journalService.count());
 
         statisticDTO.setVisitCount(postService.countVisit());
         statisticDTO.setLikeCount(postService.countLike());

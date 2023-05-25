@@ -1,7 +1,5 @@
 package com.qinweizhao.blog.db;
 
-import com.qinweizhao.blog.mapper.CommentMapper;
-import com.qinweizhao.blog.model.entity.Comment;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

@@ -13,13 +13,9 @@ public class StatisticDTO {
 
     private Long postCount;
 
-    private Long commentCount;
-
     private Long categoryCount;
 
     private Long tagCount;
-
-    private Long journalCount;
 
     private Long visitCount;
 

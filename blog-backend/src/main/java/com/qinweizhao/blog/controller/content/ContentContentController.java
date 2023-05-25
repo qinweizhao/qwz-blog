@@ -2,7 +2,6 @@ package com.qinweizhao.blog.controller.content;
 
 import com.baomidou.mybatisplus.core.toolkit.Assert;
 import com.qinweizhao.blog.controller.content.model.CategoryModel;
-import com.qinweizhao.blog.controller.content.model.JournalModel;
 import com.qinweizhao.blog.controller.content.model.PostModel;
 import com.qinweizhao.blog.controller.content.model.TagModel;
 import com.qinweizhao.blog.exception.NotFoundException;
@@ -35,8 +34,6 @@ public class ContentContentController {
 
     private final TagModel tagModel;
 
-    private final JournalModel journalModel;
-
     private final ConfigService configService;
 
     private final PostService postService;
@@ -63,10 +60,6 @@ public class ContentContentController {
         // 标签
         if (configService.getTagsPrefix().equals(prefix)) {
             return tagModel.list(model);
-        }
-        // 日志
-        if (configService.getJournalsPrefix().equals(prefix)) {
-            return journalModel.list(model);
         }
 
         throw buildPathNotFoundException();

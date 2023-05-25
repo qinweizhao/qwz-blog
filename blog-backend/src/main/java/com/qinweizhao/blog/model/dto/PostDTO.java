@@ -46,8 +46,6 @@ public class PostDTO {
 
     private Long wordCount;
 
-    private Long commentCount;
-
     private LocalDateTime updateTime;
 
     private LocalDateTime createTime;

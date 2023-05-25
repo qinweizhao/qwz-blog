@@ -15,8 +15,6 @@ import com.qinweizhao.blog.model.entity.Content;
 import com.qinweizhao.blog.model.entity.Post;
 import com.qinweizhao.blog.model.entity.PostCategory;
 import com.qinweizhao.blog.model.entity.PostTag;
-import com.qinweizhao.blog.model.enums.CommentStatus;
-import com.qinweizhao.blog.model.enums.CommentType;
 import com.qinweizhao.blog.model.enums.PostStatus;
 import com.qinweizhao.blog.model.param.PostParam;
 import com.qinweizhao.blog.model.param.PostQueryParam;
@@ -69,10 +67,6 @@ public class PostServiceImpl implements PostService {
 
     private final PostTagService postTagService;
 
-    private final CommentMapper commentMapper;
-
-    private final CommentService commentService;
-
     private final PostCategoryMapper postCategoryMapper;
 
     private final PostCategoryService postCategoryService;
@@ -94,14 +88,11 @@ public class PostServiceImpl implements PostService {
 
         Map<Integer, List<TagDTO>> tagListMap = postTagService.listTagListMapBy(postIds);
         Map<Integer, List<CategoryDTO>> categoryListMap = postCategoryService.listCategoryListMap(postIds);
-        Map<Integer, Long> commentCountMap = commentService.countByTypeAndTargetIds(CommentType.POST, postIds);
-
 
         List<PostListDTO> collect = posts.stream().map(post -> {
             PostListDTO postListDTO = PostConvert.INSTANCE.convertToListDTO(post);
             postListDTO.setTags(new ArrayList<>(Optional.ofNullable(tagListMap.get(post.getId())).orElseGet(LinkedList::new)));
             postListDTO.setCategories(new ArrayList<>(Optional.ofNullable(categoryListMap.get(post.getId())).orElseGet(LinkedList::new)));
-            postListDTO.setCommentCount(commentCountMap.getOrDefault(post.getId(), 0L));
             postListDTO.setFullPath(configService.buildFullPath(post.getId()));
             return postListDTO;
         }).collect(Collectors.toList());
@@ -117,13 +108,10 @@ public class PostServiceImpl implements PostService {
 
         Set<Integer> postIds = ServiceUtils.fetchProperty(posts, PostSimpleDTO::getId);
 
-        Map<Integer, Long> commentCountMap = commentService.countByTypeAndTargetIds(CommentType.POST, postIds);
-
         Map<Integer, List<CategoryDTO>> categoryListMap = postCategoryService.listCategoryListMap(postIds);
 
         posts.forEach(post -> {
             post.setCategories(new ArrayList<>(Optional.ofNullable(categoryListMap.get(post.getId())).orElseGet(LinkedList::new)));
-            post.setCommentCount(commentCountMap.getOrDefault(post.getId(), 0L));
             post.setFullPath(configService.buildFullPath(post.getId()));
         });
 
@@ -347,10 +335,8 @@ public class PostServiceImpl implements PostService {
         // 分类
         int i2 = postCategoryMapper.deleteByPostId(postId);
 
-        // 评论
-        int i3 = commentMapper.deleteByPostId(postId);
 
-        log.debug("删除和标签关联{}条，和分类{}条，评论{}条。", i1, i2, i3);
+        log.debug("删除和标签关联{}条，和分类{}条。", i1, i2);
 
         int i = contentMapper.deleteById(postId);
 
@@ -502,8 +488,6 @@ public class PostServiceImpl implements PostService {
         postDTO.setCategories(categories);
 
         postDTO.setFullPath(configService.buildFullPath(post.getId()));
-
-        postDTO.setCommentCount(commentMapper.selectCountByPostIdAndStatus(postId, CommentStatus.PUBLISHED));
 
         return postDTO;
     }
