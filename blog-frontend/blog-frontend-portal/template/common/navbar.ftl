@@ -86,10 +86,6 @@
           <i class="joe-font joe-icon-remen"></i>
           <@tagTag method="count"><span>累计创建 <strong>${count!"0"}</strong> 个标签</span></@tagTag>
         </li>
-        <li class="item">
-          <i class="joe-font joe-icon-message"></i>
-          <@commentTag method="count"><span>累计收到 <strong>${count!"0"}</strong> 条评论</span></@commentTag>
-        </li>
       </ul>
       <ul class="joe_header__slideout-menu panel-box">
         <li>

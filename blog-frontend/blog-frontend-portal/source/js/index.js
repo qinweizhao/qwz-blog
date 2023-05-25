@@ -203,9 +203,6 @@ const homeContext = {
                     <li><i class="joe-font joe-icon-eye"></i>${
 	post.visits || 0
 }</li>
-                    <li><i class="joe-font joe-icon-message"></i>${
-	post.commentCount || 0
-}</li>
                     <li><i class="joe-font joe-icon-dianzan"></i>${
 	post.likes || 0
 }</li>
