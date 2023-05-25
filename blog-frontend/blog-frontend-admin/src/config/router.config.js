@@ -134,7 +134,7 @@ export const asyncRouterMap = [
             name: 'SystemActionLogs',
             hidden: true,
             component: () => import('@/views/system/ActionLogs'),
-            meta: { title: '操作日志', hiddenHeaderContent: false }
+            meta: { title: '日志', hiddenHeaderContent: false }
           }
         ]
       }

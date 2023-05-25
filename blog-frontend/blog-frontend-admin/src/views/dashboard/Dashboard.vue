@@ -58,7 +58,6 @@
                         <a v-if="['PUBLISHED', 'INTIMATE'].includes(item.status)" :href="item.fullPath" target="_blank">
                           {{ item.title }}
                         </a>
-
                         <a-button
                           v-else-if="item.status === 'DRAFT'"
                           class="!p-0"
@@ -77,18 +76,6 @@
                   </a-list-item>
                 </a-list>
               </a-tab-pane>
-<!--              <a-tab-pane key="2" tab="最近评论">-->
-<!--                <div class="custom-tab-wrapper">-->
-<!--                  <a-tabs :animated="{ inkBar: true, tabPane: false }">-->
-<!--                    <a-tab-pane key="post" tab="文章">-->
-<!--                      <recent-comment-tab type="post" />-->
-<!--                    </a-tab-pane>-->
-<!--                    <a-tab-pane key="journal" tab="日志">-->
-<!--                      <recent-comment-tab type="journal" />-->
-<!--                    </a-tab-pane>-->
-<!--                  </a-tabs>-->
-<!--                </div>-->
-<!--              </a-tab-pane>-->
             </a-tabs>
           </div>
         </a-card>
@@ -96,7 +83,7 @@
       <a-col :lg="12" :md="12" :sm="24" :xl="12" :xs="24" class="mb-3">
         <a-card :bodyStyle="{ padding: '16px' }" :bordered="false">
           <template slot="title">
-            操作日志
+            日志
             <a-tooltip slot="action" title="更多">
               <router-link :to="{ name: 'SystemActionLogs' }">
                 <a-icon type="ellipsis" />

@@ -1,18 +1,7 @@
-<!--<template>-->
-<!--  <div class="logo">-->
-<!--    <img-->
-<!--      :style="{ width: sidebarOpened ? '64px' : '48px' }"-->
-<!--      alt="Halo Logo"-->
-<!--      class="select-none cursor-pointer hover:brightness-125 transition-all"-->
-<!--      src="/images/logo.svg"-->
-<!--      @click="onLogoClick()"-->
-<!--    />-->
-<!--  </div>-->
-<!--</template>-->
 <template>
   <div class="logo">
     <h1 href="javascript:void(0);" @click="onLogoClick()">
-      <a class="select-none cursor-pointer hover:brightness-125 transition-all">YVKG</a>
+      <a class="select-none cursor-pointer hover:brightness-125 transition-all">Qwz</a>
     </h1>
   </div>
 </template>

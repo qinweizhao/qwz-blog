@@ -24,6 +24,7 @@ export const editorToolbars = {
   preview: true
 }
 
+// todo
 export const simpleEditorToolbars = {
   bold: true,
   italic: true,
@@ -175,12 +176,6 @@ export const postColumns = [
     width: '170px',
     scopedSlots: { customRender: 'tags' }
   },
-  // {
-  //   title: '评论',
-  //   width: '60px',
-  //   dataIndex: 'commentCount',
-  //   scopedSlots: { customRender: 'commentCount' }
-  // },
   {
     title: '访问',
     width: '60px',
@@ -219,12 +214,6 @@ export const recyclePostColumns = [
     scopedSlots: { customRender: 'tags' }
   },
   {
-    title: '评论',
-    width: '70px',
-    dataIndex: 'commentCount',
-    scopedSlots: { customRender: 'commentCount' }
-  },
-  {
     title: '访问',
     width: '70px',
     dataIndex: 'visits',
@@ -236,24 +225,3 @@ export const recyclePostColumns = [
     scopedSlots: { customRender: 'action' }
   }
 ]
-
-export const commentStatuses = {
-  PUBLISHED: {
-    value: 'PUBLISHED',
-    color: 'green',
-    status: 'success',
-    text: '已发布'
-  },
-  AUDITING: {
-    value: 'AUDITING',
-    color: 'yellow',
-    status: 'warning',
-    text: '待审核'
-  },
-  RECYCLE: {
-    value: 'RECYCLE',
-    color: 'red',
-    status: 'error',
-    text: '回收站'
-  }
-}
