@@ -31,10 +31,8 @@
           <div>
             <a-list :loading="statistics.loading" itemLayout="horizontal">
               <a-list-item>累计发表了 {{ statistics.data.postCount || 0 }} 篇文章。</a-list-item>
-              <a-list-item>累计发表了 {{ statistics.data.journalCount || 0 }} 篇日志。</a-list-item>
               <a-list-item>累计创建了 {{ statistics.data.categoryCount || 0 }} 个分类。</a-list-item>
               <a-list-item>累计创建了 {{ statistics.data.tagCount || 0 }} 个标签。</a-list-item>
-              <a-list-item>累计获得了 {{ statistics.data.commentCount || 0 }} 条评论。</a-list-item>
               <a-list-item>文章总阅读 {{ statistics.data.visitCount || 0 }} 次。</a-list-item>
               <a-list-item></a-list-item>
             </a-list>
@@ -69,7 +67,7 @@
                     <a-input v-model="userForm.model.email" />
                   </a-form-model-item>
                   <a-form-model-item label="个人说明：" prop="description">
-                    <a-input v-model="userForm.model.description" :autoSize="{ minRows: 5 }" type="textarea" />
+                    <a-input v-model="userForm.model.description" :autoSize="{ minRows: 2 }" type="textarea" />
                   </a-form-model-item>
                   <a-form-model-item>
                     <ReactiveButton
