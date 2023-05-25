@@ -55,9 +55,6 @@
         </a-tab-pane>
         <a-tab-pane key="advanced" tab="高级">
           <a-form :label-col="{ span: 4 }" :wrapper-col="{ span: 20 }" labelAlign="left">
-<!--            <a-form-item label="禁止评论">-->
-<!--              <a-switch v-model="form.model.disallowComment" />-->
-<!--            </a-form-item>-->
             <a-form-item label="是否置顶">
               <a-switch v-model="topPriority" />
             </a-form-item>

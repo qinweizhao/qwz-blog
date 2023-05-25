@@ -7,7 +7,6 @@
         </span>
       </a-tooltip>
     </a>
-    <header-comment class="action" />
     <a-dropdown>
       <span v-if="user" class="action ant-dropdown-link user-dropdown-menu">
         <a-avatar :src="user.avatar || '//cn.gravatar.com/avatar/?s=256&d=mm'" class="avatar" size="small" />
@@ -32,14 +31,10 @@
 </template>
 
 <script>
-import HeaderComment from './HeaderComment'
 import { mapActions, mapGetters } from 'vuex'
 
 export default {
   name: 'UserMenu',
-  components: {
-    HeaderComment
-  },
   computed: {
     ...mapGetters(['user', 'options'])
   },

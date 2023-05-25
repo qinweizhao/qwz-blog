@@ -107,7 +107,6 @@
 <script>
 import { PageView } from '@/layouts'
 import AnalysisCard from './components/AnalysisCard'
-import RecentCommentTab from './components/RecentCommentTab'
 
 import postApi from '@/api/post'
 import logApi from '@/api/log'
@@ -118,8 +117,7 @@ export default {
   name: 'Dashboard',
   components: {
     PageView,
-    AnalysisCard,
-    RecentCommentTab
+    AnalysisCard
   },
   data() {
     return {

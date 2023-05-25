@@ -377,26 +377,12 @@
         <a-button :disabled="selectNextButtonDisabled" @click="handleSelectNext"> 下一篇</a-button>
       </template>
     </PostSettingModal>
-
-    <TargetCommentListModal
-      :target-id="list.selected.id"
-      :title="`「${list.selected.title}」的评论`"
-      :visible.sync="postCommentVisible"
-      target="post"
-      @close="onPostCommentsClose"
-    >
-      <template #extraFooter>
-        <a-button :disabled="selectPreviousButtonDisabled" @click="handleSelectPrevious"> 上一篇</a-button>
-        <a-button :disabled="selectNextButtonDisabled" @click="handleSelectNext"> 下一篇</a-button>
-      </template>
-    </TargetCommentListModal>
   </div>
 </template>
 
 <script>
 // components
 import PostSettingModal from './PostSettingModal.vue'
-import TargetCommentListModal from '@/components/Comment/TargetCommentListModal'
 
 // libs
 import { mixinDevice } from '@/mixins/mixin.js'
@@ -407,8 +393,7 @@ import categoryApi from '@/api/category'
 export default {
   name: 'PostListView',
   components: {
-    PostSettingModal,
-    TargetCommentListModal
+    PostSettingModal
   },
   mixins: [mixinDevice],
   props: {
