@@ -720,17 +720,6 @@ post:
           label: 开启
         - value: false
           label: 关闭
-#    enable_comment:
-#      name: enable_comment
-#      label: 文章评论
-#      type: switch
-#      data-type: bool
-#      default: true
-#      options:
-#        - value: true
-#          label: 开启
-#        - value: false
-#          label: 关闭
     enable_donate:
       name: enable_donate
       label: 开启打赏
@@ -1180,79 +1169,6 @@ social:
       placeholder: "请输入"
       description: "QQ交流群按钮展示的文案，对应首页 “推荐文章” 右侧的 “欢迎加入QQ交流群”"
 
-# 评论插件
-#comment:
-#  label: 评论框
-#  items:
-#    enable_comment_autoload:
-#      name: enable_comment_autoload
-#      label: 自动加载评论
-#      type: switch
-#      data-type: bool
-#      default: true
-#      description: "是否自动加载评论数据，分页大小可在 “后台管理-系统-博客设置-评论设置-每页显示条数” 中统一配置"
-#      options:
-#        - value: true
-#          label: 开启
-#        - value: false
-#          label: 关闭
-#    comment_loading_style:
-#      name: comment_loading_style
-#      label: 评论加载样式
-#      type: radio
-#      data-type: text
-#      default: default
-#      description: "选择加载评论时的样式"
-#      options:
-#        - value: default
-#          label: 默认
-#        - value: circle
-#          label: 圆圈
-#        - value: balls
-#          label: 小球
-#    comment_aword:
-#      name: comment_aword
-#      label: "评论框内的一言"
-#      type: text
-#      default: "你是我一生只会遇见一次的惊喜 ..."
-#      placeholder: 请输入
-#      description: "输入内容时展示的的一言内容"
-#    comment_author_poptext:
-#      name: comment_author_poptext
-#      label: "提示文案（输入昵称时）"
-#      type: text
-#      default: "你的昵称是啥呢？"
-#      placeholder: 请输入
-#      description: "填写昵称时的提示文字"
-#    comment_email_poptext:
-#      name: comment_email_poptext
-#      label: "提示文案（输入邮箱时）"
-#      type: text
-#      default: "你将收到回复通知"
-#      placeholder: 请输入
-#      description: "填写邮箱时的提示文字"
-#    comment_avatar_error:
-#      name: comment_avatar_error
-#      label: 缺省头像
-#      type: text
-#      placeholder: 请输入
-#      default: "/themes/blog-frontend-portal/source/img/error_avatar.jpg"
-#      description: "当评论头像加载不出来时展示的默认头像"
-#    comment_avatar_loading:
-#      name: comment_avatar_loading
-#      label: 头像加载图
-#      type: text
-#      placeholder: 请输入
-#      default: "/themes/blog-frontend-portal/source/svg/spinner-preloader.svg"
-#      description: "头像加载时展示的loading图片"
-#    comment_empty_text:
-#      name: comment_empty_text
-#      label: 无评论时的文案
-#      type: text
-#      default: "暂无评论"
-#      placeholder: 请输入
-#      description: "没有评论数据时显示的文字"
-
 # 广告位
 advertise:
   label: 广告位
@@ -1332,6 +1248,7 @@ advertise:
       default: ""
       placeholder: 请输入
       description: "和 “广告图片URL” 组合生效，不填不展示"
+
 # 其它
 others:
   label: 其它
@@ -1342,7 +1259,7 @@ others:
       type: switch
       data-type: bool
       default: false
-      description: "启用后，全局评论、留言、特效和广告位将会屏蔽"
+      description: "启用后，特效和广告位将会屏蔽"
       options:
         - value: true
           label: 开启
