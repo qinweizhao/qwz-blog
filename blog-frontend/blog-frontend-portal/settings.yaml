@@ -416,18 +416,14 @@ blogger:
     overview_type:
       name: overview_type
       label: 概览指标
-      type: select
-      default: C
-      description: "选择概览展示的指标，包括分类数、标签数、文章数、评论数"
+      type: switch
+      default: true
+      description: "是否展示概览展示的指标，包括分类数、标签数、文章数"
       options:
-        - value: A
-          label: 分类+标签+文章
-#        - value: B
-#          label: 分类+标签+评论
-#        - value: C
-#          label: 分类+文章+评论
-#        - value: D
-#          label: 标签+文章+评论
+        - value: true
+          label: 是
+        - value: false
+          label: 否
     enable_social:
       name: enable_social
       label: 展示社交账号

@@ -12,7 +12,7 @@
       </#if>
   </div>
   <div class="count">
-    <#if settings.overview_type == 'A'>
+    <#if settings.overview_type!true>
       <@categoryTag method="count">
         <div class="item" title="累计分类数 ${count!'0'}">
           <span class="num">${count!'0'}</span>
@@ -31,46 +31,6 @@
           <span>文章数</span>
         </div>
       </@postTag>
-    <#elseif settings.overview_type == 'B'>
-      <@categoryTag method="count">
-        <div class="item" title="累计分类数 ${count!'0'}">
-          <span class="num">${count!'0'}</span>
-          <span>分类数</span>
-        </div>
-      </@categoryTag>
-      <@tagTag method="count">
-        <div class="item" title="累计标签数 ${count!'0'}">
-          <span class="num">${count!'0'}</span>
-          <span>标签数</span>
-        </div>
-      </@tagTag>
-    <#elseif settings.overview_type == 'C'>
-      <@categoryTag method="count">
-        <div class="item" title="累计分类数 ${count!'0'}">
-          <span class="num">${count!'0'}</span>
-          <span>分类数</span>
-        </div>
-      </@categoryTag>
-      <@postTag method="count">
-        <div class="item" title="累计文章数 ${count!'0'}">
-          <span class="num">${count!'0'}</span>
-          <span>文章数</span>
-        </div>
-      </@postTag>
-    <#elseif settings.overview_type == 'D'>
-      <@tagTag method="count">
-        <div class="item" title="累计标签数 ${count!'0'}">
-          <span class="num">${count!'0'}</span>
-          <span>标签数</span>
-        </div>
-      </@tagTag>
-      <@postTag method="count">
-        <div class="item" title="累计文章数 ${count!'0'}">
-          <span class="num">${count!'0'}</span>
-          <span>文章数</span>
-        </div>
-      </@postTag>
-    <#else>
     </#if>
   </div>
   <#if settings.enable_social!false>
