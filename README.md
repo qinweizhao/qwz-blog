@@ -21,8 +21,6 @@
 
 一个轻量级的个人博客系统，采用 SpringBoot、MyBatis-Plus、Vue、FreeMarker 等技术构建。
 
-> 改造自 Halo 博客，但不兼容 Halo。
-
 ## 仓库结构
 
 ```
