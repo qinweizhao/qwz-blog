@@ -1,14 +1,14 @@
 <template>
-  <page-view :sub-title="theme.current.version || '-'" :title="theme.current.name || '-'" affix>
+  <page-view affix>
     <template slot="extra">
-      <a-button :disabled="!theme.current.activated" @click="handleRouteToThemeVisualSetting">
+      <a-button @click="handleRouteToThemeVisualSetting">
         <a-icon type="eye" />
         预览模式
       </a-button>
     </template>
 
     <a-spin :spinning="theme.loading">
-      <ThemeSettingForm :theme="theme.current" />
+      <ThemeSettingForm />
     </a-spin>
   </page-view>
 </template>
@@ -18,7 +18,6 @@ import { PageView } from '@/layouts'
 import ThemeSettingForm from './ThemeSettingForm'
 
 // api
-import themeApi from '@/api/theme'
 
 export default {
   name: 'ThemeSetting',
@@ -50,13 +49,10 @@ export default {
     async handleGetTheme() {
       try {
         this.theme.loading = true
-        const { data } = await themeApi.getProperty()
-        this.theme.current = data.data
       } finally {
         this.theme.loading = false
       }
     },
-
     handleRouteToThemeVisualSetting() {
       this.$router.push({ name: 'ThemeVisualSetting' })
     }

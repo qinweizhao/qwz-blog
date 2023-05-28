@@ -2,13 +2,7 @@
   <a-row :gutter="0">
     <a-col :md="5" :sm="24" class="h-screen" style="border-right: 1px solid #f2f2f2">
       <a-spin :spinning="theme.loading" class="h-full">
-        <ThemeSettingForm :theme="theme.data" :wrapperCol="{ span: 24 }" @saved="onSettingsSaved">
-          <template #descriptions-item>
-            <a-descriptions-item>
-              <a-button @click="handleRouteToThemeSetting()">返回</a-button>
-            </a-descriptions-item>
-          </template>
-        </ThemeSettingForm>
+        <ThemeSettingForm :wrapperCol="{ span: 24 }" @saved="onSettingsSaved"> </ThemeSettingForm>
       </a-spin>
     </a-col>
     <a-col :md="19" :sm="24" class="h-screen">
@@ -27,7 +21,6 @@
 // components
 import ThemeSettingForm from './ThemeSettingForm'
 
-import themeApi from '@/api/theme'
 import { mapGetters } from 'vuex'
 
 export default {
@@ -55,14 +48,9 @@ export default {
     async handleGetTheme() {
       try {
         this.theme.loading = true
-        const { data } = await themeApi.getProperty()
-        this.theme.data = data.data
       } finally {
         this.theme.loading = false
       }
-    },
-    handleRouteToThemeSetting() {
-      this.$router.push({ name: 'ThemeSetting' })
     },
     onSettingsSaved() {
       document.getElementById('themeViewIframe').contentWindow.location.reload()

@@ -1,43 +1,7 @@
 <template>
-  <div v-if="theme.id" class="card-container h-full">
+  <div class="card-container h-full">
     <a-tabs class="h-full" defaultActiveKey="0" type="card">
-      <a-tab-pane :key="0" tab="关于">
-        <div v-if="theme.logo">
-          <a-avatar :alt="theme.name" :size="72" :src="theme.logo" shape="square" />
-          <a-divider />
-        </div>
-        <a-descriptions :column="1" layout="horizontal">
-          <a-descriptions-item label="作者">
-            <a :href="theme.author.website || '#'" class="text-inherit" target="_blank">
-              {{ theme.author.name }}
-            </a>
-          </a-descriptions-item>
-          <a-descriptions-item label="介绍">
-            {{ theme.description || '-' }}
-          </a-descriptions-item>
-          <a-descriptions-item label="官网">
-            <a :href="theme.website || '#'" class="text-inherit" target="_blank">
-              {{ theme.website || '-' }}
-            </a>
-          </a-descriptions-item>
-          <a-descriptions-item label="Git 仓库">
-            <a :href="theme.repo || '#'" class="text-inherit" target="_blank">
-              {{ theme.repo || '-' }}
-            </a>
-          </a-descriptions-item>
-          <a-descriptions-item label="主题标识">
-            {{ theme.id }}
-          </a-descriptions-item>
-          <a-descriptions-item label="当前版本">
-            {{ theme.version }}
-          </a-descriptions-item>
-          <a-descriptions-item label="存储位置">
-            {{ theme.themePath }}
-          </a-descriptions-item>
-          <slot name="descriptions-item" />
-        </a-descriptions>
-      </a-tab-pane>
-      <a-tab-pane v-for="(group, index) in form.configurations" :key="index + 1" :tab="group.label">
+      <a-tab-pane v-for="(group, index) in form.configurations" :key="index" :tab="group.label">
         <a-form :wrapperCol="wrapperCol" layout="vertical">
           <a-form-item v-for="(item, formItemIndex) in group.items" :key="formItemIndex" :label="item.label + '：'">
             <p v-if="item.description && item.description !== ''" slot="help" v-html="item.description"></p>
@@ -116,6 +80,11 @@
               @click="handleSaveSettings"
             ></ReactiveButton>
           </a-form-item>
+          <a-form-item>
+            <template>
+              <a-button @click="handleRouteToThemeSetting()">返回</a-button>
+            </template>
+          </a-form-item>
         </a-form>
       </a-tab-pane>
     </a-tabs>
@@ -135,10 +104,6 @@ export default {
     Verte
   },
   props: {
-    theme: {
-      type: Object,
-      default: () => {}
-    },
     wrapperCol: {
       type: Object,
       default: () => {
@@ -162,6 +127,9 @@ export default {
       }
     }
   },
+  created() {
+    this.handleGetConfigurations()
+  },
   watch: {
     theme(value) {
       if (value) {
@@ -172,7 +140,7 @@ export default {
   methods: {
     async handleGetConfigurations() {
       try {
-        const { data } = await themeApi.listConfigurations(this.theme.id)
+        const { data } = await themeApi.listConfigurations()
         this.form.configurations = data.data
         await this.handleGetSettings()
       } catch (error) {
@@ -208,6 +176,9 @@ export default {
         this.handleGetSettings()
         this.$emit('saved')
       }
+    },
+    handleRouteToThemeSetting() {
+      this.$router.push({ name: 'ThemeSetting' })
     }
   }
 }
