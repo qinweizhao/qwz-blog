@@ -56,9 +56,6 @@ export default {
         this.theme.loading = false
       }
     },
-    onThemeDeleteSucceed() {
-      this.$router.replace({ name: 'ThemeList' })
-    },
 
     handleRouteToThemeVisualSetting() {
       this.$router.push({ name: 'ThemeVisualSetting' })

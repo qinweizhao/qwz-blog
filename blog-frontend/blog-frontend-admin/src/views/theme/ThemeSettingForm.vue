@@ -128,7 +128,6 @@ import 'verte/dist/verte.css'
 
 // api
 import themeApi from '@/api/theme'
-import configApi from '@/api/config'
 
 export default {
   name: 'ThemeSettingForm',
