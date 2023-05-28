@@ -32,20 +32,20 @@ public class ThemeController {
      *
      * @return ThemeProperty
      */
-    @GetMapping
-    public ThemeProperty getProperty() {
-        return themeService.getThemeProperty();
-    }
+//    @GetMapping
+//    public ThemeProperty getProperty() {
+//        return themeService.getThemeProperty();
+//    }
 
     /**
      * 主题配置（yaml)
      *
      * @return List
      */
-    @GetMapping("configurations")
-    public List<Group> listConfigurations() {
-        return themeService.listConfig();
-    }
+//    @GetMapping("configurations")
+//    public List<Group> listConfigurations() {
+//        return themeService.listConfig();
+//    }
 
 
     /**

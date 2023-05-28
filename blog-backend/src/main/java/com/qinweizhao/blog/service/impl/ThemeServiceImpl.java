@@ -1,14 +1,12 @@
 package com.qinweizhao.blog.service.impl;
 
 import com.qinweizhao.blog.config.properties.MyBlogProperties;
-import com.qinweizhao.blog.exception.NotFoundException;
 import com.qinweizhao.blog.exception.ServiceException;
 import com.qinweizhao.blog.framework.cache.AbstractStringCacheStore;
 import com.qinweizhao.blog.framework.handler.theme.config.ThemeConfigResolver;
 import com.qinweizhao.blog.framework.handler.theme.config.support.Group;
 import com.qinweizhao.blog.framework.handler.theme.config.support.ThemeProperty;
 import com.qinweizhao.blog.service.ThemeService;
-import com.qinweizhao.blog.theme.ThemePropertyScanner;
 import com.qinweizhao.blog.util.FileUtils;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,7 +20,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Theme service implementation.
@@ -42,41 +39,42 @@ public class ThemeServiceImpl implements ThemeService {
     private final AbstractStringCacheStore cacheStore;
 
 
-    @Override
-    public ThemeProperty getThemeProperty() {
-        return Optional.of(getThemes()).orElseThrow(() -> new NotFoundException(" 主题不存在或已删除！"));
-    }
+//    @Override
+//    public ThemeProperty getThemeProperty() {
+//        return Optional.of(getThemes()).orElseThrow(() -> new NotFoundException(" 主题不存在或已删除！"));
+//    }
 
-    @Override
-    public Optional<ThemeProperty> fetchActivatedTheme() {
-        return Optional.of(getThemes());
-    }
+//    @Override
+//    public Optional<ThemeProperty> fetchActivatedTheme() {
+//        return Optional.of(getThemes());
+//    }
 
-    /**
-     * 获取主题配置
-     *
-     * @return List
-     */
-    public ThemeProperty getThemes() {
-        String themeDirName = myBlogProperties.getThemeDirName();
-
-
-        return cacheStore.getAny(THEMES_CACHE_KEY, ThemeProperty.class).orElseGet(() -> {
-            // 扫描配置，为防止报异常，如果存在多个只会取扫描的第一个。
-            ThemeProperty properties = ThemePropertyScanner.INSTANCE.scan(getBasePath(), themeDirName);
-            // 缓存主题配置
-            log.debug("主题配置{}", properties);
-            cacheStore.putAny(THEMES_CACHE_KEY, properties);
-            return properties;
-        });
-    }
+//    /**
+//     * 获取主题配置
+//     *
+//     * @return List
+//     */
+//    public ThemeProperty getThemes() {
+//        String themeDirName = myBlogProperties.getThemeDirName();
+//
+//
+//        return cacheStore.getAny(THEMES_CACHE_KEY, ThemeProperty.class).orElseGet(() -> {
+//            // 扫描配置，为防止报异常，如果存在多个只会取扫描的第一个。
+//            ThemeProperty properties = ThemePropertyScanner.INSTANCE.scan(getBasePath(), themeDirName);
+//            // 缓存主题配置
+//            log.debug("主题配置{}", properties);
+//            cacheStore.putAny(THEMES_CACHE_KEY, properties);
+//            return properties;
+//        });
+//    }
 
     /**
      * @return Path
      */
     public Path getBasePath() {
         String frontendDirName = myBlogProperties.getFrontendDirName();
-        Path frontend = Paths.get(myBlogProperties.getWorkDir(), frontendDirName);
+        String themeDirName = myBlogProperties.getThemeDirName();
+        Path frontend = Paths.get(myBlogProperties.getWorkDir(), frontendDirName, themeDirName);
         log.debug("将要扫描的目录为：{}", frontend);
         return frontend;
     }
@@ -86,32 +84,21 @@ public class ThemeServiceImpl implements ThemeService {
         if (StringUtils.isBlank(template)) {
             return false;
         }
+        Path templatePath = Paths.get(this.getBasePath().toString(), template);
+        // Check the directory
+        checkDirectory(templatePath.toString());
+        // Check existence
+        return Files.exists(templatePath);
 
-        return fetchActivatedTheme().map(themeProperty -> {
-            // Resolve template path
-            Path templatePath = Paths.get(themeProperty.getThemePath(), template);
-            // Check the directory
-            checkDirectory(templatePath.toString());
-            // Check existence
-            return Files.exists(templatePath);
-        }).orElse(false);
     }
 
     @Override
     public List<Group> listConfig() {
 
-        // 获取主题属性
-        ThemeProperty themeProperty = getThemeProperty();
-
-        if (!themeProperty.isHasOptions()) {
-            // If this theme dose not has an option, then return empty list
-            return Collections.emptyList();
-        }
-
         try {
             for (String optionsName : SETTINGS_NAMES) {
                 // Resolve the options path
-                Path optionsPath = Paths.get(themeProperty.getThemePath(), optionsName);
+                Path optionsPath = Paths.get(this.getBasePath().toString(), optionsName);
 
                 log.debug("Finding options in: [{}]", optionsPath);
 
@@ -135,15 +122,14 @@ public class ThemeServiceImpl implements ThemeService {
 
     @Override
     public String render(String pageName) {
-        return fetchActivatedTheme().map(themeProperty -> String.format(RENDER_TEMPLATE, themeProperty.getFolderName(), pageName)).orElse("");
+        return String.format(RENDER_TEMPLATE, this.getBasePath().getFileName().toString(), pageName);
+
     }
 
     @Override
     public String renderWithSuffix(String pageName) {
-        // 获取主题属性
-        ThemeProperty activatedTheme = getThemeProperty();
         // 构建渲染地址
-        return String.format(RENDER_TEMPLATE_SUFFIX, activatedTheme.getFolderName(), pageName);
+        return String.format(RENDER_TEMPLATE_SUFFIX, this.getBasePath().getFileName().toString(), pageName);
     }
 
     /**
@@ -152,8 +138,7 @@ public class ThemeServiceImpl implements ThemeService {
      * @param absoluteName must not be blank
      */
     private void checkDirectory(String absoluteName) {
-        ThemeProperty activeThemeProperty = getThemeProperty();
-        FileUtils.checkDirectoryTraversal(activeThemeProperty.getThemePath(), absoluteName);
+        FileUtils.checkDirectoryTraversal(this.getBasePath().toString(), absoluteName);
     }
 
 }

@@ -534,7 +534,8 @@ public class ConfigServiceImpl implements ConfigService {
      */
     public Path getBasePath() {
         String frontendDirName = myBlogProperties.getFrontendDirName();
-        Path frontend = Paths.get(myBlogProperties.getWorkDir(), frontendDirName);
+        String themeDirName = myBlogProperties.getThemeDirName();
+        Path frontend = Paths.get(myBlogProperties.getWorkDir(), frontendDirName, themeDirName);
         log.debug("将要扫描的目录为：{}", frontend);
         return frontend;
     }

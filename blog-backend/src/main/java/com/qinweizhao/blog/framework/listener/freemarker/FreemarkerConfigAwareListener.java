@@ -1,5 +1,6 @@
 package com.qinweizhao.blog.framework.listener.freemarker;
 
+import com.qinweizhao.blog.config.properties.MyBlogProperties;
 import com.qinweizhao.blog.framework.event.config.ConfigUpdatedEvent;
 import com.qinweizhao.blog.framework.event.user.UserUpdatedEvent;
 import com.qinweizhao.blog.model.properties.BlogProperties;
@@ -34,6 +35,7 @@ public class FreemarkerConfigAwareListener {
     private final ThemeService themeService;
 
     private final UserService userService;
+    private final MyBlogProperties myBlogProperties;
 
     @EventListener
     @Order(Ordered.HIGHEST_PRECEDENCE + 1)
@@ -93,25 +95,23 @@ public class FreemarkerConfigAwareListener {
     }
 
     private void loadThemeConfig() {
-        // 获取当前激活的主题
-        themeService.fetchActivatedTheme().ifPresent(activatedTheme -> {
-            String themeBasePath = configService.getBlogBaseUrl() + "/themes/" + activatedTheme.getFolderName();
-            try {
-                configuration.setSharedVariable("theme", activatedTheme);
 
-                configuration.setSharedVariable("static", themeBasePath);
+        String themeBasePath = configService.getBlogBaseUrl() + "/themes/" + myBlogProperties.getThemeDirName();
+        try {
+//            configuration.setSharedVariable("theme", activatedTheme);
 
-                configuration.setSharedVariable("theme_base", themeBasePath);
+            configuration.setSharedVariable("static", themeBasePath);
 
-                configuration.setSharedVariable("settings", configService.getSettings());
+            configuration.setSharedVariable("theme_base", themeBasePath);
 
-                log.debug("加载主题和设置");
-            } catch (TemplateModelException e) {
+            configuration.setSharedVariable("settings", configService.getSettings());
 
-                log.error("设置共享变量失败!", e);
+            log.debug("加载主题和设置");
+        } catch (TemplateModelException e) {
 
-            }
-        });
+            log.error("设置共享变量失败!", e);
+
+        }
 
     }
 }

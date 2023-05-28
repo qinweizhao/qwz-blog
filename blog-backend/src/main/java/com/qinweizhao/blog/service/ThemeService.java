@@ -35,12 +35,12 @@ public interface ThemeService {
      */
     String THEMES_CACHE_KEY = "themes";
 
-    /**
-     * 获取主题属性
-     *
-     * @return ThemeProperty
-     */
-    ThemeProperty getThemeProperty();
+//    /**
+//     * 获取主题属性
+//     *
+//     * @return ThemeProperty
+//     */
+//    ThemeProperty getThemeProperty();
 
     /**
      * 判断指定主题下是否存在模板
@@ -50,12 +50,6 @@ public interface ThemeService {
      */
     boolean templateExists(String template);
 
-    /**
-     * 获取主题属性(Optional)
-     *
-     * @return activated theme property
-     */
-    Optional<ThemeProperty> fetchActivatedTheme();
 
     /**
      * 获取配置
