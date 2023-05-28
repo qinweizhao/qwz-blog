@@ -10,11 +10,7 @@
     <script src="${BASE_RES_URL!}/source/lib/swiper/swiper.min.js"></script>
   </#if>
     <script src="${BASE_RES_URL!}/source/lib/tocbot/tocbot.min.js"></script>
-<#--  <#if settings.enable_clean_mode != true && ( type == 'post' || type == 'journals') && subType != 'only_header_footer'>-->
-<#--    <script src="${BASE_RES_URL!}/source/lib/vue@2.6.10/vue.min.js"></script>-->
-<#--    <script src="${BASE_RES_URL!}/source/lib/halo-comment/halo-comment.min.js?v=${theme.version!}"></script>-->
-<#--  </#if>-->
-  <script src="${BASE_RES_URL!}/source/lib/fancybox/jquery.fancybox.min.js"></script>
+    <script src="${BASE_RES_URL!}/source/lib/fancybox/jquery.fancybox.min.js"></script>
 
   <#-- 数学公式 -->
 <#--  <link rel="stylesheet" href="${BASE_RES_URL}/source/lib/katex@0.13.18/katex.min.css">-->
