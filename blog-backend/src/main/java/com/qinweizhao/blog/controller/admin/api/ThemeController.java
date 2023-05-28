@@ -42,10 +42,10 @@ public class ThemeController {
      *
      * @return List
      */
-//    @GetMapping("configurations")
-//    public List<Group> listConfigurations() {
-//        return themeService.listConfig();
-//    }
+    @GetMapping("configurations")
+    public List<Group> listConfigurations() {
+        return themeService.listConfig();
+    }
 
 
     /**
