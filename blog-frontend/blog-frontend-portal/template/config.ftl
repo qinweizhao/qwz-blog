@@ -53,7 +53,6 @@
     </#if>
   </#list>
   ThemeConfig['name'] = '${options.theme!"blog-frontend-portal"}';
-  ThemeConfig['version'] = '${theme.version!}';
   ThemeConfig['mode'] = '${mode!}';
   ThemeConfig['blog_title'] = '${blog_title?js_string!}';
   ThemeConfig['blog_url'] = '${blog_url!}';

@@ -20,10 +20,10 @@
       </style>
       <script src="${BASE_RES_URL}/source/lib/nprogress/nprogress.min.js"></script>
 
-  <link rel="preload stylesheet" as="style" href="${BASE_RES_URL}/source/css/min/normalize.min.css?v=${theme.version!}"> 
-  <link rel="preload stylesheet" as="style" href="${BASE_RES_URL}/source/lib/font-awesome/css/font-awesome.min.css?v=${theme.version!}"> 
+  <link rel="preload stylesheet" as="style" href="${BASE_RES_URL}/source/css/min/normalize.min.css"> 
+  <link rel="preload stylesheet" as="style" href="${BASE_RES_URL}/source/lib/font-awesome/css/font-awesome.min.css"> 
   <link rel="preload stylesheet" as="style" href="//at.alicdn.com/t/font_2788564_crkap1ed9j5.css">
-  <link rel="preload stylesheet" as="style" href="${BASE_RES_URL}/source/css/min/theme.min.css?v=${theme.version!}">
+  <link rel="preload stylesheet" as="style" href="${BASE_RES_URL}/source/css/min/theme.min.css">
   <style>
     /*todo*/
     #Joe .joe_container {
@@ -36,22 +36,19 @@
     <link rel="stylesheet" href="${BASE_RES_URL}/source/lib/swiper/swiper.min.css">
   </#if>
   <#if type == 'post' || type == 'journals'>
-    <link rel="preload stylesheet" as="style" href="${BASE_RES_URL}/source/lib/prism/prism.min.css?v=${theme.version!}">
-    <link rel="preload stylesheet" as="style" href="${BASE_RES_URL}/source/lib/prism/themes/prism-${settings.code_theme}.css?v=${theme.version!}">
+    <link rel="preload stylesheet" as="style" href="${BASE_RES_URL}/source/lib/prism/prism.min.css">
+    <link rel="preload stylesheet" as="style" href="${BASE_RES_URL}/source/lib/prism/themes/prism-${settings.code_theme}.css">
   </#if>
-  <link rel="preload stylesheet" as="style" href="${BASE_RES_URL}/source/css/min/global.min.css?v=${theme.version!}">
+  <link rel="preload stylesheet" as="style" href="${BASE_RES_URL}/source/css/min/global.min.css">
   <#if type == 'index'>
-    <link rel="preload stylesheet" as="style" href="${BASE_RES_URL}/source/css/min/index.min.css?v=${theme.version!}">
+    <link rel="preload stylesheet" as="style" href="${BASE_RES_URL}/source/css/min/index.min.css">
   </#if>
   <#if type == 'post'>
-    <link rel="preload stylesheet" as="style" href="${BASE_RES_URL}/source/css/min/post.min.css?v=${theme.version!}">
-  </#if>
-  <#if type == 'journals'>
-    <link rel="preload stylesheet" as="style" href="${BASE_RES_URL}/source/css/min/journals.min.css?v=${theme.version!}">
+    <link rel="preload stylesheet" as="style" href="${BASE_RES_URL}/source/css/min/post.min.css">
   </#if>
   <#if type == 'archives'>
-    <link rel="preload stylesheet" as="style" href="${BASE_RES_URL}/source/css/min/archives.min.css?v=${theme.version!}">
+    <link rel="preload stylesheet" as="style" href="${BASE_RES_URL}/source/css/min/archives.min.css">
   </#if>
-  <link rel="preload stylesheet" as="style" href="${BASE_RES_URL}/source/css/min/responsive.min.css?v=${theme.version!}">
+  <link rel="preload stylesheet" as="style" href="${BASE_RES_URL}/source/css/min/responsive.min.css">
   <link rel="stylesheet" href="${BASE_RES_URL}/source/lib/fancybox/jquery.fancybox.min.css">
 </#macro>
