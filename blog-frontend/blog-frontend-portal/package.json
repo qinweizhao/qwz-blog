@@ -6,7 +6,7 @@
   "author": "BabyChin，QinWeiZhao",
   "scripts": {
     "all": "npm run lint && npm run build",
-    "build": "gulp && node source/utils/version.js",
+    "build": "gulp",
     "lint:staged": "lint-staged",
     "lint": "stylelint --custom-syntax postcss-less --fix source/css/*.less && eslint --fix source/js/*.js"
   },
