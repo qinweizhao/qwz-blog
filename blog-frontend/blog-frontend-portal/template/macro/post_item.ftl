@@ -20,7 +20,6 @@
         <ul class="items">
           <li>${post.createTime?date('yyyy-MM-dd')}</li>
           <li><i class="joe-font joe-icon-eye"></i>${post.visits?c}</li>
-          <li><i class="joe-font joe-icon-message"></i>${post.commentCount?c}</li>
           <li><i class="joe-font joe-icon-dianzan"></i>${post.likes?c}</li>
         </ul>
         <#if post.categories?size gt 0>
