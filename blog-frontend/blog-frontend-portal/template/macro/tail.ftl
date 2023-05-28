@@ -17,7 +17,7 @@
 
   <#-- 自定义 -->
 <#--  <script src="${BASE_RES_URL}/source/js/min/custom.min.js?v=${theme.version!}"></script>-->
-  <#if type == 'post' || type == 'journals'>
+  <#if type == 'post'>
     <script src="${BASE_RES_URL}/source/lib/clipboard/clipboard.min.js"></script>
   </#if>
   <#if type == 'post'>
@@ -26,7 +26,7 @@
 
   <#-- ===== 引入页面级js start ===== -->
   <script src="${BASE_RES_URL}/source/js/min/common.min.js?v=${theme.version!}"></script>
-  <#if type == 'post' || type == 'journals'>
+  <#if type == 'post'>
     <script src="${BASE_RES_URL!}/source/lib/prism/prism.min.js"></script>
   </#if>
   <#if type == 'index'>
@@ -37,9 +37,6 @@
   </#if>
   <#if type == 'post'>
     <script src="${BASE_RES_URL}/source/js/min/post.min.js?v=${theme.version!}"></script>
-  </#if>
-  <#if type == 'journals'>
-    <script src="${BASE_RES_URL}/source/js/min/journal.min.js?v=${theme.version!}"></script>
   </#if>
   <#-- ===== 引入页面级js end ===== -->
 
