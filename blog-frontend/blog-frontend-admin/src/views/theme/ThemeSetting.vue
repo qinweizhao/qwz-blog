@@ -17,8 +17,6 @@
 import { PageView } from '@/layouts'
 import ThemeSettingForm from './ThemeSettingForm'
 
-// api
-
 export default {
   name: 'ThemeSetting',
   components: {
