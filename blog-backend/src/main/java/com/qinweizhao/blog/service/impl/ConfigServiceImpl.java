@@ -191,16 +191,6 @@ public class ConfigServiceImpl implements ConfigService {
 
 
     @Override
-    public int getCommentPageSize() {
-        try {
-            return getByPropertyOrDefault(CommentProperties.PAGE_SIZE, Integer.class, DEFAULT_COMMENT_PAGE_SIZE);
-        } catch (NumberFormatException e) {
-            log.error(CommentProperties.PAGE_SIZE.getValue() + " option is not a number format", e);
-            return DEFAULT_COMMENT_PAGE_SIZE;
-        }
-    }
-
-    @Override
     public Region getQiniuRegion() {
         return getByProperty(QiniuOssProperties.OSS_ZONE).map(qiniuZone -> {
 

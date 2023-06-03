@@ -159,14 +159,6 @@ public interface ConfigService {
      */
     int getPostPageSize();
 
-
-    /**
-     * Gets comment page size.
-     *
-     * @return page size
-     */
-    int getCommentPageSize();
-
     /**
      * Get qiniu oss region.
      *
