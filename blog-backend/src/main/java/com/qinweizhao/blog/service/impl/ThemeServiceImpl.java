@@ -2,10 +2,8 @@ package com.qinweizhao.blog.service.impl;
 
 import com.qinweizhao.blog.config.properties.MyBlogProperties;
 import com.qinweizhao.blog.exception.ServiceException;
-import com.qinweizhao.blog.framework.cache.AbstractStringCacheStore;
 import com.qinweizhao.blog.framework.handler.theme.config.ThemeConfigResolver;
 import com.qinweizhao.blog.framework.handler.theme.config.support.Group;
-import com.qinweizhao.blog.framework.handler.theme.config.support.ThemeProperty;
 import com.qinweizhao.blog.service.ThemeService;
 import com.qinweizhao.blog.util.FileUtils;
 import lombok.AllArgsConstructor;
@@ -35,38 +33,6 @@ public class ThemeServiceImpl implements ThemeService {
     private final MyBlogProperties myBlogProperties;
 
     private final ThemeConfigResolver themeConfigResolver;
-
-    private final AbstractStringCacheStore cacheStore;
-
-
-//    @Override
-//    public ThemeProperty getThemeProperty() {
-//        return Optional.of(getThemes()).orElseThrow(() -> new NotFoundException(" 主题不存在或已删除！"));
-//    }
-
-//    @Override
-//    public Optional<ThemeProperty> fetchActivatedTheme() {
-//        return Optional.of(getThemes());
-//    }
-
-//    /**
-//     * 获取主题配置
-//     *
-//     * @return List
-//     */
-//    public ThemeProperty getThemes() {
-//        String themeDirName = myBlogProperties.getThemeDirName();
-//
-//
-//        return cacheStore.getAny(THEMES_CACHE_KEY, ThemeProperty.class).orElseGet(() -> {
-//            // 扫描配置，为防止报异常，如果存在多个只会取扫描的第一个。
-//            ThemeProperty properties = ThemePropertyScanner.INSTANCE.scan(getBasePath(), themeDirName);
-//            // 缓存主题配置
-//            log.debug("主题配置{}", properties);
-//            cacheStore.putAny(THEMES_CACHE_KEY, properties);
-//            return properties;
-//        });
-//    }
 
     /**
      * @return Path

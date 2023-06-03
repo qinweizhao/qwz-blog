@@ -1,10 +1,8 @@
 package com.qinweizhao.blog.service;
 
 import com.qinweizhao.blog.framework.handler.theme.config.support.Group;
-import com.qinweizhao.blog.framework.handler.theme.config.support.ThemeProperty;
 
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Theme service interface.
@@ -29,18 +27,6 @@ public interface ThemeService {
      * 渲染模板和后缀
      */
     String RENDER_TEMPLATE_SUFFIX = "%s/%s.ftl";
-
-    /**
-     * 主题缓存 key
-     */
-    String THEMES_CACHE_KEY = "themes";
-
-//    /**
-//     * 获取主题属性
-//     *
-//     * @return ThemeProperty
-//     */
-//    ThemeProperty getThemeProperty();
 
     /**
      * 判断指定主题下是否存在模板
