@@ -39,22 +39,6 @@ public interface ConfigService {
     String[] SETTINGS_NAMES = {"settings.yaml", "settings.yml"};
 
     /**
-     * 渲染模板
-     */
-    String RENDER_TEMPLATE = "%s/%s";
-
-    /**
-     * 渲染模板和后缀
-     */
-    String RENDER_TEMPLATE_SUFFIX = "%s/%s.ftl";
-
-    /**
-     * 主题缓存 key
-     */
-    String THEMES_CACHE_KEY = "themes";
-
-
-    /**
      * 构建完整路径
      *
      * @param postId postId
@@ -165,17 +149,6 @@ public interface ConfigService {
 
 
     /**
-     * Gets value by key.
-     *
-     * @param key       key must not be null
-     * @param valueType value type must not be null
-     * @param <T>       value type
-     * @return value
-     */
-
-    <T> Optional<T> getByKey(String key, Class<T> valueType);
-
-    /**
      * Gets enum value by property.
      *
      * @param property  property must not be blank
@@ -263,14 +236,6 @@ public interface ConfigService {
      * @return description
      */
     String getSeoDescription();
-
-    /**
-     * 获取日志页面自定义前缀
-     *
-     * @return journals page prefix.
-     */
-    String getJournalsPrefix();
-
 
     /**
      * Get archives custom prefix.

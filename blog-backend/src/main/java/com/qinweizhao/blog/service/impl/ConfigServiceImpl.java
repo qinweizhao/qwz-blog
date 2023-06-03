@@ -3,7 +3,6 @@ package com.qinweizhao.blog.service.impl;
 import com.qiniu.storage.Region;
 import com.qinweizhao.blog.config.properties.MyBlogProperties;
 import com.qinweizhao.blog.exception.MissingPropertyException;
-import com.qinweizhao.blog.exception.NotFoundException;
 import com.qinweizhao.blog.exception.ServiceException;
 import com.qinweizhao.blog.framework.cache.AbstractStringCacheStore;
 import com.qinweizhao.blog.framework.event.config.ConfigUpdatedEvent;
@@ -184,11 +183,6 @@ public class ConfigServiceImpl implements ConfigService {
     }
 
     @Override
-    public <T> Optional<T> getByKey(String key, Class<T> valueType) {
-        return getByKey(key).map(value -> PropertyEnum.convertTo(value.toString(), valueType));
-    }
-
-    @Override
     public <T extends Enum<T>> Optional<T> getEnumByProperty(PropertyEnum property, Class<T> valueType) {
         return getByProperty(property).map(value -> PropertyEnum.convertToEnum(value.toString(), valueType));
     }
@@ -298,11 +292,6 @@ public class ConfigServiceImpl implements ConfigService {
     @Override
     public String getSeoDescription() {
         return getByProperty(SeoProperties.DESCRIPTION).orElse("").toString();
-    }
-
-    @Override
-    public String getJournalsPrefix() {
-        return getByPropertyOrDefault(PermalinkProperties.JOURNALS_PREFIX, String.class, PermalinkProperties.JOURNALS_PREFIX.defaultValue());
     }
 
     @Override
@@ -501,7 +490,6 @@ public class ConfigServiceImpl implements ConfigService {
 
         return ServiceUtils.convertToMap(items, Item::getName);
     }
-
 
 
     /**

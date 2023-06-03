@@ -154,29 +154,6 @@ public class PaginationTagDirective implements TemplateDirectiveModel {
                         rainbowPages.add(rainbowPage);
                     }
                     break;
-                case "journals":
-
-                    nextPageFullPath.append(URL_SEPARATOR).append(configService.getJournalsPrefix());
-                    prevPageFullPath.append(URL_SEPARATOR).append(configService.getJournalsPrefix());
-
-                    nextPageFullPath.append(URL_PAGE_PARAM).append(page + 1);
-
-                    if (page != 1) {
-                        prevPageFullPath.append(URL_PAGE_PARAM).append(page - 1);
-                    }
-
-                    fullPath.append(URL_SEPARATOR).append(configService.getJournalsPrefix());
-
-                    fullPath.append(URL_PAGE_PARAM);
-
-                    for (int current : rainbow) {
-                        RainbowPage rainbowPage = new RainbowPage();
-                        rainbowPage.setPage(current);
-                        rainbowPage.setFullPath(fullPath.toString() + current);
-                        rainbowPage.setIsCurrent(page == current);
-                        rainbowPages.add(rainbowPage);
-                    }
-                    break;
                 default:
                     break;
             }
