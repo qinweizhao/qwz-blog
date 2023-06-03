@@ -76,16 +76,6 @@ public interface ConfigService {
      */
     Map<String, Object> listOptions(@Nullable List<String> keys);
 
-
-    /**
-     * Gets option value of not null.
-     *
-     * @param key option key must not be null
-     * @return option value of not null
-     */
-
-    Object getByKeyOfNonNull(String key);
-
     /**
      * Get option by key
      *

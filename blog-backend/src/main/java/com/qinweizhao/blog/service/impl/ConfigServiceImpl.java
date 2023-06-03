@@ -140,11 +140,6 @@ public class ConfigServiceImpl implements ConfigService {
     }
 
     @Override
-    public Object getByKeyOfNonNull(String key) {
-        return getByKey(key).orElseThrow(() -> new MissingPropertyException("You have to config " + key + " setting"));
-    }
-
-    @Override
     public Optional<Object> getByKey(String key) {
         Assert.hasText(key, "Option key must not be blank");
 
@@ -154,8 +149,8 @@ public class ConfigServiceImpl implements ConfigService {
     @Override
     public Object getByPropertyOfNonNull(PropertyEnum property) {
         Assert.notNull(property, "属性不能为空");
-
-        return getByKeyOfNonNull(property.getValue());
+        String key = property.getValue();
+        return getByKey(key).orElseThrow(() -> new MissingPropertyException("You have to config " + key + " setting"));
     }
 
     @Override
