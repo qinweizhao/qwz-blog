@@ -28,7 +28,7 @@ genernal:
       label: 网站公告
       type: textarea
       placeholder: 请输入公告信息
-      description: "展示在页面右侧，不填不展示该模块（需要先在 “侧边栏” 中开启公告模块）"
+      description: "展示在页面右侧，不填不展示该模块"
 
 # 主题
 theme:
