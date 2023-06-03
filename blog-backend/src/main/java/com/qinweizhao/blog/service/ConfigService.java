@@ -3,7 +3,6 @@ package com.qinweizhao.blog.service;
 import com.qiniu.storage.Region;
 import com.qinweizhao.blog.exception.MissingPropertyException;
 import com.qinweizhao.blog.framework.handler.theme.config.support.Group;
-import com.qinweizhao.blog.framework.handler.theme.config.support.ThemeProperty;
 import com.qinweizhao.blog.model.core.PageResult;
 import com.qinweizhao.blog.model.dto.ConfigDTO;
 import com.qinweizhao.blog.model.enums.ConfigType;
@@ -341,13 +340,6 @@ public interface ConfigService {
      */
     Map<String, Object> getSettings();
 
-
-    /**
-     * 获取主题属性
-     *
-     * @return ThemeProperty
-     */
-    ThemeProperty getThemeProperty();
 
     /**
      * 获取配置

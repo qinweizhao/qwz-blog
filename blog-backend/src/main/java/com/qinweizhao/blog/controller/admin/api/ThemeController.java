@@ -2,7 +2,6 @@ package com.qinweizhao.blog.controller.admin.api;
 
 import com.qinweizhao.blog.framework.annotation.DisableOnCondition;
 import com.qinweizhao.blog.framework.handler.theme.config.support.Group;
-import com.qinweizhao.blog.framework.handler.theme.config.support.ThemeProperty;
 import com.qinweizhao.blog.model.enums.ConfigType;
 import com.qinweizhao.blog.service.ConfigService;
 import com.qinweizhao.blog.service.ThemeService;

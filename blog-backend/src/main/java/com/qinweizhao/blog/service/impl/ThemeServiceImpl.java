@@ -66,7 +66,7 @@ public class ThemeServiceImpl implements ThemeService {
                 // Resolve the options path
                 Path optionsPath = Paths.get(this.getBasePath().toString(), optionsName);
 
-                log.debug("Finding options in: [{}]", optionsPath);
+                log.debug("查找主题配置文件: [{}]", optionsPath);
 
                 // Check existence
                 if (!Files.exists(optionsPath)) {

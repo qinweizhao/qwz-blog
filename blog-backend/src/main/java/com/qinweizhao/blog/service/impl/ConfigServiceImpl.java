@@ -10,7 +10,6 @@ import com.qinweizhao.blog.framework.event.config.ConfigUpdatedEvent;
 import com.qinweizhao.blog.framework.handler.theme.config.ThemeConfigResolver;
 import com.qinweizhao.blog.framework.handler.theme.config.support.Group;
 import com.qinweizhao.blog.framework.handler.theme.config.support.Item;
-import com.qinweizhao.blog.framework.handler.theme.config.support.ThemeProperty;
 import com.qinweizhao.blog.mapper.ConfigMapper;
 import com.qinweizhao.blog.model.convert.ConfigConvert;
 import com.qinweizhao.blog.model.core.PageResult;
@@ -22,7 +21,6 @@ import com.qinweizhao.blog.model.param.ConfigQueryParam;
 import com.qinweizhao.blog.model.properties.*;
 import com.qinweizhao.blog.service.ConfigService;
 import com.qinweizhao.blog.service.ThemeService;
-import com.qinweizhao.blog.theme.ThemePropertyScanner;
 import com.qinweizhao.blog.util.ServiceUtils;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -505,29 +503,6 @@ public class ConfigServiceImpl implements ConfigService {
     }
 
 
-    @Override
-    public ThemeProperty getThemeProperty() {
-        return Optional.of(getThemes()).orElseThrow(() -> new NotFoundException(" 主题不存在或已删除！"));
-    }
-
-    /**
-     * 获取主题配置
-     *
-     * @return List
-     */
-    public ThemeProperty getThemes() {
-        String themeDirName = myBlogProperties.getThemeDirName();
-
-
-        return cacheStore.getAny(THEMES_CACHE_KEY, ThemeProperty.class).orElseGet(() -> {
-            // 扫描配置，为防止报异常，如果存在多个只会取扫描的第一个。
-            ThemeProperty properties = ThemePropertyScanner.INSTANCE.scan(getBasePath(), themeDirName);
-            // 缓存主题配置
-            log.debug("主题配置{}", properties);
-            cacheStore.putAny(THEMES_CACHE_KEY, properties);
-            return properties;
-        });
-    }
 
     /**
      * @return Path
@@ -543,21 +518,12 @@ public class ConfigServiceImpl implements ConfigService {
 
     @Override
     public List<Group> listConfig() {
-
-        // 获取主题属性
-        ThemeProperty themeProperty = getThemeProperty();
-
-        if (!themeProperty.isHasOptions()) {
-            // If this theme dose not has an option, then return empty list
-            return Collections.emptyList();
-        }
-
         try {
             for (String optionsName : SETTINGS_NAMES) {
                 // Resolve the options path
-                Path optionsPath = Paths.get(themeProperty.getThemePath(), optionsName);
+                Path optionsPath = Paths.get(this.getBasePath().toString(), optionsName);
 
-                log.debug("Finding options in: [{}]", optionsPath);
+                log.debug("查找主题配置文件: [{}]", optionsPath);
 
                 // Check existence
                 if (!Files.exists(optionsPath)) {
@@ -577,7 +543,5 @@ public class ConfigServiceImpl implements ConfigService {
         }
     }
 
-
-//==============end=============//
 }
 

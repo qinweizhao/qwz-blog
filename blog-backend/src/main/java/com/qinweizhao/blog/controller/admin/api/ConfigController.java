@@ -2,7 +2,6 @@ package com.qinweizhao.blog.controller.admin.api;
 
 import com.qinweizhao.blog.framework.annotation.DisableOnCondition;
 import com.qinweizhao.blog.framework.handler.theme.config.support.Group;
-import com.qinweizhao.blog.framework.handler.theme.config.support.ThemeProperty;
 import com.qinweizhao.blog.model.core.PageResult;
 import com.qinweizhao.blog.model.dto.ConfigDTO;
 import com.qinweizhao.blog.model.enums.ConfigType;
@@ -97,18 +96,6 @@ public class ConfigController {
     public Boolean remove(@PathVariable("configId") Integer configId) {
         return configService.removeById(configId);
     }
-
-
-    /**
-     * 获取主题属性
-     *
-     * @return ThemeProperty
-     */
-    @GetMapping
-    public ThemeProperty getProperty() {
-        return configService.getThemeProperty();
-    }
-
 
     /**
      * 主题配置

@@ -6,6 +6,7 @@ import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 
 /**
  * Yaml resolver.
+ * @author qinweizhao
  */
 public enum YamlResolver {
 
