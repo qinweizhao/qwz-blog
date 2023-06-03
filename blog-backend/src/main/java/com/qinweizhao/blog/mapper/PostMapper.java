@@ -155,7 +155,7 @@ public interface PostMapper extends BaseMapper<Post> {
      * @return List
      */
     default List<Post> selectListLatest(int top) {
-        return this.selectList(new LambdaQueryWrapper<Post>().orderByDesc(Post::getCreateTime).eq(Post::getStatus, PostStatus.PUBLISHED).last("limit " + top));
+        return this.selectList(new LambdaQueryWrapper<Post>().orderByDesc(Post::getUpdateTime).eq(Post::getStatus, PostStatus.PUBLISHED).last("limit " + top));
     }
 
     /**

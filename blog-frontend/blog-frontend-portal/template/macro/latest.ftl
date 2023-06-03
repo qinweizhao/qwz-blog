@@ -1,9 +1,8 @@
-
 <#macro newest>
   <section class="joe_aside__item newest">
     <div class="joe_aside__item-title">
       <i class="joe-font joe-icon-huo"></i>
-      <span class="text">最新文章</span>
+      <span class="text">最近更新</span>
     </div>
     <div class="joe_aside__item-contain">
       <@postTag method="latest" top="${settings.newest_page_size!5}">

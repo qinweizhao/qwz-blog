@@ -14,6 +14,8 @@
         </div>
       </section>
     </#if>
+      <#import "../macro/latest.ftl" as np>
+      <@np.newest/>
     <#if settings.enable_tag_cloud!true>
       <section class="joe_aside__item tags-cloud">
         <div class="joe_aside__item-title">

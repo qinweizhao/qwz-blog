@@ -66,7 +66,7 @@ public interface PostService {
 
 
     /**
-     * 列表（最新发布）
+     * 列表（最近更新）
      *
      * @param top top
      * @return List
