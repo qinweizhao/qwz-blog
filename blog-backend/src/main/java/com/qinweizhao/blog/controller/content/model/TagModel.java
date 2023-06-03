@@ -56,7 +56,8 @@ public class TagModel {
     public String listPost(Model model, String slug, Integer page) {
 
         final TagDTO tagDTO = tagService.getBySlug(slug);
-        int pageSize = configService.getArchivesPageSize();
+        int pageSize = configService.getPostPageSize();
+
         PostQueryParam param = new PostQueryParam();
         param.setPage(page);
         param.setSize(pageSize);

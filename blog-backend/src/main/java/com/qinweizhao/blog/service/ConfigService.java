@@ -159,12 +159,6 @@ public interface ConfigService {
      */
     int getPostPageSize();
 
-    /**
-     * Gets archives page size.
-     *
-     * @return page size
-     */
-    int getArchivesPageSize();
 
     /**
      * Gets comment page size.

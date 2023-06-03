@@ -189,15 +189,6 @@ public class ConfigServiceImpl implements ConfigService {
         }
     }
 
-    @Override
-    public int getArchivesPageSize() {
-        try {
-            return getByPropertyOrDefault(PostProperties.ARCHIVES_PAGE_SIZE, Integer.class, DEFAULT_ARCHIVES_PAGE_SIZE);
-        } catch (NumberFormatException e) {
-            log.error(PostProperties.ARCHIVES_PAGE_SIZE.getValue() + " option is not a number format", e);
-            return DEFAULT_POST_PAGE_SIZE;
-        }
-    }
 
     @Override
     public int getCommentPageSize() {

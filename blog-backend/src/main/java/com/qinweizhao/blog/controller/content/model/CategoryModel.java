@@ -7,6 +7,7 @@ import com.qinweizhao.blog.model.enums.PostStatus;
 import com.qinweizhao.blog.model.param.PostQueryParam;
 import com.qinweizhao.blog.service.*;
 import org.apache.commons.lang3.StringUtils;
+import org.aspectj.weaver.ast.Var;
 import org.springframework.stereotype.Component;
 import org.springframework.ui.Model;
 
@@ -26,9 +27,6 @@ public class CategoryModel {
 
     @Resource
     private ThemeService themeService;
-
-    @Resource
-    private PostCategoryService postCategoryService;
 
     @Resource
     private PostService postService;
@@ -60,7 +58,7 @@ public class CategoryModel {
      */
     public String listPost(Model model, String slug, Integer page) {
 
-        int pageSize = configService.getArchivesPageSize();
+        int pageSize = configService.getPostPageSize();
 
         CategoryDTO categoryDTO = categoryService.getBySlug(slug);
 
