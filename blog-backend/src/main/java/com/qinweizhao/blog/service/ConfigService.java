@@ -77,15 +77,6 @@ public interface ConfigService {
     Map<String, Object> listOptions(@Nullable List<String> keys);
 
     /**
-     * Get option by key
-     *
-     * @param key option key must not be blank
-     * @return an optional option value
-     */
-
-    Optional<Object> getByKey(String key);
-
-    /**
      * Gets option value by blog property.
      *
      * @param property blog property
