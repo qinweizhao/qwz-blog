@@ -11,9 +11,8 @@
     </div>
   <#else>
     <li class="post-operate-like">
-      <i class="joe-font joe-icon-dianzan icon-like"></i>
-      <i class="joe-font joe-icon-dianzan-fill icon-unlike"></i>
-      <span class="nums${(post.likes gt 0)?then(' visible','')}" df="">${post.likes!0}</span>
+<#--      <i class="joe-font joe-icon-dianzan icon-like"></i>-->
+<#--      <i class="joe-font joe-icon-dianzan-fill icon-unlike"></i>-->
     </li>
   </#if>
 </#macro>

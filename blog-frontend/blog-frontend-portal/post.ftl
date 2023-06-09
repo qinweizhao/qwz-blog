@@ -9,7 +9,7 @@
     <#include "template/module/post_bread.ftl">
     <div class="joe_container joe_main_container page-post${settings.enable_show_in_up?then(' animated fadeIn','')}">
         <div class="joe_main joe_post">
-            <div class="joe_detail" data-status="${post.status!}" data-cid="${post.id?c}" data-clikes="${post.likes?c}"
+            <div class="joe_detail" data-status="${post.status!}" data-cid="${post.id?c}"
                  data-author="${user.nickname!}">
                 <#include "template/macro/post_status.ftl">
                 <@post_status status=post.status />
