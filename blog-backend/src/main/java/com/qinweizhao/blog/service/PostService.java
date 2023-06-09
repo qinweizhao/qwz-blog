@@ -203,14 +203,6 @@ public interface PostService {
     boolean increaseVisit(Integer postId);
 
     /**
-     * 增加点赞
-     *
-     * @param postId postId
-     * @return boolean
-     */
-    boolean increaseLike(Integer postId);
-
-    /**
      * 发送访问事件
      *
      * @param postId postId

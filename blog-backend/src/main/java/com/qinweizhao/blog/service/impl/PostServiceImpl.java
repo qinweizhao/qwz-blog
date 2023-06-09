@@ -449,13 +449,6 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public boolean increaseLike(Integer postId) {
-        Post post = postMapper.selectById(postId);
-        post.setLikes(post.getLikes() + 1);
-        return postMapper.updateById(post) > 0;
-    }
-
-    @Override
     public void publishVisitEvent(Integer postId) {
         eventPublisher.publishEvent(new PostVisitEvent(this, postId));
     }

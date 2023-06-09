@@ -53,11 +53,6 @@ public class Post extends BaseEntity {
     private Long wordCount;
 
     /**
-     * 点赞数
-     */
-    private Long likes;
-
-    /**
      * 状态
      */
     private Integer status;

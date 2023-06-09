@@ -35,16 +35,4 @@ public class PostController {
         return postService.page(param);
     }
 
-
-    /**
-     * 点赞
-     *
-     * @param postId postId
-     * @return Boolean
-     */
-    @PostMapping("{postId:\\d+}/likes")
-    public Boolean like(@PathVariable("postId") Integer postId) {
-        return postService.increaseLike(postId);
-    }
-
 }

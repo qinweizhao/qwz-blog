@@ -42,8 +42,6 @@ public class PostDTO {
 
     private Integer topPriority;
 
-    private Long likes;
-
     private Long wordCount;
 
     private LocalDateTime updateTime;
