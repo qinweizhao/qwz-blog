@@ -51,10 +51,6 @@
                             ${post.formatContent!}
                         </div>
                     </article>
-                    <#if post.status!='DRAFT'>
-                        <#import "template/module/favorite.ftl" as nsp>
-                        <@nsp.favorite post=post type="bottom" />
-                    </#if>
                 </div>
                 <#include "template/module/post_operate.ftl">
                 <#import "template/macro/post_copyright.ftl" as pc>
