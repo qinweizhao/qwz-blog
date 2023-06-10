@@ -5,7 +5,7 @@
 </p>
 
 <p align="center">
-👉 <a href="https://www.qinweizhao.com">https://www.qinweizhao.com</a> 👈
+👉 <a href="https://blog.qinweizhao.com">https://blog.qinweizhao.com</a> 👈
 </p>
 
 <p align="center">
@@ -38,17 +38,17 @@ qwz-blog
 
 ## 开发指南
 
-https://www.qinweizhao.com/article/145
+https://blog.qinweizhao.com/article/145
 
 ## 项目部署
 
-https://www.qinweizhao.com/article/146
+https://blog.qinweizhao.com/article/146
 
 ## 运行效果
 
 ### 前台：
 
-https://www.qinweizhao.com
+https://blog.qinweizhao.com
 
 ### 后台：
 
