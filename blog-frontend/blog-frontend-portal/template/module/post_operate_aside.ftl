@@ -1,8 +1,4 @@
 <ul class="aside_operations">
-  <#if post.status!='DRAFT'>
-    <#import "favorite.ftl" as nsp>
-    <@nsp.favorite post=post type="aside" />
-  </#if>
   <#assign post_url = (post.fullPath?starts_with('http'))?then(post.fullPath, blog_url + post.fullPath)>
   <#if post.status!='DRAFT'>
     <li class="post-operate-share">
