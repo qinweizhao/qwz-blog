@@ -30,7 +30,7 @@
         </svg>
         <span>许可协议：</span>
         <span class="text">
-        本文使用《<a class="link" href="//creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener noreferrer nofollow">署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0)</a>》协议授权
+          本文系作者 ${user.nickname!} 原创。未经许可，禁止转载。
         </span>
       </div>
     </div>
