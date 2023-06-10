@@ -98,19 +98,6 @@ export default {
   components: {
     Verte
   },
-  props: {
-    wrapperCol: {
-      type: Object,
-      default: () => {
-        return {
-          xl: { span: 8 },
-          lg: { span: 8 },
-          sm: { span: 12 },
-          xs: { span: 24 }
-        }
-      }
-    }
-  },
   data() {
     return {
       form: {
@@ -119,6 +106,12 @@ export default {
         loading: false,
         saving: false,
         saveErrored: false
+      },
+      wrapperCol: {
+        xl: { span: 8 },
+        lg: { span: 8 },
+        sm: { span: 12 },
+        xs: { span: 24 }
       }
     }
   },
