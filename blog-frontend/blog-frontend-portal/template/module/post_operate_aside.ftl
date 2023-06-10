@@ -41,11 +41,4 @@
       </div>
     </li>
   </#if>
-  <#if settings.enable_donate==true && post.status!='DRAFT'>
-    <li class="post-operate-donate">
-      <i class="joe-font joe-icon-shang"></i>
-      <#import "donate.ftl" as nsd>
-      <@nsd.donate type="aside" />
-    </li>
-  </#if>
 </ul>

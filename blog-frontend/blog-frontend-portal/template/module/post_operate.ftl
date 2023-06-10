@@ -44,8 +44,4 @@
       </div>
     </div>
   </#if>
-  <#if settings.enable_donate==true && post.status!='DRAFT'>
-    <#import "donate.ftl" as nsp>
-    <@nsp.donate type="bottom" />
-  </#if>
 </div>
