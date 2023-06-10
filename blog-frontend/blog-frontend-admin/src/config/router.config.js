@@ -141,13 +141,6 @@ export const asyncRouterMap = [
     ]
   },
   {
-    path: '/theme/setting/visual',
-    name: 'ThemeVisualSetting',
-    hidden: true,
-    component: () => import('@/views/theme/ThemeVisualSetting'),
-    meta: { title: '预览模式', hiddenHeaderContent: false }
-  },
-  {
     path: '*',
     redirect: '/404',
     hidden: true

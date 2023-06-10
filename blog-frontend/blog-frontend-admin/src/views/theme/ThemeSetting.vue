@@ -1,12 +1,5 @@
 <template>
   <page-view affix>
-    <template slot="extra">
-      <a-button @click="handleRouteToThemeVisualSetting">
-        <a-icon type="eye" />
-        预览模式
-      </a-button>
-    </template>
-
     <a-spin :spinning="theme.loading">
       <ThemeSettingForm />
     </a-spin>
@@ -50,9 +43,6 @@ export default {
       } finally {
         this.theme.loading = false
       }
-    },
-    handleRouteToThemeVisualSetting() {
-      this.$router.push({ name: 'ThemeVisualSetting' })
     }
   }
 }

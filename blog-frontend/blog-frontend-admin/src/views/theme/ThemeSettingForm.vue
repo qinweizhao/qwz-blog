@@ -80,11 +80,6 @@
               @click="handleSaveSettings"
             ></ReactiveButton>
           </a-form-item>
-          <a-form-item>
-            <template>
-              <a-button @click="handleRouteToThemeSetting()">返回</a-button>
-            </template>
-          </a-form-item>
         </a-form>
       </a-tab-pane>
     </a-tabs>
@@ -176,9 +171,6 @@ export default {
         this.handleGetSettings()
         this.$emit('saved')
       }
-    },
-    handleRouteToThemeSetting() {
-      this.$router.push({ name: 'ThemeSetting' })
     }
   }
 }
