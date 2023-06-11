@@ -147,7 +147,6 @@ public interface PropertyEnum extends ValueEnum<String> {
         propertyEnumClasses.add(AliOssProperties.class);
         propertyEnumClasses.add(AttachmentProperties.class);
         propertyEnumClasses.add(BlogProperties.class);
-        propertyEnumClasses.add(CommentProperties.class);
         propertyEnumClasses.add(EmailProperties.class);
         propertyEnumClasses.add(PostProperties.class);
         propertyEnumClasses.add(SheetProperties.class);

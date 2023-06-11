@@ -8,7 +8,6 @@ import com.qinweizhao.blog.framework.cache.AbstractStringCacheStore;
 import com.qinweizhao.blog.framework.security.handler.DefaultAuthenticationFailureHandler;
 import com.qinweizhao.blog.framework.security.service.OneTimeTokenService;
 import com.qinweizhao.blog.model.properties.ApiProperties;
-import com.qinweizhao.blog.model.properties.CommentProperties;
 import com.qinweizhao.blog.service.ConfigService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -100,16 +99,7 @@ public class ApiAuthenticationFilter extends AbstractAuthenticationFilter {
 
     @Override
     protected boolean shouldNotFilter(@NotNull HttpServletRequest request) {
-        boolean result = super.shouldNotFilter(request);
-
-        if (antPathMatcher.match("/api/content/*/comments", request.getServletPath())) {
-            Boolean commentApiEnabled = configService.getByPropertyOrDefault(CommentProperties.API_ENABLED, Boolean.class, true);
-            if (!commentApiEnabled) {
-                // If the comment api is disabled
-                result = false;
-            }
-        }
-        return result;
+        return super.shouldNotFilter(request);
     }
 
     @Override
