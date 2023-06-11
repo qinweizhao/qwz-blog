@@ -34,7 +34,6 @@ blog:
   blog-url: https://www.qinweizhao.com
   theme-dir-name: blog-frontend-portal
   frontend-dir-name: frontend
-  auth-enabled: true
   mode: PRODUCTION
   work-dir: ${user.home}/.blog/
   cache: memory

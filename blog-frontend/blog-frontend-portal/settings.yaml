@@ -2,13 +2,6 @@
 genernal:
   label: 基本设置
   items:
-    access_key:
-      name: access_key
-      label: AccessKey <必填>
-      type: text
-      default: "weizhao"
-      placeholder: "请务必与后台中的Key一致"
-      description: "Access Key 用于页面中 Content API 的校验"
     icp:
       name: icp
       label: ICP 备案号

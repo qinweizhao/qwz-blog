@@ -78,17 +78,6 @@
                 @onSave="onSaveOptions"
               />
             </a-tab-pane>
-            <a-tab-pane key="api">
-              <span slot="tab"> <a-icon type="api" />API 设置 </span>
-              <ApiTab
-                :errored="errored"
-                :options="options"
-                :saving="saving"
-                @callback="errored = false"
-                @onChange="onOptionsChange"
-                @onSave="onSaveOptions"
-              />
-            </a-tab-pane>
           </a-tabs>
         </div>
       </a-col>
@@ -100,11 +89,9 @@ import { PageView } from '@/layouts'
 import GeneralTab from './optiontabs/GeneralTab'
 import SeoTab from './optiontabs/SeoTab'
 import PostTab from './optiontabs/PostTab'
-import CommentTab from './optiontabs/CommentTab'
 import AttachmentTab from './optiontabs/AttachmentTab'
 import SmtpTab from './optiontabs/SmtpTab'
 import PermalinkTab from './optiontabs/PermalinkTab'
-import ApiTab from './optiontabs/ApiTab'
 import configApi from '@/api/config'
 
 import { mapActions } from 'vuex'
@@ -115,11 +102,9 @@ export default {
     GeneralTab,
     SeoTab,
     PostTab,
-    CommentTab,
     AttachmentTab,
     SmtpTab,
-    PermalinkTab,
-    ApiTab
+    PermalinkTab
   },
   data() {
     return {

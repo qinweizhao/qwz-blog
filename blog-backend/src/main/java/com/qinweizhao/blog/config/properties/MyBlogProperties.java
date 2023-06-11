@@ -28,11 +28,6 @@ public class MyBlogProperties {
     private boolean productionEnv = true;
 
     /**
-     * 启用身份验证
-     */
-    private boolean authEnabled = true;
-
-    /**
      * 启动模式
      */
     private Mode mode = Mode.PRODUCTION;

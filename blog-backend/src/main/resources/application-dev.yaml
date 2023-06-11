@@ -35,7 +35,6 @@ blog:
   blog-url: http://localhost:8090
   theme-dir-name: blog-frontend-portal
   frontend-dir-name: blog-frontend
-  auth-enabled: true
   mode: development
   work-dir: ${user.home}/Code/qwz/qwz-blog/
   cache: memory

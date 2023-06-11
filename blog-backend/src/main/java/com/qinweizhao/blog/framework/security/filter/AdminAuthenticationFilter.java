@@ -78,16 +78,6 @@ public class AdminAuthenticationFilter extends AbstractAuthenticationFilter {
     @Override
     protected void doAuthenticate(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
-        if (!myBlogProperties.isAuthEnabled()) {
-            // Set security
-            userService.getCurrentUser().ifPresent(user ->
-                    SecurityContextHolder.setContext(new SecurityContextImpl(new AuthenticationImpl(new UserDetail(user)))));
-
-            // Do filter
-            filterChain.doFilter(request, response);
-            return;
-        }
-
         // Get token from request
         String token = getTokenFromRequest(request);
 

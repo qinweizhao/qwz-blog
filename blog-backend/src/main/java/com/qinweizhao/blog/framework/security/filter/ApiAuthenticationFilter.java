@@ -7,7 +7,6 @@ import com.qinweizhao.blog.exception.ForbiddenException;
 import com.qinweizhao.blog.framework.cache.AbstractStringCacheStore;
 import com.qinweizhao.blog.framework.security.handler.DefaultAuthenticationFailureHandler;
 import com.qinweizhao.blog.framework.security.service.OneTimeTokenService;
-import com.qinweizhao.blog.model.properties.ApiProperties;
 import com.qinweizhao.blog.service.ConfigService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -60,40 +59,6 @@ public class ApiAuthenticationFilter extends AbstractAuthenticationFilter {
 
     @Override
     protected void doAuthenticate(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        if (!myBlogProperties.isAuthEnabled()) {
-            filterChain.doFilter(request, response);
-            return;
-        }
-
-        // Get api_enable from option
-        Boolean apiEnabled = configService.getByPropertyOrDefault(ApiProperties.API_ENABLED, Boolean.class, false);
-
-        if (!apiEnabled) {
-            throw new ForbiddenException("API has been disabled by blogger currently");
-        }
-
-        // Get access key
-        String accessKey = getTokenFromRequest(request);
-
-        if (StringUtils.isBlank(accessKey)) {
-            // If the access key is missing
-            throw new AuthenticationException("Missing API access key");
-        }
-
-        // Get access key from option
-        Optional<String> optionalAccessKey = configService.getByProperty(ApiProperties.API_ACCESS_KEY, String.class);
-
-        if (!optionalAccessKey.isPresent()) {
-            // If the access key is not set
-            throw new AuthenticationException("API access key hasn't been set by blogger");
-        }
-
-        if (!StringUtils.equals(accessKey, optionalAccessKey.get())) {
-            // If the access key is mismatch
-            throw new AuthenticationException("API access key is mismatch").setErrorData(accessKey);
-        }
-
-        // Do filter
         filterChain.doFilter(request, response);
     }
 
