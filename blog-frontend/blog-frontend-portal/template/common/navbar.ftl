@@ -82,6 +82,10 @@
           <i class="joe-font joe-icon-riji"></i>
           <@postTag method="count"><span>累计撰写 <strong>${count!"0"}</strong> 篇文章</span></@postTag>
         </li>
+      <li class="item">
+          <i class="joe-font joe-icon-remen"></i>
+          <@categoryTag method="count"><span>累计创建 <strong>${count!"0"}</strong> 个分类</span></@categoryTag>
+      </li>
         <li class="item">
           <i class="joe-font joe-icon-remen"></i>
           <@tagTag method="count"><span>累计创建 <strong>${count!"0"}</strong> 个标签</span></@tagTag>
