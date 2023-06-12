@@ -26,10 +26,6 @@ public interface ConfigService {
 
     int DEFAULT_POST_PAGE_SIZE = 10;
 
-    int DEFAULT_ARCHIVES_PAGE_SIZE = 10;
-
-    int DEFAULT_COMMENT_PAGE_SIZE = 10;
-
     String OPTIONS_KEY = "options";
 
 
@@ -94,6 +90,9 @@ public interface ConfigService {
      */
 
     Optional<Object> getByProperty(PropertyEnum property);
+
+
+    Object get(String key);
 
     /**
      * Gets property value by blog property.
@@ -167,13 +166,6 @@ public interface ConfigService {
 
     Region getQiniuRegion();
 
-    /**
-     * Gets locale.
-     *
-     * @return locale user set or default locale
-     */
-
-    Locale getLocale();
 
     /**
      * Gets blog base url. (Without /)
@@ -182,13 +174,6 @@ public interface ConfigService {
      */
     String getBlogBaseUrl();
 
-    /**
-     * Gets blog title.
-     *
-     * @return blog title.
-     */
-
-    String getBlogTitle();
 
     /**
      * Gets global seo keywords.

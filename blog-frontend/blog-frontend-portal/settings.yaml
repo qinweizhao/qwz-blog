@@ -2,6 +2,27 @@
 genernal:
   label: 基本设置
   items:
+    blog_title:
+      name: blog_title
+      label: 博客标题
+      type: text
+      default: "Qwz"
+      placeholder: "博客标题"
+      description: "博客标题，必填"
+    blog_logo:
+      name: blog_logo
+      label: Logo
+      type: text
+      default: "https://blog.qinweizhao.com/image/2022/05/logo.png"
+      placeholder: "Logo"
+      description: "Logo"
+    blog_favicon:
+      name: blog_favicon
+      label: Favicon
+      type: text
+      default: "https://blog.qinweizhao.com/image/2022/05/logo.png"
+      placeholder: "Favicon"
+      description: "Favicon"
     icp:
       name: icp
       label: ICP 备案号

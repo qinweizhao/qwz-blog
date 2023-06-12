@@ -53,7 +53,7 @@ public class MainController {
 
     @GetMapping("logo")
     public void logo(HttpServletResponse response) throws IOException {
-        String blogLogo = configService.getByProperty(com.qinweizhao.blog.model.properties.BlogProperties.BLOG_LOGO).orElse("").toString();
+        String blogLogo = configService.get("blog_logo").toString();
         if (StringUtils.isNotEmpty(blogLogo)) {
             response.sendRedirect(HaloUtils.normalizeUrl(blogLogo));
         }
@@ -61,7 +61,7 @@ public class MainController {
 
     @GetMapping("favicon.ico")
     public void favicon(HttpServletResponse response) throws IOException {
-        String favicon = configService.getByProperty(com.qinweizhao.blog.model.properties.BlogProperties.BLOG_FAVICON).orElse("").toString();
+        String favicon = configService.get("blog_favicon").toString();
         if (StringUtils.isNotEmpty(favicon)) {
             response.sendRedirect(HaloUtils.normalizeUrl(favicon));
         }

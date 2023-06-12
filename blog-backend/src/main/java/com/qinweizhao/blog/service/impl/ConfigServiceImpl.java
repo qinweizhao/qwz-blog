@@ -153,6 +153,11 @@ public class ConfigServiceImpl implements ConfigService {
     }
 
     @Override
+    public Object get(String key) {
+        return this.getMap().get(key);
+    }
+
+    @Override
     public <T> T getByPropertyOrDefault(PropertyEnum property, Class<T> propertyType, T defaultValue) {
         Assert.notNull(property, "Blog property must not be null");
 
@@ -220,16 +225,6 @@ public class ConfigServiceImpl implements ConfigService {
         }).orElseGet(Region::autoRegion);
     }
 
-    @Override
-    public Locale getLocale() {
-        return getByProperty(BlogProperties.BLOG_LOCALE).map(localeStr -> {
-            try {
-                return Locale.forLanguageTag(localeStr.toString());
-            } catch (Exception e) {
-                return Locale.getDefault();
-            }
-        }).orElseGet(Locale::getDefault);
-    }
 
     @Override
     public String getBlogBaseUrl() {
@@ -247,10 +242,6 @@ public class ConfigServiceImpl implements ConfigService {
         return blogUrl;
     }
 
-    @Override
-    public String getBlogTitle() {
-        return getByProperty(BlogProperties.BLOG_TITLE).orElse("").toString();
-    }
 
     @Override
     public String getSeoKeywords() {
