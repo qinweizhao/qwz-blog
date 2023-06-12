@@ -1,5 +1,6 @@
 # 基本设置
 genernal:
+#general:
   label: 基本设置
   items:
     blog_title:

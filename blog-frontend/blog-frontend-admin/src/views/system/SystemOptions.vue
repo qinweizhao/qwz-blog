@@ -9,17 +9,6 @@
       <a-col :span="24">
         <div class="card-container">
           <a-tabs v-if="!advancedOptions" class="general" type="card">
-            <a-tab-pane key="general">
-              <span slot="tab"> <a-icon type="tool" />常规设置 </span>
-              <GeneralTab
-                :errored="errored"
-                :options="options"
-                :saving="saving"
-                @callback="errored = false"
-                @onChange="onOptionsChange"
-                @onSave="onSaveOptions"
-              />
-            </a-tab-pane>
             <a-tab-pane key="seo">
               <span slot="tab"> <a-icon type="global" />SEO 设置 </span>
               <SeoTab
@@ -86,7 +75,6 @@
 </template>
 <script>
 import { PageView } from '@/layouts'
-import GeneralTab from './optiontabs/GeneralTab'
 import SeoTab from './optiontabs/SeoTab'
 import PostTab from './optiontabs/PostTab'
 import AttachmentTab from './optiontabs/AttachmentTab'
@@ -99,7 +87,6 @@ import { mapActions } from 'vuex'
 export default {
   components: {
     PageView,
-    GeneralTab,
     SeoTab,
     PostTab,
     AttachmentTab,
