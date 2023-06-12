@@ -188,20 +188,6 @@ const postContext = {
 	},
 	/**初始化左侧工具条 */
 	initAsideOperate() {
-		// 评论
-		$(".post-operate-comment").on("click", function (e) {
-			const $comment = document.querySelector(".joe_comment");
-			const $header = document.querySelector(".joe_header");
-			if (!$comment || !$header) return;
-			e.stopPropagation();
-			if (!document.getElementsByTagName("halo-comment").length) {
-				Qmsg.warning("评论功能不可用！");
-				return;
-			}
-			const top = $comment.offsetTop - $header.offsetHeight - 15;
-			window.scrollTo({ top });
-		});
-
 		// 判断是否需要隐藏菜单
 		if (Joe.isMobile) return;
 		const $asideEl = $(".aside_operations");
@@ -254,65 +240,5 @@ const postContext = {
 			});
 			$(".joe_detail__article-video .episodes .item").first().click();
 		}
-	},
-	// todo
-	/*跳转到指定评论 */
-	async jumpToComment() {
-		if (
-			ThemeConfig.enable_clean_mode ||
-      !ThemeConfig.enable_comment
-		)
-			return;
-		const { cid: commentId = "", p: postId = "" } = Utils.getUrlParams();
-		if (!commentId) return;
-		await Utils.sleep(1000);
-		try {
-			const commentEl = document.getElementsByTagName("halo-comment");
-			if (!commentEl) return;
-			const el = $(commentEl[0].shadowRoot.getElementById("halo-comment")).find(
-				"#comment-" + commentId
-			);
-			if (!el) return;
-			const offsetTop = el.offset().top - 50;
-			// 滚动到指定位置
-			window.scrollTo({ top: offsetTop });
-			// 高亮该评论元素
-			const el_comment = el.find(".markdown-content").eq(0);
-			el_comment.addClass("blink");
-			await Utils.sleep(2000);
-			el_comment.removeClass("blink");
-			console.log("postId ? `?p=${postId}` : location.origin + location.pathname postFile");
-			// 清除url参数
-			window.history.replaceState(
-				null,
-				null,
-				postId ? `?p=${postId}` : location.origin + location.pathname
-			);
-			tocbot.refresh();
-		} catch (error) {
-			console.info(error);
-		}
 	}
 };
-
-!(function () {
-	const omits = ["jumpToComment"];
-	document.addEventListener("DOMContentLoaded", function () {
-		Object.keys(postContext).forEach(
-			(c) =>
-				!omits.includes(c) &&
-        typeof postContext[c] === "function" &&
-        postContext[c]()
-		);
-	});
-
-	window.addEventListener("load", function () {
-		if (omits.length === 1) {
-			postContext[omits[0]]();
-		} else {
-			omits.forEach(
-				(c) => c !== "loadingBar" && postContext[c] && postContext[c]()
-			);
-		}
-	});
-})();

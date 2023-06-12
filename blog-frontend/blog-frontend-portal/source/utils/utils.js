@@ -630,7 +630,6 @@ var Utils = {
 				url: `${url}${method === "GET" ? `${url.indexOf("?")===-1?"?":"&"}_r=${Date.now()}` : ""}`,
 				type: method,
 				headers: {
-					"API-Authorization": ThemeConfig.access_key || "weizhao",
 					...headers,
 				},
 				async: true,

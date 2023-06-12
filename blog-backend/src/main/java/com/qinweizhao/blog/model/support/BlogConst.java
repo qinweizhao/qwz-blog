@@ -77,20 +77,7 @@ public class BlogConst {
      * YouTube 视频正则表达式
      */
     public static final String YOUTUBE_VIDEO_REG_PATTERN = "\\[youtube:(\\w+)\\,(\\d+)\\,(\\d+)\\]";
-    /**
-     * GitHub Api url for halo-admin release.
-     */
-    public static final String HALO_ADMIN_RELEASES_LATEST = "https://api.github.com/repos/halo-dev/halo-admin/releases/latest";
-    /**
-     * Halo admin version regex.
-     */
-    public static final String HALO_ADMIN_VERSION_REGEX = "halo-admin-\\d+\\.\\d+(\\.\\d+)?(-\\S*)?\\.zip";
-    public static final String HALO_ADMIN_RELATIVE_PATH = "templates/admin/";
-    public static final String HALO_ADMIN_RELATIVE_BACKUP_PATH = "templates/admin-backup/";
-    /**
-     * Content token header name.
-     */
-    public static final String API_ACCESS_KEY_HEADER_NAME = "API-" + HttpHeaders.AUTHORIZATION;
+
     /**
      * Admin token header name.
      */
@@ -102,7 +89,6 @@ public class BlogConst {
     /**
      * Content api token param name
      */
-    public static final String API_ACCESS_KEY_QUERY_NAME = "api_access_key";
     public static final String ONE_TIME_TOKEN_QUERY_NAME = "ott";
     public static final String ONE_TIME_TOKEN_HEADER_NAME = "ott";
     /**
