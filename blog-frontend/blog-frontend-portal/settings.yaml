@@ -45,6 +45,38 @@ genernal:
       placeholder: 请输入公告信息
       description: "展示在页面右侧，不填不展示该模块"
 
+# SEO
+seo:
+  label: SEO
+  items:
+    seo_spider_disabled:
+      name: seo_spider_disabled
+      label: 屏蔽搜索引擎
+      type: switch
+      data-type: bool
+      default: false
+      description: "屏蔽搜索引擎"
+      options:
+        - value: true
+          label: 开启
+        - value: false
+          label: 关闭
+    seo_keywords:
+      name: seo_keywords
+      label: 关键词
+      type: text
+      default: "qinweizhao"
+      placeholder: "关键词"
+      description: "关键词，多个逗号分割"
+    seo_description:
+      name: seo_description
+      label: 描述
+      type: text
+      default: ""
+      placeholder: "描述"
+      description: "描述"
+
+
 # 主题
 theme:
   label: 主题相关
