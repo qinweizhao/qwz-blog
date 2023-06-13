@@ -101,15 +101,15 @@ public class PostModel {
 
         model.addAttribute("is_index", true);
         model.addAttribute("posts", posts);
-        model.addAttribute("meta_keywords", configService.getSeoKeywords());
-        model.addAttribute("meta_description", configService.getSeoDescription());
+        model.addAttribute("meta_keywords", configService.get("seo_keywords"));
+        model.addAttribute("meta_description", configService.get("seo_description"));
         return themeService.render("index");
     }
 
     public String archives(Model model) {
         model.addAttribute("is_archives", true);
-        model.addAttribute("meta_keywords", configService.getSeoKeywords());
-        model.addAttribute("meta_description", configService.getSeoDescription());
+        model.addAttribute("meta_keywords", configService.get("seo_keywords"));
+        model.addAttribute("meta_description", configService.get("seo_description"));
         return themeService.render("archives");
     }
 

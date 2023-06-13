@@ -176,20 +176,6 @@ public interface ConfigService {
 
 
     /**
-     * Gets global seo keywords.
-     *
-     * @return keywords
-     */
-    String getSeoKeywords();
-
-    /**
-     * Get global seo description.
-     *
-     * @return description
-     */
-    String getSeoDescription();
-
-    /**
      * Get archives custom prefix.
      *
      * @return archives prefix.

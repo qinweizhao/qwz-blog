@@ -43,8 +43,8 @@ public class CategoryModel {
      */
     public String list(Model model) {
         model.addAttribute("is_categories", true);
-        model.addAttribute("meta_keywords", configService.getSeoKeywords());
-        model.addAttribute("meta_description", configService.getSeoDescription());
+        model.addAttribute("meta_keywords", configService.get("seo_keywords"));
+        model.addAttribute("meta_description", configService.get("seo_description"));
         return themeService.render("categories");
     }
 
@@ -74,13 +74,13 @@ public class CategoryModel {
         if (StringUtils.isNotEmpty(categoryDTO.getDescription())) {
             model.addAttribute("meta_description", categoryDTO.getDescription());
         } else {
-            model.addAttribute("meta_description", configService.getSeoDescription());
+            model.addAttribute("meta_description", configService.get("seo_description"));
         }
 
         model.addAttribute("is_category", true);
         model.addAttribute("posts", posts);
         model.addAttribute("category", categoryDTO);
-        model.addAttribute("meta_keywords", configService.getSeoKeywords());
+        model.addAttribute("meta_keywords", configService.get("seo_keywords"));
         return themeService.render("category");
     }
 }

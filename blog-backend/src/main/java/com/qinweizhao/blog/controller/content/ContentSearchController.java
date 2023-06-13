@@ -50,8 +50,8 @@ public class ContentSearchController {
         model.addAttribute("is_search", true);
         model.addAttribute("keyword", keyword);
         model.addAttribute("posts", postPage);
-        model.addAttribute("meta_keywords", configService.getSeoKeywords());
-        model.addAttribute("meta_description", configService.getSeoDescription());
+        model.addAttribute("meta_keywords", configService.get("seo_keywords"));
+        model.addAttribute("meta_description", configService.get("seo_description"));
         return themeService.render("search");
     }
 

@@ -1,6 +1,5 @@
 package com.qinweizhao.blog.config;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.qinweizhao.blog.config.properties.MyBlogProperties;
 import com.qinweizhao.blog.framework.cache.AbstractStringCacheStore;
 import com.qinweizhao.blog.framework.cache.InMemoryCacheStore;
@@ -13,7 +12,6 @@ import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
-import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.web.client.RestTemplate;
 
 import javax.annotation.Resource;

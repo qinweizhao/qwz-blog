@@ -242,17 +242,6 @@ public class ConfigServiceImpl implements ConfigService {
         return blogUrl;
     }
 
-
-    @Override
-    public String getSeoKeywords() {
-        return getByProperty(SeoProperties.KEYWORDS).orElse("").toString();
-    }
-
-    @Override
-    public String getSeoDescription() {
-        return getByProperty(SeoProperties.DESCRIPTION).orElse("").toString();
-    }
-
     @Override
     public String getArchivesPrefix() {
         return getByPropertyOrDefault(PermalinkProperties.ARCHIVES_PREFIX, String.class, PermalinkProperties.ARCHIVES_PREFIX.defaultValue());

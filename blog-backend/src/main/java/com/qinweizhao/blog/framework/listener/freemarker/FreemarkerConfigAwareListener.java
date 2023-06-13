@@ -3,7 +3,6 @@ package com.qinweizhao.blog.framework.listener.freemarker;
 import com.qinweizhao.blog.config.properties.MyBlogProperties;
 import com.qinweizhao.blog.framework.event.config.ConfigUpdatedEvent;
 import com.qinweizhao.blog.framework.event.user.UserUpdatedEvent;
-import com.qinweizhao.blog.model.properties.SeoProperties;
 import com.qinweizhao.blog.model.support.BlogConst;
 import com.qinweizhao.blog.service.ConfigService;
 import com.qinweizhao.blog.service.ThemeService;
@@ -81,8 +80,8 @@ public class FreemarkerConfigAwareListener {
         configuration.setSharedVariable("blog_title", configService.get("blog_title"));
         configuration.setSharedVariable("blog_url", blogBaseUrl);
         configuration.setSharedVariable("blog_logo", configService.get("blog_logo"));
-        configuration.setSharedVariable("seo_keywords", configService.getByPropertyOrDefault(SeoProperties.KEYWORDS, String.class, SeoProperties.KEYWORDS.defaultValue()));
-        configuration.setSharedVariable("seo_description", configService.getByPropertyOrDefault(SeoProperties.DESCRIPTION, String.class, SeoProperties.DESCRIPTION.defaultValue()));
+        configuration.setSharedVariable("seo_keywords", configService.get("seo_keywords"));
+        configuration.setSharedVariable("seo_description", configService.get("seo_description"));
         configuration.setSharedVariable("sitemap_xml_url", blogBaseUrl + "/sitemap.xml");
         configuration.setSharedVariable("sitemap_html_url", blogBaseUrl + "/sitemap.html");
         configuration.setSharedVariable("archives_url", context + configService.getArchivesPrefix());

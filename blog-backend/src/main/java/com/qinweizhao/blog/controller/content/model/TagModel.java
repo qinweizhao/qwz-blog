@@ -40,8 +40,8 @@ public class TagModel {
      */
     public String list(Model model) {
         model.addAttribute("is_tags", true);
-        model.addAttribute("meta_keywords", configService.getSeoKeywords());
-        model.addAttribute("meta_description", configService.getSeoDescription());
+        model.addAttribute("meta_keywords", configService.get("seo_keywords"));
+        model.addAttribute("meta_description", configService.get("seo_description"));
         return themeService.render("tags");
     }
 
@@ -68,8 +68,8 @@ public class TagModel {
         model.addAttribute("is_tag", true);
         model.addAttribute("posts", posts);
         model.addAttribute("tag", tagDTO);
-        model.addAttribute("meta_keywords", configService.getSeoKeywords());
-        model.addAttribute("meta_description", configService.getSeoDescription());
+        model.addAttribute("meta_keywords", configService.get("seo_keywords"));
+        model.addAttribute("meta_description", configService.get("seo_description"));
         return themeService.render("tag");
     }
 }
