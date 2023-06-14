@@ -187,9 +187,9 @@ public class ConfigServiceImpl implements ConfigService {
     @Override
     public int getPostPageSize() {
         try {
-            return getByPropertyOrDefault(PostProperties.INDEX_PAGE_SIZE, Integer.class, DEFAULT_POST_PAGE_SIZE);
+            return (int) this.get("post_index_page_size");
         } catch (NumberFormatException e) {
-            log.error(PostProperties.INDEX_PAGE_SIZE.getValue() + "配置不是数字格式", e);
+            log.error("配置不是数字格式", e);
             return DEFAULT_POST_PAGE_SIZE;
         }
     }

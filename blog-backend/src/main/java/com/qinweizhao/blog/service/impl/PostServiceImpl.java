@@ -18,7 +18,6 @@ import com.qinweizhao.blog.model.entity.PostTag;
 import com.qinweizhao.blog.model.enums.PostStatus;
 import com.qinweizhao.blog.model.param.PostParam;
 import com.qinweizhao.blog.model.param.PostQueryParam;
-import com.qinweizhao.blog.model.properties.PostProperties;
 import com.qinweizhao.blog.model.vo.ArchiveMonthVO;
 import com.qinweizhao.blog.model.vo.ArchiveYearVO;
 import com.qinweizhao.blog.service.*;
@@ -501,7 +500,7 @@ public class PostServiceImpl implements PostService {
         Matcher matcher = summaryPattern.matcher(text);
         text = matcher.replaceAll("");
 
-        Integer summaryLength = configService.getByPropertyOrDefault(PostProperties.SUMMARY_LENGTH, Integer.class, 150);
+        int summaryLength = Integer.parseInt(String.valueOf(configService.get("post_summary_length")));
 
         return StringUtils.substring(text, 0, summaryLength);
     }
@@ -618,7 +617,7 @@ public class PostServiceImpl implements PostService {
     }
 
 
-    protected String generateSummary(@NonNull String htmlContent) {
+    protected String generateSummary(String htmlContent) {
         Assert.notNull(htmlContent, "文章原始内容不能为空");
 
         String text = HaloUtils.cleanHtmlTag(htmlContent);
@@ -626,7 +625,7 @@ public class PostServiceImpl implements PostService {
         Matcher matcher = summaryPattern.matcher(text);
         text = matcher.replaceAll("");
 
-        Integer summaryLength = configService.getByPropertyOrDefault(PostProperties.SUMMARY_LENGTH, Integer.class, 150);
+        int summaryLength = Integer.parseInt(String.valueOf(configService.get("post_summary_length")));
 
         return StringUtils.substring(text, 0, summaryLength);
     }

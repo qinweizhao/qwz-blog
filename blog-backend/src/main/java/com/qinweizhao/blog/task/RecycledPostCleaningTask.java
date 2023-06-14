@@ -4,7 +4,6 @@ import com.qinweizhao.blog.mapper.PostMapper;
 import com.qinweizhao.blog.model.entity.Post;
 import com.qinweizhao.blog.model.enums.PostStatus;
 import com.qinweizhao.blog.model.enums.TimeUnit;
-import com.qinweizhao.blog.model.properties.PostProperties;
 import com.qinweizhao.blog.service.ConfigService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -37,7 +36,7 @@ public class RecycledPostCleaningTask {
      */
     @Scheduled(cron = "0 0 */1 * * *")
     public synchronized void run() {
-        Boolean recycledPostCleaningEnabled = configService.getByPropertyOrDefault(PostProperties.RECYCLED_POST_CLEANING_ENABLED, Boolean.class, false);
+        Boolean recycledPostCleaningEnabled = (Boolean) configService.get("recycled_post_cleaning_enabled");
 
         log.debug("{}自动清理回收状态文章", Boolean.TRUE.equals(recycledPostCleaningEnabled) ? "启用" : "禁用");
 
@@ -45,11 +44,11 @@ public class RecycledPostCleaningTask {
             return;
         }
 
-        Integer recycledPostRetentionTime = configService.getByPropertyOrDefault(PostProperties.RECYCLED_POST_RETENTION_TIME, Integer.class, PostProperties.RECYCLED_POST_RETENTION_TIME.defaultValue(Integer.class));
+        Integer recycledPostRetentionTime = (Integer) configService.get("recycled_post_retention_time");
 
-        TimeUnit timeUnit = configService.getEnumByPropertyOrDefault(PostProperties.RECYCLED_POST_RETENTION_TIMEUNIT, TimeUnit.class, TimeUnit.DAY);
-        log.debug("{} = {}", PostProperties.RECYCLED_POST_RETENTION_TIME.getValue(), recycledPostRetentionTime);
-        log.debug("{} = {}", PostProperties.RECYCLED_POST_RETENTION_TIMEUNIT.getValue(), Objects.requireNonNull(timeUnit).name());
+        TimeUnit timeUnit = (TimeUnit) configService.get("recycled_post_retention_timeunit");
+        log.debug("{} = {}",recycledPostRetentionTime);
+        log.debug("{} = {}",Objects.requireNonNull(timeUnit).name());
 
         long expiredIn;
         switch (timeUnit) {
