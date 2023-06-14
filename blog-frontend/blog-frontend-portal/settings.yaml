@@ -76,6 +76,56 @@ seo:
       placeholder: "描述"
       description: "描述"
 
+# 文章设置
+article:
+  label: 文章设置
+  items:
+    post_summary_length:
+      name: post_summary_length
+      label: 文章摘要字数
+      type: text
+      default: "150"
+      placeholder: ""
+      description: ""
+    post_index_page_size:
+      name: post_index_page_size
+      label: 首页每页文章条数
+      type: text
+      default: "10"
+      placeholder: ""
+      description: ""
+    recycled_post_cleaning_enabled:
+      name: recycled_post_cleaning_enabled
+      label: 自动清理回收站文章
+      type: switch
+      data-type: bool
+      default: false
+      description: "自动清理回收站文章"
+      options:
+        - value: true
+          label: 开启
+        - value: false
+          label: 关闭
+    recycled_post_retention_time:
+      name: recycled_post_retention_time
+      label: 回收站文章保留时长
+      type: text
+      default: ""
+      placeholder: "描述"
+      description: "描述"
+    recycled_post_retention_timeunit:
+      name: recycled_post_retention_timeunit
+      label: 回收文章后保留时间单位
+      type: select
+      data-type: text
+      default: DAY
+      description: "自动清理回收站文章"
+      options:
+        - value: DAY
+          label: 天
+        - value: HOUR
+          label: 小时
+
 
 # 主题
 theme:
