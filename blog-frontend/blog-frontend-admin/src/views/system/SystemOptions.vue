@@ -9,6 +9,17 @@
       <a-col :span="24">
         <div class="card-container">
           <a-tabs v-if="!advancedOptions" class="general" type="card">
+            <a-tab-pane key="other">
+              <span slot="tab"> <a-icon type="tool" />其他设置 </span>
+              <OtherTab
+                :errored="errored"
+                :options="options"
+                :saving="saving"
+                @callback="errored = false"
+                @onChange="onOptionsChange"
+                @onSave="onSaveOptions"
+              />
+            </a-tab-pane>
             <a-tab-pane key="general">
               <span slot="tab"> <a-icon type="tool" />常规设置 </span>
               <GeneralTab
@@ -92,6 +103,7 @@ import PostTab from './optiontabs/PostTab'
 import AttachmentTab from './optiontabs/AttachmentTab'
 import SmtpTab from './optiontabs/SmtpTab'
 import PermalinkTab from './optiontabs/PermalinkTab'
+import OtherTab from './optiontabs/OtherTab.vue'
 import configApi from '@/api/config'
 
 import { mapActions } from 'vuex'
@@ -104,7 +116,8 @@ export default {
     PostTab,
     AttachmentTab,
     SmtpTab,
-    PermalinkTab
+    PermalinkTab,
+    OtherTab
   },
   data() {
     return {

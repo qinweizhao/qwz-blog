@@ -124,6 +124,36 @@ export const attachmentTypes = {
     text: 'MinIO'
   }
 }
+export const backdrops = {
+  OFF: {
+    type: 'off',
+    text: '无'
+  },
+  plexus: {
+    type: 'plexus',
+    text: '自动吸附的线段'
+  },
+  petals: {
+    type: 'petals',
+    text: '飘落的花瓣（顶层）'
+  },
+  rainbow: {
+    type: 'rainbow',
+    text: '四色彩虹'
+  },
+  silk: {
+    type: 'silk',
+    text: '变化的彩带'
+  },
+  silk_static: {
+    type: 'silk_static',
+    text: '固定的彩带'
+  },
+  balloon: {
+    type: 'balloon',
+    text: '上升的气球'
+  }
+}
 
 export const normalPostStatuses = {
   PUBLISHED: {
