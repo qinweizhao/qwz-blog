@@ -9,6 +9,39 @@
       <a-col :span="24">
         <div class="card-container">
           <a-tabs v-if="!advancedOptions" class="general" type="card">
+            <a-tab-pane key="general">
+              <span slot="tab"> <a-icon type="tool" />常规设置 </span>
+              <GeneralTab
+                :errored="errored"
+                :options="options"
+                :saving="saving"
+                @callback="errored = false"
+                @onChange="onOptionsChange"
+                @onSave="onSaveOptions"
+              />
+            </a-tab-pane>
+            <a-tab-pane key="seo">
+              <span slot="tab"> <a-icon type="global" />SEO 设置 </span>
+              <SeoTab
+                :errored="errored"
+                :options="options"
+                :saving="saving"
+                @callback="errored = false"
+                @onChange="onOptionsChange"
+                @onSave="onSaveOptions"
+              />
+            </a-tab-pane>
+            <a-tab-pane key="post">
+              <span slot="tab"> <a-icon type="form" />文章设置 </span>
+              <PostTab
+                :errored="errored"
+                :options="options"
+                :saving="saving"
+                @callback="errored = false"
+                @onChange="onOptionsChange"
+                @onSave="onSaveOptions"
+              />
+            </a-tab-pane>
             <a-tab-pane key="attachment">
               <span slot="tab"> <a-icon type="picture" />附件设置 </span>
               <AttachmentTab
@@ -53,6 +86,9 @@
 </template>
 <script>
 import { PageView } from '@/layouts'
+import GeneralTab from './optiontabs/GeneralTab'
+import SeoTab from './optiontabs/SeoTab'
+import PostTab from './optiontabs/PostTab'
 import AttachmentTab from './optiontabs/AttachmentTab'
 import SmtpTab from './optiontabs/SmtpTab'
 import PermalinkTab from './optiontabs/PermalinkTab'
@@ -63,6 +99,9 @@ import { mapActions } from 'vuex'
 export default {
   components: {
     PageView,
+    GeneralTab,
+    SeoTab,
+    PostTab,
     AttachmentTab,
     SmtpTab,
     PermalinkTab
