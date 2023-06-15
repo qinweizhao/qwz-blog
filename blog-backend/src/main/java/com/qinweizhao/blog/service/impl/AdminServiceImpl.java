@@ -17,7 +17,6 @@ import com.qinweizhao.blog.model.entity.User;
 import com.qinweizhao.blog.model.enums.LogType;
 import com.qinweizhao.blog.model.param.LoginParam;
 import com.qinweizhao.blog.model.param.ResetPasswordParam;
-import com.qinweizhao.blog.model.properties.EmailProperties;
 import com.qinweizhao.blog.model.support.BlogConst;
 import com.qinweizhao.blog.service.AdminService;
 import com.qinweizhao.blog.service.ConfigService;
@@ -154,11 +153,11 @@ public class AdminServiceImpl implements AdminService {
 
         String code = RandomUtil.randomNumbers(6);
 
-        log.info("Got reset password code:{}", code);
+        log.info("获得重置密码验证码:{}", code);
 
         cacheStore.putAny("code", code, 5, TimeUnit.MINUTES);
 
-        Boolean emailEnabled = configService.getByPropertyOrDefault(EmailProperties.ENABLED, Boolean.class, false);
+        Boolean emailEnabled = Boolean.valueOf(String.valueOf(configService.get("email_enabled")));
 
         if (Boolean.FALSE.equals(emailEnabled)) {
             throw new ServiceException("未启用 SMTP 服务，无法发送邮件，但是你可以通过系统日志找到验证码");

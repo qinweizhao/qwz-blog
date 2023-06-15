@@ -1,7 +1,6 @@
 package com.qinweizhao.blog.mail;
 
 import com.qinweizhao.blog.exception.EmailException;
-import com.qinweizhao.blog.model.properties.EmailProperties;
 import com.qinweizhao.blog.service.ConfigService;
 import freemarker.template.TemplateException;
 import lombok.extern.slf4j.Slf4j;
@@ -80,7 +79,7 @@ public abstract class AbstractMailService implements MailService {
         }
 
         // 检查邮件是否启用
-        Boolean emailEnabled = configService.getByPropertyOrDefault(EmailProperties.ENABLED, Boolean.class);
+        Boolean emailEnabled = Boolean.valueOf(String.valueOf(configService.get("email_enabled")));
 
         if (Boolean.FALSE.equals(emailEnabled)) {
             log.info("电子邮件已被禁用，可以通过管理页面上的电子邮件设置重新启用它");
@@ -154,7 +153,7 @@ public abstract class AbstractMailService implements MailService {
 
         if (StringUtils.isBlank(this.cachedFromName)) {
             // set personal name
-            this.cachedFromName = configService.getByPropertyOfNonNull(EmailProperties.FROM_NAME).toString();
+            this.cachedFromName = configService.get("email_from_name").toString();
         }
 
         if (javaMailSender instanceof JavaMailSenderImpl) {
@@ -181,11 +180,11 @@ public abstract class AbstractMailService implements MailService {
             MailProperties mailProperties = new MailProperties(log.isDebugEnabled());
 
             // 设置属性
-            mailProperties.setHost(configService.getByPropertyOrDefault(EmailProperties.HOST, String.class));
-            mailProperties.setPort(configService.getByPropertyOrDefault(EmailProperties.SSL_PORT, Integer.class));
-            mailProperties.setUsername(configService.getByPropertyOrDefault(EmailProperties.USERNAME, String.class));
-            mailProperties.setPassword(configService.getByPropertyOrDefault(EmailProperties.PASSWORD, String.class));
-            mailProperties.setProtocol(configService.getByPropertyOrDefault(EmailProperties.PROTOCOL, String.class));
+            mailProperties.setHost(String.valueOf(configService.get("email_host")));
+            mailProperties.setPort(Integer.valueOf(String.valueOf(configService.get("email_ssl_port"))));
+            mailProperties.setUsername(String.valueOf(configService.get("email_username")));
+            mailProperties.setPassword(String.valueOf(configService.get("email_password")));
+            mailProperties.setProtocol(String.valueOf(configService.get("email_protocol")));
             this.cachedMailProperties = mailProperties;
         }
 

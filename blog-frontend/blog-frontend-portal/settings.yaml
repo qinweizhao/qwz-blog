@@ -126,6 +126,64 @@ article:
         - value: HOUR
           label: 小时
 
+# SMTP 服务
+smtp:
+  label: SMTP 服务
+  items:
+    email_enabled:
+      name: email_enabled
+      label: 是否启用
+      type: switch
+      data-type: bool
+      default: false
+      description: ""
+      options:
+        - value: true
+          label: 开启
+        - value: false
+          label: 关闭
+    email_host:
+      name: email_host
+      label: SMTP 地址
+      type: text
+      default: ""
+      placeholder: ""
+      description: ""
+    email_protocol:
+      name: email_protocol
+      label: 发送协议
+      type: text
+      default: "smtp"
+      placeholder: ""
+      description: ""
+    email_ssl_port:
+      name: email_ssl_port
+      label: SSL 端口
+      type: text
+      default: "465"
+      placeholder: ""
+      description: ""
+    email_username:
+      name: email_username
+      label: 邮箱账号
+      type: text
+      default: ""
+      placeholder: ""
+      description: ""
+    email_password:
+      name: email_password
+      label: 邮箱密码
+      type: text
+      default: ""
+      placeholder: ""
+      description: ""
+    email_from_name:
+      name: email_from_name
+      label: 发件人
+      type: text
+      default: ""
+      placeholder: ""
+      description: ""
 
 # 主题
 theme:
