@@ -1,6 +1,5 @@
 package com.qinweizhao.blog.service;
 
-import com.qiniu.storage.Region;
 import com.qinweizhao.blog.exception.MissingPropertyException;
 import com.qinweizhao.blog.framework.handler.theme.config.support.Group;
 import com.qinweizhao.blog.model.core.PageResult;
@@ -157,14 +156,6 @@ public interface ConfigService {
      * @return page size
      */
     int getPostPageSize();
-
-    /**
-     * Get qiniu oss region.
-     *
-     * @return qiniu region
-     */
-
-    Region getQiniuRegion();
 
 
     /**

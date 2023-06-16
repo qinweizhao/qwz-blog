@@ -1,6 +1,5 @@
 package com.qinweizhao.blog.service.impl;
 
-import com.qiniu.storage.Region;
 import com.qinweizhao.blog.config.properties.MyBlogProperties;
 import com.qinweizhao.blog.exception.MissingPropertyException;
 import com.qinweizhao.blog.exception.ServiceException;
@@ -194,36 +193,6 @@ public class ConfigServiceImpl implements ConfigService {
         }
     }
 
-
-    @Override
-    public Region getQiniuRegion() {
-        return getByProperty(QiniuOssProperties.OSS_ZONE).map(qiniuZone -> {
-
-            Region region;
-            switch (qiniuZone.toString()) {
-                case "z0":
-                    region = Region.region0();
-                    break;
-                case "z1":
-                    region = Region.region1();
-                    break;
-                case "z2":
-                    region = Region.region2();
-                    break;
-                case "na0":
-                    region = Region.regionNa0();
-                    break;
-                case "as0":
-                    region = Region.regionAs0();
-                    break;
-                default:
-                    // 默认是自动检测区域
-                    region = Region.autoRegion();
-            }
-            return region;
-
-        }).orElseGet(Region::autoRegion);
-    }
 
 
     @Override
@@ -450,7 +419,6 @@ public class ConfigServiceImpl implements ConfigService {
         log.debug("将要扫描的目录为：{}", frontend);
         return frontend;
     }
-
 
     @Override
     public List<Group> listConfig() {
