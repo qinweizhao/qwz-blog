@@ -17,7 +17,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 import static com.qinweizhao.blog.model.support.BlogConst.ADMIN_TOKEN_HEADER_NAME;
-import static com.qinweizhao.blog.model.support.BlogConst.API_ACCESS_KEY_HEADER_NAME;
 
 /**
  * Filter for CORS.
@@ -28,7 +27,7 @@ import static com.qinweizhao.blog.model.support.BlogConst.API_ACCESS_KEY_HEADER_
 @Order(Ordered.HIGHEST_PRECEDENCE + 10)
 public class CorsFilter extends GenericFilterBean {
 
-    private static final String ALLOW_HEADERS = StringUtils.joinWith(",", HttpHeaders.CONTENT_TYPE, ADMIN_TOKEN_HEADER_NAME, API_ACCESS_KEY_HEADER_NAME);
+    private static final String ALLOW_HEADERS = StringUtils.joinWith(",", HttpHeaders.CONTENT_TYPE, ADMIN_TOKEN_HEADER_NAME);
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
