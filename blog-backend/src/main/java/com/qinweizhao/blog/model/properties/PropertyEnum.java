@@ -146,7 +146,6 @@ public interface PropertyEnum extends ValueEnum<String> {
         List<Class<? extends PropertyEnum>> propertyEnumClasses = new LinkedList<>();
         propertyEnumClasses.add(AttachmentProperties.class);
         propertyEnumClasses.add(PrimaryProperties.class);
-        propertyEnumClasses.add(UpOssProperties.class);
 
         propertyEnumClasses.add(PermalinkProperties.class);
 
