@@ -4,7 +4,6 @@ import com.qinweizhao.blog.config.properties.MyBlogProperties;
 import com.qinweizhao.blog.framework.cache.AbstractStringCacheStore;
 import com.qinweizhao.blog.framework.cache.InMemoryCacheStore;
 import com.qinweizhao.blog.framework.cache.LevelCacheStore;
-import com.qinweizhao.blog.util.HttpClientUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -30,13 +29,6 @@ public class MyBlogConfiguration {
 
     @Resource
     private MyBlogProperties myBlogProperties;
-
-    @Bean
-    public RestTemplate httpsRestTemplate(RestTemplateBuilder builder) throws NoSuchAlgorithmException, KeyStoreException, KeyManagementException {
-        RestTemplate httpsRestTemplate = builder.build();
-        httpsRestTemplate.setRequestFactory(new HttpComponentsClientHttpRequestFactory(HttpClientUtils.createHttpsClient((int) myBlogProperties.getDownloadTimeout().toMillis())));
-        return httpsRestTemplate;
-    }
 
     @Bean
     @ConditionalOnMissingBean
