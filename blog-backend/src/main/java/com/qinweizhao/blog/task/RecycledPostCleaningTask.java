@@ -36,6 +36,7 @@ public class RecycledPostCleaningTask {
      */
     @Scheduled(cron = "0 0 */1 * * *")
     public synchronized void run() {
+        // todo java.lang.String cannot be cast to java.lang.Boolean
         Boolean recycledPostCleaningEnabled = (Boolean) configService.get("recycled_post_cleaning_enabled");
 
         log.debug("{}自动清理回收状态文章", Boolean.TRUE.equals(recycledPostCleaningEnabled) ? "启用" : "禁用");
