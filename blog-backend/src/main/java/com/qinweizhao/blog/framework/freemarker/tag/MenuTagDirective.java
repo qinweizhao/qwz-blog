@@ -1,6 +1,5 @@
 package com.qinweizhao.blog.framework.freemarker.tag;
 
-import com.qinweizhao.blog.model.properties.PrimaryProperties;
 import com.qinweizhao.blog.model.support.BlogConst;
 import com.qinweizhao.blog.service.ConfigService;
 import com.qinweizhao.blog.service.MenuService;
@@ -39,12 +38,10 @@ public class MenuTagDirective implements TemplateDirectiveModel {
             String method = params.get(BlogConst.METHOD_KEY).toString();
             switch (method) {
                 case "list":
-                    String listTeam = configService.getByPropertyOrDefault(PrimaryProperties.DEFAULT_MENU_TEAM, String.class, "");
-                    env.setVariable("menus", builder.build().wrap(menuService.listByTeam(listTeam)));
+                    env.setVariable("menus", builder.build().wrap(menuService.listByTeam("")));
                     break;
                 case "tree":
-                    String treeTeam = configService.getByPropertyOrDefault(PrimaryProperties.DEFAULT_MENU_TEAM, String.class, "");
-                    env.setVariable("menus", builder.build().wrap(menuService.listByTeamAsTree(treeTeam)));
+                    env.setVariable("menus", builder.build().wrap(menuService.listByTeamAsTree("")));
                     break;
                 case "listTeams":
                     env.setVariable("teams", builder.build().wrap(menuService.listTeamVO()));

@@ -3,6 +3,7 @@ package com.qinweizhao.blog.framework.listener.freemarker;
 import com.qinweizhao.blog.config.properties.MyBlogProperties;
 import com.qinweizhao.blog.framework.event.config.ConfigUpdatedEvent;
 import com.qinweizhao.blog.framework.event.user.UserUpdatedEvent;
+import com.qinweizhao.blog.model.constant.SystemConstant;
 import com.qinweizhao.blog.model.support.BlogConst;
 import com.qinweizhao.blog.service.ConfigService;
 import com.qinweizhao.blog.service.ThemeService;
@@ -84,9 +85,9 @@ public class FreemarkerConfigAwareListener {
         configuration.setSharedVariable("seo_description", configService.get("seo_description"));
         configuration.setSharedVariable("sitemap_xml_url", blogBaseUrl + "/sitemap.xml");
         configuration.setSharedVariable("sitemap_html_url", blogBaseUrl + "/sitemap.html");
-        configuration.setSharedVariable("archives_url", context + configService.getArchivesPrefix());
-        configuration.setSharedVariable("categories_url", context + configService.getCategoriesPrefix());
-        configuration.setSharedVariable("tags_url", context + configService.getTagsPrefix());
+        configuration.setSharedVariable("archives_url", context + SystemConstant.ARCHIVES_PREFIX);
+        configuration.setSharedVariable("categories_url", context + SystemConstant.CATEGORIES_PREFIX);
+        configuration.setSharedVariable("tags_url", context + SystemConstant.TAGS_PREFIX);
 
         log.debug("已加载选项");
     }

@@ -9,7 +9,6 @@ import com.qinweizhao.blog.model.entity.Attachment;
 import com.qinweizhao.blog.model.enums.AttachmentType;
 import com.qinweizhao.blog.model.param.AttachmentParam;
 import com.qinweizhao.blog.model.param.AttachmentQueryParam;
-import com.qinweizhao.blog.model.properties.AttachmentProperties;
 import com.qinweizhao.blog.model.support.UploadResult;
 import com.qinweizhao.blog.service.AttachmentService;
 import com.qinweizhao.blog.service.ConfigService;
@@ -139,11 +138,12 @@ public class AttachmentServiceImpl implements AttachmentService {
     }
 
     /**
-     * 从配置中获取附件类型
+     * 从配置中获取附件类型 todo
      *
      * @return attachment type
      */
     private AttachmentType getAttachmentType() {
-        return Objects.requireNonNull(configService.getEnumByPropertyOrDefault(AttachmentProperties.ATTACHMENT_TYPE, AttachmentType.class, AttachmentType.LOCAL));
+        return AttachmentType.LOCAL;
+//        return Objects.requireNonNull(configService.getEnumByPropertyOrDefault(AttachmentProperties.ATTACHMENT_TYPE, AttachmentType.class, AttachmentType.LOCAL));
     }
 }

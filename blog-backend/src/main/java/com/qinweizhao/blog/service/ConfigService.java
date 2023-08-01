@@ -1,20 +1,16 @@
 package com.qinweizhao.blog.service;
 
-import com.qinweizhao.blog.exception.MissingPropertyException;
 import com.qinweizhao.blog.framework.handler.theme.config.support.Group;
 import com.qinweizhao.blog.model.core.PageResult;
 import com.qinweizhao.blog.model.dto.ConfigDTO;
 import com.qinweizhao.blog.model.enums.ConfigType;
 import com.qinweizhao.blog.model.param.ConfigParam;
 import com.qinweizhao.blog.model.param.ConfigQueryParam;
-import com.qinweizhao.blog.model.properties.PropertyEnum;
 import org.springframework.lang.Nullable;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
-import java.util.Optional;
 
 /**
  * Option service interface.
@@ -71,84 +67,8 @@ public interface ConfigService {
      */
     Map<String, Object> listOptions(@Nullable List<String> keys);
 
-    /**
-     * Gets option value by blog property.
-     *
-     * @param property blog property
-     * @return an optiona value
-     * @throws MissingPropertyException throws when property value dismisses
-     */
-
-    Object getByPropertyOfNonNull(PropertyEnum property);
-
-    /**
-     * Gets option value by blog property.
-     *
-     * @param property blog property must not be null
-     * @return an optional option value
-     */
-
-    Optional<Object> getByProperty(PropertyEnum property);
-
 
     Object get(String key);
-
-    /**
-     * Gets property value by blog property.
-     *
-     * @param property     blog property must not be null
-     * @param propertyType property type must not be null
-     * @param defaultValue default value
-     * @param <T>          property type
-     * @return property value
-     */
-    <T> T getByPropertyOrDefault(PropertyEnum property, Class<T> propertyType, T defaultValue);
-
-    /**
-     * Gets property value by blog property.
-     * <p>
-     * Default value from property default value.
-     *
-     * @param property     blog property must not be null
-     * @param propertyType property type must not be null
-     * @param <T>          property type
-     * @return property value
-     */
-    <T> T getByPropertyOrDefault(PropertyEnum property, Class<T> propertyType);
-
-    /**
-     * Gets property value by blog property.
-     *
-     * @param property     blog property must not be null
-     * @param propertyType property type must not be null
-     * @param <T>          property type
-     * @return property value
-     */
-    <T> Optional<T> getByProperty(PropertyEnum property, Class<T> propertyType);
-
-
-    /**
-     * Gets enum value by property.
-     *
-     * @param property  property must not be blank
-     * @param valueType enum value type must not be null
-     * @param <T>       enum value type
-     * @return an optional enum value
-     */
-
-    <T extends Enum<T>> Optional<T> getEnumByProperty(PropertyEnum property, Class<T> valueType);
-
-    /**
-     * Gets enum value by property.
-     *
-     * @param property     property must not be blank
-     * @param valueType    enum value type must not be null
-     * @param defaultValue default value
-     * @param <T>          enum value type
-     * @return enum value
-     */
-    @Nullable
-    <T extends Enum<T>> T getEnumByPropertyOrDefault(PropertyEnum property, Class<T> valueType, @Nullable T defaultValue);
 
     /**
      * Gets post page size.
@@ -164,35 +84,6 @@ public interface ConfigService {
      * @return blog base url (If blog url isn't present, current machine IP address will be default)
      */
     String getBlogBaseUrl();
-
-
-    /**
-     * Get archives custom prefix.
-     *
-     * @return archives prefix.
-     */
-    String getArchivesPrefix();
-
-    /**
-     * Get categories custom prefix.
-     *
-     * @return categories prefix.
-     */
-    String getCategoriesPrefix();
-
-    /**
-     * Get tags custom prefix.
-     *
-     * @return tags prefix.
-     */
-    String getTagsPrefix();
-
-    /**
-     * Get tags custom prefix.
-     *
-     * @return tags prefix.
-     */
-    String getArticlePrefix();
 
     /**
      * 分页列表

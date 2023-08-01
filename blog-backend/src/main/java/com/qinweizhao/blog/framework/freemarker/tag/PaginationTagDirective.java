@@ -1,6 +1,7 @@
 package com.qinweizhao.blog.framework.freemarker.tag;
 
 import cn.hutool.core.util.PageUtil;
+import com.qinweizhao.blog.model.constant.SystemConstant;
 import com.qinweizhao.blog.model.support.BlogConst;
 import com.qinweizhao.blog.model.support.Pagination;
 import com.qinweizhao.blog.model.support.RainbowPage;
@@ -107,8 +108,8 @@ public class PaginationTagDirective implements TemplateDirectiveModel {
                 case "tagPosts":
                     String tagSlug = params.get("slug").toString();
 
-                    nextPageFullPath.append(URL_SEPARATOR).append(configService.getTagsPrefix()).append(URL_SEPARATOR).append(tagSlug);
-                    prevPageFullPath.append(URL_SEPARATOR).append(configService.getTagsPrefix()).append(URL_SEPARATOR).append(tagSlug);
+                    nextPageFullPath.append(URL_SEPARATOR).append(SystemConstant.TAGS_PREFIX).append(URL_SEPARATOR).append(tagSlug);
+                    prevPageFullPath.append(URL_SEPARATOR).append(SystemConstant.TAGS_PREFIX).append(URL_SEPARATOR).append(tagSlug);
 
                     nextPageFullPath.append(URL_PAGE_PARAM).append(page + 1);
 
@@ -117,7 +118,7 @@ public class PaginationTagDirective implements TemplateDirectiveModel {
                         prevPageFullPath.append(URL_PAGE_PARAM).append(page - 1);
                     }
 
-                    fullPath.append(URL_SEPARATOR).append(configService.getTagsPrefix()).append(URL_SEPARATOR).append(tagSlug);
+                    fullPath.append(URL_SEPARATOR).append(SystemConstant.TAGS_PREFIX).append(URL_SEPARATOR).append(tagSlug);
 
                     fullPath.append(URL_PAGE_PARAM);
 
@@ -132,8 +133,8 @@ public class PaginationTagDirective implements TemplateDirectiveModel {
                 case "categoryPosts":
                     String categorySlug = params.get("slug").toString();
 
-                    nextPageFullPath.append(URL_SEPARATOR).append(configService.getCategoriesPrefix()).append(URL_SEPARATOR).append(categorySlug);
-                    prevPageFullPath.append(URL_SEPARATOR).append(configService.getCategoriesPrefix()).append(URL_SEPARATOR).append(categorySlug);
+                    nextPageFullPath.append(URL_SEPARATOR).append(SystemConstant.CATEGORIES_PREFIX).append(URL_SEPARATOR).append(categorySlug);
+                    prevPageFullPath.append(URL_SEPARATOR).append(SystemConstant.CATEGORIES_PREFIX).append(URL_SEPARATOR).append(categorySlug);
 
                     nextPageFullPath.append(URL_PAGE_PARAM).append(page + 1);
 
@@ -142,7 +143,7 @@ public class PaginationTagDirective implements TemplateDirectiveModel {
                         prevPageFullPath.append(URL_PAGE_PARAM).append(page - 1);
                     }
 
-                    fullPath.append(URL_SEPARATOR).append(configService.getCategoriesPrefix()).append(URL_SEPARATOR).append(categorySlug);
+                    fullPath.append(URL_SEPARATOR).append(SystemConstant.CATEGORIES_PREFIX).append(URL_SEPARATOR).append(categorySlug);
 
                     fullPath.append(URL_PAGE_PARAM);
 

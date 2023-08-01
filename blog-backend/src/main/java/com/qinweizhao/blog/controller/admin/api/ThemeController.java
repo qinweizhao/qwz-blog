@@ -27,16 +27,6 @@ public class ThemeController {
     private final ConfigService configService;
 
     /**
-     * 获取主题(about)
-     *
-     * @return ThemeProperty
-     */
-//    @GetMapping
-//    public ThemeProperty getProperty() {
-//        return themeService.getThemeProperty();
-//    }
-
-    /**
      * 主题配置（yaml)
      *
      * @return List

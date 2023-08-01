@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.qinweizhao.blog.exception.AlreadyExistsException;
 import com.qinweizhao.blog.mapper.PostTagMapper;
 import com.qinweizhao.blog.mapper.TagMapper;
+import com.qinweizhao.blog.model.constant.SystemConstant;
 import com.qinweizhao.blog.model.convert.TagConvert;
 import com.qinweizhao.blog.model.dto.TagDTO;
 import com.qinweizhao.blog.model.entity.Tag;
@@ -57,7 +58,7 @@ public class TagServiceImpl implements TagService {
         result.forEach(item -> {
             item.setPostCount(tagPostCountMap.getOrDefault(item.getId(), 0L));
 
-            String fullPath = configService.getBlogBaseUrl() + URL_SEPARATOR + configService.getTagsPrefix() + URL_SEPARATOR + item.getSlug();
+            String fullPath = configService.getBlogBaseUrl() + URL_SEPARATOR + SystemConstant.TAGS_PREFIX + URL_SEPARATOR + item.getSlug();
 
             item.setFullPath(fullPath);
 
@@ -97,7 +98,7 @@ public class TagServiceImpl implements TagService {
 
         TagDTO tagDTO = TagConvert.INSTANCE.convert(tag);
 
-        String fullPath = configService.getBlogBaseUrl() + URL_SEPARATOR + configService.getTagsPrefix() + URL_SEPARATOR + tag.getSlug();
+        String fullPath = configService.getBlogBaseUrl() + URL_SEPARATOR + SystemConstant.TAGS_PREFIX + URL_SEPARATOR + tag.getSlug();
 
         tagDTO.setFullPath(fullPath);
 

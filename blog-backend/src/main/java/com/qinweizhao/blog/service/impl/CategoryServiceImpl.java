@@ -5,6 +5,7 @@ import com.qinweizhao.blog.exception.AlreadyExistsException;
 import com.qinweizhao.blog.exception.NotFoundException;
 import com.qinweizhao.blog.mapper.CategoryMapper;
 import com.qinweizhao.blog.mapper.PostCategoryMapper;
+import com.qinweizhao.blog.model.constant.SystemConstant;
 import com.qinweizhao.blog.model.convert.CategoryConvert;
 import com.qinweizhao.blog.model.dto.CategoryDTO;
 import com.qinweizhao.blog.model.entity.Category;
@@ -96,7 +97,7 @@ public class CategoryServiceImpl implements CategoryService {
     @NotNull
     private CategoryDTO setFullPath(Category category, CategoryDTO categoryDTO) {
 
-        String fullPath = configService.getBlogBaseUrl() + URL_SEPARATOR + configService.getCategoriesPrefix() + URL_SEPARATOR + category.getSlug();
+        String fullPath = configService.getBlogBaseUrl() + URL_SEPARATOR + SystemConstant.CATEGORIES_PREFIX + URL_SEPARATOR + category.getSlug();
 
         categoryDTO.setFullPath(fullPath);
 
@@ -231,7 +232,7 @@ public class CategoryServiceImpl implements CategoryService {
                 parentCategory.setChildren(new LinkedList<>());
             }
 
-            String fullPath = configService.getBlogBaseUrl() + URL_SEPARATOR + configService.getCategoriesPrefix() + URL_SEPARATOR + child.getSlug();
+            String fullPath = configService.getBlogBaseUrl() + URL_SEPARATOR + SystemConstant.CATEGORIES_PREFIX + URL_SEPARATOR + child.getSlug();
 
             child.setFullPath(fullPath);
 

@@ -1,7 +1,6 @@
 package com.qinweizhao.blog.service.impl;
 
 import com.qinweizhao.blog.config.properties.MyBlogProperties;
-import com.qinweizhao.blog.exception.MissingPropertyException;
 import com.qinweizhao.blog.exception.ServiceException;
 import com.qinweizhao.blog.framework.cache.AbstractStringCacheStore;
 import com.qinweizhao.blog.framework.event.config.ConfigUpdatedEvent;
@@ -9,6 +8,7 @@ import com.qinweizhao.blog.framework.handler.theme.config.ThemeConfigResolver;
 import com.qinweizhao.blog.framework.handler.theme.config.support.Group;
 import com.qinweizhao.blog.framework.handler.theme.config.support.Item;
 import com.qinweizhao.blog.mapper.ConfigMapper;
+import com.qinweizhao.blog.model.constant.SystemConstant;
 import com.qinweizhao.blog.model.convert.ConfigConvert;
 import com.qinweizhao.blog.model.core.PageResult;
 import com.qinweizhao.blog.model.dto.ConfigDTO;
@@ -16,8 +16,6 @@ import com.qinweizhao.blog.model.entity.Config;
 import com.qinweizhao.blog.model.enums.ConfigType;
 import com.qinweizhao.blog.model.param.ConfigParam;
 import com.qinweizhao.blog.model.param.ConfigQueryParam;
-import com.qinweizhao.blog.model.properties.PermalinkProperties;
-import com.qinweizhao.blog.model.properties.PropertyEnum;
 import com.qinweizhao.blog.service.ConfigService;
 import com.qinweizhao.blog.service.ThemeService;
 import com.qinweizhao.blog.util.ServiceUtils;
@@ -27,7 +25,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
-import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;
 
@@ -39,6 +36,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static com.qinweizhao.blog.model.support.BlogConst.URL_SEPARATOR;
 
@@ -61,48 +59,21 @@ public class ConfigServiceImpl implements ConfigService {
     private final ConfigMapper configMapper;
     private final ThemeConfigResolver themeConfigResolver;
     private final ThemeService themeService;
-    private Map<String, PropertyEnum> propertyEnumMap;
+
 
     @Override
     public String buildFullPath(Integer postId) {
-        return this.getBlogBaseUrl() + URL_SEPARATOR + this.getArticlePrefix() + URL_SEPARATOR + postId;
+        return this.getBlogBaseUrl() + URL_SEPARATOR + SystemConstant.ARTICLE_PREFIX + URL_SEPARATOR + postId;
     }
 
-    @PostConstruct
-    private void init() {
-        propertyEnumMap = Collections.unmodifiableMap(PropertyEnum.getValuePropertyEnumMap());
-    }
+
 
     @Override
     public @NotNull Map<String, Object> getMap() {
         return cacheStore.getAny(OPTIONS_KEY, Map.class).orElseGet(() -> {
             List<Config> configs = configMapper.selectListByType(ConfigType.ADMIN);
 
-            Set<String> keys = ServiceUtils.fetchProperty(configs, Config::getConfigKey);
-
-            Map<String, Object> userDefinedOptionMap = ServiceUtils.convertToMap(configs, Config::getConfigKey, config -> {
-                String key = config.getConfigKey();
-
-                PropertyEnum propertyEnum = propertyEnumMap.get(key);
-
-                if (propertyEnum == null) {
-                    return config.getConfigValue();
-                }
-
-                return PropertyEnum.convertTo(config.getConfigValue(), propertyEnum);
-            });
-
-            Map<String, Object> result = new HashMap<>(userDefinedOptionMap);
-
-            propertyEnumMap.keySet().stream().filter(key -> !keys.contains(key)).forEach(key -> {
-                PropertyEnum propertyEnum = propertyEnumMap.get(key);
-
-                if (StringUtils.isBlank(propertyEnum.defaultValue())) {
-                    return;
-                }
-
-                result.put(key, PropertyEnum.convertTo(propertyEnum.defaultValue(), propertyEnum));
-            });
+            Map<String, String> result = configs.stream().collect(Collectors.toMap(Config::getConfigKey, Config::getConfigValue));
 
             // 补充博客地址属性
             result.put("blog_url", this.getBlogBaseUrl());
@@ -139,50 +110,12 @@ public class ConfigServiceImpl implements ConfigService {
         return result;
     }
 
-    @Override
-    public Object getByPropertyOfNonNull(PropertyEnum property) {
-        Assert.notNull(property, "属性不能为空");
-        String key = property.getValue();
-        return Optional.ofNullable(getMap().get(property.getValue())).orElseThrow(() -> new MissingPropertyException("You have to config " + key + " setting"));
-    }
-
-    @Override
-    public Optional<Object> getByProperty(PropertyEnum property) {
-        Assert.notNull(property, "Blog property must not be null");
-        return Optional.ofNullable(getMap().get(property.getValue()));
-    }
 
     @Override
     public Object get(String key) {
         return this.getMap().get(key);
     }
 
-    @Override
-    public <T> T getByPropertyOrDefault(PropertyEnum property, Class<T> propertyType, T defaultValue) {
-        Assert.notNull(property, "Blog property must not be null");
-
-        return getByProperty(property, propertyType).orElse(defaultValue);
-    }
-
-    @Override
-    public <T> T getByPropertyOrDefault(PropertyEnum property, Class<T> propertyType) {
-        return getByProperty(property, propertyType).orElse(property.defaultValue(propertyType));
-    }
-
-    @Override
-    public <T> Optional<T> getByProperty(PropertyEnum property, Class<T> propertyType) {
-        return getByProperty(property).map(propertyValue -> PropertyEnum.convertTo(propertyValue.toString(), propertyType));
-    }
-
-    @Override
-    public <T extends Enum<T>> Optional<T> getEnumByProperty(PropertyEnum property, Class<T> valueType) {
-        return getByProperty(property).map(value -> PropertyEnum.convertToEnum(value.toString(), valueType));
-    }
-
-    @Override
-    public <T extends Enum<T>> T getEnumByPropertyOrDefault(PropertyEnum property, Class<T> valueType, T defaultValue) {
-        return getEnumByProperty(property, valueType).orElse(defaultValue);
-    }
 
     @Override
     public int getPostPageSize() {
@@ -211,26 +144,6 @@ public class ConfigServiceImpl implements ConfigService {
         return blogUrl;
     }
 
-    @Override
-    public String getArchivesPrefix() {
-        return getByPropertyOrDefault(PermalinkProperties.ARCHIVES_PREFIX, String.class, PermalinkProperties.ARCHIVES_PREFIX.defaultValue());
-    }
-
-    @Override
-    public String getCategoriesPrefix() {
-        return getByPropertyOrDefault(PermalinkProperties.CATEGORIES_PREFIX, String.class, PermalinkProperties.CATEGORIES_PREFIX.defaultValue());
-    }
-
-    @Override
-    public String getTagsPrefix() {
-        return getByPropertyOrDefault(PermalinkProperties.TAGS_PREFIX, String.class, PermalinkProperties.TAGS_PREFIX.defaultValue());
-    }
-
-    @Override
-    public String getArticlePrefix() {
-        return getByPropertyOrDefault(PermalinkProperties.ARTICLE_PREFIX, String.class, PermalinkProperties.TAGS_PREFIX.defaultValue());
-
-    }
 
     @Override
     public PageResult<ConfigDTO> pageSimple(ConfigQueryParam param) {

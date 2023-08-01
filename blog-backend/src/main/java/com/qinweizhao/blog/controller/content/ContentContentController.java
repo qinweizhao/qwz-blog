@@ -5,6 +5,7 @@ import com.qinweizhao.blog.controller.content.model.CategoryModel;
 import com.qinweizhao.blog.controller.content.model.PostModel;
 import com.qinweizhao.blog.controller.content.model.TagModel;
 import com.qinweizhao.blog.exception.NotFoundException;
+import com.qinweizhao.blog.model.constant.SystemConstant;
 import com.qinweizhao.blog.model.enums.PostStatus;
 import com.qinweizhao.blog.service.ConfigService;
 import com.qinweizhao.blog.service.PostService;
@@ -50,15 +51,15 @@ public class ContentContentController {
     public String content(@PathVariable("prefix") String prefix, Model model) {
         log.debug("执行");
         // 归档
-        if (configService.getArchivesPrefix().equals(prefix)) {
+        if (SystemConstant.ARCHIVES_PREFIX.equals(prefix)) {
             return postModel.archives(model);
         }
         // 分类
-        if (configService.getCategoriesPrefix().equals(prefix)) {
+        if (SystemConstant.CATEGORIES_PREFIX.equals(prefix)) {
             return categoryModel.list(model);
         }
         // 标签
-        if (configService.getTagsPrefix().equals(prefix)) {
+        if (SystemConstant.TAGS_PREFIX.equals(prefix)) {
             return tagModel.list(model);
         }
 
@@ -90,11 +91,11 @@ public class ContentContentController {
      */
     @GetMapping("{prefix}/{target}")
     public String content(@PathVariable("prefix") String prefix, @PathVariable("target") String target, @RequestParam(value = "token", required = false) String token, @RequestParam(value = "page", required = false, defaultValue = "1") Integer page, Model model) {
-        if (configService.getCategoriesPrefix().equals(prefix)) {
+        if (SystemConstant.CATEGORIES_PREFIX.equals(prefix)) {
             return categoryModel.listPost(model, target, page);
-        } else if (configService.getTagsPrefix().equals(prefix)) {
+        } else if (SystemConstant.TAGS_PREFIX.equals(prefix)) {
             return tagModel.listPost(model, target, page);
-        } else if (configService.getArticlePrefix().equals(prefix)) {
+        } else if (SystemConstant.ARTICLE_PREFIX.equals(prefix)) {
             PostStatus status;
             try {
                 int postId = Integer.parseInt(target);
