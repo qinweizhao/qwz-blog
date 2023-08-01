@@ -69,12 +69,12 @@ export const asyncRouterMap = [
       },
       // tool
       {
-        path: '/system/tools',
+        path: '/system',
         name: 'ToolList',
         component: () => import('@/views/system/ToolList'),
         meta: { title: '工具', icon: 'tool', hiddenHeaderContent: false }
       },
-      // theme
+      // setting
       {
         path: '/theme',
         name: 'ThemeSetting',
@@ -99,17 +99,16 @@ export const asyncRouterMap = [
           }
         ]
       },
-
-      // system
+      // hidden
       {
-        path: '/system',
-        name: 'System',
+        path: '/hidden',
+        name: 'Hidden',
         component: BlankLayout,
-        redirect: '/system/config',
-        meta: { title: '系统', icon: 'setting' },
+        hidden: true,
+        meta: { title: '隐藏菜单' },
         children: [
           {
-            path: '/system/developer/config',
+            path: '/system/developer',
             name: 'DeveloperOptions',
             hidden: true,
             component: () => import('@/views/system/developer/DeveloperOptions'),
