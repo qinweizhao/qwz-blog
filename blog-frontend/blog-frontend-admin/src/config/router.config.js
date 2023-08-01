@@ -116,18 +116,6 @@ export const asyncRouterMap = [
             meta: { title: '开发者选项', hiddenHeaderContent: false }
           },
           {
-            path: '/system/config',
-            name: 'SystemOptions',
-            component: () => import('@/views/system/SystemOptions'),
-            meta: { title: '设置', hiddenHeaderContent: false }
-          },
-          {
-            path: '/system/tools',
-            name: 'ToolList',
-            component: () => import('@/views/system/ToolList'),
-            meta: { title: '工具', hiddenHeaderContent: false }
-          },
-          {
             path: '/system/actionlogs',
             name: 'SystemActionLogs',
             hidden: true,
