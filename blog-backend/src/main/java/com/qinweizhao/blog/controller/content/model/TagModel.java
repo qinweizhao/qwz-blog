@@ -5,10 +5,9 @@ import com.qinweizhao.blog.model.dto.PostListDTO;
 import com.qinweizhao.blog.model.dto.TagDTO;
 import com.qinweizhao.blog.model.enums.PostStatus;
 import com.qinweizhao.blog.model.param.PostQueryParam;
-import com.qinweizhao.blog.service.ConfigService;
+import com.qinweizhao.blog.service.SettingService;
 import com.qinweizhao.blog.service.PostService;
 import com.qinweizhao.blog.service.TagService;
-import com.qinweizhao.blog.service.ThemeService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.ui.Model;
@@ -28,9 +27,7 @@ public class TagModel {
 
     private final PostService postService;
 
-    private final ConfigService configService;
-
-    private final ThemeService themeService;
+    private final SettingService settingService;
 
     /**
      * tags.html
@@ -40,9 +37,9 @@ public class TagModel {
      */
     public String list(Model model) {
         model.addAttribute("is_tags", true);
-        model.addAttribute("meta_keywords", configService.get("seo_keywords"));
-        model.addAttribute("meta_description", configService.get("seo_description"));
-        return themeService.render("tags");
+        model.addAttribute("meta_keywords", settingService.get("seo_keywords"));
+        model.addAttribute("meta_description", settingService.get("seo_description"));
+        return settingService.render("tags");
     }
 
     /**
@@ -56,7 +53,7 @@ public class TagModel {
     public String listPost(Model model, String slug, Integer page) {
 
         final TagDTO tagDTO = tagService.getBySlug(slug);
-        int pageSize = configService.getPostPageSize();
+        int pageSize = settingService.getPostPageSize();
 
         PostQueryParam param = new PostQueryParam();
         param.setPage(page);
@@ -68,8 +65,8 @@ public class TagModel {
         model.addAttribute("is_tag", true);
         model.addAttribute("posts", posts);
         model.addAttribute("tag", tagDTO);
-        model.addAttribute("meta_keywords", configService.get("seo_keywords"));
-        model.addAttribute("meta_description", configService.get("seo_description"));
-        return themeService.render("tag");
+        model.addAttribute("meta_keywords", settingService.get("seo_keywords"));
+        model.addAttribute("meta_description", settingService.get("seo_description"));
+        return settingService.render("tag");
     }
 }

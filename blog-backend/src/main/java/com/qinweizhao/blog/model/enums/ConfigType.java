@@ -18,7 +18,12 @@ public enum ConfigType implements ValueEnum<Integer> {
     /**
      * 前台
      */
-    PORTAL(1);
+    PORTAL(1),
+
+    /**
+     * 全部
+     */
+    ALL(2);
 
     @EnumValue
     private final Integer value;

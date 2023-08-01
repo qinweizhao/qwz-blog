@@ -9,9 +9,8 @@ import com.qinweizhao.blog.model.dto.PostListDTO;
 import com.qinweizhao.blog.model.dto.TagDTO;
 import com.qinweizhao.blog.model.enums.PostStatus;
 import com.qinweizhao.blog.model.param.PostQueryParam;
-import com.qinweizhao.blog.service.ConfigService;
+import com.qinweizhao.blog.service.SettingService;
 import com.qinweizhao.blog.service.PostService;
-import com.qinweizhao.blog.service.ThemeService;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
@@ -32,9 +31,8 @@ public class PostModel {
 
     private final PostService postService;
 
-    private final ThemeService themeService;
 
-    private final ConfigService configService;
+    private final SettingService settingService;
 
     private final AbstractStringCacheStore cacheStore;
 
@@ -88,11 +86,11 @@ public class PostModel {
         // 发送事件
         postService.publishVisitEvent(post.getId());
 
-        return themeService.render("post");
+        return settingService.render("post");
     }
 
     public String list(Integer page, Model model) {
-        int pageSize = configService.getPostPageSize();
+        int pageSize = settingService.getPostPageSize();
 
         PostQueryParam param = new PostQueryParam();
         param.setSize(pageSize);
@@ -101,16 +99,16 @@ public class PostModel {
 
         model.addAttribute("is_index", true);
         model.addAttribute("posts", posts);
-        model.addAttribute("meta_keywords", configService.get("seo_keywords"));
-        model.addAttribute("meta_description", configService.get("seo_description"));
-        return themeService.render("index");
+        model.addAttribute("meta_keywords", settingService.get("seo_keywords"));
+        model.addAttribute("meta_description", settingService.get("seo_description"));
+        return settingService.render("index");
     }
 
     public String archives(Model model) {
         model.addAttribute("is_archives", true);
-        model.addAttribute("meta_keywords", configService.get("seo_keywords"));
-        model.addAttribute("meta_description", configService.get("seo_description"));
-        return themeService.render("archives");
+        model.addAttribute("meta_keywords", settingService.get("seo_keywords"));
+        model.addAttribute("meta_description", settingService.get("seo_description"));
+        return settingService.render("archives");
     }
 
 

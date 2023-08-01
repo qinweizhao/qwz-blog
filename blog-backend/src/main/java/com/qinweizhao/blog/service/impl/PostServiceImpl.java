@@ -23,7 +23,7 @@ import com.qinweizhao.blog.model.param.PostParam;
 import com.qinweizhao.blog.model.param.PostQueryParam;
 import com.qinweizhao.blog.model.vo.ArchiveMonthVO;
 import com.qinweizhao.blog.model.vo.ArchiveYearVO;
-import com.qinweizhao.blog.service.ConfigService;
+import com.qinweizhao.blog.service.SettingService;
 import com.qinweizhao.blog.service.PostCategoryService;
 import com.qinweizhao.blog.service.PostService;
 import com.qinweizhao.blog.service.PostTagService;
@@ -65,7 +65,7 @@ public class PostServiceImpl implements PostService {
     private final Pattern summaryPattern = Pattern.compile("[\t\r\n]");
     private final PostMapper postMapper;
 
-    private final ConfigService configService;
+    private final SettingService settingService;
 
     private final PostTagMapper postTagMapper;
 
@@ -97,7 +97,7 @@ public class PostServiceImpl implements PostService {
             PostListDTO postListDTO = PostConvert.INSTANCE.convertToListDTO(post);
             postListDTO.setTags(new ArrayList<>(Optional.ofNullable(tagListMap.get(post.getId())).orElseGet(LinkedList::new)));
             postListDTO.setCategories(new ArrayList<>(Optional.ofNullable(categoryListMap.get(post.getId())).orElseGet(LinkedList::new)));
-            postListDTO.setFullPath(configService.buildFullPath(post.getId()));
+            postListDTO.setFullPath(settingService.buildFullPath(post.getId()));
             return postListDTO;
         }).collect(Collectors.toList());
 
@@ -116,7 +116,7 @@ public class PostServiceImpl implements PostService {
 
         posts.forEach(post -> {
             post.setCategories(new ArrayList<>(Optional.ofNullable(categoryListMap.get(post.getId())).orElseGet(LinkedList::new)));
-            post.setFullPath(configService.buildFullPath(post.getId()));
+            post.setFullPath(settingService.buildFullPath(post.getId()));
         });
 
         return new PageResult<>(posts, pageResult.getCurrent(), pageResult.getSize(), pageResult.getTotal(), pageResult.hasPrevious(), pageResult.hasNext());
@@ -326,7 +326,7 @@ public class PostServiceImpl implements PostService {
         cacheStore.putAny(token, token, 10, TimeUnit.MINUTES);
 
 
-        return configService.buildFullPath(postId) + "?token=" + token;
+        return settingService.buildFullPath(postId) + "?token=" + token;
     }
 
     @Override
@@ -484,7 +484,7 @@ public class PostServiceImpl implements PostService {
         postDTO.setCategoryIds(categoryIds);
         postDTO.setCategories(categories);
 
-        postDTO.setFullPath(configService.buildFullPath(post.getId()));
+        postDTO.setFullPath(settingService.buildFullPath(post.getId()));
 
         return postDTO;
     }
@@ -493,7 +493,7 @@ public class PostServiceImpl implements PostService {
     public PostSimpleDTO getSimpleById(Integer postId) {
         Post post = postMapper.selectById(postId);
         PostSimpleDTO result = PostConvert.INSTANCE.convertSimpleDTO(post);
-        result.setFullPath(configService.buildFullPath(post.getId()));
+        result.setFullPath(settingService.buildFullPath(post.getId()));
         return result;
     }
 
@@ -505,7 +505,7 @@ public class PostServiceImpl implements PostService {
         Matcher matcher = summaryPattern.matcher(text);
         text = matcher.replaceAll("");
 
-        int summaryLength = Integer.parseInt(String.valueOf(configService.get("post_summary_length")));
+        int summaryLength = Integer.parseInt(String.valueOf(settingService.get("post_summary_length")));
 
         return StringUtils.substring(text, 0, summaryLength);
     }
@@ -523,7 +523,7 @@ public class PostServiceImpl implements PostService {
 
         postSimples.forEach(post -> {
             LocalDateTime createTime = post.getCreateTime();
-            post.setFullPath(configService.buildFullPath(post.getId()));
+            post.setFullPath(settingService.buildFullPath(post.getId()));
             yearPostMap.computeIfAbsent(createTime.getYear(), year -> new LinkedList<>()).add(post);
         });
 
@@ -553,7 +553,7 @@ public class PostServiceImpl implements PostService {
 
         postSimples.forEach(post -> {
             LocalDateTime createTime = post.getCreateTime();
-            post.setFullPath(configService.buildFullPath(post.getId()));
+            post.setFullPath(settingService.buildFullPath(post.getId()));
             yearMonthPostMap.computeIfAbsent(createTime.getYear(), year -> new LinkedHashMap<>()).computeIfAbsent(createTime.getMonthValue(), month -> new LinkedList<>()).add(post);
         });
 
@@ -617,7 +617,7 @@ public class PostServiceImpl implements PostService {
     public List<PostSimpleDTO> listSimple(int top) {
         List<Post> posts = postMapper.selectListLatest(top);
         List<PostSimpleDTO> result = PostConvert.INSTANCE.convertToSimpleDTO(posts);
-        result.forEach(item -> item.setFullPath(configService.buildFullPath(item.getId())));
+        result.forEach(item -> item.setFullPath(settingService.buildFullPath(item.getId())));
         return result;
     }
 
@@ -630,7 +630,7 @@ public class PostServiceImpl implements PostService {
         Matcher matcher = summaryPattern.matcher(text);
         text = matcher.replaceAll("");
 
-        int summaryLength = Integer.parseInt(String.valueOf(configService.get("post_summary_length")));
+        int summaryLength = Integer.parseInt(String.valueOf(settingService.get("post_summary_length")));
 
         return StringUtils.substring(text, 0, summaryLength);
     }

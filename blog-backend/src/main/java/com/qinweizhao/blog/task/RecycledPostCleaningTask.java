@@ -4,7 +4,7 @@ import com.qinweizhao.blog.mapper.PostMapper;
 import com.qinweizhao.blog.model.entity.Post;
 import com.qinweizhao.blog.model.enums.PostStatus;
 import com.qinweizhao.blog.model.enums.TimeUnit;
-import com.qinweizhao.blog.service.ConfigService;
+import com.qinweizhao.blog.service.SettingService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class RecycledPostCleaningTask {
 
-    private final ConfigService configService;
+    private final SettingService settingService;
 
     private final PostMapper postMapper;
 
@@ -36,7 +36,7 @@ public class RecycledPostCleaningTask {
      */
     @Scheduled(cron = "0 0 */1 * * *")
     public synchronized void run() {
-        Boolean recycledPostCleaningEnabled = Boolean.parseBoolean(String.valueOf(configService.get("recycled_post_cleaning_enabled")));
+        Boolean recycledPostCleaningEnabled = Boolean.parseBoolean(String.valueOf(settingService.get("recycled_post_cleaning_enabled")));
 
         log.debug("{}自动清理回收状态文章", Boolean.TRUE.equals(recycledPostCleaningEnabled) ? "启用" : "禁用");
 
@@ -44,9 +44,9 @@ public class RecycledPostCleaningTask {
             return;
         }
 
-        Integer recycledPostRetentionTime = (Integer) configService.get("recycled_post_retention_time");
+        Integer recycledPostRetentionTime = (Integer) settingService.get("recycled_post_retention_time");
 
-        TimeUnit timeUnit = (TimeUnit) configService.get("recycled_post_retention_timeunit");
+        TimeUnit timeUnit = (TimeUnit) settingService.get("recycled_post_retention_timeunit");
         log.debug("{} = {}", recycledPostRetentionTime);
         log.debug("{} = {}", Objects.requireNonNull(timeUnit).name());
 

@@ -55,7 +55,7 @@ public interface ConfigMapper extends BaseMapper<Config> {
      */
     default PageResult<Config> selectPage(ConfigQueryParam param) {
         Page<Config> page = MyBatisUtils.buildPage(param);
-        this.selectPage(page, new LambdaQueryWrapperX<Config>().likeIfPresent(Config::getConfigKey, param.getKeyword()).eqIfPresent(Config::getType, param.getType()).orderByDesc(Config::getCreateTime));
+        this.selectPage(page, new LambdaQueryWrapperX<Config>().likeIfPresent(Config::getConfigKey, param.getKeyword()).orderByDesc(Config::getCreateTime));
         return MyBatisUtils.buildSimplePageResult(page);
     }
 
@@ -87,15 +87,6 @@ public interface ConfigMapper extends BaseMapper<Config> {
         return SqlHelper.executeBatch(Config.class, log, options, 1000, (sqlSession, entity) -> sqlSession.insert(sqlStatement, entity));
     }
 
-    /**
-     * 查询前台设置
-     *
-     * @param type type
-     * @return List
-     */
-    default List<Config> selectListByType(ConfigType type) {
-        return selectList(new LambdaQueryWrapper<Config>().eq(Config::getType, type));
-    }
 
     /**
      * 更新前台主题设置

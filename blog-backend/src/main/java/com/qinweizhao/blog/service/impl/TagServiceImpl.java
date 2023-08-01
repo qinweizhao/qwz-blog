@@ -10,7 +10,7 @@ import com.qinweizhao.blog.model.dto.TagDTO;
 import com.qinweizhao.blog.model.entity.Tag;
 import com.qinweizhao.blog.model.param.TagParam;
 import com.qinweizhao.blog.model.projection.TagPostPostCountProjection;
-import com.qinweizhao.blog.service.ConfigService;
+import com.qinweizhao.blog.service.SettingService;
 import com.qinweizhao.blog.service.PostTagService;
 import com.qinweizhao.blog.service.TagService;
 import com.qinweizhao.blog.util.ServiceUtils;
@@ -37,7 +37,7 @@ import static com.qinweizhao.blog.model.support.BlogConst.URL_SEPARATOR;
 public class TagServiceImpl implements TagService {
 
 
-    private final ConfigService configService;
+    private final SettingService settingService;
 
     private final PostTagMapper postTagMapper;
 
@@ -58,7 +58,7 @@ public class TagServiceImpl implements TagService {
         result.forEach(item -> {
             item.setPostCount(tagPostCountMap.getOrDefault(item.getId(), 0L));
 
-            String fullPath = configService.getBlogBaseUrl() + URL_SEPARATOR + SystemConstant.TAGS_PREFIX + URL_SEPARATOR + item.getSlug();
+            String fullPath = settingService.getBlogBaseUrl() + URL_SEPARATOR + SystemConstant.TAGS_PREFIX + URL_SEPARATOR + item.getSlug();
 
             item.setFullPath(fullPath);
 
@@ -98,7 +98,7 @@ public class TagServiceImpl implements TagService {
 
         TagDTO tagDTO = TagConvert.INSTANCE.convert(tag);
 
-        String fullPath = configService.getBlogBaseUrl() + URL_SEPARATOR + SystemConstant.TAGS_PREFIX + URL_SEPARATOR + tag.getSlug();
+        String fullPath = settingService.getBlogBaseUrl() + URL_SEPARATOR + SystemConstant.TAGS_PREFIX + URL_SEPARATOR + tag.getSlug();
 
         tagDTO.setFullPath(fullPath);
 

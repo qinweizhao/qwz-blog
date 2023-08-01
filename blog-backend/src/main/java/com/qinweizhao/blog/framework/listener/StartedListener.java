@@ -1,7 +1,7 @@
 package com.qinweizhao.blog.framework.listener;
 
 import com.qinweizhao.blog.config.properties.MyBlogProperties;
-import com.qinweizhao.blog.service.ConfigService;
+import com.qinweizhao.blog.service.SettingService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
@@ -32,7 +32,7 @@ public class StartedListener implements ApplicationListener<ApplicationStartedEv
 
     private final MyBlogProperties myBlogProperties;
 
-    private final ConfigService configService;
+    private final SettingService settingService;
 
     @Override
     public void onApplicationEvent(@NotNull ApplicationStartedEvent event) {
@@ -44,7 +44,7 @@ public class StartedListener implements ApplicationListener<ApplicationStartedEv
      * 打印开始信息
      */
     private void printStartInfo() {
-        String blogUrl = configService.getBlogBaseUrl();
+        String blogUrl = settingService.getBlogBaseUrl();
         log.info(AnsiOutput.toString(AnsiColor.BRIGHT_BLUE, "Blog started at         ", blogUrl));
         log.info(AnsiOutput.toString(AnsiColor.BRIGHT_BLUE, "Blog admin started at   ", blogUrl, "/", myBlogProperties.getAdminPath()));
         log.info(AnsiOutput.toString(AnsiColor.BRIGHT_YELLOW, "Blog has started successfully!"));

@@ -1,7 +1,7 @@
 package com.qinweizhao.blog.framework.freemarker.tag;
 
 import com.qinweizhao.blog.model.support.BlogConst;
-import com.qinweizhao.blog.service.ConfigService;
+import com.qinweizhao.blog.service.SettingService;
 import com.qinweizhao.blog.service.MenuService;
 import freemarker.core.Environment;
 import freemarker.template.*;
@@ -22,11 +22,11 @@ public class MenuTagDirective implements TemplateDirectiveModel {
 
     private final MenuService menuService;
 
-    private final ConfigService configService;
+    private final SettingService settingService;
 
-    public MenuTagDirective(Configuration configuration, MenuService menuService, ConfigService configService) {
+    public MenuTagDirective(Configuration configuration, MenuService menuService, SettingService settingService) {
         this.menuService = menuService;
-        this.configService = configService;
+        this.settingService = settingService;
         configuration.setSharedVariable("menuTag", this);
     }
 

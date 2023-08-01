@@ -1,7 +1,7 @@
 package com.qinweizhao.blog.mail;
 
 import com.qinweizhao.blog.exception.EmailException;
-import com.qinweizhao.blog.service.ConfigService;
+import com.qinweizhao.blog.service.SettingService;
 import freemarker.template.TemplateException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -28,15 +28,15 @@ import java.util.concurrent.Executors;
 public abstract class AbstractMailService implements MailService {
 
     private static final int DEFAULT_POOL_SIZE = 5;
-    protected final ConfigService configService;
+    protected final SettingService settingService;
     private JavaMailSender cachedMailSender;
     private MailProperties cachedMailProperties;
     private String cachedFromName;
     @Nullable
     private ExecutorService executorService;
 
-    protected AbstractMailService(ConfigService configService) {
-        this.configService = configService;
+    protected AbstractMailService(SettingService settingService) {
+        this.settingService = settingService;
     }
 
     @NonNull
@@ -79,7 +79,7 @@ public abstract class AbstractMailService implements MailService {
         }
 
         // 检查邮件是否启用
-        Boolean emailEnabled = Boolean.valueOf(String.valueOf(configService.get("email_enabled")));
+        Boolean emailEnabled = Boolean.valueOf(String.valueOf(settingService.get("email_enabled")));
 
         if (Boolean.FALSE.equals(emailEnabled)) {
             log.info("电子邮件已被禁用，可以通过管理页面上的电子邮件设置重新启用它");
@@ -153,7 +153,7 @@ public abstract class AbstractMailService implements MailService {
 
         if (StringUtils.isBlank(this.cachedFromName)) {
             // set personal name
-            this.cachedFromName = configService.get("email_from_name").toString();
+            this.cachedFromName = settingService.get("email_from_name").toString();
         }
 
         if (javaMailSender instanceof JavaMailSenderImpl) {
@@ -180,11 +180,11 @@ public abstract class AbstractMailService implements MailService {
             MailProperties mailProperties = new MailProperties(log.isDebugEnabled());
 
             // 设置属性
-            mailProperties.setHost(String.valueOf(configService.get("email_host")));
-            mailProperties.setPort(Integer.valueOf(String.valueOf(configService.get("email_ssl_port"))));
-            mailProperties.setUsername(String.valueOf(configService.get("email_username")));
-            mailProperties.setPassword(String.valueOf(configService.get("email_password")));
-            mailProperties.setProtocol(String.valueOf(configService.get("email_protocol")));
+            mailProperties.setHost(String.valueOf(settingService.get("email_host")));
+            mailProperties.setPort(Integer.valueOf(String.valueOf(settingService.get("email_ssl_port"))));
+            mailProperties.setUsername(String.valueOf(settingService.get("email_username")));
+            mailProperties.setPassword(String.valueOf(settingService.get("email_password")));
+            mailProperties.setProtocol(String.valueOf(settingService.get("email_protocol")));
             this.cachedMailProperties = mailProperties;
         }
 

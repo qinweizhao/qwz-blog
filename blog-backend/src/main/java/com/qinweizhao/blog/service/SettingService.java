@@ -17,11 +17,48 @@ import java.util.Map;
  *
  * @since 2019-03-14
  */
-public interface ConfigService {
+public interface SettingService {
 
     int DEFAULT_POST_PAGE_SIZE = 10;
 
+    /**
+     * 渲染模板
+     */
+    String RENDER_TEMPLATE = "%s/%s";
+
+    /**
+     * 渲染模板和后缀
+     */
+    String RENDER_TEMPLATE_SUFFIX = "%s/%s.ftl";
+
+
     String OPTIONS_KEY = "options";
+
+
+    /**
+     * 渲染页面
+     *
+     * @param pageName pageName
+     * @return String
+     */
+    String render(String pageName);
+
+    /**
+     * 渲染指定页面
+     *
+     * @param pageName pageName
+     * @return String
+     */
+    String renderWithSuffix(String pageName);
+
+
+    /**
+     * 判断指定主题下是否存在模板
+     *
+     * @param template template
+     * @return boolean
+     */
+    boolean templateExists(String template);
 
 
     /**
@@ -38,10 +75,9 @@ public interface ConfigService {
     String buildFullPath(Integer postId);
 
     /**
-     * @param type    type
      * @param configs configs
      */
-    void save(ConfigType type, Map<String, Object> configs);
+    void save(Map<String, Object> configs);
 
     /**
      * Get all options

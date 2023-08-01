@@ -1,5 +1,6 @@
 package com.qinweizhao.blog.service.impl;
 
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.qinweizhao.blog.config.properties.MyBlogProperties;
 import com.qinweizhao.blog.exception.ServiceException;
 import com.qinweizhao.blog.framework.cache.AbstractStringCacheStore;
@@ -16,8 +17,8 @@ import com.qinweizhao.blog.model.entity.Config;
 import com.qinweizhao.blog.model.enums.ConfigType;
 import com.qinweizhao.blog.model.param.ConfigParam;
 import com.qinweizhao.blog.model.param.ConfigQueryParam;
-import com.qinweizhao.blog.service.ConfigService;
-import com.qinweizhao.blog.service.ThemeService;
+import com.qinweizhao.blog.service.SettingService;
+import com.qinweizhao.blog.util.FileUtils;
 import com.qinweizhao.blog.util.ServiceUtils;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -48,7 +49,7 @@ import static com.qinweizhao.blog.model.support.BlogConst.URL_SEPARATOR;
 @Slf4j
 @Service
 @AllArgsConstructor
-public class ConfigServiceImpl implements ConfigService {
+public class SettingServiceImpl implements SettingService {
 
     private final ApplicationContext applicationContext;
 
@@ -57,7 +58,6 @@ public class ConfigServiceImpl implements ConfigService {
     private final MyBlogProperties myBlogProperties;
     private final ConfigMapper configMapper;
     private final ThemeConfigResolver themeConfigResolver;
-    private final ThemeService themeService;
 
 
     @Override
@@ -69,7 +69,7 @@ public class ConfigServiceImpl implements ConfigService {
     @Override
     public @NotNull Map<String, Object> getMap() {
         return cacheStore.getAny(OPTIONS_KEY, Map.class).orElseGet(() -> {
-            List<Config> configs = configMapper.selectListByType(ConfigType.ADMIN);
+            List<Config> configs = configMapper.selectList(Wrappers.emptyWrapper());
 
             Map<String, String> result = configs.stream().collect(Collectors.toMap(Config::getConfigKey, Config::getConfigValue));
 
@@ -193,13 +193,13 @@ public class ConfigServiceImpl implements ConfigService {
     }
 
     @Override
-    public void save(ConfigType type, Map<String, Object> configMap) {
+    public void save( Map<String, Object> configMap) {
         if (CollectionUtils.isEmpty(configMap)) {
             return;
         }
 
 
-        Map<String, Config> optionKeyMap = ServiceUtils.convertToMap(configMapper.selectListByType(type), Config::getConfigKey);
+        Map<String, Config> optionKeyMap = ServiceUtils.convertToMap(configMapper.selectList(Wrappers.emptyWrapper()), Config::getConfigKey);
 
         List<Config> optionsToCreate = new LinkedList<>();
         List<Config> optionsToUpdate = new LinkedList<>();
@@ -216,7 +216,7 @@ public class ConfigServiceImpl implements ConfigService {
                 Config config = new Config();
                 config.setConfigKey(key);
                 config.setConfigValue(String.valueOf(value));
-                config.setType(type.getValue());
+
 
                 if (oldConfig == null) {
                     optionsToCreate.add(config);
@@ -266,7 +266,7 @@ public class ConfigServiceImpl implements ConfigService {
         Map<String, Item> itemMap = getConfigItemMap();
 
         // 获取主题配置
-        List<Config> themeSettings = configMapper.selectListByType(ConfigType.PORTAL);
+        List<Config> themeSettings = configMapper.selectList(Wrappers.emptyWrapper());
 
         Map<String, Object> result = new LinkedHashMap<>();
 
@@ -311,7 +311,7 @@ public class ConfigServiceImpl implements ConfigService {
      */
     private Map<String, Item> getConfigItemMap() {
 
-        List<Group> groups = themeService.listConfig();
+        List<Group> groups = this.listConfig();
 
         Set<Item> items = new LinkedHashSet<>();
         groups.forEach(group -> items.addAll(group.getItems()));
@@ -357,6 +357,42 @@ public class ConfigServiceImpl implements ConfigService {
             throw new ServiceException("读取主题配置文件失败", e);
         }
     }
+
+
+
+    @Override
+    public String render(String pageName) {
+        return String.format(RENDER_TEMPLATE, this.getBasePath().getFileName().toString(), pageName);
+    }
+
+    @Override
+    public String renderWithSuffix(String pageName) {
+        // 构建渲染地址
+        return String.format(RENDER_TEMPLATE_SUFFIX, this.getBasePath().getFileName().toString(), pageName);
+    }
+
+    @Override
+    public boolean templateExists(String template) {
+        if (StringUtils.isBlank(template)) {
+            return false;
+        }
+        Path templatePath = Paths.get(this.getBasePath().toString(), template);
+        // Check the directory
+        checkDirectory(templatePath.toString());
+        // Check existence
+        return Files.exists(templatePath);
+
+    }
+
+    /**
+     * 检查目录是否有效
+     *
+     * @param absoluteName must not be blank
+     */
+    private void checkDirectory(String absoluteName) {
+        FileUtils.checkDirectoryTraversal(this.getBasePath().toString(), absoluteName);
+    }
+
 
 }
 

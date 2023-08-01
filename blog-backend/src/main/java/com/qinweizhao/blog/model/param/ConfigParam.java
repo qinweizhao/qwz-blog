@@ -23,5 +23,4 @@ public class ConfigParam {
     @Size(max = 1023, message = "值的长度不能超过 {max}")
     private String value;
 
-    private ConfigType type;
 }

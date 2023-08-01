@@ -1,7 +1,7 @@
 package com.qinweizhao.blog.mail;
 
 import com.qinweizhao.blog.framework.event.config.ConfigUpdatedEvent;
-import com.qinweizhao.blog.service.ConfigService;
+import com.qinweizhao.blog.service.SettingService;
 import freemarker.template.Template;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
@@ -25,8 +25,8 @@ public class MailServiceImpl extends AbstractMailService implements ApplicationL
 
     private final FreeMarkerConfigurer freeMarker;
 
-    public MailServiceImpl(FreeMarkerConfigurer freeMarker, ConfigService configService) {
-        super(configService);
+    public MailServiceImpl(FreeMarkerConfigurer freeMarker, SettingService settingService) {
+        super(settingService);
         this.freeMarker = freeMarker;
     }
 

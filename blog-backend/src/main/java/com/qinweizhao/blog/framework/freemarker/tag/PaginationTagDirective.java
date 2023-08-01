@@ -5,7 +5,7 @@ import com.qinweizhao.blog.model.constant.SystemConstant;
 import com.qinweizhao.blog.model.support.BlogConst;
 import com.qinweizhao.blog.model.support.Pagination;
 import com.qinweizhao.blog.model.support.RainbowPage;
-import com.qinweizhao.blog.service.ConfigService;
+import com.qinweizhao.blog.service.SettingService;
 import freemarker.core.Environment;
 import freemarker.template.*;
 import org.springframework.stereotype.Component;
@@ -26,10 +26,10 @@ public class PaginationTagDirective implements TemplateDirectiveModel {
 
     private static final String URL_PAGE_PARAM = "?page=";
 
-    private final ConfigService configService;
+    private final SettingService settingService;
 
-    public PaginationTagDirective(Configuration configuration, ConfigService configService) {
-        this.configService = configService;
+    public PaginationTagDirective(Configuration configuration, SettingService settingService) {
+        this.settingService = settingService;
         configuration.setSharedVariable("paginationTag", this);
     }
 
@@ -50,15 +50,15 @@ public class PaginationTagDirective implements TemplateDirectiveModel {
             StringBuilder nextPageFullPath = new StringBuilder();
             StringBuilder prevPageFullPath = new StringBuilder();
 
-            nextPageFullPath.append(configService.getBlogBaseUrl());
-            prevPageFullPath.append(configService.getBlogBaseUrl());
+            nextPageFullPath.append(settingService.getBlogBaseUrl());
+            prevPageFullPath.append(settingService.getBlogBaseUrl());
 
             int[] rainbow = PageUtil.rainbow(page, total, display);
 
             List<RainbowPage> rainbowPages = new ArrayList<>();
             StringBuilder fullPath = new StringBuilder();
 
-            fullPath.append(configService.getBlogBaseUrl());
+            fullPath.append(settingService.getBlogBaseUrl());
 
             switch (method) {
                 case "index":

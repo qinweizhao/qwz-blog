@@ -3,7 +3,7 @@ package com.qinweizhao.blog.controller.content;
 import com.qinweizhao.blog.config.properties.MyBlogProperties;
 import com.qinweizhao.blog.exception.ServiceException;
 import com.qinweizhao.blog.model.entity.User;
-import com.qinweizhao.blog.service.ConfigService;
+import com.qinweizhao.blog.service.SettingService;
 import com.qinweizhao.blog.service.UserService;
 import com.qinweizhao.blog.util.HaloUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -32,7 +32,7 @@ public class MainController {
     private UserService userService;
 
     @Resource
-    private ConfigService configService;
+    private SettingService settingService;
 
     @Resource
     private MyBlogProperties myBlogProperties;
@@ -53,15 +53,18 @@ public class MainController {
 
     @GetMapping("logo")
     public void logo(HttpServletResponse response) throws IOException {
-        String blogLogo = configService.get("blog_logo").toString();
-        if (StringUtils.isNotEmpty(blogLogo)) {
-            response.sendRedirect(HaloUtils.normalizeUrl(blogLogo));
+        Object blogLogo = settingService.get("blog_logo");
+        String logo = blogLogo == null ? null : String.valueOf(blogLogo);
+        if (StringUtils.isNotEmpty(logo)) {
+            response.sendRedirect(HaloUtils.normalizeUrl(logo));
         }
     }
 
     @GetMapping("favicon.ico")
     public void favicon(HttpServletResponse response) throws IOException {
-        String favicon = configService.get("blog_favicon").toString();
+        Object blogFavicon = settingService.get("blog_favicon");
+        String favicon = blogFavicon == null ? null : String.valueOf(blogFavicon);
+
         if (StringUtils.isNotEmpty(favicon)) {
             response.sendRedirect(HaloUtils.normalizeUrl(favicon));
         }

@@ -21,8 +21,6 @@ public class Config extends BaseEntity {
 
     private String configKey;
 
-    private Integer type;
-
     private String configValue;
 
 }

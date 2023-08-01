@@ -6,9 +6,8 @@ import com.qinweizhao.blog.model.dto.PostListDTO;
 import com.qinweizhao.blog.model.enums.PostStatus;
 import com.qinweizhao.blog.model.param.PostQueryParam;
 import com.qinweizhao.blog.service.CategoryService;
-import com.qinweizhao.blog.service.ConfigService;
+import com.qinweizhao.blog.service.SettingService;
 import com.qinweizhao.blog.service.PostService;
-import com.qinweizhao.blog.service.ThemeService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.ui.Model;
@@ -28,13 +27,10 @@ public class CategoryModel {
     private CategoryService categoryService;
 
     @Resource
-    private ThemeService themeService;
-
-    @Resource
     private PostService postService;
 
     @Resource
-    private ConfigService configService;
+    private SettingService settingService;
 
 
     /**
@@ -45,9 +41,9 @@ public class CategoryModel {
      */
     public String list(Model model) {
         model.addAttribute("is_categories", true);
-        model.addAttribute("meta_keywords", configService.get("seo_keywords"));
-        model.addAttribute("meta_description", configService.get("seo_description"));
-        return themeService.render("categories");
+        model.addAttribute("meta_keywords", settingService.get("seo_keywords"));
+        model.addAttribute("meta_description", settingService.get("seo_description"));
+        return settingService.render("categories");
     }
 
     /**
@@ -60,7 +56,7 @@ public class CategoryModel {
      */
     public String listPost(Model model, String slug, Integer page) {
 
-        int pageSize = configService.getPostPageSize();
+        int pageSize = settingService.getPostPageSize();
 
         CategoryDTO categoryDTO = categoryService.getBySlug(slug);
 
@@ -76,13 +72,13 @@ public class CategoryModel {
         if (StringUtils.isNotEmpty(categoryDTO.getDescription())) {
             model.addAttribute("meta_description", categoryDTO.getDescription());
         } else {
-            model.addAttribute("meta_description", configService.get("seo_description"));
+            model.addAttribute("meta_description", settingService.get("seo_description"));
         }
 
         model.addAttribute("is_category", true);
         model.addAttribute("posts", posts);
         model.addAttribute("category", categoryDTO);
-        model.addAttribute("meta_keywords", configService.get("seo_keywords"));
-        return themeService.render("category");
+        model.addAttribute("meta_keywords", settingService.get("seo_keywords"));
+        return settingService.render("category");
     }
 }

@@ -4,9 +4,8 @@ import com.qinweizhao.blog.model.core.PageResult;
 import com.qinweizhao.blog.model.dto.PostListDTO;
 import com.qinweizhao.blog.model.enums.PostStatus;
 import com.qinweizhao.blog.model.param.PostQueryParam;
-import com.qinweizhao.blog.service.ConfigService;
+import com.qinweizhao.blog.service.SettingService;
 import com.qinweizhao.blog.service.PostService;
-import com.qinweizhao.blog.service.ThemeService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,9 +25,7 @@ public class ContentSearchController {
 
     private final PostService postService;
 
-    private final ConfigService configService;
-
-    private final ThemeService themeService;
+    private final SettingService settingService;
 
 
     /**
@@ -50,9 +47,9 @@ public class ContentSearchController {
         model.addAttribute("is_search", true);
         model.addAttribute("keyword", keyword);
         model.addAttribute("posts", postPage);
-        model.addAttribute("meta_keywords", configService.get("seo_keywords"));
-        model.addAttribute("meta_description", configService.get("seo_description"));
-        return themeService.render("search");
+        model.addAttribute("meta_keywords", settingService.get("seo_keywords"));
+        model.addAttribute("meta_description", settingService.get("seo_description"));
+        return settingService.render("search");
     }
 
 }

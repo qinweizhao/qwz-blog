@@ -5,8 +5,7 @@ import com.qinweizhao.blog.framework.event.config.ConfigUpdatedEvent;
 import com.qinweizhao.blog.framework.event.user.UserUpdatedEvent;
 import com.qinweizhao.blog.model.constant.SystemConstant;
 import com.qinweizhao.blog.model.support.BlogConst;
-import com.qinweizhao.blog.service.ConfigService;
-import com.qinweizhao.blog.service.ThemeService;
+import com.qinweizhao.blog.service.SettingService;
 import com.qinweizhao.blog.service.UserService;
 import freemarker.template.Configuration;
 import freemarker.template.TemplateModelException;
@@ -27,11 +26,9 @@ import org.springframework.stereotype.Component;
 @AllArgsConstructor
 public class FreemarkerConfigAwareListener {
 
-    private final ConfigService configService;
+    private final SettingService settingService;
 
     private final Configuration configuration;
-
-    private final ThemeService themeService;
 
     private final UserService userService;
     private final MyBlogProperties myBlogProperties;
@@ -72,17 +69,17 @@ public class FreemarkerConfigAwareListener {
 
     private void loadOptionsConfig() throws TemplateModelException {
 
-        final String blogBaseUrl = configService.getBlogBaseUrl();
+        final String blogBaseUrl = settingService.getBlogBaseUrl();
         final String context = blogBaseUrl + "/";
 
-        configuration.setSharedVariable("options", configService.getMap());
+        configuration.setSharedVariable("options", settingService.getMap());
         configuration.setSharedVariable("context", context);
         configuration.setSharedVariable("version", BlogConst.HALO_VERSION);
-        configuration.setSharedVariable("blog_title", configService.get("blog_title"));
+        configuration.setSharedVariable("blog_title", settingService.get("blog_title"));
         configuration.setSharedVariable("blog_url", blogBaseUrl);
-        configuration.setSharedVariable("blog_logo", configService.get("blog_logo"));
-        configuration.setSharedVariable("seo_keywords", configService.get("seo_keywords"));
-        configuration.setSharedVariable("seo_description", configService.get("seo_description"));
+        configuration.setSharedVariable("blog_logo", settingService.get("blog_logo"));
+        configuration.setSharedVariable("seo_keywords", settingService.get("seo_keywords"));
+        configuration.setSharedVariable("seo_description", settingService.get("seo_description"));
         configuration.setSharedVariable("sitemap_xml_url", blogBaseUrl + "/sitemap.xml");
         configuration.setSharedVariable("sitemap_html_url", blogBaseUrl + "/sitemap.html");
         configuration.setSharedVariable("archives_url", context + SystemConstant.ARCHIVES_PREFIX);
@@ -94,7 +91,7 @@ public class FreemarkerConfigAwareListener {
 
     private void loadThemeConfig() {
 
-        String themeBasePath = configService.getBlogBaseUrl() + "/themes/" + myBlogProperties.getThemeDirName();
+        String themeBasePath = settingService.getBlogBaseUrl() + "/themes/" + myBlogProperties.getThemeDirName();
         try {
 //            configuration.setSharedVariable("theme", activatedTheme);
 
@@ -102,7 +99,7 @@ public class FreemarkerConfigAwareListener {
 
             configuration.setSharedVariable("theme_base", themeBasePath);
 
-            configuration.setSharedVariable("settings", configService.getSettings());
+            configuration.setSharedVariable("settings", settingService.getSettings());
 
             log.debug("加载主题和设置");
         } catch (TemplateModelException e) {

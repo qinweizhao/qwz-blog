@@ -7,7 +7,7 @@ import com.qinweizhao.blog.model.dto.ConfigDTO;
 import com.qinweizhao.blog.model.enums.ConfigType;
 import com.qinweizhao.blog.model.param.ConfigParam;
 import com.qinweizhao.blog.model.param.ConfigQueryParam;
-import com.qinweizhao.blog.service.ConfigService;
+import com.qinweizhao.blog.service.SettingService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,27 +16,39 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Config Controller.
+ * 主题管理
  *
  * @author qinweizhao
- * @since 2019-03-20
+ * @since 2022/7/31
  */
 @RestController
 @AllArgsConstructor
-@RequestMapping("/api/admin/config")
-public class ConfigController {
+@RequestMapping("/api/admin/setting")
+public class SettingController {
 
-    private final ConfigService configService;
+    private final SettingService settingService;
 
     /**
-     * 配置
+     * 配置（yaml)
+     *
+     * @return List
+     */
+    @GetMapping("configurations")
+    public List<Group> listConfigurations() {
+        return settingService.listConfig();
+    }
+
+
+    /**
+     * 配置(db)
      *
      * @return Map
      */
     @GetMapping("/map")
     public Map<String, Object> map(@RequestParam(required = false) List<String> keys) {
-        return configService.getMap(ConfigType.ADMIN, keys);
+        return settingService.getMap();
     }
+
 
     /**
      * 保存
@@ -46,8 +58,9 @@ public class ConfigController {
     @PostMapping("/map")
     @DisableOnCondition
     public void map(@RequestBody Map<String, Object> configs) {
-        configService.save(ConfigType.ADMIN, configs);
+        settingService.save(configs);
     }
+
 
     /**
      * 开发者选项->系统变量
@@ -57,7 +70,7 @@ public class ConfigController {
      */
     @GetMapping("page")
     public PageResult<ConfigDTO> page(ConfigQueryParam param) {
-        return configService.pageSimple(param);
+        return settingService.pageSimple(param);
     }
 
     /**
@@ -68,7 +81,7 @@ public class ConfigController {
     @PostMapping
     @DisableOnCondition
     public Boolean save(@RequestBody @Valid ConfigParam param) {
-        return configService.save(param);
+        return settingService.save(param);
     }
 
     /**
@@ -82,7 +95,7 @@ public class ConfigController {
     @DisableOnCondition
     public Boolean update(@PathVariable("configId") Integer configId, @RequestBody @Valid ConfigParam param) {
         param.setId(configId);
-        return configService.updateById(param);
+        return settingService.updateById(param);
     }
 
     /**
@@ -94,16 +107,8 @@ public class ConfigController {
     @DeleteMapping("{configId:\\d+}")
     @DisableOnCondition
     public Boolean remove(@PathVariable("configId") Integer configId) {
-        return configService.removeById(configId);
+        return settingService.removeById(configId);
     }
 
-    /**
-     * 主题配置
-     *
-     * @return List
-     */
-    @GetMapping("configurations")
-    public List<Group> listConfigurations() {
-        return configService.listConfig();
-    }
+
 }

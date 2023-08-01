@@ -12,7 +12,7 @@ import com.qinweizhao.blog.model.entity.Category;
 import com.qinweizhao.blog.model.param.CategoryParam;
 import com.qinweizhao.blog.model.projection.CategoryPostCountProjection;
 import com.qinweizhao.blog.service.CategoryService;
-import com.qinweizhao.blog.service.ConfigService;
+import com.qinweizhao.blog.service.SettingService;
 import com.qinweizhao.blog.util.ServiceUtils;
 import com.qinweizhao.blog.util.SlugUtils;
 import lombok.AllArgsConstructor;
@@ -48,7 +48,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     private final PostCategoryMapper postCategoryMapper;
 
-    private final ConfigService configService;
+    private final SettingService settingService;
 
     @Override
     public CategoryDTO getById(Integer categoryId) {
@@ -97,7 +97,7 @@ public class CategoryServiceImpl implements CategoryService {
     @NotNull
     private CategoryDTO setFullPath(Category category, CategoryDTO categoryDTO) {
 
-        String fullPath = configService.getBlogBaseUrl() + URL_SEPARATOR + SystemConstant.CATEGORIES_PREFIX + URL_SEPARATOR + category.getSlug();
+        String fullPath = settingService.getBlogBaseUrl() + URL_SEPARATOR + SystemConstant.CATEGORIES_PREFIX + URL_SEPARATOR + category.getSlug();
 
         categoryDTO.setFullPath(fullPath);
 
@@ -232,7 +232,7 @@ public class CategoryServiceImpl implements CategoryService {
                 parentCategory.setChildren(new LinkedList<>());
             }
 
-            String fullPath = configService.getBlogBaseUrl() + URL_SEPARATOR + SystemConstant.CATEGORIES_PREFIX + URL_SEPARATOR + child.getSlug();
+            String fullPath = settingService.getBlogBaseUrl() + URL_SEPARATOR + SystemConstant.CATEGORIES_PREFIX + URL_SEPARATOR + child.getSlug();
 
             child.setFullPath(fullPath);
 

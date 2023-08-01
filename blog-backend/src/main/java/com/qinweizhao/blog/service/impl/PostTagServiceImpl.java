@@ -12,7 +12,7 @@ import com.qinweizhao.blog.model.entity.Post;
 import com.qinweizhao.blog.model.entity.PostTag;
 import com.qinweizhao.blog.model.entity.Tag;
 import com.qinweizhao.blog.model.enums.PostStatus;
-import com.qinweizhao.blog.service.ConfigService;
+import com.qinweizhao.blog.service.SettingService;
 import com.qinweizhao.blog.service.PostTagService;
 import com.qinweizhao.blog.util.ServiceUtils;
 import lombok.AllArgsConstructor;
@@ -38,7 +38,7 @@ public class PostTagServiceImpl extends ServiceImpl<PostTagMapper, PostTag> impl
 
     private final PostTagMapper postTagMapper;
 
-    private final ConfigService configService;
+    private final SettingService settingService;
 
 
     @Override
@@ -87,7 +87,7 @@ public class PostTagServiceImpl extends ServiceImpl<PostTagMapper, PostTag> impl
 
         List<Post> posts = postMapper.selectListByIds(postIds);
         List<PostSimpleDTO> result = PostConvert.INSTANCE.convertToSimpleDTO(posts);
-        result.forEach(item -> item.setFullPath(configService.buildFullPath(item.getId())));
+        result.forEach(item -> item.setFullPath(settingService.buildFullPath(item.getId())));
         return result;
     }
 

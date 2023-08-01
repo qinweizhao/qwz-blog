@@ -1,7 +1,7 @@
 package com.qinweizhao.blog.config.error;
 
 import com.qinweizhao.blog.model.support.BlogConst;
-import com.qinweizhao.blog.service.ThemeService;
+import com.qinweizhao.blog.service.SettingService;
 import lombok.AllArgsConstructor;
 import org.springframework.boot.autoconfigure.web.servlet.error.ErrorViewResolver;
 import org.springframework.http.HttpStatus;
@@ -32,7 +32,7 @@ public class DefaultErrorViewResolver implements ErrorViewResolver {
 
     }
 
-    private final ThemeService themeService;
+    private final SettingService settingService;
 
     @Override
     public ModelAndView resolveErrorView(HttpServletRequest request, HttpStatus status, Map<String, Object> model) {
@@ -55,9 +55,9 @@ public class DefaultErrorViewResolver implements ErrorViewResolver {
     }
 
     private ModelAndView resolve(String viewName, Map<String, Object> model) {
-        boolean flag = themeService.templateExists(viewName + BlogConst.SUFFIX_FTL);
+        boolean flag = settingService.templateExists(viewName + BlogConst.SUFFIX_FTL);
         if (flag) {
-            String errorViewName = themeService.render(viewName);
+            String errorViewName = settingService.render(viewName);
             return new ModelAndView(errorViewName, model);
         }
         return null;

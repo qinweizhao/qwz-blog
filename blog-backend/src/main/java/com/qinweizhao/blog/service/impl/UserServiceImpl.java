@@ -31,7 +31,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
-import static com.qinweizhao.blog.service.ConfigService.OPTIONS_KEY;
+import static com.qinweizhao.blog.service.SettingService.OPTIONS_KEY;
 
 /**
  * UserService implementation class.

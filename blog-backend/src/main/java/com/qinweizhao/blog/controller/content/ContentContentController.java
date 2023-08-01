@@ -7,7 +7,7 @@ import com.qinweizhao.blog.controller.content.model.TagModel;
 import com.qinweizhao.blog.exception.NotFoundException;
 import com.qinweizhao.blog.model.constant.SystemConstant;
 import com.qinweizhao.blog.model.enums.PostStatus;
-import com.qinweizhao.blog.service.ConfigService;
+import com.qinweizhao.blog.service.SettingService;
 import com.qinweizhao.blog.service.PostService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -35,7 +35,7 @@ public class ContentContentController {
 
     private final TagModel tagModel;
 
-    private final ConfigService configService;
+    private final SettingService settingService;
 
     private final PostService postService;
 

@@ -63,9 +63,9 @@ public interface ConfigConvert {
             return null;
         }
         Config config = new Config();
+        config.setId(param.getId());
         config.setConfigKey(param.getKey());
         config.setConfigValue(param.getValue());
-        config.setType(param.getType().getValue());
         return config;
     }
 

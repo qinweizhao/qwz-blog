@@ -11,7 +11,7 @@ import com.qinweizhao.blog.model.param.AttachmentParam;
 import com.qinweizhao.blog.model.param.AttachmentQueryParam;
 import com.qinweizhao.blog.model.support.UploadResult;
 import com.qinweizhao.blog.service.AttachmentService;
-import com.qinweizhao.blog.service.ConfigService;
+import com.qinweizhao.blog.service.SettingService;
 import com.qinweizhao.blog.util.HaloUtils;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -36,7 +36,7 @@ public class AttachmentServiceImpl implements AttachmentService {
 
     private final AttachmentMapper attachmentMapper;
 
-    private final ConfigService configService;
+    private final SettingService settingService;
 
     private final FileHandlers fileHandlers;
 
@@ -44,7 +44,7 @@ public class AttachmentServiceImpl implements AttachmentService {
     public PageResult<AttachmentDTO> page(AttachmentQueryParam param) {
         PageResult<Attachment> result = attachmentMapper.selectPageAttachments(param);
 
-        String blogBaseUrl = configService.getBlogBaseUrl();
+        String blogBaseUrl = settingService.getBlogBaseUrl();
 
 
         result.getContent().stream().filter(item -> Objects.equals(item.getType(), AttachmentType.LOCAL.getValue())).forEach(item -> {
@@ -115,7 +115,7 @@ public class AttachmentServiceImpl implements AttachmentService {
         log.debug("上传附件结果: [{}]", i > 0);
 
         // 创建并返回
-        String blogBaseUrl = configService.getBlogBaseUrl();
+        String blogBaseUrl = settingService.getBlogBaseUrl();
 
 
         AttachmentDTO result = AttachmentConvert.INSTANCE.convert(attachment);
