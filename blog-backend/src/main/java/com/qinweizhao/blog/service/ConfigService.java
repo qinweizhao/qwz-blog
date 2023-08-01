@@ -48,9 +48,8 @@ public interface ConfigService {
      *
      * @return Map
      */
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     Map<String, Object> getMap();
-
 
     /**
      * @param type type-区分前后台配置
