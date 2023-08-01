@@ -15,6 +15,7 @@ import java.util.Map;
 /**
  * Mail service implementation.
  * todo 配置变更通知？
+ *
  * @author qinweizhao
  * @since 2019-03-17
  */

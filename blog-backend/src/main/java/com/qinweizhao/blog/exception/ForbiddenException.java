@@ -4,6 +4,7 @@ import org.springframework.http.HttpStatus;
 
 /**
  * Exception caused by accessing forbidden resources.
+ *
  * @author qinweizhao
  * @since 2019-03-17
  */

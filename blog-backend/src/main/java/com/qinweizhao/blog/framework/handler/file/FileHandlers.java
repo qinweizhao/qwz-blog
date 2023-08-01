@@ -79,6 +79,7 @@ public class FileHandlers {
 
     /**
      * 获取对应类型的文件处理器
+     *
      * @param type 类型
      * @return FileHandler
      */

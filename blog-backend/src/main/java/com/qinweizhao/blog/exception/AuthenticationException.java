@@ -4,6 +4,7 @@ import org.springframework.http.HttpStatus;
 
 /**
  * Authentication exception.
+ *
  * @author qinweizhao
  * @since 2019-03-17
  */

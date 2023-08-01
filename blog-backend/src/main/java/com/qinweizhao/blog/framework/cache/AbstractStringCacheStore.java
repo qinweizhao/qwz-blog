@@ -13,6 +13,7 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * String cache store.
+ *
  * @author qinweizhao
  * @since 2019-03-17
  */

@@ -28,7 +28,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;
 
-import javax.annotation.PostConstruct;
 import javax.validation.constraints.NotNull;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -65,7 +64,6 @@ public class ConfigServiceImpl implements ConfigService {
     public String buildFullPath(Integer postId) {
         return this.getBlogBaseUrl() + URL_SEPARATOR + SystemConstant.ARTICLE_PREFIX + URL_SEPARATOR + postId;
     }
-
 
 
     @Override

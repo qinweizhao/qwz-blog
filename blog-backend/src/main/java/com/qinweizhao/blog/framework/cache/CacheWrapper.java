@@ -7,6 +7,7 @@ import java.util.Date;
 
 /**
  * Cache wrapper.
+ *
  * @author qinweizhao
  * @since 2019-03-17
  */
