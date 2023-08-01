@@ -52,14 +52,6 @@ export const asyncRouterMap = [
         ]
       },
 
-      // comments
-      // {
-      //   path: '/comment',
-      //   name: 'Comment',
-      //   component: () => import('@/views/comment/CommentList'),
-      //   meta: { title: '评论', icon: 'message', hiddenHeaderContent: false }
-      // },
-
       // attachments
       {
         path: '/attachment',
@@ -75,13 +67,19 @@ export const asyncRouterMap = [
         component: () => import('@/views/menu/MenuList'),
         meta: { title: '菜单', icon: 'menu', hiddenHeaderContent: false }
       },
-
+      // tool
+      {
+        path: '/system/tools',
+        name: 'ToolList',
+        component: () => import('@/views/system/ToolList'),
+        meta: { title: '工具', icon: 'tool', hiddenHeaderContent: false }
+      },
       // theme
       {
         path: '/theme',
         name: 'ThemeSetting',
         component: () => import('@/views/theme/ThemeSetting'),
-        meta: { title: '主题', icon: 'skin' }
+        meta: { title: '设置', icon: 'setting' }
       },
 
       // user

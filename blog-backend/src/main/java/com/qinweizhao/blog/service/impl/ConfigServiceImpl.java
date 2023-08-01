@@ -16,7 +16,8 @@ import com.qinweizhao.blog.model.entity.Config;
 import com.qinweizhao.blog.model.enums.ConfigType;
 import com.qinweizhao.blog.model.param.ConfigParam;
 import com.qinweizhao.blog.model.param.ConfigQueryParam;
-import com.qinweizhao.blog.model.properties.*;
+import com.qinweizhao.blog.model.properties.PermalinkProperties;
+import com.qinweizhao.blog.model.properties.PropertyEnum;
 import com.qinweizhao.blog.service.ConfigService;
 import com.qinweizhao.blog.service.ThemeService;
 import com.qinweizhao.blog.util.ServiceUtils;
@@ -186,13 +187,12 @@ public class ConfigServiceImpl implements ConfigService {
     @Override
     public int getPostPageSize() {
         try {
-            return (int) this.get("post_index_page_size");
+            return Integer.parseInt(String.valueOf(this.get("post_index_page_size")));
         } catch (NumberFormatException e) {
             log.error("配置不是数字格式", e);
             return DEFAULT_POST_PAGE_SIZE;
         }
     }
-
 
 
     @Override
