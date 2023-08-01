@@ -19,7 +19,7 @@
 </template>
 <script>
 import { mapActions } from 'vuex'
-import configApi from '@/api/config'
+import settingApi from '@/api/setting'
 
 export default {
   name: 'SettingsForm',
@@ -43,7 +43,7 @@ export default {
     ...mapActions(['refreshOptionsCache']),
     async handleListOptions() {
       try {
-        const { data } = await configApi.getMap('developer_mode')
+        const { data } = await settingApi.getMap('developer_mode')
         this.options = data.data
       } catch (e) {
         this.$log.error(e)
@@ -52,7 +52,7 @@ export default {
     async handleSaveOptions() {
       try {
         this.saving = true
-        await configApi.saveMap(this.options)
+        await settingApi.saveMap(this.options)
       } catch (e) {
         this.errored = false
         this.$log.error(e)

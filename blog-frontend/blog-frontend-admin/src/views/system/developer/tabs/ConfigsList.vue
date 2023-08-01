@@ -119,7 +119,7 @@
   </div>
 </template>
 <script>
-import configApi from '@/api/config'
+import settingApi from '@/api/setting'
 import { mapActions } from 'vuex'
 
 const columns = [
@@ -224,7 +224,7 @@ export default {
       this.queryParam.page = this.pagination.page
       this.queryParam.size = this.pagination.size
       this.queryParam.sort = this.pagination.sort
-      configApi.page(this.queryParam)
+      settingApi.page(this.queryParam)
         .then(response => {
           this.configs = response.data.data.content
           this.pagination.total = response.data.data.total
@@ -237,7 +237,7 @@ export default {
       this.handlePaginationChange(1, this.pagination.size)
     },
     handleDeleteOption(id) {
-      configApi
+      settingApi
         .delete(id)
         .then(() => {
           this.$message.success('删除成功！')
@@ -281,7 +281,7 @@ export default {
         if (valid) {
           _this.form.saving = true
           if (_this.form.model.id) {
-            configApi
+            settingApi
               .update(_this.form.model.id, _this.form.model)
               .catch(() => {
                 _this.form.saveErrored = true
@@ -293,7 +293,7 @@ export default {
               })
           } else {
             _this.form.model.type = _this.optionType.PORTAL.value
-            configApi
+            settingApi
               .create(_this.form.model)
               .catch(() => {
                 _this.form.saveErrored = true

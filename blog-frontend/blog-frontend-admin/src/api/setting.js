@@ -1,20 +1,17 @@
 import service from '@/utils/service'
 
-const baseUrl = '/api/admin/config'
+const baseUrl = '/api/admin/setting'
 
-const configApi = {}
+const settingApi = {}
 
-configApi.getMap = keys => {
+settingApi.getMap = () => {
   return service({
     url: `${baseUrl}/map`,
-    params: {
-      keys: keys
-    },
     method: 'get'
   })
 }
 
-configApi.saveMap = configs => {
+settingApi.saveMap = configs => {
   return service({
     url: `${baseUrl}/map`,
     method: 'post',
@@ -22,7 +19,21 @@ configApi.saveMap = configs => {
   })
 }
 
-configApi.page = params => {
+settingApi.getProperty = () => {
+  return service({
+    url: `${baseUrl}`,
+    method: 'get'
+  })
+}
+
+settingApi.listConfigurations = () => {
+  return service({
+    url: `${baseUrl}/configurations`,
+    method: 'get'
+  })
+}
+// 开发者选项
+settingApi.page = params => {
   return service({
     url: `${baseUrl}/page`,
     params: params,
@@ -30,7 +41,7 @@ configApi.page = params => {
   })
 }
 
-configApi.create = config => {
+settingApi.create = config => {
   return service({
     url: baseUrl,
     data: config,
@@ -38,21 +49,21 @@ configApi.create = config => {
   })
 }
 
-configApi.delete = configId => {
+settingApi.delete = configId => {
   return service({
     url: `${baseUrl}/${configId}`,
     method: 'delete'
   })
 }
 
-configApi.get = configId => {
+settingApi.get = configId => {
   return service({
     url: `${baseUrl}/${configId}`,
     method: 'get'
   })
 }
 
-configApi.update = (configId, config) => {
+settingApi.update = (configId, config) => {
   return service({
     url: `${baseUrl}/${configId}`,
     data: config,
@@ -60,4 +71,4 @@ configApi.update = (configId, config) => {
   })
 }
 
-export default configApi
+export default settingApi

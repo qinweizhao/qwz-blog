@@ -83,7 +83,7 @@
 import menuApi from '@/api/menu'
 import categoryApi from '@/api/category'
 import tagApi from '@/api/tag'
-import configApi from '@/api/config'
+import settingApi from '@/api/setting'
 
 export default {
   name: 'MenuInternalLinkSelector',
@@ -157,7 +157,7 @@ export default {
   methods: {
     handleFetchAll() {
       this.loading = true
-      Promise.all([configApi.getMap(), categoryApi.list(), tagApi.list()])
+      Promise.all([settingApi.getMap(), categoryApi.list(), tagApi.list()])
         .then(response => {
           this.options = response[0].data.data
           this.categories = response[1].data.data

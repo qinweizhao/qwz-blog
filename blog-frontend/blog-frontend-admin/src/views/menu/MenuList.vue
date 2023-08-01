@@ -154,7 +154,7 @@ import { mapActions, mapGetters } from 'vuex'
 
 // apis
 import menuApi from '@/api/menu'
-import configApi from '@/api/config'
+import settingApi from '@/api/setting'
 
 export default {
   components: { PageView, MenuTreeNode, MenuForm, MenuInternalLinkSelector },
@@ -354,7 +354,7 @@ export default {
     },
     handleSetDefaultTeam() {
       this.teams.default.saving = true
-      configApi
+      settingApi
         .saveMap({
           default_menu_team: this.teams.selected
         })
@@ -396,7 +396,7 @@ export default {
         )
 
         if (this.teams.selected === this.defaultMenuTeam) {
-          await configApi.saveMap( {
+          await settingApi.saveMap( {
             default_menu_team: this.updateTeamForm.team
           })
 

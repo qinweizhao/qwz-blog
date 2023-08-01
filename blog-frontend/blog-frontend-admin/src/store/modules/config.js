@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import { OPTIONS } from '@/store/mutation-types'
-import configApi from '@/api/config'
+import settingApi from '@/api/setting'
+
 
 const keys = `
   blog_url,
@@ -26,7 +27,7 @@ const config = {
   actions: {
     refreshOptionsCache({ commit }) {
       return new Promise((resolve, reject) => {
-        configApi
+        settingApi
           .getMap(keys)
           .then(response => {
             commit('SET_OPTIONS', response.data.data)

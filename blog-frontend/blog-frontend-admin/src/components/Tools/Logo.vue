@@ -8,7 +8,7 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
-import configApi from '@/api/config'
+import settingApi from '@/api/setting'
 import throttle from 'lodash.throttle'
 import { mixin } from '@/mixins/mixin'
 
@@ -29,7 +29,7 @@ export default {
       this.clickCount++
       if (this.clickCount === 10) {
         try {
-          await configApi.saveMap({ developer_mode: true })
+          await settingApi.saveMap({ developer_mode: true })
 
           await this.refreshOptionsCache()
           this.$message.success(`开发者选项已启用！`)
