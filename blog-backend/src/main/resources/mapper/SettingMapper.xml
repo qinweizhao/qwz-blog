@@ -3,19 +3,18 @@
 <mapper namespace="com.qinweizhao.blog.mapper.ConfigMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.qinweizhao.blog.model.entity.Config">
+    <resultMap id="BaseResultMap" type="com.qinweizhao.blog.model.entity.Setting">
         <id column="id" property="id"/>
         <result column="create_time" property="createTime"/>
         <result column="update_time" property="updateTime"/>
-        <result column="config_key" property="configKey"/>
-        <result column="type" property="type"/>
-        <result column="config_value" property="configValue"/>
+        <result column="setting_key" property="settingKey"/>
+        <result column="setting_value" property="settingValue"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id
-        , create_time, update_time, config_key, type, config_value
+        , create_time, update_time, setting_key, setting_value
     </sql>
 
 </mapper>

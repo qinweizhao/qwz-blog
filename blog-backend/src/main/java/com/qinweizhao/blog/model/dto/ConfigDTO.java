@@ -1,7 +1,6 @@
 package com.qinweizhao.blog.model.dto;
 
 
-import com.qinweizhao.blog.model.enums.ConfigType;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -18,8 +17,6 @@ public class ConfigDTO {
     private String key;
 
     private Object value;
-
-    private ConfigType type;
 
     private LocalDateTime createTime;
 

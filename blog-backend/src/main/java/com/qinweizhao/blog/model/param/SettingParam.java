@@ -1,6 +1,5 @@
 package com.qinweizhao.blog.model.param;
 
-import com.qinweizhao.blog.model.enums.ConfigType;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
@@ -11,7 +10,7 @@ import javax.validation.constraints.Size;
  * @since 2022-07-08
  */
 @Data
-public class ConfigParam {
+public class SettingParam {
 
     private Integer id;
 

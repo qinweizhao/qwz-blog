@@ -3,9 +3,8 @@ package com.qinweizhao.blog.service;
 import com.qinweizhao.blog.framework.handler.theme.config.support.Group;
 import com.qinweizhao.blog.model.core.PageResult;
 import com.qinweizhao.blog.model.dto.ConfigDTO;
-import com.qinweizhao.blog.model.enums.ConfigType;
-import com.qinweizhao.blog.model.param.ConfigParam;
-import com.qinweizhao.blog.model.param.ConfigQueryParam;
+import com.qinweizhao.blog.model.param.SettingParam;
+import com.qinweizhao.blog.model.param.SettingQueryParam;
 import org.springframework.lang.Nullable;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -88,11 +87,10 @@ public interface SettingService {
     Map<String, Object> getMap();
 
     /**
-     * @param type type-区分前后台配置
      * @param keys keys-
      * @return Map
      */
-    Map<String, Object> getMap(ConfigType type, List<String> keys);
+    Map<String, Object> getMap(List<String> keys);
 
     /**
      * Lists options by key list.
@@ -123,10 +121,10 @@ public interface SettingService {
     /**
      * 分页列表
      *
-     * @param configQueryParam optionQuery
+     * @param settingQueryParam optionQuery
      * @return PageResult
      */
-    PageResult<ConfigDTO> pageSimple(ConfigQueryParam configQueryParam);
+    PageResult<ConfigDTO> pageSimple(SettingQueryParam settingQueryParam);
 
     /**
      * 新增
@@ -134,7 +132,7 @@ public interface SettingService {
      * @param param param
      * @return boolean
      */
-    boolean save(ConfigParam param);
+    boolean save(SettingParam param);
 
     /**
      * 更新
@@ -142,7 +140,7 @@ public interface SettingService {
      * @param param param
      * @return boolean
      */
-    boolean updateById(ConfigParam param);
+    boolean updateById(SettingParam param);
 
     /**
      * 删除

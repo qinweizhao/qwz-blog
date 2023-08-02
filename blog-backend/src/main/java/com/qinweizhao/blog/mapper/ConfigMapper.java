@@ -6,9 +6,8 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.qinweizhao.blog.model.core.PageResult;
-import com.qinweizhao.blog.model.entity.Config;
-import com.qinweizhao.blog.model.enums.ConfigType;
-import com.qinweizhao.blog.model.param.ConfigQueryParam;
+import com.qinweizhao.blog.model.entity.Setting;
+import com.qinweizhao.blog.model.param.SettingQueryParam;
 import com.qinweizhao.blog.util.LambdaQueryWrapperX;
 import com.qinweizhao.blog.util.MyBatisUtils;
 import org.apache.ibatis.annotations.Mapper;
@@ -23,7 +22,7 @@ import java.util.List;
  * @since 2022/7/5
  */
 @Mapper
-public interface ConfigMapper extends BaseMapper<Config> {
+public interface ConfigMapper extends BaseMapper<Setting> {
 
     Log log = LogFactory.getLog(ConfigMapper.class);
 
@@ -33,8 +32,8 @@ public interface ConfigMapper extends BaseMapper<Config> {
      * @param key key
      * @return Option
      */
-    default Config selectByKey(String key) {
-        return selectOne(new LambdaQueryWrapper<Config>().eq(Config::getConfigKey, key));
+    default Setting selectByKey(String key) {
+        return selectOne(new LambdaQueryWrapper<Setting>().eq(Setting::getSettingKey, key));
     }
 
     /**
@@ -44,7 +43,7 @@ public interface ConfigMapper extends BaseMapper<Config> {
      * @return int
      */
     default int deleteByKey(String key) {
-        return delete(new LambdaQueryWrapper<Config>().eq(Config::getConfigKey, key));
+        return delete(new LambdaQueryWrapper<Setting>().eq(Setting::getSettingKey, key));
     }
 
     /**
@@ -53,9 +52,9 @@ public interface ConfigMapper extends BaseMapper<Config> {
      * @param param param
      * @return PageResult
      */
-    default PageResult<Config> selectPage(ConfigQueryParam param) {
-        Page<Config> page = MyBatisUtils.buildPage(param);
-        this.selectPage(page, new LambdaQueryWrapperX<Config>().likeIfPresent(Config::getConfigKey, param.getKeyword()).orderByDesc(Config::getCreateTime));
+    default PageResult<Setting> selectPage(SettingQueryParam param) {
+        Page<Setting> page = MyBatisUtils.buildPage(param);
+        this.selectPage(page, new LambdaQueryWrapperX<Setting>().likeIfPresent(Setting::getSettingKey, param.getKeyword()).orderByDesc(Setting::getCreateTime));
         return MyBatisUtils.buildSimplePageResult(page);
     }
 
@@ -66,9 +65,9 @@ public interface ConfigMapper extends BaseMapper<Config> {
      * @return boolean
      */
     @SuppressWarnings("all")
-    default boolean updateBatchById(List<Config> options) {
+    default boolean updateBatchById(List<Setting> options) {
         String sqlStatement = SqlHelper.getSqlStatement(ConfigMapper.class, SqlMethod.UPDATE_BY_ID);
-        return SqlHelper.executeBatch(Config.class, log, options, 1000, (sqlSession, entity) -> {
+        return SqlHelper.executeBatch(Setting.class, log, options, 1000, (sqlSession, entity) -> {
             MapperMethod.ParamMap param = new MapperMethod.ParamMap();
             param.put("et", entity);
             int update = sqlSession.update(sqlStatement, param);
@@ -82,19 +81,19 @@ public interface ConfigMapper extends BaseMapper<Config> {
      * @param options options
      * @return int
      */
-    default boolean insertBatch(List<Config> options) {
+    default boolean insertBatch(List<Setting> options) {
         String sqlStatement = SqlHelper.getSqlStatement(ConfigMapper.class, SqlMethod.INSERT_ONE);
-        return SqlHelper.executeBatch(Config.class, log, options, 1000, (sqlSession, entity) -> sqlSession.insert(sqlStatement, entity));
+        return SqlHelper.executeBatch(Setting.class, log, options, 1000, (sqlSession, entity) -> sqlSession.insert(sqlStatement, entity));
     }
 
 
     /**
      * 更新前台主题设置
      *
-     * @param config config
+     * @param setting config
      * @return boolean
      */
-    default boolean updateByKey(Config config) {
-        return this.update(config, new LambdaQueryWrapper<Config>().eq(Config::getConfigKey, config.getConfigKey())) > 0;
+    default boolean updateByKey(Setting setting) {
+        return this.update(setting, new LambdaQueryWrapper<Setting>().eq(Setting::getSettingKey, setting.getSettingKey())) > 0;
     }
 }

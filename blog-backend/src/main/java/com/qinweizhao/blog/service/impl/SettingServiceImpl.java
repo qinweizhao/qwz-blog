@@ -10,13 +10,12 @@ import com.qinweizhao.blog.framework.handler.theme.config.support.Group;
 import com.qinweizhao.blog.framework.handler.theme.config.support.Item;
 import com.qinweizhao.blog.mapper.ConfigMapper;
 import com.qinweizhao.blog.model.constant.SystemConstant;
-import com.qinweizhao.blog.model.convert.ConfigConvert;
+import com.qinweizhao.blog.model.convert.SettingConvert;
 import com.qinweizhao.blog.model.core.PageResult;
 import com.qinweizhao.blog.model.dto.ConfigDTO;
-import com.qinweizhao.blog.model.entity.Config;
-import com.qinweizhao.blog.model.enums.ConfigType;
-import com.qinweizhao.blog.model.param.ConfigParam;
-import com.qinweizhao.blog.model.param.ConfigQueryParam;
+import com.qinweizhao.blog.model.entity.Setting;
+import com.qinweizhao.blog.model.param.SettingParam;
+import com.qinweizhao.blog.model.param.SettingQueryParam;
 import com.qinweizhao.blog.service.SettingService;
 import com.qinweizhao.blog.util.FileUtils;
 import com.qinweizhao.blog.util.ServiceUtils;
@@ -69,9 +68,9 @@ public class SettingServiceImpl implements SettingService {
     @Override
     public @NotNull Map<String, Object> getMap() {
         return cacheStore.getAny(OPTIONS_KEY, Map.class).orElseGet(() -> {
-            List<Config> configs = configMapper.selectList(Wrappers.emptyWrapper());
+            List<Setting> settings = configMapper.selectList(Wrappers.emptyWrapper());
 
-            Map<String, String> result = configs.stream().collect(Collectors.toMap(Config::getConfigKey, Config::getConfigValue));
+            Map<String, String> result = settings.stream().collect(Collectors.toMap(Setting::getSettingKey, Setting::getSettingValue));
 
             // 补充博客地址属性
             result.put("blog_url", this.getBlogBaseUrl());
@@ -82,14 +81,14 @@ public class SettingServiceImpl implements SettingService {
     }
 
     @Override
-    public Map<String, Object> getMap(ConfigType type, List<String> keys) {
-        if (ObjectUtils.isEmpty(keys) && !ObjectUtils.isEmpty(type)) {
-            if (ConfigType.ADMIN.equals(type)) {
-                return this.getMap();
-            } else if (ConfigType.PORTAL.equals(type)) {
-                return this.getSettings();
-            }
-        }
+    public Map<String, Object> getMap(List<String> keys) {
+//        if (ObjectUtils.isEmpty(keys) && !ObjectUtils.isEmpty(type)) {
+//            if (ConfigType.ADMIN.equals(type)) {
+//                return this.getMap();
+//            } else if (ConfigType.PORTAL.equals(type)) {
+//                return this.getSettings();
+//            }
+//        }
         return this.listOptions(keys);
     }
 
@@ -144,29 +143,29 @@ public class SettingServiceImpl implements SettingService {
 
 
     @Override
-    public PageResult<ConfigDTO> pageSimple(ConfigQueryParam param) {
-        PageResult<Config> page = configMapper.selectPage(param);
-        return ConfigConvert.INSTANCE.convert(page);
+    public PageResult<ConfigDTO> pageSimple(SettingQueryParam param) {
+        PageResult<Setting> page = configMapper.selectPage(param);
+        return SettingConvert.INSTANCE.convert(page);
     }
 
     @Override
-    public boolean save(ConfigParam param) {
+    public boolean save(SettingParam param) {
         boolean flag = false;
         String key = param.getKey();
         String value = param.getValue();
-        Config dbConfig = configMapper.selectByKey(key);
-        if (ObjectUtils.isEmpty(dbConfig)) {
-            Config config = ConfigConvert.INSTANCE.convert(param);
-            configMapper.insert(config);
+        Setting dbSetting = configMapper.selectByKey(key);
+        if (ObjectUtils.isEmpty(dbSetting)) {
+            Setting setting = SettingConvert.INSTANCE.convert(param);
+            configMapper.insert(setting);
             this.publishOptionUpdatedEvent();
             flag = true;
         } else {
-            if (dbConfig.getConfigValue().equals(value)) {
+            if (dbSetting.getSettingValue().equals(value)) {
                 flag = true;
             } else {
-                Config config = ConfigConvert.INSTANCE.convert(param);
-                config.setId(dbConfig.getId());
-                configMapper.updateById(config);
+                Setting setting = SettingConvert.INSTANCE.convert(param);
+                setting.setId(dbSetting.getId());
+                configMapper.updateById(setting);
             }
         }
         this.publishOptionUpdatedEvent();
@@ -174,9 +173,9 @@ public class SettingServiceImpl implements SettingService {
     }
 
     @Override
-    public boolean updateById(ConfigParam param) {
-        Config config = ConfigConvert.INSTANCE.convert(param);
-        int flag = configMapper.updateById(config);
+    public boolean updateById(SettingParam param) {
+        Setting setting = SettingConvert.INSTANCE.convert(param);
+        int flag = configMapper.updateById(setting);
         if (flag > 0) {
             this.publishOptionUpdatedEvent();
         }
@@ -193,16 +192,16 @@ public class SettingServiceImpl implements SettingService {
     }
 
     @Override
-    public void save( Map<String, Object> configMap) {
+    public void save(Map<String, Object> configMap) {
         if (CollectionUtils.isEmpty(configMap)) {
             return;
         }
 
 
-        Map<String, Config> optionKeyMap = ServiceUtils.convertToMap(configMapper.selectList(Wrappers.emptyWrapper()), Config::getConfigKey);
+        Map<String, Setting> optionKeyMap = ServiceUtils.convertToMap(configMapper.selectList(Wrappers.emptyWrapper()), Setting::getSettingKey);
 
-        List<Config> optionsToCreate = new LinkedList<>();
-        List<Config> optionsToUpdate = new LinkedList<>();
+        List<Setting> optionsToCreate = new LinkedList<>();
+        List<Setting> optionsToUpdate = new LinkedList<>();
 
         configMap.forEach((key, value) -> {
             if (ObjectUtils.isEmpty(value)) {
@@ -210,19 +209,19 @@ public class SettingServiceImpl implements SettingService {
                 log.debug("删除配置，key 为：{}，结果是否成功{}", key, i > 0);
             }
 
-            Config oldConfig = optionKeyMap.get(key);
-            if (oldConfig == null || !StringUtils.equals(oldConfig.getConfigValue(), value.toString())) {
+            Setting oldSetting = optionKeyMap.get(key);
+            if (oldSetting == null || !StringUtils.equals(oldSetting.getSettingValue(), value.toString())) {
 
-                Config config = new Config();
-                config.setConfigKey(key);
-                config.setConfigValue(String.valueOf(value));
+                Setting setting = new Setting();
+                setting.setSettingKey(key);
+                setting.setSettingValue(String.valueOf(value));
 
 
-                if (oldConfig == null) {
-                    optionsToCreate.add(config);
-                } else if (!StringUtils.equals(oldConfig.getConfigValue(), value.toString())) {
-                    config.setId(oldConfig.getId());
-                    optionsToUpdate.add(config);
+                if (oldSetting == null) {
+                    optionsToCreate.add(setting);
+                } else if (!StringUtils.equals(oldSetting.getSettingValue(), value.toString())) {
+                    setting.setId(oldSetting.getId());
+                    optionsToUpdate.add(setting);
                 }
             }
         });
@@ -266,13 +265,13 @@ public class SettingServiceImpl implements SettingService {
         Map<String, Item> itemMap = getConfigItemMap();
 
         // 获取主题配置
-        List<Config> themeSettings = configMapper.selectList(Wrappers.emptyWrapper());
+        List<Setting> themeSettings = configMapper.selectList(Wrappers.emptyWrapper());
 
         Map<String, Object> result = new LinkedHashMap<>();
 
         // 从用户定义的构建设置
         themeSettings.forEach(themeSetting -> {
-            String key = themeSetting.getConfigKey();
+            String key = themeSetting.getSettingKey();
 
             Item item = itemMap.get(key);
 
@@ -280,8 +279,8 @@ public class SettingServiceImpl implements SettingService {
                 return;
             }
 
-            Object convertedValue = item.getDataType().convertTo(themeSetting.getConfigValue());
-            log.debug("将用户定义的数据从 [{}] 转换为 [{}], 类型: [{}]", themeSetting.getConfigValue(), convertedValue, item.getDataType());
+            Object convertedValue = item.getDataType().convertTo(themeSetting.getSettingValue());
+            log.debug("将用户定义的数据从 [{}] 转换为 [{}], 类型: [{}]", themeSetting.getSettingValue(), convertedValue, item.getDataType());
 
             result.put(key, convertedValue);
         });
@@ -357,7 +356,6 @@ public class SettingServiceImpl implements SettingService {
             throw new ServiceException("读取主题配置文件失败", e);
         }
     }
-
 
 
     @Override

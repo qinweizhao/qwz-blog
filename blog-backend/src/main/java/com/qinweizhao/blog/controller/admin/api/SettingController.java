@@ -4,9 +4,8 @@ import com.qinweizhao.blog.framework.annotation.DisableOnCondition;
 import com.qinweizhao.blog.framework.handler.theme.config.support.Group;
 import com.qinweizhao.blog.model.core.PageResult;
 import com.qinweizhao.blog.model.dto.ConfigDTO;
-import com.qinweizhao.blog.model.enums.ConfigType;
-import com.qinweizhao.blog.model.param.ConfigParam;
-import com.qinweizhao.blog.model.param.ConfigQueryParam;
+import com.qinweizhao.blog.model.param.SettingParam;
+import com.qinweizhao.blog.model.param.SettingQueryParam;
 import com.qinweizhao.blog.service.SettingService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -69,7 +68,7 @@ public class SettingController {
      * @return PageResult
      */
     @GetMapping("page")
-    public PageResult<ConfigDTO> page(ConfigQueryParam param) {
+    public PageResult<ConfigDTO> page(SettingQueryParam param) {
         return settingService.pageSimple(param);
     }
 
@@ -80,7 +79,7 @@ public class SettingController {
      */
     @PostMapping
     @DisableOnCondition
-    public Boolean save(@RequestBody @Valid ConfigParam param) {
+    public Boolean save(@RequestBody @Valid SettingParam param) {
         return settingService.save(param);
     }
 
@@ -93,7 +92,7 @@ public class SettingController {
      */
     @PutMapping("{configId:\\d+}")
     @DisableOnCondition
-    public Boolean update(@PathVariable("configId") Integer configId, @RequestBody @Valid ConfigParam param) {
+    public Boolean update(@PathVariable("configId") Integer configId, @RequestBody @Valid SettingParam param) {
         param.setId(configId);
         return settingService.updateById(param);
     }

@@ -13,14 +13,14 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@TableName("config")
-public class Config extends BaseEntity {
+@TableName("setting")
+public class Setting extends BaseEntity {
 
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
-    private String configKey;
+    private String settingKey;
 
-    private String configValue;
+    private String settingValue;
 
 }
