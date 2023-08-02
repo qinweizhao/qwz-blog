@@ -1,42 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.qinweizhao.blog.mapper.PostCategoryMapper">
+<mapper namespace="com.qinweizhao.blog.mapper.ArticleCategoryMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.qinweizhao.blog.model.entity.PostCategory">
+    <resultMap id="BaseResultMap" type="com.qinweizhao.blog.model.entity.ArticleCategory">
         <id column="id" property="id"/>
         <result column="create_time" property="createTime"/>
         <result column="update_time" property="updateTime"/>
         <result column="category_id" property="categoryId"/>
-        <result column="post_id" property="postId"/>
+        <result column="article_id" property="articleId"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id
-        , create_time, update_time, category_id, post_id
+        , create_time, update_time, category_id, article_id
     </sql>
 
     <select id="selectPostCount" resultType="com.qinweizhao.blog.model.projection.CategoryPostCountProjection">
-        select category_id, count(post_id) as post_count
-        from post_category pc
-        group by pc.category_id
+        select category_id, count(article_id) as article_count
+        from article_category ac
+        group by ac.category_id
     </select>
 
     <select id="selectSetCategoryIdsByPostId" resultType="java.lang.Integer">
-        select pc.category_id
-        from post_category pc
-        where pc.post_id = #{postId}
+        select ac.category_id
+        from article_category ac
+        where ac.article_id = #{postId}
     </select>
 
     <select id="selectSetPostIdByCategoryIdAndPostStatus" resultType="java.lang.Integer">
-        select pc.post_id
-        from post_category pc
+        select ac.article_id
+        from article_category ac
                  left join
-             article p
-             on pc.post_id = p.id
-        where pc.category_id = #{categoryId}
-          and p.status = #{status}
+             article a
+             on ac.article_id = a.id
+        where ac.category_id = #{categoryId}
+          and a.status = #{status}
     </select>
 
 

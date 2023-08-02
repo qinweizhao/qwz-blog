@@ -3,9 +3,9 @@ package com.qinweizhao.blog.framework.freemarker.tag;
 import com.qinweizhao.blog.model.dto.ArticleSimpleDTO;
 import com.qinweizhao.blog.model.enums.ArticleStatus;
 import com.qinweizhao.blog.model.support.BlogConst;
-import com.qinweizhao.blog.service.PostCategoryService;
+import com.qinweizhao.blog.service.ArticleCategoryService;
 import com.qinweizhao.blog.service.ArticleService;
-import com.qinweizhao.blog.service.PostTagService;
+import com.qinweizhao.blog.service.ArticleTagService;
 import freemarker.core.Environment;
 import freemarker.template.*;
 import org.springframework.stereotype.Component;
@@ -25,17 +25,17 @@ public class PostTagDirective implements TemplateDirectiveModel {
 
     private final ArticleService articleService;
 
-    private final PostTagService postTagService;
+    private final ArticleTagService articleTagService;
 
-    private final PostCategoryService postCategoryService;
+    private final ArticleCategoryService articleCategoryService;
 
     public PostTagDirective(Configuration configuration,
                             ArticleService articleService,
-                            PostTagService postTagService,
-                            PostCategoryService postCategoryService) {
+                            ArticleTagService articleTagService,
+                            ArticleCategoryService articleCategoryService) {
         this.articleService = articleService;
-        this.postTagService = postTagService;
-        this.postCategoryService = postCategoryService;
+        this.articleTagService = articleTagService;
+        this.articleCategoryService = articleCategoryService;
         configuration.setSharedVariable("postTag", this);
     }
 
@@ -58,20 +58,20 @@ public class PostTagDirective implements TemplateDirectiveModel {
                     break;
                 case "listByCategoryId":
                     Integer categoryId = Integer.parseInt(params.get("categoryId").toString());
-                    env.setVariable("posts", builder.build().wrap(postCategoryService.listPostByCategoryIdAndPostStatus(categoryId, ArticleStatus.PUBLISHED)));
+                    env.setVariable("posts", builder.build().wrap(articleCategoryService.listPostByCategoryIdAndPostStatus(categoryId, ArticleStatus.PUBLISHED)));
                     break;
                 case "listByCategorySlug":
                     String categorySlug = params.get("categorySlug").toString();
-                    List<ArticleSimpleDTO> posts = postCategoryService.listPostByCategorySlugAndPostStatus(categorySlug, ArticleStatus.PUBLISHED);
+                    List<ArticleSimpleDTO> posts = articleCategoryService.listPostByCategorySlugAndPostStatus(categorySlug, ArticleStatus.PUBLISHED);
                     env.setVariable("posts", builder.build().wrap(posts));
                     break;
                 case "listByTagId":
                     Integer tagId = Integer.parseInt(params.get("tagId").toString());
-                    env.setVariable("posts", builder.build().wrap(postTagService.listPostsByTagIdAndPostStatus(tagId, ArticleStatus.PUBLISHED)));
+                    env.setVariable("posts", builder.build().wrap(articleTagService.listPostsByTagIdAndPostStatus(tagId, ArticleStatus.PUBLISHED)));
                     break;
                 case "listByTagSlug":
                     String tagSlug = params.get("tagSlug").toString();
-                    env.setVariable("posts", builder.build().wrap(postTagService.listPostsByTagSlugAndPostStatus(tagSlug, ArticleStatus.PUBLISHED)));
+                    env.setVariable("posts", builder.build().wrap(articleTagService.listPostsByTagSlugAndPostStatus(tagSlug, ArticleStatus.PUBLISHED)));
                     break;
                 default:
                     break;

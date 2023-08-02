@@ -2,18 +2,18 @@ package com.qinweizhao.blog.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.qinweizhao.blog.mapper.ArticleMapper;
-import com.qinweizhao.blog.mapper.PostTagMapper;
+import com.qinweizhao.blog.mapper.ArticleTagMapper;
 import com.qinweizhao.blog.mapper.TagMapper;
 import com.qinweizhao.blog.model.convert.ArticleConvert;
 import com.qinweizhao.blog.model.convert.TagConvert;
 import com.qinweizhao.blog.model.dto.ArticleSimpleDTO;
 import com.qinweizhao.blog.model.dto.TagDTO;
 import com.qinweizhao.blog.model.entity.Article;
-import com.qinweizhao.blog.model.entity.PostTag;
+import com.qinweizhao.blog.model.entity.ArticleTag;
 import com.qinweizhao.blog.model.entity.Tag;
 import com.qinweizhao.blog.model.enums.ArticleStatus;
 import com.qinweizhao.blog.service.SettingService;
-import com.qinweizhao.blog.service.PostTagService;
+import com.qinweizhao.blog.service.ArticleTagService;
 import com.qinweizhao.blog.util.ServiceUtils;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -29,14 +29,14 @@ import java.util.*;
  */
 @Service
 @AllArgsConstructor
-public class PostTagServiceImpl extends ServiceImpl<PostTagMapper, PostTag> implements PostTagService {
+public class ArticleTagServiceImpl extends ServiceImpl<ArticleTagMapper, ArticleTag> implements ArticleTagService {
 
 
     private final TagMapper tagMapper;
 
     private final ArticleMapper articleMapper;
 
-    private final PostTagMapper postTagMapper;
+    private final ArticleTagMapper articleTagMapper;
 
     private final SettingService settingService;
 
@@ -48,10 +48,10 @@ public class PostTagServiceImpl extends ServiceImpl<PostTagMapper, PostTag> impl
         }
 
         // 查找所有帖子标签
-        List<PostTag> postTags = postTagMapper.listByPostId(postIds);
+        List<ArticleTag> articleTags = articleTagMapper.listByPostId(postIds);
 
         // Fetch tag ids
-        Set<Integer> tagIds = ServiceUtils.fetchProperty(postTags, PostTag::getTagId);
+        Set<Integer> tagIds = ServiceUtils.fetchProperty(articleTags, ArticleTag::getTagId);
 
         if (CollectionUtils.isEmpty(tagIds)) {
             return Collections.emptyMap();
@@ -63,19 +63,19 @@ public class PostTagServiceImpl extends ServiceImpl<PostTagMapper, PostTag> impl
 
         Map<Integer, List<TagDTO>> tagListMap = new LinkedHashMap<>();
 
-        postTags.forEach(postTag -> tagListMap.computeIfAbsent(postTag.getPostId(), postId -> new LinkedList<>()).add(tagMap.get(postTag.getTagId())));
+        articleTags.forEach(articleTag -> tagListMap.computeIfAbsent(articleTag.getArticleId(), postId -> new LinkedList<>()).add(tagMap.get(articleTag.getTagId())));
 
         return tagListMap;
     }
 
     @Override
     public boolean removeByTagId(Integer tagId) {
-        return postTagMapper.deleteByTagId(tagId) > 0;
+        return articleTagMapper.deleteByTagId(tagId) > 0;
     }
 
     @Override
     public List<TagDTO> listTagsByPostId(Integer postId) {
-        Set<Integer> tagIds = postTagMapper.selectTagIdsByPostId(postId);
+        Set<Integer> tagIds = articleTagMapper.selectTagIdsByPostId(postId);
         List<Tag> tags = tagMapper.selectListByIds(tagIds);
         return TagConvert.INSTANCE.convertToDTO(tags);
     }
@@ -83,7 +83,7 @@ public class PostTagServiceImpl extends ServiceImpl<PostTagMapper, PostTag> impl
     @Override
     public List<ArticleSimpleDTO> listPostsByTagIdAndPostStatus(Integer tagId, ArticleStatus status) {
 
-        Set<Integer> postIds = postTagMapper.selectSetPostIdByTagIdAndPostStatus(tagId, status);
+        Set<Integer> postIds = articleTagMapper.selectSetPostIdByTagIdAndPostStatus(tagId, status);
 
         List<Article> articles = articleMapper.selectListByIds(postIds);
         List<ArticleSimpleDTO> result = ArticleConvert.INSTANCE.convertToSimpleDTO(articles);
@@ -94,7 +94,7 @@ public class PostTagServiceImpl extends ServiceImpl<PostTagMapper, PostTag> impl
     @Override
     public List<ArticleSimpleDTO> listPostsByTagSlugAndPostStatus(String tagSlug, ArticleStatus status) {
         Tag tag = tagMapper.selectBySlug(tagSlug);
-        Set<Integer> postIds = postTagMapper.selectSetPostIdByTagIdAndPostStatus(tag.getId(), status);
+        Set<Integer> postIds = articleTagMapper.selectSetPostIdByTagIdAndPostStatus(tag.getId(), status);
 
         List<Article> articles = articleMapper.selectListByIds(postIds);
         return ArticleConvert.INSTANCE.convertToSimpleDTO(articles);

@@ -2,7 +2,7 @@ package com.qinweizhao.blog.mapper;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.qinweizhao.blog.model.entity.PostTag;
+import com.qinweizhao.blog.model.entity.ArticleTag;
 import com.qinweizhao.blog.model.enums.ArticleStatus;
 import com.qinweizhao.blog.model.projection.TagPostPostCountProjection;
 import com.qinweizhao.blog.util.LambdaQueryWrapperX;
@@ -22,7 +22,7 @@ import java.util.Set;
  * @since 2022-07-08
  */
 @Mapper
-public interface PostTagMapper extends BaseMapper<PostTag> {
+public interface ArticleTagMapper extends BaseMapper<ArticleTag> {
 
 
     /**
@@ -31,8 +31,8 @@ public interface PostTagMapper extends BaseMapper<PostTag> {
      * @param postIds postIds
      * @return List
      */
-    default List<PostTag> listByPostId(Collection<Integer> postIds) {
-        return this.selectList(new LambdaQueryWrapperX<PostTag>().in(PostTag::getPostId, postIds));
+    default List<ArticleTag> listByPostId(Collection<Integer> postIds) {
+        return this.selectList(new LambdaQueryWrapperX<ArticleTag>().in(ArticleTag::getArticleId, postIds));
     }
 
     /**
@@ -49,7 +49,7 @@ public interface PostTagMapper extends BaseMapper<PostTag> {
      * @return boolean
      */
     default int deleteByTagId(Integer tagId) {
-        return this.delete(new LambdaQueryWrapper<PostTag>().eq(PostTag::getTagId, tagId));
+        return this.delete(new LambdaQueryWrapper<ArticleTag>().eq(ArticleTag::getTagId, tagId));
     }
 
     /**
@@ -76,7 +76,7 @@ public interface PostTagMapper extends BaseMapper<PostTag> {
      * @return boolean
      */
     default int deleteByPostId(Integer postId) {
-        return this.delete(new LambdaQueryWrapper<PostTag>().eq(PostTag::getPostId, postId));
+        return this.delete(new LambdaQueryWrapper<ArticleTag>().eq(ArticleTag::getArticleId, postId));
     }
 
     /**
@@ -87,6 +87,6 @@ public interface PostTagMapper extends BaseMapper<PostTag> {
      * @return int
      */
     default int deleteBatchByPostIdAndTagIds(Integer postId, Collection<Integer> removeTagIds) {
-        return this.delete(new LambdaQueryWrapperX<PostTag>().eq(PostTag::getPostId, postId).in(PostTag::getTagId, removeTagIds));
+        return this.delete(new LambdaQueryWrapperX<ArticleTag>().eq(ArticleTag::getArticleId, postId).in(ArticleTag::getTagId, removeTagIds));
     }
 }

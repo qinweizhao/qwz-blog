@@ -9,7 +9,7 @@ public class SystemConstant {
     /**
      * 标签前缀
      */
-    public static final String TAGS_PREFIX = "tag";
+    public static final String TAGS_PREFIX = "tags";
     /**
      * 分类前缀
      */

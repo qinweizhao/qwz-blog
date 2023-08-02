@@ -13,14 +13,14 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@TableName("post_tag")
-public class PostTag extends BaseEntity {
+@TableName("article_category")
+public class ArticleCategory extends BaseEntity {
 
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
-    private Integer postId;
+    private Integer categoryId;
 
-    private Integer tagId;
+    private Integer articleId;
 
 }

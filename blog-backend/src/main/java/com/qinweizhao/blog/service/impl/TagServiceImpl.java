@@ -2,7 +2,7 @@ package com.qinweizhao.blog.service.impl;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.qinweizhao.blog.exception.AlreadyExistsException;
-import com.qinweizhao.blog.mapper.PostTagMapper;
+import com.qinweizhao.blog.mapper.ArticleTagMapper;
 import com.qinweizhao.blog.mapper.TagMapper;
 import com.qinweizhao.blog.model.constant.SystemConstant;
 import com.qinweizhao.blog.model.convert.TagConvert;
@@ -11,7 +11,7 @@ import com.qinweizhao.blog.model.entity.Tag;
 import com.qinweizhao.blog.model.param.TagParam;
 import com.qinweizhao.blog.model.projection.TagPostPostCountProjection;
 import com.qinweizhao.blog.service.SettingService;
-import com.qinweizhao.blog.service.PostTagService;
+import com.qinweizhao.blog.service.ArticleTagService;
 import com.qinweizhao.blog.service.TagService;
 import com.qinweizhao.blog.util.ServiceUtils;
 import com.qinweizhao.blog.util.SlugUtils;
@@ -39,9 +39,9 @@ public class TagServiceImpl implements TagService {
 
     private final SettingService settingService;
 
-    private final PostTagMapper postTagMapper;
+    private final ArticleTagMapper articleTagMapper;
 
-    private final PostTagService postTagService;
+    private final ArticleTagService articleTagService;
 
     private final TagMapper tagMapper;
 
@@ -53,7 +53,7 @@ public class TagServiceImpl implements TagService {
 
 
         // 查找所有帖子计数
-        Map<Integer, Long> tagPostCountMap = ServiceUtils.convertToMap(postTagMapper.selectPostCount(), TagPostPostCountProjection::getTagId, TagPostPostCountProjection::getPostCount);
+        Map<Integer, Long> tagPostCountMap = ServiceUtils.convertToMap(articleTagMapper.selectPostCount(), TagPostPostCountProjection::getTagId, TagPostPostCountProjection::getPostCount);
 
         result.forEach(item -> {
             item.setPostCount(tagPostCountMap.getOrDefault(item.getId(), 0L));
@@ -125,7 +125,7 @@ public class TagServiceImpl implements TagService {
 
         int i = tagMapper.deleteById(tagId);
 
-        boolean b = postTagService.removeByTagId(tagId);
+        boolean b = articleTagService.removeByTagId(tagId);
 
         log.debug("删除文章与标签的关联结果{}", b);
         return i > 0;

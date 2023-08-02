@@ -3,7 +3,7 @@ package com.qinweizhao.blog.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.qinweizhao.blog.model.dto.ArticleSimpleDTO;
 import com.qinweizhao.blog.model.dto.TagDTO;
-import com.qinweizhao.blog.model.entity.PostTag;
+import com.qinweizhao.blog.model.entity.ArticleTag;
 import com.qinweizhao.blog.model.enums.ArticleStatus;
 
 import java.util.Collection;
@@ -16,7 +16,7 @@ import java.util.Map;
  * @author qinweizhao
  * @since 2019-03-19
  */
-public interface PostTagService extends IService<PostTag> {
+public interface ArticleTagService extends IService<ArticleTag> {
 
     /**
      * 按帖子 ID 列出标签列表映射

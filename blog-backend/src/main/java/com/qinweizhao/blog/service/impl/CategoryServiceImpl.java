@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.qinweizhao.blog.exception.AlreadyExistsException;
 import com.qinweizhao.blog.exception.NotFoundException;
 import com.qinweizhao.blog.mapper.CategoryMapper;
-import com.qinweizhao.blog.mapper.PostCategoryMapper;
+import com.qinweizhao.blog.mapper.ArticleCategoryMapper;
 import com.qinweizhao.blog.model.constant.SystemConstant;
 import com.qinweizhao.blog.model.convert.CategoryConvert;
 import com.qinweizhao.blog.model.dto.CategoryDTO;
@@ -46,7 +46,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     private final CategoryMapper categoryMapper;
 
-    private final PostCategoryMapper postCategoryMapper;
+    private final ArticleCategoryMapper articleCategoryMapper;
 
     private final SettingService settingService;
 
@@ -67,7 +67,7 @@ public class CategoryServiceImpl implements CategoryService {
         List<Category> categories = categoryMapper.selectList();
         if (more) {
             // 查询分类文章个数
-            Map<Integer, Long> categoryPostCountMap = ServiceUtils.convertToMap(postCategoryMapper.selectPostCount(), CategoryPostCountProjection::getCategoryId, CategoryPostCountProjection::getPostCount);
+            Map<Integer, Long> categoryPostCountMap = ServiceUtils.convertToMap(articleCategoryMapper.selectPostCount(), CategoryPostCountProjection::getCategoryId, CategoryPostCountProjection::getArticleCount);
 
             // 转换并返回
             return categories.stream().map(category -> {
@@ -173,7 +173,7 @@ public class CategoryServiceImpl implements CategoryService {
 
         categoryMapper.deleteById(categoryId);
 
-        int i = postCategoryMapper.deleteByCategoryId(categoryId);
+        int i = articleCategoryMapper.deleteByCategoryId(categoryId);
         log.debug("删除文章和分类关联记录{}条", i);
         return true;
     }

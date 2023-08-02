@@ -3,7 +3,7 @@ package com.qinweizhao.blog.framework.freemarker.tag;
 import com.qinweizhao.blog.model.dto.CategoryDTO;
 import com.qinweizhao.blog.model.support.BlogConst;
 import com.qinweizhao.blog.service.CategoryService;
-import com.qinweizhao.blog.service.PostCategoryService;
+import com.qinweizhao.blog.service.ArticleCategoryService;
 import freemarker.core.Environment;
 import freemarker.template.*;
 import org.springframework.stereotype.Component;
@@ -24,13 +24,13 @@ public class CategoryTagDirective implements TemplateDirectiveModel {
 
     private final CategoryService categoryService;
 
-    private final PostCategoryService postCategoryService;
+    private final ArticleCategoryService articleCategoryService;
 
     public CategoryTagDirective(Configuration configuration,
                                 CategoryService categoryService,
-                                PostCategoryService postCategoryService) {
+                                ArticleCategoryService articleCategoryService) {
         this.categoryService = categoryService;
-        this.postCategoryService = postCategoryService;
+        this.articleCategoryService = articleCategoryService;
         configuration.setSharedVariable("categoryTag", this);
     }
 
@@ -49,7 +49,7 @@ public class CategoryTagDirective implements TemplateDirectiveModel {
                     break;
                 case "listByPostId":
                     Integer postId = Integer.parseInt(params.get("postId").toString());
-                    List<CategoryDTO> categories = postCategoryService.listByPostId(postId);
+                    List<CategoryDTO> categories = articleCategoryService.listByPostId(postId);
                     env.setVariable("categories", builder.build().wrap(categories));
                     break;
                 case "count":

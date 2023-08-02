@@ -2,7 +2,7 @@ package com.qinweizhao.blog.mapper;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.qinweizhao.blog.model.entity.PostCategory;
+import com.qinweizhao.blog.model.entity.ArticleCategory;
 import com.qinweizhao.blog.model.enums.ArticleStatus;
 import com.qinweizhao.blog.model.projection.CategoryPostCountProjection;
 import com.qinweizhao.blog.util.LambdaQueryWrapperX;
@@ -22,7 +22,7 @@ import java.util.Set;
  * @since 2022-07-08
  */
 @Mapper
-public interface PostCategoryMapper extends BaseMapper<PostCategory> {
+public interface ArticleCategoryMapper extends BaseMapper<ArticleCategory> {
 
     /**
      * 通过 postId 集合查询关联
@@ -30,8 +30,8 @@ public interface PostCategoryMapper extends BaseMapper<PostCategory> {
      * @param postIds postIds
      * @return List
      */
-    default List<PostCategory> selectListByPostIds(Collection<Integer> postIds) {
-        return this.selectList(new LambdaQueryWrapper<PostCategory>().in(PostCategory::getPostId, postIds));
+    default List<ArticleCategory> selectListByPostIds(Collection<Integer> postIds) {
+        return this.selectList(new LambdaQueryWrapper<ArticleCategory>().in(ArticleCategory::getArticleId, postIds));
     }
 
     /**
@@ -49,7 +49,7 @@ public interface PostCategoryMapper extends BaseMapper<PostCategory> {
      * @return int
      */
     default int deleteByCategoryId(Integer categoryId) {
-        return this.delete(new LambdaQueryWrapper<PostCategory>().eq(PostCategory::getCategoryId, categoryId));
+        return this.delete(new LambdaQueryWrapper<ArticleCategory>().eq(ArticleCategory::getCategoryId, categoryId));
     }
 
     /**
@@ -77,7 +77,7 @@ public interface PostCategoryMapper extends BaseMapper<PostCategory> {
      * @return int
      */
     default int deleteByPostId(Integer postId) {
-        return this.delete(new LambdaQueryWrapper<PostCategory>().eq(PostCategory::getPostId, postId));
+        return this.delete(new LambdaQueryWrapper<ArticleCategory>().eq(ArticleCategory::getArticleId, postId));
     }
 
     /**
@@ -88,6 +88,6 @@ public interface PostCategoryMapper extends BaseMapper<PostCategory> {
      * @return int
      */
     default int deleteBatchByPostIdAndTagIds(Integer postId, Collection<Integer> removeCategoryIds) {
-        return this.delete(new LambdaQueryWrapperX<PostCategory>().eq(PostCategory::getPostId, postId).in(PostCategory::getCategoryId, removeCategoryIds));
+        return this.delete(new LambdaQueryWrapperX<ArticleCategory>().eq(ArticleCategory::getArticleId, postId).in(ArticleCategory::getCategoryId, removeCategoryIds));
     }
 }

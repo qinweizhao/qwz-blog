@@ -3,7 +3,7 @@ package com.qinweizhao.blog.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.qinweizhao.blog.model.dto.ArticleSimpleDTO;
 import com.qinweizhao.blog.model.dto.CategoryDTO;
-import com.qinweizhao.blog.model.entity.PostCategory;
+import com.qinweizhao.blog.model.entity.ArticleCategory;
 import com.qinweizhao.blog.model.enums.ArticleStatus;
 
 import java.util.Collection;
@@ -13,9 +13,10 @@ import java.util.Map;
 /**
  * Post category service interface.
  *
- * @since 2019-03-19
+ * @author qinweizhao
+ * @since 2019-03-14
  */
-public interface PostCategoryService extends IService<PostCategory> {
+public interface ArticleCategoryService extends IService<ArticleCategory> {
 
     /**
      * 按 id 集合列出类别列表图

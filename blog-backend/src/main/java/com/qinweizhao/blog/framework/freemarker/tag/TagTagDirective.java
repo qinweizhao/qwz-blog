@@ -3,7 +3,7 @@ package com.qinweizhao.blog.framework.freemarker.tag;
 import com.qinweizhao.blog.model.dto.TagDTO;
 import com.qinweizhao.blog.model.support.BlogConst;
 import com.qinweizhao.blog.service.SettingService;
-import com.qinweizhao.blog.service.PostTagService;
+import com.qinweizhao.blog.service.ArticleTagService;
 import com.qinweizhao.blog.service.TagService;
 import freemarker.core.Environment;
 import freemarker.template.*;
@@ -26,15 +26,15 @@ public class TagTagDirective implements TemplateDirectiveModel {
     private final TagService tagService;
     private final SettingService settingService;
 
-    private final PostTagService postTagService;
+    private final ArticleTagService articleTagService;
 
     public TagTagDirective(Configuration configuration,
                            TagService tagService,
                            SettingService settingService,
-                           PostTagService postTagService) {
+                           ArticleTagService articleTagService) {
         this.tagService = tagService;
         this.settingService = settingService;
-        this.postTagService = postTagService;
+        this.articleTagService = articleTagService;
         configuration.setSharedVariable("tagTag", this);
     }
 
@@ -50,7 +50,7 @@ public class TagTagDirective implements TemplateDirectiveModel {
                     break;
                 case "listByPostId":
                     Integer postId = Integer.parseInt(params.get("postId").toString());
-                    List<TagDTO> tags = postTagService.listTagsByPostId(postId);
+                    List<TagDTO> tags = articleTagService.listTagsByPostId(postId);
                     tags.forEach(item -> item.setFullPath(settingService.buildFullPath(postId)));
                     env.setVariable("tags", builder.build().wrap(tags));
                     break;

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.qinweizhao.blog.mapper.PostTagMapper">
+<mapper namespace="com.qinweizhao.blog.mapper.ArticleTagMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.qinweizhao.blog.model.entity.PostTag">
+    <resultMap id="BaseResultMap" type="com.qinweizhao.blog.model.entity.ArticleTag">
         <id column="id" property="id"/>
-        <result column="post_id" property="postId"/>
+        <result column="article_id" property="articleId"/>
         <result column="tag_id" property="tagId"/>
         <result column="create_time" property="createTime"/>
         <result column="update_time" property="updateTime"/>
@@ -14,29 +14,29 @@
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id
-        , post_id, tag_id, create_time, update_time
+        , article_id, tag_id, create_time, update_time
     </sql>
 
     <select id="selectPostCount" resultType="com.qinweizhao.blog.model.projection.TagPostPostCountProjection">
-        select count(pt.post_id) as post_count, pt.tag_id
-        from post_tag pt
-        group by pt.tag_id
+        select count(at.article_id) as post_count, at.tag_id
+        from article_tag at
+        group by at.tag_id
     </select>
 
     <select id="selectTagIdsByPostId" resultType="java.lang.Integer">
-        select pt.tag_id
-        from post_tag pt
-        where pt.post_id = #{postId}
+        select at.tag_id
+        from article_tag at
+        where at.article_id = #{postId}
     </select>
 
     <select id="selectSetPostIdByTagIdAndPostStatus" resultType="java.lang.Integer">
-        select pt.post_id
-        from post_tag pt
+        select at.article_id
+        from article_tag at
                  left join
-             post p
-             on pt.post_id = p.id
-        where pt.tag_id = #{tagId}
-          and p.status = #{status}
+             article a
+             on at.article_id = a.id
+        where at.tag_id = #{tagId}
+          and a.status = #{status}
     </select>
 
 </mapper>

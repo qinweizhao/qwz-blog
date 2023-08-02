@@ -11,7 +11,7 @@ import lombok.Data;
 @Data
 public class CategoryPostCountProjection {
 
-    private Long postCount;
+    private Long articleCount;
 
     private Integer categoryId;
 }

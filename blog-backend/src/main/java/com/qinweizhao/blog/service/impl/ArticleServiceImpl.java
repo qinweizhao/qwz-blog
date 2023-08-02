@@ -8,25 +8,25 @@ import com.qinweizhao.blog.exception.ServiceException;
 import com.qinweizhao.blog.framework.cache.AbstractStringCacheStore;
 import com.qinweizhao.blog.framework.event.post.PostVisitEvent;
 import com.qinweizhao.blog.mapper.ContentMapper;
-import com.qinweizhao.blog.mapper.PostCategoryMapper;
+import com.qinweizhao.blog.mapper.ArticleCategoryMapper;
 import com.qinweizhao.blog.mapper.ArticleMapper;
-import com.qinweizhao.blog.mapper.PostTagMapper;
+import com.qinweizhao.blog.mapper.ArticleTagMapper;
 import com.qinweizhao.blog.model.convert.ArticleConvert;
 import com.qinweizhao.blog.model.core.PageResult;
 import com.qinweizhao.blog.model.dto.*;
 import com.qinweizhao.blog.model.entity.Article;
 import com.qinweizhao.blog.model.entity.Content;
-import com.qinweizhao.blog.model.entity.PostCategory;
-import com.qinweizhao.blog.model.entity.PostTag;
+import com.qinweizhao.blog.model.entity.ArticleCategory;
+import com.qinweizhao.blog.model.entity.ArticleTag;
 import com.qinweizhao.blog.model.enums.ArticleStatus;
 import com.qinweizhao.blog.model.param.ArticleParam;
 import com.qinweizhao.blog.model.param.ArticleQueryParam;
 import com.qinweizhao.blog.model.vo.ArchiveMonthVO;
 import com.qinweizhao.blog.model.vo.ArchiveYearVO;
 import com.qinweizhao.blog.service.SettingService;
-import com.qinweizhao.blog.service.PostCategoryService;
+import com.qinweizhao.blog.service.ArticleCategoryService;
 import com.qinweizhao.blog.service.ArticleService;
-import com.qinweizhao.blog.service.PostTagService;
+import com.qinweizhao.blog.service.ArticleTagService;
 import com.qinweizhao.blog.util.*;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -67,13 +67,13 @@ public class ArticleServiceImpl implements ArticleService {
 
     private final SettingService settingService;
 
-    private final PostTagMapper postTagMapper;
+    private final ArticleTagMapper articleTagMapper;
 
-    private final PostTagService postTagService;
+    private final ArticleTagService articleTagService;
 
-    private final PostCategoryMapper postCategoryMapper;
+    private final ArticleCategoryMapper articleCategoryMapper;
 
-    private final PostCategoryService postCategoryService;
+    private final ArticleCategoryService articleCategoryService;
 
     private final AbstractStringCacheStore cacheStore;
 
@@ -90,8 +90,8 @@ public class ArticleServiceImpl implements ArticleService {
         Set<Integer> postIds = ServiceUtils.fetchProperty(posts, ArticleSimpleDTO::getId);
 
 
-        Map<Integer, List<TagDTO>> tagListMap = postTagService.listTagListMapBy(postIds);
-        Map<Integer, List<CategoryDTO>> categoryListMap = postCategoryService.listCategoryListMap(postIds);
+        Map<Integer, List<TagDTO>> tagListMap = articleTagService.listTagListMapBy(postIds);
+        Map<Integer, List<CategoryDTO>> categoryListMap = articleCategoryService.listCategoryListMap(postIds);
 
         List<ArticleListDTO> collect = posts.stream().map(post -> {
             ArticleListDTO articleListDTO = ArticleConvert.INSTANCE.convertToListDTO(post);
@@ -112,7 +112,7 @@ public class ArticleServiceImpl implements ArticleService {
 
         Set<Integer> postIds = ServiceUtils.fetchProperty(posts, ArticleSimpleDTO::getId);
 
-        Map<Integer, List<CategoryDTO>> categoryListMap = postCategoryService.listCategoryListMap(postIds);
+        Map<Integer, List<CategoryDTO>> categoryListMap = articleCategoryService.listCategoryListMap(postIds);
 
         posts.forEach(post -> {
             post.setCategories(new ArrayList<>(Optional.ofNullable(categoryListMap.get(post.getId())).orElseGet(LinkedList::new)));
@@ -173,24 +173,24 @@ public class ArticleServiceImpl implements ArticleService {
     private void savePostRelation(Collection<Integer> categoryIds, Collection<Integer> tagIds, Integer postId) {
         if (!CollectionUtils.isEmpty(categoryIds)) {
             // 保存 文章-分类 关联
-            List<PostCategory> postCategories = categoryIds.stream().map(categoryId -> {
-                PostCategory postCategory = new PostCategory();
-                postCategory.setPostId(postId);
-                postCategory.setCategoryId(categoryId);
-                return postCategory;
+            List<ArticleCategory> postCategories = categoryIds.stream().map(categoryId -> {
+                ArticleCategory articleCategory = new ArticleCategory();
+                articleCategory.setArticleId(postId);
+                articleCategory.setCategoryId(categoryId);
+                return articleCategory;
             }).collect(Collectors.toList());
-            postCategoryService.saveBatch(postCategories);
+            articleCategoryService.saveBatch(postCategories);
         }
 
         if (!CollectionUtils.isEmpty(tagIds)) {
             // 保存 文章-标签 关联
-            List<PostTag> postTags = tagIds.stream().map(tagId -> {
-                PostTag postTag = new PostTag();
-                postTag.setPostId(postId);
-                postTag.setTagId(tagId);
-                return postTag;
+            List<ArticleTag> articleTags = tagIds.stream().map(tagId -> {
+                ArticleTag articleTag = new ArticleTag();
+                articleTag.setArticleId(postId);
+                articleTag.setTagId(tagId);
+                return articleTag;
             }).collect(Collectors.toList());
-            postTagService.saveBatch(postTags);
+            articleTagService.saveBatch(articleTags);
         }
 
     }
@@ -221,21 +221,21 @@ public class ArticleServiceImpl implements ArticleService {
 
         // 标签
         Set<Integer> tagIds = CollUtil.emptyIfNull(param.getTagIds());
-        Set<Integer> dbTagIds = postTagMapper.selectTagIdsByPostId(postId);
+        Set<Integer> dbTagIds = articleTagMapper.selectTagIdsByPostId(postId);
         Collection<Integer> addTagIds = CollUtil.subtract(tagIds, dbTagIds);
         Collection<Integer> removeTagIds = CollUtil.subtract(dbTagIds, tagIds);
         if (!CollectionUtils.isEmpty(removeTagIds)) {
-            int i = postTagMapper.deleteBatchByPostIdAndTagIds(postId, removeTagIds);
+            int i = articleTagMapper.deleteBatchByPostIdAndTagIds(postId, removeTagIds);
             log.debug("删除文章和标签关联记录{}条", i);
         }
 
         // 分类
         Set<Integer> categoryIds = CollUtil.emptyIfNull(param.getCategoryIds());
-        Set<Integer> dbCategoryIds = postCategoryMapper.selectSetCategoryIdsByPostId(postId);
+        Set<Integer> dbCategoryIds = articleCategoryMapper.selectSetCategoryIdsByPostId(postId);
         Collection<Integer> addCategoryIds = CollUtil.subtract(categoryIds, dbCategoryIds);
         Collection<Integer> removeCategoryIds = CollUtil.subtract(dbCategoryIds, categoryIds);
         if (!CollectionUtils.isEmpty(removeCategoryIds)) {
-            int i = postCategoryMapper.deleteBatchByPostIdAndTagIds(postId, removeCategoryIds);
+            int i = articleCategoryMapper.deleteBatchByPostIdAndTagIds(postId, removeCategoryIds);
             log.debug("删除文章和分类关联记录{}条", i);
         }
 
@@ -330,9 +330,9 @@ public class ArticleServiceImpl implements ArticleService {
         Assert.notNull(postId, "文章编号不能为空");
 
         // 标签
-        int i1 = postTagMapper.deleteByPostId(postId);
+        int i1 = articleTagMapper.deleteByPostId(postId);
         // 分类
-        int i2 = postCategoryMapper.deleteByPostId(postId);
+        int i2 = articleCategoryMapper.deleteByPostId(postId);
 
 
         log.debug("删除和标签关联{}条，和分类{}条。", i1, i2);
@@ -459,9 +459,9 @@ public class ArticleServiceImpl implements ArticleService {
 
         ArticleDTO articleDTO = ArticleConvert.INSTANCE.convert(article);
 
-        List<TagDTO> tags = postTagService.listTagsByPostId(article.getId());
+        List<TagDTO> tags = articleTagService.listTagsByPostId(article.getId());
 
-        List<CategoryDTO> categories = postCategoryService.listByPostId(article.getId());
+        List<CategoryDTO> categories = articleCategoryService.listByPostId(article.getId());
 
         Content content = contentMapper.selectById(postId);
         String originalContent = content.getOriginalContent();

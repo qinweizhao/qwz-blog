@@ -2,7 +2,7 @@ package com.qinweizhao.blog.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.qinweizhao.blog.mapper.CategoryMapper;
-import com.qinweizhao.blog.mapper.PostCategoryMapper;
+import com.qinweizhao.blog.mapper.ArticleCategoryMapper;
 import com.qinweizhao.blog.mapper.ArticleMapper;
 import com.qinweizhao.blog.model.convert.ArticleConvert;
 import com.qinweizhao.blog.model.convert.CategoryConvert;
@@ -10,10 +10,10 @@ import com.qinweizhao.blog.model.dto.ArticleSimpleDTO;
 import com.qinweizhao.blog.model.dto.CategoryDTO;
 import com.qinweizhao.blog.model.entity.Article;
 import com.qinweizhao.blog.model.entity.Category;
-import com.qinweizhao.blog.model.entity.PostCategory;
+import com.qinweizhao.blog.model.entity.ArticleCategory;
 import com.qinweizhao.blog.model.enums.ArticleStatus;
 import com.qinweizhao.blog.service.SettingService;
-import com.qinweizhao.blog.service.PostCategoryService;
+import com.qinweizhao.blog.service.ArticleCategoryService;
 import com.qinweizhao.blog.util.ServiceUtils;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -29,14 +29,14 @@ import java.util.*;
  */
 @Service
 @AllArgsConstructor
-public class PostCategoryServiceImpl extends ServiceImpl<PostCategoryMapper, PostCategory> implements PostCategoryService {
+public class ArticleCategoryServiceImpl extends ServiceImpl<ArticleCategoryMapper, ArticleCategory> implements ArticleCategoryService {
 
 
     private final ArticleMapper articleMapper;
 
     private final CategoryMapper categoryMapper;
 
-    private final PostCategoryMapper postCategoryMapper;
+    private final ArticleCategoryMapper articleCategoryMapper;
 
     private final SettingService settingService;
 
@@ -48,10 +48,10 @@ public class PostCategoryServiceImpl extends ServiceImpl<PostCategoryMapper, Pos
         }
 
         // 查询所有关联关系
-        List<PostCategory> postCategories = this.baseMapper.selectListByPostIds(postIds);
+        List<ArticleCategory> postCategories = this.baseMapper.selectListByPostIds(postIds);
 
         // 获取分类 id
-        Set<Integer> categoryIds = ServiceUtils.fetchProperty(postCategories, PostCategory::getCategoryId);
+        Set<Integer> categoryIds = ServiceUtils.fetchProperty(postCategories, ArticleCategory::getCategoryId);
 
         if (CollectionUtils.isEmpty(categoryIds)) {
             return Collections.emptyMap();
@@ -67,15 +67,15 @@ public class PostCategoryServiceImpl extends ServiceImpl<PostCategoryMapper, Pos
         Map<Integer, List<CategoryDTO>> categoryListMap = new LinkedHashMap<>();
 
         // 查找并收集
-        postCategories.forEach(postCategory -> categoryListMap.computeIfAbsent(postCategory.getPostId(), postId -> new LinkedList<>())
-                .add(categoryMap.get(postCategory.getCategoryId())));
+        postCategories.forEach(articleCategory -> categoryListMap.computeIfAbsent(articleCategory.getArticleId(), postId -> new LinkedList<>())
+                .add(categoryMap.get(articleCategory.getCategoryId())));
 
         return categoryListMap;
     }
 
     @Override
     public List<CategoryDTO> listByPostId(Integer postId) {
-        Set<Integer> categoryIds = postCategoryMapper.selectSetCategoryIdsByPostId(postId);
+        Set<Integer> categoryIds = articleCategoryMapper.selectSetCategoryIdsByPostId(postId);
         List<Category> categories = categoryMapper.selectListByIds(categoryIds);
         List<CategoryDTO> result = CategoryConvert.INSTANCE.convertToDTO(categories);
         result.forEach(item -> item.setFullPath(settingService.buildFullPath(postId)));
@@ -84,7 +84,7 @@ public class PostCategoryServiceImpl extends ServiceImpl<PostCategoryMapper, Pos
 
     @Override
     public List<ArticleSimpleDTO> listPostByCategoryIdAndPostStatus(Integer categoryId, ArticleStatus status) {
-        Set<Integer> postIds = postCategoryMapper.selectSetPostIdByCategoryIdAndPostStatus(categoryId, status);
+        Set<Integer> postIds = articleCategoryMapper.selectSetPostIdByCategoryIdAndPostStatus(categoryId, status);
         List<Article> articles = articleMapper.selectListByIds(postIds);
         List<ArticleSimpleDTO> result = ArticleConvert.INSTANCE.convertToSimpleDTO(articles);
         result.forEach(item -> item.setFullPath(settingService.buildFullPath(item.getId())));
@@ -94,7 +94,7 @@ public class PostCategoryServiceImpl extends ServiceImpl<PostCategoryMapper, Pos
     @Override
     public List<ArticleSimpleDTO> listPostByCategorySlugAndPostStatus(String categorySlug, ArticleStatus status) {
         Category category = categoryMapper.selectBySlug(categorySlug);
-        Set<Integer> postIds = postCategoryMapper.selectSetPostIdByCategoryIdAndPostStatus(category.getId(), status);
+        Set<Integer> postIds = articleCategoryMapper.selectSetPostIdByCategoryIdAndPostStatus(category.getId(), status);
         List<Article> articles = articleMapper.selectListByIds(postIds);
         return ArticleConvert.INSTANCE.convertToSimpleDTO(articles);
     }
