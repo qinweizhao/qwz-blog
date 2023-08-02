@@ -79,7 +79,6 @@ const homeContext = {
 			1: "create_time",
 			2: "visits",
 			3: "update_time",
-			4: "likes",
 		};
 		const pageSize = ThemeConfig.post_index_page_size;
 		const $el = $(".joe_index__list");
@@ -202,9 +201,6 @@ const homeContext = {
                     <li>${Utils.formatDate(post.createTime)}</li>
                     <li><i class="joe-font joe-icon-eye"></i>${
 	post.visits || 0
-}</li>
-                    <li><i class="joe-font joe-icon-dianzan"></i>${
-	post.likes || 0
 }</li>
                 </ul>
                 ${

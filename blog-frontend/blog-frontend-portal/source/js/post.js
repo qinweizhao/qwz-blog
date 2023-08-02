@@ -44,70 +44,7 @@ const postContext = {
 			});
 		}
 	},
-	/* 文章点赞 */
-	initLike() {
-		if (!$(".joe_detail__agree").length){
-			return;
-		}
-		const cid = $(".joe_detail").attr("data-cid");
-		const clikes = +($(".joe_detail").attr("data-clikes") || 0);
-		let agreeArr = localStorage.getItem(encryption("agree"))
-			? JSON.parse(decrypt(localStorage.getItem(encryption("agree"))))
-			: [];
-		let flag = agreeArr.includes(cid);
-		const $icons = $(".joe_detail__agree, .post-operate-like");
-		const $iconLike = $icons.find(".icon-like");
-		const $iconUnlike = $icons.find(".icon-unlike");
-		const $likeNum = $icons.find(".nums");
-		if (flag) {
-			$iconUnlike.addClass("active");
-		} else {
-			$iconLike.addClass("active");
-		}
-		$likeNum.html(clikes);
-		let _loading = false;
-		$iconLike.on("click", function (e) {
-			e.stopPropagation();
-			if (_loading) return;
-			_loading = true;
-			agreeArr = localStorage.getItem(encryption("agree"))
-				? JSON.parse(decrypt(localStorage.getItem(encryption("agree"))))
-				: [];
-			flag = agreeArr.includes(cid);
 
-			Utils.request({
-				url: "/api/content/post/" + cid + "/likes",
-				method: "POST",
-				data: {
-					type: flag ? "disagree" : "agree",
-				},
-			})
-				.then((_res) => {
-					let likes = clikes;
-					if (flag) {
-						likes--;
-						const index = agreeArr.findIndex((_) => _ === cid);
-						agreeArr.splice(index, 1);
-						$iconUnlike.removeClass("active");
-						$iconLike.addClass("active");
-						$icons.removeClass("active");
-					} else {
-						likes++;
-						agreeArr.push(cid);
-						$iconLike.removeClass("active");
-						$iconUnlike.addClass("active");
-						$icons.addClass("active");
-					}
-					const name = encryption("agree");
-					const val = encryption(JSON.stringify(agreeArr));
-					localStorage.setItem(name, val);
-					$likeNum.html(likes).show();
-				})
-				.catch((err) => {
-					_loading = false;
-				});
-		});
-	},
 	/* 文章目录 */
 	initToc(reload) {
 		if (!$(".toc-container").length){
