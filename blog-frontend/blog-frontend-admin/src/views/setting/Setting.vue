@@ -8,7 +8,7 @@
 <script>
 // components
 import { PageView } from '@/layouts'
-import ThemeSettingForm from './ThemeSettingForm'
+import ThemeSettingForm from './SettingForm.vue'
 
 export default {
   name: 'ThemeSetting',

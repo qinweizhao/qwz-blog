@@ -2,7 +2,6 @@ import Vue from 'vue'
 import { OPTIONS } from '@/store/mutation-types'
 import settingApi from '@/api/setting'
 
-
 const keys = `
   blog_url,
   developer_mode,

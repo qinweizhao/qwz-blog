@@ -69,16 +69,16 @@ export const asyncRouterMap = [
       },
       // tool
       {
-        path: '/system',
+        path: '/tool',
         name: 'ToolList',
         component: () => import('@/views/system/ToolList'),
         meta: { title: '工具', icon: 'tool', hiddenHeaderContent: false }
       },
       // setting
       {
-        path: '/theme',
+        path: '/setting',
         name: 'ThemeSetting',
-        component: () => import('@/views/theme/ThemeSetting'),
+        component: () => import('@/views/setting/Setting'),
         meta: { title: '设置', icon: 'setting' }
       },
 
@@ -105,7 +105,7 @@ export const asyncRouterMap = [
         name: 'Hidden',
         component: BlankLayout,
         hidden: true,
-        meta: { title: '隐藏菜单' },
+        meta: { title: '系统' },
         children: [
           {
             path: '/system/developer',
