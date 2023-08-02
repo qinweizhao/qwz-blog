@@ -1,10 +1,10 @@
 package com.qinweizhao.blog.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.qinweizhao.blog.model.dto.PostSimpleDTO;
+import com.qinweizhao.blog.model.dto.ArticleSimpleDTO;
 import com.qinweizhao.blog.model.dto.TagDTO;
 import com.qinweizhao.blog.model.entity.PostTag;
-import com.qinweizhao.blog.model.enums.PostStatus;
+import com.qinweizhao.blog.model.enums.ArticleStatus;
 
 import java.util.Collection;
 import java.util.List;
@@ -49,7 +49,7 @@ public interface PostTagService extends IService<PostTag> {
      * @param status published
      * @return List
      */
-    List<PostSimpleDTO> listPostsByTagIdAndPostStatus(Integer tagId, PostStatus status);
+    List<ArticleSimpleDTO> listPostsByTagIdAndPostStatus(Integer tagId, ArticleStatus status);
 
     /**
      * 列表
@@ -58,6 +58,6 @@ public interface PostTagService extends IService<PostTag> {
      * @param status  published
      * @return List
      */
-    List<PostSimpleDTO> listPostsByTagSlugAndPostStatus(String tagSlug, PostStatus status);
+    List<ArticleSimpleDTO> listPostsByTagSlugAndPostStatus(String tagSlug, ArticleStatus status);
 
 }

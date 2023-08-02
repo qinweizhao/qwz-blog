@@ -1,7 +1,7 @@
 package com.qinweizhao.blog.framework.listener.post;
 
 import com.qinweizhao.blog.framework.event.post.AbstractVisitEvent;
-import com.qinweizhao.blog.service.PostService;
+import com.qinweizhao.blog.service.ArticleService;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.Assert;
@@ -22,16 +22,16 @@ public abstract class AbstractVisitEventListener {
 
     private final Map<Integer, PostVisitTask> visitTaskMap;
 
-    private final PostService postService;
+    private final ArticleService articleService;
 
     private final ExecutorService executor;
 
-    protected AbstractVisitEventListener(PostService postService) {
-        this.postService = postService;
+    protected AbstractVisitEventListener(ArticleService articleService) {
+        this.articleService = articleService;
 
         int initCapacity = 8;
 
-        long count = postService.count();
+        long count = articleService.count();
 
         if (count < initCapacity) {
             initCapacity = (int) count;
@@ -101,7 +101,7 @@ public abstract class AbstractVisitEventListener {
 
                     log.debug("访问了文章: [{}]", postId);
 
-                    boolean flag = postService.increaseVisit(postId);
+                    boolean flag = articleService.increaseVisit(postId);
 
                     log.debug("文章编号[{}]的访问量增加:{} ", postId, flag);
                 } catch (InterruptedException e) {

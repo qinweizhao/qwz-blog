@@ -1,12 +1,12 @@
 package com.qinweizhao.blog.service;
 
 import com.qinweizhao.blog.model.core.PageResult;
-import com.qinweizhao.blog.model.dto.PostDTO;
-import com.qinweizhao.blog.model.dto.PostListDTO;
-import com.qinweizhao.blog.model.dto.PostSimpleDTO;
-import com.qinweizhao.blog.model.enums.PostStatus;
-import com.qinweizhao.blog.model.param.PostParam;
-import com.qinweizhao.blog.model.param.PostQueryParam;
+import com.qinweizhao.blog.model.dto.ArticleDTO;
+import com.qinweizhao.blog.model.dto.ArticleListDTO;
+import com.qinweizhao.blog.model.dto.ArticleSimpleDTO;
+import com.qinweizhao.blog.model.enums.ArticleStatus;
+import com.qinweizhao.blog.model.param.ArticleParam;
+import com.qinweizhao.blog.model.param.ArticleQueryParam;
 import com.qinweizhao.blog.model.vo.ArchiveMonthVO;
 import com.qinweizhao.blog.model.vo.ArchiveYearVO;
 import org.springframework.web.multipart.MultipartFile;
@@ -19,7 +19,7 @@ import java.util.List;
  * @author qinweizhao
  * @since 2019-03-14
  */
-public interface PostService {
+public interface ArticleService {
 
     /**
      * 分页
@@ -27,7 +27,7 @@ public interface PostService {
      * @param param param
      * @return PageResult
      */
-    PageResult<PostListDTO> page(PostQueryParam param);
+    PageResult<ArticleListDTO> page(ArticleQueryParam param);
 
 
     /**
@@ -36,7 +36,7 @@ public interface PostService {
      * @param param param
      * @return PageResult
      */
-    PageResult<PostSimpleDTO> pageSimple(PostQueryParam param);
+    PageResult<ArticleSimpleDTO> pageSimple(ArticleQueryParam param);
 
     /**
      * 详情
@@ -44,7 +44,7 @@ public interface PostService {
      * @param postId postId
      * @return PostDetailDTO
      */
-    PostDTO getById(Integer postId);
+    ArticleDTO getById(Integer postId);
 
 
     /**
@@ -53,7 +53,7 @@ public interface PostService {
      * @param postId postId
      * @return PostDetailDTO
      */
-    PostSimpleDTO getSimpleById(Integer postId);
+    ArticleSimpleDTO getSimpleById(Integer postId);
 
 
     /**
@@ -71,7 +71,7 @@ public interface PostService {
      * @param top top
      * @return List
      */
-    List<PostSimpleDTO> listSimple(int top);
+    List<ArticleSimpleDTO> listSimple(int top);
 
     /**
      * 新增
@@ -79,7 +79,7 @@ public interface PostService {
      * @param param param
      * @return boolean
      */
-    int save(PostParam param);
+    int save(ArticleParam param);
 
     /**
      * 更新
@@ -88,7 +88,7 @@ public interface PostService {
      * @param param  param
      * @return boolean
      */
-    boolean update(Integer postId, PostParam param);
+    boolean update(Integer postId, ArticleParam param);
 
     /**
      * 统计文章个数
@@ -96,7 +96,7 @@ public interface PostService {
      * @param published published
      * @return Long
      */
-    long countByStatus(PostStatus published);
+    long countByStatus(ArticleStatus published);
 
     /**
      * 阅读次数
@@ -104,13 +104,6 @@ public interface PostService {
      * @return long
      */
     long countVisit();
-
-    /**
-     * 点赞量
-     *
-     * @return long
-     */
-    long countLike();
 
     /**
      * 获取预览地址
@@ -152,7 +145,7 @@ public interface PostService {
      * @param postId postId
      * @return boolean
      */
-    boolean updateStatus(PostStatus status, Integer postId);
+    boolean updateStatus(ArticleStatus status, Integer postId);
 
     /**
      * 更新状态
@@ -161,7 +154,7 @@ public interface PostService {
      * @param status status
      * @return boolean
      */
-    boolean updateStatusByIds(List<Integer> ids, PostStatus status);
+    boolean updateStatusByIds(List<Integer> ids, ArticleStatus status);
 
     /**
      * 获取文章状态
@@ -169,7 +162,7 @@ public interface PostService {
      * @param postId postId
      * @return PostStatus
      */
-    PostStatus getStatusById(Integer postId);
+    ArticleStatus getStatusById(Integer postId);
 
     /**
      * 获取上一个文章(发布状态)
@@ -177,7 +170,7 @@ public interface PostService {
      * @param postId postId
      * @return PostDTO
      */
-    PostDTO getPrevPost(Integer postId);
+    ArticleDTO getPrevPost(Integer postId);
 
     /**
      * 获取下一个文章(发布状态)
@@ -185,7 +178,7 @@ public interface PostService {
      * @param postId postId
      * @return PostDTO
      */
-    PostDTO getNextPost(Integer postId);
+    ArticleDTO getNextPost(Integer postId);
 
     /**
      * 统计个数

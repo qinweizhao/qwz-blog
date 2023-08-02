@@ -1,7 +1,7 @@
 package com.qinweizhao.blog.model.param;
 
 import com.qinweizhao.blog.model.core.PageParam;
-import com.qinweizhao.blog.model.enums.PostStatus;
+import com.qinweizhao.blog.model.enums.ArticleStatus;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -13,7 +13,7 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class PostQueryParam extends PageParam {
+public class ArticleQueryParam extends PageParam {
 
     /**
      * Keyword.
@@ -23,7 +23,7 @@ public class PostQueryParam extends PageParam {
     /**
      * Post status.
      */
-    private PostStatus status;
+    private ArticleStatus status;
 
     /**
      * Category id.

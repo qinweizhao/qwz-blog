@@ -1,6 +1,6 @@
 package com.qinweizhao.blog.model.param;
 
-import com.qinweizhao.blog.model.enums.PostStatus;
+import com.qinweizhao.blog.model.enums.ArticleStatus;
 import lombok.Data;
 
 import javax.validation.constraints.Min;
@@ -16,13 +16,13 @@ import java.util.Set;
  * @since 2022-07-08
  */
 @Data
-public class PostParam {
+public class ArticleParam {
 
     @NotBlank(message = "文章标题不能为空")
     @Size(max = 100, message = "文章标题的字符长度不能超过 {max}")
     private String title;
 
-    private PostStatus status = PostStatus.DRAFT;
+    private ArticleStatus status = ArticleStatus.DRAFT;
 
     @Size(max = 255, message = "文章别名的字符长度不能超过 {max}")
     private String slug;

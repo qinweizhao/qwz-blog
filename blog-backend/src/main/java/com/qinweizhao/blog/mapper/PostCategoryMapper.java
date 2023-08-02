@@ -3,7 +3,7 @@ package com.qinweizhao.blog.mapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.qinweizhao.blog.model.entity.PostCategory;
-import com.qinweizhao.blog.model.enums.PostStatus;
+import com.qinweizhao.blog.model.enums.ArticleStatus;
 import com.qinweizhao.blog.model.projection.CategoryPostCountProjection;
 import com.qinweizhao.blog.util.LambdaQueryWrapperX;
 import org.apache.ibatis.annotations.Mapper;
@@ -68,7 +68,7 @@ public interface PostCategoryMapper extends BaseMapper<PostCategory> {
      * @param status     status
      * @return Set
      */
-    Set<Integer> selectSetPostIdByCategoryIdAndPostStatus(@Param("categoryId") Integer categoryId, @Param("status") PostStatus status);
+    Set<Integer> selectSetPostIdByCategoryIdAndPostStatus(@Param("categoryId") Integer categoryId, @Param("status") ArticleStatus status);
 
     /**
      * 通过文章 Id 删除关联

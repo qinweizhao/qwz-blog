@@ -7,7 +7,7 @@ import lombok.Data;
  * @since 2022-07-08
  */
 @Data
-public class PostContentParam {
+public class ArticleContentParam {
 
     private String content;
 

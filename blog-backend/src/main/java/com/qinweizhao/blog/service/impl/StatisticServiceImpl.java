@@ -6,9 +6,9 @@ import com.qinweizhao.blog.model.convert.UserConvert;
 import com.qinweizhao.blog.model.dto.StatisticDTO;
 import com.qinweizhao.blog.model.dto.StatisticWithUserDTO;
 import com.qinweizhao.blog.model.entity.User;
-import com.qinweizhao.blog.model.enums.PostStatus;
+import com.qinweizhao.blog.model.enums.ArticleStatus;
 import com.qinweizhao.blog.service.CategoryService;
-import com.qinweizhao.blog.service.PostService;
+import com.qinweizhao.blog.service.ArticleService;
 import com.qinweizhao.blog.service.StatisticService;
 import com.qinweizhao.blog.service.TagService;
 import lombok.AllArgsConstructor;
@@ -24,7 +24,7 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor
 public class StatisticServiceImpl implements StatisticService {
 
-    private final PostService postService;
+    private final ArticleService articleService;
 
     private final CategoryService categoryService;
 
@@ -35,13 +35,12 @@ public class StatisticServiceImpl implements StatisticService {
     public StatisticDTO getStatistic() {
         StatisticDTO statisticDTO = new StatisticDTO();
         // 文章个数
-        statisticDTO.setPostCount(postService.countByStatus(PostStatus.PUBLISHED));
+        statisticDTO.setPostCount(articleService.countByStatus(ArticleStatus.PUBLISHED));
 
         statisticDTO.setTagCount(tagService.count());
         statisticDTO.setCategoryCount(categoryService.count());
 
-        statisticDTO.setVisitCount(postService.countVisit());
-        statisticDTO.setLikeCount(postService.countLike());
+        statisticDTO.setVisitCount(articleService.countVisit());
         return statisticDTO;
     }
 

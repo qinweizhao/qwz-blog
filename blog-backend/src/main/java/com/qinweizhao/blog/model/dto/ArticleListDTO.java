@@ -11,7 +11,7 @@ import java.util.List;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class PostListDTO extends PostSimpleDTO {
+public class ArticleListDTO extends ArticleSimpleDTO {
 
     private List<TagDTO> tags;
 

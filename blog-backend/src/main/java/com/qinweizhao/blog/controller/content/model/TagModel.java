@@ -1,12 +1,12 @@
 package com.qinweizhao.blog.controller.content.model;
 
 import com.qinweizhao.blog.model.core.PageResult;
-import com.qinweizhao.blog.model.dto.PostListDTO;
+import com.qinweizhao.blog.model.dto.ArticleListDTO;
 import com.qinweizhao.blog.model.dto.TagDTO;
-import com.qinweizhao.blog.model.enums.PostStatus;
-import com.qinweizhao.blog.model.param.PostQueryParam;
+import com.qinweizhao.blog.model.enums.ArticleStatus;
+import com.qinweizhao.blog.model.param.ArticleQueryParam;
 import com.qinweizhao.blog.service.SettingService;
-import com.qinweizhao.blog.service.PostService;
+import com.qinweizhao.blog.service.ArticleService;
 import com.qinweizhao.blog.service.TagService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -25,7 +25,7 @@ public class TagModel {
 
     private final TagService tagService;
 
-    private final PostService postService;
+    private final ArticleService articleService;
 
     private final SettingService settingService;
 
@@ -55,12 +55,12 @@ public class TagModel {
         final TagDTO tagDTO = tagService.getBySlug(slug);
         int pageSize = settingService.getPostPageSize();
 
-        PostQueryParam param = new PostQueryParam();
+        ArticleQueryParam param = new ArticleQueryParam();
         param.setPage(page);
         param.setSize(pageSize);
-        param.setStatus(PostStatus.PUBLISHED);
+        param.setStatus(ArticleStatus.PUBLISHED);
         param.setTagId(tagDTO.getId());
-        PageResult<PostListDTO> posts = postService.page(param);
+        PageResult<ArticleListDTO> posts = articleService.page(param);
 
         model.addAttribute("is_tag", true);
         model.addAttribute("posts", posts);

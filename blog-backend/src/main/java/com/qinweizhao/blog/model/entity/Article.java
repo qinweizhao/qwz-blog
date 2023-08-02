@@ -12,7 +12,7 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class Post extends BaseEntity {
+public class Article extends BaseEntity {
 
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;

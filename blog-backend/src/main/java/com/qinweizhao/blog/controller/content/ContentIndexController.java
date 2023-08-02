@@ -1,6 +1,6 @@
 package com.qinweizhao.blog.controller.content;
 
-import com.qinweizhao.blog.controller.content.model.PostModel;
+import com.qinweizhao.blog.controller.content.model.ArticleModel;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @AllArgsConstructor
 public class ContentIndexController {
 
-    private final PostModel postModel;
+    private final ArticleModel articleModel;
 
     /**
      * 渲染主页
@@ -30,7 +30,7 @@ public class ContentIndexController {
      */
     @GetMapping
     public String index(@RequestParam(required = false, defaultValue = "1") Integer page, Model model) {
-        return postModel.list(page, model);
+        return articleModel.list(page, model);
     }
 
 }

@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.annotation.EnumValue;
  * @author qinweizhao
  * @since 2022-07-08
  */
-public enum PostStatus implements ValueEnum<Integer> {
+public enum ArticleStatus implements ValueEnum<Integer> {
 
     /**
      * 发布
@@ -26,7 +26,7 @@ public enum PostStatus implements ValueEnum<Integer> {
     @EnumValue
     private final int value;
 
-    PostStatus(int value) {
+    ArticleStatus(int value) {
         this.value = value;
     }
 

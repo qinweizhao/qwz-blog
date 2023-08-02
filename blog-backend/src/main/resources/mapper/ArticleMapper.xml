@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.qinweizhao.blog.mapper.PostMapper">
+<mapper namespace="com.qinweizhao.blog.mapper.ArticleMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.qinweizhao.blog.model.entity.Post">
+    <resultMap id="BaseResultMap" type="com.qinweizhao.blog.model.entity.Article">
         <id column="id" property="id"/>
         <result column="disallow_comment" property="disallowComment"/>
-        <result column="likes" property="likes"/>
         <result column="meta_description" property="metaDescription"/>
         <result column="meta_keywords" property="metaKeywords"/>
         <result column="slug" property="slug"/>
@@ -15,7 +14,7 @@
         <result column="thumbnail" property="thumbnail"/>
         <result column="title" property="title"/>
         <result column="top_priority" property="topPriority"/>
-        <result column="visits" property="likes"/>
+        <result column="visits" property="visits"/>
         <result column="word_count" property="wordCount"/>
         <result column="create_time" property="createTime"/>
         <result column="update_time" property="updateTime"/>
@@ -24,30 +23,24 @@
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id
-        , disallow_comment, likes, meta_description, meta_keywords, slug, status, summary, thumbnail, title, top_priority, visits, word_count, create_time, update_time
+        , disallow_comment, meta_description, meta_keywords, slug, status, summary, thumbnail, title, top_priority, visits, word_count, create_time, update_time
     </sql>
     <sql id="Base_Column_List_Plus">
         p
         .
         id
-        , p.disallow_comment, p.likes, p.meta_description, p.meta_keywords, p.slug, p.status, p.summary, p.thumbnail, p.title, p.top_priority, p.visits, p.word_count, p.create_time, p.update_time
+        , p.disallow_comment, p.meta_description, p.meta_keywords, p.slug, p.status, p.summary, p.thumbnail, p.title, p.top_priority, p.visits, p.word_count, p.create_time, p.update_time
     </sql>
 
     <select id="selectCountVisits" resultType="java.lang.Long">
         select ifnull(sum(p.visits), 0)
-        from post p
+        from article p
     </select>
 
-    <select id="selectCountLikes" resultType="java.lang.Long">
-        select ifnull(sum(p.likes), 0)
-        from post p
-    </select>
-
-
-    <select id="selectPagePosts" resultType="com.qinweizhao.blog.model.entity.Post">
+    <select id="selectPagePosts" resultType="com.qinweizhao.blog.model.entity.Article">
         select
         <include refid="Base_Column_List_Plus"/>
-        from post p
+        from article p
         <if test="param.categoryId != null and param.categoryId != ''">
             left join post_category pc ON p.id = pc.post_id
         </if>
@@ -74,10 +67,10 @@
         order by p.top_priority desc , p.create_time desc
     </select>
 
-    <select id="selectPageSimplePosts" resultType="com.qinweizhao.blog.model.entity.Post">
+    <select id="selectPageSimplePosts" resultType="com.qinweizhao.blog.model.entity.Article">
         select
         <include refid="Base_Column_List"/>
-        from post
+        from article
         <where>
             <if test="param.status != null and param.status != ''">
                 and status = #{param.status}
@@ -89,29 +82,29 @@
         order by top_priority desc , create_time desc
     </select>
 
-    <select id="selectStatusById" resultType="com.qinweizhao.blog.model.enums.PostStatus">
+    <select id="selectStatusById" resultType="com.qinweizhao.blog.model.enums.ArticleStatus">
         select status
-        from post
+        from article
         where id = #{id}
     </select>
 
     <select id="selectNextIdByIdAndStatus" resultType="java.lang.Integer">
         select max(id)
-        from post
+        from article
         where id &lt; #{postId}
           and status = #{status}
     </select>
 
     <select id="selectPrevIdByIdAndStatus" resultType="java.lang.Integer">
         select min(id)
-        from post
+        from article
         where id &gt; #{postId}
           and status = #{status}
     </select>
 
     <select id="selectIdBySlug" resultType="java.lang.Integer">
         select id
-        from post
+        from article
         where slug = #{slug} limit 1
     </select>
 

@@ -3,15 +3,15 @@ package com.qinweizhao.blog.service.impl;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.qinweizhao.blog.mapper.CategoryMapper;
 import com.qinweizhao.blog.mapper.PostCategoryMapper;
-import com.qinweizhao.blog.mapper.PostMapper;
+import com.qinweizhao.blog.mapper.ArticleMapper;
+import com.qinweizhao.blog.model.convert.ArticleConvert;
 import com.qinweizhao.blog.model.convert.CategoryConvert;
-import com.qinweizhao.blog.model.convert.PostConvert;
+import com.qinweizhao.blog.model.dto.ArticleSimpleDTO;
 import com.qinweizhao.blog.model.dto.CategoryDTO;
-import com.qinweizhao.blog.model.dto.PostSimpleDTO;
+import com.qinweizhao.blog.model.entity.Article;
 import com.qinweizhao.blog.model.entity.Category;
-import com.qinweizhao.blog.model.entity.Post;
 import com.qinweizhao.blog.model.entity.PostCategory;
-import com.qinweizhao.blog.model.enums.PostStatus;
+import com.qinweizhao.blog.model.enums.ArticleStatus;
 import com.qinweizhao.blog.service.SettingService;
 import com.qinweizhao.blog.service.PostCategoryService;
 import com.qinweizhao.blog.util.ServiceUtils;
@@ -32,7 +32,7 @@ import java.util.*;
 public class PostCategoryServiceImpl extends ServiceImpl<PostCategoryMapper, PostCategory> implements PostCategoryService {
 
 
-    private final PostMapper postMapper;
+    private final ArticleMapper articleMapper;
 
     private final CategoryMapper categoryMapper;
 
@@ -83,19 +83,19 @@ public class PostCategoryServiceImpl extends ServiceImpl<PostCategoryMapper, Pos
     }
 
     @Override
-    public List<PostSimpleDTO> listPostByCategoryIdAndPostStatus(Integer categoryId, PostStatus status) {
+    public List<ArticleSimpleDTO> listPostByCategoryIdAndPostStatus(Integer categoryId, ArticleStatus status) {
         Set<Integer> postIds = postCategoryMapper.selectSetPostIdByCategoryIdAndPostStatus(categoryId, status);
-        List<Post> posts = postMapper.selectListByIds(postIds);
-        List<PostSimpleDTO> result = PostConvert.INSTANCE.convertToSimpleDTO(posts);
+        List<Article> articles = articleMapper.selectListByIds(postIds);
+        List<ArticleSimpleDTO> result = ArticleConvert.INSTANCE.convertToSimpleDTO(articles);
         result.forEach(item -> item.setFullPath(settingService.buildFullPath(item.getId())));
         return result;
     }
 
     @Override
-    public List<PostSimpleDTO> listPostByCategorySlugAndPostStatus(String categorySlug, PostStatus status) {
+    public List<ArticleSimpleDTO> listPostByCategorySlugAndPostStatus(String categorySlug, ArticleStatus status) {
         Category category = categoryMapper.selectBySlug(categorySlug);
         Set<Integer> postIds = postCategoryMapper.selectSetPostIdByCategoryIdAndPostStatus(category.getId(), status);
-        List<Post> posts = postMapper.selectListByIds(postIds);
-        return PostConvert.INSTANCE.convertToSimpleDTO(posts);
+        List<Article> articles = articleMapper.selectListByIds(postIds);
+        return ArticleConvert.INSTANCE.convertToSimpleDTO(articles);
     }
 }

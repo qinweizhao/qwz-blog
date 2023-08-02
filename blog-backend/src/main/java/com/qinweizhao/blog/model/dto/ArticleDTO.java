@@ -1,6 +1,6 @@
 package com.qinweizhao.blog.model.dto;
 
-import com.qinweizhao.blog.model.enums.PostStatus;
+import com.qinweizhao.blog.model.enums.ArticleStatus;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -12,7 +12,7 @@ import java.util.Set;
  * @since 2022-07-08
  */
 @Data
-public class PostDTO {
+public class ArticleDTO {
 
     private Integer id;
 
@@ -20,7 +20,7 @@ public class PostDTO {
 
     private String slug;
 
-    private PostStatus status;
+    private ArticleStatus status;
 
     private String metaKeywords;
 

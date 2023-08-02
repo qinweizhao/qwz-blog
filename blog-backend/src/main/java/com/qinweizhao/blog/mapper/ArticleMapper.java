@@ -4,11 +4,11 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.qinweizhao.blog.model.convert.PostConvert;
+import com.qinweizhao.blog.model.convert.ArticleConvert;
 import com.qinweizhao.blog.model.core.PageResult;
-import com.qinweizhao.blog.model.entity.Post;
-import com.qinweizhao.blog.model.enums.PostStatus;
-import com.qinweizhao.blog.model.param.PostQueryParam;
+import com.qinweizhao.blog.model.entity.Article;
+import com.qinweizhao.blog.model.enums.ArticleStatus;
+import com.qinweizhao.blog.model.param.ArticleQueryParam;
 import com.qinweizhao.blog.util.LambdaQueryWrapperX;
 import com.qinweizhao.blog.util.MyBatisUtils;
 import org.apache.ibatis.annotations.Mapper;
@@ -26,7 +26,7 @@ import java.util.Set;
  * @since 2022-03-15
  */
 @Mapper
-public interface PostMapper extends BaseMapper<Post> {
+public interface ArticleMapper extends BaseMapper<Article> {
 
     /**
      * 统计文章个数
@@ -34,8 +34,8 @@ public interface PostMapper extends BaseMapper<Post> {
      * @param published published
      * @return Long
      */
-    default long selectCountByStatus(PostStatus published) {
-        return this.selectCount(new LambdaQueryWrapper<Post>().eq(Post::getStatus, published.getValue()));
+    default long selectCountByStatus(ArticleStatus published) {
+        return this.selectCount(new LambdaQueryWrapper<Article>().eq(Article::getStatus, published.getValue()));
     }
 
     /**
@@ -45,36 +45,27 @@ public interface PostMapper extends BaseMapper<Post> {
      */
     long selectCountVisits();
 
-
-    /**
-     * 统计 like
-     *
-     * @return Long
-     */
-    long selectCountLikes();
-
-
     /**
      * 分页
      *
      * @param param param
      * @return PageResult
      */
-    default PageResult<Post> selectPage(PostQueryParam param) {
-        IPage<Post> page = MyBatisUtils.buildPage(param);
+    default PageResult<Article> selectPage(ArticleQueryParam param) {
+        IPage<Article> page = MyBatisUtils.buildPage(param);
 
         Map<String, Object> paramMap = new LinkedHashMap<>();
         paramMap.put("keyword", param.getKeyword());
         paramMap.put("categoryId", param.getCategoryId());
         paramMap.put("tagId", param.getTagId());
-        Integer status = PostConvert.INSTANCE.statusToInteger(param.getStatus());
+        Integer status = ArticleConvert.INSTANCE.statusToInteger(param.getStatus());
         paramMap.put("status", status);
         // 不显示的状态
         if (ObjectUtils.isEmpty(status)) {
-            paramMap.put("excludeStatus", PostStatus.RECYCLE.getValue());
+            paramMap.put("excludeStatus", ArticleStatus.RECYCLE.getValue());
         }
 
-        Page<Post> postPage = this.selectPagePosts(page, paramMap);
+        Page<Article> postPage = this.selectPagePosts(page, paramMap);
         return MyBatisUtils.buildPageResult(postPage);
     }
 
@@ -84,13 +75,13 @@ public interface PostMapper extends BaseMapper<Post> {
      * @param param param
      * @return PageResult
      */
-    default PageResult<Post> selectPageSimple(PostQueryParam param) {
-        IPage<Post> page = MyBatisUtils.buildPage(param);
+    default PageResult<Article> selectPageSimple(ArticleQueryParam param) {
+        IPage<Article> page = MyBatisUtils.buildPage(param);
 
         Map<String, Object> paramMap = new LinkedHashMap<>();
         paramMap.put("keyword", param.getKeyword());
-        paramMap.put("status", String.valueOf(PostConvert.INSTANCE.statusToInteger(param.getStatus())));
-        Page<Post> postPage = this.selectPageSimplePosts(page, paramMap);
+        paramMap.put("status", String.valueOf(ArticleConvert.INSTANCE.statusToInteger(param.getStatus())));
+        Page<Article> postPage = this.selectPageSimplePosts(page, paramMap);
         return MyBatisUtils.buildPageResult(postPage);
     }
 
@@ -101,7 +92,7 @@ public interface PostMapper extends BaseMapper<Post> {
      * @param param param
      * @return PageResult
      */
-    Page<Post> selectPagePosts(IPage<Post> page, @Param("param") Map<String, Object> param);
+    Page<Article> selectPagePosts(IPage<Article> page, @Param("param") Map<String, Object> param);
 
     /**
      * 分页(关联查询)
@@ -111,7 +102,7 @@ public interface PostMapper extends BaseMapper<Post> {
      * @return PageResult
      */
     @Deprecated
-    Page<Post> selectPageSimplePosts(IPage<Post> page, @Param("param") Map<String, Object> param);
+    Page<Article> selectPageSimplePosts(IPage<Article> page, @Param("param") Map<String, Object> param);
 
     /**
      * 更新帖子状态
@@ -121,10 +112,10 @@ public interface PostMapper extends BaseMapper<Post> {
      * @return int
      */
     default int updateStatusById(int status, Integer postId) {
-        Post post = new Post();
-        post.setId(postId);
-        post.setStatus(status);
-        return this.updateById(post);
+        Article article = new Article();
+        article.setId(postId);
+        article.setStatus(status);
+        return this.updateById(article);
     }
 
 
@@ -134,8 +125,8 @@ public interface PostMapper extends BaseMapper<Post> {
      * @param postIds postIds
      * @return List
      */
-    default List<Post> selectListByIds(Set<Integer> postIds) {
-        return selectList(new LambdaQueryWrapperX<Post>().inIfPresent(Post::getId, postIds));
+    default List<Article> selectListByIds(Set<Integer> postIds) {
+        return selectList(new LambdaQueryWrapperX<Article>().inIfPresent(Article::getId, postIds));
     }
 
     /**
@@ -144,8 +135,8 @@ public interface PostMapper extends BaseMapper<Post> {
      * @param status status
      * @return List
      */
-    default List<Post> selectListByStatus(PostStatus status) {
-        return this.selectList(new LambdaQueryWrapperX<Post>().eq(Post::getStatus, status).orderByDesc(Post::getCreateTime));
+    default List<Article> selectListByStatus(ArticleStatus status) {
+        return this.selectList(new LambdaQueryWrapperX<Article>().eq(Article::getStatus, status).orderByDesc(Article::getCreateTime));
     }
 
     /**
@@ -154,8 +145,8 @@ public interface PostMapper extends BaseMapper<Post> {
      * @param top top
      * @return List
      */
-    default List<Post> selectListLatest(int top) {
-        return this.selectList(new LambdaQueryWrapper<Post>().orderByDesc(Post::getUpdateTime).eq(Post::getStatus, PostStatus.PUBLISHED).last("limit " + top));
+    default List<Article> selectListLatest(int top) {
+        return this.selectList(new LambdaQueryWrapper<Article>().orderByDesc(Article::getUpdateTime).eq(Article::getStatus, ArticleStatus.PUBLISHED).last("limit " + top));
     }
 
     /**
@@ -164,7 +155,7 @@ public interface PostMapper extends BaseMapper<Post> {
      * @param postId postId
      * @return PostStatus
      */
-    PostStatus selectStatusById(Integer postId);
+    ArticleStatus selectStatusById(Integer postId);
 
     /**
      * 查询下一个文章 id
@@ -173,7 +164,7 @@ public interface PostMapper extends BaseMapper<Post> {
      * @param status status
      * @return Integer
      */
-    Integer selectNextIdByIdAndStatus(@Param("postId") Integer postId, @Param("status") PostStatus status);
+    Integer selectNextIdByIdAndStatus(@Param("postId") Integer postId, @Param("status") ArticleStatus status);
 
     /**
      * 查询上一个文章 id
@@ -182,7 +173,7 @@ public interface PostMapper extends BaseMapper<Post> {
      * @param status status
      * @return Integer
      */
-    Integer selectPrevIdByIdAndStatus(@Param("postId") Integer postId, @Param("status") PostStatus status);
+    Integer selectPrevIdByIdAndStatus(@Param("postId") Integer postId, @Param("status") ArticleStatus status);
 
     /**
      * 查询 id

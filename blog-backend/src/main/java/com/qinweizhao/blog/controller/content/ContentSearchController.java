@@ -1,11 +1,11 @@
 package com.qinweizhao.blog.controller.content;
 
 import com.qinweizhao.blog.model.core.PageResult;
-import com.qinweizhao.blog.model.dto.PostListDTO;
-import com.qinweizhao.blog.model.enums.PostStatus;
-import com.qinweizhao.blog.model.param.PostQueryParam;
+import com.qinweizhao.blog.model.dto.ArticleListDTO;
+import com.qinweizhao.blog.model.enums.ArticleStatus;
+import com.qinweizhao.blog.model.param.ArticleQueryParam;
 import com.qinweizhao.blog.service.SettingService;
-import com.qinweizhao.blog.service.PostService;
+import com.qinweizhao.blog.service.ArticleService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @AllArgsConstructor
 public class ContentSearchController {
 
-    private final PostService postService;
+    private final ArticleService articleService;
 
     private final SettingService settingService;
 
@@ -38,11 +38,11 @@ public class ContentSearchController {
     @GetMapping(value = "/search")
     public String search(Model model, @RequestParam(value = "keyword") String keyword, @RequestParam(value = "page", required = false, defaultValue = "1") Integer page) {
 
-        final PostQueryParam param = new PostQueryParam();
+        final ArticleQueryParam param = new ArticleQueryParam();
         param.setPage(page);
         param.setKeyword(keyword);
-        param.setStatus(PostStatus.PUBLISHED);
-        final PageResult<PostListDTO> postPage = postService.page(param);
+        param.setStatus(ArticleStatus.PUBLISHED);
+        final PageResult<ArticleListDTO> postPage = articleService.page(param);
 
         model.addAttribute("is_search", true);
         model.addAttribute("keyword", keyword);

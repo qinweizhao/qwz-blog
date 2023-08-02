@@ -1,17 +1,17 @@
 package com.qinweizhao.blog.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.qinweizhao.blog.mapper.PostMapper;
+import com.qinweizhao.blog.mapper.ArticleMapper;
 import com.qinweizhao.blog.mapper.PostTagMapper;
 import com.qinweizhao.blog.mapper.TagMapper;
-import com.qinweizhao.blog.model.convert.PostConvert;
+import com.qinweizhao.blog.model.convert.ArticleConvert;
 import com.qinweizhao.blog.model.convert.TagConvert;
-import com.qinweizhao.blog.model.dto.PostSimpleDTO;
+import com.qinweizhao.blog.model.dto.ArticleSimpleDTO;
 import com.qinweizhao.blog.model.dto.TagDTO;
-import com.qinweizhao.blog.model.entity.Post;
+import com.qinweizhao.blog.model.entity.Article;
 import com.qinweizhao.blog.model.entity.PostTag;
 import com.qinweizhao.blog.model.entity.Tag;
-import com.qinweizhao.blog.model.enums.PostStatus;
+import com.qinweizhao.blog.model.enums.ArticleStatus;
 import com.qinweizhao.blog.service.SettingService;
 import com.qinweizhao.blog.service.PostTagService;
 import com.qinweizhao.blog.util.ServiceUtils;
@@ -34,7 +34,7 @@ public class PostTagServiceImpl extends ServiceImpl<PostTagMapper, PostTag> impl
 
     private final TagMapper tagMapper;
 
-    private final PostMapper postMapper;
+    private final ArticleMapper articleMapper;
 
     private final PostTagMapper postTagMapper;
 
@@ -81,23 +81,23 @@ public class PostTagServiceImpl extends ServiceImpl<PostTagMapper, PostTag> impl
     }
 
     @Override
-    public List<PostSimpleDTO> listPostsByTagIdAndPostStatus(Integer tagId, PostStatus status) {
+    public List<ArticleSimpleDTO> listPostsByTagIdAndPostStatus(Integer tagId, ArticleStatus status) {
 
         Set<Integer> postIds = postTagMapper.selectSetPostIdByTagIdAndPostStatus(tagId, status);
 
-        List<Post> posts = postMapper.selectListByIds(postIds);
-        List<PostSimpleDTO> result = PostConvert.INSTANCE.convertToSimpleDTO(posts);
+        List<Article> articles = articleMapper.selectListByIds(postIds);
+        List<ArticleSimpleDTO> result = ArticleConvert.INSTANCE.convertToSimpleDTO(articles);
         result.forEach(item -> item.setFullPath(settingService.buildFullPath(item.getId())));
         return result;
     }
 
     @Override
-    public List<PostSimpleDTO> listPostsByTagSlugAndPostStatus(String tagSlug, PostStatus status) {
+    public List<ArticleSimpleDTO> listPostsByTagSlugAndPostStatus(String tagSlug, ArticleStatus status) {
         Tag tag = tagMapper.selectBySlug(tagSlug);
         Set<Integer> postIds = postTagMapper.selectSetPostIdByTagIdAndPostStatus(tag.getId(), status);
 
-        List<Post> posts = postMapper.selectListByIds(postIds);
-        return PostConvert.INSTANCE.convertToSimpleDTO(posts);
+        List<Article> articles = articleMapper.selectListByIds(postIds);
+        return ArticleConvert.INSTANCE.convertToSimpleDTO(articles);
     }
 
 }

@@ -1,13 +1,13 @@
 package com.qinweizhao.blog.controller.content.model;
 
 import com.qinweizhao.blog.model.core.PageResult;
+import com.qinweizhao.blog.model.dto.ArticleListDTO;
 import com.qinweizhao.blog.model.dto.CategoryDTO;
-import com.qinweizhao.blog.model.dto.PostListDTO;
-import com.qinweizhao.blog.model.enums.PostStatus;
-import com.qinweizhao.blog.model.param.PostQueryParam;
+import com.qinweizhao.blog.model.enums.ArticleStatus;
+import com.qinweizhao.blog.model.param.ArticleQueryParam;
 import com.qinweizhao.blog.service.CategoryService;
 import com.qinweizhao.blog.service.SettingService;
-import com.qinweizhao.blog.service.PostService;
+import com.qinweizhao.blog.service.ArticleService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.ui.Model;
@@ -27,7 +27,7 @@ public class CategoryModel {
     private CategoryService categoryService;
 
     @Resource
-    private PostService postService;
+    private ArticleService articleService;
 
     @Resource
     private SettingService settingService;
@@ -60,13 +60,13 @@ public class CategoryModel {
 
         CategoryDTO categoryDTO = categoryService.getBySlug(slug);
 
-        PostQueryParam param = new PostQueryParam();
+        ArticleQueryParam param = new ArticleQueryParam();
         param.setSize(pageSize);
         param.setPage(page);
-        param.setStatus(PostStatus.PUBLISHED);
+        param.setStatus(ArticleStatus.PUBLISHED);
         param.setCategoryId(categoryDTO.getId());
 
-        PageResult<PostListDTO> posts = postService.page(param);
+        PageResult<ArticleListDTO> posts = articleService.page(param);
 
         // Generate meta description.
         if (StringUtils.isNotEmpty(categoryDTO.getDescription())) {

@@ -1,7 +1,7 @@
 package com.qinweizhao.blog.framework.listener.post;
 
 import com.qinweizhao.blog.framework.event.post.PostVisitEvent;
-import com.qinweizhao.blog.service.PostService;
+import com.qinweizhao.blog.service.ArticleService;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
@@ -15,8 +15,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class PostVisitEventListener extends AbstractVisitEventListener {
 
-    public PostVisitEventListener(PostService postService) {
-        super(postService);
+    public PostVisitEventListener(ArticleService articleService) {
+        super(articleService);
     }
 
     @Async

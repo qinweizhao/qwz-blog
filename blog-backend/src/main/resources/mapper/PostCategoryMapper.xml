@@ -33,7 +33,7 @@
         select pc.post_id
         from post_category pc
                  left join
-             post p
+             article p
              on pc.post_id = p.id
         where pc.category_id = #{categoryId}
           and p.status = #{status}

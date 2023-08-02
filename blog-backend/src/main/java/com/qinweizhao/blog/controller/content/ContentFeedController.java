@@ -1,12 +1,12 @@
 package com.qinweizhao.blog.controller.content;
 
-import com.qinweizhao.blog.model.convert.PostConvert;
+import com.qinweizhao.blog.model.convert.ArticleConvert;
 import com.qinweizhao.blog.model.core.PageResult;
-import com.qinweizhao.blog.model.dto.PostDTO;
-import com.qinweizhao.blog.model.dto.PostSimpleDTO;
-import com.qinweizhao.blog.model.enums.PostStatus;
-import com.qinweizhao.blog.model.param.PostQueryParam;
-import com.qinweizhao.blog.service.PostService;
+import com.qinweizhao.blog.model.dto.ArticleDTO;
+import com.qinweizhao.blog.model.dto.ArticleSimpleDTO;
+import com.qinweizhao.blog.model.enums.ArticleStatus;
+import com.qinweizhao.blog.model.param.ArticleQueryParam;
+import com.qinweizhao.blog.service.ArticleService;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import lombok.AllArgsConstructor;
@@ -36,7 +36,7 @@ public class ContentFeedController {
 
     private static final String XML_MEDIA_TYPE = MediaType.APPLICATION_XML_VALUE + UTF_8_SUFFIX;
 
-    private final PostService postService;
+    private final ArticleService articleService;
 
     private final FreeMarkerConfigurer freeMarker;
 
@@ -86,11 +86,11 @@ public class ContentFeedController {
      *
      * @return List
      */
-    private List<PostDTO> buildPosts() {
-        PostQueryParam param = new PostQueryParam();
-        param.setStatus(PostStatus.PUBLISHED);
-        PageResult<PostSimpleDTO> postPage = postService.pageSimple(param);
-        PageResult<PostDTO> posts = PostConvert.INSTANCE.convertDTO(postPage);
+    private List<ArticleDTO> buildPosts() {
+        ArticleQueryParam param = new ArticleQueryParam();
+        param.setStatus(ArticleStatus.PUBLISHED);
+        PageResult<ArticleSimpleDTO> postPage = articleService.pageSimple(param);
+        PageResult<ArticleDTO> posts = ArticleConvert.INSTANCE.convertDTO(postPage);
         return posts.getContent();
     }
 

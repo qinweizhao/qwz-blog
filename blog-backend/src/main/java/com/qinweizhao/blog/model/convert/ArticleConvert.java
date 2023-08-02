@@ -2,13 +2,13 @@ package com.qinweizhao.blog.model.convert;
 
 
 import com.qinweizhao.blog.model.core.PageResult;
-import com.qinweizhao.blog.model.dto.PostDTO;
-import com.qinweizhao.blog.model.dto.PostListDTO;
-import com.qinweizhao.blog.model.dto.PostSimpleDTO;
-import com.qinweizhao.blog.model.entity.Post;
-import com.qinweizhao.blog.model.enums.PostStatus;
+import com.qinweizhao.blog.model.dto.ArticleDTO;
+import com.qinweizhao.blog.model.dto.ArticleListDTO;
+import com.qinweizhao.blog.model.dto.ArticleSimpleDTO;
+import com.qinweizhao.blog.model.entity.Article;
+import com.qinweizhao.blog.model.enums.ArticleStatus;
 import com.qinweizhao.blog.model.enums.ValueEnum;
-import com.qinweizhao.blog.model.param.PostParam;
+import com.qinweizhao.blog.model.param.ArticleParam;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
@@ -19,9 +19,9 @@ import java.util.List;
  * @since 2022/5/27
  */
 @Mapper
-public interface PostConvert {
+public interface ArticleConvert {
 
-    PostConvert INSTANCE = Mappers.getMapper(PostConvert.class);
+    ArticleConvert INSTANCE = Mappers.getMapper(ArticleConvert.class);
 
 
     /**
@@ -30,7 +30,7 @@ public interface PostConvert {
      * @param post post
      * @return Post
      */
-    PostSimpleDTO convert(PostDTO post);
+    ArticleSimpleDTO convert(ArticleDTO post);
 
     /**
      * convert
@@ -38,15 +38,15 @@ public interface PostConvert {
      * @param param param
      * @return Post
      */
-    Post convert(PostParam param);
+    Article convert(ArticleParam param);
 
     /**
      * convert
      *
-     * @param post post
+     * @param article post
      * @return Post
      */
-    PostDTO convert(Post post);
+    ArticleDTO convert(Article article);
 
     /**
      * convertToListVO
@@ -54,23 +54,23 @@ public interface PostConvert {
      * @param post post
      * @return PostListVO
      */
-    PostListDTO convertToListDTO(PostSimpleDTO post);
+    ArticleListDTO convertToListDTO(ArticleSimpleDTO post);
 
     /**
      * convertToSimpleDTO
      *
-     * @param posts posts
+     * @param articles posts
      * @return ListHibernate
      */
-    List<PostSimpleDTO> convertToSimpleDTO(List<Post> posts);
+    List<ArticleSimpleDTO> convertToSimpleDTO(List<Article> articles);
 
     /**
      * convertSimpleDTO
      *
-     * @param post post
+     * @param article post
      * @return PostSimpleDTO
      */
-    PostSimpleDTO convertSimpleDTO(Post post);
+    ArticleSimpleDTO convertSimpleDTO(Article article);
 
     /**
      * statusToInteger
@@ -78,7 +78,7 @@ public interface PostConvert {
      * @param status status
      * @return Integer
      */
-    default Integer statusToInteger(PostStatus status) {
+    default Integer statusToInteger(ArticleStatus status) {
         if (status == null) {
             return null;
         }
@@ -106,8 +106,8 @@ public interface PostConvert {
      * @param status status
      * @return PostStatus
      */
-    default PostStatus statusToEnum(Integer status) {
-        return ValueEnum.valueToEnum(PostStatus.class, status);
+    default ArticleStatus statusToEnum(Integer status) {
+        return ValueEnum.valueToEnum(ArticleStatus.class, status);
     }
 
 
@@ -117,7 +117,7 @@ public interface PostConvert {
      * @param postList postList
      * @return List
      */
-    List<PostListDTO> convertToListDTO(List<PostSimpleDTO> postList);
+    List<ArticleListDTO> convertToListDTO(List<ArticleSimpleDTO> postList);
 
 
     /**
@@ -126,6 +126,6 @@ public interface PostConvert {
      * @param postPage postPage
      * @return PageResult
      */
-    PageResult<PostDTO> convertDTO(PageResult<PostSimpleDTO> postPage);
+    PageResult<ArticleDTO> convertDTO(PageResult<ArticleSimpleDTO> postPage);
 
 }

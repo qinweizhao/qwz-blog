@@ -2,13 +2,13 @@ package com.qinweizhao.blog.controller.content;
 
 import com.baomidou.mybatisplus.core.toolkit.Assert;
 import com.qinweizhao.blog.controller.content.model.CategoryModel;
-import com.qinweizhao.blog.controller.content.model.PostModel;
+import com.qinweizhao.blog.controller.content.model.ArticleModel;
 import com.qinweizhao.blog.controller.content.model.TagModel;
 import com.qinweizhao.blog.exception.NotFoundException;
 import com.qinweizhao.blog.model.constant.SystemConstant;
-import com.qinweizhao.blog.model.enums.PostStatus;
+import com.qinweizhao.blog.model.enums.ArticleStatus;
 import com.qinweizhao.blog.service.SettingService;
-import com.qinweizhao.blog.service.PostService;
+import com.qinweizhao.blog.service.ArticleService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -29,7 +29,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 @AllArgsConstructor
 public class ContentContentController {
 
-    private final PostModel postModel;
+    private final ArticleModel articleModel;
 
     private final CategoryModel categoryModel;
 
@@ -37,7 +37,7 @@ public class ContentContentController {
 
     private final SettingService settingService;
 
-    private final PostService postService;
+    private final ArticleService articleService;
 
 
     /**
@@ -52,7 +52,7 @@ public class ContentContentController {
         log.debug("执行");
         // 归档
         if (SystemConstant.ARCHIVES_PREFIX.equals(prefix)) {
-            return postModel.archives(model);
+            return articleModel.archives(model);
         }
         // 分类
         if (SystemConstant.CATEGORIES_PREFIX.equals(prefix)) {
@@ -96,15 +96,15 @@ public class ContentContentController {
         } else if (SystemConstant.TAGS_PREFIX.equals(prefix)) {
             return tagModel.listPost(model, target, page);
         } else if (SystemConstant.ARTICLE_PREFIX.equals(prefix)) {
-            PostStatus status;
+            ArticleStatus status;
             try {
                 int postId = Integer.parseInt(target);
-                status = postService.getStatusById(postId);
+                status = articleService.getStatusById(postId);
                 Assert.notNull(status, "文章不存在");
             } catch (Exception e) {
                 throw new NotFoundException("Not Found");
             }
-            return postModel.content(Integer.parseInt(target), status, token, model);
+            return articleModel.content(Integer.parseInt(target), status, token, model);
         } else {
             throw new NotFoundException("Not Found");
         }

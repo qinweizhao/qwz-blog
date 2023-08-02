@@ -1,8 +1,8 @@
 package com.qinweizhao.blog.task;
 
-import com.qinweizhao.blog.mapper.PostMapper;
-import com.qinweizhao.blog.model.entity.Post;
-import com.qinweizhao.blog.model.enums.PostStatus;
+import com.qinweizhao.blog.mapper.ArticleMapper;
+import com.qinweizhao.blog.model.entity.Article;
+import com.qinweizhao.blog.model.enums.ArticleStatus;
 import com.qinweizhao.blog.model.enums.TimeUnit;
 import com.qinweizhao.blog.service.SettingService;
 import lombok.AllArgsConstructor;
@@ -28,7 +28,7 @@ public class RecycledPostCleaningTask {
 
     private final SettingService settingService;
 
-    private final PostMapper postMapper;
+    private final ArticleMapper articleMapper;
 
 
     /**
@@ -60,21 +60,21 @@ public class RecycledPostCleaningTask {
                 expiredIn = recycledPostRetentionTime * 24L;
                 break;
         }
-        List<Post> recyclePost = postMapper.selectListByStatus(PostStatus.RECYCLE);
+        List<Article> recycleArticle = articleMapper.selectListByStatus(ArticleStatus.RECYCLE);
 
         LocalDateTime now = LocalDateTime.now();
-        List<Integer> ids = recyclePost.stream().filter(post -> {
+        List<Integer> ids = recycleArticle.stream().filter(post -> {
             LocalDateTime updateTime = post.getUpdateTime();
             long until = updateTime.until(now, ChronoUnit.HOURS);
             return until >= expiredIn;
-        }).map(Post::getId).collect(Collectors.toList());
+        }).map(Article::getId).collect(Collectors.toList());
 
         if (CollectionUtils.isEmpty(ids)) {
             return;
         }
 
         log.info("开始清理回收的文章");
-        int deleteNumber = postMapper.deleteBatchIds(ids);
+        int deleteNumber = articleMapper.deleteBatchIds(ids);
         log.info("清理回收状态文章已完成, {} 篇文章已被永久删除", deleteNumber);
     }
 

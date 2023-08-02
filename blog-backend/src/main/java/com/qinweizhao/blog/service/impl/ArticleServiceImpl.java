@@ -9,23 +9,23 @@ import com.qinweizhao.blog.framework.cache.AbstractStringCacheStore;
 import com.qinweizhao.blog.framework.event.post.PostVisitEvent;
 import com.qinweizhao.blog.mapper.ContentMapper;
 import com.qinweizhao.blog.mapper.PostCategoryMapper;
-import com.qinweizhao.blog.mapper.PostMapper;
+import com.qinweizhao.blog.mapper.ArticleMapper;
 import com.qinweizhao.blog.mapper.PostTagMapper;
-import com.qinweizhao.blog.model.convert.PostConvert;
+import com.qinweizhao.blog.model.convert.ArticleConvert;
 import com.qinweizhao.blog.model.core.PageResult;
 import com.qinweizhao.blog.model.dto.*;
+import com.qinweizhao.blog.model.entity.Article;
 import com.qinweizhao.blog.model.entity.Content;
-import com.qinweizhao.blog.model.entity.Post;
 import com.qinweizhao.blog.model.entity.PostCategory;
 import com.qinweizhao.blog.model.entity.PostTag;
-import com.qinweizhao.blog.model.enums.PostStatus;
-import com.qinweizhao.blog.model.param.PostParam;
-import com.qinweizhao.blog.model.param.PostQueryParam;
+import com.qinweizhao.blog.model.enums.ArticleStatus;
+import com.qinweizhao.blog.model.param.ArticleParam;
+import com.qinweizhao.blog.model.param.ArticleQueryParam;
 import com.qinweizhao.blog.model.vo.ArchiveMonthVO;
 import com.qinweizhao.blog.model.vo.ArchiveYearVO;
 import com.qinweizhao.blog.service.SettingService;
 import com.qinweizhao.blog.service.PostCategoryService;
-import com.qinweizhao.blog.service.PostService;
+import com.qinweizhao.blog.service.ArticleService;
 import com.qinweizhao.blog.service.PostTagService;
 import com.qinweizhao.blog.util.*;
 import lombok.AllArgsConstructor;
@@ -57,13 +57,13 @@ import java.util.stream.Collectors;
 @Slf4j
 @Service
 @AllArgsConstructor
-public class PostServiceImpl implements PostService {
+public class ArticleServiceImpl implements ArticleService {
 
     private static final String CHINESE_REGEX = "[^\\x00-\\xff]";
     private static final String PUNCTUATION_REGEX = "[\\p{P}\\p{S}\\p{Z}\\s]+";
     private final ContentMapper contentMapper;
     private final Pattern summaryPattern = Pattern.compile("[\t\r\n]");
-    private final PostMapper postMapper;
+    private final ArticleMapper articleMapper;
 
     private final SettingService settingService;
 
@@ -80,37 +80,37 @@ public class PostServiceImpl implements PostService {
     private final ApplicationEventPublisher eventPublisher;
 
     @Override
-    public PageResult<PostListDTO> page(PostQueryParam param) {
+    public PageResult<ArticleListDTO> page(ArticleQueryParam param) {
 
 
-        PageResult<Post> pageResult = postMapper.selectPage(param);
-        List<Post> pageContent = pageResult.getContent();
-        List<PostSimpleDTO> posts = PostConvert.INSTANCE.convertToSimpleDTO(pageContent);
+        PageResult<Article> pageResult = articleMapper.selectPage(param);
+        List<Article> pageContent = pageResult.getContent();
+        List<ArticleSimpleDTO> posts = ArticleConvert.INSTANCE.convertToSimpleDTO(pageContent);
 
-        Set<Integer> postIds = ServiceUtils.fetchProperty(posts, PostSimpleDTO::getId);
+        Set<Integer> postIds = ServiceUtils.fetchProperty(posts, ArticleSimpleDTO::getId);
 
 
         Map<Integer, List<TagDTO>> tagListMap = postTagService.listTagListMapBy(postIds);
         Map<Integer, List<CategoryDTO>> categoryListMap = postCategoryService.listCategoryListMap(postIds);
 
-        List<PostListDTO> collect = posts.stream().map(post -> {
-            PostListDTO postListDTO = PostConvert.INSTANCE.convertToListDTO(post);
-            postListDTO.setTags(new ArrayList<>(Optional.ofNullable(tagListMap.get(post.getId())).orElseGet(LinkedList::new)));
-            postListDTO.setCategories(new ArrayList<>(Optional.ofNullable(categoryListMap.get(post.getId())).orElseGet(LinkedList::new)));
-            postListDTO.setFullPath(settingService.buildFullPath(post.getId()));
-            return postListDTO;
+        List<ArticleListDTO> collect = posts.stream().map(post -> {
+            ArticleListDTO articleListDTO = ArticleConvert.INSTANCE.convertToListDTO(post);
+            articleListDTO.setTags(new ArrayList<>(Optional.ofNullable(tagListMap.get(post.getId())).orElseGet(LinkedList::new)));
+            articleListDTO.setCategories(new ArrayList<>(Optional.ofNullable(categoryListMap.get(post.getId())).orElseGet(LinkedList::new)));
+            articleListDTO.setFullPath(settingService.buildFullPath(post.getId()));
+            return articleListDTO;
         }).collect(Collectors.toList());
 
         return new PageResult<>(collect, pageResult.getCurrent(), pageResult.getSize(), pageResult.getTotal(), pageResult.hasPrevious(), pageResult.hasNext());
     }
 
     @Override
-    public PageResult<PostSimpleDTO> pageSimple(PostQueryParam param) {
-        PageResult<Post> pageResult = postMapper.selectPageSimple(param);
-        List<Post> pageContent = pageResult.getContent();
-        List<PostSimpleDTO> posts = PostConvert.INSTANCE.convertToSimpleDTO(pageContent);
+    public PageResult<ArticleSimpleDTO> pageSimple(ArticleQueryParam param) {
+        PageResult<Article> pageResult = articleMapper.selectPageSimple(param);
+        List<Article> pageContent = pageResult.getContent();
+        List<ArticleSimpleDTO> posts = ArticleConvert.INSTANCE.convertToSimpleDTO(pageContent);
 
-        Set<Integer> postIds = ServiceUtils.fetchProperty(posts, PostSimpleDTO::getId);
+        Set<Integer> postIds = ServiceUtils.fetchProperty(posts, ArticleSimpleDTO::getId);
 
         Map<Integer, List<CategoryDTO>> categoryListMap = postCategoryService.listCategoryListMap(postIds);
 
@@ -125,32 +125,32 @@ public class PostServiceImpl implements PostService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public int save(PostParam param) {
-        Post post = PostConvert.INSTANCE.convert(param);
+    public int save(ArticleParam param) {
+        Article article = ArticleConvert.INSTANCE.convert(param);
 
-        String slug = post.getSlug();
+        String slug = article.getSlug();
 
         if (ObjectUtils.isEmpty(slug)) {
-            post.setSlug(SlugUtils.slug(post.getTitle()));
+            article.setSlug(SlugUtils.slug(article.getTitle()));
         } else {
-            post.setSlug(SlugUtils.slug(slug));
+            article.setSlug(SlugUtils.slug(slug));
         }
 
-        this.slugMustNotExist(post);
+        this.slugMustNotExist(article);
         Set<Integer> categoryIds = param.getCategoryIds();
         Set<Integer> tagIds = param.getTagIds();
 
         String originalContent = param.getOriginalContent();
 
-        String summary = post.getSummary();
+        String summary = article.getSummary();
         if (ObjectUtils.isEmpty(summary)) {
-            post.setSummary(generateSummary(MarkdownUtils.renderHtml(originalContent)));
+            article.setSummary(generateSummary(MarkdownUtils.renderHtml(originalContent)));
         }
 
-        post.setWordCount(htmlFormatWordCount(originalContent));
+        article.setWordCount(htmlFormatWordCount(originalContent));
 
-        postMapper.insert(post);
-        Integer postId = post.getId();
+        articleMapper.insert(article);
+        Integer postId = article.getId();
 
         Content content = new Content();
         content.setOriginalContent(originalContent);
@@ -197,20 +197,20 @@ public class PostServiceImpl implements PostService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public boolean update(Integer postId, PostParam param) {
-        Post post = PostConvert.INSTANCE.convert(param);
-        post.setId(postId);
+    public boolean update(Integer postId, ArticleParam param) {
+        Article article = ArticleConvert.INSTANCE.convert(param);
+        article.setId(postId);
 
-        this.slugMustNotExist(post);
+        this.slugMustNotExist(article);
 
-        String summary = post.getSummary();
+        String summary = article.getSummary();
         if (ObjectUtils.isEmpty(summary)) {
-            post.setSummary(generateSummary(MarkdownUtils.renderHtml(param.getOriginalContent())));
+            article.setSummary(generateSummary(MarkdownUtils.renderHtml(param.getOriginalContent())));
         }
 
-        post.setWordCount(htmlFormatWordCount(param.getOriginalContent()));
+        article.setWordCount(htmlFormatWordCount(param.getOriginalContent()));
 
-        postMapper.updateById(post);
+        articleMapper.updateById(article);
 
         String originalContent = param.getOriginalContent();
         Content content = new Content();
@@ -276,15 +276,15 @@ public class PostServiceImpl implements PostService {
     /**
      * 文章别名必须唯一
      *
-     * @param post post
+     * @param article post
      */
-    private void slugMustNotExist(Post post) {
+    private void slugMustNotExist(Article article) {
 
         boolean exist;
 
-        String slug = post.getSlug();
-        Integer id = post.getId();
-        Integer dbId = postMapper.selectIdBySlug(slug);
+        String slug = article.getSlug();
+        Integer id = article.getId();
+        Integer dbId = articleMapper.selectIdBySlug(slug);
 
         // 如果为 null 则一定不存在
         if (dbId == null) {
@@ -299,23 +299,18 @@ public class PostServiceImpl implements PostService {
         }
 
         if (exist) {
-            throw new AlreadyExistsException("文章别名 " + post.getSlug() + " 已存在");
+            throw new AlreadyExistsException("文章别名 " + article.getSlug() + " 已存在");
         }
     }
 
     @Override
-    public long countByStatus(PostStatus published) {
-        return postMapper.selectCountByStatus(published);
+    public long countByStatus(ArticleStatus published) {
+        return articleMapper.selectCountByStatus(published);
     }
 
     @Override
     public long countVisit() {
-        return postMapper.selectCountVisits();
-    }
-
-    @Override
-    public long countLike() {
-        return postMapper.selectCountLikes();
+        return articleMapper.selectCountVisits();
     }
 
     @Override
@@ -346,7 +341,7 @@ public class PostServiceImpl implements PostService {
 
         log.debug("删除文章内容{}条", i);
 
-        return postMapper.deleteById(postId) > 0;
+        return articleMapper.deleteById(postId) > 0;
     }
 
     @Override
@@ -381,19 +376,19 @@ public class PostServiceImpl implements PostService {
 
 
     @Override
-    public boolean updateStatus(PostStatus status, Integer postId) {
-        Post post = postMapper.selectById(postId);
+    public boolean updateStatus(ArticleStatus status, Integer postId) {
+        Article article = articleMapper.selectById(postId);
 
-        if (!(status.getValue().equals(post.getStatus()))) {
+        if (!(status.getValue().equals(article.getStatus()))) {
 
-            int updatedRows = postMapper.updateStatusById(status.getValue(), postId);
+            int updatedRows = articleMapper.updateStatusById(status.getValue(), postId);
             if (updatedRows != 1) {
                 throw new ServiceException("无法更新状态,id ： " + postId);
             }
         }
 
         // 同步内容
-        if (PostStatus.PUBLISHED.equals(status)) {
+        if (ArticleStatus.PUBLISHED.equals(status)) {
             // 如果发布此帖子，则转换格式化内容
             Content content = contentMapper.selectById(postId);
             String formatContent = MarkdownUtils.renderHtml(content.getContent());
@@ -412,19 +407,19 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public boolean updateStatusByIds(List<Integer> ids, PostStatus status) {
+    public boolean updateStatusByIds(List<Integer> ids, ArticleStatus status) {
         ids.forEach(item -> this.updateStatus(status, item));
         return true;
     }
 
     @Override
-    public PostStatus getStatusById(Integer postId) {
-        return postMapper.selectStatusById(postId);
+    public ArticleStatus getStatusById(Integer postId) {
+        return articleMapper.selectStatusById(postId);
     }
 
     @Override
-    public PostDTO getPrevPost(Integer postId) {
-        Integer id = postMapper.selectPrevIdByIdAndStatus(postId, PostStatus.PUBLISHED);
+    public ArticleDTO getPrevPost(Integer postId) {
+        Integer id = articleMapper.selectPrevIdByIdAndStatus(postId, ArticleStatus.PUBLISHED);
         if (ObjectUtils.isEmpty(id)) {
             return null;
         }
@@ -432,8 +427,8 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public PostDTO getNextPost(Integer postId) {
-        Integer id = postMapper.selectNextIdByIdAndStatus(postId, PostStatus.PUBLISHED);
+    public ArticleDTO getNextPost(Integer postId) {
+        Integer id = articleMapper.selectNextIdByIdAndStatus(postId, ArticleStatus.PUBLISHED);
         if (ObjectUtils.isEmpty(id)) {
             return null;
         }
@@ -442,14 +437,14 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public long count() {
-        return postMapper.selectCount(Wrappers.emptyWrapper());
+        return articleMapper.selectCount(Wrappers.emptyWrapper());
     }
 
     @Override
     public boolean increaseVisit(Integer postId) {
-        Post post = postMapper.selectById(postId);
-        post.setVisits(post.getVisits() + 1);
-        return postMapper.updateById(post) > 0;
+        Article article = articleMapper.selectById(postId);
+        article.setVisits(article.getVisits() + 1);
+        return articleMapper.updateById(article) > 0;
     }
 
     @Override
@@ -458,42 +453,42 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public PostDTO getById(Integer postId) {
+    public ArticleDTO getById(Integer postId) {
 
-        Post post = postMapper.selectById(postId);
+        Article article = articleMapper.selectById(postId);
 
-        PostDTO postDTO = PostConvert.INSTANCE.convert(post);
+        ArticleDTO articleDTO = ArticleConvert.INSTANCE.convert(article);
 
-        List<TagDTO> tags = postTagService.listTagsByPostId(post.getId());
+        List<TagDTO> tags = postTagService.listTagsByPostId(article.getId());
 
-        List<CategoryDTO> categories = postCategoryService.listByPostId(post.getId());
+        List<CategoryDTO> categories = postCategoryService.listByPostId(article.getId());
 
         Content content = contentMapper.selectById(postId);
         String originalContent = content.getOriginalContent();
-        postDTO.setFormatContent(content.getContent());
-        postDTO.setOriginalContent(originalContent);
+        articleDTO.setFormatContent(content.getContent());
+        articleDTO.setOriginalContent(originalContent);
 
         Set<Integer> tagIds = ServiceUtils.fetchProperty(tags, TagDTO::getId);
 
 
         Set<Integer> categoryIds = ServiceUtils.fetchProperty(categories, CategoryDTO::getId);
 
-        postDTO.setTagIds(tagIds);
-        postDTO.setTags(tags);
+        articleDTO.setTagIds(tagIds);
+        articleDTO.setTags(tags);
 
-        postDTO.setCategoryIds(categoryIds);
-        postDTO.setCategories(categories);
+        articleDTO.setCategoryIds(categoryIds);
+        articleDTO.setCategories(categories);
 
-        postDTO.setFullPath(settingService.buildFullPath(post.getId()));
+        articleDTO.setFullPath(settingService.buildFullPath(article.getId()));
 
-        return postDTO;
+        return articleDTO;
     }
 
     @Override
-    public PostSimpleDTO getSimpleById(Integer postId) {
-        Post post = postMapper.selectById(postId);
-        PostSimpleDTO result = PostConvert.INSTANCE.convertSimpleDTO(post);
-        result.setFullPath(settingService.buildFullPath(post.getId()));
+    public ArticleSimpleDTO getSimpleById(Integer postId) {
+        Article article = articleMapper.selectById(postId);
+        ArticleSimpleDTO result = ArticleConvert.INSTANCE.convertSimpleDTO(article);
+        result.setFullPath(settingService.buildFullPath(article.getId()));
         return result;
     }
 
@@ -505,6 +500,7 @@ public class PostServiceImpl implements PostService {
         Matcher matcher = summaryPattern.matcher(text);
         text = matcher.replaceAll("");
 
+        // 给默认值
         int summaryLength = Integer.parseInt(String.valueOf(settingService.get("post_summary_length")));
 
         return StringUtils.substring(text, 0, summaryLength);
@@ -514,11 +510,11 @@ public class PostServiceImpl implements PostService {
     @Override
     public List<ArchiveYearVO> listYearArchives() {
 
-        List<Post> posts = postMapper.selectListByStatus(PostStatus.PUBLISHED);
+        List<Article> articles = articleMapper.selectListByStatus(ArticleStatus.PUBLISHED);
 
-        Map<Integer, List<PostSimpleDTO>> yearPostMap = new HashMap<>(8);
+        Map<Integer, List<ArticleSimpleDTO>> yearPostMap = new HashMap<>(8);
 
-        List<PostSimpleDTO> postSimples = PostConvert.INSTANCE.convertToSimpleDTO(posts);
+        List<ArticleSimpleDTO> postSimples = ArticleConvert.INSTANCE.convertToSimpleDTO(articles);
 
 
         postSimples.forEach(post -> {
@@ -545,11 +541,11 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public List<ArchiveMonthVO> listMonthArchives() {
-        List<Post> posts = postMapper.selectListByStatus(PostStatus.PUBLISHED);
+        List<Article> articles = articleMapper.selectListByStatus(ArticleStatus.PUBLISHED);
 
-        List<PostSimpleDTO> postSimples = PostConvert.INSTANCE.convertToSimpleDTO(posts);
+        List<ArticleSimpleDTO> postSimples = ArticleConvert.INSTANCE.convertToSimpleDTO(articles);
 
-        Map<Integer, Map<Integer, List<PostSimpleDTO>>> yearMonthPostMap = new HashMap<>(8);
+        Map<Integer, Map<Integer, List<ArticleSimpleDTO>>> yearMonthPostMap = new HashMap<>(8);
 
         postSimples.forEach(post -> {
             LocalDateTime createTime = post.getCreateTime();
@@ -586,16 +582,16 @@ public class PostServiceImpl implements PostService {
             // 原始内容
             String originalContent = HaloUtils.cleanHtmlTag(markdown);
 
-            Post post = new Post();
-            post.setTitle(String.valueOf(LocalDateTime.now()));
-            post.setSlug(String.valueOf(LocalDateTime.now()));
-            post.setSummary(generateSummary(MarkdownUtils.renderHtml(originalContent)));
-            post.setWordCount(htmlFormatWordCount(originalContent));
-            post.setStatus(PostStatus.DRAFT.getValue());
+            Article article = new Article();
+            article.setTitle(String.valueOf(LocalDateTime.now()));
+            article.setSlug(String.valueOf(LocalDateTime.now()));
+            article.setSummary(generateSummary(MarkdownUtils.renderHtml(originalContent)));
+            article.setWordCount(htmlFormatWordCount(originalContent));
+            article.setStatus(ArticleStatus.DRAFT.getValue());
 
-            postMapper.insert(post);
+            articleMapper.insert(article);
 
-            Integer id = post.getId();
+            Integer id = article.getId();
 
             Content content = new Content();
             content.setPostId(id);
@@ -614,9 +610,9 @@ public class PostServiceImpl implements PostService {
 
 
     @Override
-    public List<PostSimpleDTO> listSimple(int top) {
-        List<Post> posts = postMapper.selectListLatest(top);
-        List<PostSimpleDTO> result = PostConvert.INSTANCE.convertToSimpleDTO(posts);
+    public List<ArticleSimpleDTO> listSimple(int top) {
+        List<Article> articles = articleMapper.selectListLatest(top);
+        List<ArticleSimpleDTO> result = ArticleConvert.INSTANCE.convertToSimpleDTO(articles);
         result.forEach(item -> item.setFullPath(settingService.buildFullPath(item.getId())));
         return result;
     }

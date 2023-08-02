@@ -4,13 +4,13 @@ import com.qinweizhao.blog.exception.ForbiddenException;
 import com.qinweizhao.blog.exception.NotFoundException;
 import com.qinweizhao.blog.framework.cache.AbstractStringCacheStore;
 import com.qinweizhao.blog.model.core.PageResult;
-import com.qinweizhao.blog.model.dto.PostDTO;
-import com.qinweizhao.blog.model.dto.PostListDTO;
+import com.qinweizhao.blog.model.dto.ArticleDTO;
+import com.qinweizhao.blog.model.dto.ArticleListDTO;
 import com.qinweizhao.blog.model.dto.TagDTO;
-import com.qinweizhao.blog.model.enums.PostStatus;
-import com.qinweizhao.blog.model.param.PostQueryParam;
+import com.qinweizhao.blog.model.enums.ArticleStatus;
+import com.qinweizhao.blog.model.param.ArticleQueryParam;
 import com.qinweizhao.blog.service.SettingService;
-import com.qinweizhao.blog.service.PostService;
+import com.qinweizhao.blog.service.ArticleService;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
@@ -27,9 +27,9 @@ import java.util.stream.Collectors;
  */
 @Component
 @AllArgsConstructor
-public class PostModel {
+public class ArticleModel {
 
-    private final PostService postService;
+    private final ArticleService articleService;
 
 
     private final SettingService settingService;
@@ -37,17 +37,17 @@ public class PostModel {
     private final AbstractStringCacheStore cacheStore;
 
 
-    public String content(Integer postId, PostStatus status, String token, Model model) {
+    public String content(Integer postId, ArticleStatus status, String token, Model model) {
 
-        if (PostStatus.RECYCLE.equals(status)) {
+        if (ArticleStatus.RECYCLE.equals(status)) {
             throw new NotFoundException("查询不到该文章的信息");
         }
 
-        if (PostStatus.DRAFT.equals(status) && StringUtils.isEmpty(token)) {
+        if (ArticleStatus.DRAFT.equals(status) && StringUtils.isEmpty(token)) {
             throw new NotFoundException("查询不到该文章的信息");
         }
 
-        if (PostStatus.DRAFT.equals(status) && StringUtils.isNotEmpty(token)) {
+        if (ArticleStatus.DRAFT.equals(status) && StringUtils.isNotEmpty(token)) {
             // 验证 token
             String cachedToken = cacheStore.getAny(token, String.class).orElseThrow(() -> new ForbiddenException("您没有该文章的访问权限"));
             if (!cachedToken.equals(token)) {
@@ -55,10 +55,10 @@ public class PostModel {
             }
         }
 
-        PostDTO post = postService.getById(postId);
+        ArticleDTO post = articleService.getById(postId);
 
-        model.addAttribute("prevPost", postService.getPrevPost(postId));
-        model.addAttribute("nextPost", postService.getNextPost(postId));
+        model.addAttribute("prevPost", articleService.getPrevPost(postId));
+        model.addAttribute("nextPost", articleService.getNextPost(postId));
 
         String metaKeywords;
 
@@ -74,7 +74,7 @@ public class PostModel {
         if (StringUtils.isNotEmpty(post.getMetaDescription())) {
             metaDescription = post.getMetaDescription();
         } else {
-            metaDescription = postService.generateDescription(post.getFormatContent());
+            metaDescription = articleService.generateDescription(post.getFormatContent());
         }
 
         model.addAttribute("meta_keywords", metaKeywords);
@@ -84,7 +84,7 @@ public class PostModel {
         model.addAttribute("post", post);
 
         // 发送事件
-        postService.publishVisitEvent(post.getId());
+        articleService.publishVisitEvent(post.getId());
 
         return settingService.render("post");
     }
@@ -92,10 +92,10 @@ public class PostModel {
     public String list(Integer page, Model model) {
         int pageSize = settingService.getPostPageSize();
 
-        PostQueryParam param = new PostQueryParam();
+        ArticleQueryParam param = new ArticleQueryParam();
         param.setSize(pageSize);
         param.setPage(page);
-        PageResult<PostListDTO> posts = postService.page(param);
+        PageResult<ArticleListDTO> posts = articleService.page(param);
 
         model.addAttribute("is_index", true);
         model.addAttribute("posts", posts);

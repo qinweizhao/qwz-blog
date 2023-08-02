@@ -1,6 +1,6 @@
 package com.qinweizhao.blog.model.dto;
 
-import com.qinweizhao.blog.model.enums.PostStatus;
+import com.qinweizhao.blog.model.enums.ArticleStatus;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -11,13 +11,13 @@ import java.util.List;
  * @since 2022-08-07
  */
 @Data
-public class PostSimpleDTO {
+public class ArticleSimpleDTO {
 
     private Integer id;
 
     private String title;
 
-    private PostStatus status;
+    private ArticleStatus status;
 
     private String metaKeywords;
 
@@ -34,8 +34,6 @@ public class PostSimpleDTO {
     private Boolean disallowComment;
 
     private Integer topPriority;
-
-    private Long likes;
 
     private LocalDateTime createTime;
 
