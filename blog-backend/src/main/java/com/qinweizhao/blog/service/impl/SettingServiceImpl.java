@@ -117,7 +117,8 @@ public class SettingServiceImpl implements SettingService {
     @Override
     public int getPostPageSize() {
         try {
-            return Integer.parseInt(String.valueOf(this.get("post_index_page_size")));
+            Object postIndexPageSize = this.get("post_index_page_size");
+            return Integer.parseInt(String.valueOf(postIndexPageSize == null ? 10 : postIndexPageSize));
         } catch (NumberFormatException e) {
             log.error("配置不是数字格式", e);
             return DEFAULT_POST_PAGE_SIZE;
