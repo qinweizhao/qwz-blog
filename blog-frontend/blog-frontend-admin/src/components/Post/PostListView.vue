@@ -517,7 +517,7 @@ export default {
     },
 
     handleEditClick(post) {
-      this.$router.push({ name: 'PostEdit', query: { postId: post.id } })
+      this.$router.push({ name: 'PostEdit', query: { articleId: post.id } })
     },
 
     onSelectionChange(selectedRowKeys) {
@@ -569,9 +569,9 @@ export default {
       this.handleQuery()
     },
 
-    async handleChangeStatus(postId, status) {
+    async handleChangeStatus(articleId, status) {
       try {
-        await postApi.updateStatus(postId, status)
+        await postApi.updateStatus(articleId, status)
         this.$message.success('操作成功！')
       } catch (e) {
         this.$log.error('Failed to change post status', e)
@@ -605,9 +605,9 @@ export default {
       })
     },
 
-    async handleDelete(postId) {
+    async handleDelete(articleId) {
       try {
-        await postApi.delete(postId)
+        await postApi.delete(articleId)
         this.$message.success('删除成功！')
       } catch (e) {
         this.$log.error('Failed to delete post', e)
@@ -653,8 +653,8 @@ export default {
         cancelText: '取消',
         onOk: async () => {
           try {
-            const postIds = this.list.data.map(post => post.id)
-            await postApi.deleteInBatch(postIds)
+            const articleIds = this.list.data.map(post => post.id)
+            await postApi.deleteInBatch(articleIds)
             this.$message.success('删除成功！')
           } catch (e) {
             this.$log.error('Failed to delete posts in batch', e)
@@ -684,8 +684,8 @@ export default {
       this.postCommentVisible = true
     },
 
-    handlePreview(postId) {
-      postApi.preview(postId).then(response => {
+    handlePreview(articleId) {
+      postApi.preview(articleId).then(response => {
         window.open(response.data.data, '_blank')
       })
     },

@@ -62,7 +62,7 @@
                           v-else-if="item.status === 'DRAFT'"
                           class="!p-0"
                           type="link"
-                          @click="handlePostPreview(item.id)"
+                          @click="handleArticlePreview(item.id)"
                         >
                           {{ item.title }}
                         </a-button>
@@ -189,8 +189,8 @@ export default {
           this.statisticsLoading = false
         })
     },
-    handlePostPreview(postId) {
-      postApi.preview(postId).then(response => {
+    handleArticlePreview(articleId) {
+      postApi.preview(articleId).then(response => {
         window.open(response.data.data, '_blank')
       })
     }

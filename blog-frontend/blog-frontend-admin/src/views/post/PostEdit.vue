@@ -63,10 +63,10 @@ export default {
   },
   beforeRouteEnter(to, from, next) {
     // Get post id from query
-    const postId = to.query.postId
+    const articleId = to.query.articleId
     next(async vm => {
-      if (postId) {
-        const { data } = await postApi.get(Number(postId))
+      if (articleId) {
+        const { data } = await postApi.get(Number(articleId))
         vm.postToStage = data.data
       }
     })
@@ -151,7 +151,7 @@ export default {
 
         // add params to url
         const path = this.$router.history.current.path
-        this.$router.push({ path, query: { postId: this.postToStage.id } }).catch(err => err)
+        this.$router.push({ path, query: { articleId: this.postToStage.id } }).catch(err => err)
 
         this.$message.success({
           content: '文章已创建',

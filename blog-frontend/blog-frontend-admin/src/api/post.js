@@ -22,9 +22,9 @@ postApi.query = params => {
   })
 }
 
-postApi.get = postId => {
+postApi.get = articleId => {
   return service({
-    url: `${baseUrl}/${postId}`,
+    url: `${baseUrl}/${articleId}`,
     method: 'get'
   })
 }
@@ -37,17 +37,17 @@ postApi.create = postToCreate => {
   })
 }
 
-postApi.update = (postId, postToUpdate) => {
+postApi.update = (articleId, postToUpdate) => {
   return service({
-    url: `${baseUrl}/${postId}`,
+    url: `${baseUrl}/${articleId}`,
     method: 'put',
     data: postToUpdate
   })
 }
 
-postApi.updateDraft = (postId, content) => {
+postApi.updateDraft = (articleId, content) => {
   return service({
-    url: `${baseUrl}/${postId}/status/draft/content`,
+    url: `${baseUrl}/${articleId}/status/draft/content`,
     method: 'put',
     data: {
       content: content
@@ -55,9 +55,9 @@ postApi.updateDraft = (postId, content) => {
   })
 }
 
-postApi.updateStatus = (postId, status) => {
+postApi.updateStatus = (articleId, status) => {
   return service({
-    url: `${baseUrl}/${postId}/status/${status}`,
+    url: `${baseUrl}/${articleId}/status/${status}`,
     method: 'put'
   })
 }
@@ -70,9 +70,9 @@ postApi.updateStatusInBatch = (ids, status) => {
   })
 }
 
-postApi.delete = postId => {
+postApi.delete = articleId => {
   return service({
-    url: `${baseUrl}/${postId}`,
+    url: `${baseUrl}/${articleId}`,
     method: 'delete'
   })
 }
@@ -85,9 +85,9 @@ postApi.deleteInBatch = ids => {
   })
 }
 
-postApi.preview = postId => {
+postApi.preview = articleId => {
   return service({
-    url: `${baseUrl}/preview/${postId}`,
+    url: `${baseUrl}/preview/${articleId}`,
     method: 'get'
   })
 }
