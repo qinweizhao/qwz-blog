@@ -30,7 +30,7 @@ public interface ArticleCategoryMapper extends BaseMapper<ArticleCategory> {
      * @param articleIds articleIds
      * @return List
      */
-    default List<ArticleCategory> selectListByarticleIds(Collection<Integer> articleIds) {
+    default List<ArticleCategory> selectlistByArticleIds(Collection<Integer> articleIds) {
         return this.selectList(new LambdaQueryWrapper<ArticleCategory>().in(ArticleCategory::getArticleId, articleIds));
     }
 

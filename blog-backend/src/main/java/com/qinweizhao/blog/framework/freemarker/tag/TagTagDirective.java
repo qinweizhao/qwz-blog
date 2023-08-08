@@ -48,7 +48,7 @@ public class TagTagDirective implements TemplateDirectiveModel {
                 case "list":
                     env.setVariable("tags", builder.build().wrap(tagService.list()));
                     break;
-                case "listByarticleId":
+                case "listByArticleId":
                     Integer articleId = Integer.parseInt(params.get("articleId").toString());
                     List<TagDTO> tags = articleTagService.listTagsByarticleId(articleId);
                     tags.forEach(item -> item.setFullPath(settingService.buildFullPath(articleId)));

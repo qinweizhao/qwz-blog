@@ -461,7 +461,7 @@ public class ArticleServiceImpl implements ArticleService {
 
         List<TagDTO> tags = articleTagService.listTagsByarticleId(article.getId());
 
-        List<CategoryDTO> categories = articleCategoryService.listByarticleId(article.getId());
+        List<CategoryDTO> categories = articleCategoryService.listByArticleId(article.getId());
 
         Content content = contentMapper.selectById(articleId);
         String originalContent = content.getOriginalContent();

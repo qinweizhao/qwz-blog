@@ -48,7 +48,7 @@ public class ArticleCategoryServiceImpl extends ServiceImpl<ArticleCategoryMappe
         }
 
         // 查询所有关联关系
-        List<ArticleCategory> postCategories = this.baseMapper.selectListByarticleIds(articleIds);
+        List<ArticleCategory> postCategories = this.baseMapper.selectlistByArticleIds(articleIds);
 
         // 获取分类 id
         Set<Integer> categoryIds = ServiceUtils.fetchProperty(postCategories, ArticleCategory::getCategoryId);
@@ -74,7 +74,7 @@ public class ArticleCategoryServiceImpl extends ServiceImpl<ArticleCategoryMappe
     }
 
     @Override
-    public List<CategoryDTO> listByarticleId(Integer articleId) {
+    public List<CategoryDTO> listByArticleId(Integer articleId) {
         Set<Integer> categoryIds = articleCategoryMapper.selectSetCategoryIdsByarticleId(articleId);
         List<Category> categories = categoryMapper.selectListByIds(categoryIds);
         List<CategoryDTO> result = CategoryConvert.INSTANCE.convertToDTO(categories);

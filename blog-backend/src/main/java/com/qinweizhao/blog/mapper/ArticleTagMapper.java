@@ -26,12 +26,12 @@ public interface ArticleTagMapper extends BaseMapper<ArticleTag> {
 
 
     /**
-     * listByarticleId
+     * listByArticleId
      *
      * @param articleIds articleIds
      * @return List
      */
-    default List<ArticleTag> listByarticleId(Collection<Integer> articleIds) {
+    default List<ArticleTag> listByArticleId(Collection<Integer> articleIds) {
         return this.selectList(new LambdaQueryWrapperX<ArticleTag>().in(ArticleTag::getArticleId, articleIds));
     }
 

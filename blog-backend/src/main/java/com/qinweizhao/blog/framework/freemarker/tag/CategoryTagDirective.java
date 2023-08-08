@@ -47,9 +47,9 @@ public class CategoryTagDirective implements TemplateDirectiveModel {
                 case "tree":
                     env.setVariable("categories", builder.build().wrap(categoryService.listAsTree()));
                     break;
-                case "listByarticleId":
+                case "listByArticleId":
                     Integer articleId = Integer.parseInt(params.get("articleId").toString());
-                    List<CategoryDTO> categories = articleCategoryService.listByarticleId(articleId);
+                    List<CategoryDTO> categories = articleCategoryService.listByArticleId(articleId);
                     env.setVariable("categories", builder.build().wrap(categories));
                     break;
                 case "count":

@@ -48,7 +48,7 @@ public class ArticleTagServiceImpl extends ServiceImpl<ArticleTagMapper, Article
         }
 
         // 查找所有帖子标签
-        List<ArticleTag> articleTags = articleTagMapper.listByarticleId(articleIds);
+        List<ArticleTag> articleTags = articleTagMapper.listByArticleId(articleIds);
 
         // Fetch tag ids
         Set<Integer> tagIds = ServiceUtils.fetchProperty(articleTags, ArticleTag::getTagId);

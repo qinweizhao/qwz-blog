@@ -32,7 +32,7 @@ public interface ArticleCategoryService extends IService<ArticleCategory> {
      * @param articleId articleId
      * @return List
      */
-    List<CategoryDTO> listByarticleId(Integer articleId);
+    List<CategoryDTO> listByArticleId(Integer articleId);
 
     /**
      * 列表
