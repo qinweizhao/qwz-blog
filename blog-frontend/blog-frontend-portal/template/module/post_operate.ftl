@@ -1,6 +1,6 @@
 <div class="joe_detail__operate">
   <div class="joe_detail__operate-tags">
-    <@tagTag method="listByPostId" postId="${post.id?c}">
+    <@tagTag method="listByArticleId" articleId="${post.id?c}">
       <#list tags as tag>
         <a href="${tag.fullPath!}">${tag.name!}</a>
       </#list>
