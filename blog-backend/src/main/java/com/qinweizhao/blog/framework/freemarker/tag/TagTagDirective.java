@@ -48,10 +48,10 @@ public class TagTagDirective implements TemplateDirectiveModel {
                 case "list":
                     env.setVariable("tags", builder.build().wrap(tagService.list()));
                     break;
-                case "listByPostId":
-                    Integer postId = Integer.parseInt(params.get("postId").toString());
-                    List<TagDTO> tags = articleTagService.listTagsByPostId(postId);
-                    tags.forEach(item -> item.setFullPath(settingService.buildFullPath(postId)));
+                case "listByarticleId":
+                    Integer articleId = Integer.parseInt(params.get("articleId").toString());
+                    List<TagDTO> tags = articleTagService.listTagsByarticleId(articleId);
+                    tags.forEach(item -> item.setFullPath(settingService.buildFullPath(articleId)));
                     env.setVariable("tags", builder.build().wrap(tags));
                     break;
                 case "count":

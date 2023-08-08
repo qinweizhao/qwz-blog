@@ -23,13 +23,13 @@
         group by ac.category_id
     </select>
 
-    <select id="selectSetCategoryIdsByPostId" resultType="java.lang.Integer">
+    <select id="selectSetCategoryIdsByarticleId" resultType="java.lang.Integer">
         select ac.category_id
         from article_category ac
-        where ac.article_id = #{postId}
+        where ac.article_id = #{articleId}
     </select>
 
-    <select id="selectSetPostIdByCategoryIdAndPostStatus" resultType="java.lang.Integer">
+    <select id="selectsetArticleIdByCategoryIdAndPostStatus" resultType="java.lang.Integer">
         select ac.article_id
         from article_category ac
                  left join

@@ -21,10 +21,10 @@ public interface ArticleTagService extends IService<ArticleTag> {
     /**
      * 按帖子 ID 列出标签列表映射
      *
-     * @param postIds post id collection
-     * @return tag map (key: postId, value: a list of tags)
+     * @param articleIds post id collection
+     * @return tag map (key: articleId, value: a list of tags)
      */
-    Map<Integer, List<TagDTO>> listTagListMapBy(Collection<Integer> postIds);
+    Map<Integer, List<TagDTO>> listTagListMapBy(Collection<Integer> articleIds);
 
     /**
      * 删除关联
@@ -37,10 +37,10 @@ public interface ArticleTagService extends IService<ArticleTag> {
     /**
      * 查询标签集合
      *
-     * @param postId postId
+     * @param articleId articleId
      * @return List
      */
-    List<TagDTO> listTagsByPostId(Integer postId);
+    List<TagDTO> listTagsByarticleId(Integer articleId);
 
     /**
      * 列表

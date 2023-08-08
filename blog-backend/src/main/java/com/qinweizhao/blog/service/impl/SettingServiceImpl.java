@@ -60,8 +60,8 @@ public class SettingServiceImpl implements SettingService {
 
 
     @Override
-    public String buildFullPath(Integer postId) {
-        return this.getBlogBaseUrl() + URL_SEPARATOR + SystemConstant.ARTICLE_PREFIX + URL_SEPARATOR + postId;
+    public String buildFullPath(Integer articleId) {
+        return this.getBlogBaseUrl() + URL_SEPARATOR + SystemConstant.ARTICLE_PREFIX + URL_SEPARATOR + articleId;
     }
 
 

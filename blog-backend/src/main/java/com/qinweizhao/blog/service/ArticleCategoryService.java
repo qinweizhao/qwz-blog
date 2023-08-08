@@ -21,18 +21,18 @@ public interface ArticleCategoryService extends IService<ArticleCategory> {
     /**
      * 按 id 集合列出类别列表图
      *
-     * @param postIds postIds
+     * @param articleIds articleIds
      * @return Map
      */
-    Map<Integer, List<CategoryDTO>> listCategoryListMap(Collection<Integer> postIds);
+    Map<Integer, List<CategoryDTO>> listCategoryListMap(Collection<Integer> articleIds);
 
     /**
      * 分类集合
      *
-     * @param postId postId
+     * @param articleId articleId
      * @return List
      */
-    List<CategoryDTO> listByPostId(Integer postId);
+    List<CategoryDTO> listByarticleId(Integer articleId);
 
     /**
      * 列表

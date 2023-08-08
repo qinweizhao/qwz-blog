@@ -60,12 +60,12 @@ public class ArticleController {
     /**
      * 详情
      *
-     * @param postId postId
+     * @param articleId articleId
      * @return PostDetailVO
      */
-    @GetMapping("{postId:\\d+}")
-    public ArticleDTO get(@PathVariable("postId") Integer postId) {
-        return articleService.getById(postId);
+    @GetMapping("{articleId:\\d+}")
+    public ArticleDTO get(@PathVariable("articleId") Integer articleId) {
+        return articleService.getById(articleId);
     }
 
     /**
@@ -82,25 +82,25 @@ public class ArticleController {
     /**
      * 更新
      *
-     * @param postId postId
+     * @param articleId articleId
      * @param param  param
      * @return Boolean
      */
-    @PutMapping("{postId:\\d+}")
-    public Boolean update(@PathVariable("postId") Integer postId, @Valid @RequestBody ArticleParam param) {
-        return articleService.update(postId, param);
+    @PutMapping("{articleId:\\d+}")
+    public Boolean update(@PathVariable("articleId") Integer articleId, @Valid @RequestBody ArticleParam param) {
+        return articleService.update(articleId, param);
     }
 
     /**
      * updateStatus
      *
-     * @param postId postId
+     * @param articleId articleId
      * @param status status
      * @return Boolean
      */
-    @PutMapping("{postId:\\d+}/status/{status}")
-    public Boolean updateStatusBy(@PathVariable("postId") Integer postId, @PathVariable("status") ArticleStatus status) {
-        return articleService.updateStatus(status, postId);
+    @PutMapping("{articleId:\\d+}/status/{status}")
+    public Boolean updateStatusBy(@PathVariable("articleId") Integer articleId, @PathVariable("status") ArticleStatus status) {
+        return articleService.updateStatus(status, articleId);
     }
 
     /**
@@ -118,24 +118,24 @@ public class ArticleController {
     /**
      * 更新草稿
      *
-     * @param postId       postId
+     * @param articleId       articleId
      * @param contentParam contentParam
      * @return Boolean
      */
-    @PutMapping("{postId:\\d+}/status/draft/content")
-    public Boolean updateDraftBy(@PathVariable("postId") Integer postId, @RequestBody ArticleContentParam contentParam) {
-        return articleService.updateDraftContent(contentParam.getContent(), postId);
+    @PutMapping("{articleId:\\d+}/status/draft/content")
+    public Boolean updateDraftBy(@PathVariable("articleId") Integer articleId, @RequestBody ArticleContentParam contentParam) {
+        return articleService.updateDraftContent(contentParam.getContent(), articleId);
     }
 
     /**
      * 删除
      *
-     * @param postId postId
+     * @param articleId articleId
      * @return Boolean
      */
-    @DeleteMapping("{postId:\\d+}")
-    public Boolean deletePermanently(@PathVariable("postId") Integer postId) {
-        return articleService.removeById(postId);
+    @DeleteMapping("{articleId:\\d+}")
+    public Boolean deletePermanently(@PathVariable("articleId") Integer articleId) {
+        return articleService.removeById(articleId);
     }
 
     /**
@@ -152,12 +152,12 @@ public class ArticleController {
     /**
      * 获取帖子预览链接
      *
-     * @param postId postId
+     * @param articleId articleId
      * @return String
      */
-    @GetMapping("preview/{postId:\\d+}")
-    public String preview(@PathVariable("postId") Integer postId) {
-        return articleService.getPreviewUrl(postId);
+    @GetMapping("preview/{articleId:\\d+}")
+    public String preview(@PathVariable("articleId") Integer articleId) {
+        return articleService.getPreviewUrl(articleId);
     }
 
     @PostMapping(value = "markdown/import")

@@ -108,12 +108,12 @@ public interface ArticleMapper extends BaseMapper<Article> {
      * 更新帖子状态
      *
      * @param status status
-     * @param postId postId
+     * @param articleId articleId
      * @return int
      */
-    default int updateStatusById(int status, Integer postId) {
+    default int updateStatusById(int status, Integer articleId) {
         Article article = new Article();
-        article.setId(postId);
+        article.setId(articleId);
         article.setStatus(status);
         return this.updateById(article);
     }
@@ -122,11 +122,11 @@ public interface ArticleMapper extends BaseMapper<Article> {
     /**
      * 查询列表
      *
-     * @param postIds postIds
+     * @param articleIds articleIds
      * @return List
      */
-    default List<Article> selectListByIds(Set<Integer> postIds) {
-        return selectList(new LambdaQueryWrapperX<Article>().inIfPresent(Article::getId, postIds));
+    default List<Article> selectListByIds(Set<Integer> articleIds) {
+        return selectList(new LambdaQueryWrapperX<Article>().inIfPresent(Article::getId, articleIds));
     }
 
     /**
@@ -152,28 +152,28 @@ public interface ArticleMapper extends BaseMapper<Article> {
     /**
      * 获取文章状态
      *
-     * @param postId postId
+     * @param articleId articleId
      * @return PostStatus
      */
-    ArticleStatus selectStatusById(Integer postId);
+    ArticleStatus selectStatusById(Integer articleId);
 
     /**
      * 查询下一个文章 id
      *
-     * @param postId postId
+     * @param articleId articleId
      * @param status status
      * @return Integer
      */
-    Integer selectNextIdByIdAndStatus(@Param("postId") Integer postId, @Param("status") ArticleStatus status);
+    Integer selectNextIdByIdAndStatus(@Param("articleId") Integer articleId, @Param("status") ArticleStatus status);
 
     /**
      * 查询上一个文章 id
      *
-     * @param postId postId
+     * @param articleId articleId
      * @param status status
      * @return Integer
      */
-    Integer selectPrevIdByIdAndStatus(@Param("postId") Integer postId, @Param("status") ArticleStatus status);
+    Integer selectPrevIdByIdAndStatus(@Param("articleId") Integer articleId, @Param("status") ArticleStatus status);
 
     /**
      * 查询 id

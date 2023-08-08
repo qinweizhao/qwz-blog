@@ -91,14 +91,14 @@
     <select id="selectNextIdByIdAndStatus" resultType="java.lang.Integer">
         select max(id)
         from article
-        where id &lt; #{postId}
+        where id &lt; #{articleId}
           and status = #{status}
     </select>
 
     <select id="selectPrevIdByIdAndStatus" resultType="java.lang.Integer">
         select min(id)
         from article
-        where id &gt; #{postId}
+        where id &gt; #{articleId}
           and status = #{status}
     </select>
 

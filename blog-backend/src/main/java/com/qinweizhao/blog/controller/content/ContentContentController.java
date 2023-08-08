@@ -98,8 +98,8 @@ public class ContentContentController {
         } else if (SystemConstant.ARTICLE_PREFIX.equals(prefix)) {
             ArticleStatus status;
             try {
-                int postId = Integer.parseInt(target);
-                status = articleService.getStatusById(postId);
+                int articleId = Integer.parseInt(target);
+                status = articleService.getStatusById(articleId);
                 Assert.notNull(status, "文章不存在");
             } catch (Exception e) {
                 throw new NotFoundException("Not Found");

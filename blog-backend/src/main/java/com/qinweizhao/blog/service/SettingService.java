@@ -68,10 +68,10 @@ public interface SettingService {
     /**
      * 构建完整路径
      *
-     * @param postId postId
+     * @param articleId articleId
      * @return String
      */
-    String buildFullPath(Integer postId);
+    String buildFullPath(Integer articleId);
 
     /**
      * @param configs configs

@@ -41,19 +41,19 @@ public interface ArticleService {
     /**
      * 详情
      *
-     * @param postId postId
+     * @param articleId articleId
      * @return PostDetailDTO
      */
-    ArticleDTO getById(Integer postId);
+    ArticleDTO getById(Integer articleId);
 
 
     /**
      * 详情
      *
-     * @param postId postId
+     * @param articleId articleId
      * @return PostDetailDTO
      */
-    ArticleSimpleDTO getSimpleById(Integer postId);
+    ArticleSimpleDTO getSimpleById(Integer articleId);
 
 
     /**
@@ -84,11 +84,11 @@ public interface ArticleService {
     /**
      * 更新
      *
-     * @param postId postId
+     * @param articleId articleId
      * @param param  param
      * @return boolean
      */
-    boolean update(Integer postId, ArticleParam param);
+    boolean update(Integer articleId, ArticleParam param);
 
     /**
      * 统计文章个数
@@ -108,44 +108,44 @@ public interface ArticleService {
     /**
      * 获取预览地址
      *
-     * @param postId postId
+     * @param articleId articleId
      * @return String
      */
-    String getPreviewUrl(Integer postId);
+    String getPreviewUrl(Integer articleId);
 
     /**
      * 删除
      *
-     * @param postId postId
+     * @param articleId articleId
      * @return boolean
      */
-    boolean removeById(Integer postId);
+    boolean removeById(Integer articleId);
 
     /**
      * 批量删除
      *
-     * @param postIds postIds
+     * @param articleIds articleIds
      * @return boolean
      */
-    boolean removeByIds(List<Integer> postIds);
+    boolean removeByIds(List<Integer> articleIds);
 
     /**
      * 更新草稿
      *
      * @param content content
-     * @param postId  postId
+     * @param articleId  articleId
      * @return boolean
      */
-    boolean updateDraftContent(String content, Integer postId);
+    boolean updateDraftContent(String content, Integer articleId);
 
     /**
      * 更新状态
      *
      * @param status status
-     * @param postId postId
+     * @param articleId articleId
      * @return boolean
      */
-    boolean updateStatus(ArticleStatus status, Integer postId);
+    boolean updateStatus(ArticleStatus status, Integer articleId);
 
     /**
      * 更新状态
@@ -159,26 +159,26 @@ public interface ArticleService {
     /**
      * 获取文章状态
      *
-     * @param postId postId
+     * @param articleId articleId
      * @return PostStatus
      */
-    ArticleStatus getStatusById(Integer postId);
+    ArticleStatus getStatusById(Integer articleId);
 
     /**
      * 获取上一个文章(发布状态)
      *
-     * @param postId postId
+     * @param articleId articleId
      * @return PostDTO
      */
-    ArticleDTO getPrevPost(Integer postId);
+    ArticleDTO getPrevPost(Integer articleId);
 
     /**
      * 获取下一个文章(发布状态)
      *
-     * @param postId postId
+     * @param articleId articleId
      * @return PostDTO
      */
-    ArticleDTO getNextPost(Integer postId);
+    ArticleDTO getNextPost(Integer articleId);
 
     /**
      * 统计个数
@@ -190,17 +190,17 @@ public interface ArticleService {
     /**
      * 增加访问量
      *
-     * @param postId postId
+     * @param articleId articleId
      * @return boolean
      */
-    boolean increaseVisit(Integer postId);
+    boolean increaseVisit(Integer articleId);
 
     /**
      * 发送访问事件
      *
-     * @param postId postId
+     * @param articleId articleId
      */
-    void publishVisitEvent(Integer postId);
+    void publishVisitEvent(Integer articleId);
 
     /**
      * 归档（Year）

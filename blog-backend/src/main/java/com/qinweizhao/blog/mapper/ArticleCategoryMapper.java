@@ -25,13 +25,13 @@ import java.util.Set;
 public interface ArticleCategoryMapper extends BaseMapper<ArticleCategory> {
 
     /**
-     * 通过 postId 集合查询关联
+     * 通过 articleId 集合查询关联
      *
-     * @param postIds postIds
+     * @param articleIds articleIds
      * @return List
      */
-    default List<ArticleCategory> selectListByPostIds(Collection<Integer> postIds) {
-        return this.selectList(new LambdaQueryWrapper<ArticleCategory>().in(ArticleCategory::getArticleId, postIds));
+    default List<ArticleCategory> selectListByarticleIds(Collection<Integer> articleIds) {
+        return this.selectList(new LambdaQueryWrapper<ArticleCategory>().in(ArticleCategory::getArticleId, articleIds));
     }
 
     /**
@@ -55,10 +55,10 @@ public interface ArticleCategoryMapper extends BaseMapper<ArticleCategory> {
     /**
      * 查询分类 id 集合
      *
-     * @param postId postId
+     * @param articleId articleId
      * @return Set
      */
-    Set<Integer> selectSetCategoryIdsByPostId(Integer postId);
+    Set<Integer> selectSetCategoryIdsByarticleId(Integer articleId);
 
 
     /**
@@ -68,26 +68,26 @@ public interface ArticleCategoryMapper extends BaseMapper<ArticleCategory> {
      * @param status     status
      * @return Set
      */
-    Set<Integer> selectSetPostIdByCategoryIdAndPostStatus(@Param("categoryId") Integer categoryId, @Param("status") ArticleStatus status);
+    Set<Integer> selectsetArticleIdByCategoryIdAndPostStatus(@Param("categoryId") Integer categoryId, @Param("status") ArticleStatus status);
 
     /**
      * 通过文章 Id 删除关联
      *
-     * @param postId postId
+     * @param articleId articleId
      * @return int
      */
-    default int deleteByPostId(Integer postId) {
-        return this.delete(new LambdaQueryWrapper<ArticleCategory>().eq(ArticleCategory::getArticleId, postId));
+    default int deleteByarticleId(Integer articleId) {
+        return this.delete(new LambdaQueryWrapper<ArticleCategory>().eq(ArticleCategory::getArticleId, articleId));
     }
 
     /**
      * 批量删除关联
      *
-     * @param postId            postId
+     * @param articleId            articleId
      * @param removeCategoryIds removeCategoryIds
      * @return int
      */
-    default int deleteBatchByPostIdAndTagIds(Integer postId, Collection<Integer> removeCategoryIds) {
-        return this.delete(new LambdaQueryWrapperX<ArticleCategory>().eq(ArticleCategory::getArticleId, postId).in(ArticleCategory::getCategoryId, removeCategoryIds));
+    default int deleteBatchByarticleIdAndTagIds(Integer articleId, Collection<Integer> removeCategoryIds) {
+        return this.delete(new LambdaQueryWrapperX<ArticleCategory>().eq(ArticleCategory::getArticleId, articleId).in(ArticleCategory::getCategoryId, removeCategoryIds));
     }
 }

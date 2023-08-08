@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 public class MetaDTO {
     private Long id;
 
-    private Integer postId;
+    private Integer articleId;
 
     private String key;
 

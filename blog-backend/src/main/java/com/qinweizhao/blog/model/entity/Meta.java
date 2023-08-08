@@ -21,7 +21,7 @@ public class Meta extends BaseEntity {
 
     private String metaKey;
 
-    private Integer postId;
+    private Integer articleId;
 
     private String metaValue;
 

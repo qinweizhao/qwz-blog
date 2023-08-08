@@ -23,13 +23,13 @@
         group by at.tag_id
     </select>
 
-    <select id="selectTagIdsByPostId" resultType="java.lang.Integer">
+    <select id="selectTagIdsByarticleId" resultType="java.lang.Integer">
         select at.tag_id
         from article_tag at
-        where at.article_id = #{postId}
+        where at.article_id = #{articleId}
     </select>
 
-    <select id="selectSetPostIdByTagIdAndPostStatus" resultType="java.lang.Integer">
+    <select id="selectsetArticleIdByTagIdAndPostStatus" resultType="java.lang.Integer">
         select at.article_id
         from article_tag at
                  left join

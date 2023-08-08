@@ -42,13 +42,13 @@ public class ArticleTagServiceImpl extends ServiceImpl<ArticleTagMapper, Article
 
 
     @Override
-    public Map<Integer, List<TagDTO>> listTagListMapBy(Collection<Integer> postIds) {
-        if (CollectionUtils.isEmpty(postIds)) {
+    public Map<Integer, List<TagDTO>> listTagListMapBy(Collection<Integer> articleIds) {
+        if (CollectionUtils.isEmpty(articleIds)) {
             return Collections.emptyMap();
         }
 
         // 查找所有帖子标签
-        List<ArticleTag> articleTags = articleTagMapper.listByPostId(postIds);
+        List<ArticleTag> articleTags = articleTagMapper.listByarticleId(articleIds);
 
         // Fetch tag ids
         Set<Integer> tagIds = ServiceUtils.fetchProperty(articleTags, ArticleTag::getTagId);
@@ -63,7 +63,7 @@ public class ArticleTagServiceImpl extends ServiceImpl<ArticleTagMapper, Article
 
         Map<Integer, List<TagDTO>> tagListMap = new LinkedHashMap<>();
 
-        articleTags.forEach(articleTag -> tagListMap.computeIfAbsent(articleTag.getArticleId(), postId -> new LinkedList<>()).add(tagMap.get(articleTag.getTagId())));
+        articleTags.forEach(articleTag -> tagListMap.computeIfAbsent(articleTag.getArticleId(), articleId -> new LinkedList<>()).add(tagMap.get(articleTag.getTagId())));
 
         return tagListMap;
     }
@@ -74,8 +74,8 @@ public class ArticleTagServiceImpl extends ServiceImpl<ArticleTagMapper, Article
     }
 
     @Override
-    public List<TagDTO> listTagsByPostId(Integer postId) {
-        Set<Integer> tagIds = articleTagMapper.selectTagIdsByPostId(postId);
+    public List<TagDTO> listTagsByarticleId(Integer articleId) {
+        Set<Integer> tagIds = articleTagMapper.selectTagIdsByarticleId(articleId);
         List<Tag> tags = tagMapper.selectListByIds(tagIds);
         return TagConvert.INSTANCE.convertToDTO(tags);
     }
@@ -83,9 +83,9 @@ public class ArticleTagServiceImpl extends ServiceImpl<ArticleTagMapper, Article
     @Override
     public List<ArticleSimpleDTO> listPostsByTagIdAndPostStatus(Integer tagId, ArticleStatus status) {
 
-        Set<Integer> postIds = articleTagMapper.selectSetPostIdByTagIdAndPostStatus(tagId, status);
+        Set<Integer> articleIds = articleTagMapper.selectsetArticleIdByTagIdAndPostStatus(tagId, status);
 
-        List<Article> articles = articleMapper.selectListByIds(postIds);
+        List<Article> articles = articleMapper.selectListByIds(articleIds);
         List<ArticleSimpleDTO> result = ArticleConvert.INSTANCE.convertToSimpleDTO(articles);
         result.forEach(item -> item.setFullPath(settingService.buildFullPath(item.getId())));
         return result;
@@ -94,9 +94,9 @@ public class ArticleTagServiceImpl extends ServiceImpl<ArticleTagMapper, Article
     @Override
     public List<ArticleSimpleDTO> listPostsByTagSlugAndPostStatus(String tagSlug, ArticleStatus status) {
         Tag tag = tagMapper.selectBySlug(tagSlug);
-        Set<Integer> postIds = articleTagMapper.selectSetPostIdByTagIdAndPostStatus(tag.getId(), status);
+        Set<Integer> articleIds = articleTagMapper.selectsetArticleIdByTagIdAndPostStatus(tag.getId(), status);
 
-        List<Article> articles = articleMapper.selectListByIds(postIds);
+        List<Article> articles = articleMapper.selectListByIds(articleIds);
         return ArticleConvert.INSTANCE.convertToSimpleDTO(articles);
     }
 

@@ -26,13 +26,13 @@ public interface ArticleTagMapper extends BaseMapper<ArticleTag> {
 
 
     /**
-     * listByPostId
+     * listByarticleId
      *
-     * @param postIds postIds
+     * @param articleIds articleIds
      * @return List
      */
-    default List<ArticleTag> listByPostId(Collection<Integer> postIds) {
-        return this.selectList(new LambdaQueryWrapperX<ArticleTag>().in(ArticleTag::getArticleId, postIds));
+    default List<ArticleTag> listByarticleId(Collection<Integer> articleIds) {
+        return this.selectList(new LambdaQueryWrapperX<ArticleTag>().in(ArticleTag::getArticleId, articleIds));
     }
 
     /**
@@ -53,12 +53,12 @@ public interface ArticleTagMapper extends BaseMapper<ArticleTag> {
     }
 
     /**
-     * 通过 postId 查询 tagId 集合
+     * 通过 articleId 查询 tagId 集合
      *
-     * @param postId postId
+     * @param articleId articleId
      * @return Set
      */
-    Set<Integer> selectTagIdsByPostId(Integer postId);
+    Set<Integer> selectTagIdsByarticleId(Integer articleId);
 
     /**
      * 查询 id 集合
@@ -67,26 +67,26 @@ public interface ArticleTagMapper extends BaseMapper<ArticleTag> {
      * @param status status
      * @return Set
      */
-    Set<Integer> selectSetPostIdByTagIdAndPostStatus(@Param("tagId") Integer tagId, @Param("status") ArticleStatus status);
+    Set<Integer> selectsetArticleIdByTagIdAndPostStatus(@Param("tagId") Integer tagId, @Param("status") ArticleStatus status);
 
     /**
      * 通过文章 id 删除关联
      *
-     * @param postId postId
+     * @param articleId articleId
      * @return boolean
      */
-    default int deleteByPostId(Integer postId) {
-        return this.delete(new LambdaQueryWrapper<ArticleTag>().eq(ArticleTag::getArticleId, postId));
+    default int deleteByarticleId(Integer articleId) {
+        return this.delete(new LambdaQueryWrapper<ArticleTag>().eq(ArticleTag::getArticleId, articleId));
     }
 
     /**
      * 批量删除关联
      *
-     * @param postId       postId
+     * @param articleId       articleId
      * @param removeTagIds removeTagIds
      * @return int
      */
-    default int deleteBatchByPostIdAndTagIds(Integer postId, Collection<Integer> removeTagIds) {
-        return this.delete(new LambdaQueryWrapperX<ArticleTag>().eq(ArticleTag::getArticleId, postId).in(ArticleTag::getTagId, removeTagIds));
+    default int deleteBatchByarticleIdAndTagIds(Integer articleId, Collection<Integer> removeTagIds) {
+        return this.delete(new LambdaQueryWrapperX<ArticleTag>().eq(ArticleTag::getArticleId, articleId).in(ArticleTag::getTagId, removeTagIds));
     }
 }

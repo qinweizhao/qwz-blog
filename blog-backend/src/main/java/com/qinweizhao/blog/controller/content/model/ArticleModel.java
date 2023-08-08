@@ -37,7 +37,7 @@ public class ArticleModel {
     private final AbstractStringCacheStore cacheStore;
 
 
-    public String content(Integer postId, ArticleStatus status, String token, Model model) {
+    public String content(Integer articleId, ArticleStatus status, String token, Model model) {
 
         if (ArticleStatus.RECYCLE.equals(status)) {
             throw new NotFoundException("查询不到该文章的信息");
@@ -55,10 +55,10 @@ public class ArticleModel {
             }
         }
 
-        ArticleDTO post = articleService.getById(postId);
+        ArticleDTO post = articleService.getById(articleId);
 
-        model.addAttribute("prevPost", articleService.getPrevPost(postId));
-        model.addAttribute("nextPost", articleService.getNextPost(postId));
+        model.addAttribute("prevPost", articleService.getPrevPost(articleId));
+        model.addAttribute("nextPost", articleService.getNextPost(articleId));
 
         String metaKeywords;
 

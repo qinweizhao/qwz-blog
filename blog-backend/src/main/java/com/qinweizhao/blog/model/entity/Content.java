@@ -19,7 +19,7 @@ public class Content extends BaseEntity {
      * 文章编号
      */
     @TableId(value = "post_id")
-    private Integer postId;
+    private Integer articleId;
 
     /**
      * 内容

@@ -87,11 +87,11 @@ public class ArticleServiceImpl implements ArticleService {
         List<Article> pageContent = pageResult.getContent();
         List<ArticleSimpleDTO> posts = ArticleConvert.INSTANCE.convertToSimpleDTO(pageContent);
 
-        Set<Integer> postIds = ServiceUtils.fetchProperty(posts, ArticleSimpleDTO::getId);
+        Set<Integer> articleIds = ServiceUtils.fetchProperty(posts, ArticleSimpleDTO::getId);
 
 
-        Map<Integer, List<TagDTO>> tagListMap = articleTagService.listTagListMapBy(postIds);
-        Map<Integer, List<CategoryDTO>> categoryListMap = articleCategoryService.listCategoryListMap(postIds);
+        Map<Integer, List<TagDTO>> tagListMap = articleTagService.listTagListMapBy(articleIds);
+        Map<Integer, List<CategoryDTO>> categoryListMap = articleCategoryService.listCategoryListMap(articleIds);
 
         List<ArticleListDTO> collect = posts.stream().map(post -> {
             ArticleListDTO articleListDTO = ArticleConvert.INSTANCE.convertToListDTO(post);
@@ -110,9 +110,9 @@ public class ArticleServiceImpl implements ArticleService {
         List<Article> pageContent = pageResult.getContent();
         List<ArticleSimpleDTO> posts = ArticleConvert.INSTANCE.convertToSimpleDTO(pageContent);
 
-        Set<Integer> postIds = ServiceUtils.fetchProperty(posts, ArticleSimpleDTO::getId);
+        Set<Integer> articleIds = ServiceUtils.fetchProperty(posts, ArticleSimpleDTO::getId);
 
-        Map<Integer, List<CategoryDTO>> categoryListMap = articleCategoryService.listCategoryListMap(postIds);
+        Map<Integer, List<CategoryDTO>> categoryListMap = articleCategoryService.listCategoryListMap(articleIds);
 
         posts.forEach(post -> {
             post.setCategories(new ArrayList<>(Optional.ofNullable(categoryListMap.get(post.getId())).orElseGet(LinkedList::new)));
@@ -150,17 +150,17 @@ public class ArticleServiceImpl implements ArticleService {
         article.setWordCount(htmlFormatWordCount(originalContent));
 
         articleMapper.insert(article);
-        Integer postId = article.getId();
+        Integer articleId = article.getId();
 
         Content content = new Content();
         content.setOriginalContent(originalContent);
         content.setContent(MarkdownUtils.renderHtml(originalContent));
-        content.setPostId(postId);
+        content.setArticleId(articleId);
         contentMapper.insert(content);
 
-        this.savePostRelation(categoryIds, tagIds, postId);
+        this.savePostRelation(categoryIds, tagIds, articleId);
 
-        return postId;
+        return articleId;
     }
 
     /**
@@ -168,14 +168,14 @@ public class ArticleServiceImpl implements ArticleService {
      *
      * @param categoryIds categoryIds
      * @param tagIds      tagIds
-     * @param postId      postId
+     * @param articleId      articleId
      */
-    private void savePostRelation(Collection<Integer> categoryIds, Collection<Integer> tagIds, Integer postId) {
+    private void savePostRelation(Collection<Integer> categoryIds, Collection<Integer> tagIds, Integer articleId) {
         if (!CollectionUtils.isEmpty(categoryIds)) {
             // 保存 文章-分类 关联
             List<ArticleCategory> postCategories = categoryIds.stream().map(categoryId -> {
                 ArticleCategory articleCategory = new ArticleCategory();
-                articleCategory.setArticleId(postId);
+                articleCategory.setArticleId(articleId);
                 articleCategory.setCategoryId(categoryId);
                 return articleCategory;
             }).collect(Collectors.toList());
@@ -186,7 +186,7 @@ public class ArticleServiceImpl implements ArticleService {
             // 保存 文章-标签 关联
             List<ArticleTag> articleTags = tagIds.stream().map(tagId -> {
                 ArticleTag articleTag = new ArticleTag();
-                articleTag.setArticleId(postId);
+                articleTag.setArticleId(articleId);
                 articleTag.setTagId(tagId);
                 return articleTag;
             }).collect(Collectors.toList());
@@ -197,9 +197,9 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public boolean update(Integer postId, ArticleParam param) {
+    public boolean update(Integer articleId, ArticleParam param) {
         Article article = ArticleConvert.INSTANCE.convert(param);
-        article.setId(postId);
+        article.setId(articleId);
 
         this.slugMustNotExist(article);
 
@@ -214,32 +214,32 @@ public class ArticleServiceImpl implements ArticleService {
 
         String originalContent = param.getOriginalContent();
         Content content = new Content();
-        content.setPostId(postId);
+        content.setArticleId(articleId);
         content.setOriginalContent(originalContent);
         content.setContent(MarkdownUtils.renderHtml(originalContent));
         contentMapper.updateById(content);
 
         // 标签
         Set<Integer> tagIds = CollUtil.emptyIfNull(param.getTagIds());
-        Set<Integer> dbTagIds = articleTagMapper.selectTagIdsByPostId(postId);
+        Set<Integer> dbTagIds = articleTagMapper.selectTagIdsByarticleId(articleId);
         Collection<Integer> addTagIds = CollUtil.subtract(tagIds, dbTagIds);
         Collection<Integer> removeTagIds = CollUtil.subtract(dbTagIds, tagIds);
         if (!CollectionUtils.isEmpty(removeTagIds)) {
-            int i = articleTagMapper.deleteBatchByPostIdAndTagIds(postId, removeTagIds);
+            int i = articleTagMapper.deleteBatchByarticleIdAndTagIds(articleId, removeTagIds);
             log.debug("删除文章和标签关联记录{}条", i);
         }
 
         // 分类
         Set<Integer> categoryIds = CollUtil.emptyIfNull(param.getCategoryIds());
-        Set<Integer> dbCategoryIds = articleCategoryMapper.selectSetCategoryIdsByPostId(postId);
+        Set<Integer> dbCategoryIds = articleCategoryMapper.selectSetCategoryIdsByarticleId(articleId);
         Collection<Integer> addCategoryIds = CollUtil.subtract(categoryIds, dbCategoryIds);
         Collection<Integer> removeCategoryIds = CollUtil.subtract(dbCategoryIds, categoryIds);
         if (!CollectionUtils.isEmpty(removeCategoryIds)) {
-            int i = articleCategoryMapper.deleteBatchByPostIdAndTagIds(postId, removeCategoryIds);
+            int i = articleCategoryMapper.deleteBatchByarticleIdAndTagIds(articleId, removeCategoryIds);
             log.debug("删除文章和分类关联记录{}条", i);
         }
 
-        this.savePostRelation(addCategoryIds, addTagIds, postId);
+        this.savePostRelation(addCategoryIds, addTagIds, articleId);
         return true;
     }
 
@@ -314,55 +314,55 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public String getPreviewUrl(Integer postId) {
+    public String getPreviewUrl(Integer articleId) {
         String token = IdUtil.simpleUUID();
 
         // 缓存预览文章(草稿状态)携带的 token
         cacheStore.putAny(token, token, 10, TimeUnit.MINUTES);
 
 
-        return settingService.buildFullPath(postId) + "?token=" + token;
+        return settingService.buildFullPath(articleId) + "?token=" + token;
     }
 
     @Override
     @Transactional
-    public boolean removeById(Integer postId) {
-        Assert.notNull(postId, "文章编号不能为空");
+    public boolean removeById(Integer articleId) {
+        Assert.notNull(articleId, "文章编号不能为空");
 
         // 标签
-        int i1 = articleTagMapper.deleteByPostId(postId);
+        int i1 = articleTagMapper.deleteByarticleId(articleId);
         // 分类
-        int i2 = articleCategoryMapper.deleteByPostId(postId);
+        int i2 = articleCategoryMapper.deleteByarticleId(articleId);
 
 
         log.debug("删除和标签关联{}条，和分类{}条。", i1, i2);
 
-        int i = contentMapper.deleteById(postId);
+        int i = contentMapper.deleteById(articleId);
 
         log.debug("删除文章内容{}条", i);
 
-        return articleMapper.deleteById(postId) > 0;
+        return articleMapper.deleteById(articleId) > 0;
     }
 
     @Override
-    public boolean removeByIds(List<Integer> postIds) {
+    public boolean removeByIds(List<Integer> articleIds) {
 
-        if (CollectionUtils.isEmpty(postIds)) {
+        if (CollectionUtils.isEmpty(articleIds)) {
             return false;
         }
 
-        postIds.forEach(this::removeById);
+        articleIds.forEach(this::removeById);
 
         return true;
     }
 
     @Override
-    public boolean updateDraftContent(String newContent, Integer postId) {
+    public boolean updateDraftContent(String newContent, Integer articleId) {
         if (newContent == null) {
             newContent = "";
         }
 
-        Content content = contentMapper.selectById(postId);
+        Content content = contentMapper.selectById(articleId);
 
 
         if (StringUtils.equals(newContent, content.getOriginalContent())) {
@@ -370,36 +370,36 @@ public class ArticleServiceImpl implements ArticleService {
         }
         Content updateContent = new Content();
         updateContent.setOriginalContent(newContent);
-        updateContent.setPostId(postId);
+        updateContent.setArticleId(articleId);
         return contentMapper.updateById(updateContent) != 1;
     }
 
 
     @Override
-    public boolean updateStatus(ArticleStatus status, Integer postId) {
-        Article article = articleMapper.selectById(postId);
+    public boolean updateStatus(ArticleStatus status, Integer articleId) {
+        Article article = articleMapper.selectById(articleId);
 
         if (!(status.getValue().equals(article.getStatus()))) {
 
-            int updatedRows = articleMapper.updateStatusById(status.getValue(), postId);
+            int updatedRows = articleMapper.updateStatusById(status.getValue(), articleId);
             if (updatedRows != 1) {
-                throw new ServiceException("无法更新状态,id ： " + postId);
+                throw new ServiceException("无法更新状态,id ： " + articleId);
             }
         }
 
         // 同步内容
         if (ArticleStatus.PUBLISHED.equals(status)) {
             // 如果发布此帖子，则转换格式化内容
-            Content content = contentMapper.selectById(postId);
+            Content content = contentMapper.selectById(articleId);
             String formatContent = MarkdownUtils.renderHtml(content.getContent());
 
             Content updateContent = new Content();
-            updateContent.setPostId(postId);
+            updateContent.setArticleId(articleId);
             updateContent.setContent(formatContent);
             int updatedRows = contentMapper.updateById(updateContent);
 
             if (updatedRows != 1) {
-                throw new ServiceException("无法更新帖子格式内容，id: " + postId);
+                throw new ServiceException("无法更新帖子格式内容，id: " + articleId);
             }
         }
 
@@ -413,13 +413,13 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public ArticleStatus getStatusById(Integer postId) {
-        return articleMapper.selectStatusById(postId);
+    public ArticleStatus getStatusById(Integer articleId) {
+        return articleMapper.selectStatusById(articleId);
     }
 
     @Override
-    public ArticleDTO getPrevPost(Integer postId) {
-        Integer id = articleMapper.selectPrevIdByIdAndStatus(postId, ArticleStatus.PUBLISHED);
+    public ArticleDTO getPrevPost(Integer articleId) {
+        Integer id = articleMapper.selectPrevIdByIdAndStatus(articleId, ArticleStatus.PUBLISHED);
         if (ObjectUtils.isEmpty(id)) {
             return null;
         }
@@ -427,8 +427,8 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public ArticleDTO getNextPost(Integer postId) {
-        Integer id = articleMapper.selectNextIdByIdAndStatus(postId, ArticleStatus.PUBLISHED);
+    public ArticleDTO getNextPost(Integer articleId) {
+        Integer id = articleMapper.selectNextIdByIdAndStatus(articleId, ArticleStatus.PUBLISHED);
         if (ObjectUtils.isEmpty(id)) {
             return null;
         }
@@ -441,29 +441,29 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public boolean increaseVisit(Integer postId) {
-        Article article = articleMapper.selectById(postId);
+    public boolean increaseVisit(Integer articleId) {
+        Article article = articleMapper.selectById(articleId);
         article.setVisits(article.getVisits() + 1);
         return articleMapper.updateById(article) > 0;
     }
 
     @Override
-    public void publishVisitEvent(Integer postId) {
-        eventPublisher.publishEvent(new PostVisitEvent(this, postId));
+    public void publishVisitEvent(Integer articleId) {
+        eventPublisher.publishEvent(new PostVisitEvent(this, articleId));
     }
 
     @Override
-    public ArticleDTO getById(Integer postId) {
+    public ArticleDTO getById(Integer articleId) {
 
-        Article article = articleMapper.selectById(postId);
+        Article article = articleMapper.selectById(articleId);
 
         ArticleDTO articleDTO = ArticleConvert.INSTANCE.convert(article);
 
-        List<TagDTO> tags = articleTagService.listTagsByPostId(article.getId());
+        List<TagDTO> tags = articleTagService.listTagsByarticleId(article.getId());
 
-        List<CategoryDTO> categories = articleCategoryService.listByPostId(article.getId());
+        List<CategoryDTO> categories = articleCategoryService.listByarticleId(article.getId());
 
-        Content content = contentMapper.selectById(postId);
+        Content content = contentMapper.selectById(articleId);
         String originalContent = content.getOriginalContent();
         articleDTO.setFormatContent(content.getContent());
         articleDTO.setOriginalContent(originalContent);
@@ -485,8 +485,8 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public ArticleSimpleDTO getSimpleById(Integer postId) {
-        Article article = articleMapper.selectById(postId);
+    public ArticleSimpleDTO getSimpleById(Integer articleId) {
+        Article article = articleMapper.selectById(articleId);
         ArticleSimpleDTO result = ArticleConvert.INSTANCE.convertSimpleDTO(article);
         result.setFullPath(settingService.buildFullPath(article.getId()));
         return result;
@@ -594,7 +594,7 @@ public class ArticleServiceImpl implements ArticleService {
             Integer id = article.getId();
 
             Content content = new Content();
-            content.setPostId(id);
+            content.setArticleId(id);
             content.setContent(MarkdownUtils.renderHtml(originalContent));
             content.setOriginalContent(originalContent);
 
