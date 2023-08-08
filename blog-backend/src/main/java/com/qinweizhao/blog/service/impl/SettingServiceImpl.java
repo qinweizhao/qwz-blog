@@ -66,29 +66,7 @@ public class SettingServiceImpl implements SettingService {
 
 
     @Override
-    public @NotNull Map<String, Object> getMap() {
-        return cacheStore.getAny(OPTIONS_KEY, Map.class).orElseGet(() -> {
-            List<Setting> settings = configMapper.selectList(Wrappers.emptyWrapper());
-
-            Map<String, String> result = settings.stream().collect(Collectors.toMap(Setting::getSettingKey, Setting::getSettingValue));
-
-            // 补充博客地址属性
-            result.put("blog_url", this.getBlogBaseUrl());
-            cacheStore.putAny(OPTIONS_KEY, result);
-
-            return result;
-        });
-    }
-
-    @Override
     public Map<String, Object> getMap(List<String> keys) {
-//        if (ObjectUtils.isEmpty(keys) && !ObjectUtils.isEmpty(type)) {
-//            if (ConfigType.ADMIN.equals(type)) {
-//                return this.getMap();
-//            } else if (ConfigType.PORTAL.equals(type)) {
-//                return this.getSettings();
-//            }
-//        }
         return this.listOptions(keys);
     }
 
@@ -98,7 +76,7 @@ public class SettingServiceImpl implements SettingService {
             return Collections.emptyMap();
         }
 
-        Map<String, Object> optionMap = getMap();
+        Map<String, Object> optionMap = getSettings();
 
         Map<String, Object> result = new HashMap<>(keys.size());
 
@@ -110,7 +88,7 @@ public class SettingServiceImpl implements SettingService {
 
     @Override
     public Object get(String key) {
-        return this.getMap().get(key);
+        return this.getSettings().get(key);
     }
 
 
@@ -262,46 +240,47 @@ public class SettingServiceImpl implements SettingService {
 
     @Override
     public Map<String, Object> getSettings() {
+        return cacheStore.getAny(OPTIONS_KEY, Map.class).orElseGet(() -> {
+            Map<String, Item> itemMap = getConfigItemMap();
 
-        Map<String, Item> itemMap = getConfigItemMap();
+            // 获取主题配置
+            List<Setting> themeSettings = configMapper.selectList(Wrappers.emptyWrapper());
 
-        // 获取主题配置
-        List<Setting> themeSettings = configMapper.selectList(Wrappers.emptyWrapper());
+            Map<String, Object> result = new LinkedHashMap<>();
 
-        Map<String, Object> result = new LinkedHashMap<>();
+            // 从用户定义的构建设置
+            themeSettings.forEach(themeSetting -> {
+                String key = themeSetting.getSettingKey();
 
-        // 从用户定义的构建设置
-        themeSettings.forEach(themeSetting -> {
-            String key = themeSetting.getSettingKey();
+                Item item = itemMap.get(key);
 
-            Item item = itemMap.get(key);
+                if (item == null) {
+                    return;
+                }
 
-            if (item == null) {
-                return;
-            }
+                Object convertedValue = item.getDataType().convertTo(themeSetting.getSettingValue());
+                log.debug("将用户定义的数据从 [{}] 转换为 [{}], 类型: [{}]", themeSetting.getSettingValue(), convertedValue, item.getDataType());
 
-            Object convertedValue = item.getDataType().convertTo(themeSetting.getSettingValue());
-            log.debug("将用户定义的数据从 [{}] 转换为 [{}], 类型: [{}]", themeSetting.getSettingValue(), convertedValue, item.getDataType());
+                result.put(key, convertedValue);
+            });
 
-            result.put(key, convertedValue);
+            // 从预定义的构建设置
+            itemMap.forEach((name, item) -> {
+                log.debug("Name: [{}], item: [{}]", name, item);
+
+                if (item.getDefaultValue() == null || result.containsKey(name)) {
+                    return;
+                }
+
+                // 设置默认值
+                Object convertedDefaultValue = item.getDataType().convertTo(item.getDefaultValue());
+                log.debug("将预定义数据来自 [{}] 转换为 [{}], 类型: [{}]", item.getDefaultValue(), convertedDefaultValue, item.getDataType());
+
+                result.put(name, convertedDefaultValue);
+            });
+
+            return result;
         });
-
-        // 从预定义的构建设置
-        itemMap.forEach((name, item) -> {
-            log.debug("Name: [{}], item: [{}]", name, item);
-
-            if (item.getDefaultValue() == null || result.containsKey(name)) {
-                return;
-            }
-
-            // 设置默认值
-            Object convertedDefaultValue = item.getDataType().convertTo(item.getDefaultValue());
-            log.debug("将预定义数据来自 [{}] 转换为 [{}], 类型: [{}]", item.getDefaultValue(), convertedDefaultValue, item.getDataType());
-
-            result.put(name, convertedDefaultValue);
-        });
-
-        return result;
     }
 
     /**

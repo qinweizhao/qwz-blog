@@ -45,7 +45,7 @@ public class SettingController {
      */
     @GetMapping("/map")
     public Map<String, Object> map(@RequestParam(required = false) List<String> keys) {
-        return settingService.getMap();
+        return settingService.getSettings();
     }
 
 

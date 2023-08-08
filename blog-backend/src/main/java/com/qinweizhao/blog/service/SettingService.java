@@ -79,14 +79,6 @@ public interface SettingService {
     void save(Map<String, Object> configs);
 
     /**
-     * Get all options
-     *
-     * @return Map
-     */
-    @Transactional(rollbackFor = Exception.class)
-    Map<String, Object> getMap();
-
-    /**
      * @param keys keys-
      * @return Map
      */
@@ -152,10 +144,11 @@ public interface SettingService {
 
 
     /**
-     * 列出主题设置（前台）
+     * 获取配置
      *
      * @return Map
      */
+    @Transactional(rollbackFor = Exception.class)
     Map<String, Object> getSettings();
 
 
