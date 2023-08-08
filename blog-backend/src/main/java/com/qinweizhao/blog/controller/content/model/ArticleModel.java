@@ -86,7 +86,7 @@ public class ArticleModel {
         // 发送事件
         articleService.publishVisitEvent(post.getId());
 
-        return settingService.render("post");
+        return settingService.render("article");
     }
 
     public String list(Integer page, Model model) {
