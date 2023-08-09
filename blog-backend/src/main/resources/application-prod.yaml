@@ -5,9 +5,9 @@ spring:
   datasource:
     # 数据库配置
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://43.142.101.91:3306/qwz-blog??useUnicode=true&characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai&zeroDateTimeBehavior=convertToNull
+    url: jdbc:mysql://43.142.101.91:3306/qwz-blog?useUnicode=true&characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai&zeroDateTimeBehavior=convertToNull
     username: root
-    password: 123456
+    password:
     type: com.zaxxer.hikari.HikariDataSource
     hikari:
       # 客户端等待连接池连接的最大毫秒数
@@ -31,7 +31,7 @@ logging:
 
 blog:
   # 例如：https://www.qinweizhao.com
-  blog-url: https://www.qinweizhao.com
+  blog-url: https://blog.qinweizhao.com
   theme-dir-name: blog-frontend-portal
   frontend-dir-name: frontend
   mode: PRODUCTION
