@@ -21,7 +21,7 @@ import java.util.Map;
  * @since 2018-04-26
  */
 @Component
-public class PostTagDirective implements TemplateDirectiveModel {
+public class ArticleTagDirective implements TemplateDirectiveModel {
 
     private final ArticleService articleService;
 
@@ -29,10 +29,10 @@ public class PostTagDirective implements TemplateDirectiveModel {
 
     private final ArticleCategoryService articleCategoryService;
 
-    public PostTagDirective(Configuration configuration,
-                            ArticleService articleService,
-                            ArticleTagService articleTagService,
-                            ArticleCategoryService articleCategoryService) {
+    public ArticleTagDirective(Configuration configuration,
+                               ArticleService articleService,
+                               ArticleTagService articleTagService,
+                               ArticleCategoryService articleCategoryService) {
         this.articleService = articleService;
         this.articleTagService = articleTagService;
         this.articleCategoryService = articleCategoryService;

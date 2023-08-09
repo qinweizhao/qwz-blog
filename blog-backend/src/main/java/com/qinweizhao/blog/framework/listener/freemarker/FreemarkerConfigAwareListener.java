@@ -72,7 +72,7 @@ public class FreemarkerConfigAwareListener {
         final String blogBaseUrl = settingService.getBlogBaseUrl();
         final String context = blogBaseUrl + "/";
 
-        configuration.setSharedVariable("options", settingService.getMap());
+        configuration.setSharedVariable("options", settingService.getSettings());
         configuration.setSharedVariable("context", context);
         configuration.setSharedVariable("version", BlogConst.HALO_VERSION);
         configuration.setSharedVariable("blog_title", settingService.get("blog_title"));
