@@ -2,6 +2,7 @@ import Vue from 'vue'
 import { OPTIONS } from '@/store/mutation-types'
 import settingApi from '@/api/setting'
 
+// todo
 const keys = `
   blog_url,
   developer_mode,
@@ -29,8 +30,6 @@ const config = {
         settingApi
           .getMap()
           .then(response => {
-            console.log("response.data.data")
-            console.log(response.data.data)
             commit('SET_OPTIONS', response.data.data)
             resolve(response)
           })
