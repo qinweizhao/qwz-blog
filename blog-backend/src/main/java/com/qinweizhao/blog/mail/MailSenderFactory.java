@@ -1,7 +1,6 @@
 package com.qinweizhao.blog.mail;
 
 import org.springframework.boot.autoconfigure.mail.MailProperties;
-import org.springframework.lang.NonNull;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.util.Assert;
@@ -22,8 +21,8 @@ public class MailSenderFactory {
      * @param mailProperties mail properties must not be null
      * @return java mail sender
      */
-    @NonNull
-    public JavaMailSender getMailSender(@NonNull MailProperties mailProperties) {
+
+    public JavaMailSender getMailSender(MailProperties mailProperties) {
         Assert.notNull(mailProperties, "邮件属性不能为空");
 
         // 创建邮件发件人
@@ -34,7 +33,7 @@ public class MailSenderFactory {
         return mailSender;
     }
 
-    private void setProperties(@NonNull JavaMailSenderImpl mailSender, @NonNull MailProperties mailProperties) {
+    private void setProperties(JavaMailSenderImpl mailSender, MailProperties mailProperties) {
         mailSender.setHost(mailProperties.getHost());
         mailSender.setPort(mailProperties.getPort());
         mailSender.setUsername(mailProperties.getUsername());
