@@ -40,7 +40,7 @@ import { PageView } from '@/layouts'
 import { postStatuses } from '@/core/constant'
 import { mixin, mixinDevice, mixinPostEdit } from '@/mixins/mixin.js'
 import { datetimeFormat } from '@/utils/datetime'
-import postApi from '@/api/post'
+import articleApi from '@/api/article'
 import debounce from 'lodash.debounce'
 
 export default {
@@ -66,7 +66,7 @@ export default {
     const articleId = to.query.articleId
     next(async vm => {
       if (articleId) {
-        const { data } = await postApi.get(Number(articleId))
+        const { data } = await articleApi.get(Number(articleId))
         vm.postToStage = data.data
       }
     })
@@ -119,7 +119,7 @@ export default {
     handleSaveDraft: debounce(async function () {
       if (this.postToStage.id) {
         try {
-          await postApi.updateDraft(
+          await articleApi.updateDraft(
             this.postToStage.id,
             this.postToStage.originalContent,
             this.postToStage.content,
@@ -144,7 +144,7 @@ export default {
       }
       // 创建文章
       try {
-        const { data } = await postApi.create(this.postToStage)
+        const { data } = await articleApi.create(this.postToStage)
         this.postToStage.id = data.data
         this.postToStage.status = postStatuses.DRAFT.value
         this.handleRestoreSavedStatus()
@@ -166,7 +166,7 @@ export default {
       this.previewSaving = true
       if (this.postToStage.id) {
         // Update the post content
-        await postApi.updateDraft(this.postToStage.id, this.postToStage.originalContent, this.postToStage.content, true)
+        await articleApi.updateDraft(this.postToStage.id, this.postToStage.originalContent, this.postToStage.content, true)
       } else {
         await this.handleCreatePost()
       }
@@ -175,7 +175,7 @@ export default {
 
     async handleOpenPreview() {
       try {
-        const response = await postApi.preview(this.postToStage.id)
+        const response = await articleApi.preview(this.postToStage.id)
         window.open(response.data.data, '_blank')
         this.handleRestoreSavedStatus()
       } catch (e) {

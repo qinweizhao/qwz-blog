@@ -164,7 +164,7 @@ import { mapGetters } from 'vuex'
 import { postStatuses } from '@/core/constant'
 
 // apis
-import postApi from '@/api/post'
+import articleApi from '@/api/article'
 
 export default {
   name: 'PostSettingModal',
@@ -279,9 +279,9 @@ export default {
       }
       try {
         if (this.hasId) {
-          await postApi.update(this.form.model.id, this.form.model)
+          await articleApi.update(this.form.model.id, this.form.model)
         } else {
-          await postApi.create(this.form.model)
+          await articleApi.create(this.form.model)
         }
       } catch (error) {
         this.$log.error(error)

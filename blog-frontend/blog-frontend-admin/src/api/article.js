@@ -1,10 +1,10 @@
 import service from '@/utils/service'
 
-const baseUrl = '/api/admin/post'
+const baseUrl = '/api/admin/article'
 
-const postApi = {}
+const articleApi = {}
 
-postApi.listLatest = top => {
+articleApi.listLatest = top => {
   return service({
     url: `${baseUrl}/latest`,
     params: {
@@ -14,7 +14,7 @@ postApi.listLatest = top => {
   })
 }
 
-postApi.query = params => {
+articleApi.query = params => {
   return service({
     url: baseUrl,
     params: params,
@@ -22,14 +22,14 @@ postApi.query = params => {
   })
 }
 
-postApi.get = articleId => {
+articleApi.get = articleId => {
   return service({
     url: `${baseUrl}/${articleId}`,
     method: 'get'
   })
 }
 
-postApi.create = postToCreate => {
+articleApi.create = postToCreate => {
   return service({
     url: baseUrl,
     method: 'post',
@@ -37,7 +37,7 @@ postApi.create = postToCreate => {
   })
 }
 
-postApi.update = (articleId, postToUpdate) => {
+articleApi.update = (articleId, postToUpdate) => {
   return service({
     url: `${baseUrl}/${articleId}`,
     method: 'put',
@@ -45,7 +45,7 @@ postApi.update = (articleId, postToUpdate) => {
   })
 }
 
-postApi.updateDraft = (articleId, content) => {
+articleApi.updateDraft = (articleId, content) => {
   return service({
     url: `${baseUrl}/${articleId}/status/draft/content`,
     method: 'put',
@@ -55,14 +55,14 @@ postApi.updateDraft = (articleId, content) => {
   })
 }
 
-postApi.updateStatus = (articleId, status) => {
+articleApi.updateStatus = (articleId, status) => {
   return service({
     url: `${baseUrl}/${articleId}/status/${status}`,
     method: 'put'
   })
 }
 
-postApi.updateStatusInBatch = (ids, status) => {
+articleApi.updateStatusInBatch = (ids, status) => {
   return service({
     url: `${baseUrl}/status/${status}`,
     data: ids,
@@ -70,14 +70,14 @@ postApi.updateStatusInBatch = (ids, status) => {
   })
 }
 
-postApi.delete = articleId => {
+articleApi.delete = articleId => {
   return service({
     url: `${baseUrl}/${articleId}`,
     method: 'delete'
   })
 }
 
-postApi.deleteInBatch = ids => {
+articleApi.deleteInBatch = ids => {
   return service({
     url: `${baseUrl}`,
     data: ids,
@@ -85,14 +85,14 @@ postApi.deleteInBatch = ids => {
   })
 }
 
-postApi.preview = articleId => {
+articleApi.preview = articleId => {
   return service({
     url: `${baseUrl}/preview/${articleId}`,
     method: 'get'
   })
 }
 
-postApi.importMarkdown = (formData, uploadProgress, cancelToken) => {
+articleApi.importMarkdown = (formData, uploadProgress, cancelToken) => {
   return service({
     url: `${baseUrl}/markdown/import`,
     timeout: 8640000, // 24 hours
@@ -103,7 +103,7 @@ postApi.importMarkdown = (formData, uploadProgress, cancelToken) => {
   })
 }
 
-postApi.postStatus = {
+articleApi.postStatus = {
   PUBLISHED: {
     value: 'PUBLISHED',
     color: 'green',
@@ -124,4 +124,4 @@ postApi.postStatus = {
   }
 }
 
-export default postApi
+export default articleApi

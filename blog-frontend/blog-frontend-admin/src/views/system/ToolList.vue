@@ -43,14 +43,14 @@
 import { PageView } from '@/layouts'
 
 import { mapGetters } from 'vuex'
-import postApi from '@/api/post'
+import articleApi from '@/api/article'
 
 export default {
   components: { PageView },
   data() {
     return {
       markdownUpload: false,
-      uploadHandler: (file, options) => postApi.importMarkdown(file, options)
+      uploadHandler: (file, options) => articleApi.importMarkdown(file, options)
     }
   },
   computed: {

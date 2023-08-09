@@ -108,7 +108,7 @@
 import { PageView } from '@/layouts'
 import AnalysisCard from './components/AnalysisCard'
 
-import postApi from '@/api/post'
+import articleApi from '@/api/article'
 import logApi from '@/api/log'
 import statisticsApi from '@/api/statistics'
 import { actionLogTypes } from '@/core/constant'
@@ -156,7 +156,7 @@ export default {
   methods: {
     handleListLatestPosts() {
       this.activityLoading = true
-      postApi
+      articleApi
         .listLatest(5)
         .then(response => {
           this.latestPosts = response.data.data
@@ -190,7 +190,7 @@ export default {
         })
     },
     handleArticlePreview(articleId) {
-      postApi.preview(articleId).then(response => {
+      articleApi.preview(articleId).then(response => {
         window.open(response.data.data, '_blank')
       })
     }

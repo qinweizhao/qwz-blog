@@ -387,7 +387,7 @@ import PostSettingModal from './PostSettingModal.vue'
 // libs
 import { mixinDevice } from '@/mixins/mixin.js'
 import { normalPostStatuses, postStatuses } from '@/core/constant'
-import postApi from '@/api/post'
+import articleApi from '@/api/article'
 import categoryApi from '@/api/category'
 
 export default {
@@ -486,7 +486,7 @@ export default {
         if (enableLoading) {
           this.list.loading = true
         }
-        const response = await postApi.query(this.list.params)
+        const response = await articleApi.query(this.list.params)
 
         this.list.data = response.data.data.content
         this.list.total = response.data.data.total
@@ -571,7 +571,7 @@ export default {
 
     async handleChangeStatus(articleId, status) {
       try {
-        await postApi.updateStatus(articleId, status)
+        await articleApi.updateStatus(articleId, status)
         this.$message.success('操作成功！')
       } catch (e) {
         this.$log.error('Failed to change post status', e)
@@ -593,7 +593,7 @@ export default {
         cancelText: '取消',
         onOk: async () => {
           try {
-            await postApi.updateStatusInBatch(this.selectedRowKeys, status)
+            await articleApi.updateStatusInBatch(this.selectedRowKeys, status)
             this.selectedRowKeys = []
             this.$message.success('操作成功！')
           } catch (e) {
@@ -607,7 +607,7 @@ export default {
 
     async handleDelete(articleId) {
       try {
-        await postApi.delete(articleId)
+        await articleApi.delete(articleId)
         this.$message.success('删除成功！')
       } catch (e) {
         this.$log.error('Failed to delete post', e)
@@ -629,7 +629,7 @@ export default {
         cancelText: '取消',
         onOk: async () => {
           try {
-            await postApi.deleteInBatch(this.selectedRowKeys)
+            await articleApi.deleteInBatch(this.selectedRowKeys)
             this.selectedRowKeys = []
             this.$message.success('删除成功！')
           } catch (e) {
@@ -654,7 +654,7 @@ export default {
         onOk: async () => {
           try {
             const articleIds = this.list.data.map(post => post.id)
-            await postApi.deleteInBatch(articleIds)
+            await articleApi.deleteInBatch(articleIds)
             this.$message.success('删除成功！')
           } catch (e) {
             this.$log.error('Failed to delete posts in batch', e)
@@ -670,7 +670,7 @@ export default {
         this.postSettingVisible = true
         this.postSettingLoading = true
 
-        const { data } = await postApi.get(post.id)
+        const { data } = await articleApi.get(post.id)
         this.list.selected = data.data
       } catch (e) {
         this.$log.error('Failed to open post settings', e)
@@ -685,7 +685,7 @@ export default {
     },
 
     handlePreview(articleId) {
-      postApi.preview(articleId).then(response => {
+      articleApi.preview(articleId).then(response => {
         window.open(response.data.data, '_blank')
       })
     },
@@ -707,7 +707,7 @@ export default {
       const index = this.list.data.findIndex(post => post.id === this.list.selected.id)
       if (index > 0) {
         this.postSettingLoading = true
-        const response = await postApi.get(this.list.data[index - 1].id)
+        const response = await articleApi.get(this.list.data[index - 1].id)
         this.list.selected = response.data.data
         this.postSettingLoading = false
         return
@@ -716,7 +716,7 @@ export default {
         this.list.params.page--
         await this.handleListPosts()
         this.postSettingLoading = true
-        const response = await postApi.get(this.list.data[this.list.data.length - 1].id)
+        const response = await articleApi.get(this.list.data[this.list.data.length - 1].id)
         this.list.selected = response.data.data
         this.postSettingLoading = false
       }
@@ -729,7 +729,7 @@ export default {
       const index = this.list.data.findIndex(post => post.id === this.list.selected.id)
       if (index < this.list.data.length - 1) {
         this.postSettingLoading = true
-        const response = await postApi.get(this.list.data[index + 1].id)
+        const response = await articleApi.get(this.list.data[index + 1].id)
         this.list.selected = response.data.data
         this.postSettingLoading = false
         return
@@ -739,7 +739,7 @@ export default {
         await this.handleListPosts()
 
         this.postSettingLoading = true
-        const response = await postApi.get(this.list.data[0].id)
+        const response = await articleApi.get(this.list.data[0].id)
         this.list.selected = response.data.data
         this.postSettingLoading = false
       }
