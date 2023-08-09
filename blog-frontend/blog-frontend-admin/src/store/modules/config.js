@@ -27,8 +27,10 @@ const config = {
     refreshOptionsCache({ commit }) {
       return new Promise((resolve, reject) => {
         settingApi
-          .getMap(keys)
+          .getMap()
           .then(response => {
+            console.log("response.data.data")
+            console.log(response.data.data)
             commit('SET_OPTIONS', response.data.data)
             resolve(response)
           })

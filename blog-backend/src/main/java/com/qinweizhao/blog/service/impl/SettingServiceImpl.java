@@ -279,6 +279,7 @@ public class SettingServiceImpl implements SettingService {
                 result.put(name, convertedDefaultValue);
             });
 
+            result.put("blog_url",getBlogBaseUrl());
             return result;
         });
     }
