@@ -8,7 +8,7 @@ import com.qinweizhao.blog.framework.event.config.ConfigUpdatedEvent;
 import com.qinweizhao.blog.framework.handler.theme.config.ThemeConfigResolver;
 import com.qinweizhao.blog.framework.handler.theme.config.support.Group;
 import com.qinweizhao.blog.framework.handler.theme.config.support.Item;
-import com.qinweizhao.blog.mapper.ConfigMapper;
+import com.qinweizhao.blog.mapper.SettingMapper;
 import com.qinweizhao.blog.model.constant.SystemConstant;
 import com.qinweizhao.blog.model.convert.SettingConvert;
 import com.qinweizhao.blog.model.core.PageResult;
@@ -28,14 +28,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;
 
-import javax.validation.constraints.NotNull;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
-import java.util.stream.Collectors;
 
 import static com.qinweizhao.blog.model.support.BlogConst.URL_SEPARATOR;
 
@@ -55,7 +53,7 @@ public class SettingServiceImpl implements SettingService {
     private final AbstractStringCacheStore cacheStore;
     private final ApplicationEventPublisher eventPublisher;
     private final MyBlogProperties myBlogProperties;
-    private final ConfigMapper configMapper;
+    private final SettingMapper settingMapper;
     private final ThemeConfigResolver themeConfigResolver;
 
 
@@ -123,7 +121,7 @@ public class SettingServiceImpl implements SettingService {
 
     @Override
     public PageResult<ConfigDTO> pageSimple(SettingQueryParam param) {
-        PageResult<Setting> page = configMapper.selectPage(param);
+        PageResult<Setting> page = settingMapper.selectPage(param);
         return SettingConvert.INSTANCE.convert(page);
     }
 
@@ -132,10 +130,10 @@ public class SettingServiceImpl implements SettingService {
         boolean flag = false;
         String key = param.getKey();
         String value = param.getValue();
-        Setting dbSetting = configMapper.selectByKey(key);
+        Setting dbSetting = settingMapper.selectByKey(key);
         if (ObjectUtils.isEmpty(dbSetting)) {
             Setting setting = SettingConvert.INSTANCE.convert(param);
-            configMapper.insert(setting);
+            settingMapper.insert(setting);
             this.publishOptionUpdatedEvent();
             flag = true;
         } else {
@@ -144,7 +142,7 @@ public class SettingServiceImpl implements SettingService {
             } else {
                 Setting setting = SettingConvert.INSTANCE.convert(param);
                 setting.setId(dbSetting.getId());
-                configMapper.updateById(setting);
+                settingMapper.updateById(setting);
             }
         }
         this.publishOptionUpdatedEvent();
@@ -154,7 +152,7 @@ public class SettingServiceImpl implements SettingService {
     @Override
     public boolean updateById(SettingParam param) {
         Setting setting = SettingConvert.INSTANCE.convert(param);
-        int flag = configMapper.updateById(setting);
+        int flag = settingMapper.updateById(setting);
         if (flag > 0) {
             this.publishOptionUpdatedEvent();
         }
@@ -163,7 +161,7 @@ public class SettingServiceImpl implements SettingService {
 
     @Override
     public boolean removeById(Integer optionId) {
-        int flag = configMapper.deleteById(optionId);
+        int flag = settingMapper.deleteById(optionId);
         if (flag > 0) {
             this.publishOptionUpdatedEvent();
         }
@@ -177,14 +175,14 @@ public class SettingServiceImpl implements SettingService {
         }
 
 
-        Map<String, Setting> optionKeyMap = ServiceUtils.convertToMap(configMapper.selectList(Wrappers.emptyWrapper()), Setting::getSettingKey);
+        Map<String, Setting> optionKeyMap = ServiceUtils.convertToMap(settingMapper.selectList(Wrappers.emptyWrapper()), Setting::getSettingKey);
 
         List<Setting> optionsToCreate = new LinkedList<>();
         List<Setting> optionsToUpdate = new LinkedList<>();
 
         configMap.forEach((key, value) -> {
             if (ObjectUtils.isEmpty(value)) {
-                int i = configMapper.deleteByKey(key);
+                int i = settingMapper.deleteByKey(key);
                 log.debug("删除配置，key 为：{}，结果是否成功{}", key, i > 0);
             }
 
@@ -205,9 +203,9 @@ public class SettingServiceImpl implements SettingService {
             }
         });
 
-        boolean updateFlag = configMapper.updateBatchById(optionsToUpdate);
+        boolean updateFlag = settingMapper.updateBatchById(optionsToUpdate);
 
-        boolean insertFlag = configMapper.insertBatch(optionsToCreate);
+        boolean insertFlag = settingMapper.insertBatch(optionsToCreate);
 
         log.debug("更新配置{}，新增配置{}", updateFlag, insertFlag);
 
@@ -244,7 +242,7 @@ public class SettingServiceImpl implements SettingService {
             Map<String, Item> itemMap = getConfigItemMap();
 
             // 获取主题配置
-            List<Setting> themeSettings = configMapper.selectList(Wrappers.emptyWrapper());
+            List<Setting> themeSettings = settingMapper.selectList(Wrappers.emptyWrapper());
 
             Map<String, Object> result = new LinkedHashMap<>();
 

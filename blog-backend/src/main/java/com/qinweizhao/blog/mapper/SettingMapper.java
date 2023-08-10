@@ -22,9 +22,9 @@ import java.util.List;
  * @since 2022/7/5
  */
 @Mapper
-public interface ConfigMapper extends BaseMapper<Setting> {
+public interface SettingMapper extends BaseMapper<Setting> {
 
-    Log log = LogFactory.getLog(ConfigMapper.class);
+    Log log = LogFactory.getLog(SettingMapper.class);
 
     /**
      * 通过 key 查询
@@ -66,7 +66,7 @@ public interface ConfigMapper extends BaseMapper<Setting> {
      */
     @SuppressWarnings("all")
     default boolean updateBatchById(List<Setting> options) {
-        String sqlStatement = SqlHelper.getSqlStatement(ConfigMapper.class, SqlMethod.UPDATE_BY_ID);
+        String sqlStatement = SqlHelper.getSqlStatement(SettingMapper.class, SqlMethod.UPDATE_BY_ID);
         return SqlHelper.executeBatch(Setting.class, log, options, 1000, (sqlSession, entity) -> {
             MapperMethod.ParamMap param = new MapperMethod.ParamMap();
             param.put("et", entity);
@@ -82,7 +82,7 @@ public interface ConfigMapper extends BaseMapper<Setting> {
      * @return int
      */
     default boolean insertBatch(List<Setting> options) {
-        String sqlStatement = SqlHelper.getSqlStatement(ConfigMapper.class, SqlMethod.INSERT_ONE);
+        String sqlStatement = SqlHelper.getSqlStatement(SettingMapper.class, SqlMethod.INSERT_ONE);
         return SqlHelper.executeBatch(Setting.class, log, options, 1000, (sqlSession, entity) -> sqlSession.insert(sqlStatement, entity));
     }
 
