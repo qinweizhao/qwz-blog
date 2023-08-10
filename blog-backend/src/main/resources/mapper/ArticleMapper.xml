@@ -6,7 +6,7 @@
     <resultMap id="BaseResultMap" type="com.qinweizhao.blog.model.entity.Article">
         <id column="id" property="id"/>
         <result column="disallow_comment" property="disallowComment"/>
-        <result column="meta_description" property="metaDescription"/>
+        <result column="meta_descriation" property="metaDescription"/>
         <result column="meta_keywords" property="metaKeywords"/>
         <result column="slug" property="slug"/>
         <result column="status" property="status"/>
@@ -23,48 +23,46 @@
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id
-        , disallow_comment, meta_description, meta_keywords, slug, status, summary, thumbnail, title, top_priority, visits, word_count, create_time, update_time
+        , disallow_comment, meta_descriation, meta_keywords, slug, status, summary, thumbnail, title, top_priority, visits, word_count, create_time, update_time
     </sql>
     <sql id="Base_Column_List_Plus">
-        p
-        .
-        id
-        , p.disallow_comment, p.meta_description, p.meta_keywords, p.slug, p.status, p.summary, p.thumbnail, p.title, p.top_priority, p.visits, p.word_count, p.create_time, p.update_time
+        a.id
+        , a.disallow_comment, a.meta_descriation, a.meta_keywords, a.slug, a.status, a.summary, a.thumbnail, a.title, a.top_priority, a.visits, a.word_count, a.create_time, a.update_time
     </sql>
 
     <select id="selectCountVisits" resultType="java.lang.Long">
-        select ifnull(sum(p.visits), 0)
-        from article p
+        select ifnull(sum(a.visits), 0)
+        from article a
     </select>
 
     <select id="selectPagePosts" resultType="com.qinweizhao.blog.model.entity.Article">
         select
         <include refid="Base_Column_List_Plus"/>
-        from article p
+        from article a
         <if test="param.categoryId != null and param.categoryId != ''">
-            left join article_category pc ON p.id = pc.post_id
+            left join article_category ac ON a.id = ac.article_id
         </if>
         <if test="param.tagId != null and param.tagId != ''">
-            left join article_tag pt ON p.id = pt.post_id
+            left join article_tag at ON a.id = at.article_id
         </if>
         <where>
             <if test="param.status != null">
-                and p.status = #{param.status}
+                and a.status = #{param.status}
             </if>
             <if test="param.excludeStatus != null and param.excludeStatus != ''">
-                and p.status != #{param.excludeStatus}
+                and a.status != #{param.excludeStatus}
             </if>
             <if test="param.keyword != null and param.keyword != ''">
-                and CONCAT(p.title,p.slug,p.summary) like concat('%', #{param.keyword}, '%')
+                and CONCAT(a.title,a.slug,a.summary) like concat('%', #{param.keyword}, '%')
             </if>
             <if test="param.categoryId != null and param.categoryId != ''">
-                and pc.category_id = #{param.categoryId}
+                and ac.category_id = #{param.categoryId}
             </if>
             <if test="param.tagId != null and param.tagId != ''">
-                and pt.tag_id = #{param.tagId}
+                and at.tag_id = #{param.tagId}
             </if>
         </where>
-        order by p.top_priority desc , p.create_time desc
+        order by a.top_priority desc , a.create_time desc
     </select>
 
     <select id="selectPageSimplePosts" resultType="com.qinweizhao.blog.model.entity.Article">
