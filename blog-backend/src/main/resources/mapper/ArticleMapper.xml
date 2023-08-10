@@ -42,10 +42,10 @@
         <include refid="Base_Column_List_Plus"/>
         from article p
         <if test="param.categoryId != null and param.categoryId != ''">
-            left join post_category pc ON p.id = pc.post_id
+            left join article_category pc ON p.id = pc.post_id
         </if>
         <if test="param.tagId != null and param.tagId != ''">
-            left join post_tag pt ON p.id = pt.post_id
+            left join article_tag pt ON p.id = pt.post_id
         </if>
         <where>
             <if test="param.status != null">
