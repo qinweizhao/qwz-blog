@@ -23,11 +23,11 @@
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id
-        , disallow_comment, meta_descriation, meta_keywords, slug, status, summary, thumbnail, title, top_priority, visits, word_count, create_time, update_time
+        , disallow_comment, meta_description, meta_keywords, slug, status, summary, thumbnail, title, top_priority, visits, word_count, create_time, update_time
     </sql>
     <sql id="Base_Column_List_Plus">
         a.id
-        , a.disallow_comment, a.meta_descriation, a.meta_keywords, a.slug, a.status, a.summary, a.thumbnail, a.title, a.top_priority, a.visits, a.word_count, a.create_time, a.update_time
+        , a.disallow_comment, a.meta_description, a.meta_keywords, a.slug, a.status, a.summary, a.thumbnail, a.title, a.top_priority, a.visits, a.word_count, a.create_time, a.update_time
     </sql>
 
     <select id="selectCountVisits" resultType="java.lang.Long">
