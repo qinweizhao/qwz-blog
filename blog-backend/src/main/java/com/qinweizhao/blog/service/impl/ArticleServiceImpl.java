@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.qinweizhao.blog.exception.AlreadyExistsException;
 import com.qinweizhao.blog.exception.ServiceException;
 import com.qinweizhao.blog.framework.cache.AbstractStringCacheStore;
-import com.qinweizhao.blog.framework.event.post.PostVisitEvent;
+import com.qinweizhao.blog.framework.event.article.ArticleVisitEvent;
 import com.qinweizhao.blog.mapper.ContentMapper;
 import com.qinweizhao.blog.mapper.ArticleCategoryMapper;
 import com.qinweizhao.blog.mapper.ArticleMapper;
@@ -449,7 +449,7 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public void publishVisitEvent(Integer articleId) {
-        eventPublisher.publishEvent(new PostVisitEvent(this, articleId));
+        eventPublisher.publishEvent(new ArticleVisitEvent(this, articleId));
     }
 
     @Override

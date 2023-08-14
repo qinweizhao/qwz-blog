@@ -1,4 +1,4 @@
-package com.qinweizhao.blog.framework.event.post;
+package com.qinweizhao.blog.framework.event.article;
 
 import org.springframework.context.ApplicationEvent;
 import org.springframework.lang.NonNull;

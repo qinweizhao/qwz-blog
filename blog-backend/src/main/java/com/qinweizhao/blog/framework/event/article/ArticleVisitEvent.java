@@ -1,4 +1,4 @@
-package com.qinweizhao.blog.framework.event.post;
+package com.qinweizhao.blog.framework.event.article;
 
 import com.qinweizhao.blog.util.ServiceUtils;
 import org.springframework.lang.NonNull;
@@ -10,7 +10,7 @@ import org.springframework.util.Assert;
  * @author qinweizhao
  * @since 19-4-22
  */
-public class PostVisitEvent extends AbstractVisitEvent {
+public class ArticleVisitEvent extends AbstractVisitEvent {
 
     /**
      * Create a new ApplicationEvent.
@@ -18,7 +18,7 @@ public class PostVisitEvent extends AbstractVisitEvent {
      * @param source the object on which the event initially occurred (never {@code null})
      * @param articleId post id must not be null
      */
-    public PostVisitEvent(Object source, @NonNull Integer articleId) {
+    public ArticleVisitEvent(Object source, @NonNull Integer articleId) {
         super(source, articleId);
         Assert.isTrue(!ServiceUtils.isEmptyId(articleId), "Post id must not be empty");
     }

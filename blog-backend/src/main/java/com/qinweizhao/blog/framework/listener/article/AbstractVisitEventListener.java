@@ -1,6 +1,6 @@
-package com.qinweizhao.blog.framework.listener.post;
+package com.qinweizhao.blog.framework.listener.article;
 
-import com.qinweizhao.blog.framework.event.post.AbstractVisitEvent;
+import com.qinweizhao.blog.framework.event.article.AbstractVisitEvent;
 import com.qinweizhao.blog.service.ArticleService;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
